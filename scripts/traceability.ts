@@ -14,8 +14,9 @@
  *
  * Usage: pnpm traceability [--check] [--json]
  */
-import { readFileSync, readdirSync, statSync, existsSync, writeFileSync } from "node:fs";
-import { resolve, dirname, join, relative } from "node:path";
+import { execSync } from "node:child_process";
+import { readFileSync, existsSync, writeFileSync } from "node:fs";
+import { resolve, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,33 +35,24 @@ interface Enforcer {
   detail: string;
 }
 
-// Walk the relevant source trees, collecting every FND-* reference with its
-// surrounding context so we can classify the enforcer kind.
 const enforcers: Enforcer[] = [];
 
-function walk(dir: string, acc: string[] = []): string[] {
-  for (const entry of readdirSync(dir)) {
-    if (entry === "node_modules" || entry === "dist" || entry === ".astro" || entry === ".git") continue;
-    const full = join(dir, entry);
-    const st = statSync(full);
-    if (st.isDirectory()) walk(full, acc);
-    else if (/\.(ts|astro|md|mjs)$/.test(entry)) acc.push(full);
-  }
-  return acc;
-}
+// Scan only git-tracked files so the output is stable across environments.
+// A filesystem walk would also pick up gitignored build/test output
+// (test-results/, coverage/, .astro/, etc.) that accumulates in a local
+// working tree but is absent on a fresh CI checkout — that divergence made
+// the drift check (FND-META-09) fail in CI while passing locally. Tracking
+// only `git ls-files` guarantees local and CI scan the same set.
+const tracked = execSync("git ls-files", { cwd: ROOT, encoding: "utf-8" })
+  .split("\n")
+  .filter(Boolean);
+const files = tracked
+  .filter((f) => /\.(ts|astro|md|mjs)$/.test(f))
+  .map((f) => resolve(ROOT, f));
 
 // Exclude the generated output itself so writing it doesn't change the input
 // (a self-referential feedback loop — the doc cites the very rules it maps).
 const EXCLUDE = new Set([resolve(ROOT, "docs", "rule-traceability.md")]);
-
-const files = [
-  ...walk(resolve(ROOT, "packages")),
-  ...walk(resolve(ROOT, "scripts")),
-  ...walk(resolve(ROOT, "docs")),
-  ...walk(resolve(ROOT, "examples")),
-  ...walk(resolve(ROOT, "eslint.config.ts").replace(/eslint\.config\.ts$/, "")) // root config/docs
-    .filter((f) => /\.(ts|md|mjs)$/.test(f)),
-];
 
 for (const file of files) {
   if (EXCLUDE.has(file)) continue;

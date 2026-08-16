@@ -17,7 +17,7 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-AGENT-01 | review/guidance | docs |
 | FND-ARCH-01 | auto:lint | eslint |
 | FND-ARCH-03 | auto:lint | docs, eslint, script |
-| FND-ARCH-06 | auto:script | docs, script |
+| FND-ARCH-06 | auto:script | script |
 | FND-CAP-01 | auto:script | validator |
 | FND-CAP-04 | auto:script | docs, validator |
 | FND-CAP-05 | auto:script | script |
