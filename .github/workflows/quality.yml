@@ -5,11 +5,10 @@ jobs:
   quality-fast:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+        # No `version`: action-setup reads `packageManager` from package.json.
+      - uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
       - run: pnpm install --frozen-lockfile
@@ -18,11 +17,9 @@ jobs:
   test-unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
       - run: pnpm install --frozen-lockfile
@@ -31,11 +28,9 @@ jobs:
   eslint-plugin-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
       - run: pnpm install --frozen-lockfile
@@ -47,11 +42,9 @@ jobs:
   traceability-and-waivers:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
       - run: pnpm install --frozen-lockfile
