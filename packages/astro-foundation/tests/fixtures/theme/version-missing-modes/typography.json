@@ -1,0 +1,6 @@
+{
+  "fontFamilies": { "sans": "Inter" },
+  "fontSizes": { "base": "1rem" },
+  "fontWeights": { "normal": "400" },
+  "lineHeights": { "normal": "1.5" }
+}

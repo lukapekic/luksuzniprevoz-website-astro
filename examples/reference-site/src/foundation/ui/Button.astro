@@ -1,0 +1,61 @@
+---
+/**
+ * Button primitive — Interactive group, FND-UI-03
+ *
+ * Contract:
+ * - Uses variants() with axes: variant (primary, secondary, ghost, outline), size (sm, md, lg)
+ * - `as="a"` changes to <a> with role="button"
+ * - Min 44×44 target size (FND-A11Y-05)
+ * - class passthrough is layout-only (FND-UI-06)
+ * - CSS logical properties only (FND-I18N-13)
+ */
+import { buttonVariants } from "./Button.variants.ts";
+
+interface Props {
+  /** HTML element to render */
+  as?: "button" | "a";
+  /** Button type */
+  type?: "button" | "submit" | "reset";
+  /** Disabled state */
+  disabled?: boolean;
+  /** Accessible label */
+  ariaLabel?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /** Href when as="a" */
+  href?: string;
+  /** Variant selection */
+  variant?: string;
+  /** Size variant */
+  size?: "sm" | "md" | "lg";
+}
+
+const {
+  as: Element = "button",
+  type = "button",
+  disabled = false,
+  ariaLabel,
+  class: className,
+  href,
+  variant,
+  size,
+} = Astro.props;
+
+const classNames = buttonVariants(
+  { variant: variant ?? "primary", size: size ?? "md" },
+  className,
+);
+---
+
+<Element
+  class={classNames}
+  type={Element === "button" ? type : undefined}
+  href={Element === "a" ? href : undefined}
+  disabled={Element === "button" ? disabled : undefined}
+  aria-disabled={Element === "a" && disabled ? "true" : undefined}
+  aria-label={ariaLabel}
+  role={Element === "a" ? "button" : undefined}
+  tabindex={Element === "a" && disabled ? -1 : undefined}
+>
+  <slot />
+</Element>

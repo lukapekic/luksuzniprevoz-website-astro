@@ -1,0 +1,60 @@
+name: Quality Gates
+on: [push, pull_request]
+
+jobs:
+  quality-fast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm quality:fast
+
+  test-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:unit
+
+  eslint-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter eslint-plugin-astro-foundation test:unit
+
+  # FND-META-09: the traceability matrix is drift-checked on every push so a
+  # rule that loses its enforcer (or gains an unverified one) is caught early.
+  # FND-META-10: waivers must parse clean (expired entries block merge).
+  traceability-and-waivers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm traceability
+      - run: pnpm traceability --check
+      - run: pnpm parse-waivers

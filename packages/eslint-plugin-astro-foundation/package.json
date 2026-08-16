@@ -1,0 +1,21 @@
+{
+  "name": "eslint-plugin-astro-foundation",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "main": "./index.js",
+  "scripts": {
+    "build": "echo stub: build",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.33.0",
+    "@typescript-eslint/rule-tester": "^8.33.0",
+    "astro-eslint-parser": "^1.2.2",
+    "eslint": "^9.28.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.1"
+  }
+}

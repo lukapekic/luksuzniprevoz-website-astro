@@ -1,0 +1,75 @@
+---
+/**
+ * Field primitive — Form group, FND-A11Y-03, FND-A11Y-10
+ *
+ * Contract:
+ * - Wraps Input/Textarea/Select with label association via htmlFor
+ * - Error shown via aria-describedby
+ * - Required indicator visible
+ * - Hint text via aria-describedby
+ * - class passthrough is layout-only (FND-UI-06)
+ * - CSS logical properties only (FND-I18N-13)
+ */
+import { fieldVariants } from "./Field.variants.ts";
+
+interface Props {
+  /** Label text from UI strings (FND-ARCH-03) */
+  label: string;
+  /** ID of the form control */
+  htmlFor: string;
+  /** Error message */
+  error?: string;
+  /** Required field indicator */
+  required?: boolean;
+  /** Hint text */
+  hint?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /** Size variant */
+  size?: "sm" | "md" | "lg";
+}
+
+const {
+  label,
+  htmlFor,
+  error,
+  required = false,
+  hint,
+  class: className,
+  size,
+} = Astro.props;
+
+const classNames = fieldVariants({ size: size ?? "md" }, className);
+
+const describedBy: string[] = [];
+if (hint) describedBy.push(`${htmlFor}-hint`);
+if (error) describedBy.push(`${htmlFor}-error`);
+const describedByIds = describedBy.length > 0 ? describedBy.join(" ") : undefined;
+---
+
+<div class={classNames} data-describedby={describedByIds}>
+  <label
+    for={htmlFor}
+    class="text-sm font-medium text-[var(--text-primary)]"
+  >
+    {label}
+    {required && (
+      <span class="text-[var(--text-muted)]" aria-hidden="true"> *</span>
+    )}
+  </label>
+  <slot name="control" />
+  {hint && !error && (
+    <p id={`${htmlFor}-hint`} class="text-[var(--text-sm)] text-[var(--text-muted)]">
+      {hint}
+    </p>
+  )}
+  {error && (
+    <p
+      id={`${htmlFor}-error`}
+      class="text-[var(--text-sm)] text-red-600 dark:text-red-400"
+      role="alert"
+    >
+      {error}
+    </p>
+  )}
+</div>

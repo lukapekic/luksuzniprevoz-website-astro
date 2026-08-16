@@ -1,0 +1,7 @@
+{
+  "@type": "Organization",
+  "@id": "https://example.com/#organization",
+  "name": "ACME Corp",
+  "url": "https://example.com",
+  "logo": "https://example.com/logo.png"
+}

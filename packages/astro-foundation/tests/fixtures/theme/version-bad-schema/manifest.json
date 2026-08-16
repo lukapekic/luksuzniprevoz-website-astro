@@ -1,0 +1,7 @@
+{
+  "name": "Bad Schema Version",
+  "themeVersion": "1.0.0",
+  "schemaVersion": 2,
+  "description": "A theme with wrong schema version",
+  "created": "2025-01-01"
+}

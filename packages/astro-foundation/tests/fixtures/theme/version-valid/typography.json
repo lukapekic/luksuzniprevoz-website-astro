@@ -1,0 +1,14 @@
+{
+  "fontFamilies": {
+    "sans": "Inter, system-ui, sans-serif"
+  },
+  "fontSizes": {
+    "base": "1rem"
+  },
+  "fontWeights": {
+    "normal": "400"
+  },
+  "lineHeights": {
+    "normal": "1.5"
+  }
+}

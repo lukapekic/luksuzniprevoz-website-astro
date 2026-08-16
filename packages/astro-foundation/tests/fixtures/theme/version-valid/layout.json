@@ -1,0 +1,8 @@
+{
+  "containers": {
+    "sm": "640px"
+  },
+  "gutters": {
+    "sm": "1rem"
+  }
+}

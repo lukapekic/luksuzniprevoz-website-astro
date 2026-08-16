@@ -1,0 +1,11 @@
+{
+  "name": "create-astro-foundation",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": {
+    "create-astro-foundation": "index.ts"
+  },
+  "scripts": {
+    "build": "echo stub: build"
+  }
+}

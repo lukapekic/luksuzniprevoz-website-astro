@@ -1,0 +1,13 @@
+{
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This is a FAQ."
+      }
+    }
+  ]
+}

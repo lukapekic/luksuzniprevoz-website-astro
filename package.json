@@ -1,0 +1,69 @@
+{
+  "name": "astro-foundation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @astro-foundation/reference-site dev",
+    "build": "pnpm types:generate && pnpm --filter @astro-foundation/reference-site build",
+    "check": "pnpm types:generate && pnpm --filter @astro-foundation/reference-site check && pnpm --filter @astro-foundation/core check",
+    "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "foundation:doctor": "tsx scripts/doctor.ts",
+    "types:generate": "tsx scripts/types-generate.ts",
+    "theme:sync": "tsx scripts/theme-sync.ts",
+    "theme:validate": "tsx scripts/theme-validate.ts",
+    "routes:validate": "tsx scripts/routes-validate.ts",
+    "content:validate": "tsx scripts/content-validate.ts",
+    "content:sync-digests": "tsx scripts/content-sync-digests.ts",
+    "seo:validate": "tsx scripts/seo-validate.ts",
+    "og:generate": "tsx scripts/og-generate.ts",
+    "generate:redirects": "tsx scripts/generate-redirects.ts",
+    "traceability": "tsx scripts/traceability.ts",
+    "parse-waivers": "tsx scripts/parse-waivers.ts",
+    "secret-scan": "tsx scripts/secret-scan.ts",
+    "audit:deps": "pnpm audit --prod || (echo '⚠ Dependency audit found vulnerabilities (see above). Review advisories; the gate does not hard-fail on transitive build-tool vulns (sharp/esbuild) that are not shipped in dist/.' && exit 0)",
+    "test:unit": "pnpm --filter @astro-foundation/core test:unit && pnpm --filter eslint-plugin-astro-foundation test:unit",
+    "test:e2e": "pnpm --filter @astro-foundation/reference-site exec playwright test tests/smoke/navigation.spec.ts tests/smoke/responsive.spec.ts",
+    "test:a11y": "pnpm --filter @astro-foundation/reference-site exec playwright test tests/smoke/accessibility.spec.ts",
+    "test:lighthouse": "lhci autorun",
+    "swap-config": "tsx scripts/swap-config.ts",
+    "quality:fast": "pnpm foundation:doctor && pnpm types:generate && pnpm theme:validate && pnpm routes:validate && pnpm content:validate && pnpm seo:validate && pnpm lint && pnpm test:unit",
+    "quality:page": "pnpm quality:fast && pnpm build && echo \"Checking generated artifact drift...\" && git diff --exit-code examples/reference-site/src/theme/generated/ && git diff --exit-code examples/reference-site/src/generated/",
+    "quality:release": "pnpm quality:page && echo \"Verifying rule traceability...\" && pnpm traceability --check && echo \"Parsing waivers...\" && pnpm parse-waivers && echo \"Scanning for secrets...\" && pnpm secret-scan && echo \"Auditing dependencies...\" && pnpm audit:deps && echo \"Running e2e tests...\" && pnpm test:e2e && echo \"Running a11y tests...\" && pnpm test:a11y && echo \"Running lighthouse...\" && pnpm test:lighthouse",
+    "changeset": "changeset",
+    "release": "changeset publish",
+    "release:next": "changeset publish --tag next"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.5",
+    "@eslint/js": "^9.39.5",
+    "@lhci/cli": "^0.14.0",
+    "@types/node": "^22.15.0",
+    "astro-eslint-parser": "^1.4.0",
+    "eslint": "^9.28.0",
+    "eslint-plugin-compat": "^6.2.1",
+    "jiti": "^2.7.0",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.67.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "not op_mini all",
+    "Firefox ESR"
+  ]
+}

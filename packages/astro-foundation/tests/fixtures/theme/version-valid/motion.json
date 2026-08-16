@@ -1,0 +1,13 @@
+{
+  "durations": {
+    "fast": "150ms"
+  },
+  "easings": {
+    "default": "ease-in-out"
+  },
+  "reduced": {
+    "durations": {
+      "fast": "0ms"
+    }
+  }
+}

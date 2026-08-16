@@ -1,0 +1,49 @@
+/* Foundation CSS — technical and a11y safeguards only (FND-CSS-02) */
+/* This file is UNLAYERED deliberately (FND-CSS-04): */
+/* safeguards must beat every cascade layer */
+
+/* Text size adjustment */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Focus visible fallback — ensures focus is always visible */
+:focus-visible {
+  outline: 2px solid var(--focus-ring, #0066cc);
+  outline-offset: 2px;
+}
+
+/* Forced colors (Windows High Contrast) — FND-A11Y-07 */
+@media (forced-colors: active) {
+  *,
+  *::before,
+  *::after {
+    forced-color-adjust: none;
+  }
+  :focus-visible {
+    outline: 2px solid LinkText;
+  }
+  button,
+  [role="button"] {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* Reduced motion — FND-A11Y-07 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* No horizontal overflow — FND-RESP-03 */
+html,
+body {
+  overflow-x: hidden;
+}

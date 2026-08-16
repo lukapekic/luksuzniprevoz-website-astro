@@ -1,0 +1,75 @@
+---
+/**
+ * Select primitive — Form group, FND-A11Y-10
+ *
+ * Contract:
+ * - Renders <select> element
+ * - Min 44×44 target size (FND-A11Y-05)
+ * - Error state styling via aria-invalid
+ * - class passthrough is layout-only (FND-UI-06)
+ * - CSS logical properties only (FND-I18N-13)
+ */
+import { inputVariants } from "./Input.variants.ts";
+
+interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  /** Select name */
+  name: string;
+  /** Options */
+  options: SelectOption[];
+  /** Required state */
+  required?: boolean;
+  /** Error state */
+  error?: string;
+  /** Selected value */
+  value?: string;
+  /** Placeholder option */
+  placeholder?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /** Size variant */
+  size?: "sm" | "md" | "lg";
+  /** Element id */
+  id?: string;
+}
+
+const {
+  name,
+  options,
+  required = false,
+  error,
+  value,
+  placeholder,
+  class: className,
+  size,
+  id,
+} = Astro.props;
+
+const classNames = inputVariants({ size: size ?? "md" }, className);
+---
+
+<select
+  id={id}
+  name={name}
+  value={value}
+  required={required}
+  aria-invalid={error ? "true" : undefined}
+  aria-describedby={error ? `${id ?? name}-error` : undefined}
+  class={classNames}
+>
+  {placeholder && (
+    <option value="" disabled>
+      {placeholder}
+    </option>
+  )}
+  {options.map((option) => (
+    <option value={option.value} disabled={option.disabled}>
+      {option.label}
+    </option>
+  ))}
+</select>

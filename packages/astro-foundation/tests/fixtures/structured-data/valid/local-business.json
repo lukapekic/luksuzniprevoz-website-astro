@@ -1,0 +1,13 @@
+{
+  "@type": "LocalBusiness",
+  "@id": "https://example.com/#business",
+  "name": "ACME Corp",
+  "description": "A trusted transportation service.",
+  "url": "https://example.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Belgrade",
+    "postalCode": "11000",
+    "addressCountry": "RS"
+  }
+}

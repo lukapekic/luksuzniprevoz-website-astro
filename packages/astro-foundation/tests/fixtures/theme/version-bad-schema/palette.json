@@ -1,0 +1,16 @@
+{
+  "modes": {
+    "light": {
+      "surface": { "base": "#FFF", "raised": "#F5F5F5", "overlay": "#FFF", "sunken": "#E8E8E8" },
+      "text": {
+        "primary": "#1A1A1A",
+        "secondary": "#4A4A4A",
+        "muted": "#7A7A7A",
+        "on-accent": "#FFF"
+      },
+      "focus": { "ring": "#0066CC", "ring-offset": "#FFF" },
+      "accent": { "primary": "#0066CC", "secondary": "#004C99", "subtle": "#E6F0FA" },
+      "border": { "default": "#D0D0D0", "strong": "#A0A0A0" }
+    }
+  }
+}

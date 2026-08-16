@@ -1,0 +1,119 @@
+---
+/**
+ * Locale-specific home page — FND-ARCH-03
+ *
+ * Uses Page primitive with SeoData, Container, Section.
+ * Has navigation using NavList, LanguageSwitcher in header.
+ * Shows breadcrumbs. All text from UI strings dictionary.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../foundation/ui/Container.astro";
+import Section from "../../foundation/ui/Section.astro";
+import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
+import { getPath } from "@astro-foundation/core/i18n";
+import type { RouteKey, LocaleCode } from "@astro-foundation/core";
+import { buildPageSeo } from "../../lib/seo.ts";
+import { t } from "../../lib/i18n.ts";
+import { routes } from "../../data/routes.ts";
+import { config } from "../../../foundation.config.ts";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "sr" } },
+    { params: { locale: "en" } },
+    { params: { locale: "ru" } },
+  ];
+}
+
+const { locale } = Astro.params;
+const currentLocale = (locale ?? "sr") as LocaleCode;
+
+// All text from UI strings dictionary (FND-ARCH-03)
+const title = t("home.title", currentLocale);
+const subtitle = t("home.subtitle", currentLocale);
+const ctaText = t("home.cta", currentLocale);
+const airportTitle = t("airport.title", currentLocale);
+const aboutTitle = t("about.title", currentLocale);
+const contactTitle = t("contact.title", currentLocale);
+const breadcrumbHome = t("home.title", currentLocale);
+
+// Resolve localized internal URLs from the route map (FND-I18N-03: never
+// hardcode internal paths).
+const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
+const contactHref = getPath("contact", currentLocale, routes, defaultLocale);
+const airportHref = getPath("airport", currentLocale, routes, defaultLocale);
+const aboutHref = getPath("about", currentLocale, routes, defaultLocale);
+
+const seo = buildPageSeo({
+  routeKey: "home",
+  locale: currentLocale,
+  title,
+  description: subtitle,
+});
+
+const breadcrumbs = [
+  { routeKey: "home" as RouteKey, label: breadcrumbHome },
+];
+---
+
+<BaseLayout seo={seo} currentRouteKey="home" currentLocale={currentLocale}>
+  <Container size="xl" class="py-[var(--space-4)]">
+    <Breadcrumbs items={breadcrumbs} siteUrl="https://reference-site.astro-foundation.dev" locale={currentLocale} />
+  </Container>
+
+  <Section id="hero" class="py-[var(--space-16)]">
+    <Container size="lg" class="text-center">
+      <h1 class="text-[var(--text-4xl)] font-bold tracking-tight">
+        {title}
+      </h1>
+      <p class="mt-[var(--space-4)] text-[var(--text-xl)] text-[var(--text-secondary)]">
+        {subtitle}
+      </p>
+      <div class="mt-[var(--space-8)] flex justify-center gap-4">
+        <a href={contactHref} class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-6 py-3 text-base font-medium text-[var(--text-on-accent)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--accent-secondary)]">
+          {ctaText}
+        </a>
+        <a href={airportHref} class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-base)] px-6 py-3 text-base font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--surface-raised)]">
+          {airportTitle}
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="services" class="py-[var(--space-12)] bg-[var(--surface-raised)]">
+    <Container size="xl">
+      <h2 class="text-[var(--text-2xl)] font-bold text-center">
+        {airportTitle}
+      </h2>
+      <div class="mt-[var(--space-8)] grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-[var(--radius-lg)] border border-[var(--border-default)] p-[var(--space-6)] bg-[var(--surface-base)]">
+          <h3 class="font-semibold text-[var(--text-lg)]">{airportTitle}</h3>
+          <p class="mt-[var(--space-2)] text-[var(--text-secondary)]">
+            {subtitle}
+          </p>
+          <a href={airportHref} class="mt-[var(--space-4)] inline-block text-[var(--accent-primary)] font-medium">
+            {ctaText} →
+          </a>
+        </div>
+        <div class="rounded-[var(--radius-lg)] border border-[var(--border-default)] p-[var(--space-6)] bg-[var(--surface-base)]">
+          <h3 class="font-semibold text-[var(--text-lg)]">{aboutTitle}</h3>
+          <p class="mt-[var(--space-2)] text-[var(--text-secondary)]">
+            {subtitle}
+          </p>
+          <a href={aboutHref} class="mt-[var(--space-4)] inline-block text-[var(--accent-primary)] font-medium">
+            {ctaText} →
+          </a>
+        </div>
+        <div class="rounded-[var(--radius-lg)] border border-[var(--border-default)] p-[var(--space-6)] bg-[var(--surface-base)]">
+          <h3 class="font-semibold text-[var(--text-lg)]">{contactTitle}</h3>
+          <p class="mt-[var(--space-2)] text-[var(--text-secondary)]">
+            {subtitle}
+          </p>
+          <a href={contactHref} class="mt-[var(--space-4)] inline-block text-[var(--accent-primary)] font-medium">
+            {ctaText} →
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

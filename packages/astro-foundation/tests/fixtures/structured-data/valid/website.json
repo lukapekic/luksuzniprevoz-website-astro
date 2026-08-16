@@ -1,0 +1,7 @@
+{
+  "@type": "WebSite",
+  "@id": "https://example.com/#website",
+  "url": "https://example.com",
+  "name": "ACME Site",
+  "inLanguage": "en"
+}

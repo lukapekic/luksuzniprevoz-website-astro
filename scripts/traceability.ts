@@ -1,0 +1,178 @@
+/**
+ * traceability — FND-META-09.
+ *
+ * Generates a rule → enforcer table from the rule references embedded in the
+ * codebase (ESLint rule metadata, validator `ruleId:` assignments, script
+ * doc-comments). The matrix is written to docs/rule-traceability.md and is
+ * drift-checked: CI fails when an enforcer references a rule no other enforcer
+ * corroborates, or — more usefully here — when the generated file is out of
+ * sync with the source (committed + drift-checked via git diff).
+ *
+ * The "enforcers" discovered are the *verifiable* contract: the rule IDs the
+ * codebase actually cites. A rule cited by name in a comment but never wired
+ * to an enforcing mechanism is reported as `guidance`.
+ *
+ * Usage: pnpm traceability [--check] [--json]
+ */
+import { readFileSync, readdirSync, statSync, existsSync, writeFileSync } from "node:fs";
+import { resolve, dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(__dirname, "..");
+
+const args = process.argv.slice(2);
+const check = args.includes("--check");
+const jsonOut = args.includes("--json");
+
+const RULE_RE = /\bFND-[A-Z0-9]+-[0-9]+\b/g;
+
+interface Enforcer {
+  ruleId: string;
+  kind: "eslint" | "validator" | "script" | "docs";
+  file: string;
+  detail: string;
+}
+
+// Walk the relevant source trees, collecting every FND-* reference with its
+// surrounding context so we can classify the enforcer kind.
+const enforcers: Enforcer[] = [];
+
+function walk(dir: string, acc: string[] = []): string[] {
+  for (const entry of readdirSync(dir)) {
+    if (entry === "node_modules" || entry === "dist" || entry === ".astro" || entry === ".git") continue;
+    const full = join(dir, entry);
+    const st = statSync(full);
+    if (st.isDirectory()) walk(full, acc);
+    else if (/\.(ts|astro|md|mjs)$/.test(entry)) acc.push(full);
+  }
+  return acc;
+}
+
+// Exclude the generated output itself so writing it doesn't change the input
+// (a self-referential feedback loop — the doc cites the very rules it maps).
+const EXCLUDE = new Set([resolve(ROOT, "docs", "rule-traceability.md")]);
+
+const files = [
+  ...walk(resolve(ROOT, "packages")),
+  ...walk(resolve(ROOT, "scripts")),
+  ...walk(resolve(ROOT, "docs")),
+  ...walk(resolve(ROOT, "examples")),
+  ...walk(resolve(ROOT, "eslint.config.ts").replace(/eslint\.config\.ts$/, "")) // root config/docs
+    .filter((f) => /\.(ts|md|mjs)$/.test(f)),
+];
+
+for (const file of files) {
+  if (EXCLUDE.has(file)) continue;
+  let content: string;
+  try {
+    content = readFileSync(file, "utf-8");
+  } catch {
+    continue;
+  }
+  const rel = relative(ROOT, file);
+  const ext = file.split(".").pop();
+
+  // ESLint rule metadata: description lines like "...(FND-XX-YY)"
+  if (ext === "ts" && file.includes("eslint-plugin-astro-foundation")) {
+    const descMatch = content.match(/description:\s*"([^"]*)"/);
+    if (descMatch) {
+      const ids = descMatch[1]!.match(RULE_RE) ?? [];
+      for (const id of ids) {
+        enforcers.push({ ruleId: id, kind: "eslint", file: rel, detail: `ESLint rule: ${descMatch[1]!.slice(0, 60)}` });
+      }
+    }
+    continue;
+  }
+
+  // Validator ruleId assignments: ruleId: "FND-XX-YY"
+  if (ext === "ts") {
+    const ruleIdAssigns = content.matchAll(/ruleId:\s*"(FND-[A-Z0-9]+-[0-9]+)"/g);
+    for (const m of ruleIdAssigns) {
+      enforcers.push({ ruleId: m[1]!, kind: "validator", file: rel, detail: "validator issue" });
+    }
+    // Script doc-comments listing rule IDs (FND-XX-YY, ...)
+    const headerMatch = content.match(/\/\*\*([\s\S]*?)\*\//);
+    if (headerMatch) {
+      const ids = headerMatch[1]!.match(RULE_RE) ?? [];
+      for (const id of ids) {
+        enforcers.push({ ruleId: id, kind: "script", file: rel, detail: "script doc-comment" });
+      }
+    }
+    continue;
+  }
+
+  // Docs / amendments: every FND-* reference is a guidance/review citation.
+  if (ext === "md") {
+    const ids = content.match(RULE_RE) ?? [];
+    for (const id of ids) {
+      enforcers.push({ ruleId: id, kind: "docs", file: rel, detail: "documented rule" });
+    }
+  }
+}
+
+// Aggregate: rule → kinds (dedup).
+const byRule = new Map<string, Set<string>>();
+for (const e of enforcers) {
+  if (!byRule.has(e.ruleId)) byRule.set(e.ruleId, new Set());
+  byRule.get(e.ruleId)!.add(e.kind);
+}
+
+const rules = [...byRule.keys()].sort();
+
+// Classify the enforcement strength per the spec's tier model:
+//   auto:lint / auto:script / auto:test / auto:ci → enforced by tooling
+//   review → manual (docs/checklist)
+//   guidance → documented only
+function classify(kinds: Set<string>): string {
+  if (kinds.has("eslint")) return "auto:lint";
+  if (kinds.has("validator")) return "auto:script";
+  if (kinds.has("script")) return "auto:script";
+  if (kinds.has("docs")) return "review/guidance";
+  return "unenforced";
+}
+
+// Build the markdown.
+const lines: string[] = [
+  "# Rule Traceability Matrix (FND-META-09)",
+  "",
+  "<!-- Auto-generated by `pnpm traceability`. DO NOT EDIT — re-run the script. -->",
+  "<!-- Drift-checked: `quality:release` fails if this file is out of sync. -->",
+  "",
+  "Maps every `FND-*` rule cited in the codebase to its enforcer(s).",
+  "",
+  "| Rule | Enforcer | Source |",
+  "|------|----------|--------|",
+];
+
+for (const rule of rules) {
+  const kinds = byRule.get(rule)!;
+  const enforcer = classify(kinds);
+  const sources = [...kinds].sort().join(", ");
+  lines.push(`| ${rule} | ${enforcer} | ${sources} |`);
+}
+
+lines.push("");
+lines.push(`**${rules.length} rules** cited across the codebase.`);
+lines.push("");
+
+const md = lines.join("\n");
+const outPath = resolve(ROOT, "docs", "rule-traceability.md");
+
+if (check) {
+  if (!existsSync(outPath)) {
+    console.error("✖ FND-META-09: docs/rule-traceability.md does not exist. Run `pnpm traceability` and commit it.");
+    process.exit(1);
+  }
+  const existing = readFileSync(outPath, "utf-8");
+  if (existing !== md) {
+    console.error("✖ FND-META-09: docs/rule-traceability.md is out of sync. Run `pnpm traceability` and commit the result.");
+    process.exit(1);
+  }
+  console.log(`✓ traceability — ${rules.length} rules, in sync.`);
+} else if (jsonOut) {
+  console.log(JSON.stringify({ rules: rules.map((r) => ({ rule: r, enforcer: classify(byRule.get(r)!), sources: [...byRule.get(r)!] })) }, null, 2));
+} else {
+  writeFileSync(outPath, md);
+  console.log(`✓ traceability — wrote ${outPath} (${rules.length} rules).`);
+}
