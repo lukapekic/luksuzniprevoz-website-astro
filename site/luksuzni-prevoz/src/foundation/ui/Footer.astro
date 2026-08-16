@@ -1,0 +1,74 @@
+---
+/**
+ * Footer component — FND-ARCH-03
+ *
+ * Brand name from config, copyright year, NavList with footer links.
+ * Responsive: stacks vertically on mobile, horizontal on desktop.
+ */
+import Container from "./Container.astro";
+import NavList from "./NavList.astro";
+import { getPath } from "@astro-foundation/core/i18n";
+import { footerNavFlat, getNavLabel } from "../../data/navigation.ts";
+import { routes } from "../../data/routes.ts";
+import type { RouteKey, LocaleCode } from "@astro-foundation/core";
+import { config } from "../../../foundation.config.ts";
+
+interface Props {
+  currentRouteKey?: RouteKey;
+  currentLocale?: LocaleCode;
+}
+
+const { currentRouteKey = "home", currentLocale = "sr" } = Astro.props as {
+  currentRouteKey?: RouteKey;
+  currentLocale?: LocaleCode;
+};
+
+// Generic UI strings (footer.rights, nav.footer) from content/ui/*.json;
+// route display labels from navigation-labels.json via getNavLabel.
+import srStrings from "../../content/ui/sr.json";
+import enStrings from "../../content/ui/en.json";
+import ruStrings from "../../content/ui/ru.json";
+
+const uiStrings: Record<string, Record<string, string>> = {
+  sr: srStrings as unknown as Record<string, string>,
+  en: enStrings as unknown as Record<string, string>,
+  ru: ruStrings as unknown as Record<string, string>,
+};
+
+const strings = uiStrings[currentLocale] ?? uiStrings["sr"];
+
+const navItems = footerNavFlat.map((item) => ({
+  routeKey: item.routeKey,
+  label: getNavLabel(item.routeKey, currentLocale),
+}));
+
+const rightsText = strings["footer.rights"] ?? "All rights reserved";
+const footerNavLabel = strings["nav.footer"] ?? "Footer navigation";
+const currentYear = new Date().getFullYear();
+const defaultLocale = config.locales.locales.find((l) => l.isDefault)?.code ?? "sr";
+const homeHref = getPath("home", currentLocale, routes, defaultLocale);
+---
+
+<footer class="border-t border-[var(--border-default)] bg-[var(--surface-base)] mt-auto">
+  <Container size="xl" class="py-[var(--space-8)]">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <!-- Brand + copyright -->
+      <div class="flex flex-col gap-1">
+        <a href={homeHref} class="text-lg font-semibold text-[var(--text-primary)]">
+          {config.brand}
+        </a>
+        <p class="text-sm text-[var(--text-muted)]">
+          &copy; {currentYear} {config.brand}. {rightsText}.
+        </p>
+      </div>
+
+      <!-- Footer navigation -->
+      <NavList
+        items={navItems}
+        currentRouteKey={currentRouteKey}
+        class="flex flex-col gap-1 sm:flex-row sm:gap-4"
+        ariaLabel={footerNavLabel}
+      />
+    </div>
+  </Container>
+</footer>

@@ -126,9 +126,12 @@ if (uiKeys.size === 0) {
 // --- Load theme tokens → TokenName union (FND-THEME-08 / FND-TYPE-01) ---
 // Token names mirror the CSS custom properties emitted by theme:sync:
 // `--<group>-<key>` (e.g. --surface-base, --space-4, --text-primary, --radius-sm).
-// Sanitized identically to theme:sync so `var(\`--${name}\`)` always resolves:
-// a key like "0.5" (illegal `.` in a CSS ident) becomes "0_5".
-const sanitizeIdent = (key: string): string => key.replace(/[^a-zA-Z0-9_-]/g, "_");
+// Sanitized identically to theme:sync's `toKebab` so `var(`--${name}`)` always
+// resolves: camelCase keys become hyphen-lowercase (surfaceElevated →
+// surface-elevated), and characters illegal in a CSS ident (e.g. "." in "0.5")
+// become "_" (→ "0_5"). Must stay in lockstep with sync.ts.
+const toKebab = (key: string): string =>
+  key.replace(/([a-z0-9])([A-Z])/g, "$1-$2").replace(/[^a-zA-Z0-9_-]/g, "_").toLowerCase();
 const tokenNames = new Set<string>();
 const themeDir = resolve(
   resolvedTarget,
@@ -152,74 +155,115 @@ if (existsSync(themeDir)) {
     }
   };
 
-  // Palette: surface/text/focus/accent/border subgroups → --<group>-<key>
+  // Palette: structured {modes:{light:{surface,text,focus,accent,border}}} →
+  // --<group>-<key>; OR flat semantic-color record → --color-<kebab(key)>.
   const palette = loadJson("palette.json");
   if (palette) {
-    const modes = (palette["modes"] ?? {}) as Record<string, Record<string, Record<string, string>>>;
-    // Use the first mode (light) — token names are mode-agnostic (only values differ).
-    const firstMode = Object.values(modes)[0];
-    if (firstMode) {
-      for (const [group, keys] of Object.entries(firstMode)) {
-        for (const key of Object.keys(keys)) {
-          tokenNames.add(`${group}-${sanitizeIdent(key)}`);
+    if (typeof palette["modes"] === "object" && palette["modes"] !== null) {
+      const modes = palette["modes"] as Record<string, Record<string, Record<string, string>>>;
+      // Use the first mode (light) — token names are mode-agnostic (only values differ).
+      const firstMode = Object.values(modes)[0];
+      if (firstMode) {
+        for (const [group, keys] of Object.entries(firstMode)) {
+          for (const key of Object.keys(keys)) {
+            tokenNames.add(`${group}-${toKebab(key)}`);
+          }
         }
+      }
+    } else {
+      // Flat palette: every key is a semantic color → --color-<kebab(key)>.
+      for (const key of Object.keys(palette)) {
+        tokenNames.add(`color-${toKebab(key)}`);
       }
     }
   }
 
-  // Spacing: scale → --space-<key>
+  // Spacing: scale → --space-<key>; section.<k> → --space-section-<k>
   const spacing = loadJson("spacing.json");
-  if (spacing?.["scale"]) {
-    for (const key of Object.keys(spacing["scale"] as Record<string, string>)) {
-      tokenNames.add(`space-${sanitizeIdent(key)}`);
+  if (spacing) {
+    for (const key of Object.keys((spacing["scale"] ?? {}) as Record<string, string>)) {
+      tokenNames.add(`space-${toKebab(key)}`);
+    }
+    for (const key of Object.keys((spacing["section"] ?? {}) as Record<string, string>)) {
+      tokenNames.add(`space-section-${toKebab(key)}`);
     }
   }
 
-  // Radii: values → --radius-<key>
+  // Radii: wrapped {values:<k>} or flat record → --radius-<key>
   const radii = loadJson("radii.json");
-  if (radii?.["values"]) {
-    for (const key of Object.keys(radii["values"] as Record<string, string>)) {
-      tokenNames.add(`radius-${sanitizeIdent(key)}`);
+  if (radii) {
+    const valuesSrc =
+      typeof radii["values"] === "object" && radii["values"] !== null
+        ? (radii["values"] as Record<string, string>)
+        : (radii as Record<string, string>);
+    for (const key of Object.keys(valuesSrc)) {
+      tokenNames.add(`radius-${toKebab(key)}`);
     }
   }
 
-  // Typography: fontFamilies → --font-<key>; fontSizes → --text-<key>;
-  // fontWeights → --font-weight-<key>; lineHeights → --line-height-<key>
+  // Typography: v1 fontFamilies/fontSizes/fontWeights/lineHeights OR new
+  // families/sizes/weights/lineHeight, plus letterSpacing/measure.
   const typo = loadJson("typography.json");
   if (typo) {
-    for (const key of Object.keys((typo["fontFamilies"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`font-${sanitizeIdent(key)}`);
+    const recordKeys = (obj: unknown): string[] =>
+      typeof obj === "object" && obj !== null ? Object.keys(obj as Record<string, unknown>) : [];
+    for (const key of recordKeys(typo["fontFamilies"] ?? typo["families"])) {
+      tokenNames.add(`font-${toKebab(key)}`);
     }
-    for (const key of Object.keys((typo["fontSizes"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`text-${sanitizeIdent(key)}`);
+    for (const key of recordKeys(typo["fontSizes"] ?? typo["sizes"])) {
+      tokenNames.add(`text-${toKebab(key)}`);
     }
-    for (const key of Object.keys((typo["fontWeights"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`font-weight-${sanitizeIdent(key)}`);
+    for (const key of recordKeys(typo["fontWeights"] ?? typo["weights"])) {
+      tokenNames.add(`font-weight-${toKebab(key)}`);
     }
-    for (const key of Object.keys((typo["lineHeights"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`line-height-${sanitizeIdent(key)}`);
+    for (const key of recordKeys(typo["lineHeights"] ?? typo["lineHeight"])) {
+      tokenNames.add(`line-height-${toKebab(key)}`);
+    }
+    for (const key of recordKeys(typo["letterSpacing"])) {
+      tokenNames.add(`letter-spacing-${toKebab(key)}`);
+    }
+    for (const key of recordKeys(typo["measure"])) {
+      tokenNames.add(`measure-${toKebab(key)}`);
     }
   }
 
-  // Layout: containers → --container-<key>; gutters → --gutter-<key>
+  // Layout: containers|container → --container-<key>; gutters → --gutter-<key>;
+  // grid → --grid-<key>; columnGap → --column-gap-<key>; breakpoints → --breakpoint-<key>
   const layout = loadJson("layout.json");
   if (layout) {
-    for (const key of Object.keys((layout["containers"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`container-${sanitizeIdent(key)}`);
+    const recordKeys = (obj: unknown): string[] =>
+      typeof obj === "object" && obj !== null ? Object.keys(obj as Record<string, unknown>) : [];
+    for (const key of recordKeys(layout["containers"] ?? layout["container"])) {
+      tokenNames.add(`container-${toKebab(key)}`);
     }
-    for (const key of Object.keys((layout["gutters"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`gutter-${sanitizeIdent(key)}`);
+    for (const key of recordKeys(layout["gutters"])) {
+      tokenNames.add(`gutter-${toKebab(key)}`);
+    }
+    for (const key of recordKeys(layout["grid"])) {
+      tokenNames.add(`grid-${toKebab(key)}`);
+    }
+    for (const key of recordKeys(layout["columnGap"])) {
+      tokenNames.add(`column-gap-${toKebab(key)}`);
+    }
+    for (const key of recordKeys(layout["breakpoints"])) {
+      tokenNames.add(`breakpoint-${toKebab(key)}`);
     }
   }
 
-  // Motion: durations → --duration-<key>; easings → --ease-<key>
+  // Motion: durations|duration → --duration-<key>; easings|easing → --ease-<key>;
+  // patterns → --motion-<key>
   const motion = loadJson("motion.json");
   if (motion) {
-    for (const key of Object.keys((motion["durations"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`duration-${sanitizeIdent(key)}`);
+    const recordKeys = (obj: unknown): string[] =>
+      typeof obj === "object" && obj !== null ? Object.keys(obj as Record<string, unknown>) : [];
+    for (const key of recordKeys(motion["durations"] ?? motion["duration"])) {
+      tokenNames.add(`duration-${toKebab(key)}`);
     }
-    for (const key of Object.keys((motion["easings"] ?? {}) as Record<string, string>)) {
-      tokenNames.add(`ease-${sanitizeIdent(key)}`);
+    for (const key of recordKeys(motion["easings"] ?? motion["easing"])) {
+      tokenNames.add(`ease-${toKebab(key)}`);
+    }
+    for (const key of recordKeys(motion["patterns"])) {
+      tokenNames.add(`motion-${toKebab(key)}`);
     }
   }
 }

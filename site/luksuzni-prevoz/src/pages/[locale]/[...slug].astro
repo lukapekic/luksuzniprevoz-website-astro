@@ -1,0 +1,104 @@
+---
+/**
+ * Dynamic route page — FND-ARCH-03
+ *
+ * Uses getStaticPaths to generate all routes from the route map.
+ * Uses getPath to resolve URLs.
+ * Loads content from Content Layer by routeKey + locale.
+ * Uses Page, Container, Section primitives via BaseLayout.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../foundation/ui/Container.astro";
+import Section from "../../foundation/ui/Section.astro";
+import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
+import { routes } from "../../data/routes.ts";
+import { buildPageSeo } from "../../lib/seo.ts";
+import { t } from "../../lib/i18n.ts";
+import type { RouteKey, LocaleCode, UiStringKey } from "@astro-foundation/core";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("pages");
+  const paths: Array<{
+    params: { locale: string; slug: string };
+    props: { routeKey: string; locale: string; content: CollectionEntry<"pages"> };
+  }> = [];
+
+  for (const page of pages) {
+    const { routeKey, locale, status } = page.data;
+    // FND-LIFE-02: production builds emit only `published`. In dev/preview,
+    // draft and in-review pages ARE emitted (so reviewers can see them) but
+    // are marked noindex so they never reach a search index.
+    if (import.meta.env.PROD && status !== "published") continue;
+
+    const route = routes.find((r) => r.key === routeKey);
+    if (!route) continue;
+
+    const slug = route.slugs[locale];
+    if (slug === undefined || slug === "") continue; // home is handled by index.astro
+
+    paths.push({
+      params: { locale, slug },
+      props: { routeKey, locale, content: page },
+    });
+  }
+
+  return paths;
+}
+
+const { routeKey: routeKeyRaw, locale: localeRaw, content } = Astro.props;
+// The routeKey comes from validated content frontmatter; cast to the
+// generated RouteKey / LocaleCode at this boundary (FND-TYPE-02).
+const routeKey = routeKeyRaw as RouteKey;
+const currentLocale = localeRaw as LocaleCode;
+
+// All text from UI strings dictionary (FND-ARCH-03)
+const pageTitle = t(`${routeKey}.title` as UiStringKey, currentLocale);
+const breadcrumbHome = t("home.title", currentLocale);
+
+// FND-LIFE-02: non-published pages in a dev/preview build are noindex.
+const isUnpublishedPreview = content.data.status !== "published" && !import.meta.env.PROD;
+
+// Build SEO data
+const seo = buildPageSeo({
+  routeKey,
+  locale: currentLocale,
+  title: content.data.seoTitle ?? pageTitle,
+  description: content.data.seoDescription ?? "",
+  noindex: (content.data.noindex ?? false) || isUnpublishedPreview,
+});
+
+// Build breadcrumbs
+const breadcrumbs = [
+  { routeKey: "home" as RouteKey, label: breadcrumbHome },
+  { routeKey, label: pageTitle },
+];
+
+// Render content — Astro 5's render() returns a `Content` component plus
+// headings/remarkPluginFrontmatter (not an `.html` string). Render the
+// component directly so it slots into the prose container.
+const { Content } = await render(content);
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={currentLocale}>
+  <Container size="xl" class="py-[var(--space-4)]">
+    <Breadcrumbs items={breadcrumbs} siteUrl="https://reference-site.astro-foundation.dev" locale={currentLocale} />
+  </Container>
+
+  <Section id="content" class="py-[var(--space-8)]">
+    <Container size="lg">
+      <h1 class="text-[var(--text-3xl)] font-bold">
+        {content.data.h1}
+      </h1>
+      {content.data.intro && (
+        <p class="mt-[var(--space-4)] text-[var(--text-xl)] text-[var(--text-secondary)]">
+          {content.data.intro}
+        </p>
+      )}
+
+      <div class="mt-[var(--space-8)] prose prose-[var(--text-primary)] max-w-none">
+        <Content />
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

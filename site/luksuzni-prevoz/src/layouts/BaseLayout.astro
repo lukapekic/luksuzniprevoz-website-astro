@@ -1,0 +1,52 @@
+---
+/**
+ * BaseLayout — FND-ARCH-03
+ *
+ * Uses Page primitive (owns <head>), Header, Footer, and Container.
+ * Imports generated theme.css and foundation.css.
+ * Sets up <html> with proper lang/dir via Page primitive.
+ * All text comes from UI strings dictionary.
+ */
+import Page from "../foundation/ui/Page.astro";
+import Header from "../foundation/ui/Header.astro";
+import Footer from "../foundation/ui/Footer.astro";
+import type { SeoData } from "@astro-foundation/core/seo";
+import type { RouteKey, LocaleCode } from "@astro-foundation/core";
+import { config } from "../../foundation.config.ts";
+
+interface Props {
+  seo: SeoData;
+  titleTemplate?: string;
+  currentRouteKey?: RouteKey;
+  currentLocale?: LocaleCode;
+}
+
+const {
+  seo,
+  titleTemplate,
+  currentRouteKey = "home",
+  currentLocale = "sr",
+} = Astro.props;
+
+const localeConfig = config.locales.locales.find((l) => l.code === currentLocale);
+const localeInfo = {
+  htmlLang: localeConfig?.htmlLang ?? "sr",
+  dir: localeConfig?.dir ?? "ltr",
+};
+
+const fullSeo: SeoData = {
+  ...seo,
+  locale: localeInfo,
+  brand: config.brand,
+};
+---
+
+<Page seo={fullSeo} titleTemplate={titleTemplate} class="min-h-screen flex flex-col bg-[var(--surface-base)] text-[var(--text-primary)]">
+  <Header currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+
+  <main id="main-content" class="flex-1">
+    <slot />
+  </main>
+
+  <Footer currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+</Page>

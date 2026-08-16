@@ -1,0 +1,13 @@
+/* Global CSS entry (Tailwind v4 + Foundation theme).
+ *
+ * Layer order matches the spec: @layer theme, base, components, utilities.
+ * foundation.css is imported last and is deliberately UNLAYERED (FND-CSS-04)
+ * so its technical/a11y safeguards beat every cascade layer.
+ *
+ *   @import "tailwindcss";        → establishes theme/base/components/utilities
+ *   ../theme/generated/theme.css  → @layer theme custom properties (merged)
+ *   foundation.css               → unlayered safeguards
+ */
+@import "tailwindcss";
+@import "../theme/generated/theme.css";
+@import "@astro-foundation/core/theme/foundation.css";

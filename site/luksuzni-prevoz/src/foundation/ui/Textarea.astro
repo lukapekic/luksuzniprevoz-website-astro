@@ -1,0 +1,65 @@
+---
+/**
+ * Textarea primitive — Form group, FND-A11Y-10
+ *
+ * Contract:
+ * - Renders <textarea> with autocomplete support (FND-A11Y-10)
+ * - Min 44×44 target size (FND-A11Y-05)
+ * - Error state styling via aria-invalid
+ * - class passthrough is layout-only (FND-UI-06)
+ * - CSS logical properties only (FND-I18N-13)
+ */
+import { inputVariants } from "./Input.variants.ts";
+
+interface Props {
+  /** Input name */
+  name: string;
+  /** Autocomplete value (FND-A11Y-10) */
+  autocomplete?: string;
+  /** Required state */
+  required?: boolean;
+  /** Error state */
+  error?: string;
+  /** Value */
+  value?: string;
+  /** Placeholder */
+  placeholder?: string;
+  /** Number of rows */
+  rows?: number;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /** Size variant */
+  size?: "sm" | "md" | "lg";
+  /** Element id */
+  id?: string;
+}
+
+const {
+  name,
+  autocomplete,
+  required = false,
+  error,
+  value,
+  placeholder,
+  rows = 4,
+  class: className,
+  size,
+  id,
+} = Astro.props;
+
+const classNames = inputVariants({ size: size ?? "md" }, className);
+---
+
+<textarea
+  id={id}
+  name={name}
+  autocomplete={autocomplete}
+  required={required}
+  aria-invalid={error ? "true" : undefined}
+  aria-describedby={error ? `${id ?? name}-error` : undefined}
+  rows={rows}
+  placeholder={placeholder}
+  class={classNames}
+>
+  {value}
+</textarea>

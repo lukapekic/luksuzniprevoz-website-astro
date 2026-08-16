@@ -4,7 +4,8 @@
  */
 
 import type { FoundationIssue } from "../core/errors.ts";
-import type { ThemeTokens, ModeColors } from "./schema.ts";
+import type { ThemeTokens, ModeColors, FlatPalette } from "./schema.ts";
+import { isStructuredPalette } from "./schema.ts";
 
 // ── WCAG relative luminance (https://www.w3.org/TR/WCAG21/#dfn-relative-luminance) ──
 
@@ -141,16 +142,136 @@ export function validateModeContrast(mode: string, colors: ModeColors): Foundati
 }
 
 /**
- * Run semantic validation on all modes in the theme.
+ * Run semantic validation on the theme's palette.
  * FND-THEME-06: validates contrast, focus visibility
  * FND-THEME-11: reports WCAG constraint violations
+ *
+ * Branches on palette form: structured (per-mode ModeColors) or flat (semantic
+ * color keys). Both run WCAG contrast checks against the same rule IDs.
  */
 export function validateThemeSemantics(tokens: ThemeTokens): FoundationIssue[] {
   const issues: FoundationIssue[] = [];
 
-  for (const [modeName, colors] of Object.entries(tokens.palette.modes)) {
-    const modeIssues = validateModeContrast(modeName, colors);
-    issues.push(...modeIssues);
+  if (isStructuredPalette(tokens.palette)) {
+    for (const [modeName, colors] of Object.entries(tokens.palette.modes)) {
+      const modeIssues = validateModeContrast(modeName, colors);
+      issues.push(...modeIssues);
+    }
+  } else {
+    issues.push(...validateFlatPaletteContrast(tokens.palette));
+  }
+
+  return issues;
+}
+
+// ── Flat palette semantic validation (FND-THEME-06 / FND-A11Y-04) ──
+// Checks WCAG pairs against the flat palette's semantic color keys. Each
+// required key must be present and a valid hex; missing/invalid keys are
+// FND-THEME-06 errors (the palette must declare the semantic colors contrast
+// is checked against).
+interface FlatContrastCheck {
+  fg: string;
+  bg: string;
+  minRatio: number;
+  label: string;
+  ruleId: string;
+  severity: "error" | "warning";
+}
+
+export function validateFlatPaletteContrast(palette: FlatPalette): FoundationIssue[] {
+  const issues: FoundationIssue[] = [];
+
+  const get = (key: string): string | undefined => palette[key];
+  const has = (key: string): boolean => typeof palette[key] === "string";
+
+  // Required semantic keys for contrast checking.
+  const requiredKeys = [
+    "background",
+    "textPrimary",
+    "textMuted",
+    "focusDark",
+    "borderSubtle",
+    "accent",
+  ];
+  for (const key of requiredKeys) {
+    if (!has(key)) {
+      issues.push({
+        ruleId: "FND-THEME-06",
+        severity: "error",
+        offendingValue: `flat palette missing required semantic color "${key}"`,
+        expectedValue: `palette must declare "${key}" for WCAG contrast validation`,
+        docAnchor: "§8.6 / WCAG 2.1 SC 1.4.3",
+      });
+    }
+  }
+
+  const checks: FlatContrastCheck[] = [
+    {
+      fg: get("textPrimary") ?? "",
+      bg: get("background") ?? "",
+      minRatio: 4.5,
+      label: "textPrimary on background",
+      ruleId: "FND-A11Y-04",
+      severity: "error",
+    },
+    {
+      fg: get("textMuted") ?? "",
+      bg: get("background") ?? "",
+      minRatio: 3.0,
+      label: "textMuted on background (large text)",
+      ruleId: "FND-A11Y-04",
+      severity: "error",
+    },
+    {
+      fg: get("focusDark") ?? "",
+      bg: get("background") ?? "",
+      minRatio: 3.0,
+      label: "focusDark on background",
+      ruleId: "FND-THEME-06",
+      severity: "error",
+    },
+    {
+      fg: get("borderSubtle") ?? "",
+      bg: get("background") ?? "",
+      minRatio: 3.0,
+      label: "borderSubtle on background",
+      ruleId: "FND-A11Y-04",
+      severity: "warning",
+    },
+    {
+      fg: get("accent") ?? "",
+      bg: get("background") ?? "",
+      minRatio: 3.0,
+      label: "accent on background",
+      ruleId: "FND-THEME-06",
+      severity: "error",
+    },
+  ];
+
+  // Light-surface pair (only when the palette declares both halves).
+  if (has("textOnLight") && has("surfaceLight")) {
+    checks.push({
+      fg: get("textOnLight") ?? "",
+      bg: get("surfaceLight") ?? "",
+      minRatio: 4.5,
+      label: "textOnLight on surfaceLight",
+      ruleId: "FND-A11Y-04",
+      severity: "error",
+    });
+  }
+
+  for (const check of checks) {
+    if (!check.fg || !check.bg) continue; // missing-key error already reported
+    const ratio = contrastRatio(check.fg, check.bg);
+    if (ratio < check.minRatio) {
+      issues.push({
+        ruleId: check.ruleId,
+        severity: check.severity,
+        offendingValue: `flat palette: ${check.label} has ratio ${ratio.toFixed(2)}:1 (minimum ${check.minRatio}:1)`,
+        expectedValue: `Contrast ratio >= ${check.minRatio}:1`,
+        docAnchor: "WCAG 2.1 SC 1.4.3 / SC 1.4.11",
+      });
+    }
   }
 
   return issues;
