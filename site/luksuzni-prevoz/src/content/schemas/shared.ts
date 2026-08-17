@@ -77,11 +77,14 @@ export const imageReferenceSchema = ContentImageSchema.extend({
 // --- Hero ------------------------------------------------------------------
 
 /**
- * The hero block. The hero heading IS the page `h1` (base field) and the hero
- * lede IS the page `intro` (base field) — hero does not duplicate them. It
- * carries only the CTAs and optional image layered on top of h1/intro.
+ * The hero block. The hero `title` IS the page's <h1> (the single page heading)
+ * and the hero `description` is its lede; hero carries the heading + lede plus
+ * the CTAs and an optional image. Pages without a hero use the base `h1`/`intro`
+ * fields instead, so a page has exactly one <h1> — either hero.title or base h1.
  */
 export const heroSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1).optional(),
   primaryCta: ctaSchema,
   secondaryCta: ctaSchema.optional(),
   image: imageReferenceSchema.optional(),

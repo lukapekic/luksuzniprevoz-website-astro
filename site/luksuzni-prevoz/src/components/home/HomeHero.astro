@@ -1,0 +1,283 @@
+---
+/**
+ * HomeHero — homepage hero panel (V1).
+ *
+ * Contract: docs/home/home-components/03-home-hero.md
+ * Blueprint: docs/home/reference/blueprint.md §7 (Hero)
+ * Tokens: docs/home/home-components/00-token-matrix.md (locked color/space/radius vars)
+ *
+ * The hero `title` is the page's single <h1>. Copy comes from the editorial
+ * hero block (title/description/primaryCta/secondaryCta). CTA hrefs resolve via
+ * resolveCtaHref (FND-I18N-03 — never manual URLs). No hardcoded UI strings.
+ *
+ * Two slots are PENDING content/assets (blueprint §20/§21):
+ *   - S-Class background image: wired from src/assets/hero.webp via
+ *     astro:assets <Image> (decorative, eager, fetchpriority high). The
+ *     foundation Image primitive types `src: string` and can't accept an
+ *     imported ImageMetadata, so astro:assets <Image> is used directly
+ *     (FND-IMG-08 only bans raw <img>/<picture>).
+ *   - Right-side statement: not in heroSchema/content yet → the layout
+ *     collapses to a single left content column. When `sideStatement` is
+ *     supplied the 7/5 desktop grid activates.
+ *
+ * Motion: one-time copy fade-up + subtle background zoom, both disabled under
+ * prefers-reduced-motion (03 §Motion; FND-A11Y motion rules).
+ *
+ * Forbidden here (03 §Forbidden): badges, ratings, booking form, feature icon
+ * row, fleet specs, pricing.
+ */
+import { heroSchema } from "../../content/schemas/shared.ts";
+import type { z } from "astro:content";
+import type { LocaleCode } from "@astro-foundation/core";
+import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
+import { Image } from "astro:assets";
+import heroImg from "../../assets/hero.webp";
+
+type HeroBlock = z.infer<typeof heroSchema>;
+
+interface Props {
+  currentLocale: LocaleCode;
+  hero: HeroBlock;
+  /** Optional right-side supporting statement (blueprint §7). Pending content;
+   *  when absent the hero renders a single content column. */
+  sideStatement?: string;
+}
+
+const { currentLocale, hero, sideStatement } = Astro.props;
+
+const titleId = "home-hero-title";
+
+const primaryHref = resolveCtaHref(hero.primaryCta as Cta, currentLocale);
+const secondaryHref = hero.secondaryCta
+  ? resolveCtaHref(hero.secondaryCta as Cta, currentLocale)
+  : undefined;
+
+const hasSide = Boolean(sideStatement);
+---
+
+<section class="home-hero" aria-labelledby={titleId}>
+  <div class="home-hero__panel" data-hero-panel>
+    {/* Full-panel S-Class background (blueprint §7). Decorative (atmosphere
+        behind the H1/copy) but the page LCP, so empty alt + eager +
+        fetchpriority="high". object-cover with object-position biasing the
+        subject to the right so the left copy keeps negative space. */}
+    <Image
+      class="home-hero__bg"
+      src={heroImg}
+      alt=""
+      role="presentation"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <!-- Scrim: stronger behind left copy, controlled across the rest. No glow. -->
+    <div class="home-hero__scrim" aria-hidden="true"></div>
+
+    <div class="home-hero__inner">
+      <div class:list={["home-hero__content", hasSide && "home-hero__content--split"]}>
+        <div class="home-hero__copy">
+          <h1 id={titleId} class="home-hero__title">{hero.title}</h1>
+          {hero.description ? (
+            <p class="home-hero__desc">{hero.description}</p>
+          ) : null}
+          <div class="home-hero__ctas">
+            <a class="cta cta--primary" href={primaryHref} data-astro-prefetch>
+              {hero.primaryCta.label}
+            </a>
+            {secondaryHref && hero.secondaryCta ? (
+              <a class="cta cta--secondary" href={secondaryHref} data-astro-prefetch>
+                {hero.secondaryCta.label}
+              </a>
+            ) : null}
+          </div>
+        </div>
+
+        {hasSide ? (
+          <aside class="home-hero__side">
+            <p class="home-hero__statement">{sideStatement}</p>
+          </aside>
+        ) : null}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* --- Shell (contained, ~80rem, top margin from header) ------------------ */
+  .home-hero {
+    width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
+    margin: var(--space-3) auto 0;
+  }
+
+  /* --- Panel: rounded, clipped, desktop 16/7 with min/max height ---------- */
+  .home-hero__panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-section);
+    background:
+      radial-gradient(120% 100% at 20% 90%, var(--color-surface-elevated) 0%, var(--color-background) 62%),
+      linear-gradient(100deg, var(--color-background) 0%, var(--color-surface) 100%);
+    min-height: 32rem;
+    aspect-ratio: 16 / 7;
+    max-height: 35rem;
+  }
+
+  .home-hero__bg {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    /* Bias the S-Class subject toward the right so the left copy keeps negative
+       space (blueprint §7 — preserve the car as focal subject). */
+    object-position: 70% center;
+    /* Subtle one-time background zoom (03 §Motion). Reduced below. */
+    animation: hero-zoom var(--duration-cinematic) var(--ease-standard) both;
+  }
+
+  /* Scrim: stronger on the left where copy sits, controlled elsewhere. */
+  .home-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(13, 10, 8, 0.86) 0%, rgba(13, 10, 8, 0.55) 38%, rgba(13, 10, 8, 0.32) 70%, rgba(13, 10, 8, 0.5) 100%),
+      linear-gradient(0deg, rgba(13, 10, 8, 0.5) 0%, rgba(13, 10, 8, 0) 46%);
+  }
+
+  .home-hero__inner {
+    position: relative;
+    z-index: 1;
+    inline-size: 100%;
+    block-size: 100%;
+    display: grid;
+    align-items: end;
+    padding: clamp(1.5rem, 4vw, 4rem);
+  }
+
+  /* --- Content grid: single column by default; 7/5 when a side statement is present */
+  .home-hero__content {
+    display: grid;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+  }
+  @media (min-width: 48rem) {
+    .home-hero__content--split {
+      grid-template-columns: 7fr 5fr;
+    }
+  }
+
+  .home-hero__copy {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 38rem;
+    /* Optical lower-center alignment per wireframe. */
+    margin-block-end: clamp(0rem, 2vw, 2rem);
+    /* One-time entrance (03 §Motion). */
+    animation: hero-fade-up var(--duration-cinematic) var(--ease-entrance) both;
+  }
+  .home-hero__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-h1);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-text-primary);
+    max-width: 16ch;
+  }
+  .home-hero__desc {
+    margin: 0;
+    max-width: 31rem;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+  }
+
+  .home-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  /* --- CTAs (03 §Colors) -------------------------------------------------- */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 2.75rem;
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-control);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--duration-fast) var(--ease-standard),
+                color var(--duration-fast) var(--ease-standard),
+                border-color var(--duration-fast) var(--ease-standard);
+  }
+  .cta--primary {
+    background: var(--color-accent);
+    color: var(--color-text-on-light);
+  }
+  .cta--primary:hover { background: var(--color-accent-hover); }
+  .cta--secondary {
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-subtle);
+  }
+  .cta--secondary:hover { border-color: var(--color-text-muted); color: var(--color-accent-hover); }
+  .cta:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
+
+  /* --- Right-side statement ---------------------------------------------- */
+  .home-hero__side {
+    align-self: end;
+    margin-block-end: clamp(0rem, 2vw, 2rem);
+    padding-inline-start: clamp(1.5rem, 2.5vw, 2.5rem);
+    border-inline-start: 1px solid var(--color-divider);
+  }
+  .home-hero__statement {
+    margin: 0;
+    max-width: 28rem;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  /* --- Mobile (<48rem): single column, taller, preserve image space ------- */
+  @media (max-width: 47.99rem) {
+    .home-hero__panel {
+      aspect-ratio: auto;
+      max-height: none;
+      min-height: 38rem;
+    }
+    .home-hero__inner { padding: var(--space-6); }
+    .home-hero__content { gap: var(--space-6); }
+    .home-hero__copy { margin-block-end: 0; }
+    /* Right statement moves below the CTA group; divider switches to top. */
+    .home-hero__side {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--color-divider);
+      padding-block-start: var(--space-5);
+    }
+  }
+
+  /* --- Motion: disable under reduced motion ------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__bg,
+    .home-hero__copy {
+      animation: none;
+    }
+  }
+
+  @keyframes hero-zoom {
+    from { transform: scale(1.06); }
+    to { transform: scale(1); }
+  }
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(0.75rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

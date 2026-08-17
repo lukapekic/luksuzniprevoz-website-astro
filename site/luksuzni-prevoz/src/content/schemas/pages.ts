@@ -37,9 +37,12 @@ import {
  * SEO (BaseSeoSchema), and the generic renderer's heading (`h1`) + lede
  * (`intro`, a string — never the proposal's object-intro, which gets a distinct
  * field name per archetype to keep `content.data.intro` a string everywhere).
+ *
+ * `h1` is optional: archetypes with a hero render `hero.title` as the page's
+ * single <h1>, so hero-bearing pages omit `h1`. Pages without a hero set `h1`.
  */
 const pageBase = BaseContentSchema.merge(BaseSeoSchema).extend({
-  h1: z.string().min(1),
+  h1: z.string().min(1).optional(),
   intro: z.string().optional(),
 });
 

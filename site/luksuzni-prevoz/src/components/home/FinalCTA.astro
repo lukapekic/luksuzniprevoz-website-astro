@@ -1,0 +1,289 @@
+---
+/**
+ * FinalCTA — homepage closing call-to-action (V1).
+ *
+ * Contract: docs/home/home-components/11-final-cta.md
+ * Blueprint: docs/home/reference/blueprint.md §16 (Final CTA)
+ * Tokens: docs/home/home-components/00-token-matrix.md (locked color/space/radius vars)
+ *
+ * Contained panel (01 §3 "contained") with a restrained warm-charcoal → warm-brown
+ * gradient (no gold, no glow). The heading is an <h2> (the page already has its
+ * single <h1> in the hero). Copy + CTAs come from the editorial `finalCta` block
+ * (heading/text/primaryCta/secondaryCta); CTA hrefs resolve via resolveCtaHref
+ * (FND-I18N-03 — never manual URLs). No hardcoded UI strings.
+ *
+ * Right-zone S-Class image (11 §Image): wired from src/assets/final-cta-bg.webp
+ * via astro:assets <Image> (decorative, lazy — not the LCP; the hero owns that).
+ * It is positioned right-biased with a left-fading scrim so it blends into the
+ * warm panel — no hard edge, not a separate bordered card. The foundation Image
+ * primitive types `src: string` and can't accept an imported ImageMetadata, so
+ * astro:assets <Image> is used directly (FND-IMG-08 only bans raw <img>/<picture>).
+ * (The editorial `finalCta.image` slot remains unauthored; this static asset is a
+ * presentation choice, mirroring how hero.webp is wired in HomeHero.)
+ *
+ * PENDING (11 §Contact row):
+ *   - Contact row (phone/email/WhatsApp): rendered ONLY when a channel is
+ *     verified (isVerified). All channels are currently null /
+ *     owner-confirmation-required → the row is absent. A null never ships as a
+ *     clickable tel:/mailto: (contact.ts gating contract).
+ *
+ * Motion: one-time copy fade-up, disabled under prefers-reduced-motion
+ * (01 §8; FND-A11Y motion rules).
+ *
+ * Forbidden (01/11): second-hero scale heading, gold gradient, glow, pill-heavy
+ * contact decoration.
+ */
+import { finalCtaSchema } from "../../content/schemas/shared.ts";
+import type { z } from "astro:content";
+import type { LocaleCode } from "@astro-foundation/core";
+import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
+import { contact, isVerified } from "../../data/contact.ts";
+import { Image } from "astro:assets";
+import finalCtaImg from "../../assets/final-cta-bg.webp";
+
+type FinalCtaBlock = z.infer<typeof finalCtaSchema>;
+
+interface Props {
+  currentLocale: LocaleCode;
+  finalCta: FinalCtaBlock;
+}
+
+const { currentLocale, finalCta } = Astro.props;
+
+const headingId = "final-cta-heading";
+
+const primaryHref = resolveCtaHref(finalCta.primaryCta as Cta, currentLocale);
+const secondaryHref = finalCta.secondaryCta
+  ? resolveCtaHref(finalCta.secondaryCta as Cta, currentLocale)
+  : undefined;
+
+// Contact row — only verified channels ship as live links (contact.ts
+// contract). Contact URLs are constructed here in the data layer (not inline
+// in JSX) so FND-I18N-03's no-manual-internal-url check sees simple identifier
+// bindings; tel:/mailto:/wa.me are external contact points, not internal routes.
+const phone = isVerified(contact.phone) ? contact.phone.value : null;
+const email = isVerified(contact.email) ? contact.email.value : null;
+const whatsapp = isVerified(contact.whatsapp) ? contact.whatsapp.value : null;
+const phoneHref = phone ? `tel:${phone}` : null;
+const emailHref = email ? `mailto:${email}` : null;
+const whatsappHref = whatsapp
+  ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`
+  : null;
+const hasContactRow = Boolean(phone || email || whatsapp);
+---
+
+<section class="fcta" aria-labelledby={headingId}>
+  <div class="fcta__panel">
+    {/* Right-zone S-Class image (11 §Image). Decorative — empty alt, lazy (not
+        the LCP; the hero owns that). object-cover, right-biased so the subject
+        sits in the right ~38%; the left scrim fades it into the warm panel so
+        there is no hard edge and it is not a separate bordered card. */}
+    <Image
+      class="fcta__bg"
+      src={finalCtaImg}
+      alt=""
+      role="presentation"
+      loading="lazy"
+    />
+    {/* Scrim: fades the image into the warm panel on the left (blend, no hard
+        edge) and keeps the copy legible. No glow. */}
+    <div class="fcta__scrim" aria-hidden="true"></div>
+
+    <div class="fcta__inner">
+      <div class="fcta__copy">
+        <h2 id={headingId} class="fcta__heading">{finalCta.heading}</h2>
+        <p class="fcta__text">{finalCta.text}</p>
+
+        <div class="fcta__ctas">
+          <a class="fcta__cta fcta__cta--primary" href={primaryHref} data-astro-prefetch>
+            {finalCta.primaryCta.label}
+          </a>
+          {secondaryHref && finalCta.secondaryCta ? (
+            <a class="fcta__cta fcta__cta--secondary" href={secondaryHref} data-astro-prefetch>
+              {finalCta.secondaryCta.label}
+            </a>
+          ) : null}
+        </div>
+
+        {hasContactRow ? (
+          <ul class="fcta__contact" role="list">
+            {phone && phoneHref ? (
+              <li>
+                <a class="fcta__contact-link" href={phoneHref} data-astro-prefetch>{phone}</a>
+              </li>
+            ) : null}
+            {email && emailHref ? (
+              <li>
+                <a class="fcta__contact-link" href={emailHref} data-astro-prefetch>{email}</a>
+              </li>
+            ) : null}
+            {whatsapp && whatsappHref ? (
+              <li>
+                <a class="fcta__contact-link" href={whatsappHref} data-astro-prefetch rel="noopener">{whatsapp}</a>
+              </li>
+            ) : null}
+          </ul>
+        ) : null}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* --- Shell: main shell, feature spacing (01 §2) ------------------------- */
+  .fcta {
+    width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
+    margin-inline: auto;
+    margin-block: var(--space-section-feature) 0;
+  }
+
+  /* --- Panel: contained, rounded, warm restrained gradient (11 §Panel) --- */
+  .fcta__panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-section);
+    /* warm-charcoal → warm-brown, restrained. No gold, no glow. */
+    background: linear-gradient(135deg, var(--color-background) 0%, var(--color-surface-elevated) 100%);
+    min-block-size: 22rem;
+  }
+  /* Desktop caps the panel height (11 §Desktop). */
+  @media (min-width: 64rem) {
+    .fcta__panel { max-block-size: 26rem; }
+  }
+
+  /* --- Right-zone S-Class image (11 §Image): blended, no hard edge --------- */
+  .fcta__bg {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    /* Bias the subject into the right ~38% (11 §Image: right zone 35–40%). */
+    object-position: 80% center;
+  }
+  /* Scrim: fade the image into the warm panel on the left (blend + legibility),
+     and a soft bottom wash for mobile copy. No glow. */
+  .fcta__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, var(--color-background) 0%, rgba(13, 10, 8, 0.82) 42%, rgba(13, 10, 8, 0.4) 66%, rgba(13, 10, 8, 0.18) 100%),
+      linear-gradient(0deg, rgba(13, 10, 8, 0.45) 0%, rgba(13, 10, 8, 0) 50%);
+  }
+
+  /* --- Inner: vertically centered, stack gap space-4 (11 §Content) -------- */
+  .fcta__inner {
+    position: relative;
+    z-index: 1;
+    min-block-size: 22rem;
+    padding: clamp(2rem, 5vw, 4rem);
+    display: grid;
+    align-items: center;
+  }
+  @media (min-width: 64rem) {
+    .fcta__inner { min-block-size: 26rem; }
+    /* Desktop 62/38: constrain copy to the left 62% (11 §Desktop). The right
+       38% is the image zone (image is absolute behind). */
+    .fcta__inner { grid-template-columns: 62fr 38fr; }
+  }
+
+  .fcta__copy {
+    grid-column: 1;
+    display: grid;
+    gap: var(--space-4);
+    max-inline-size: 40rem;
+    /* One-time entrance (01 §8). Reduced below. */
+    animation: fcta-fade-up var(--duration-cinematic) var(--ease-entrance) both;
+  }
+
+  .fcta__heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-text-primary);
+    /* No second-hero scale (11 §Typography). */
+    max-inline-size: 24ch;
+  }
+  .fcta__text {
+    margin: 0;
+    max-inline-size: 38rem;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  /* --- CTA group (11 §CTA group) ----------------------------------------- */
+  .fcta__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block-start: var(--space-2);
+  }
+  .fcta__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 2.75rem;
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-control);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--duration-fast) var(--ease-standard),
+                color var(--duration-fast) var(--ease-standard),
+                border-color var(--duration-fast) var(--ease-standard);
+  }
+  .fcta__cta--primary {
+    background: var(--color-accent);
+    color: var(--color-text-on-light);
+  }
+  .fcta__cta--primary:hover { background: var(--color-accent-hover); }
+  .fcta__cta--secondary {
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-subtle);
+  }
+  .fcta__cta--secondary:hover { border-color: var(--color-text-muted); color: var(--color-accent-hover); }
+  .fcta__cta:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
+
+  /* --- Contact row (compact, not pill-heavy) ----------------------------- */
+  .fcta__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-block-start: var(--space-2);
+  }
+  .fcta__contact-link {
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .fcta__contact-link:hover { color: var(--color-accent-hover); }
+  .fcta__contact-link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
+
+  /* --- Mobile (<64rem): one column, copy padding 2rem 1.5rem (11 §Mobile) - */
+  @media (max-width: 63.99rem) {
+    .fcta__inner { padding: 2rem 1.5rem; }
+  }
+
+  /* --- Motion: disable under reduced motion ------------------------------ */
+  @media (prefers-reduced-motion: reduce) {
+    .fcta__copy { animation: none; }
+  }
+
+  @keyframes fcta-fade-up {
+    from { opacity: 0; transform: translateY(0.75rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
