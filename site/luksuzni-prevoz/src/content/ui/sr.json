@@ -25,5 +25,8 @@
   "error.404.message": "Страница коју тражите не постоји.",
   "business.parentCompanyDescription": "Luksuzni Prevoz je ogranak kompanije GrandSolution fokusiran isključivo na prevoz sa profesionalnim vozačem visoke klase.",
   "contact.bookingExceptionPolicy": "Postojeće klijente sa ponavljajućim vožnjama, diplomatskim, ambasadnim i poslovnim klijentima možemo razmotriti pojedinačno.",
-  "contact.officeNote": "Obično odgovaramo u roku od 2 sata tokom radnog vremena."
+  "contact.officeNote": "Obično odgovaramo u roku od 2 sata tokom radnog vremena.",
+  "brand.monogram": "GS",
+  "footer.company": "Kompanija",
+  "footer.hoursDays": "Pon–Ned"
 }

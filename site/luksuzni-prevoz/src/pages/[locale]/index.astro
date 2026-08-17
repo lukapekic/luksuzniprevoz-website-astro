@@ -2,22 +2,34 @@
 /**
  * Locale-specific home page — FND-ARCH-03.
  *
- * PLACEHOLDER: minimal valid home page so the site builds green against the
- * real route map. The hero uses the site's own home.* UI strings; the CTA
- * routes to the real `contact` route. Replace with the real home design
- * (services grid, fleet showcase, etc.) when the home content is provided —
- * until then no dead routes are referenced.
+ * Assembly: docs/home/home-components/13-home-assembly.md
+ * Blueprint: docs/home/reference/blueprint.md §5 (Homepage order)
+ *
+ * Uses the `Page` primitive directly (owns <head>/SEO/hreflang/global CSS — only
+ * Page emits head tags) rather than BaseLayout, because the premium home chrome
+ * is the SiteHeader + SiteFooter pair, not the generic foundation Header/Footer
+ * BaseLayout composes. Body holds: SkipLink (Page), SiteHeader, <main>,
+ * SiteFooter.
+ *
+ * Content is fetched per locale from the `pages` collection and narrowed to the
+ * `home` archetype (homePageSchema via the pageType discriminator) so the hero
+ * and finalCta blocks are typed and passed straight to the components. All three
+ * locales (sr/en/ru) are required (FND-I18N — every locale for every page).
+ *
+ * V1 partial assembly: only the chrome + Hero + FinalCTA are mounted today. The
+ * remaining sections (ServiceShowcase, PrivateChauffeur, Trust, Fleet,
+ * HowItWorks, GoogleReviews) slot into <main> between Hero and FinalCTA as their
+ * components land (13 §Exact order). Each component owns its own section spacing,
+ * so no wrapper rhythm is added here.
  */
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Container from "../../foundation/ui/Container.astro";
-import Section from "../../foundation/ui/Section.astro";
-import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
-import { getPath } from "@astro-foundation/core/i18n";
-import type { RouteKey, LocaleCode } from "@astro-foundation/core";
+import Page from "../../foundation/ui/Page.astro";
+import SiteHeader from "../../components/site/SiteHeader.astro";
+import SiteFooter from "../../components/site/SiteFooter.astro";
+import HomeHero from "../../components/home/HomeHero.astro";
+import FinalCTA from "../../components/home/FinalCTA.astro";
+import { getCollection } from "astro:content";
 import { buildPageSeo } from "../../lib/seo.ts";
-import { t } from "../../lib/i18n.ts";
-import { routes } from "../../data/routes.ts";
-import { config } from "../../../foundation.config.ts";
+import type { LocaleCode } from "@astro-foundation/core";
 
 export function getStaticPaths() {
   return [
@@ -30,47 +42,48 @@ export function getStaticPaths() {
 const { locale } = Astro.params;
 const currentLocale = (locale ?? "sr") as LocaleCode;
 
-// All text from UI strings dictionary (FND-ARCH-03)
-const title = t("home.title", currentLocale);
-const subtitle = t("home.subtitle", currentLocale);
-const ctaText = t("home.cta", currentLocale);
-const breadcrumbHome = t("home.title", currentLocale);
+// --- Editorial content (per locale) --------------------------------------
+const pages = await getCollection("pages");
+const entry = pages.find(
+  (p) => p.data.routeKey === "home" && p.data.locale === currentLocale,
+);
+if (!entry) {
+  throw new Error(
+    `Home page content not found for locale "${currentLocale}" — every locale requires a published home entry (src/content/pages/home/home.${currentLocale}.md).`,
+  );
+}
+// Discriminate the union to the home archetype so hero/finalCta are typed.
+if (entry.data.pageType !== "home") {
+  throw new Error(
+    `Home route entry for locale "${currentLocale}" has pageType "${entry.data.pageType}" — expected "home".`,
+  );
+}
+const { hero, finalCta, seoTitle, seoDescription } = entry.data;
 
-// Resolve localized internal URLs from the route map (FND-I18N-03: never
-// hardcode internal paths).
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
-const contactHref = getPath("contact", currentLocale, routes, defaultLocale);
-
+// --- SEO (content-driven) -------------------------------------------------
 const seo = buildPageSeo({
   routeKey: "home",
   locale: currentLocale,
-  title,
-  description: subtitle,
+  title: seoTitle,
+  description: seoDescription,
 });
 
-const breadcrumbs = [
-  { routeKey: "home" as RouteKey, label: breadcrumbHome },
-];
+// Right-side hero statement is not authored in the hero content yet → HomeHero
+// renders a single content column (blueprint §7 right statement is pending).
 ---
 
-<BaseLayout seo={seo} currentRouteKey="home" currentLocale={currentLocale}>
-  <Container size="xl" class="py-[var(--space-4)]">
-    <Breadcrumbs items={breadcrumbs} siteUrl={config.site} locale={currentLocale} />
-  </Container>
+<Page
+  seo={seo}
+  class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]"
+>
+  <SiteHeader currentRouteKey="home" currentLocale={currentLocale} overHero={true} />
 
-  <Section id="hero" class="py-[var(--space-16)]">
-    <Container size="lg" class="text-center">
-      <h1 class="text-[var(--text-4xl)] font-bold tracking-tight">
-        {title}
-      </h1>
-      <p class="mt-[var(--space-4)] text-[var(--text-xl)] text-[var(--text-secondary)]">
-        {subtitle}
-      </p>
-      <div class="mt-[var(--space-8)] flex justify-center gap-4">
-        <a href={contactHref} class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-6 py-3 text-base font-medium text-[var(--text-on-accent)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--accent-secondary)]">
-          {ctaText}
-        </a>
-      </div>
-    </Container>
-  </Section>
-</BaseLayout>
+  <main id="main-content" class="flex-1">
+    <HomeHero currentLocale={currentLocale} hero={hero} />
+    {/* 13 §Exact order: ServiceShowcase, PrivateChauffeur, Trust, Fleet,
+        HowItWorks, GoogleReviews mount here as their components land. */}
+    <FinalCTA currentLocale={currentLocale} finalCta={finalCta} />
+  </main>
+
+  <SiteFooter currentRouteKey="home" currentLocale={currentLocale} />
+</Page>
