@@ -2,7 +2,12 @@ import { z } from "zod";
 
 /** FND-DATA-07: BaseContentSchema — identity and lifecycle */
 export const BaseContentSchema = z.object({
-  routeKey: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  // Route keys are programmatic identifiers. The luksuzni route map uses
+  // camelCase (privateChauffeur, airportTransportation); the reference site
+  // uses lowercase single words. This regex admits both camelCase and
+  // hyphenated forms so neither site's route keys are rejected. Slug-style
+  // validation (lowercase, hyphens) lives on the slugs, not the key.
+  routeKey: z.string().regex(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/),
   locale: z.string().regex(/^[a-z]{2}(-[A-Z]{2})?$/),
   status: z.enum(["draft", "in-review", "published"]).default("draft"),
   translationState: z.enum(["missing", "draft", "reviewed"]).default("missing"),

@@ -5,7 +5,9 @@
  * src/generated/types.ts with machine-owned type definitions.
  *
  * Usage: pnpm types:generate [path/to/project]
- *   If no path is given, defaults to examples/reference-site
+ *   If no path is given, defaults to site/luksuzni-prevoz (the luksuzni project
+ *   is the active development target; the reference site can be regenerated
+ *   with `pnpm types:generate examples/reference-site`).
  */
 import { existsSync, readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
@@ -19,7 +21,7 @@ const MONO_ROOT = resolve(__dirname, "..");
 const targetArg = process.argv[2];
 const resolvedTarget = targetArg
   ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "examples", "reference-site");
+  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
 
 const issues: FoundationIssue[] = [];
 

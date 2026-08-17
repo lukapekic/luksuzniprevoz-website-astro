@@ -41,9 +41,9 @@ Every logical page has one stable `routeKey`, a localized slug for **every** con
 - **Site-level helpers** (in the consuming site, e.g. `src/lib/i18n.ts`):
   - `t(key: UiStringKey, locale): string` — UI string lookup; key is a generated union, so typos are compile errors (FND-TYPE-02). Falls back to default locale.
   - `getUiStrings(locale): Record<string,string>`.
-- **Content layout is FLAT** in `src/content/pages/`:
-  - Pages: `{routeKey}.{locale}.md` (e.g. `about.en.md`, `home.sr.md`). **Not** per-page folders.
-  - Frontmatter: `routeKey`, `locale`, `status` (`draft`|`in-review`|`published`), `translationState?` (`missing`|`draft`|`reviewed`), `seoTitle` (30–60), `seoDescription` (50–160), `ogImage?`, `ogImageAlt?`, `noindex?`, `h1?`, `reviewedOn?`.
+- **Content layout is NESTED** in `src/content/pages/` — one folder per route, one file per locale:
+  - Pages: `{routeKey}/{locale}.md` (e.g. `about/en.md`, `home/sr.md`). **Not** a flat folder. Folder/file names are organization only; identity is the frontmatter `routeKey` + `locale`.
+  - Frontmatter: `routeKey`, `locale`, `status` (`draft`|`in-review`|`published`), `translationState?` (`missing`|`draft`|`reviewed`), `pageType` (the editorial archetype — `home`|`service`|`hub`|`fleet`|`pricing`|`about`|`contact`), `seoTitle` (30–60), `seoDescription` (50–160), `ogImage?`, `ogImageAlt?`, `noindex?`, `h1`, `intro?`, `reviewedOn?`. The content loader globs `**/*.md` recursively; `content:validate` asserts `(routeKey, locale)` uniqueness and `pageType`↔route `kind` consistency.
   - UI strings: `src/content/ui/{locale}.json`, flat dot-notation keys (e.g. `nav.home`, `form.submit`). **All locales must share the same key set** (FND-I18N-08, enforced by `content:validate`).
 - **Missing translation is a build error**, not a silent fallback (within the chosen strategy). No optional locale pages.
 
@@ -54,7 +54,7 @@ Every logical page has one stable `routeKey`, a localized slug for **every** con
 
 ## Procedure
 1. **Add a route:** add an entry to `src/data/routes.ts` with a slug for **every** configured locale. Set `parent` for nesting, `sitemap` for inclusion/priority, `noindex` if it must be excluded.
-2. **Add content for every locale:** create `{routeKey}.{locale}.md` in `src/content/pages/` for each locale. Translate `seoTitle`/`seoDescription` and body — don't copy the source locale.
+2. **Add content for every locale:** create a per-route folder `src/content/pages/{routeKey}/` and add `{locale}.md` for each locale. Translate `seoTitle`/`seoDescription` and body — don't copy the source locale.
 3. **Add UI strings** used by the page to **every** `src/content/ui/{locale}.json` (same keys, translated values).
 4. **Build URLs with helpers only:** `getPath(routeKey, locale, routes, defaultLocale)` in TS; `<Link to="routeKey">` in markup. Never concatenate locale + slug.
 5. **Hreflang:** call `buildHreflangSet(...)`; it produces the reciprocal, self-referencing set automatically. Do not hand-build `<link rel="alternate">`.
@@ -80,7 +80,7 @@ Every logical page has one stable `routeKey`, a localized slug for **every** con
 - Store full localized URLs in the route map or content (derive them).
 - Build URLs by string concatenation (`"/" + locale + "/" + slug`) — use `getPath`/`<Link>`.
 - Invent helpers named `routePath`, `getAlternates`, `switchLocale`, `getHreflang` — they don't exist; use `getPath` / `buildHreflangSet` / same-`routeKey` `getPath`.
-- Use per-page content folders (`home/home.en.md`) — content is flat (`home.en.md`).
+- Use a flat content folder (all `.md` files loose in `src/content/pages/`) — content is nested, one folder per route (`home/en.md`).
 - Hand-craft `<link rel="alternate" hreflang="...">` — use `buildHreflangSet`.
 - Canonicalize every locale to the default locale — each localized page self-canonicalizes.
 - Emit `x-default` unconditionally — it is opt-in, tied to `isXDefault`.

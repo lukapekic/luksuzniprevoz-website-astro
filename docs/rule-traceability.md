@@ -15,7 +15,7 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-A11Y-09 | review/guidance | docs |
 | FND-A11Y-10 | auto:script | docs, script |
 | FND-AGENT-01 | review/guidance | docs |
-| FND-ARCH-01 | auto:lint | eslint |
+| FND-ARCH-01 | auto:lint | docs, eslint |
 | FND-ARCH-03 | auto:lint | docs, eslint, script |
 | FND-ARCH-06 | auto:script | script |
 | FND-CAP-01 | auto:script | validator |
@@ -26,8 +26,10 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-DATA-03 | auto:script | validator |
 | FND-DATA-04 | auto:script | script, validator |
 | FND-DATA-05 | auto:script | script, validator |
-| FND-DATA-06 | auto:lint | eslint |
+| FND-DATA-06 | auto:lint | docs, eslint |
 | FND-DATA-07 | auto:script | script, validator |
+| FND-DATA-08 | auto:script | docs, script, validator |
+| FND-DATA-09 | auto:script | docs, script, validator |
 | FND-DX-01 | review/guidance | docs |
 | FND-DX-02 | auto:script | script |
 | FND-ENV-01 | review/guidance | docs |
@@ -78,17 +80,17 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-SEO-05 | auto:script | script, validator |
 | FND-SEO-06 | auto:script | script |
 | FND-SEO-07 | auto:script | docs, script |
-| FND-SEO-08 | auto:script | script, validator |
+| FND-SEO-08 | auto:script | docs, script, validator |
 | FND-SEO-09 | auto:script | docs, script, validator |
 | FND-SEO-10 | auto:script | script, validator |
-| FND-SEO-11 | auto:script | script, validator |
+| FND-SEO-11 | auto:script | docs, script, validator |
 | FND-SEO-12 | auto:script | script, validator |
-| FND-SEO-13 | auto:script | script, validator |
-| FND-SEO-14 | auto:script | script, validator |
+| FND-SEO-13 | auto:script | docs, script, validator |
+| FND-SEO-14 | auto:script | docs, script, validator |
 | FND-THEME-03 | auto:script | script, validator |
 | FND-THEME-06 | auto:script | docs, script, validator |
 | FND-THEME-07 | auto:script | docs, script |
-| FND-THEME-09 | auto:lint | eslint |
+| FND-THEME-09 | auto:lint | docs, eslint |
 | FND-THEME-10 | review/guidance | docs |
 | FND-THEME-11 | auto:script | script |
 | FND-TYPE-01 | auto:script | script, validator |
@@ -96,9 +98,9 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-TYPE-03 | auto:script | script |
 | FND-TYPE-04 | auto:script | script |
 | FND-UI-03 | auto:script | script |
-| FND-UI-05 | auto:lint | eslint |
+| FND-UI-05 | auto:lint | docs, eslint |
 | FND-UI-06 | auto:lint | docs, eslint, script |
-| FND-UI-07 | auto:lint | eslint |
+| FND-UI-07 | auto:lint | docs, eslint |
 | FND-UI-08 | review/guidance | docs |
 | FND-UI-09 | review/guidance | docs |
 | FND-UI-10 | review/guidance | docs |
@@ -106,4 +108,4 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-UI-12 | review/guidance | docs |
 | FND-UI-13 | auto:script | script |
 
-**98 rules** cited across the codebase.
+**100 rules** cited across the codebase.

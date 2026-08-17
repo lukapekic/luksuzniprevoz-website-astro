@@ -12,17 +12,23 @@
  *
  * Usage: pnpm content:sync-digests [path/to/project]
  */
-import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { computeSourceDigest, extractBody } from "../packages/astro-foundation/src/validators/validate-content.ts";
+import {
+  computeSourceDigest,
+  extractBody,
+  parseFrontmatter,
+} from "../packages/astro-foundation/src/validators/validate-content.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
 const DEFAULT_LOCALE_FALLBACK = "sr";
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg ? resolve(MONO_ROOT, targetArg) : resolve(MONO_ROOT, "examples", "reference-site");
+const resolvedTarget = targetArg
+  ? resolve(MONO_ROOT, targetArg)
+  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
 
 const pagesDir = resolve(resolvedTarget, "src/content/pages");
 if (!existsSync(pagesDir)) {
@@ -39,33 +45,35 @@ interface Entry {
 }
 
 function parse(raw: string): { fm: Record<string, unknown>; fmText: string; body: string } {
+  // Use the package's YAML parser for `fm` so nested editorial frontmatter
+  // (hero/sections/faq/…) digests correctly; `computeSourceDigest` needs the
+  // real structured object, not a flattened approximation. `fmText` is kept as
+  // the raw YAML block for line-level field updates (sourceLocale/sourceDigest
+  // are flat top-level fields).
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!m) return { fm: {}, fmText: "", body: raw };
   const fmText = m[1] ?? "";
-  const body = m[2] ?? "";
-  const fm: Record<string, unknown> = {};
-  for (const line of fmText.split("\n")) {
-    const ci = line.indexOf(":");
-    if (ci === -1) continue;
-    const k = line.slice(0, ci).trim();
-    let v: unknown = line.slice(ci + 1).trim();
-    if (v === "") continue;
-    if (typeof v === "string") {
-      if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1, -1);
-      else if (v === "true") v = true;
-      else if (v === "false") v = false;
-    }
-    fm[k] = v;
-  }
+  const body = extractBody(raw);
+  const fm = parseFrontmatter(raw);
   return { fm, fmText, body };
 }
 
 const entries: Entry[] = [];
-for (const f of readdirSync(pagesDir).filter((f) => f.endsWith(".md"))) {
-  const p = join(pagesDir, f);
-  const raw = readFileSync(p, "utf-8");
-  const { fm, fmText, body } = parse(raw);
-  entries.push({ path: p, raw, fm, fmText, body });
+if (existsSync(pagesDir)) {
+  const visit = (dir: string): void => {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      if (statSync(p).isDirectory()) {
+        visit(p);
+        continue;
+      }
+      if (!entry.endsWith(".md")) continue;
+      const raw = readFileSync(p, "utf-8");
+      const { fm, fmText, body } = parse(raw);
+      entries.push({ path: p, raw, fm, fmText, body });
+    }
+  };
+  visit(pagesDir);
 }
 
 // Group by routeKey; the source is the default-locale entry with no sourceLocale.

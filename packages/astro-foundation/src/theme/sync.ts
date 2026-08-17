@@ -24,22 +24,6 @@ function toKebab(key: string): string {
   return kebabed.replace(/[^a-zA-Z0-9_-]/g, "_").toLowerCase();
 }
 
-function toCssVar(group: string, key: string): string {
-  return `--${group}-${toKebab(key)}`;
-}
-
-/**
- * Generate CSS custom property declarations for a flat object.
- */
-function generateProperties(obj: Record<string, string>, group: string): string[] {
-  const lines: string[] = [];
-  for (const [key, value] of Object.entries(obj)) {
-    const cssKey = toCssVar(group, key);
-    lines.push(`  ${cssKey}: ${value};`);
-  }
-  return lines;
-}
-
 /** Coerce a token value (string | number) to its CSS string form. */
 function cssValue(value: string | number): string {
   return String(value);
