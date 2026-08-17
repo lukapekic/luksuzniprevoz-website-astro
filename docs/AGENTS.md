@@ -81,7 +81,7 @@ This is a pnpm workspace monorepo using pnpm 10.
 
 - Theme CSS: `src/theme/generated/theme.css` — auto-generated, DO NOT EDIT
 - Foundation CSS: `src/theme/foundation.css` — safeguards only, unlayered
-- Content: `src/content/pages/{routeKey}-{locale}.md` — frontmatter with `routeKey`, `locale`, `status`
+- Content: `src/content/pages/{routeKey}/{locale}.md` — per-route folder, one file per locale; frontmatter with `routeKey`, `locale`, `status` (identity is the frontmatter, never the path)
 - UI strings: `src/content/ui/{locale}.json` — flat key-value dictionary
 - Routes: `src/data/routes.ts` — typed route map
 - Navigation: `src/data/navigation.ts` — nav items with `routeKey` + `labelKey`

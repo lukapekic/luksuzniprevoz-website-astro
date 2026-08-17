@@ -1,0 +1,58 @@
+---
+/**
+ * Checkbox primitive — Form group, FND-A11Y-10
+ *
+ * Contract:
+ * - Renders <input type="checkbox"> with label
+ * - Min 44×44 target size (FND-A11Y-05)
+ * - Error state styling via aria-invalid
+ * - class passthrough is layout-only (FND-UI-06)
+ * - CSS logical properties only (FND-I18N-13)
+ */
+interface Props {
+  /** Checkbox name */
+  name: string;
+  /** Label text */
+  label: string;
+  /** Checkbox value */
+  value?: string;
+  /** Required state */
+  required?: boolean;
+  /** Error state */
+  error?: string;
+  /** Checked state */
+  checked?: boolean;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /** Element id */
+  id?: string;
+}
+
+const {
+  name,
+  label,
+  value,
+  required = false,
+  error,
+  checked = false,
+  class: className,
+  id,
+} = Astro.props;
+---
+
+<div class={`flex items-center gap-2 ${className ?? ""}`}>
+  <input
+    id={id}
+    type="checkbox"
+    name={name}
+    value={value}
+    required={required}
+    aria-invalid={error ? "true" : undefined}
+    aria-describedby={error ? `${id ?? name}-error` : undefined}
+    checked={checked}
+    class="h-[var(--space-5)] w-[var(--space-5)] rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--surface-base)] text-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--focus-ring)] focus:ring-offset-1 focus:ring-offset-[var(--focus-ring-offset)]"
+  />
+  <label for={id} class="text-sm text-[var(--text-primary)] cursor-pointer">
+    {label}
+  </label>
+</div>

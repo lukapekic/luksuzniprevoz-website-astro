@@ -1,0 +1,131 @@
+---
+/**
+ * Link primitive — FND-UI-13
+ *
+ * Contract:
+ * - Renders <a> elements for internal and external links
+ * - Internal links resolved via getPath() from route map (FND-I18N-03)
+ * - External links get rel="noopener noreferrer" and target="_blank"
+ * - Cross-locale links get hreflang and lang attributes
+ * - Prefetch via data-astro-prefetch (FND-PERF-07), excluded for cross-locale and external
+ * - Fragment links: combines resolved path with hash
+ * - class passthrough is layout-only (FND-UI-06)
+ * - CSS logical properties only (FND-I18N-13)
+ */
+import { getPath, type LocaleCode } from "@astro-foundation/core/i18n";
+import type { RouteKey } from "@astro-foundation/core";
+import { config } from "../../../foundation.config.ts";
+import { routes } from "../../data/routes.ts";
+
+import { linkVariants } from "./Link.variants.ts";
+
+type LinkVariant = "default" | "nav" | "cta" | "button";
+
+interface Props {
+  /** RouteKey for internal links (typed — a typo is a compile error, FND-TYPE-02) */
+  to?: RouteKey;
+  /** Target locale (defaults to current locale) */
+  locale?: LocaleCode;
+  /** External URL or asset path */
+  href?: string;
+  /** Fragment identifier */
+  hash?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /** Additional rel values */
+  rel?: string;
+  /** Override default prefetch behavior (FND-PERF-07) */
+  prefetch?: boolean;
+  /** Variant selection */
+  variant?: LinkVariant;
+  /** Size variant */
+  size?: "sm" | "md" | "lg";
+  /** Explicit hreflang (forwarded by LanguageSwitcher for alternate-locale links) */
+  hreflang?: string;
+  /** Explicit lang (forwarded by LanguageSwitcher for alternate-locale links) */
+  lang?: string;
+}
+
+const {
+  to,
+  locale: targetLocale,
+  href,
+  hash,
+  class: className,
+  rel,
+  prefetch = true,
+  variant,
+  size,
+  hreflang,
+  lang,
+} = Astro.props;
+
+// Build the resolved href
+let resolvedHref = href ?? "";
+let isExternal = false;
+let isCrossLocale = false;
+let hreflangValue = hreflang;
+let langValue = lang;
+
+const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
+// Default to the site's default locale when the consumer doesn't pass one —
+// never hardcode a locale code.
+const effectiveLocale = (targetLocale ?? defaultLocale) as LocaleCode;
+
+if (to) {
+  const isDifferentLocale = effectiveLocale !== defaultLocale;
+
+  try {
+    const path = getPath(to, effectiveLocale, routes, defaultLocale);
+    resolvedHref = hash ? `${path}${hash}` : path;
+
+    if (isDifferentLocale) {
+      isCrossLocale = true;
+      // If the caller (e.g. LanguageSwitcher) didn't pass explicit hreflang/lang,
+      // derive them from the target locale config.
+      const targetLocaleConfig = config.locales.locales.find(
+        (l) => l.code === effectiveLocale,
+      );
+      if (targetLocaleConfig) {
+        hreflangValue ??= targetLocaleConfig.hreflang;
+        langValue ??= targetLocaleConfig.htmlLang;
+      }
+    }
+  } catch {
+    resolvedHref = "#";
+  }
+} else if (href) {
+  isExternal = href.startsWith("http://") || href.startsWith("https://");
+}
+
+// Build rel attribute
+const relParts: string[] = [];
+if (rel) {
+  relParts.push(rel);
+}
+if (isExternal) {
+  relParts.push("noopener");
+  relParts.push("noreferrer");
+}
+const finalRel = relParts.length > 0 ? relParts.join(" ") : undefined;
+
+// Prefetch: enabled by default, excluded for cross-locale and external (FND-PERF-07)
+const shouldPrefetch = prefetch && !isCrossLocale && !isExternal;
+
+const classNames = linkVariants(
+  { variant: variant ?? "default", size: size ?? "md" },
+  className,
+);
+---
+
+<a
+  href={resolvedHref}
+  class={classNames}
+  target={isExternal ? "_blank" : undefined}
+  rel={finalRel}
+  hreflang={hreflangValue}
+  lang={langValue}
+  {...(shouldPrefetch && { "data-astro-prefetch": true })}
+>
+  <slot />
+</a>

@@ -5,10 +5,10 @@
 export type LocaleCode = "sr" | "en" | "ru";
 
 /** Route keys from the route map */
-export type RouteKey = "home" | "airport" | "about" | "contact" | "services" | "pricing" | "faq" | "legal";
+export type RouteKey = "home" | "privateChauffeur" | "airportTransportation" | "businessTransportation" | "corporateTransportation" | "delegationTransportation" | "conferenceCongressTransportation" | "specialEvents" | "weddingTransportation" | "promTransportation" | "vipTransportation" | "fleet" | "pricing" | "about" | "contact";
 
 /** UI string keys from content/ui/*.json */
-export type UiStringKey = "a11y.skipToContent" | "about.title" | "airport.title" | "contact.title" | "error.404.message" | "error.404.title" | "faq.title" | "footer.rights" | "form.error.email" | "form.error.required" | "form.success" | "home.cta" | "home.subtitle" | "home.title" | "legal.title" | "nav.breadcrumb" | "nav.close" | "nav.footer" | "nav.language" | "nav.main" | "nav.menu" | "nav.skipLink" | "pricing.title" | "services.title";
+export type UiStringKey = "a11y.skipToContent" | "about.title" | "airport.title" | "business.parentCompanyDescription" | "contact.bookingExceptionPolicy" | "contact.officeNote" | "contact.title" | "error.404.message" | "error.404.title" | "faq.title" | "footer.rights" | "form.error.email" | "form.error.required" | "form.success" | "home.cta" | "home.subtitle" | "home.title" | "legal.title" | "nav.breadcrumb" | "nav.close" | "nav.footer" | "nav.language" | "nav.main" | "nav.menu" | "nav.skipLink" | "pricing.title" | "services.title";
 
 /** Structured data types from capabilities.structuredData */
 export type StructuredDataType = "Organization" | "WebSite";
@@ -19,13 +19,20 @@ export type IslandEvent = "nav:toggle" | "dialog:close" | "form:submitted";
 /** Per-route locale availability — only locales with a published slug */
 export type RouteLocales =   {
     home: "sr" | "en" | "ru";
-    airport: "sr" | "en" | "ru";
+    privateChauffeur: "sr" | "en" | "ru";
+    airportTransportation: "sr" | "en" | "ru";
+    businessTransportation: "sr" | "en" | "ru";
+    corporateTransportation: "sr" | "en" | "ru";
+    delegationTransportation: "sr" | "en" | "ru";
+    conferenceCongressTransportation: "sr" | "en" | "ru";
+    specialEvents: "sr" | "en" | "ru";
+    weddingTransportation: "sr" | "en" | "ru";
+    promTransportation: "sr" | "en" | "ru";
+    vipTransportation: "sr" | "en" | "ru";
+    fleet: "sr" | "en" | "ru";
+    pricing: "sr" | "en" | "ru";
     about: "sr" | "en" | "ru";
     contact: "sr" | "en" | "ru";
-    services: "sr" | "en" | "ru";
-    pricing: "sr" | "en" | "ru";
-    faq: "sr" | "en" | "ru";
-    legal: "sr" | "en" | "ru";
   };
 
 /**
@@ -33,4 +40,4 @@ export type RouteLocales =   {
  * Each name is the CSS custom-property stem after `--` (e.g. "surface-base",
  * "space-4", "text-primary"). Use `var(`--${name}`)` to reference a token.
  */
-export type TokenName = "accent-primary" | "accent-secondary" | "accent-subtle" | "border-default" | "border-strong" | "container-2xl" | "container-lg" | "container-md" | "container-sm" | "container-xl" | "duration-fast" | "duration-normal" | "duration-slow" | "ease-default" | "ease-in" | "ease-out" | "focus-ring" | "focus-ring-offset" | "font-mono" | "font-sans" | "font-serif" | "font-weight-bold" | "font-weight-medium" | "font-weight-normal" | "font-weight-semibold" | "gutter-lg" | "gutter-md" | "gutter-sm" | "line-height-normal" | "line-height-relaxed" | "line-height-tight" | "radius-full" | "radius-lg" | "radius-md" | "radius-none" | "radius-sm" | "radius-xl" | "space-0" | "space-0_5" | "space-1" | "space-12" | "space-16" | "space-2" | "space-24" | "space-3" | "space-32" | "space-4" | "space-6" | "space-8" | "space-px" | "surface-base" | "surface-overlay" | "surface-raised" | "surface-sunken" | "text-2xl" | "text-3xl" | "text-4xl" | "text-base" | "text-lg" | "text-muted" | "text-on-accent" | "text-primary" | "text-secondary" | "text-sm" | "text-xl" | "text-xs";
+export type TokenName = "breakpoint-2xl" | "breakpoint-lg" | "breakpoint-md" | "breakpoint-sm" | "breakpoint-xl" | "color-accent" | "color-accent-hover" | "color-background" | "color-border-subtle" | "color-disabled" | "color-divider" | "color-error" | "color-focus-dark" | "color-focus-light" | "color-info" | "color-input-border" | "color-input-surface" | "color-selection" | "color-success" | "color-surface" | "color-surface-elevated" | "color-surface-light" | "color-text-muted" | "color-text-on-light" | "color-text-primary" | "color-warning" | "column-gap-desktop" | "column-gap-mobile" | "column-gap-tablet" | "container-main" | "container-narrow" | "container-reading" | "duration-cinematic" | "duration-fast" | "duration-normal" | "duration-slow" | "ease-entrance" | "ease-standard" | "font-body" | "font-heading" | "font-weight-bold" | "font-weight-medium" | "font-weight-regular" | "font-weight-semibold" | "grid-desktop" | "grid-mobile" | "grid-tablet" | "gutter-page" | "gutter-section" | "letter-spacing-heading" | "letter-spacing-normal" | "letter-spacing-tight" | "letter-spacing-ui" | "line-height-body" | "line-height-heading" | "line-height-tight" | "line-height-ui" | "measure-body" | "measure-narrow" | "motion-button-hover" | "motion-carousel-transition" | "motion-fade-up" | "motion-hero-zoom" | "motion-image-hover" | "motion-section-reveal" | "radius-card" | "radius-control" | "radius-section" | "space-0" | "space-1" | "space-10" | "space-12" | "space-16" | "space-2" | "space-20" | "space-24" | "space-3" | "space-4" | "space-5" | "space-6" | "space-8" | "space-section-compact" | "space-section-feature" | "space-section-standard" | "text-base" | "text-display" | "text-h1" | "text-h2" | "text-h3" | "text-lg" | "text-sm" | "text-xl" | "text-xs";

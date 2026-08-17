@@ -1,9 +1,1 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(export ASTRO_TELEMETRY_DISABLED=1)",
-      "Bash(npx astro *)",
-      "Bash(kill %1)"
-    ]
-  }
-}
+{}

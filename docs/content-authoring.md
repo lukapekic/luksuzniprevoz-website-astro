@@ -8,25 +8,36 @@ This guide covers how to author, manage, and translate content in the Astro Foun
 
 All page content is stored as Markdown files in `src/content/pages/`.
 
-### File Naming Convention
+### File Layout Convention
+
+One folder per route, one file per locale — nested, not flat:
 
 ```
-{routeKey}.{locale}.md
+src/content/pages/{routeKey}/{locale}.md
 ```
 
 Examples:
 
 ```
 src/content/pages/
-  home.sr.md          # Serbian home page
-  home.en.md          # English home page
-  home.ru.md          # Russian home page
-  airport.sr.md       # Serbian airport transfer page
-  airport.en.md       # English airport transfer page
-  about.sr.md         # Serbian about page
-  about.en.md         # English about page
-  about.ru.md         # Russian about page
+  home/
+    sr.md          # Serbian home page
+    en.md          # English home page
+    ru.md          # Russian home page
+  private-chauffeur/
+    sr.md          # Serbian private-chauffeur page
+    en.md          # English private-chauffeur page
+    ru.md          # Russian private-chauffeur page
+  about/
+    sr.md          # Serbian about page
+    en.md          # English about page
+    ru.md          # Russian about page
 ```
+
+Folder and file names are organization only. The authoritative identity is the
+frontmatter `routeKey` + `locale` (never the path) — `content:validate` asserts
+`(routeKey, locale)` uniqueness and route binding from the frontmatter, and the
+content loader globs `**/*.md` recursively so the nested layout is discovered.
 
 ### Frontmatter Fields (FND-LIFE-05)
 
@@ -67,6 +78,62 @@ Page content goes here in Markdown.
 | `noindex` | `boolean` | No | Exclude page from sitemap and add `noindex` meta tag |
 | `h1` | `string` | No | Custom H1 heading (defaults to `seoTitle`) |
 | `reviewedOn` | `string` | No | ISO date of last content review (FND-LIFE-09) |
+
+---
+
+## Content Model & Archetypes (FND-DATA-08, FND-DATA-09)
+
+Content frontmatter is **editorial copy only**. It holds localized headings,
+intros, CTA labels, FAQ Q/A, and section prose, plus references to structured
+data by stable id. The Markdown layer is a discriminated union of seven page
+archetypes on the `pageType` field (see `src/content/schemas/pages.ts`):
+
+| `pageType`   | Route `kind` | Used for                                       |
+|--------------|--------------|------------------------------------------------|
+| `home`       | `page`       | The homepage                                   |
+| `service`    | `service`    | A leaf service page (e.g. private chauffeur)    |
+| `hub`        | `hub`        | A collection index (e.g. business transport)    |
+| `fleet`      | `page`       | The vehicle roster page                         |
+| `pricing`    | `page`       | The pricing matrix page                         |
+| `about`      | `page`       | The about page                                  |
+| `contact`    | `page`       | The contact page                                |
+
+`pageType` ↔ route `kind` consistency is enforced by `content:validate`
+(FND-DATA-09): a `service` archetype must bind to a `kind:"service"` route, a
+`hub` to `kind:"hub"`, and the page archetypes to `kind:"page"`.
+
+### Content must NOT duplicate operational facts
+
+Frontmatter MUST NOT contain: prices or pricing formulas, phone/email/address,
+office hours, vehicle capacities, service limits, or localized URLs/slugs.
+Those live in `src/data/*.ts`. Content references them by stable id:
+
+```yaml
+# references fleet vehicles (ids resolve in src/data/fleet.ts)
+fleetSection:
+  vehicleIds:
+    - mercedes-s-class
+    - mercedes-e-class
+# references a route, never a raw URL
+primaryCta:
+  label: "View our fleet"
+  target:
+    type: route
+    routeKey: fleet
+```
+
+Cross-reference resolution is enforced at two layers: the archetype schemas
+(`z.enum` against the live route/vehicle/client data) reject a bad id at
+`astro sync`, and `content:validate` resolves them again in the script path
+(FND-DATA-08) so the gate catches bad refs before the build. CTA targets are a
+`route` | `flow` discriminated union — never a raw internal URL.
+
+### Content must NOT choose presentation
+
+Frontmatter MUST NOT contain `layout`, `columns`, `theme`, `background`,
+`imagePosition`, raw CSS classes, or color/spacing values. Blueprints and
+components own presentation. An image may carry a normalized `focalPoint`
+(x/y in 0–1) for art direction — a presentation *hint*, not layout.
 
 ---
 
@@ -196,7 +263,8 @@ src/content/ui/
 ### Adding a New Page
 
 1. Add the route to `src/data/routes.ts` with slugs for all locales
-2. Create content files: `{routeKey}.{locale}.md` for each locale
+2. Create a per-route folder `src/content/pages/{routeKey}/` and add one file per
+   locale: `{locale}.md` (e.g. `home/sr.md`, `home/en.md`, `home/ru.md`)
 3. Add UI strings used by the page to each `src/content/ui/{locale}.json`
 4. Run `pnpm content:validate` to verify route binding and coverage
 5. Run `pnpm seo:validate` to verify SEO data
@@ -223,7 +291,8 @@ src/content/ui/
 
 ### Translating Content
 
-1. Copy the source locale's `.md` file to the target locale
+1. Copy the source locale's `.md` file to the target locale within the same
+   per-route folder (e.g. `home/sr.md` → `home/en.md`)
 2. Translate all text content (body, frontmatter fields)
 3. Translate `seoTitle` and `seoDescription` (not just copy)
 4. Translate any alt text for images

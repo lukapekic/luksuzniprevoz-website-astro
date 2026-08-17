@@ -2,6 +2,11 @@ import type { FoundationIssue } from "../core/errors.ts";
 import type { FoundationConfig } from "../core/config.ts";
 import { BaseContentSchema, BaseSeoSchema } from "../content/schemas.ts";
 import { createHash } from "node:crypto";
+// A real YAML parser (the `yaml` package) so nested frontmatter — hero, sections,
+// faq.items, vehicleRecommendations — parses into structured objects. The previous
+// line-by-line minimal parser only handled flat `key: value` scalars and silently
+// mangled nested frontmatter into garbage keys.
+import { parse as parseYaml } from "yaml";
 
 export interface ContentFile {
   filePath: string;
@@ -21,28 +26,39 @@ export function extractBody(raw: string): string {
 
 /**
  * FND-LIFE-07: compute a stable digest over a content entry's *translatable*
- * fields — the body Markdown plus the translatable frontmatter (seoTitle,
- * seoDescription, h1, intro, ogImageAlt, sections, faqs). Lifecycle metadata
- * (status, translationState, sourceLocale, sourceDigest, reviewedOn) and
- * structural/asset fields (routeKey, locale, noindex, ogImage) are excluded so
- * that a status change or a re-review does NOT invalidate translations — only
- * a change to the translatable content does.
+ * content — the body Markdown plus every frontmatter field that is NOT
+ * structural identity, lifecycle metadata, an SEO directive, or the structural
+ * archetype tag (see the EXCLUDED set). This covers all editorial copy,
+ * including nested archetype fields (hero, sections, faq, finalCta, …), without
+ * enumerating per-archetype field names. A status change or a re-review does
+ * NOT invalidate translations — only a change to the translatable content does.
  *
  * Uses sha256 (node:crypto, built-in — no dependency). The object is
  * canonicalized with sorted keys so field order in frontmatter is irrelevant.
  */
 export function computeSourceDigest(frontmatter: Record<string, unknown>, body: string): string {
+  // Denylist (not allowlist): digest everything EXCEPT structural identity,
+  // lifecycle metadata, SEO directives, and the structural archetype tag — so
+  // all editorial copy (including nested archetype fields: hero, sections, faq,
+  // finalCta, services, story, …) is covered without enumerating every
+  // archetype's field names. A copy edit on the source invalidates its
+  // translations; a status/reviewedOn/pageType/asset-path change does not.
+  const EXCLUDED = new Set([
+    "routeKey", // structural identity
+    "locale", // structural identity
+    "status", // lifecycle
+    "translationState", // lifecycle
+    "sourceLocale", // lifecycle
+    "sourceDigest", // lifecycle
+    "reviewedOn", // lifecycle
+    "noindex", // SEO directive, not copy
+    "ogImage", // asset path, not translatable (alt IS, via ogImageAlt — not excluded)
+    "pageType", // structural archetype tag
+  ]);
   const translatable: Record<string, unknown> = {};
-  for (const key of [
-    "seoTitle",
-    "seoDescription",
-    "h1",
-    "intro",
-    "ogImageAlt",
-    "sections",
-    "faqs",
-  ]) {
-    if (frontmatter[key] !== undefined) translatable[key] = frontmatter[key];
+  for (const [key, value] of Object.entries(frontmatter)) {
+    if (EXCLUDED.has(key)) continue;
+    translatable[key] = value;
   }
   translatable["body"] = body.trim();
   const canonical = JSON.stringify(translatable, Object.keys(translatable).sort());
@@ -51,40 +67,133 @@ export function computeSourceDigest(frontmatter: Record<string, unknown>, body: 
 
 export interface ValidateContentOptions {
   config: FoundationConfig;
-  routes: readonly { key: string; slugs: Record<string, string | undefined>; parent?: string }[];
+  routes: readonly {
+    key: string;
+    slugs: Record<string, string | undefined>;
+    parent?: string;
+    /** Route structural kind ("page" | "service" | "hub") — for FND-DATA-09. */
+    kind?: string;
+  }[];
   contentFiles: ContentFile[];
+  /** Known fleet vehicle ids — for FND-DATA-08 cross-ref resolution. Omit to skip. */
+  vehicleIds?: readonly string[];
+  /** Known client ids — for FND-DATA-08 cross-ref resolution. Omit to skip. */
+  clientIds?: readonly string[];
   /** Pinnable "now" (ISO date) for deterministic staleness-window tests. */
   now?: string;
 }
 
 /**
- * Minimal frontmatter parser (YAML subset)
+ * Parse YAML frontmatter (between `---` fences) into a structured object.
+ * Handles nested mappings/sequences (hero, sections[], faq.items[],
+ * vehicleRecommendations, …) — the previous line-by-line minimal parser only
+ * understood flat `key: value` scalars and mangled nested frontmatter. Returns
+ * `{}` when there is no frontmatter block or the YAML is malformed (the
+ * downstream checks then surface the problem, e.g. "Missing routeKey").
  */
 export function parseFrontmatter(raw: string): Record<string, unknown> {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return {};
-  const result: Record<string, unknown> = {};
-  for (const line of match[1]!.split("\n")) {
-    const colonIdx = line.indexOf(":");
-    if (colonIdx === -1) continue;
-    const key = line.slice(0, colonIdx).trim();
-    let value: unknown = line.slice(colonIdx + 1).trim();
-    if (value === "" || value === undefined) continue;
-    if (typeof value === "string") {
-      if (
-        (value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))
-      ) {
-        value = value.slice(1, -1);
-      } else if (value === "true") {
-        value = true;
-      } else if (value === "false") {
-        value = false;
+  const block = match[1] ?? "";
+  try {
+    const parsed = parseYaml(block);
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? (parsed as Record<string, unknown>)
+      : {};
+  } catch {
+    // Malformed YAML → no usable frontmatter; downstream checks report the
+    // resulting missing/invalid fields. A dedicated parse-error report is a
+    // future trim point.
+    return {};
+  }
+}
+
+/**
+ * FND-DATA-09: maps a content `pageType` (the editorial archetype) to the
+ * structural route `kind` it requires. Page archetypes (home/fleet/pricing/
+ * about/contact) bind to kind:"page"; service → kind:"service"; hub → kind:"hub".
+ */
+const PAGE_TYPE_TO_KIND: Record<string, string> = {
+  home: "page",
+  fleet: "page",
+  pricing: "page",
+  about: "page",
+  contact: "page",
+  service: "service",
+  hub: "hub",
+};
+
+/**
+ * FND-DATA-08: collect every cross-reference in a content entry's frontmatter
+ * for resolution against site data. Traverses the parsed frontmatter generically
+ * (keyed off stable field NAMES in the content contract, not archetype shape):
+ *  - routes: any `routeKey` string found at depth > 0 (CTA targets, routeCards),
+ *    plus every element of any `relatedRouteKeys` array. The top-level page
+ *    `routeKey` (its own identity) is excluded.
+ *  - vehicles: every element of any `vehicleIds` array.
+ *  - clients: every element of any `clientIds` array.
+ */
+interface ContentRefs {
+  routes: string[];
+  vehicles: string[];
+  clients: string[];
+}
+function collectContentRefs(frontmatter: Record<string, unknown>, topLevelRouteKey: string): ContentRefs {
+  const refs: ContentRefs = { routes: [], vehicles: [], clients: [] };
+  const seenRoutes = new Set<string>();
+
+  const addRoute = (value: unknown): void => {
+    if (typeof value === "string" && value !== topLevelRouteKey && !seenRoutes.has(value)) {
+      seenRoutes.add(value);
+      refs.routes.push(value);
+    }
+  };
+  const addStrings = (value: unknown, bucket: "vehicles" | "clients" | "routes"): void => {
+    if (Array.isArray(value)) {
+      for (const el of value) {
+        if (typeof el === "string") {
+          if (bucket === "routes") addRoute(el);
+          else refs[bucket].push(el);
+        }
       }
     }
-    result[key] = value;
-  }
-  return result;
+  };
+
+  const visit = (node: unknown, key: string | null, depth: number): void => {
+    if (node === null || typeof node !== "object") return;
+    if (Array.isArray(node)) {
+      // Arrays under these keys are lists of ids; other arrays are recursed into.
+      if (key === "relatedRouteKeys") return addStrings(node, "routes");
+      if (key === "vehicleIds") return addStrings(node, "vehicles");
+      if (key === "clientIds") return addStrings(node, "clients");
+      for (const el of node) visit(el, key, depth + 1);
+      return;
+    }
+    const obj = node as Record<string, unknown>;
+    for (const [k, v] of Object.entries(obj)) {
+      if (k === "routeKey" && typeof v === "string") {
+        // The top-level routeKey (depth 0) is the page identity — skip it.
+        if (depth > 0) addRoute(v);
+        continue;
+      }
+      if (k === "relatedRouteKeys") {
+        addStrings(v, "routes");
+        continue;
+      }
+      if (k === "vehicleIds") {
+        addStrings(v, "vehicles");
+        continue;
+      }
+      if (k === "clientIds") {
+        addStrings(v, "clients");
+        continue;
+      }
+      visit(v, k, depth + 1);
+    }
+  };
+
+  visit(frontmatter, null, 0);
+  return refs;
 }
 
 /**
@@ -119,6 +228,81 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
         offendingValue: `Unknown route key: "${routeKey}"`,
         docAnchor: "#FND-DATA-05",
       });
+    }
+
+    // FND-DATA-09: pageType ↔ route kind consistency. The content's pageType
+    // (its editorial archetype) must match the route's structural kind: the
+    // page archetypes (home/fleet/pricing/about/contact) → kind:"page";
+    // service → kind:"service"; hub → kind:"hub". The schema declares the
+    // editorial shape; the route declares the structural kind; this asserts
+    // they agree (analogous to services.ts's kind-parity guard).
+    const pageType = String(fm["pageType"] ?? "");
+    if (pageType && routeKey) {
+      const expectedKind = PAGE_TYPE_TO_KIND[pageType];
+      const route = routes.find((r) => r.key === routeKey);
+      if (expectedKind && route?.kind && route.kind !== expectedKind) {
+        issues.push({
+          ruleId: "FND-DATA-09",
+          severity: "error",
+          filePath: cf.filePath,
+          offendingValue: `pageType "${pageType}" requires route kind "${expectedKind}" but route "${routeKey}" is kind "${route.kind}"`,
+          expectedValue: `pageType "${pageType}" on a kind:"${expectedKind}" route`,
+          fix: `Align the route kind in src/data/routes.ts or the pageType in frontmatter`,
+          docAnchor: "#FND-DATA-09",
+        });
+      }
+    }
+
+    // FND-DATA-08: content cross-reference resolution. Every route/vehicle/
+    // client reference in the frontmatter (CTA targets, relatedRouteKeys,
+    // routeCard.routeKey, vehicleIds, clientIds) must resolve against the site
+    // data. The archetype schemas enforce this at `astro sync` via z.enum; this
+    // enforces it in the content:validate script path (which does not run the
+    // site schema) so the gate catches bad refs before the build. Referent sets
+    // are optional — omitted sets (e.g. the reference site has no fleet) skip
+    // that resolution, so this stays inert where the data does not exist.
+    const refs = collectContentRefs(fm, routeKey);
+    const vehicleSet = opts.vehicleIds ? new Set(opts.vehicleIds) : undefined;
+    const clientSet = opts.clientIds ? new Set(opts.clientIds) : undefined;
+    for (const ref of refs.routes) {
+      if (!routeKeys.has(ref)) {
+        issues.push({
+          ruleId: "FND-DATA-08",
+          severity: "error",
+          filePath: cf.filePath,
+          offendingValue: `Content references unknown route "${ref}"`,
+          expectedValue: "A valid route key from the route map",
+          docAnchor: "#FND-DATA-08",
+        });
+      }
+    }
+    if (vehicleSet) {
+      for (const ref of refs.vehicles) {
+        if (!vehicleSet.has(ref)) {
+          issues.push({
+            ruleId: "FND-DATA-08",
+            severity: "error",
+            filePath: cf.filePath,
+            offendingValue: `Content references unknown vehicle "${ref}"`,
+            expectedValue: "A valid vehicleId from src/data/fleet.ts",
+            docAnchor: "#FND-DATA-08",
+          });
+        }
+      }
+    }
+    if (clientSet) {
+      for (const ref of refs.clients) {
+        if (!clientSet.has(ref)) {
+          issues.push({
+            ruleId: "FND-DATA-08",
+            severity: "error",
+            filePath: cf.filePath,
+            offendingValue: `Content references unknown client "${ref}"`,
+            expectedValue: "A valid clientId from src/data/clients.ts",
+            docAnchor: "#FND-DATA-08",
+          });
+        }
+      }
     }
 
     // FND-DATA-07: Validate against BaseContentSchema
@@ -201,6 +385,28 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
     if (!rk) continue;
     if (!byRoute.has(rk)) byRoute.set(rk, []);
     byRoute.get(rk)!.push(cf);
+  }
+
+  // FND-DATA-05: (routeKey, locale) uniqueness — each combination is a page's
+  // authoritative identity, so a duplicate (two entries for the same route in
+  // the same locale) is an identity collision, not a parity concern.
+  for (const [rk, files] of byRoute) {
+    const seenLocales = new Set<string>();
+    for (const cf of files) {
+      const locale = String(cf.frontmatter["locale"] ?? "");
+      if (!locale) continue;
+      if (seenLocales.has(locale)) {
+        issues.push({
+          ruleId: "FND-DATA-05",
+          severity: "error",
+          filePath: cf.filePath,
+          offendingValue: `Duplicate (routeKey, locale): "${rk}/${locale}" — each combination must be unique.`,
+          expectedValue: "One content entry per (routeKey, locale)",
+          docAnchor: "#FND-DATA-05",
+        });
+      }
+      seenLocales.add(locale);
+    }
   }
 
   for (const cf of contentFiles) {

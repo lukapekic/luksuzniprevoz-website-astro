@@ -40,7 +40,7 @@ Every indexable page is fully crawlable, correctly described, and correctly clus
 - **Mobile/desktop content parity:** meaningful content must not be hidden on mobile (Google indexes mobile-first; hiding mobile content also hides it from indexing).
 
 ## Procedure
-1. **Set per-page SEO in frontmatter** of `{routeKey}.{locale}.md`: `seoTitle` (unique, meaningful), `seoDescription` (useful, not keyword-stuffed), `h1` (defaults to `seoTitle`), `noindex` if needed, `ogImage`/`ogImageAlt`.
+1. **Set per-page SEO in frontmatter** of `{routeKey}/{locale}.md` (per-route folder): `seoTitle` (unique, meaningful), `seoDescription` (useful, not keyword-stuffed), `h1` (defaults to `seoTitle`), `noindex` if needed, `ogImage`/`ogImageAlt`.
 2. **Translate** `seoTitle` and `seoDescription` per locale — don't copy the source locale.
 3. **Canonical/hreflang:** use `buildPageSeo`/`buildHreflangSet` (reference site: `src/lib/seo.ts`). Confirm the page **self-canonicalizes** and the hreflang set is the full reciprocal cluster.
 4. **Sitemap/robots:** confirm the route's `noindex`/`sitemap.include` reflects intent. Don't add `noindex` + keep in sitemap — they must agree.

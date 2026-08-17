@@ -1,0 +1,76 @@
+---
+/**
+ * Locale-specific home page — FND-ARCH-03.
+ *
+ * PLACEHOLDER: minimal valid home page so the site builds green against the
+ * real route map. The hero uses the site's own home.* UI strings; the CTA
+ * routes to the real `contact` route. Replace with the real home design
+ * (services grid, fleet showcase, etc.) when the home content is provided —
+ * until then no dead routes are referenced.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../foundation/ui/Container.astro";
+import Section from "../../foundation/ui/Section.astro";
+import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
+import { getPath } from "@astro-foundation/core/i18n";
+import type { RouteKey, LocaleCode } from "@astro-foundation/core";
+import { buildPageSeo } from "../../lib/seo.ts";
+import { t } from "../../lib/i18n.ts";
+import { routes } from "../../data/routes.ts";
+import { config } from "../../../foundation.config.ts";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "sr" } },
+    { params: { locale: "en" } },
+    { params: { locale: "ru" } },
+  ];
+}
+
+const { locale } = Astro.params;
+const currentLocale = (locale ?? "sr") as LocaleCode;
+
+// All text from UI strings dictionary (FND-ARCH-03)
+const title = t("home.title", currentLocale);
+const subtitle = t("home.subtitle", currentLocale);
+const ctaText = t("home.cta", currentLocale);
+const breadcrumbHome = t("home.title", currentLocale);
+
+// Resolve localized internal URLs from the route map (FND-I18N-03: never
+// hardcode internal paths).
+const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
+const contactHref = getPath("contact", currentLocale, routes, defaultLocale);
+
+const seo = buildPageSeo({
+  routeKey: "home",
+  locale: currentLocale,
+  title,
+  description: subtitle,
+});
+
+const breadcrumbs = [
+  { routeKey: "home" as RouteKey, label: breadcrumbHome },
+];
+---
+
+<BaseLayout seo={seo} currentRouteKey="home" currentLocale={currentLocale}>
+  <Container size="xl" class="py-[var(--space-4)]">
+    <Breadcrumbs items={breadcrumbs} siteUrl={config.site} locale={currentLocale} />
+  </Container>
+
+  <Section id="hero" class="py-[var(--space-16)]">
+    <Container size="lg" class="text-center">
+      <h1 class="text-[var(--text-4xl)] font-bold tracking-tight">
+        {title}
+      </h1>
+      <p class="mt-[var(--space-4)] text-[var(--text-xl)] text-[var(--text-secondary)]">
+        {subtitle}
+      </p>
+      <div class="mt-[var(--space-8)] flex justify-center gap-4">
+        <a href={contactHref} class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-6 py-3 text-base font-medium text-[var(--text-on-accent)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--accent-secondary)]">
+          {ctaText}
+        </a>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
