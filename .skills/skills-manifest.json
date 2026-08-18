@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "project": "Luxury Transportation",
+  "skills": [
+    {
+      "name": "design-foundation-governance",
+      "required_for": [
+        "visual UI",
+        "page composition",
+        "design review"
+      ]
+    },
+    {
+      "name": "blueprint-to-ui",
+      "required_for": [
+        "page implementation",
+        "major section implementation"
+      ]
+    },
+    {
+      "name": "component-architecture",
+      "required_for": [
+        "new components",
+        "refactors",
+        "variants"
+      ]
+    },
+    {
+      "name": "responsive-layout",
+      "required_for": [
+        "page/component implementation",
+        "responsive review"
+      ]
+    },
+    {
+      "name": "typography-system",
+      "required_for": [
+        "text-bearing UI",
+        "font QA",
+        "design review"
+      ]
+    },
+    {
+      "name": "imagery-art-direction",
+      "required_for": [
+        "image-bearing UI",
+        "asset review"
+      ]
+    },
+    {
+      "name": "functional-ui",
+      "required_for": [
+        "forms",
+        "calculator",
+        "booking",
+        "pricing states"
+      ]
+    },
+    {
+      "name": "high-value-visual-execution",
+      "required_for": [
+        "visual refinement",
+        "design quality"
+      ]
+    },
+    {
+      "name": "design-review",
+      "required_for": [
+        "post-implementation design QA"
+      ]
+    },
+    {
+      "name": "tailwind-v4",
+      "status": "existing-separate-skill"
+    }
+  ]
+}
