@@ -57,6 +57,9 @@ import PageContainer from "../../foundation/ui/PageContainer.astro";
 import ReadingContainer from "../../foundation/ui/ReadingContainer.astro";
 import Section from "../../foundation/ui/Section.astro";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import SiteHeader from "../../components/site/SiteHeader.astro";
+import BrandLockup from "../../foundation/ui/BrandLockup.astro";
+import heroImg from "../../assets/hero.webp";
 
 const defaultLocale =
   config.locales.locales.find((l) => l.isDefault) ?? config.locales.locales[0];
@@ -87,13 +90,13 @@ const groups = [
   { id: "buttons-links", href: "#buttons-links", heading: "Buttons / Links", description: "Primary and secondary buttons, plus the canonical link treatments." },
   { id: "form-controls", href: "#form-controls", heading: "Form Controls", description: "Input, select, textarea, checkbox, and the field label / help / error contract." },
   { id: "layout-sections", href: "#layout-sections", heading: "Layout / Sections", description: "PageContainer, ReadingContainer, Section spacing and surfaces, and SectionHeading." },
-  { id: "navigation", href: "#navigation", heading: "Navigation", description: "Header, footer, breadcrumbs, and language switcher." },
+  { id: "navigation", href: "#navigation", heading: "Navigation / Header", description: "The production SiteHeader: desktop overlay and solid states, mobile closed and open states, plus BrandLockup." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
 ] as const;
 
 // Groups left as placeholders for later steps.
-const placeholderIds = ["navigation", "reusable-patterns", "larger-components"];
+const placeholderIds = ["reusable-patterns", "larger-components"];
 const placeholderGroups = groups.filter((g) => placeholderIds.includes(g.id));
 
 // ── Typography ─────────────────────────────────────────────────────────────
@@ -209,6 +212,21 @@ const samples = {
   shHeadingAccent: "Chauffeured transit, by appointment",
   shHeadingLight: "Pricing",
   shDescLight: "On a light surface the heading and description flip to the on-light text tokens via the on prop — no parallel variant.",
+  // ── Navigation / Header ──
+  navHeaderDesc: "The production SiteHeader (BrandLockup + primary nav + SR/EN/RU + Book CTA). Four real states are rendered below in bounded frames. The Header is the real component; dev-only wrappers only provide contrast and force the mobile layout / open panel — no second fake Header.",
+  overlayLabel: "Desktop · overlay / top-of-page",
+  overlayNote: "over the hero · transparent surface · legible navigation · no glass card.",
+  solidLabel: "Desktop · scrolled / solid",
+  solidNote: "compact warm-charcoal surface · sticky · subtle hairline divider · no gold line or glow.",
+  mobileClosedLabel: "Mobile · closed",
+  mobileClosedNote: "BrandLockup + menu trigger + Book discoverable. Toggle and Book keep 44px targets.",
+  mobileOpenLabel: "Mobile · open navigation",
+  mobileOpenNote: "full-height dark panel · services + Business/Special Events children indented · SR/EN/RU · Book. Esc / toggle closes (live on the closed state above when the viewport is narrow).",
+  heroHeadline: "Chauffeured transit, by appointment",
+  heroSub: "Belgrade · airport · business · special events",
+  solidBody: "Below the header, page content scrolls under the sticky solid bar.",
+  brandLockupLabel: "BrandLockup",
+  brandLockupNote: "GS mark (brand.monogram) + literal “Luxury Transportation” wordmark. Reusable on dark surfaces; mark uses the 6px control radius; accessible name is the visible wordmark.",
 } as const;
 
 const vehicleOptions = [
@@ -948,6 +966,70 @@ const vehicleOptions = [
       </div>
     </PreviewBlock>
 
+    {/* ── Navigation / Header ───────────────────────────────────────── */}
+    <PreviewBlock
+      id="navigation"
+      heading="Navigation / Header"
+      description={samples.navHeaderDesc}
+    >
+      {/* BrandLockup (reusable, independent of Header) */}
+      <SectionHeading heading={samples.brandLockupLabel} description={samples.brandLockupNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="mt-[var(--space-8)] flex flex-col gap-[var(--space-6)]">
+        <div class="rounded-[var(--radius-card)] bg-[var(--color-surface)] p-[var(--space-6)]">
+          <span data-foundation-allow-string class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]">on dark surface · linked to home</span>
+          <div class="mt-[var(--space-4)]"><BrandLockup locale="sr" href="#navigation" /></div>
+        </div>
+        <div class="rounded-[var(--radius-card)] bg-[var(--color-surface-light)] p-[var(--space-6)]">
+          <span data-foundation-allow-string class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_30%)]">on light surface · non-interactive</span>
+          <div class="mt-[var(--space-4)]"><BrandLockup locale="en" /></div>
+        </div>
+      </div>
+
+      {/* Desktop overlay / top-of-page state — transparent over a hero image */}
+      <SectionHeading heading={samples.overlayLabel} description={samples.overlayNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame overlay-frame mt-[var(--space-8)]" style={`background-image: url(${heroImg.src});`}>
+        <SiteHeader currentRouteKey="home" currentLocale="sr" overHero={true} idPrefix="hdr-overlay" />
+        <div class="overlay-frame__hero">
+          <span data-foundation-allow-string class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]">{samples.heroHeadline}</span>
+          <span data-foundation-allow-string class="mt-[var(--space-3)] block font-body text-[length:var(--text-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-muted)]">{samples.heroSub}</span>
+        </div>
+      </div>
+
+      {/* Desktop scrolled / solid state */}
+      <SectionHeading heading={samples.solidLabel} description={samples.solidNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame solid-frame mt-[var(--space-8)]">
+        <SiteHeader currentRouteKey="fleet" currentLocale="sr" overHero={false} idPrefix="hdr-solid" />
+        <div class="solid-frame__body">
+          <p data-foundation-allow-string class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-muted)]">{samples.solidBody}</p>
+        </div>
+      </div>
+
+      {/* Mobile closed state — narrow frame forces mobile layout on wide screens */}
+      <SectionHeading heading={samples.mobileClosedLabel} description={samples.mobileClosedNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame force-mobile mt-[var(--space-8)]">
+        <SiteHeader currentRouteKey="home" currentLocale="sr" overHero={false} idPrefix="hdr-mc" />
+      </div>
+
+      {/* Mobile open state — same component, panel forced open by a dev-only script */}
+      <SectionHeading heading={samples.mobileOpenLabel} description={samples.mobileOpenNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame force-mobile open-frame mt-[var(--space-8)]">
+        <SiteHeader currentRouteKey="home" currentLocale="sr" overHero={false} idPrefix="hdr-mo" />
+      </div>
+
+      {/* Dev-only: force the mobile-open panel open inside its bounded frame.
+           This is a /dev/ui preview mechanism — it lives outside the production
+           SiteHeader component API. It runs after the component's is:inline
+           hide script (document order), so it re-opens the panel the component
+           hid for JS users. */}
+      <script is:inline>
+        try {
+          var p = document.getElementById("hdr-mo-mobile");
+          var t = document.querySelector('[data-menu-toggle][aria-controls="hdr-mo-mobile"]');
+          if (p && t) { p.removeAttribute("hidden"); p.setAttribute("data-open", ""); t.setAttribute("aria-expanded", "true"); }
+        } catch (e) {}
+      </script>
+    </PreviewBlock>
+
     {/* ── Placeholders (later steps) ───────────────────────────────────── */}
     {placeholderGroups.map((group) => (
       <PreviewBlock
@@ -958,3 +1040,54 @@ const vehicleOptions = [
     ))}
   </main>
 </Page>
+
+<style>
+  /* Dev-only preview frames for the Navigation / Header section.
+   *
+   * These styles are NOT production. They only:
+   *   - keep the sticky SiteHeader in-frame (position: relative) so each state
+   *     renders inside its bounded box instead of escaping to the viewport;
+   *   - provide a hero-image background for the transparent overlay state;
+   *   - force the mobile layout (.force-mobile) on wide screens so the mobile
+   *     states are previewable without resizing the browser;
+   *   - contain the mobile panel inside the open-frame (.open-frame) instead of
+   *     the viewport-fixed production behavior.
+   * They reach into SiteHeader internals via :global() because the Header's own
+   * scoped styles own those elements. No second fake Header is rendered. */
+  .preview-frame {
+    position: relative;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: var(--color-background);
+  }
+  .preview-frame :global([data-site-header]) { position: relative; }
+
+  /* Overlay / top-of-page — hero image is a decorative CSS backdrop */
+  .overlay-frame {
+    min-block-size: 22rem;
+    background-size: cover;
+    background-position: center;
+  }
+  .overlay-frame__hero { position: relative; padding: var(--space-12) var(--gutter-page); }
+
+  /* Solid / scrolled */
+  .solid-frame__body { padding: var(--space-12) var(--gutter-page); }
+
+  /* Force mobile layout regardless of viewport width (preview only) */
+  .force-mobile { max-inline-size: 28rem; }
+  .force-mobile :global(.nav-desktop) { display: none !important; }
+  .force-mobile :global(.menu-toggle) { display: inline-flex !important; }
+  .force-mobile :global(.lang-switcher) { display: none !important; }
+
+  /* Contain the mobile panel inside the open-frame (production is viewport-fixed) */
+  .open-frame { block-size: 32rem; }
+  .open-frame :global(.mobile-panel) {
+    position: absolute !important;
+    inset-block: 0;
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    inline-size: min(100%, 22rem) !important;
+    transform: translateX(0) !important;
+  }
+</style>

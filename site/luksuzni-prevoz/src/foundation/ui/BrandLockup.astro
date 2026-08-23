@@ -1,0 +1,62 @@
+---
+/**
+ * BrandLockup — canonical production brand lockup (FND-UI-13, Document group).
+ *
+ * Renders the GS mark + the literal public brand wordmark "Luxury
+ * Transportation". Reusable independently of the SiteHeader (Header, Footer,
+ * off-canvas contexts).
+ *
+ * Brand text rule: "Luxury Transportation" is the literal public brand text —
+ * a non-translatable proper noun (FND-ARCH-03 escape hatch via
+ * data-foundation-allow-string). It is NOT replaced with "Luksuzni Prevoz"
+ * (the config.brand / SEO legal name) and is NOT routed through the UI strings
+ * dictionary. The GS monogram IS sourced from the UI dictionary
+ * (brand.monogram — identical "GS" across all locales) so the mark text stays
+ * data-authoritative.
+ *
+ * Accessibility: the mark is aria-hidden decoration; the accessible name is
+ * the visible "Luxury Transportation" wordmark text (no aria-label attribute,
+ * which would otherwise be a hardcoded translatable string). When `href` is
+ * omitted the lockup renders as a non-interactive group (Footer/standalone).
+ *
+ * Typography: Fraunces for the GS monogram (brand logotype, not control text);
+ * Manrope uppercase semibold for the wordmark (precise, operational). Works on
+ * dark surfaces (text-primary on transparent; gold mark). Mark uses the 6px
+ * control radius (DESIGN.md §10). No oversized branding (mark 2rem).
+ * class passthrough is layout-only (FND-UI-06). CSS logical properties only
+ * (FND-I18N-13).
+ */
+import { t } from "../../lib/i18n.ts";
+import type { LocaleCode } from "@astro-foundation/core";
+
+interface Props {
+  /** Current locale — resolves the brand.monogram mark text (FND-ARCH-03). */
+  locale: LocaleCode;
+  /** Link href (e.g. the locale home path). Omit for a non-interactive lockup. */
+  href?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+}
+
+const { locale, href, class: className } = Astro.props;
+const monogram = t("brand.monogram", locale);
+const Tag: "a" | "span" = href ? "a" : "span";
+---
+
+<Tag
+  href={href}
+  class={`inline-flex items-center no-underline gap-[var(--space-3)] rounded-[var(--radius-control)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] ${className ?? ""}`}
+>
+  <span
+    aria-hidden="true"
+    class="inline-grid size-8 place-items-center rounded-[var(--radius-control)] bg-[var(--color-accent)] font-heading text-[length:var(--text-xs)] font-bold leading-none tracking-[var(--letter-spacing-tight)] text-[var(--color-text-on-light)]"
+  >
+    {monogram}
+  </span>
+  <span
+    data-foundation-allow-string
+    class="font-body text-sm font-semibold uppercase tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+  >
+    Luxury Transportation
+  </span>
+</Tag>

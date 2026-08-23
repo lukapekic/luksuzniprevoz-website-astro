@@ -29,6 +29,8 @@ import {
 } from "../../data/navigation.ts";
 import { t } from "../../lib/i18n.ts";
 import LanguageSwitcher from "../../foundation/ui/LanguageSwitcher.astro";
+import BrandLockup from "../../foundation/ui/BrandLockup.astro";
+import Link from "../../foundation/ui/Link.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 
 interface Props {
@@ -40,9 +42,21 @@ interface Props {
    * Pages without a hero should pass `overHero={false}` for a always-solid bar.
    */
   overHero?: boolean;
+  /**
+   * Prefix for the header's internal DOM IDs (dropdown panels, mobile panel).
+   * Defaults to "hdr". Set a unique prefix when more than one Header instance
+   * is mounted on the same page (e.g. the /dev/ui state preview) so
+   * aria-controls / aria-labelledby / getElementById do not collide.
+   */
+  idPrefix?: string;
 }
 
-const { currentRouteKey, currentLocale, overHero = true } = Astro.props;
+const {
+  currentRouteKey,
+  currentLocale,
+  overHero = true,
+  idPrefix = "hdr",
+} = Astro.props;
 
 const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
@@ -67,10 +81,11 @@ const topLeaves = navigation.header.filter(
 // --- Book CTA -------------------------------------------------------------
 // headerPrimaryAction target is the "booking" FLOW (flowKey: "booking"), not a
 // route. The booking flow is not yet implemented; V1 routes Book to the contact
-// page as the interim booking entry. Replace with the booking-flow route when
-// implemented — do not treat contact as the final target.
+// page as the interim booking entry (rendered via the production <Link
+// variant="cta"> primitive, which resolves the contact path via getPath).
+// Replace `to="contact"` with the booking-flow route when implemented — do not
+// treat contact as the final target.
 const bookLabel = getNavLabel("book", currentLocale);
-const bookHref = href("contact");
 
 // --- UI strings (FND-ARCH-03) ---------------------------------------------
 const menuLabel = t("nav.menu", currentLocale);
@@ -78,14 +93,14 @@ const closeLabel = t("nav.close", currentLocale);
 const mainNavLabel = t("nav.main", currentLocale);
 const langLabel = t("nav.language", currentLocale);
 const skipLabel = t("a11y.skipToContent", currentLocale);
-const monogram = t("brand.monogram", currentLocale);
 
 const isCurrent = (key: RouteKey): boolean => currentRouteKey === key;
 
-// Stable panel IDs for aria-controls wiring.
-const servicesPanelId = "hdr-services";
-const subPanelId = (key: string): string => `hdr-sub-${key}`;
-const mobilePanelId = "hdr-mobile";
+// Stable panel IDs for aria-controls wiring (scoped by idPrefix so multiple
+// Header instances can coexist on one page without ID collisions).
+const servicesPanelId = `${idPrefix}-services`;
+const subPanelId = (key: string): string => `${idPrefix}-sub-${key}`;
+const mobilePanelId = `${idPrefix}-mobile`;
 
 /** Type guard: a dropdown-capable branch (route + children). */
 const isBranch = (node: unknown): node is NavBranch =>
@@ -110,11 +125,8 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
 >
   <div class="site-header__shell">
     <div class="site-header__row">
-      <!-- Brand: GS mark + coded wordmark -->
-      <a href={homeHref} class="brand" aria-label={config.brand}>
-        <span class="brand__mark" aria-hidden="true">{monogram}</span>
-        <span class="brand__word">{config.brand}</span>
-      </a>
+      <!-- Brand: GS mark + literal "Luxury Transportation" wordmark -->
+      <BrandLockup locale={currentLocale} href={homeHref} />
 
       <!-- Desktop navigation (lg+): Services▾ + top leaves -->
       <nav class="nav-desktop" aria-label={mainNavLabel}>
@@ -209,9 +221,9 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
           class="lang-switcher"
           ariaLabel={langLabel}
         />
-        <a href={bookHref} class="book-cta" data-astro-prefetch>
+        <Link to="contact" variant="cta" size="sm" class="book-cta">
           {bookLabel}
-        </a>
+        </Link>
         <button
           type="button"
           class="menu-toggle"
@@ -230,10 +242,11 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     </div>
   </div>
 
-  {/* Hide the mobile panel ASAP when JS is available; it is server-rendered
-     OPEN so no-JS users can still navigate (FND-ARCH-06). */}
-  <script is:inline>
-    try { document.getElementById("hdr-mobile")?.setAttribute("hidden", ""); } catch (e) {}
+  {/* Hide THIS instance's mobile panel ASAP when JS is available; it is
+     server-rendered OPEN so no-JS users can still navigate (FND-ARCH-06).
+     define:vars passes the idPrefix-scoped panel id without hardcoding. */}
+  <script is:inline define:vars={{ mobilePanelId }}>
+    try { document.getElementById(mobilePanelId)?.setAttribute("hidden", ""); } catch (e) {}
   </script>
 
   <!-- Mobile full-height menu panel -->
@@ -304,9 +317,9 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
           currentRouteKey={currentRouteKey}
           ariaLabel={langLabel}
         />
-        <a href={bookHref} class="book-cta book-cta--mobile" data-astro-prefetch>
+        <Link to="contact" variant="cta" size="sm" class="book-cta book-cta--mobile w-full">
           {bookLabel}
-        </a>
+        </Link>
       </div>
     </div>
   </div>
@@ -351,34 +364,8 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   }
 
   /* --- Brand -------------------------------------------------------------- */
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    text-decoration: none;
-    color: var(--color-text-primary);
-  }
-  .brand__mark {
-    display: inline-grid;
-    place-items: center;
-    inline-size: 2rem;
-    block-size: 2rem;
-    border-radius: var(--radius-control);
-    background: var(--color-accent);
-    color: var(--color-text-on-light);
-    font-family: var(--font-heading);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--text-xs);
-    letter-spacing: var(--letter-spacing-tight);
-  }
-  .brand__word {
-    font-family: var(--font-body);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--text-sm);
-    letter-spacing: var(--letter-spacing-ui);
-    text-transform: uppercase;
-    color: var(--color-text-primary);
-  }
+  /* BrandLockup primitive owns mark + wordmark styling (FND-UI-13). The
+     header only positions it within the row grid. */
 
   /* --- Desktop nav -------------------------------------------------------- */
   .nav-desktop { display: none; }
@@ -470,25 +457,10 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   .lang-switcher { display: none; }
   @media (min-width: 64rem) { .lang-switcher { display: block; } }
 
-  .book-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-block-size: 2.75rem;
-    padding-inline: var(--space-4);
-    border-radius: var(--radius-control);
-    background: var(--color-accent);
-    color: var(--color-text-on-light);
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--letter-spacing-ui);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background var(--duration-fast) var(--ease-standard);
-  }
-  .book-cta:hover { background: var(--color-accent-hover); }
-  .book-cta:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
+  /* Book CTA: the production <Link variant="cta"> primitive owns its gold
+     surface / hover / focus / 44px target. .book-cta--mobile only stretches
+     it full-width and nudges height for the mobile action row. */
+  .book-cta--mobile { min-block-size: 3rem; }
 
   .menu-toggle {
     display: inline-flex;
@@ -569,7 +541,6 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   .mobile-link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
   .mobile-nav__sub { margin: 0 0 var(--space-2); padding: 0; list-style: none; display: grid; gap: var(--space-1); }
   .mobile-panel__actions { display: flex; flex-direction: column; gap: var(--space-4); align-items: stretch; border-block-start: 1px solid var(--color-divider); padding-block-start: var(--space-5); }
-  .book-cta--mobile { min-block-size: 3rem; }
 
   /* --- Skip link (visual until focused) ----------------------------------- */
   .skip-link {
@@ -679,46 +650,52 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
       mobileClose();
     });
 
-    // --- Mobile menu ------------------------------------------------------
-    const menuToggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
-    const mobilePanel = document.getElementById("hdr-mobile");
-    let lastFocused: HTMLElement | null = null;
+    // --- Mobile menu (multi-instance: each toggle controls its own panel) -
+    const menuToggles = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-menu-toggle]"),
+    );
+    /** The currently-open mobile menu, if any (only one open at a time). */
+    let activeMobile: { toggle: HTMLButtonElement; panel: HTMLElement; lastFocused: HTMLElement | null } | null = null;
 
-    function mobileOpen(): void {
-      if (!menuToggle || !mobilePanel) return;
-      lastFocused = document.activeElement as HTMLElement;
-      mobilePanel.removeAttribute("hidden");
-      mobilePanel.setAttribute("data-open", "");
-      menuToggle.setAttribute("aria-expanded", "true");
-      const closeLabel = menuToggle.getAttribute("data-close-label");
-      if (closeLabel) menuToggle.setAttribute("aria-label", closeLabel);
+    function mobileOpen(toggle: HTMLButtonElement, panel: HTMLElement): void {
+      // Close any other instance first.
+      if (activeMobile && activeMobile.toggle !== toggle) mobileClose(activeMobile);
+      const lastFocused = document.activeElement as HTMLElement;
+      activeMobile = { toggle, panel, lastFocused };
+      panel.removeAttribute("hidden");
+      panel.setAttribute("data-open", "");
+      toggle.setAttribute("aria-expanded", "true");
+      const closeLabel = toggle.getAttribute("data-close-label");
+      if (closeLabel) toggle.setAttribute("aria-label", closeLabel);
       document.body.style.overflow = "hidden";
-      const first = mobilePanel.querySelector<HTMLElement>("a, button");
+      const first = panel.querySelector<HTMLElement>("a, button");
       first?.focus();
     }
-    function mobileClose(restoreFocus = true): void {
-      if (!menuToggle || !mobilePanel) return;
-      if (menuToggle.getAttribute("aria-expanded") !== "true") return;
-      mobilePanel.removeAttribute("data-open");
-      mobilePanel.setAttribute("hidden", "");
-      menuToggle.setAttribute("aria-expanded", "false");
-      const menuLabel = menuToggle.getAttribute("data-menu-label");
-      if (menuLabel) menuToggle.setAttribute("aria-label", menuLabel);
+    function mobileClose(ctx = activeMobile, restoreFocus = true): void {
+      if (!ctx) return;
+      const { toggle, panel, lastFocused } = ctx;
+      panel.removeAttribute("data-open");
+      panel.setAttribute("hidden", "");
+      toggle.setAttribute("aria-expanded", "false");
+      const menuLabel = toggle.getAttribute("data-menu-label");
+      if (menuLabel) toggle.setAttribute("aria-label", menuLabel);
       document.body.style.overflow = "";
       if (restoreFocus && lastFocused) lastFocused.focus();
+      if (activeMobile === ctx) activeMobile = null;
     }
-    if (menuToggle) {
-      menuToggle.addEventListener("click", () => {
-        const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-        expanded ? mobileClose() : mobileOpen();
+    menuToggles.forEach((toggle) => {
+      const panelId = toggle.getAttribute("aria-controls");
+      const panel = panelId ? document.getElementById(panelId) : null;
+      if (!panel) return;
+      toggle.addEventListener("click", () => {
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        expanded ? mobileClose() : mobileOpen(toggle, panel);
       });
-    }
-    // Basic focus trap inside the mobile panel.
-    if (mobilePanel) {
-      mobilePanel.addEventListener("keydown", (event) => {
+      // Basic focus trap inside this mobile panel.
+      panel.addEventListener("keydown", (event) => {
         if (event.key !== "Tab") return;
         const focusable = Array.from(
-          mobilePanel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
+          panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
         );
         if (!focusable.length) return;
         const first = focusable[0];
@@ -731,7 +708,7 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
           first.focus();
         }
       });
-    }
+    });
   } catch (e) {
     // FND-ARCH-06: fail open — nav is server-rendered.
   }
