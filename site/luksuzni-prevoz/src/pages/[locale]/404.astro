@@ -9,7 +9,7 @@
  * strings.
  */
 import Page from "../../foundation/ui/Page.astro";
-import Container from "../../foundation/ui/Container.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
 import Section from "../../foundation/ui/Section.astro";
 import Header from "../../foundation/ui/Header.astro";
 import Footer from "../../foundation/ui/Footer.astro";
@@ -52,7 +52,7 @@ const seo = {
 
   <main id="main-content" class="flex-1">
     <Section id="not-found" class="py-[var(--space-16)]">
-      <Container size="lg" class="text-center">
+      <PageContainer class="text-center">
         <h1 class="text-[var(--text-6xl)] font-bold text-[var(--text-muted)]">
           404
         </h1>
@@ -70,7 +70,7 @@ const seo = {
             {t("home.title", currentLocale)}
           </a>
         </div>
-      </Container>
+      </PageContainer>
     </Section>
   </main>
 

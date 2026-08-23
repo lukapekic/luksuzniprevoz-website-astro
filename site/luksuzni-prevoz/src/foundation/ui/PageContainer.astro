@@ -1,0 +1,27 @@
+---
+/**
+ * PageContainer — canonical broad page-content container.
+ *
+ * Thin named wrapper over the Container primitive (width="main"), capped to
+ * --container-main (~1280px) with the fluid page gutter, centered, mobile-first.
+ * Carries no surface or vertical rhythm — compose inside <Section>.
+ *
+ * Use for page-wide content rows. For prose / body measure, use ReadingContainer.
+ */
+import Container from "./Container.astro";
+
+interface Props {
+  /** HTML element to render (default div) */
+  as?: "div" | "section" | "main" | "article";
+  /** Element id */
+  id?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+}
+
+const { as, id, class: className } = Astro.props;
+---
+
+<Container width="main" as={as} id={id} class={className}>
+  <slot />
+</Container>

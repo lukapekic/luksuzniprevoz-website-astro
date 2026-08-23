@@ -3,25 +3,32 @@
  * Field primitive — Form group, FND-A11Y-03, FND-A11Y-10
  *
  * Contract:
- * - Wraps Input/Textarea/Select with label association via htmlFor
- * - Error shown via aria-describedby
- * - Required indicator visible
- * - Hint text via aria-describedby
- * - class passthrough is layout-only (FND-UI-06)
- * - CSS logical properties only (FND-I18N-13)
+ * - Wraps a control (Input/Select/Textarea via the `control` slot) with label
+ *   association via htmlFor, optional help text, and optional error message.
+ * - Required status is shown visually (asterisk) and communicated to the
+ *   control by the caller passing `required` to the control itself.
+ * - Help/error text ids are `${htmlFor}-hint` / `${htmlFor}-error`. The control
+ *   links them via aria-describedby when the caller passes the same `hint` /
+ *   `error` (and a matching `id`) to the control — see Input.astro.
+ * - Error is not color-only: a text explanation with role="alert" is always
+ *   rendered alongside the --color-error token (functional-ui.md §17).
+ * - Light-surface form primitive: labels/hints/errors use the on-light token
+ *   family (functional-ui.md §10).
+ * - class passthrough is layout-only (FND-UI-06).
+ * - CSS logical properties only (FND-I18N-13).
  */
 import { fieldVariants } from "./Field.variants.ts";
 
 interface Props {
   /** Label text from UI strings (FND-ARCH-03) */
   label: string;
-  /** ID of the form control */
+  /** ID of the form control (associates <label for>) */
   htmlFor: string;
-  /** Error message */
+  /** Error message — rendered with role="alert" */
   error?: string;
   /** Required field indicator */
   required?: boolean;
-  /** Hint text */
+  /** Hint / help text */
   hint?: string;
   /** Layout-only class (FND-UI-06) */
   class?: string;
@@ -40,33 +47,31 @@ const {
 } = Astro.props;
 
 const classNames = fieldVariants({ size: size ?? "md" }, className);
-
-const describedBy: string[] = [];
-if (hint) describedBy.push(`${htmlFor}-hint`);
-if (error) describedBy.push(`${htmlFor}-error`);
-const describedByIds = describedBy.length > 0 ? describedBy.join(" ") : undefined;
 ---
 
-<div class={classNames} data-describedby={describedByIds}>
+<div class={classNames}>
   <label
     for={htmlFor}
-    class="text-sm font-medium text-[var(--text-primary)]"
+    class="font-body text-[length:var(--text-ui)] font-medium tracking-[var(--letter-spacing-ui)] leading-[var(--line-height-ui)] text-[var(--color-text-on-light)]"
   >
     {label}
     {required && (
-      <span class="text-[var(--text-muted)]" aria-hidden="true"> *</span>
+      <span class="text-[var(--color-accent)]" aria-hidden="true"> *</span>
     )}
   </label>
   <slot name="control" />
   {hint && !error && (
-    <p id={`${htmlFor}-hint`} class="text-[var(--text-sm)] text-[var(--text-muted)]">
+    <p
+      id={`${htmlFor}-hint`}
+      class="font-body text-[length:var(--text-sm)] leading-[var(--line-height-body)] text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-input-surface)_30%)]"
+    >
       {hint}
     </p>
   )}
   {error && (
     <p
       id={`${htmlFor}-error`}
-      class="text-[var(--text-sm)] text-red-600 dark:text-red-400"
+      class="font-body text-[length:var(--text-sm)] font-medium leading-[var(--line-height-body)] text-[var(--color-error)]"
       role="alert"
     >
       {error}

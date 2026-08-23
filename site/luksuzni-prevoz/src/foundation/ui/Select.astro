@@ -24,8 +24,12 @@ interface Props {
   options: SelectOption[];
   /** Required state */
   required?: boolean;
-  /** Error state */
+  /** Disabled state */
+  disabled?: boolean;
+  /** Error state — triggers aria-invalid + links `${id}-error` */
   error?: string;
+  /** Hint id link — when set, `${id}-hint` is added to aria-describedby */
+  hint?: boolean;
   /** Selected value */
   value?: string;
   /** Placeholder option */
@@ -42,7 +46,9 @@ const {
   name,
   options,
   required = false,
+  disabled = false,
   error,
+  hint,
   value,
   placeholder,
   class: className,
@@ -51,6 +57,13 @@ const {
 } = Astro.props;
 
 const classNames = inputVariants({ size: size ?? "md" }, className);
+
+// Link help/error text rendered by <Field> (ids `${id}-hint` / `${id}-error`).
+const describedByParts: string[] = [];
+if (hint) describedByParts.push(`${id ?? name}-hint`);
+if (error) describedByParts.push(`${id ?? name}-error`);
+const describedBy =
+  describedByParts.length > 0 ? describedByParts.join(" ") : undefined;
 ---
 
 <select
@@ -58,8 +71,9 @@ const classNames = inputVariants({ size: size ?? "md" }, className);
   name={name}
   value={value}
   required={required}
+  disabled={disabled}
   aria-invalid={error ? "true" : undefined}
-  aria-describedby={error ? `${id ?? name}-error` : undefined}
+  aria-describedby={describedBy}
   class={classNames}
 >
   {placeholder && (

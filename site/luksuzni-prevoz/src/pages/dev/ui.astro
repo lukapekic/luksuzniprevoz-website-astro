@@ -1,0 +1,960 @@
+---
+/**
+ * Internal UI / Component Preview — dev-only surface.
+ *
+ * Step 2 populates the shell with the production design foundation
+ * (typography, colors/surfaces, radii, spacing, containers, grid) so it can be
+ * visually approved before any reusable components are built. No production
+ * components, no page-specific marketing design, no duplicated production code.
+ *
+ * Route: /dev/ui/ (a standalone static page outside the [locale]/ content
+ * route tree). It is not a content route and is intentionally absent from the
+ * route map (src/data/routes.ts), so it is never part of navigation, sitemap
+ * data, hreflang, or breadcrumbs.
+ *
+ * Production exposure:
+ *   - noindex, nofollow (via SeoData.noindex → Page primitive emits the robots
+ *     meta tag);
+ *   - excluded from sitemap generation (no sitemap integration is installed
+ *     today; the per-route sitemap field in routes.ts drives any future
+ *     generator, and this route is not in that map);
+ *   - not linked from production Header/Footer/footer nav/normal content;
+ *   - remains directly addressable by URL in a production static build. This
+ *     is documented behaviour, not a build hack — no SSR/middleware/dependency
+ *     is introduced to hide it.
+ *
+ * Infrastructure: uses the Page primitive directly (owns <head>, sets lang/dir,
+ * loads the global theme CSS via global.css, renders SkipLink). It does NOT use
+ * BaseLayout because BaseLayout composes the production Header/Footer and
+ * expects a RouteKey; the home page likewise uses Page directly for its chrome.
+ *
+ * Foundation wiring: fonts (Fraunces/Manrope) are self-hosted via
+ * @fontsource-variable and loaded through global.css → fonts.css; the semantic
+ * type tokens (--text-ui, --text-caption) and the "Fraunces Variable" /
+ * "Manrope Variable" family names come from src/theme/versions/version-1/
+ * typography.json and are emitted into generated/theme.css by theme:sync. This
+ * page consumes only real theme tokens via var() — no fake demo CSS, no local
+ * font/size overrides.
+ *
+ * String contract: every visible label here is an internal, non-translatable
+ * tooling string (English-only). They are marked `data-foundation-allow-string`
+ * — the project's sanctioned escape hatch for non-translatable strings — and
+ * are NOT placed in the UI strings dictionary, because product i18n parity
+ * (sr/en/ru) does not apply to an internal, noindex preview surface.
+ */
+import type { SeoData } from "@astro-foundation/core/seo";
+import { config } from "../../../foundation.config.ts";
+import Page from "../../foundation/ui/Page.astro";
+import PreviewBlock from "../../components/dev/PreviewBlock.astro";
+import Button from "../../foundation/ui/Button.astro";
+import Link from "../../foundation/ui/Link.astro";
+import Field from "../../foundation/ui/Field.astro";
+import Input from "../../foundation/ui/Input.astro";
+import Select from "../../foundation/ui/Select.astro";
+import Textarea from "../../foundation/ui/Textarea.astro";
+import Checkbox from "../../foundation/ui/Checkbox.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../foundation/ui/ReadingContainer.astro";
+import Section from "../../foundation/ui/Section.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+
+const defaultLocale =
+  config.locales.locales.find((l) => l.isDefault) ?? config.locales.locales[0];
+
+// SeoData is built inline (not via buildPageSeo) because "dev" is not a
+// routeKey in the route map. noindex keeps it out of search indices.
+const seo: SeoData = {
+  title: "UI Component Preview",
+  description:
+    "Internal UI/component preview surface for the Luxury Transportation project. Not indexed.",
+  canonical: `${config.site}/dev/ui/`,
+  noindex: true,
+  locale: { htmlLang: defaultLocale.htmlLang, dir: defaultLocale.dir },
+  brand: config.brand,
+};
+
+// Preview groups drive the in-page index nav. `href` is a literal anchor (not
+// a constructed internal URL) so it passes FND-I18N-03; passed to <a> as a
+// member expression, which the URL lint rule treats as a simple expression.
+const groups = [
+  { id: "foundations", href: "#foundations", heading: "Foundations", description: "What this page verifies, font loading, and token sources." },
+  { id: "typography", href: "#typography", heading: "Typography", description: "Fraunces + Manrope and the semantic type roles." },
+  { id: "colors-surfaces", href: "#colors-surfaces", heading: "Colors / Surfaces", description: "Semantic palette and surface hierarchy." },
+  { id: "radius", href: "#radius", heading: "Radius", description: "Section / card / control radius hierarchy." },
+  { id: "spacing", href: "#spacing", heading: "Spacing", description: "Section rhythm tiers and the internal spacing scale." },
+  { id: "containers", href: "#containers", heading: "Containers", description: "Page and reading width boundaries." },
+  { id: "grid", href: "#grid", heading: "Grid", description: "Dev-only 4 / 8 / 12 column guide." },
+  { id: "buttons-links", href: "#buttons-links", heading: "Buttons / Links", description: "Primary and secondary buttons, plus the canonical link treatments." },
+  { id: "form-controls", href: "#form-controls", heading: "Form Controls", description: "Input, select, textarea, checkbox, and the field label / help / error contract." },
+  { id: "layout-sections", href: "#layout-sections", heading: "Layout / Sections", description: "PageContainer, ReadingContainer, Section spacing and surfaces, and SectionHeading." },
+  { id: "navigation", href: "#navigation", heading: "Navigation", description: "Header, footer, breadcrumbs, and language switcher." },
+  { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
+  { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
+] as const;
+
+// Groups left as placeholders for later steps.
+const placeholderIds = ["navigation", "reusable-patterns", "larger-components"];
+const placeholderGroups = groups.filter((g) => placeholderIds.includes(g.id));
+
+// ── Typography ─────────────────────────────────────────────────────────────
+// Each role rendered with its real token + representative copy. `cls` strings
+// are complete static strings (Tailwind detects them as literal substrings in
+// this file); every value is a var() token reference.
+const typeRoles = [
+  { role: "display", token: "--text-display", family: "Fraunces", cls: "font-heading text-[length:var(--text-display)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Chauffeured transit, by appointment" },
+  { role: "h1", token: "--text-h1", family: "Fraunces", cls: "font-heading text-[length:var(--text-h1)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Premium airport transfers" },
+  { role: "h2", token: "--text-h2", family: "Fraunces", cls: "font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Fleet and service" },
+  { role: "h3", token: "--text-h3", family: "Fraunces", cls: "font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Mercedes V-Class" },
+  { role: "body-lg", token: "--text-lg", family: "Manrope", cls: "font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-primary)]", sample: "Representative body-large copy used to verify measure and weight." },
+  { role: "body", token: "--text-base", family: "Manrope", cls: "font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]", sample: "Representative body copy used to verify measure and weight." },
+  { role: "body-sm", token: "--text-sm", family: "Manrope", cls: "font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-primary)]", sample: "Representative body-small copy used to verify measure and weight." },
+  { role: "ui", token: "--text-ui", family: "Manrope", cls: "font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]", sample: "Request a quote" },
+  { role: "caption", token: "--text-caption", family: "Manrope", cls: "font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]", sample: "Caption / metadata sample" },
+] as const;
+
+// ── Colors / Surfaces ──────────────────────────────────────────────────────
+const swatches = [
+  { name: "background", token: "--color-background" },
+  { name: "surface", token: "--color-surface" },
+  { name: "surface-elevated", token: "--color-surface-elevated" },
+  { name: "surface-light", token: "--color-surface-light" },
+  { name: "input-surface", token: "--color-input-surface" },
+  { name: "accent", token: "--color-accent" },
+  { name: "accent-hover", token: "--color-accent-hover" },
+  { name: "text-primary", token: "--color-text-primary" },
+  { name: "text-muted", token: "--color-text-muted" },
+  { name: "text-on-light", token: "--color-text-on-light" },
+  { name: "border-subtle", token: "--color-border-subtle" },
+  { name: "input-border", token: "--color-input-border" },
+  { name: "divider", token: "--color-divider" },
+  { name: "focus-dark", token: "--color-focus-dark" },
+  { name: "focus-light", token: "--color-focus-light" },
+] as const;
+
+// ── Radius ─────────────────────────────────────────────────────────────────
+const radiusTiers = [
+  { role: "section / hero / feature", token: "--radius-section", px: "16px" },
+  { role: "card / media", token: "--radius-card", px: "12px" },
+  { role: "control", token: "--radius-control", px: "6px" },
+] as const;
+
+// ── Spacing ────────────────────────────────────────────────────────────────
+const sectionTiers = [
+  { role: "compact", token: "--space-section-compact" },
+  { role: "standard", token: "--space-section-standard" },
+  { role: "feature", token: "--space-section-feature" },
+] as const;
+const internalScale = ["--space-1", "--space-2", "--space-3", "--space-4", "--space-6", "--space-8", "--space-12", "--space-16"] as const;
+
+// ── Containers ─────────────────────────────────────────────────────────────
+const containers = [
+  { role: "PageContainer", token: "--container-main", px: "~1280px", note: "Page-wide content cap" },
+  { role: "ReadingContainer", token: "--container-reading", px: "~920px", note: "Long-form copy / body measure" },
+] as const;
+
+// ── Interaction Primitives samples ────────────────────────────────────────
+// Dev-only sample strings for the Interaction Primitives section. These are
+// internal, non-translatable tooling strings (the preview is noindex and not
+// locale-routed). They are passed as EXPRESSIONS (not JSX text / literal
+// placeholder attrs) so they are not flagged by no-hardcoded-ui-string
+// (FND-ARCH-03); product i18n parity (sr/en/ru) does not apply to this surface.
+const samples = {
+  book: "Book transfer",
+  quote: "Request a quote",
+  linkInline: "View fleet details",
+  linkNav: "Services",
+  linkCta: "Book transfer",
+  linkButton: "Request a quote",
+  fName: "Full name",
+  fNamePh: "Jane Doe",
+  fNameHint: "As it appears on your travel documents.",
+  fNameErr: "Please enter your full name.",
+  email: "Email",
+  emailPh: "name@example.com",
+  phone: "Phone",
+  phonePh: "+381 60 000 0000",
+  pickup: "Pickup location",
+  pickupPh: "Airport, hotel, address…",
+  pickupFilled: "Belgrade Nikola Tesla Airport, Terminal 2",
+  vehicle: "Vehicle",
+  vehiclePh: "Select a vehicle",
+  vehicleSelected: "Mercedes V-Class",
+  message: "Trip notes",
+  messagePh: "Flight number, passenger count, special requests…",
+  messageFilled: "Flight JU 321, arriving 14:20. Two passengers, one large bag.",
+  confirmLabel: "I confirm the details above are correct.",
+  consentLabel: "Send me trip confirmations by email.",
+  groupErr: "Please review the required fields above.",
+  // ── Layout / Sections ──
+  pageContainerLabel: "PageContainer",
+  pageContainerNote: "--container-main · ~1280px · fluid gutter",
+  readingContainerLabel: "ReadingContainer",
+  readingContainerNote: "--container-reading · ~920px · body measure",
+  containersDesc: "PageContainer caps page-wide content; ReadingContainer narrows to a comfortable reading measure. Both compose inside Section and take the fluid page gutter.",
+  spacingDesc: "Vertical section rhythm tiers, applied as py on Section. Bar height equals the token value; the same tiers drive the live sections below.",
+  compactLabel: "compact",
+  standardLabel: "standard",
+  featureLabel: "feature",
+  spacingTierNote: "Section spacing — page-level rhythm, not component gaps.",
+  surfacesDesc: "open-dark (page canvas, no panel), contained-dark and elevated (architectural panels, 16px radius), and light (warm cream, for forms / FAQ / reading). Open sections are not cards.",
+  surfaceContent: "Representative section content sits inside a PageContainer.",
+  openDarkLabel: "open-dark",
+  containedDarkLabel: "contained-dark",
+  elevatedLabel: "elevated",
+  lightLabel: "light",
+  sectionHeadingDesc: "Fraunces heading with optional Manrope description and a restrained short gold accent rule. No eyebrow / kicker. Level 2 or 3; left-aligned.",
+  shHeadingOnly: "Fleet and service",
+  shHeadingWithDesc: "How booking works",
+  shDesc: "A concise Manrope description capped to the body measure, supporting the Fraunces heading without competing with it.",
+  shHeadingAccent: "Chauffeured transit, by appointment",
+  shHeadingLight: "Pricing",
+  shDescLight: "On a light surface the heading and description flip to the on-light text tokens via the on prop — no parallel variant.",
+} as const;
+
+const vehicleOptions = [
+  { value: "v-class", label: "Mercedes V-Class" },
+  { value: "e-class", label: "Mercedes E-Class" },
+  { value: "s-class", label: "Mercedes S-Class" },
+];
+---
+
+<Page
+  seo={seo}
+  class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]"
+>
+  <header class="border-block-end border-solid border-[var(--color-border-subtle)]">
+    <div
+      class="mx-auto flex w-full max-w-[var(--container-main)] flex-wrap items-center gap-x-[var(--space-4)] gap-y-[var(--space-2)] px-[var(--gutter-page)] py-[var(--space-4)]"
+    >
+      <span
+        data-foundation-allow-string
+        class="font-heading text-lg font-semibold text-[var(--color-text-primary)]"
+      >
+        {config.brand} — Internal
+      </span>
+      <span
+        data-foundation-allow-string
+        class="font-body text-sm text-[var(--color-text-muted)]"
+      >
+        Foundation preview · noindex
+      </span>
+    </div>
+  </header>
+
+  <main id="main-content" class="flex-1">
+    <div
+      class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)] py-[var(--space-section-standard)]"
+    >
+      <h1
+        data-foundation-allow-string
+        class="font-heading text-[length:var(--text-h1)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+      >
+        UI Component Preview
+      </h1>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Internal surface for visually verifying the production design foundation —
+        typography, colors/surfaces, radii, spacing, containers, and grid — against
+        the real design tokens. Not linked from site navigation; excluded from the
+        sitemap; noindex, nofollow. Later steps populate the remaining groups.
+      </p>
+    </div>
+
+    <nav
+      class="border-block-start border-block-end border-solid border-[var(--color-border-subtle)] bg-[var(--color-surface)]"
+    >
+      <div
+        class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)] py-[var(--space-6)]"
+      >
+        <h2
+          data-foundation-allow-string
+          class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+        >
+          Index
+        </h2>
+        <ul
+          class="mt-[var(--space-4)] grid grid-cols-1 gap-[var(--space-2)] sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {groups.map((group) => (
+            <li>
+              <a
+                href={group.href}
+                class="flex min-h-11 items-center rounded-[var(--radius-control)] bg-[var(--color-surface-elevated)] px-[var(--space-4)] py-[var(--space-3)] font-body text-base text-[var(--color-text-primary)] transition-colors duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:bg-[var(--color-accent)] hover:text-[var(--color-text-on-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)]"
+              >
+                {group.heading}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
+    {/* ── Foundations ─────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="foundations"
+      heading="Foundations"
+      description="What this page verifies and where the source of truth lives."
+    >
+      <div class="grid grid-cols-1 gap-[var(--space-6)]">
+        <p
+          data-foundation-allow-string
+          class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+        >
+          Fonts: Fraunces (headings) and Manrope (body/UI) are self-hosted via
+          @fontsource-variable and loaded through global.css → fonts.css. The
+          family names "Fraunces Variable" / "Manrope Variable" and every size
+          token below come from the versioned token source.
+        </p>
+        <p
+          data-foundation-allow-string
+          class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+        >
+          Token source: src/theme/versions/version-1/{`{palette,typography,spacing,radii,layout,motion}.json`}
+          → generated/theme.css (emitted by theme:sync). Components consume
+          semantic tokens via var() only.
+        </p>
+      </div>
+    </PreviewBlock>
+
+    {/* ── Typography ──────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="typography"
+      heading="Typography"
+      description="The nine semantic type roles, rendered with their real tokens."
+    >
+      <ol class="flex flex-col gap-[var(--space-8)]">
+        {typeRoles.map((role) => (
+          <li class="border-block-start border-solid border-[var(--color-divider)] pt-[var(--space-4)]">
+            <div
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {role.role} · {role.token} · {role.family}
+            </div>
+            <div class={role.cls} data-foundation-allow-string>
+              {role.sample}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </PreviewBlock>
+
+    {/* ── Colors / Surfaces ───────────────────────────────────────────── */}
+    <PreviewBlock
+      id="colors-surfaces"
+      heading="Colors / Surfaces"
+      description="Every semantic surface and text role, labeled by token name."
+    >
+      <ul class="grid grid-cols-2 gap-[var(--space-4)] sm:grid-cols-3 lg:grid-cols-4">
+        {swatches.map((sw) => (
+          <li class="flex flex-col gap-[var(--space-2)]">
+            <span
+              class="block h-[var(--space-16)] w-full rounded-[var(--radius-control)] border border-solid border-[var(--color-border-subtle)]"
+              style={`background: var(${sw.token});`}
+            />
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {sw.name}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {sw.token}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-6)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Gold (accent / accent-hover) is an accent, not a dominant surface. Dark
+        surfaces carry the page; light surfaces are reserved for forms, pricing,
+        FAQ, and reading-heavy content.
+      </p>
+    </PreviewBlock>
+
+    {/* ── Radius ──────────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="radius"
+      heading="Radius"
+      description="The locked 16 / 12 / 6 px hierarchy, via semantic tokens."
+    >
+      <ul class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-3">
+        {radiusTiers.map((tier) => (
+          <li class="flex flex-col gap-[var(--space-3)]">
+            <span
+              class="block h-[var(--space-20)] w-full bg-[var(--color-surface-elevated)]"
+              style={`border-radius: var(${tier.token});`}
+            />
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {tier.role}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {tier.token} · {tier.px}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </PreviewBlock>
+
+    {/* ── Spacing ─────────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="spacing"
+      heading="Spacing"
+      description="Section rhythm tiers (page-level) and the internal spacing scale."
+    >
+      <h3
+        data-foundation-allow-string
+        class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+      >
+        Section rhythm
+      </h3>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-2)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Page-level vertical rhythm between sections — not component gaps. Bar
+        height equals the token value.
+      </p>
+      <ul class="mt-[var(--space-6)] flex flex-wrap items-end gap-[var(--space-6)]">
+        {sectionTiers.map((tier) => (
+          <li class="flex w-[var(--space-24)] flex-col items-start gap-[var(--space-2)]">
+            <span
+              class="block w-full bg-[var(--color-surface-elevated)]"
+              style={`height: var(${tier.token});`}
+            />
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {tier.role} · {tier.token}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <h3
+        data-foundation-allow-string
+        class="mt-[var(--space-section-compact)] font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+      >
+        Internal scale
+      </h3>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-2)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Component-internal gaps (fields, padding, icon-to-title). Bar width equals
+        the token value.
+      </p>
+      <ul class="mt-[var(--space-6)] flex flex-col gap-[var(--space-3)]">
+        {internalScale.map((token) => (
+          <li class="flex items-center gap-[var(--space-4)]">
+            <span
+              class="block h-[var(--space-3)] bg-[var(--color-accent)]"
+              style={`width: var(${token});`}
+            />
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {token}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </PreviewBlock>
+
+    {/* ── Containers ──────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="containers"
+      heading="Containers"
+      description="The real page and reading width boundaries."
+    >
+      <ul class="flex flex-col gap-[var(--space-6)]">
+        {containers.map((c) => (
+          <li class="flex flex-col gap-[var(--space-2)]">
+            <div
+              class="mx-auto w-full border border-solid border-[var(--color-border-subtle)] bg-[var(--color-surface)] py-[var(--space-6)]"
+              style={`max-width: var(${c.token});`}
+            >
+              <div class="px-[var(--gutter-page)]">
+                <span
+                  data-foundation-allow-string
+                  class="block font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+                >
+                  {c.role}
+                </span>
+                <span
+                  data-foundation-allow-string
+                  class="mt-[var(--space-1)] block font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+                >
+                  {c.token} · {c.px} · {c.note}
+                </span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-6)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        The canonical PageContainer / ReadingContainer primitives are rendered
+        with real components in the Layout / Sections group below. This block
+        demonstrates the underlying token behavior only.
+      </p>
+    </PreviewBlock>
+
+    {/* ── Grid ────────────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="grid"
+      heading="Grid"
+      description="Dev-only 4 / 8 / 12 column visualization."
+    >
+      <p
+        data-foundation-allow-string
+        class="max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Dev visualization — not used in production. mobile 4 columns · tablet 8 ·
+        desktop 12.
+      </p>
+      <div class="mt-[var(--space-6)] grid grid-cols-4 gap-[var(--space-2)] overflow-hidden md:grid-cols-8 lg:grid-cols-12">
+        {Array.from({ length: 12 }).map(() => (
+          <div class="h-[var(--space-12)] rounded-[var(--radius-control)] bg-[var(--color-surface-elevated)]" />
+        ))}
+      </div>
+    </PreviewBlock>
+
+    {/* ── Buttons / Links ───────────────────────────────────────────── */}
+    <PreviewBlock
+      id="buttons-links"
+      heading="Buttons / Links"
+      description="The canonical production Button (primary / secondary) and the Link treatments. Hover and focus are live — tab through the controls to see focus-visible."
+    >
+      <h3
+        data-foundation-allow-string
+        class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+      >
+        Buttons
+      </h3>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-2)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Primary = highest-emphasis action (Book). Secondary = supporting action
+        (Request a Quote). Gold is reserved for the primary CTA; secondary uses
+        an elevated dark surface. No scale on hover — color shift only.
+      </p>
+
+      <div class="mt-[var(--space-6)] flex flex-col gap-[var(--space-6)]">
+        <div class="flex flex-wrap items-center gap-[var(--space-4)]">
+          <Button>{samples.book}</Button>
+          <Button variant="secondary">{samples.quote}</Button>
+        </div>
+        <div class="flex flex-wrap items-center gap-[var(--space-4)]">
+          <Button disabled>{samples.book}</Button>
+          <Button variant="secondary" disabled>{samples.quote}</Button>
+        </div>
+      </div>
+
+      <h3
+        data-foundation-allow-string
+        class="mt-[var(--space-section-compact)] font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+      >
+        Links
+      </h3>
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-2)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        Inline action link (accent, underline on hover), navigation link,
+        primary CTA link (gold, button-shaped), and secondary CTA link
+        (outlined). Links stay visually distinct from buttons.
+      </p>
+      <ul class="mt-[var(--space-6)] flex flex-col gap-[var(--space-5)]">
+        <li
+          data-foundation-allow-string
+          class="font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]"
+        >
+          For departure details, <Link to="home" variant="default">{samples.linkInline}</Link> on the services page.
+        </li>
+        <li>
+          <Link to="pricing" variant="nav">{samples.linkNav}</Link>
+        </li>
+        <li class="flex flex-wrap items-center gap-[var(--space-4)]">
+          <Link to="contact" variant="cta">{samples.linkCta}</Link>
+          <Link to="contact" variant="button">{samples.linkButton}</Link>
+        </li>
+      </ul>
+    </PreviewBlock>
+
+    {/* ── Form Controls ─────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="form-controls"
+      heading="Form Controls"
+      description="The field label / help / error contract and the canonical Input, Select, Textarea, and Checkbox. Controls render on the locked light functional surface — forms are a light-surface use case (DESIGN.md §5)."
+    >
+      <div class="flex flex-col gap-[var(--space-10)] rounded-[var(--radius-section)] bg-[var(--color-surface-light)] p-[var(--space-8)]">
+        {/* Text fields */}
+        <div class="flex flex-col gap-[var(--space-6)]">
+          <h3
+            data-foundation-allow-string
+            class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-on-light)]"
+          >
+            Text fields
+          </h3>
+          <div class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2">
+            <Field label={samples.fName} htmlFor="dev-fname" hint={samples.fNameHint}>
+              <Input id="dev-fname" name="fname" placeholder={samples.fNamePh} hint slot="control" />
+            </Field>
+            <Field label={samples.email} htmlFor="dev-email">
+              <Input id="dev-email" name="email" type="email" autocomplete="email" placeholder={samples.emailPh} slot="control" />
+            </Field>
+            <Field label={samples.phone} htmlFor="dev-phone">
+              <Input id="dev-phone" name="phone" type="tel" autocomplete="tel" placeholder={samples.phonePh} slot="control" />
+            </Field>
+            <Field label={samples.pickup} htmlFor="dev-pickup">
+              <Input id="dev-pickup" name="pickup" placeholder={samples.pickupPh} value={samples.pickupFilled} slot="control" />
+            </Field>
+            <Field label={samples.fName} htmlFor="dev-fname-err" error={samples.fNameErr}>
+              <Input id="dev-fname-err" name="fname-err" placeholder={samples.fNamePh} error={samples.fNameErr} slot="control" />
+            </Field>
+            <Field label={samples.fName} htmlFor="dev-fname-dis">
+              <Input id="dev-fname-dis" name="fname-dis" placeholder={samples.fNamePh} disabled slot="control" />
+            </Field>
+          </div>
+        </div>
+
+        {/* Select */}
+        <div class="flex flex-col gap-[var(--space-6)]">
+          <h3
+            data-foundation-allow-string
+            class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-on-light)]"
+          >
+            Select
+          </h3>
+          <div class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2">
+            <Field label={samples.vehicle} htmlFor="dev-vehicle">
+              <Select id="dev-vehicle" name="vehicle" placeholder={samples.vehiclePh} options={vehicleOptions} slot="control" />
+            </Field>
+            <Field label={samples.vehicle} htmlFor="dev-vehicle-sel">
+              <Select id="dev-vehicle-sel" name="vehicle-sel" options={vehicleOptions} value="v-class" slot="control" />
+            </Field>
+            <Field label={samples.vehicle} htmlFor="dev-vehicle-err" error={samples.fNameErr}>
+              <Select id="dev-vehicle-err" name="vehicle-err" options={vehicleOptions} error={samples.fNameErr} slot="control" />
+            </Field>
+            <Field label={samples.vehicle} htmlFor="dev-vehicle-dis">
+              <Select id="dev-vehicle-dis" name="vehicle-dis" options={vehicleOptions} disabled slot="control" />
+            </Field>
+          </div>
+        </div>
+
+        {/* Textarea */}
+        <div class="flex flex-col gap-[var(--space-6)]">
+          <h3
+            data-foundation-allow-string
+            class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-on-light)]"
+          >
+            Textarea
+          </h3>
+          <div class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2">
+            <Field label={samples.message} htmlFor="dev-message">
+              <Textarea id="dev-message" name="message" placeholder={samples.messagePh} slot="control" />
+            </Field>
+            <Field label={samples.message} htmlFor="dev-message-filled">
+              <Textarea id="dev-message-filled" name="message-filled" value={samples.messageFilled} slot="control" />
+            </Field>
+            <Field label={samples.message} htmlFor="dev-message-err" error={samples.fNameErr}>
+              <Textarea id="dev-message-err" name="message-err" placeholder={samples.messagePh} error={samples.fNameErr} slot="control" />
+            </Field>
+            <Field label={samples.message} htmlFor="dev-message-dis">
+              <Textarea id="dev-message-dis" name="message-dis" placeholder={samples.messagePh} disabled slot="control" />
+            </Field>
+          </div>
+        </div>
+
+        {/* Checkbox */}
+        <div class="flex flex-col gap-[var(--space-6)]">
+          <h3
+            data-foundation-allow-string
+            class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-on-light)]"
+          >
+            Checkbox
+          </h3>
+          <div class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2">
+            <Checkbox id="dev-cb-1" name="confirm" label={samples.confirmLabel} />
+            <Checkbox id="dev-cb-2" name="consent" label={samples.consentLabel} checked />
+            <Checkbox id="dev-cb-3" name="confirm-dis" label={samples.confirmLabel} disabled />
+            <Checkbox id="dev-cb-4" name="consent-dis" label={samples.consentLabel} checked disabled />
+            <div class="flex flex-col gap-[var(--space-2)]">
+              <Checkbox id="dev-cb-5" name="terms" label={samples.confirmLabel} error={samples.groupErr} />
+              <p
+                id="dev-cb-5-error"
+                role="alert"
+                class="font-body text-sm font-medium leading-[var(--line-height-body)] text-[var(--color-error)]"
+              >
+                {samples.groupErr}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </PreviewBlock>
+
+    {/* ── Layout / Sections ─────────────────────────────────────────── */}
+    <PreviewBlock
+      id="layout-sections"
+      heading="Layout / Sections"
+      description="The canonical production layout primitives: PageContainer, ReadingContainer, Section (spacing + surfaces), and SectionHeading. Section owns vertical rhythm + surface; containers own the gutter + width cap."
+    >
+      {/* Containers */}
+      <SectionHeading
+        heading="Containers"
+        description={samples.containersDesc}
+        accent
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)] flex flex-col gap-[var(--space-6)]">
+        <PageContainer
+          class="rounded-[var(--radius-card)] border border-dashed border-[var(--color-border-subtle)] bg-[var(--color-surface)] py-[var(--space-5)]"
+        >
+          <span
+            data-foundation-allow-string
+            class="block font-body text-base font-medium text-[var(--color-text-primary)]"
+          >
+            {samples.pageContainerLabel}
+          </span>
+          <span
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] block font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+          >
+            {samples.pageContainerNote}
+          </span>
+        </PageContainer>
+        <ReadingContainer
+          class="rounded-[var(--radius-card)] border border-dashed border-[var(--color-border-subtle)] bg-[var(--color-surface)] py-[var(--space-5)]"
+        >
+          <span
+            data-foundation-allow-string
+            class="block font-body text-base font-medium text-[var(--color-text-primary)]"
+          >
+            {samples.readingContainerLabel}
+          </span>
+          <span
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] block font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+          >
+            {samples.readingContainerNote}
+          </span>
+        </ReadingContainer>
+      </div>
+
+      {/* Section spacing */}
+      <SectionHeading
+        heading="Section spacing"
+        description={samples.spacingDesc}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)] flex flex-col">
+        <Section spacing="compact">
+          <PageContainer class="border-block-start border-solid border-[var(--color-divider)] pt-[var(--space-3)]">
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {samples.compactLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="ms-[var(--space-3)] font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {samples.spacingTierNote}
+            </span>
+          </PageContainer>
+        </Section>
+        <Section spacing="standard">
+          <PageContainer class="border-block-start border-solid border-[var(--color-divider)] pt-[var(--space-3)]">
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {samples.standardLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="ms-[var(--space-3)] font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {samples.spacingTierNote}
+            </span>
+          </PageContainer>
+        </Section>
+        <Section spacing="feature">
+          <PageContainer class="border-block-start border-solid border-[var(--color-divider)] pt-[var(--space-3)]">
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {samples.featureLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="ms-[var(--space-3)] font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+            >
+              {samples.spacingTierNote}
+            </span>
+          </PageContainer>
+        </Section>
+      </div>
+
+      {/* Section surfaces */}
+      <SectionHeading
+        heading="Section surfaces"
+        description={samples.surfacesDesc}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)] flex flex-col gap-[var(--space-6)]">
+        <Section surface="open-dark" spacing="compact">
+          <PageContainer class="border-block-start border-solid border-[var(--color-divider)] pt-[var(--space-3)]">
+            <span
+              data-foundation-allow-string
+              class="block font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {samples.openDarkLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="mt-[var(--space-1)] block font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+            >
+              {samples.surfaceContent}
+            </span>
+          </PageContainer>
+        </Section>
+        <Section surface="contained-dark" spacing="compact">
+          <PageContainer>
+            <span
+              data-foundation-allow-string
+              class="block font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {samples.containedDarkLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="mt-[var(--space-1)] block font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+            >
+              {samples.surfaceContent}
+            </span>
+          </PageContainer>
+        </Section>
+        <Section surface="elevated" spacing="compact">
+          <PageContainer>
+            <span
+              data-foundation-allow-string
+              class="block font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+            >
+              {samples.elevatedLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="mt-[var(--space-1)] block font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+            >
+              {samples.surfaceContent}
+            </span>
+          </PageContainer>
+        </Section>
+        <Section surface="light" spacing="compact">
+          <PageContainer>
+            <span
+              data-foundation-allow-string
+              class="block font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-on-light)]"
+            >
+              {samples.lightLabel}
+            </span>
+            <span
+              data-foundation-allow-string
+              class="mt-[var(--space-1)] block font-body text-sm leading-[var(--line-height-body)] text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_30%)]"
+            >
+              {samples.surfaceContent}
+            </span>
+          </PageContainer>
+        </Section>
+      </div>
+
+      {/* SectionHeading */}
+      <SectionHeading
+        heading="SectionHeading"
+        description={samples.sectionHeadingDesc}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)] flex flex-col gap-[var(--space-section-compact)]">
+        <div class="flex flex-col gap-[var(--space-2)]">
+          <span
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+          >
+            heading only
+          </span>
+          <SectionHeading heading={samples.shHeadingOnly} level={3} />
+        </div>
+        <div class="flex flex-col gap-[var(--space-2)]">
+          <span
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+          >
+            heading + description
+          </span>
+          <SectionHeading
+            heading={samples.shHeadingWithDesc}
+            description={samples.shDesc}
+            level={3}
+          />
+        </div>
+        <div class="flex flex-col gap-[var(--space-2)]">
+          <span
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)]"
+          >
+            heading + accent rule
+          </span>
+          <SectionHeading heading={samples.shHeadingAccent} accent level={3} />
+        </div>
+        <Section surface="light" spacing="compact">
+          <PageContainer class="flex flex-col gap-[var(--space-2)]">
+            <span
+              data-foundation-allow-string
+              class="font-body text-[length:var(--text-caption)] leading-[var(--line-height-ui)] text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_30%)]"
+            >
+              light-surface treatment (on=&quot;light&quot;)
+            </span>
+            <SectionHeading
+              heading={samples.shHeadingLight}
+              description={samples.shDescLight}
+              on="light"
+              level={3}
+            />
+          </PageContainer>
+        </Section>
+      </div>
+    </PreviewBlock>
+
+    {/* ── Placeholders (later steps) ───────────────────────────────────── */}
+    {placeholderGroups.map((group) => (
+      <PreviewBlock
+        id={group.id}
+        heading={group.heading}
+        description={group.description}
+      />
+    ))}
+  </main>
+</Page>

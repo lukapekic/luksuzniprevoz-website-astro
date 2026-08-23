@@ -1,0 +1,34 @@
+/* Self-hosted variable webfonts — Fraunces (headings) + Manrope (body/UI).
+ *
+ * Why this file exists: theme.css declares --font-heading / --font-body, but
+ * nothing loaded the actual font files, so every browser fell through to the
+ * fallbacks (Georgia / system-ui). This wires the real fonts at the global
+ * level so the token fallback chains resolve to the intended families.
+ *
+ * CSP (public/_headers): font-src 'self'. Google Fonts CDN would violate CSP,
+ * so fonts are self-hosted via @fontsource-variable, which bundles the woff2
+ * into the build and serves it from origin.
+ *
+ * Variable fonts: one woff2 per subset carries the full weight range (Fraunces
+ * 100–900, Manrope 200–800), so every weight role is covered by at most two
+ * per-route fetches — within performanceBudget (maxFontFiles: 4, maxFontTotalKb:
+ * 150). Subsets are split by unicode-range; the browser fetches only the subset
+ * matching page text (latin for sr-Latn/en; cyrillic for ru). Manrope ships a
+ * cyrillic subset, so ru body/UI renders in Manrope. Fraunces has no cyrillic
+ * subset, so ru headings fall back to Georgia (which has Cyrillic) per the
+ * --font-heading fallback chain.
+ *
+ * font-display: swap is set by @fontsource (no FOIT; minimal CLS).
+ *
+ * Family names: @fontsource-variable names the families "Fraunces Variable" /
+ * "Manrope Variable", so typography.json uses those as the first family. The
+ * locked typefaces remain Fraunces / Manrope — "Variable" is the variable-build
+ * CSS family identifier, not a different typeface.
+ *
+ * No <link rel="preload"> in Page.astro: @font-face lives here in global.css,
+ * which Page loads synchronously in <head> (parser-discoverable). @fontsource
+ * emits hashed asset URLs, which would make static preload links brittle and
+ * risk double-fetches, so preload is intentionally omitted.
+ */
+@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource-variable/manrope/wght.css";

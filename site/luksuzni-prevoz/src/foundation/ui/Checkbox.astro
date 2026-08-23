@@ -3,25 +3,32 @@
  * Checkbox primitive — Form group, FND-A11Y-10
  *
  * Contract:
- * - Renders <input type="checkbox"> with label
- * - Min 44×44 target size (FND-A11Y-05)
- * - Error state styling via aria-invalid
- * - class passthrough is layout-only (FND-UI-06)
- * - CSS logical properties only (FND-I18N-13)
+ * - Renders native <input type="checkbox"> + associated <label>.
+ * - Native keyboard/input semantics are preserved; the visual mark is tinted
+ *   via `accent-color` (modern CSS), not a custom widget.
+ * - Min 44×44 target (FND-A11Y-05): the input is sized to 24px and the label
+ *   row is min-h-11, so the full label+control hit area meets the target.
+ * - Error state: aria-invalid swaps the border/accent to --color-error; the
+ *   caller renders a text explanation (not color-only).
+ * - Light-surface form primitive (on-light tokens).
+ * - class passthrough is layout-only (FND-UI-06).
+ * - CSS logical properties only (FND-I18N-13).
  */
 interface Props {
   /** Checkbox name */
   name: string;
-  /** Label text */
+  /** Label text from UI strings (FND-ARCH-03) */
   label: string;
   /** Checkbox value */
   value?: string;
   /** Required state */
   required?: boolean;
-  /** Error state */
+  /** Error state — triggers aria-invalid */
   error?: string;
   /** Checked state */
   checked?: boolean;
+  /** Disabled state */
+  disabled?: boolean;
   /** Layout-only class (FND-UI-06) */
   class?: string;
   /** Element id */
@@ -35,24 +42,32 @@ const {
   required = false,
   error,
   checked = false,
+  disabled = false,
   class: className,
   id,
 } = Astro.props;
 ---
 
-<div class={`flex items-center gap-2 ${className ?? ""}`}>
+<div class={`flex min-h-11 items-center gap-[var(--space-3)] ${className ?? ""}`}>
   <input
     id={id}
     type="checkbox"
     name={name}
     value={value}
     required={required}
+    disabled={disabled}
     aria-invalid={error ? "true" : undefined}
     aria-describedby={error ? `${id ?? name}-error` : undefined}
     checked={checked}
-    class="h-[var(--space-5)] w-[var(--space-5)] rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--surface-base)] text-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--focus-ring)] focus:ring-offset-1 focus:ring-offset-[var(--focus-ring-offset)]"
+    class="size-6 shrink-0 rounded border-2 border-solid border-[var(--color-input-border)] bg-[var(--color-input-surface)] accent-[var(--color-accent)] aria-invalid:border-[var(--color-error)] aria-invalid:accent-[var(--color-error)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-light)] disabled:cursor-not-allowed disabled:opacity-70"
   />
-  <label for={id} class="text-sm text-[var(--text-primary)] cursor-pointer">
+  <label
+    for={id}
+    class="font-body text-[length:var(--text-ui)] leading-[var(--line-height-ui)] text-[var(--color-text-on-light)] cursor-pointer"
+  >
     {label}
+    {required && (
+      <span class="text-[var(--color-accent)]" aria-hidden="true"> *</span>
+    )}
   </label>
 </div>
