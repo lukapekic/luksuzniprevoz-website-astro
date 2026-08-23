@@ -1,16 +1,20 @@
 ---
 /**
- * LanguageSwitcher primitive — Navigation group
+ * LanguageSwitcher primitive — Navigation group (Step 5A Dropdown Refinement).
  *
  * Contract:
- * - Renders links to the current page in other locales
- * - Each link has proper hreflang and lang attributes
- * - Uses Link primitive for path resolution
- * - class passthrough is layout-only (FND-UI-06)
- * - CSS logical properties only (FND-I18N-13)
+ * - Desktop: compact trigger "[ globe icon ] SR|EN|RU [ chevron ]".
+ *   Click/enter toggles dark elevated dropdown with SR / EN / RU rows.
+ * - Each row: flag SVG + primary language name + muted country name + active checkmark indicator.
+ * - Mobile: rendered within full-height nav or compact container, same visual language.
+ * - Uses getPath() for cross-locale route links (FND-I18N-03) with proper hreflang and lang.
+ * - Fallback / no-JS support: all links server-rendered in the DOM.
+ * - Keyboard accessible: Escape closes, outside click closes, focus trapped/restored properly.
+ * - CSS logical properties only (FND-I18N-13).
  */
-import Link from "./Link.astro";
+import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
+import { routes } from "../../data/routes.ts";
 import { t } from "../../lib/i18n.ts";
 import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 
@@ -21,6 +25,10 @@ interface Props {
   class?: string;
   /** Accessible label */
   ariaLabel?: string;
+  /** Unique ID prefix for multiple instances */
+  idPrefix?: string;
+  /** Force open state for dev preview */
+  forceOpen?: boolean;
 }
 
 const {
@@ -28,30 +36,168 @@ const {
   currentRouteKey,
   class: className,
   ariaLabel,
+  idPrefix = "lang",
+  forceOpen = false,
 } = Astro.props;
 
 const switcherLabel = ariaLabel ?? t("nav.language", currentLocale);
+const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
-const locales = config.locales.locales;
-const otherLocales = locales.filter((l) => l.code !== currentLocale);
+/** Locale metadata with country labels and SVG flags */
+interface LocaleMeta {
+  code: LocaleCode;
+  shortCode: string; // SR, EN, RU
+  langName: string; // Serbian / Српски / English / Русский
+  countryName: string; // Srbija / United Kingdom / Россия
+  hreflang: string;
+  htmlLang: string;
+}
+
+const localeMetadata: Record<LocaleCode, LocaleMeta> = {
+  sr: {
+    code: "sr",
+    shortCode: "SR",
+    langName: "Српски",
+    countryName: "Srbija",
+    hreflang: "sr",
+    htmlLang: "sr",
+  },
+  en: {
+    code: "en",
+    shortCode: "EN",
+    langName: "English",
+    countryName: "United Kingdom",
+    hreflang: "en",
+    htmlLang: "en",
+  },
+  ru: {
+    code: "ru",
+    shortCode: "RU",
+    langName: "Русский",
+    countryName: "Россия",
+    hreflang: "ru",
+    htmlLang: "ru",
+  },
+};
+
+const currentMeta = localeMetadata[currentLocale] ?? localeMetadata.sr;
+const allLocales = config.locales.locales.map((l) => localeMetadata[l.code as LocaleCode] ?? {
+  code: l.code as LocaleCode,
+  shortCode: l.code.toUpperCase(),
+  langName: l.label,
+  countryName: "",
+  hreflang: l.hreflang,
+  htmlLang: l.htmlLang,
+});
+
+const panelId = `${idPrefix}-panel`;
+const triggerId = `${idPrefix}-btn`;
 ---
 
-<nav aria-label={switcherLabel} class={className}>
-  <ul class="flex flex-wrap items-center gap-2" role="list">
-    {otherLocales.map((locale) => (
-      <li>
-        <Link
-          to={currentRouteKey}
-          locale={locale.code}
-          variant="default"
-          size="sm"
-          hreflang={locale.hreflang}
-          lang={locale.htmlLang}
-          rel="alternate"
-        >
-          {locale.label}
-        </Link>
-      </li>
-    ))}
-  </ul>
-</nav>
+<div class={`lang-switcher-root relative inline-block ${className ?? ""}`} data-dropdown data-dropdown-static={forceOpen ? "" : undefined}>
+  <button
+    id={triggerId}
+    type="button"
+    class="lang-trigger inline-flex items-center gap-[var(--space-2)] px-[var(--space-3)] py-[var(--space-2)] min-h-11 rounded-[var(--radius-control)] border border-solid border-[var(--color-border-subtle)] bg-transparent font-body text-[length:var(--text-sm)] font-medium text-[var(--color-text-primary)] hover:border-[var(--color-input-border)] hover:text-[var(--color-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] transition-colors duration-[var(--duration-fast)]"
+    aria-haspopup="menu"
+    aria-expanded={forceOpen ? "true" : "false"}
+    aria-controls={panelId}
+    aria-label={`${switcherLabel}: ${currentMeta.langName}`}
+    data-dropdown-trigger
+  >
+    <!-- Globe Icon -->
+    <svg class="size-4 shrink-0 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+      <path d="M2 12h20" />
+    </svg>
+    <span class="font-semibold uppercase tracking-[var(--letter-spacing-ui)]">{currentMeta.shortCode}</span>
+    <!-- Small Chevron -->
+    <svg class="lang-trigger__chevron size-3.5 shrink-0 text-[var(--color-text-muted)] transition-transform duration-[var(--duration-fast)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+
+  <div
+    id={panelId}
+    class="lang-panel absolute inset-inline-end-0 inset-block-start-[calc(100%+var(--space-2))] z-60 min-w-[15rem] p-[var(--space-2)] rounded-[var(--radius-control)] bg-[var(--color-surface-elevated)] border border-solid border-[var(--color-border-subtle)] shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
+    role="menu"
+    aria-labelledby={triggerId}
+    data-dropdown-panel
+    hidden={!forceOpen}
+  >
+    <ul class="m-0 p-0 list-none flex flex-col gap-[var(--space-1)]" role="list">
+      {allLocales.map((loc) => {
+        const isCurrent = loc.code === currentLocale;
+        const href = getPath(currentRouteKey, loc.code, routes, defaultLocale);
+        return (
+          <li role="none">
+            <a
+              role="menuitem"
+              href={href}
+              hreflang={loc.hreflang}
+              lang={loc.htmlLang}
+              class={`lang-item flex items-center justify-between gap-[var(--space-3)] w-full px-[var(--space-3)] py-[var(--space-2)] rounded-[var(--radius-control)] no-underline font-body text-[length:var(--text-sm)] transition-colors duration-[var(--duration-fast)] ${
+                isCurrent
+                  ? "bg-[color-mix(in_oklab,var(--color-surface),var(--color-accent)_8%)] text-[var(--color-accent)] font-semibold"
+                  : "text-[var(--color-text-primary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-accent-hover)] font-medium"
+              }`}
+              aria-current={isCurrent ? "true" : undefined}
+            >
+              <div class="flex items-center gap-[var(--space-3)] min-w-0">
+                <!-- Flag SVG -->
+                <span class="flag-icon inline-flex shrink-0 size-4 overflow-hidden rounded-[2px] shadow-[0_0_1px_color-mix(in_oklab,var(--color-text-primary)_20%,transparent)]" aria-hidden="true">
+                  {loc.code === "sr" && (
+                    <svg viewBox="0 0 640 480" class="size-full object-cover">
+                      <rect width="640" height="160" fill="#c6363c" />
+                      <rect y="160" width="640" height="160" fill="#0c4076" />
+                      <rect y="320" width="640" height="160" fill="#ffffff" />
+                    </svg>
+                  )}
+                  {loc.code === "en" && (
+                    <svg viewBox="0 0 640 480" class="size-full object-cover">
+                      <clipPath id="en-clip"><path d="M0 0v480h640V0z"/></clipPath>
+                      <g clip-path="url(#en-clip)">
+                        <path fill="#012169" d="M0 0h640v480H0z"/>
+                        <path fill="#FFF" d="m75 0 244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-179L0 64V0h75z"/>
+                        <path fill="#C8102E" d="m424 288 216 159v33L380 288h44zm-184-96L24 33V0h44l216 160h-44zM640 0v3L436 153l44 32L640 38V0zM0 480v-5l204-151-44-32L0 441v39z"/>
+                        <path fill="#FFF" d="M240 0h160v480H240zM0 160h640v160H0z"/>
+                        <path fill="#C8102E" d="M266 0h108v480H266zM0 186h640v108H0z"/>
+                      </g>
+                    </svg>
+                  )}
+                  {loc.code === "ru" && (
+                    <svg viewBox="0 0 640 480" class="size-full object-cover">
+                      <rect width="640" height="160" fill="#ffffff" />
+                      <rect y="160" width="640" height="160" fill="#0039a6" />
+                      <rect y="320" width="640" height="160" fill="#d52b1e" />
+                    </svg>
+                  )}
+                </span>
+                <span class="truncate">{loc.langName}</span>
+                {loc.countryName && (
+                  <span class="text-[length:var(--text-xs)] text-[var(--color-text-muted)] truncate font-normal">
+                    {loc.countryName}
+                  </span>
+                )}
+              </div>
+
+              <!-- Active checkmark indicator -->
+              {isCurrent && (
+                <svg class="size-4 shrink-0 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              )}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</div>
+
+<style>
+  [data-dropdown-trigger][aria-expanded="true"] .lang-trigger__chevron {
+    transform: rotate(180deg);
+  }
+</style>

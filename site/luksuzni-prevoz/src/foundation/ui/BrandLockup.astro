@@ -2,60 +2,70 @@
 /**
  * BrandLockup — canonical production brand lockup (FND-UI-13, Document group).
  *
- * Renders the GS mark + the literal public brand wordmark "Luxury
- * Transportation". Reusable independently of the SiteHeader (Header, Footer,
- * off-canvas contexts).
+ * Renders the real logo asset (src/assets/logo.webp) + the literal public brand
+ * wordmark "Luxury Transportation". Reusable independently of the SiteHeader
+ * (Header, Footer, off-canvas contexts).
  *
- * Brand text rule: "Luxury Transportation" is the literal public brand text —
- * a non-translatable proper noun (FND-ARCH-03 escape hatch via
- * data-foundation-allow-string). It is NOT replaced with "Luksuzni Prevoz"
- * (the config.brand / SEO legal name) and is NOT routed through the UI strings
- * dictionary. The GS monogram IS sourced from the UI dictionary
- * (brand.monogram — identical "GS" across all locales) so the mark text stays
- * data-authoritative.
+ * Requirements (Step 5A):
+ * - Uses src/assets/logo.webp via Astro's Image primitive.
+ * - Transparent background, no colored square, no border/background behind logo.
+ * - Preserves intrinsic aspect ratio.
+ * - Logo image is aria-hidden decoration when rendered next to the wordmark.
+ * - Accessible name for the link comes from the visible "Luxury Transportation" text.
+ * - Wordmark font: Cormorant Garamond Italic via font-brand token (--font-brand).
+ * - Wordmark color: approved accent token (var(--color-accent)).
+ * - Restrained size, no uppercase, no excessive tracking, no glow, no shadow.
+ * - Logical properties only (FND-I18N-13).
  *
- * Accessibility: the mark is aria-hidden decoration; the accessible name is
- * the visible "Luxury Transportation" wordmark text (no aria-label attribute,
- * which would otherwise be a hardcoded translatable string). When `href` is
- * omitted the lockup renders as a non-interactive group (Footer/standalone).
- *
- * Typography: Fraunces for the GS monogram (brand logotype, not control text);
- * Manrope uppercase semibold for the wordmark (precise, operational). Works on
- * dark surfaces (text-primary on transparent; gold mark). Mark uses the 6px
- * control radius (DESIGN.md §10). No oversized branding (mark 2rem).
- * class passthrough is layout-only (FND-UI-06). CSS logical properties only
- * (FND-I18N-13).
+ * Responsive variant ("responsive"): the visible wordmark is hidden below the
+ * desktop-nav breakpoint (lg / 64rem) so the compact Header shows logo-only on
+ * phone + tablet; the wordmark reappears at 64rem+ alongside the desktop nav.
+ * The wordmark text remains in the DOM (visually hidden via sr-only, not
+ * removed) so the link's accessible name stays "Luxury Transportation" in every
+ * mode — AT never sees just "logo" or "GS". Default variant "full" keeps the
+ * wordmark visible at all widths (Footer / standalone use).
  */
-import { t } from "../../lib/i18n.ts";
+import { Image } from "astro:assets";
+import logoImg from "../../assets/logo.webp";
 import type { LocaleCode } from "@astro-foundation/core";
 
 interface Props {
-  /** Current locale — resolves the brand.monogram mark text (FND-ARCH-03). */
-  locale: LocaleCode;
+  /** Current locale (reserved for future localized context). */
+  locale?: LocaleCode;
   /** Link href (e.g. the locale home path). Omit for a non-interactive lockup. */
   href?: string;
   /** Layout-only class (FND-UI-06) */
   class?: string;
+  /**
+   * Display mode for the wordmark.
+   * - "full" (default): wordmark always visible.
+   * - "responsive": wordmark hidden below the lg breakpoint (compact Header =
+   *   logo-only), visible at lg+. Accessible name is preserved either way.
+   */
+  variant?: "full" | "responsive";
 }
 
-const { locale, href, class: className } = Astro.props;
-const monogram = t("brand.monogram", locale);
+const { href, class: className, variant = "full" } = Astro.props;
 const Tag: "a" | "span" = href ? "a" : "span";
+const wordmarkDisplay = variant === "responsive" ? "max-lg:sr-only" : "";
 ---
 
 <Tag
   href={href}
-  class={`inline-flex items-center no-underline gap-[var(--space-3)] rounded-[var(--radius-control)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] ${className ?? ""}`}
+  class={`inline-flex items-center no-underline gap-[var(--space-3)] rounded-[var(--radius-control)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] group ${className ?? ""}`}
 >
-  <span
+  <Image
+    src={logoImg}
+    alt=""
     aria-hidden="true"
-    class="inline-grid size-8 place-items-center rounded-[var(--radius-control)] bg-[var(--color-accent)] font-heading text-[length:var(--text-xs)] font-bold leading-none tracking-[var(--letter-spacing-tight)] text-[var(--color-text-on-light)]"
-  >
-    {monogram}
-  </span>
+    width={70}
+    height={52}
+    class="h-8 w-auto object-contain shrink-0"
+    loading="eager"
+  />
   <span
     data-foundation-allow-string
-    class="font-body text-sm font-semibold uppercase tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+    class={`font-brand italic text-[1.375rem] font-normal leading-none tracking-normal text-[var(--color-accent)] select-none ${wordmarkDisplay}`}
   >
     Luxury Transportation
   </span>

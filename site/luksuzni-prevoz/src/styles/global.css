@@ -36,3 +36,6 @@
 @utility font-body {
   font-family: var(--font-body);
 }
+@utility font-brand {
+  font-family: var(--font-brand);
+}

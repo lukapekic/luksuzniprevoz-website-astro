@@ -226,7 +226,13 @@ const samples = {
   heroSub: "Belgrade · airport · business · special events",
   solidBody: "Below the header, page content scrolls under the sticky solid bar.",
   brandLockupLabel: "BrandLockup",
-  brandLockupNote: "GS mark (brand.monogram) + literal “Luxury Transportation” wordmark. Reusable on dark surfaces; mark uses the 6px control radius; accessible name is the visible wordmark.",
+  brandLockupNote: "Real logo.webp + literal “Luxury Transportation” wordmark (Cormorant Garamond italic). Reusable on dark/light surfaces. In the responsive variant the wordmark hides below the lg breakpoint so the compact Header is logo-only; the accessible name stays “Luxury Transportation” in every mode.",
+  servicesBusinessLabel: "Desktop · Services + Business flyout",
+  servicesBusinessNote: "root Services dropdown open · Business Transportation nested submenu open. Hover/pointer moves trigger→panel→child links without closing; pointer leaving the whole region closes.",
+  specialEventsFlyoutLabel: "Desktop · Special Events flyout",
+  specialEventsFlyoutNote: "switching branch rows swaps the active flyout with no stale panel left behind.",
+  langOpenLabel: "Desktop · language dropdown open",
+  langOpenNote: "SR/EN/RU locale dropdown open. Only one top-level dropdown stays open at a time — opening it closes Services and vice versa.",
 } as const;
 
 const vehicleOptions = [
@@ -1004,6 +1010,24 @@ const vehicleOptions = [
         </div>
       </div>
 
+      {/* Desktop · Services root + Business Transportation nested flyout (pinned open) */}
+      <SectionHeading heading={samples.servicesBusinessLabel} description={samples.servicesBusinessNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame dropdown-frame mt-[var(--space-8)]">
+        <SiteHeader currentRouteKey="businessTransportation" currentLocale="sr" overHero={false} idPrefix="hdr-dd-biz" />
+      </div>
+
+      {/* Desktop · Services root + Special Events nested flyout (pinned open) */}
+      <SectionHeading heading={samples.specialEventsFlyoutLabel} description={samples.specialEventsFlyoutNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame dropdown-frame mt-[var(--space-8)]">
+        <SiteHeader currentRouteKey="specialEvents" currentLocale="sr" overHero={false} idPrefix="hdr-dd-evt" />
+      </div>
+
+      {/* Desktop · language dropdown open (pinned) */}
+      <SectionHeading heading={samples.langOpenLabel} description={samples.langOpenNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="preview-frame dropdown-frame dropdown-frame--end mt-[var(--space-8)]">
+        <SiteHeader currentRouteKey="home" currentLocale="sr" overHero={false} idPrefix="hdr-dd-lang" />
+      </div>
+
       {/* Mobile closed state — narrow frame forces mobile layout on wide screens */}
       <SectionHeading heading={samples.mobileClosedLabel} description={samples.mobileClosedNote} level={3} class="mt-[var(--space-section-compact)]" />
       <div class="preview-frame force-mobile mt-[var(--space-8)]">
@@ -1026,6 +1050,34 @@ const vehicleOptions = [
           var p = document.getElementById("hdr-mo-mobile");
           var t = document.querySelector('[data-menu-toggle][aria-controls="hdr-mo-mobile"]');
           if (p && t) { p.removeAttribute("hidden"); p.setAttribute("data-open", ""); t.setAttribute("aria-expanded", "true"); }
+        } catch (e) {}
+      </script>
+
+      {/* Dev-only: pin the desktop dropdown states open inside their bounded
+           frames. Opens the panel (remove hidden + aria-expanded) and marks the
+           region data-dropdown-static so the production hover/click/escape logic
+           leaves it open. This mirrors the mobile-panel force-open mechanism —
+           it lives outside the production SiteHeader API. */}
+      <script is:inline>
+        try {
+          function pin(panelId) {
+            var panel = document.getElementById(panelId);
+            var trig = document.querySelector('[data-dropdown-trigger][aria-controls="' + panelId + '"]');
+            if (panel && trig) {
+              panel.removeAttribute("hidden");
+              trig.setAttribute("aria-expanded", "true");
+              var region = trig.closest("[data-dropdown]");
+              if (region) region.setAttribute("data-dropdown-static", "");
+            }
+          }
+          // Services root + Business Transportation nested flyout
+          pin("hdr-dd-biz-services");
+          pin("hdr-dd-biz-sub-businessTransportation");
+          // Services root + Special Events nested flyout
+          pin("hdr-dd-evt-services");
+          pin("hdr-dd-evt-sub-specialEvents");
+          // Language dropdown
+          pin("hdr-dd-lang-lang-panel");
         } catch (e) {}
       </script>
     </PreviewBlock>
@@ -1073,6 +1125,16 @@ const vehicleOptions = [
 
   /* Solid / scrolled */
   .solid-frame__body { padding: var(--space-12) var(--gutter-page); }
+
+  /* Dropdown-state frames: overflow visible so the pinned dropdown + nested
+     flyout + their shadow are not clipped by the frame's rounded box. Tall
+     enough to contain the Services panel below the header without overlapping
+     the following preview heading. Dev-only. */
+  .dropdown-frame {
+    overflow: visible;
+    min-block-size: 19rem;
+  }
+  .dropdown-frame--end { min-block-size: 13rem; }
 
   /* Force mobile layout regardless of viewport width (preview only) */
   .force-mobile { max-inline-size: 28rem; }

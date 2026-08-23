@@ -5,16 +5,15 @@
  * Contract: docs/home/home-components/02-site-header.md
  * Blueprint: docs/home/reference/blueprint.md §6 (Header)
  * Tokens: docs/home/home-components/00-token-matrix.md (locked color/space/radius vars)
+ * Step 5A Visual Refinement:
+ *   - Real logo.webp asset + Cormorant Garamond italic wordmark via BrandLockup
+ *   - Transparent warm-black/charcoal overlay at top; solid warm-charcoal on scroll
+ *   - Clean PageContainer-spanning geometry without large card shell
+ *   - Compact globe + locale dropdown for language switcher
+ *   - Restrained Manrope navigation with quiet active states
+ *   - Consistent mobile language treatment inside full-height drawer
  *
- * Composite built on foundation primitives (LanguageSwitcher). Internal hrefs
- * resolve via getPath() (FND-I18N-03 — never manual slug concatenation). Labels
- * come from navigation-labels.json via getNavLabel; generic UI strings come
- * from the UI dictionary via t() (FND-ARCH-03). No raw internal URLs.
- *
- * Islands (each justified, fail-open, wrapped in try/catch — FND-ARCH-06):
- *   - sticky/transparent-over-hero surface state (scroll observer)
- *   - desktop dropdowns (Services + Business/Special Events flyouts)
- *   - mobile full-height menu (toggle, ESC, focus management)
+ * Composite built on foundation primitives (LanguageSwitcher, BrandLockup, Link).
  * All links are server-rendered regardless of JS.
  */
 import { getPath } from "@astro-foundation/core/i18n";
@@ -38,15 +37,11 @@ interface Props {
   currentLocale: LocaleCode;
   /**
    * Whether the header sits over the hero at page top, allowing the
-   * transparent-over-hero state (02 §Surface). Defaults true (homepage).
-   * Pages without a hero should pass `overHero={false}` for a always-solid bar.
+   * transparent-over-hero state. Defaults true (homepage).
    */
   overHero?: boolean;
   /**
-   * Prefix for the header's internal DOM IDs (dropdown panels, mobile panel).
-   * Defaults to "hdr". Set a unique prefix when more than one Header instance
-   * is mounted on the same page (e.g. the /dev/ui state preview) so
-   * aria-controls / aria-labelledby / getElementById do not collide.
+   * Prefix for the header's internal DOM IDs.
    */
   idPrefix?: string;
 }
@@ -62,29 +57,20 @@ const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? 
 
 /** Resolve a route href for the current locale (FND-I18N-03). */
 const href = (key: RouteKey): string => getPath(key, currentLocale, routes, defaultLocale);
-
 const homeHref = href("home");
 
 // --- Navigation model ------------------------------------------------------
-// Top level: Services▾ (dropdown of the 4 main services, with nested flyouts
-// for Business & Special Events) + Fleet, Pricing, About, Contact.
 const servicesGroup = navigation.header.find(
   (item): item is NavGroup => "id" in item && item.id === "services",
 );
 if (!servicesGroup) throw new Error("SiteHeader: 'services' nav group missing in navigation.ts");
 
-const servicesChildren = servicesGroup.children; // privateChauffeur, airport, business▾, specialEvents▾
+const servicesChildren = servicesGroup.children;
 const topLeaves = navigation.header.filter(
   (item): item is NavLeaf => "routeKey" in item && !("children" in item),
 );
 
 // --- Book CTA -------------------------------------------------------------
-// headerPrimaryAction target is the "booking" FLOW (flowKey: "booking"), not a
-// route. The booking flow is not yet implemented; V1 routes Book to the contact
-// page as the interim booking entry (rendered via the production <Link
-// variant="cta"> primitive, which resolves the contact path via getPath).
-// Replace `to="contact"` with the booking-flow route when implemented — do not
-// treat contact as the final target.
 const bookLabel = getNavLabel("book", currentLocale);
 
 // --- UI strings (FND-ARCH-03) ---------------------------------------------
@@ -96,8 +82,7 @@ const skipLabel = t("a11y.skipToContent", currentLocale);
 
 const isCurrent = (key: RouteKey): boolean => currentRouteKey === key;
 
-// Stable panel IDs for aria-controls wiring (scoped by idPrefix so multiple
-// Header instances can coexist on one page without ID collisions).
+// Stable panel IDs for aria-controls wiring
 const servicesPanelId = `${idPrefix}-services`;
 const subPanelId = (key: string): string => `${idPrefix}-sub-${key}`;
 const mobilePanelId = `${idPrefix}-mobile`;
@@ -110,11 +95,11 @@ const isBranch = (node: unknown): node is NavBranch =>
 const isLeaf = (node: unknown): node is NavLeaf =>
   typeof node === "object" && node !== null && "routeKey" in node && !("children" in node);
 
-const branches = servicesChildren.filter(isBranch); // business, specialEvents
-const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airport
+const branches = servicesChildren.filter(isBranch);
+const leafServices = servicesChildren.filter(isLeaf);
 ---
 
-<!-- Skip link target is #main-content (rendered by Container as="main"). -->
+<!-- Skip link target is #main-content -->
 <a href="#main-content" class="skip-link" data-skip-link>{skipLabel}</a>
 
 <header
@@ -125,8 +110,8 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
 >
   <div class="site-header__shell">
     <div class="site-header__row">
-      <!-- Brand: GS mark + literal "Luxury Transportation" wordmark -->
-      <BrandLockup locale={currentLocale} href={homeHref} />
+      <!-- Brand: real logo + Cormorant Garamond wordmark (wordmark hidden on compact header) -->
+      <BrandLockup locale={currentLocale} href={homeHref} variant="responsive" />
 
       <!-- Desktop navigation (lg+): Services▾ + top leaves -->
       <nav class="nav-desktop" aria-label={mainNavLabel}>
@@ -141,8 +126,8 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
               data-dropdown-trigger
             >
               <span>{getNavLabel("services", currentLocale)}</span>
-              <svg class="nav-trigger__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+              <svg class="nav-trigger__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
               </svg>
             </button>
             <div id={servicesPanelId} class="dropdown" data-dropdown-panel role="menu" hidden>
@@ -172,8 +157,8 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
                       data-dropdown-trigger
                     >
                       <span>{getNavLabel(branch.routeKey, currentLocale)}</span>
-                      <svg class="dropdown-link__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" />
+                      <svg class="dropdown-link__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m9 6 6 6-6 6" />
                       </svg>
                     </button>
                     <div id={subPanelId(branch.routeKey)} class="dropdown dropdown--sub" data-dropdown-panel role="menu" hidden>
@@ -213,13 +198,14 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
         </ul>
       </nav>
 
-      <!-- Actions: language switcher + Book CTA + mobile trigger -->
+      <!-- Actions: language switcher dropdown + Book CTA + mobile trigger -->
       <div class="header-actions">
         <LanguageSwitcher
           currentLocale={currentLocale}
           currentRouteKey={currentRouteKey}
           class="lang-switcher"
           ariaLabel={langLabel}
+          idPrefix={`${idPrefix}-lang`}
         />
         <Link to="contact" variant="cta" size="sm" class="book-cta">
           {bookLabel}
@@ -234,17 +220,15 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
           data-menu-label={menuLabel}
           data-close-label={closeLabel}
         >
-          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
       </div>
     </div>
   </div>
 
-  {/* Hide THIS instance's mobile panel ASAP when JS is available; it is
-     server-rendered OPEN so no-JS users can still navigate (FND-ARCH-06).
-     define:vars passes the idPrefix-scoped panel id without hardcoding. */}
+  {/* Hide THIS instance's mobile panel ASAP when JS is available */}
   <script is:inline define:vars={{ mobilePanelId }}>
     try { document.getElementById(mobilePanelId)?.setAttribute("hidden", ""); } catch (e) {}
   </script>
@@ -252,6 +236,20 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   <!-- Mobile full-height menu panel -->
   <div id={mobilePanelId} class="mobile-panel" data-mobile-panel role="dialog" aria-modal="true" aria-label={mainNavLabel}>
     <div class="mobile-panel__inner">
+      <div class="mobile-panel__header">
+        <BrandLockup locale={currentLocale} href={homeHref} variant="responsive" />
+        <button
+          type="button"
+          class="menu-close-btn"
+          aria-label={closeLabel}
+          data-menu-close
+        >
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
       <nav class="mobile-nav" aria-label={mainNavLabel}>
         <p class="mobile-nav__group-label">{getNavLabel("services", currentLocale)}</p>
         <ul class="mobile-nav__list" role="list">
@@ -312,11 +310,14 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
       </nav>
 
       <div class="mobile-panel__actions">
-        <LanguageSwitcher
-          currentLocale={currentLocale}
-          currentRouteKey={currentRouteKey}
-          ariaLabel={langLabel}
-        />
+        <div class="mobile-lang-wrap">
+          <LanguageSwitcher
+            currentLocale={currentLocale}
+            currentRouteKey={currentRouteKey}
+            ariaLabel={langLabel}
+            idPrefix={`${idPrefix}-m-lang`}
+          />
+        </div>
         <Link to="contact" variant="cta" size="sm" class="book-cta book-cta--mobile w-full">
           {bookLabel}
         </Link>
@@ -331,19 +332,24 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     position: sticky;
     top: 0;
     z-index: 50;
-    /* Default = solid (no-JS safe). JS promotes to transparent at page top
-       only when over the hero (02 §Surface). */
-    background: var(--color-background);
-    border-block-end: 1px solid transparent;
+    /* Default = solid (no-JS safe). Scrolled is warm charcoal with high opacity + subtle divider */
+    background: color-mix(in oklab, var(--color-background) 92%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-block-end: 1px solid var(--color-border-subtle);
     transition: background var(--duration-normal) var(--ease-standard),
                 border-color var(--duration-normal) var(--ease-standard);
   }
-  /* Transparent-over-hero at scroll top (JS sets data-state="scrolled" on scroll). */
+
+  /* Top / overlay state: translucent warm-black / charcoal over hero */
   .site-header[data-over-hero="true"][data-state="top"] {
-    background: transparent;
+    background: color-mix(in oklab, var(--color-background) 45%, transparent);
+    border-block-end-color: color-mix(in oklab, var(--color-border-subtle) 30%, transparent);
   }
+
+  /* Scrolled state: increased opacity warm charcoal */
   .site-header[data-state="scrolled"] {
-    background: var(--color-background);
+    background: color-mix(in oklab, var(--color-background) 96%, transparent);
     border-block-end-color: var(--color-border-subtle);
   }
 
@@ -356,16 +362,15 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: var(--space-4);
-    min-height: 3.75rem; /* mobile */
-    padding-block: var(--space-3);
+    min-height: 4rem; /* mobile */
+    padding-block: var(--space-2);
   }
   @media (min-width: 64rem) {
-    .site-header__row { min-height: 4.25rem; } /* desktop */
+    .site-header__row {
+      min-height: 4.5rem; /* desktop */
+      gap: var(--space-6);
+    }
   }
-
-  /* --- Brand -------------------------------------------------------------- */
-  /* BrandLockup primitive owns mark + wordmark styling (FND-UI-13). The
-     header only positions it within the row grid. */
 
   /* --- Desktop nav -------------------------------------------------------- */
   .nav-desktop { display: none; }
@@ -375,7 +380,7 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   .nav-list {
     display: flex;
     align-items: center;
-    gap: var(--space-5);
+    gap: var(--space-6);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -385,7 +390,7 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-1);
+    padding: var(--space-2) var(--space-2);
     background: transparent;
     border: 0;
     color: var(--color-text-primary);
@@ -397,7 +402,12 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     cursor: pointer;
     transition: color var(--duration-fast) var(--ease-standard);
   }
-  .nav-trigger__chevron { inline-size: 1rem; block-size: 1rem; transition: transform var(--duration-fast) var(--ease-standard); }
+  .nav-trigger__chevron {
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+    color: var(--color-text-muted);
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
   [data-dropdown-trigger][aria-expanded="true"] .nav-trigger__chevron { transform: rotate(180deg); }
   .nav-trigger:hover, .nav-link:hover { color: var(--color-accent-hover); }
   .nav-link[aria-current="page"], .nav-trigger[aria-current="page"] { color: var(--color-accent); }
@@ -408,22 +418,39 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   }
 
   /* --- Dropdowns (desktop) ----------------------------------------------- */
+  /* Intrinsic max-content sizing: the panel fits its longest label without
+     wrapping, floored by a rem min and capped so a long single label cannot
+     blow out into a mega menu. No arbitrary pixel widths. */
   .dropdown {
     position: absolute;
     inset-block-start: calc(100% + var(--space-2));
     inset-inline-start: 0;
+    inline-size: max-content;
     min-inline-size: 16rem;
-    background: var(--color-surface);
+    max-inline-size: 26rem;
+    background: var(--color-surface-elevated);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-control);
-    box-shadow: 0 var(--space-2) var(--space-6) rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     padding: var(--space-2);
     z-index: 60;
   }
   .dropdown--sub {
     inset-block-start: 0;
     inset-inline-start: calc(100% + var(--space-1));
-    min-inline-size: 14rem;
+    inline-size: max-content;
+    min-inline-size: 15rem;
+    max-inline-size: 24rem;
+  }
+  /* Transparent pointer bridge that fills the small visual gap between a branch
+     row and its flyout, so the non-bubbling pointerleave on the branch region
+     does not fire while the pointer transits the gap (no dead zone). */
+  .dropdown--sub::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 100%;
+    inline-size: var(--space-1);
   }
   .dropdown[hidden] { display: none; }
   .dropdown__list { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-1); }
@@ -434,7 +461,7 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     justify-content: space-between;
     gap: var(--space-3);
     inline-size: 100%;
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
     background: transparent;
     border: 0;
     border-radius: var(--radius-control);
@@ -447,19 +474,27 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     cursor: pointer;
     transition: background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
   }
-  .dropdown-link:hover { background: var(--color-surface-elevated); color: var(--color-accent-hover); }
-  .dropdown-link[aria-current="page"] { color: var(--color-accent); }
+  .dropdown-link:hover {
+    background: var(--color-surface);
+    color: var(--color-accent-hover);
+  }
+  .dropdown-link[aria-current="page"] {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
   .dropdown-link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
-  .dropdown-link__chevron { inline-size: 1rem; block-size: 1rem; }
+  .dropdown-link__chevron { inline-size: 0.875rem; block-size: 0.875rem; color: var(--color-text-muted); }
 
   /* --- Actions ------------------------------------------------------------ */
-  .header-actions { display: flex; align-items: center; gap: var(--space-3); justify-self: end; }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    justify-self: end;
+  }
   .lang-switcher { display: none; }
   @media (min-width: 64rem) { .lang-switcher { display: block; } }
 
-  /* Book CTA: the production <Link variant="cta"> primitive owns its gold
-     surface / hover / focus / 44px target. .book-cta--mobile only stretches
-     it full-width and nudges height for the mobile action row. */
   .book-cta--mobile { min-block-size: 3rem; }
 
   .menu-toggle {
@@ -474,8 +509,12 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     border-radius: var(--radius-control);
     color: var(--color-text-primary);
     cursor: pointer;
+    transition: border-color var(--duration-fast), color var(--duration-fast);
   }
-  .menu-toggle:hover { color: var(--color-accent-hover); }
+  .menu-toggle:hover {
+    color: var(--color-accent-hover);
+    border-color: var(--color-input-border);
+  }
   .menu-toggle:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
   .menu-toggle__icon { inline-size: 1.5rem; block-size: 1.5rem; }
   @media (min-width: 64rem) { .menu-toggle { display: none; } }
@@ -486,7 +525,7 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     inset: 0;
     inset-inline-start: auto;
     inline-size: min(100%, 28rem);
-    background: var(--color-surface);
+    background: var(--color-surface-elevated);
     border-inline-start: 1px solid var(--color-border-subtle);
     overflow-y: auto;
     z-index: 70;
@@ -495,8 +534,6 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   }
   .mobile-panel[hidden] { display: block; transform: translateX(100%); }
   .mobile-panel[data-open] { transform: translateX(0); }
-  /* When JS is absent the is:inline script doesn't run, so [hidden] isn't set;
-     the panel is visible & static — no transform animation, just open. */
   @media (prefers-reduced-motion: reduce) {
     .mobile-panel, .mobile-panel[data-open], .mobile-panel[hidden] { transition: none; }
   }
@@ -505,9 +542,35 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     flex-direction: column;
     justify-content: space-between;
     min-block-size: 100%;
-    gap: var(--space-8);
-    padding: var(--space-8) var(--space-5);
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-5);
   }
+  .mobile-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-end: var(--space-4);
+    border-block-end: 1px solid var(--color-divider);
+  }
+  .menu-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 2.5rem;
+    min-block-size: 2.5rem;
+    padding: var(--space-2);
+    background: transparent;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-control);
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+  .menu-close-btn:hover {
+    color: var(--color-accent-hover);
+    border-color: var(--color-input-border);
+  }
+  .menu-close-btn:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
+
   .mobile-nav__group-label {
     margin: 0 0 var(--space-3);
     font-family: var(--font-body);
@@ -540,9 +603,20 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
   .mobile-link[aria-current="page"] { color: var(--color-accent); }
   .mobile-link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
   .mobile-nav__sub { margin: 0 0 var(--space-2); padding: 0; list-style: none; display: grid; gap: var(--space-1); }
-  .mobile-panel__actions { display: flex; flex-direction: column; gap: var(--space-4); align-items: stretch; border-block-start: 1px solid var(--color-divider); padding-block-start: var(--space-5); }
+  .mobile-panel__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: stretch;
+    border-block-start: 1px solid var(--color-divider);
+    padding-block-start: var(--space-5);
+  }
+  .mobile-lang-wrap {
+    display: flex;
+    justify-content: flex-start;
+  }
 
-  /* --- Skip link (visual until focused) ----------------------------------- */
+  /* --- Skip link ---------------------------------------------------------- */
   .skip-link {
     position: fixed;
     top: var(--space-2);
@@ -563,8 +637,6 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
 
 <script>
   // island: SiteHeader — sticky surface state + dropdowns + mobile menu.
-  // FND-ARCH-06: every island entry is wrapped in try/catch so a failure never
-  // breaks the page — all links are server-rendered in the DOM already.
   try {
     const header = document.querySelector<HTMLElement>("[data-site-header]");
 
@@ -578,14 +650,41 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
       window.addEventListener("scroll", onScroll, { passive: true });
     }
 
-    // --- Generic dropdown system (desktop) --------------------------------
+    // --- Dropdown system (desktop + language) ------------------------------
+    // Interaction model:
+    //   - Pointer (hover): non-bubbling pointerenter/pointerleave on each
+    //     [data-dropdown] REGION (trigger + panel subtree). Entering a region
+    //     opens its panel; leaving schedules a short close. Because the panel is
+    //     a DOM descendant of its region, pointerleave does NOT fire while
+    //     moving trigger→panel or row→flyout — no dead gap, no child-bubbling
+    //     closures. A transparent ::before bridge on sub-panels covers the
+    //     visual offset gap structurally; a 120ms cancellable close is only a
+    //     safety net, never the primary mechanism.
+    //   - Click/keyboard: toggles, focuses first item, Escape closes innermost,
+    //     outside-click closes all. Hover is additive, never the only path.
+    //   - Only one unrelated top-level dropdown open at a time (Services vs
+    //     language). Nested branches are siblings under the Services root.
+    //   - [data-dropdown-static] regions (dev-preview pinned states) are skipped
+    //     by hover/outside-click/escape so previews stay open.
     const triggers = Array.from(
       document.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger]"),
+    );
+    const regions = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-dropdown]"),
     );
     const getPanel = (trigger: HTMLButtonElement): HTMLElement | null => {
       const id = trigger.getAttribute("aria-controls");
       return id ? document.getElementById(id) : null;
     };
+    /** A region's own direct-child trigger (Services button, branch button, language button). */
+    const ownTrigger = (region: Element): HTMLButtonElement | null =>
+      region.querySelector<HTMLElement>(":scope > [data-dropdown-trigger]") as HTMLButtonElement | null;
+    /** Top-level = no ancestor [data-dropdown] (Services root, language). Branches are nested. */
+    const isTopLevel = (region: Element): boolean =>
+      !region.parentElement?.closest("[data-dropdown]");
+    const isStatic = (el: Element | null): boolean =>
+      !!el && !!el.closest("[data-dropdown-static]");
+
     const openPanel = (trigger: HTMLButtonElement): void => {
       const panel = getPanel(trigger);
       if (!panel) return;
@@ -595,70 +694,129 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
     const closePanel = (trigger: HTMLButtonElement, restoreFocus = false): void => {
       const panel = getPanel(trigger);
       if (!panel) return;
-      // Close any nested open dropdown first.
+      // Close any nested open dropdown first (Services root closes its branches).
       panel.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']")
         .forEach((t) => closePanel(t));
       panel.hidden = true;
       trigger.setAttribute("aria-expanded", "false");
       if (restoreFocus) trigger.focus();
     };
+
+    // Close every open top-level dropdown whose region is not `keep` (and not pinned).
+    const closeOtherTopLevel = (keep: Element): void => {
+      document.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']")
+        .forEach((t) => {
+          if (keep.contains(t)) return;
+          const r = t.closest("[data-dropdown]");
+          if (r && isTopLevel(r) && !isStatic(r)) closePanel(t);
+        });
+    };
+    // For a nested branch: close sibling branch sub-panels within the same root,
+    // keeping the root Services panel and this branch's own panel open.
+    const closeSiblingBranches = (branch: Element): void => {
+      const root = branch.parentElement?.closest("[data-dropdown]");
+      if (!root) return;
+      const rootTrigger = ownTrigger(root);
+      root.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']")
+        .forEach((t) => {
+          if (t === rootTrigger) return; // keep Services root open
+          if (branch.contains(t)) return; // keep this branch open
+          if (isStatic(t)) return; // keep pinned dev regions open
+          closePanel(t);
+        });
+    };
+
+    // --- Pointer-region hover (hover-capable pointers only) ----------------
+    let closeTimer: number | undefined;
+    const cancelClose = (): void => {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = undefined; }
+    };
+    const scheduleClose = (region: Element): void => {
+      cancelClose();
+      closeTimer = window.setTimeout(() => {
+        region.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']")
+          .forEach((t) => closePanel(t));
+      }, 120);
+    };
+
+    const supportsHover =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (supportsHover) {
+      regions.forEach((region) => {
+        const trigger = ownTrigger(region);
+        if (!trigger) return;
+        region.addEventListener("pointerenter", (event) => {
+          if (event.pointerType !== "mouse" || isStatic(region)) return;
+          cancelClose();
+          if (isTopLevel(region)) closeOtherTopLevel(region);
+          else closeSiblingBranches(region);
+          if (trigger.getAttribute("aria-expanded") !== "true") openPanel(trigger);
+        });
+        region.addEventListener("pointerleave", (event) => {
+          if (event.pointerType !== "mouse" || isStatic(region)) return;
+          scheduleClose(region);
+        });
+      });
+    }
+
+    // --- Click / activation (toggle; keyboard reaches via Tab + Enter) -----
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", (event) => {
         event.stopPropagation();
+        if (isStatic(trigger)) return; // dev-preview pinned state
         const expanded = trigger.getAttribute("aria-expanded") === "true";
         if (expanded) {
           closePanel(trigger, true);
           return;
         }
-        // Close sibling dropdowns at the same level (other top-level items),
-        // keep ancestor panels open.
-        const parentList = trigger.closest("ul");
-        if (parentList) {
-          parentList
-            .querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']")
-            .forEach((t) => { if (t !== trigger) closePanel(t); });
+        const region = trigger.closest("[data-dropdown]");
+        if (region) {
+          if (isTopLevel(region)) closeOtherTopLevel(region);
+          else closeSiblingBranches(region);
         }
+        cancelClose();
         openPanel(trigger);
-        // Focus first item for keyboard users.
         const panel = getPanel(trigger);
         const first = panel?.querySelector<HTMLElement>("a, button");
         first?.focus();
       });
     });
 
-    // Click outside closes all top-level dropdowns.
+    // Click outside closes all open (non-pinned) dropdowns
     document.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
+      if (isStatic(target)) return;
       if (target.closest("[data-dropdown]") || target.closest("[data-dropdown-trigger]")) return;
       document.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']")
-        .forEach((t) => { if (!t.closest("[data-dropdown] [data-dropdown]")) closePanel(t); });
+        .forEach((t) => { if (!isStatic(t)) closePanel(t); });
     });
 
-    // Escape closes innermost open dropdown, then mobile menu, restoring focus.
+    // Escape closes innermost open dropdown (restoring focus), then mobile menu
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
-      const openTop = document.querySelectorAll<HTMLButtonElement>(
-        "[data-dropdown-trigger][aria-expanded='true']",
-      );
+      const openTop = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-dropdown-trigger][aria-expanded='true']"),
+      ).filter((t) => !isStatic(t));
       if (openTop.length) {
         const inner = openTop[openTop.length - 1];
         closePanel(inner, true);
         event.preventDefault();
         return;
       }
-      // Delegate to mobile menu close if open.
       mobileClose();
     });
 
-    // --- Mobile menu (multi-instance: each toggle controls its own panel) -
+    // --- Mobile menu -------------------------------------------------------
     const menuToggles = Array.from(
       document.querySelectorAll<HTMLButtonElement>("[data-menu-toggle]"),
     );
-    /** The currently-open mobile menu, if any (only one open at a time). */
+    const menuCloses = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-menu-close]"),
+    );
     let activeMobile: { toggle: HTMLButtonElement; panel: HTMLElement; lastFocused: HTMLElement | null } | null = null;
 
     function mobileOpen(toggle: HTMLButtonElement, panel: HTMLElement): void {
-      // Close any other instance first.
       if (activeMobile && activeMobile.toggle !== toggle) mobileClose(activeMobile);
       const lastFocused = document.activeElement as HTMLElement;
       activeMobile = { toggle, panel, lastFocused };
@@ -691,11 +849,10 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
         const expanded = toggle.getAttribute("aria-expanded") === "true";
         expanded ? mobileClose() : mobileOpen(toggle, panel);
       });
-      // Basic focus trap inside this mobile panel.
       panel.addEventListener("keydown", (event) => {
         if (event.key !== "Tab") return;
         const focusable = Array.from(
-          panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
+          panel.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
         );
         if (!focusable.length) return;
         const first = focusable[0];
@@ -709,7 +866,12 @@ const leafServices = servicesChildren.filter(isLeaf); // privateChauffeur, airpo
         }
       });
     });
+    menuCloses.forEach((closeBtn) => {
+      closeBtn.addEventListener("click", () => {
+        mobileClose();
+      });
+    });
   } catch (e) {
-    // FND-ARCH-06: fail open — nav is server-rendered.
+    // fail open
   }
 </script>
