@@ -1,7 +1,8 @@
 {
   "families": {
-    "heading": "Fraunces, Georgia, serif",
-    "body": "Manrope, system-ui, sans-serif"
+    "heading": "Fraunces Variable, Georgia, serif",
+    "body": "Manrope Variable, system-ui, sans-serif",
+    "brand": "Cormorant Garamond Variable, Cormorant Garamond, Georgia, serif"
   },
 
   "fallbacks": {
@@ -26,7 +27,10 @@
     "h3": "clamp(1.375rem, 1.8vw, 1.75rem)",
     "h2": "clamp(2rem, 3.5vw, 3.25rem)",
     "h1": "clamp(2.75rem, 5.5vw, 5rem)",
-    "display": "clamp(3.25rem, 7vw, 6.25rem)"
+    "display": "clamp(3.25rem, 7vw, 6.25rem)",
+
+    "ui": "0.875rem",
+    "caption": "0.75rem"
   },
 
   "lineHeight": {

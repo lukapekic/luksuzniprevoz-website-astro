@@ -1,18 +1,37 @@
 ---
 /**
- * Section primitive — Document group
+ * Section primitive — Document group.
  *
- * Contract:
- * - Wraps content in a <section> with heading level context
- * - Supports aria-labelledby for accessibility
- * - class passthrough is layout-only (FND-UI-06)
- * - CSS logical properties only (FND-I18N-13)
+ * Owns VERTICAL section rhythm (compact/standard/feature → --space-section-*)
+ * and an optional semantic surface treatment (open-dark / contained-dark /
+ * elevated / light). It owns NO horizontal gutter, max-width, page-specific
+ * copy, or imagery — a container (PageContainer / ReadingContainer) composes
+ * inside it for width + gutter (design-foundation-governance.md §6/§11).
+ *
+ * Surfaces:
+ *   open-dark       page canvas; no fake rounded container.
+ *   contained-dark  architectural panel (--color-surface, 16px radius, capped).
+ *   elevated        panel on --color-surface-elevated.
+ *   light           warm cream panel; flips inherited text to --color-text-on-light.
+ *
+ * Do not turn every section into a card — surface contrast and whitespace do
+ * most of the work. Contained/elevated/light panels use --radius-section (16px),
+ * never the 6px control radius. class passthrough is layout-only (FND-UI-06).
+ * CSS logical properties only (FND-I18N-13).
  */
+import { sectionVariants } from "./Section.variants.ts";
+
 interface Props {
-  /** Section id */
+  /** Element id (use with aria-labelledby pointing at the section heading) */
   id?: string;
   /** ID of the heading element that labels this section */
   "aria-labelledby"?: string;
+  /** Vertical section rhythm tier */
+  spacing?: "compact" | "standard" | "feature";
+  /** Semantic surface treatment */
+  surface?: "open-dark" | "contained-dark" | "elevated" | "light";
+  /** HTML element to render (default <section>) */
+  as?: "section" | "div";
   /** Layout-only class (FND-UI-06) */
   class?: string;
 }
@@ -20,10 +39,18 @@ interface Props {
 const {
   id,
   "aria-labelledby": ariaLabelledby,
+  spacing,
+  surface,
+  as: Element = "section",
   class: className,
 } = Astro.props;
+
+const classNames = sectionVariants(
+  { spacing: spacing ?? "standard", surface: surface ?? "open-dark" },
+  className,
+);
 ---
 
-<section id={id} aria-labelledby={ariaLabelledby} class={className}>
+<Element id={id} aria-labelledby={ariaLabelledby} class={classNames}>
   <slot />
-</section>
+</Element>

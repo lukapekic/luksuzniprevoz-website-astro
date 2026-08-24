@@ -6,7 +6,7 @@
  * Shows content for current locale (defaults to sr).
  */
 import Page from "../foundation/ui/Page.astro";
-import Container from "../foundation/ui/Container.astro";
+import PageContainer from "../foundation/ui/PageContainer.astro";
 import Section from "../foundation/ui/Section.astro";
 import Header from "../foundation/ui/Header.astro";
 import Footer from "../foundation/ui/Footer.astro";
@@ -42,30 +42,30 @@ const notFoundTitle = strings["error.404.title"] ?? "Page not found";
 const notFoundMessage = strings["error.404.message"] ?? "The page you are looking for does not exist.";
 ---
 
-<Page seo={seo} class="min-h-screen flex flex-col bg-[var(--surface-base)] text-[var(--text-primary)]">
+<Page seo={seo} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
   <Header currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
 
   <main id="main-content" class="flex-1">
     <Section id="not-found" class="py-[var(--space-16)]">
-      <Container size="lg" class="text-center">
-        <h1 class="text-[var(--text-6xl)] font-bold text-[var(--text-muted)]">
+      <PageContainer class="text-center">
+        <h1 class="font-heading text-[length:var(--text-display)] font-bold text-[var(--color-text-muted)]">
           404
         </h1>
-        <p class="mt-[var(--space-4)] text-[var(--text-xl)] text-[var(--text-secondary)]">
+        <p class="mt-[var(--space-4)] font-body text-[length:var(--text-xl)] text-[var(--color-text-muted)]">
           {notFoundTitle}
         </p>
-        <p class="mt-[var(--space-2)] text-[var(--text-secondary)]">
+        <p class="mt-[var(--space-2)] font-body text-[var(--color-text-muted)]">
           {notFoundMessage}
         </p>
         <div class="mt-[var(--space-8)] flex justify-center gap-4">
           <a
             href={homeHref}
-            class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-6 py-3 text-base font-medium text-[var(--text-on-accent)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--accent-secondary)]"
+            class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-control)] bg-[var(--color-accent)] px-6 py-3 font-body text-base font-medium text-[var(--color-text-on-light)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-accent-hover)]"
           >
             {strings["home.title"] ?? "Добродошли"}
           </a>
         </div>
-      </Container>
+      </PageContainer>
     </Section>
   </main>
 

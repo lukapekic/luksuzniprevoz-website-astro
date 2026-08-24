@@ -18,8 +18,12 @@ interface Props {
   autocomplete?: string;
   /** Required state */
   required?: boolean;
-  /** Error state */
+  /** Disabled state */
+  disabled?: boolean;
+  /** Error state — triggers aria-invalid + links `${id}-error` */
   error?: string;
+  /** Hint id link — when set, `${id}-hint` is added to aria-describedby */
+  hint?: boolean;
   /** Value */
   value?: string;
   /** Placeholder */
@@ -38,7 +42,9 @@ const {
   name,
   autocomplete,
   required = false,
+  disabled = false,
   error,
+  hint,
   value,
   placeholder,
   rows = 4,
@@ -48,6 +54,13 @@ const {
 } = Astro.props;
 
 const classNames = inputVariants({ size: size ?? "md" }, className);
+
+// Link help/error text rendered by <Field> (ids `${id}-hint` / `${id}-error`).
+const describedByParts: string[] = [];
+if (hint) describedByParts.push(`${id ?? name}-hint`);
+if (error) describedByParts.push(`${id ?? name}-error`);
+const describedBy =
+  describedByParts.length > 0 ? describedByParts.join(" ") : undefined;
 ---
 
 <textarea
@@ -55,11 +68,12 @@ const classNames = inputVariants({ size: size ?? "md" }, className);
   name={name}
   autocomplete={autocomplete}
   required={required}
+  disabled={disabled}
   aria-invalid={error ? "true" : undefined}
-  aria-describedby={error ? `${id ?? name}-error` : undefined}
+  aria-describedby={describedBy}
   rows={rows}
   placeholder={placeholder}
-  class={classNames}
+  class={`${classNames} resize-y`}
 >
   {value}
 </textarea>

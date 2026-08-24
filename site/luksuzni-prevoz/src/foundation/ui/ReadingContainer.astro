@@ -1,0 +1,29 @@
+---
+/**
+ * ReadingContainer — canonical narrower reading/content container.
+ *
+ * Thin named wrapper over the Container primitive (width="reading"), capped to
+ * --container-reading (~920px) for a comfortable prose measure, centered, with
+ * the fluid page gutter. Carries no surface or vertical rhythm — compose inside
+ * <Section>.
+ *
+ * Use for readable content, FAQs, explanatory text, compact forms. Not a
+ * replacement for PageContainer (page-wide rows use PageContainer).
+ */
+import Container from "./Container.astro";
+
+interface Props {
+  /** HTML element to render (default div) */
+  as?: "div" | "section" | "main" | "article";
+  /** Element id */
+  id?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+}
+
+const { as, id, class: className } = Astro.props;
+---
+
+<Container width="reading" as={as} id={id} class={className}>
+  <slot />
+</Container>

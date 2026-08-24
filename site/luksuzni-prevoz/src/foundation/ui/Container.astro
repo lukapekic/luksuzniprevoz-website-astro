@@ -3,16 +3,22 @@
  * Container primitive — FND-UI-03, Document group
  *
  * Contract:
- * - Uses max-width from layout tokens (container-sm through container-2xl)
- * - `main` element gets id="main-content" for skip link target
- * - class passthrough is layout-only (FND-UI-06): margin, grid/flex, width, order
- * - CSS logical properties only (FND-I18N-13)
+ * - Owns horizontal gutter + max-width + centering ONLY (no surface/rhythm).
+ * - Width axis maps to semantic layout tokens (main/reading/narrow/full).
+ * - `main` element gets id="main-content" for skip link target.
+ * - Composes inside <Section>: Section provides py + surface; Container
+ *   provides px + width cap.
+ * - class passthrough is layout-only (FND-UI-06): margin, grid/flex, width, order.
+ * - CSS logical properties only (FND-I18N-13).
+ *
+ * PageContainer / ReadingContainer are the canonical named wrappers over this
+ * primitive (width="main" / width="reading").
  */
 import { containerVariants } from "./Container.variants.ts";
 
 interface Props {
-  /** Container size */
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  /** Container width role (maps to --container-* tokens) */
+  width?: "main" | "reading" | "narrow" | "full";
   /** Layout-only class (FND-UI-06) */
   class?: string;
   /** HTML element to render */
@@ -22,13 +28,13 @@ interface Props {
 }
 
 const {
-  size = "lg",
+  width = "main",
   class: className,
   as: Element = "div",
   id,
 } = Astro.props;
 
-const classNames = containerVariants({ size }, className);
+const classNames = containerVariants({ width }, className);
 
 // main element gets id="main-content" for skip link target
 const elementId = id ?? (Element === "main" ? "main-content" : undefined);

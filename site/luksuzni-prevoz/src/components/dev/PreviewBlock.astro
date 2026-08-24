@@ -1,0 +1,69 @@
+---
+/**
+ * PreviewBlock — internal dev-only helper for the UI preview shell.
+ *
+ * NOT a production primitive. Lives under src/components/dev/ and is used only
+ * by src/pages/dev/ui.astro to keep the preview's group placeholders DRY.
+ *
+ * String contract: `heading` and `description` are internal, non-translatable
+ * tooling labels (English-only by design — the preview page is not locale-
+ * routed and is noindex). They are intentionally NOT routed through the UI
+ * strings dictionary (FND-ARCH-03): product i18n parity (sr/en/ru) does not
+ * apply to an internal preview surface. They are rendered inside elements
+ * marked `data-foundation-allow-string`, the project's sanctioned escape hatch
+ * for non-translatable strings, and passed in as expressions (not JSX text) by
+ * the page.
+ *
+ * Visual contract: uses real project theme tokens only, semantic landmarks,
+ * logical properties, and the approved radius/spacing system. No page-specific
+ * marketing styling, no dashboard/card identity — the block recedes so future
+ * component examples become the focus.
+ */
+interface Props {
+  /** Anchor id for in-page navigation from the preview index. */
+  id: string;
+  /** Group heading (internal, non-translatable dev label). */
+  heading: string;
+  /** Optional short description (internal, non-translatable dev label). */
+  description?: string;
+}
+
+const { id, heading, description } = Astro.props;
+const headingId = `${id}-heading`;
+---
+
+<section
+  id={id}
+  aria-labelledby={headingId}
+  class="border-block-start border-solid border-[var(--color-divider)] py-[var(--space-section-compact)]"
+>
+  <div class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)]">
+    <h2
+      id={headingId}
+      data-foundation-allow-string
+      class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+    >
+      {heading}
+    </h2>
+
+    {description && (
+      <p
+        data-foundation-allow-string
+        class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+      >
+        {description}
+      </p>
+    )}
+
+    <div class="mt-[var(--space-8)]">
+      <slot>
+        <p
+          data-foundation-allow-string
+          class="font-body text-base italic text-[var(--color-text-muted)]"
+        >
+          To be populated in a later step.
+        </p>
+      </slot>
+    </div>
+  </div>
+</section>

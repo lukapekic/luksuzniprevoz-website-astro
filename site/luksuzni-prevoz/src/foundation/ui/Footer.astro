@@ -49,15 +49,15 @@ const defaultLocale = config.locales.locales.find((l) => l.isDefault)?.code ?? "
 const homeHref = getPath("home", currentLocale, routes, defaultLocale);
 ---
 
-<footer class="border-t border-[var(--border-default)] bg-[var(--surface-base)] mt-auto">
+<footer class="border-t border-[var(--color-border-subtle)] bg-[var(--color-background)] mt-auto">
   <Container size="xl" class="py-[var(--space-8)]">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
       <!-- Brand + copyright -->
       <div class="flex flex-col gap-1">
-        <a href={homeHref} class="text-lg font-semibold text-[var(--text-primary)]">
+        <a href={homeHref} class="text-lg font-semibold text-[var(--color-text-primary)]">
           {config.brand}
         </a>
-        <p class="text-sm text-[var(--text-muted)]">
+        <p class="text-sm text-[var(--color-text-muted)]">
           &copy; {currentYear} {config.brand}. {rightsText}.
         </p>
       </div>

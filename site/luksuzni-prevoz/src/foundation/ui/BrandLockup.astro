@@ -1,0 +1,89 @@
+---
+/**
+ * BrandLockup — canonical production brand lockup (FND-UI-13, Document group).
+ *
+ * Renders the real logo asset (src/assets/logo.webp) + the literal public brand
+ * wordmark "Luxury Transportation". Reusable independently of the SiteHeader
+ * (Header, Footer, off-canvas contexts).
+ *
+ * Requirements (Step 5A):
+ * - Uses src/assets/logo.webp via Astro's Image primitive.
+ * - Transparent background, no colored square, no border/background behind logo.
+ * - Preserves intrinsic aspect ratio.
+ * - Logo image is aria-hidden decoration when rendered next to the wordmark.
+ * - Accessible name for the link comes from the visible "Luxury Transportation" text.
+ * - Wordmark font: Cormorant Garamond Italic via font-brand token (--font-brand).
+ * - Wordmark color: approved accent token (var(--color-accent)).
+ * - Restrained size, no uppercase, no excessive tracking, no glow, no shadow.
+ * - Logical properties only (FND-I18N-13).
+ *
+ * Variant contract — the wordmark's *visual* presence is chosen by the caller,
+ * independent of the browser viewport, so the lockup can express intent:
+ * - "full" (default): wordmark always visible (Footer / standalone use).
+ * - "responsive": wordmark hidden below the lg breakpoint (compact Header =
+ *   logo-only on phone + tablet), visible at lg+. Driven by the real viewport
+ *   (max-lg:sr-only) — correct for the shared Header bar which is desktop OR
+ *   mobile depending on the actual viewport.
+ * - "mark-only": wordmark never visible — logo only. For compositions that are
+ *   *semantically* mobile-only regardless of the outer viewport, e.g. the
+ *   mobile-panel header. Using "mark-only" there avoids a second visible
+ *   "Luxury Transportation" inside the panel and does not depend on a viewport
+ *   media query firing.
+ *
+ * In every variant the wordmark text remains in the DOM (visually hidden via
+ * sr-only, not removed) so the link's accessible name stays "Luxury
+ * Transportation" in every mode — AT never sees just "logo" or "GS". The
+ * wordmark span also carries a `data-brand-wordmark` hook so dev-only preview
+ * frames can force the mark-only visual without a second component (the hook is
+ * a stable semantic attribute, not a generated Astro ID).
+ */
+import { Image } from "astro:assets";
+import logoImg from "../../assets/logo.webp";
+import type { LocaleCode } from "@astro-foundation/core";
+
+interface Props {
+  /** Current locale (reserved for future localized context). */
+  locale?: LocaleCode;
+  /** Link href (e.g. the locale home path). Omit for a non-interactive lockup. */
+  href?: string;
+  /** Layout-only class (FND-UI-06) */
+  class?: string;
+  /**
+   * Display mode for the wordmark.
+   * - "full" (default): wordmark always visible.
+   * - "responsive": wordmark hidden below the lg breakpoint (max-lg:sr-only);
+   *   visible at lg+. Accessible name is preserved either way.
+   * - "mark-only": wordmark never visible (sr-only) — logo only. For
+   *   semantically mobile-only compositions (e.g. the mobile-panel header);
+   *   does not depend on the viewport. Accessible name is preserved.
+   */
+  variant?: "full" | "responsive" | "mark-only";
+}
+
+const { href, class: className, variant = "full" } = Astro.props;
+const Tag: "a" | "span" = href ? "a" : "span";
+const wordmarkDisplay =
+  variant === "mark-only" ? "sr-only" : variant === "responsive" ? "max-lg:sr-only" : "";
+---
+
+<Tag
+  href={href}
+  class={`inline-flex items-center no-underline gap-[var(--space-3)] rounded-[var(--radius-control)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] group ${className ?? ""}`}
+>
+  <Image
+    src={logoImg}
+    alt=""
+    aria-hidden="true"
+    width={70}
+    height={52}
+    class="h-8 w-auto object-contain shrink-0"
+    loading="eager"
+  />
+  <span
+    data-foundation-allow-string
+    data-brand-wordmark
+    class={`font-brand italic text-[1.375rem] font-normal leading-none tracking-normal text-[var(--color-accent)] select-none ${wordmarkDisplay}`}
+  >
+    Luxury Transportation
+  </span>
+</Tag>

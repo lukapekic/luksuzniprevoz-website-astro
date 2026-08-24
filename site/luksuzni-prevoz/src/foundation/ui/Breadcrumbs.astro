@@ -1,70 +1,159 @@
 ---
 /**
- * Breadcrumbs primitive — Navigation group, FND-SEO-11
+ * Breadcrumbs — navigation primitive (FND-SEO-11).
  *
- * Contract:
- * - Renders <nav aria-label="Breadcrumb"> with <ol> list
- * - Generates BreadcrumbList JSON-LD (FND-SEO-11)
- * - Last item is aria-current="page" (not a link)
- * - class passthrough is layout-only (FND-UI-06)
- * - CSS logical properties only (FND-I18N-13)
+ * Presentation-only `<nav aria-label>` + `<ol>` trail with a quiet editorial
+ * treatment: Manrope UI text, muted ancestors, a slightly stronger current
+ * page, and subtle decorative chevron separators — no cards, pills, shadows,
+ * gold overload, or horizontal-scroll strip (DESIGN.md §7;
+ * design-foundation-governance.md §5/§17).
+ *
+ * ── Current-item contract (task §5) ──
+ * The FINAL item is the current page by contract: it renders as a non-
+ * interactive `<span aria-current="page">`. Every preceding item with an
+ * `href` renders as a link; a preceding item without `href` renders as a
+ * non-linked `<span>` (rare — e.g. a hub that is not a page). There is no
+ * per-item `current` flag, so the contradictory "Home / Current / Linked"
+ * state cannot be expressed.
+ *
+ * ── Data ownership (task §2/§6/§15) ──
+ * The component receives an already-resolved trail via `items`; it does NOT
+ * fetch navigation data, infer hierarchy from the URL, hardcode localized
+ * labels/paths, or own page-level routing. The page/data layer decides the
+ * trail (including whether Home appears) and supplies route-derived `href`s
+ * (from getPath/buildBreadcrumbs). The component renders it.
+ *
+ * ── Structured data (task §3/§20) ──
+ * This component emits NO JSON-LD. BreadcrumbList is emitted at the page/
+ * layout level via `buildPageSeo({ structuredData })` → the Page `<head>`
+ * (structured-data.md: the Page primitive owns <head> emission; emitting
+ * JSON-LD from other components is a banned pattern). The visible
+ * `BreadcrumbItem { label, href }` aligns with the foundation
+ * `buildBreadcrumbList({ name, url })` builder so one canonical trail —
+ * `lib/seo.ts::buildBreadcrumbs(routeKey, locale)` — feeds both consumers.
+ * BreadcrumbList is not yet in `capabilities.structuredData`; see the SEO
+ * backlog note in the completion report.
+ *
+ * ── Surface / tokens (task §7/§9) ──
+ * `on` mirrors <SectionHeading>/<FAQ>: dark uses --color-text-muted/primary +
+ * --color-focus-dark; light derives the muted ancestor + separator from
+ * --color-text-on-light via the established color-mix() pattern (no new token;
+ * a dedicated light-muted token does not exist — reported, not invented here).
+ *
+ * ── Accessibility (task §4/§11/§12) ──
+ * <nav> landmark (no role="navigation"); <ol> (no role="list"); the current
+ * crumb carries aria-current="page" and is not a redundant link; separators
+ * are aria-hidden. 44×44 interactive targets (FND-A11Y-05) are met via
+ * transparent inline-flex hit areas (min-h-11) — no pill/button styling.
+ * :focus-visible uses the approved focus token; hover is a subtle color +
+ * underline change with no layout shift. No client-side JavaScript.
+ *
+ * CSS logical properties only (FND-I18N-13). class passthrough is layout-only
+ * (FND-UI-06).
  */
-import Link from "./Link.astro";
-import { buildBreadcrumbJsonLd } from "@astro-foundation/core/seo";
-import type { RouteKey, LocaleCode } from "@astro-foundation/core";
-import { t } from "../../lib/i18n.ts";
-
-interface BreadcrumbItem {
-  routeKey: RouteKey;
-  label: string;
-  locale?: LocaleCode;
-  href?: string;
-}
+import type { BreadcrumbItem } from "./Breadcrumbs.types.ts";
 
 interface Props {
+  /** Ordered trail, root ancestor first. The FINAL item is the current page. */
   items: BreadcrumbItem[];
-  /** Site URL for JSON-LD absolute URLs */
-  siteUrl?: string;
-  /** Current locale, for the localized nav label (FND-ARCH-03) */
-  locale?: LocaleCode;
-  /** Layout-only class (FND-UI-06) */
+  /** Accessible name for the <nav> landmark (a UI string — pass as expression). */
+  ariaLabel?: string;
+  /** Surface the trail sits on — drives text/focus color (default "dark"). */
+  on?: "dark" | "light";
+  /** Layout-only class (FND-UI-06). */
   class?: string;
 }
 
-const {
-  items,
-  siteUrl,
-  locale,
-  class: className,
-} = Astro.props;
+const { items, ariaLabel, on = "dark", class: className } = Astro.props;
 
-// Build JSON-LD from the items
-const jsonLd = buildBreadcrumbJsonLd(
-  items.map((item) => ({
-    name: item.label,
-    url: item.href ? `${siteUrl ?? ""}${item.href}` : "#",
-  })),
-);
+// Surface-driven semantic color maps (mirror SectionHeading's `on` model).
+// On light, no dedicated light-muted token exists, so the muted ancestor and
+// separator colors are derived from the on-light text token via color-mix —
+// the same technique SectionHeading uses for its description (no new token).
+const surface =
+  on === "light"
+    ? {
+        link: "text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_30%)]",
+        linkHover:
+          "hover:text-[var(--color-text-on-light)] hover:underline decoration-1 underline-offset-4",
+        current: "text-[var(--color-text-on-light)]",
+        sep: "text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_45%)]",
+        focus: "focus-visible:outline-[var(--color-focus-light)]",
+      }
+    : {
+        link: "text-[var(--color-text-muted)]",
+        linkHover:
+          "hover:text-[var(--color-text-primary)] hover:underline decoration-1 underline-offset-4",
+        current: "text-[var(--color-text-primary)]",
+        sep: "text-[var(--color-text-muted)]",
+        focus: "focus-visible:outline-[var(--color-focus-dark)]",
+      };
+
+const lastIndex = items.length - 1;
 ---
 
-<nav aria-label={t("nav.breadcrumb", locale ?? "sr")} class={className}>
-  <ol class="flex flex-wrap items-center gap-1 text-sm text-[var(--text-secondary)]">
-    {items.map((item, index) => (
-      <li class="flex items-center gap-1">
-        {index > 0 && (
-          <span aria-hidden="true" class="text-[var(--text-muted)]">/</span>
-        )}
-        {index < items.length - 1 ? (
-          <Link to={item.routeKey} locale={item.locale} variant="default" size="sm">
-            {item.label}
-          </Link>
-        ) : (
-          <span aria-current="page" class="text-[var(--text-primary)] font-medium">
-            {item.label}
-          </span>
-        )}
-      </li>
-    ))}
+<nav aria-label={ariaLabel} data-on={on} class={className}>
+  <ol
+    class="flex flex-wrap items-center gap-x-[var(--space-2)] gap-y-[var(--space-1)] font-body text-[length:var(--text-ui)] leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)]"
+  >
+    {
+      items.map((item, index) => {
+        const isCurrent = index === lastIndex;
+        return (
+          <li class="inline-flex items-center gap-[var(--space-2)]">
+            {index > 0 && (
+              <span class:list={["breadcrumbs-sep inline-flex items-center", surface.sep]} aria-hidden="true">
+                <svg
+                  class="breadcrumbs-chevron"
+                  viewBox="0 0 16 16"
+                  width="0.62em"
+                  height="0.62em"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M6 4l4 4-4 4" />
+                </svg>
+              </span>
+            )}
+            {isCurrent ? (
+              <span aria-current="page" class:list={["font-medium", surface.current]}>
+                {item.label}
+              </span>
+            ) : item.href ? (
+              <a
+                href={item.href}
+                class:list={[
+                  "inline-flex items-center min-h-11 px-[var(--space-1)] rounded-[var(--radius-control)] transition-colors duration-[var(--duration-fast)] ease-[var(--ease-standard)] focus-visible:outline-2 focus-visible:outline-offset-2",
+                  surface.link,
+                  surface.linkHover,
+                  surface.focus,
+                ]}
+              >
+                {item.label}
+              </a>
+            ) : (
+              <span class:list={[surface.link]}>{item.label}</span>
+            )}
+          </li>
+        );
+      })
+    }
   </ol>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </nav>
+
+<style is:global>
+  /* RTL forward-compat: mirror the chevron so it points inline-end in both
+     directions — a logical/CSS solution, not a hardcoded physical assumption
+     (task §8). All current locales are LTR; this only activates under a
+     [dir="rtl"] ancestor. A static transform is not motion, so
+     prefers-reduced-motion is unaffected. `.breadcrumbs-chevron` is a stable
+     semantic hook owned by this component (no generated Astro id is targeted). */
+  [dir="rtl"] .breadcrumbs-chevron {
+    transform: scaleX(-1);
+  }
+</style>

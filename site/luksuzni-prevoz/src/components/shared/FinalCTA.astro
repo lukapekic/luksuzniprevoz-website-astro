@@ -1,0 +1,294 @@
+---
+/**
+ * FinalCTA — reusable closing conversion section (shared section-pattern).
+ *
+ * Contract: docs/home/home-components/11-final-cta.md (exact V1 spec)
+ * Design:  DESIGN.md §7 (component identity — "medium-height conversion closer,
+ *          must not become a second Hero") / §8 (CTA hierarchy) / §9 (imagery)
+ * Tokens: 00-token-matrix.md (locked color/space/radius vars)
+ *
+ * Composes the approved foundation primitives rather than hand-rolling them:
+ *   <Section spacing="feature" surface="open-dark">  — owns vertical rhythm only
+ *   <PageContainer>                                   — max-w --container-main + page gutter
+ *   <SectionHeading id>                               — Fraunces H2 + Manrope description
+ *   <Link variant="cta" | "button">                   — gold primary / outlined secondary CTAs
+ *
+ * The architectural panel itself (warm restrained gradient + --radius-section +
+ * overflow hidden + 62/38 grid) is component-specific styling built only on
+ * locked tokens in a scoped <style> block — the Section primitive's
+ * `contained-dark` surface puts bg/radius and feature padding on the same
+ * element (a huge rounded box with the panel floating in padding), which
+ * contradicts the locked "tight panel + external feature rhythm" contract, so
+ * the panel is rendered explicitly here.
+ *
+ * Gradient (11 §Panel): warm-charcoal → warm-brown, restrained — the sanctioned
+ * Final-CTA-only gradient exception (design-foundation-governance.md §20). No
+ * gold, no glow, no gradient text, no glass. Built from --color-background →
+ * --color-surface-elevated only — no raw rgba (unlike the rejected home
+ * FinalCTA scrim), so it survives `no-raw-design-value`.
+ *
+ * Image (11 §Image): right-zone vehicle, object-contain for transparent
+ * cutouts (locked intent) / object-cover for contextual photos, blended on the
+ * gradient (no hard edge, not a bordered card). Decorative by default (empty
+ * alt + role="presentation") and lazy — the hero owns the LCP, not this. Uses
+ * astro:assets <Image> directly because the foundation Image primitive types
+ * `src: string` and cannot accept an imported ImageMetadata (FND-IMG-08 only
+ * bans raw <img>/<picture>). When no image is supplied the panel degrades to a
+ * gradient-only architectural panel (DESIGN.md §9 missing-asset policy —
+ * correct placeholder > wrong asset > redesign).
+ *
+ * CTA hierarchy is structural and holds for any localized labels (DESIGN.md §8):
+ *   primary   = Book              → <Link variant="cta">   (gold, accent + textOnLight)
+ *   secondary = Request a Quote   → <Link variant="button"> (outlined, dark/transparent)
+ *   tertiary  = phone/email/WhatsApp → muted <a> text links, subordinate (not pill-heavy,
+ *                                       not gold, no equal weight with the CTAs)
+ *
+ * Routing: internal CTAs pass `to: RouteKey` → <Link> → getPath (FND-I18N-03);
+ * flow/external CTAs pass a pre-resolved `href` (caller runs resolveCtaHref).
+ * Contact hrefs are built in the frontmatter as identifier bindings (tel: /
+ * mailto: / wa.me are external contact points, not internal routes) so the
+ * no-manual-internal-url lint sees plain identifiers, mirroring the proven
+ * home-FinalCTA integration.
+ *
+ * Motion: one-time gentle content reveal gated by prefers-reduced-motion.
+ * No scale/parallax/glow (DESIGN.md §17). Logical properties only (FND-I18N-13).
+ */
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import Link from "../../foundation/ui/Link.astro";
+import { Image } from "astro:assets";
+import type { FinalCTAProps } from "./FinalCTA.types.ts";
+
+type Props = FinalCTAProps;
+
+const {
+  heading,
+  description,
+  primaryAction,
+  secondaryAction,
+  contacts,
+  image,
+  imageAlt = "",
+  imageFit = "contain",
+  locale,
+  class: className,
+} = Astro.props;
+
+const headingId = "final-cta-heading";
+
+// Contact hrefs built in the data layer (identifier bindings) so the
+// no-manual-internal-url check sees plain identifiers; tel:/mailto:/wa.me are
+// external contact points, not internal routes (FND-I18N-03 scope).
+const phone = contacts?.phone;
+const email = contacts?.email;
+const whatsapp = contacts?.whatsapp;
+const phoneHref = phone ? `tel:${phone}` : null;
+const emailHref = email ? `mailto:${email}` : null;
+const whatsappHref = whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : null;
+const hasContacts = Boolean(phone || email || whatsapp);
+
+const isDecorative = imageAlt === "";
+const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
+---
+
+<Section spacing="feature" aria-labelledby={headingId} class={className}>
+  <PageContainer>
+    <div class:list={["fcta-panel", image && "fcta-panel--media"]}>
+      <div class="fcta-content">
+        <SectionHeading id={headingId} heading={heading} description={description} />
+
+        <div class="fcta-actions">
+          <Link
+            variant="cta"
+            to={primaryAction.to}
+            href={primaryAction.href}
+            locale={locale}
+          >
+            {primaryAction.label}
+          </Link>
+          {secondaryAction && (
+            <Link
+              variant="button"
+              to={secondaryAction.to}
+              href={secondaryAction.href}
+              locale={locale}
+            >
+              {secondaryAction.label}
+            </Link>
+          )}
+        </div>
+
+        {hasContacts && (
+          <ul class="fcta-contacts" role="list">
+            {phone && phoneHref ? (
+              <li>
+                <a class="fcta-contact" href={phoneHref}>{phone}</a>
+              </li>
+            ) : null}
+            {email && emailHref ? (
+              <li>
+                <a class="fcta-contact" href={emailHref}>{email}</a>
+              </li>
+            ) : null}
+            {whatsapp && whatsappHref ? (
+              <li>
+                <a class="fcta-contact" href={whatsappHref} rel="noopener noreferrer">
+                  {whatsapp}
+                </a>
+              </li>
+            ) : null}
+          </ul>
+        )}
+      </div>
+
+      {image && (
+        <div class="fcta-media">
+          <Image
+            class={imgClass}
+            src={image}
+            alt={imageAlt}
+            role={isDecorative ? "presentation" : undefined}
+            loading="lazy"
+          />
+        </div>
+      )}
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  /* --- Panel: contained architectural panel, warm restrained gradient (11 §Panel) */
+  .fcta-panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-section);
+    /* warm-charcoal → warm-brown, restrained. Final-CTA-only gradient exception.
+       Tokens only — no gold, no glow, no raw rgba. */
+    background: linear-gradient(
+      135deg,
+      var(--color-background) 0%,
+      var(--color-surface-elevated) 100%
+    );
+    min-block-size: 18rem;
+  }
+
+  /* Content: vertically centered, stack gap --space-4 (11 §Content). Fills the
+     panel when it is the only child (no image). */
+  .fcta-content {
+    display: grid;
+    gap: var(--space-4);
+    align-content: center;
+    padding: 2rem 1.5rem;
+    min-block-size: 18rem;
+    box-sizing: border-box;
+  }
+  /* With an image present the content is content-height on mobile (image
+     follows below); desktop restores the panel-fill stretch via the grid. */
+  .fcta-panel--media .fcta-content {
+    min-block-size: auto;
+  }
+
+  /* --- CTA group: primary (gold cta) + secondary (outlined button), gap space-3 */
+  .fcta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  /* --- Tertiary contacts: compact muted text links, subordinate (11 §Contact row).
+     Not pill-heavy, not gold. min-h-11 touch target (FND-A11Y-05). */
+  .fcta-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .fcta-contact {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    padding-inline: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .fcta-contact:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+  }
+  .fcta-contact:focus-visible {
+    outline: 2px solid var(--color-focus-dark);
+    outline-offset: 2px;
+  }
+
+  /* --- Right-zone vehicle image (11 §Image): blended on the gradient, no hard
+     edge, not a bordered card. object-contain for transparent cutouts (locked
+     intent), object-cover for contextual photos. Lazy (not the LCP). */
+  .fcta-media {
+    min-block-size: 13rem;
+  }
+  .fcta-img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+  .fcta-img--cover {
+    object-fit: cover;
+    /* Bias the subject toward the right zone so the left copy keeps negative space. */
+    object-position: 75% center;
+  }
+
+  /* --- Tablet (>=48rem): comfortable padding, taller mobile-style image zone --- */
+  @media (min-width: 48rem) {
+    .fcta-content {
+      padding: clamp(2rem, 4vw, 3rem);
+    }
+    .fcta-media {
+      min-block-size: 15rem;
+    }
+  }
+
+  /* --- Desktop (>=64rem): 62/38 content/image, 22–26rem panel (11 §Desktop) --- */
+  @media (min-width: 64rem) {
+    .fcta-panel--media {
+      display: grid;
+      grid-template-columns: 62fr 38fr;
+      min-block-size: 22rem;
+      max-block-size: 26rem;
+    }
+    .fcta-panel--media .fcta-content {
+      min-block-size: 0;
+      padding: clamp(2rem, 5vw, 4rem);
+      max-inline-size: 40rem;
+    }
+    .fcta-media {
+      min-block-size: 0;
+    }
+  }
+
+  /* --- Motion: one-time gentle content reveal, disabled under reduced motion --- */
+  .fcta-content {
+    animation: fcta-reveal var(--duration-slow) var(--ease-entrance) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fcta-content {
+      animation: none;
+    }
+  }
+  @keyframes fcta-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

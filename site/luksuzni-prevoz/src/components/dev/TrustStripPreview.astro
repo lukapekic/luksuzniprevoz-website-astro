@@ -1,0 +1,51 @@
+---
+/**
+ * TrustStripPreview — isolated dev-only preview of the production TrustStrip.
+ *
+ * NOT a production component and NOT imported by src/pages/dev/ui.astro (isolation
+ * rule). Lives under src/components/dev/ so it is type-checked by `astro check`
+ * but never built into a route. It renders the REAL production <TrustStrip>
+ * (no fake alternate markup) composed inside the documented page wrapper
+ * (<Section> + <PageContainer> + a dev <h2>) with clearly sample/dev-only data,
+ * to aid future /dev/ui integration.
+ *
+ * String contract: the heading and sample item strings below are internal,
+ * non-translatable dev labels (the preview is not locale-routed and is noindex),
+ * marked `data-foundation-allow-string` / passed as frontmatter data — the same
+ * escape hatch PreviewBlock.astro uses. They are intentionally NOT routed
+ * through the UI strings dictionary (FND-ARCH-03 does not apply to this internal
+ * dev surface).
+ */
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import TrustStrip from "../shared/TrustStrip.astro";
+import type { TrustItem } from "../shared/TrustStrip.types.ts";
+
+// Clearly sample/dev-only data (not the real production trust copy). Exactly
+// 4 items — TrustStrip's four-item contract is enforced at render time, so the
+// preview must supply 4 (trimming to 3 or adding a 5th would throw).
+const sampleItems: TrustItem[] = [
+  { title: "Trust point one", text: "A short supporting line describing this trust point." },
+  { title: "Trust point two", text: "A short supporting line describing this trust point." },
+  { title: "Trust point three", text: "A short supporting line describing this trust point." },
+  { title: "Trust point four", text: "A short supporting line describing this trust point." },
+];
+
+const headingId = "trust-strip-preview-heading";
+---
+
+<Section spacing="compact" aria-labelledby={headingId}>
+  <PageContainer>
+    <h2
+      id={headingId}
+      data-foundation-allow-string
+      class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+    >
+      TrustStrip preview
+    </h2>
+
+    <div class="mt-[var(--space-6)]">
+      <TrustStrip items={sampleItems} on="dark" />
+    </div>
+  </PageContainer>
+</Section>

@@ -3,8 +3,8 @@
  * Button primitive — Interactive group, FND-UI-03
  *
  * Contract:
- * - Uses variants() with axes: variant (primary, secondary, ghost, outline), size (sm, md, lg)
- * - `as="a"` changes to <a> with role="button"
+ * - Uses variants() with axes: variant (primary, secondary), size (sm, md, lg)
+ * - `as="a"` changes to <a> with role="button" (escape hatch; prefer <Link> for navigation)
  * - Min 44×44 target size (FND-A11Y-05)
  * - class passthrough is layout-only (FND-UI-06)
  * - CSS logical properties only (FND-I18N-13)
@@ -24,8 +24,8 @@ interface Props {
   class?: string;
   /** Href when as="a" */
   href?: string;
-  /** Variant selection */
-  variant?: string;
+  /** Variant selection — locked CTA roles (FND-UI-03 / DESIGN.md §8) */
+  variant?: "primary" | "secondary";
   /** Size variant */
   size?: "sm" | "md" | "lg";
 }

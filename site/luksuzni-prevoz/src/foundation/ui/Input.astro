@@ -29,8 +29,12 @@ interface Props {
   autocomplete?: AutocompleteToken | `${AutocompleteToken}`;
   /** Required state */
   required?: boolean;
-  /** Error state */
+  /** Disabled state */
+  disabled?: boolean;
+  /** Error state — triggers aria-invalid + links `${id}-error` */
   error?: string;
+  /** Hint id link — when set, `${id}-hint` is added to aria-describedby */
+  hint?: boolean;
   /** Value */
   value?: string;
   /** Placeholder */
@@ -48,7 +52,9 @@ const {
   type = "text",
   autocomplete,
   required = false,
+  disabled = false,
   error,
+  hint,
   value,
   placeholder,
   class: className,
@@ -57,6 +63,14 @@ const {
 } = Astro.props;
 
 const classNames = inputVariants({ size: size ?? "md" }, className);
+
+// Link help/error text rendered by <Field> (ids `${id}-hint` / `${id}-error`)
+// when the caller passes matching hint/error + a matching id (FND-A11Y-03).
+const describedByParts: string[] = [];
+if (hint) describedByParts.push(`${id ?? name}-hint`);
+if (error) describedByParts.push(`${id ?? name}-error`);
+const describedBy =
+  describedByParts.length > 0 ? describedByParts.join(" ") : undefined;
 ---
 
 <input
@@ -65,8 +79,9 @@ const classNames = inputVariants({ size: size ?? "md" }, className);
   type={type}
   autocomplete={autocomplete}
   required={required}
+  disabled={disabled}
   aria-invalid={error ? "true" : undefined}
-  aria-describedby={error ? `${id ?? name}-error` : undefined}
+  aria-describedby={describedBy}
   value={value}
   placeholder={placeholder}
   class={classNames}

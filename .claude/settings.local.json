@@ -1,8 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm content:sync-digests)",
-      "Bash(corepack pnpm *)"
+      "Bash(pnpm exec *)",
+      "Bash(command -v pnpm)"
     ]
   }
 }
