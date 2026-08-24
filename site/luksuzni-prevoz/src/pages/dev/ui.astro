@@ -63,10 +63,14 @@ import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
 import FAQ from "../../components/shared/FAQ.astro";
 import FinalCTA from "../../components/shared/FinalCTA.astro";
 import TrustStrip from "../../components/shared/TrustStrip.astro";
+import ServiceCard from "../../components/shared/ServiceCard.astro";
+import OpenSplitSection from "../../components/shared/OpenSplitSection.astro";
 import SiteFooter from "../../components/site/SiteFooter.astro";
 import type { FaqItem } from "../../content/schemas/shared.ts";
 import type { TrustItem } from "../../components/shared/TrustStrip.types.ts";
+import type { ServiceCardProps } from "../../components/shared/ServiceCard.types.ts";
 import heroImg from "../../assets/hero.webp";
+import finalCtaBg from "../../assets/final-cta-bg.webp";
 
 const defaultLocale =
   config.locales.locales.find((l) => l.isDefault) ?? config.locales.locales[0];
@@ -101,6 +105,8 @@ const groups = [
   { id: "navigation", href: "#navigation", heading: "Navigation / Header", description: "The production SiteHeader: desktop overlay and solid states, mobile closed and open states, plus BrandLockup." },
   { id: "faq", href: "#faq", heading: "FAQ", description: "Production FAQ: dark + light surfaces, long question/answer wrapping, open/close indicator, and focus." },
   { id: "trust-strip", href: "#trust-strip", heading: "Trust Strip", description: "Production TrustStrip: four items — desktop 4 columns, tablet 2×2, mobile stack, one shared surface." },
+  { id: "service-card", href: "#service-card", heading: "Service Card", description: "Production ServiceCard: 3-card dark grid (incl. long-copy stress) + a light-surface row. Image-led 3:2, visible CTA, no whole-card link." },
+  { id: "open-split-section", href: "#open-split-section", heading: "Open Split Section", description: "Production OpenSplitSection: open content|image composition — canonical 5/7, reverse 5/7, balanced 6/6, wider-content 7/5. DOM always content-first; desktop reversal is grid-based." },
   { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / contacts) on the gradient panel — gradient-only, no vehicle asset." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
@@ -280,8 +286,69 @@ const samples = {
   finalCtaPhone: "+00 000 000 0000",
   finalCtaEmail: "dev-preview@example.test",
   finalCtaWhatsapp: "+00 000 000 0000",
+  // ── Service Card ──
+  serviceCardDesc: "Production ServiceCard — one full-bleed 3:2 / object-cover photographic card. A bottom-concentrated darkening scrim (semantic dark tokens via color-mix, no raw black) keeps the image clear up top and readable behind overlaid title → description → visible CTA anchored bottom-left. The photograph IS the card surface — no separate body, no border, no shadow, no glass. The CTA is the only interactive element — no whole-card link, no overlay, no cursor:pointer. Hover shifts the image brightness/contrast only. The card owns its image + scrim, so it is surface-independent (the light-section preview proves the same card renders unchanged on a light parent). Dev-only fixture imagery (hero / final-cta-bg) stands in for the not-yet-produced service-card assets — the production API requires a real image.",
+  scDarkLabel: "Dark · canonical",
+  scDarkNote: "three full-image cards in a responsive 1 / 2 / 3-column grid. The airport card carries a longer supporting sentence to verify overlaid wrapping and content-stack rhythm inside the finite 3:2 frame.",
+  scLightLabel: "Light parent section",
+  scLightNote: "the same full-image card on a light parent <Section surface=\"light\">. The card owns its own image + scrim, so its internal text contrast is surface-independent — the parent background changes, not the card's text system. No on-light text variant exists.",
+  scViewLabel: "View service",
+  scTitlePrivate: "Private Chauffeur",
+  scDescPrivate: "A dedicated chauffeur at your disposal, by the hour, half-day, or full day.",
+  scTitleAirport: "Airport Transportation",
+  scDescAirport: "Flight-tracked meet-and-greet transfers to and from Belgrade airport, with luggage assistance and a name sign in arrivals.",
+  scTitleBusiness: "Business Transportation",
+  scDescBusiness: "Reliable corporate transport for one-off rides and recurring contracts, with invoicing and negotiated pricing.",
+  scTitleCorporate: "Corporate Transportation",
+  scDescCorporate: "Single-ride and contracted executive transfers with dedicated chauffeurs and invoicing.",
+  scTitleWedding: "Wedding Transportation",
+  scDescWedding: "Coordinated couple and guest transport, with multiple vehicles and custom presentation on request.",
+  scAltPrivate: "Luxury saloon parked in a warm, low-light setting.",
+  scAltAirport: "Chauffeur awaiting arrivals outside an airport terminal.",
+  scAltBusiness: "Executive saloon ready for a corporate transfer.",
+  scAltCorporate: "Mercedes saloon prepared for an executive transfer.",
+  scAltWedding: "Premium vehicle presented for a wedding arrival.",
   // ── Site Footer ──
   footerDesc: "Production SiteFooter — global chrome rendered as the page footer. Three-column desktop (brand · navigation · contact/hours), stacked on mobile. Links resolve via getPath from the route map; contact channels ship only when verified (currently all unverified, so the contact column shows office hours + note only — no fake phone/email/WhatsApp). currentRouteKey and currentLocale are real (home / sr).",
+  // ── Open Split Section ──
+  // Dev-only sample strings (not production copy). Passed as expressions
+  // (members of `samples`) so no-hardcoded-ui-string (FND-ARCH-03) is not
+  // flagged; the preview is noindex/internal. English-only — /dev/ui is a
+  // component-review surface, not a localized production page. OpenSplitSection
+  // owns the composition only; the heading, body, and CTA arrive through the
+  // named `content` slot, composed from the real SectionHeading / Link
+  // primitives. Fixture imagery (hero / final-cta-bg) stands in for
+  // not-yet-produced split-contextual photography — the production API requires
+  // a real image prop. The mobileOrder=image-first exception is kept in the
+  // production API but is NOT previewed (it is an exception, not a recommended
+  // state).
+  ossDesc: "Production OpenSplitSection — one open two-column content | image composition on an open background, no card or panel. Four states review the 5/7, 6/6, and 7/5 ratios plus the reverse desktop direction. DOM is always content→image (reading order first); the reverse desktop direction is pure CSS-grid placement with no DOM reorder. The image is 4:3 object-cover with --radius-card. The component owns the composition only — the caller owns the surrounding <Section> + <PageContainer>. Dev-only fixture imagery (hero / final-cta-bg) stands in for not-yet-produced split photography — the production API requires a real image.",
+  ossALabel: "Canonical · 5/7 · content–image",
+  ossANote: "content 5 left / image 7 right · default state · mobile content-first.",
+  ossAHeading: "Private chauffeur, on your schedule",
+  ossADesc: "A dedicated chauffeur for hourly, half-day or full-day travel.",
+  ossABody: "Available around your itinerary for business, airport and private journeys.",
+  ossCta: "View service",
+  ossAltA: "Luxury vehicle in warm, low light.",
+  ossBLabel: "Reverse · 5/7 · image–content",
+  ossBNote: "desktop: image left / content right · mobile still content-first · visual reversal with no DOM reorder.",
+  ossBHeading: "Airport transfers with flight tracking",
+  ossBDesc: "Your chauffeur monitors your flight in real time and meets you in arrivals with a name sign.",
+  ossBBody: "Meet-and-greet and luggage are handled in advance — the walk from the terminal stays short and calm.",
+  ossAltB: "Chauffeur with a name sign meeting a passenger outside the airport terminal.",
+  ossCLabel: "Balanced · 6/6",
+  ossCNote: "balanced split · shorter content, to judge balance · decorative image (alt empty).",
+  ossCHeading: "Business transport by contract",
+  ossCDesc: "Reliable corporate transport for one-off rides and recurring contracts, with invoicing and negotiated pricing.",
+  ossCBody: "One contact for all your regular business routes.",
+  ossAltC: "",
+  ossDLabel: "Wider content · 7/5",
+  ossDNote: "wider content column (7) / narrower image (5) · longer copy checks the reading measure.",
+  ossDHeading: "Corporate transport for delegations",
+  ossDDesc: "We coordinate multiple vehicles and chauffeurs through a single contact — for delegations, conferences, and multi-day events.",
+  ossDBody1: "From airport arrival to the final ride, every route is aligned with your schedule and passenger count.",
+  ossDBody2: "Invoicing is consolidated, and vehicles and chauffeurs remain available throughout the event.",
+  ossAltD: "Executive vehicle ready for a delegation transfer.",
 } as const;
 
 // ── Breadcrumbs sample trails (dev-only). hrefs are sample anchors ("#"),
@@ -328,6 +395,59 @@ const trustItems: TrustItem[] = [
   { title: "Pratite let u realnom vremenu", text: "Vozač prati prispeće i kašnjenje leta." },
   { title: "Sedišta za decu", text: "Dostupna bez naknade uz prethodnu najavu." },
   { title: "Jedan kontakt za delegaciju", text: "Koordinacija više vozila preko jednog kontakta." },
+];
+
+// ── ServiceCard dev-only sample cards (not production copy). Passed as a typed
+//    array expression so no-hardcoded-ui-string (FND-ARCH-03) is not flagged;
+//    the preview is noindex/internal. The airport card carries a longer
+//    supporting sentence to expose natural wrapping and CTA baseline alignment.
+//    Fixture imagery (hero / final-cta-bg) stands in for not-yet-produced
+//    service-card assets — the production API requires a real image prop.
+//    Routes resolve via <Link> getPath from the route map (FND-I18N-03).
+const serviceCardsDark: ServiceCardProps[] = [
+  {
+    title: samples.scTitlePrivate,
+    description: samples.scDescPrivate,
+    image: heroImg,
+    imageAlt: samples.scAltPrivate,
+    action: { label: samples.scViewLabel, to: "privateChauffeur" },
+    locale: "sr",
+  },
+  {
+    title: samples.scTitleAirport,
+    description: samples.scDescAirport,
+    image: finalCtaBg,
+    imageAlt: samples.scAltAirport,
+    action: { label: samples.scViewLabel, to: "airportTransportation" },
+    locale: "sr",
+  },
+  {
+    title: samples.scTitleBusiness,
+    description: samples.scDescBusiness,
+    image: heroImg,
+    imageAlt: samples.scAltBusiness,
+    action: { label: samples.scViewLabel, to: "businessTransportation" },
+    locale: "sr",
+  },
+];
+
+const serviceCardsLight: ServiceCardProps[] = [
+  {
+    title: samples.scTitleCorporate,
+    description: samples.scDescCorporate,
+    image: finalCtaBg,
+    imageAlt: samples.scAltCorporate,
+    action: { label: samples.scViewLabel, to: "corporateTransportation" },
+    locale: "sr",
+  },
+  {
+    title: samples.scTitleWedding,
+    description: samples.scDescWedding,
+    image: heroImg,
+    imageAlt: samples.scAltWedding,
+    action: { label: samples.scViewLabel, to: "weddingTransportation" },
+    locale: "sr",
+  },
 ];
 ---
 
@@ -1254,6 +1374,242 @@ const trustItems: TrustItem[] = [
       />
       <div class="mt-[var(--space-8)]">
         <TrustStrip items={trustItems} on="dark" />
+      </div>
+    </PreviewBlock>
+
+    {/* ── Service Card ─────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="service-card"
+      heading="Service Card"
+      description={samples.serviceCardDesc}
+    >
+      {/* Dark — canonical: three production ServiceCards in a responsive grid
+          (1 / 2 / 3 columns). The parent grid owns card width and equal-height
+          behavior; the card owns only its open body. The airport card carries
+          a longer supporting sentence to verify wrapping + CTA alignment. */}
+      <SectionHeading
+        heading={samples.scDarkLabel}
+        description={samples.scDarkNote}
+        level={3}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <ul
+        role="list"
+        class="mt-[var(--space-8)] grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {serviceCardsDark.map((card) => (
+          <li><ServiceCard {...card} /></li>
+        ))}
+      </ul>
+
+      {/* Light — the same component on an approved light surface (Section
+          surface="light"); on=light flips title/description via color-mix, no
+          parallel variant. The CTA keeps its accent treatment. */}
+      <SectionHeading
+        heading={samples.scLightLabel}
+        description={samples.scLightNote}
+        level={3}
+        class="mt-[var(--space-section-feature)]"
+      />
+      <Section surface="light" spacing="compact" class="mt-[var(--space-8)]">
+        <PageContainer>
+          <ul
+            role="list"
+            class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2"
+          >
+            {serviceCardsLight.map((card) => (
+              <li><ServiceCard {...card} /></li>
+            ))}
+          </ul>
+        </PageContainer>
+      </Section>
+    </PreviewBlock>
+
+    {/* ── Open Split Section ───────────────────────────────────────── */}
+    {/* OpenSplitSection now owns the COMPOSITION ONLY (grid / ratio /
+        direction / mobile order / media frame / internal gap) — it no longer
+        renders its own <Section> or <PageContainer>, so it composes cleanly
+        inside this one PreviewBlock, which provides the content width + page
+        gutter ONCE around the whole group (task §12/§16). Four compact examples
+        are separated by a restrained dev-only gap (task §15), not per-instance
+        section spacing. The mobileOrder=image-first exception is kept in the
+        production API but intentionally NOT previewed (an exception, not a
+        recommended state). The heading/body/CTA arrive through the named
+        `content` slot from the real SectionHeading / Link primitives — no
+        descendant CSS overrides the slotted typography (task §10). Example
+        SectionHeadings are level 3, children of the PreviewBlock h2. */}
+    <PreviewBlock
+      id="open-split-section"
+      heading="Open Split Section"
+      description={samples.ossDesc}
+    >
+      <div class="flex flex-col gap-[var(--space-section-compact)]">
+        {/* A — Canonical 5/7 · content-image (content left / image right). */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossALabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossANote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={heroImg}
+              imageAlt={samples.ossAltA}
+              layout="content-image"
+              ratio="5-7"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossAHeading}
+                  description={samples.ossADesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossABody}
+                </p>
+                <div>
+                  <Link to="privateChauffeur" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+
+        {/* B — Reverse 5/7 · image-content (desktop: image left / content
+            right; mobile still content-first — the DOM stays content→image and
+            the desktop reversal is CSS-grid placement only). This is the
+            critical regression state for the grid-row bug: image and content
+            must share desktop row 1. */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossBLabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossBNote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={finalCtaBg}
+              imageAlt={samples.ossAltB}
+              layout="image-content"
+              ratio="5-7"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossBHeading}
+                  description={samples.ossBDesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossBBody}
+                </p>
+                <div>
+                  <Link to="airportTransportation" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+
+        {/* C — Balanced 6/6 · content-image (shorter content, only to judge
+            balance). The image is decorative (alt empty → alt="" +
+            role="presentation"), exercising the decorative alt contract. */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossCLabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossCNote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={heroImg}
+              imageAlt={samples.ossAltC}
+              layout="content-image"
+              ratio="6-6"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossCHeading}
+                  description={samples.ossCDesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossCBody}
+                </p>
+                <div>
+                  <Link to="businessTransportation" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+
+        {/* D — Wider content 7/5 · content-image (content 7 / image 5). Longer
+            body copy (two paragraphs) so the user can judge whether the wider
+            content column still respects the reading measure. */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossDLabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossDNote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={finalCtaBg}
+              imageAlt={samples.ossAltD}
+              layout="content-image"
+              ratio="7-5"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossDHeading}
+                  description={samples.ossDDesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossDBody1}
+                </p>
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossDBody2}
+                </p>
+                <div>
+                  <Link to="corporateTransportation" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
       </div>
     </PreviewBlock>
 
