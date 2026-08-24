@@ -1,35 +1,50 @@
-/* Self-hosted variable webfonts — Fraunces (headings) + Manrope (body/UI).
+/* Self-hosted webfonts — Instrument Serif (headings) + Manrope Variable
+ * (body/UI) + Cormorant Garamond Variable (brand wordmark).
  *
- * Why this file exists: theme.css declares --font-heading / --font-body, but
- * nothing loaded the actual font files, so every browser fell through to the
- * fallbacks (Georgia / system-ui). This wires the real fonts at the global
- * level so the token fallback chains resolve to the intended families.
+ * Why this file exists: theme.css declares --font-heading / --font-body /
+ * --font-brand, but nothing loaded the actual font files, so every browser
+ * fell through to the fallbacks (Georgia / system-ui). This wires the real
+ * fonts at the global level so the token fallback chains resolve to the
+ * intended families.
  *
  * CSP (public/_headers): font-src 'self'. Google Fonts CDN would violate CSP,
- * so fonts are self-hosted via @fontsource-variable, which bundles the woff2
- * into the build and serves it from origin.
+ * so fonts are self-hosted via @fontsource, which bundles the woff2 into the
+ * build and serves it from origin.
  *
- * Variable fonts: one woff2 per subset carries the full weight range (Fraunces
- * 100–900, Manrope 200–800), so every weight role is covered by at most two
- * per-route fetches — within performanceBudget (maxFontFiles: 4, maxFontTotalKb:
- * 150). Subsets are split by unicode-range; the browser fetches only the subset
- * matching page text (latin for sr-Latn/en; cyrillic for ru). Manrope ships a
- * cyrillic subset, so ru body/UI renders in Manrope. Fraunces has no cyrillic
- * subset, so ru headings fall back to Georgia (which has Cyrillic) per the
- * --font-heading fallback chain.
+ * Loading strategy:
+ *  - Instrument Serif (headings) is a regular-only face — @fontsource ships
+ *    `400.css` (normal) and `400-italic.css` (italic). Only the normal weight
+ *    is loaded here because production headings use `font-heading` without
+ *    italic; the brand wordmark is the only italic and it uses `font-brand`
+ *    (Cormorant), not `font-heading`. Instrument Serif has no Cyrillic subset,
+ *    so ru headings fall back to Georgia (which has Cyrillic) per the
+ *    --font-heading fallback chain — same behaviour as the prior Fraunces setup.
+ *  - Manrope Variable (body/UI) is a variable font: one woff2 per subset covers
+ *    the full weight range (200–800), so every body/UI weight role is covered.
+ *    Manrope ships a Cyrillic subset, so ru body/UI renders in Manrope.
+ *  - Cormorant Garamond Variable (brand) is loaded via its wght-italic.css so
+ *    the `font-brand` italic wordmark in BrandLockup resolves to the real
+ *    Cormorant italic, not a synthesized or fallback face.
+ *
+ * Per-route fetches for a latin page: Instrument-Serif-latin (1) + Manrope-latin
+ * (1) + Cormorant-latin-italic (1) = 3 files — within performanceBudget
+ * (maxFontFiles: 4, maxFontTotalKb: 150). Subsets are split by unicode-range;
+ * the browser fetches only the subset matching page text.
  *
  * font-display: swap is set by @fontsource (no FOIT; minimal CLS).
  *
- * Family names: @fontsource-variable names the families "Fraunces Variable" /
- * "Manrope Variable", so typography.json uses those as the first family. The
- * locked typefaces remain Fraunces / Manrope — "Variable" is the variable-build
- * CSS family identifier, not a different typeface.
+ * Family names: @fontsource/instrument-serif names the family "Instrument
+ * Serif"; @fontsource-variable names "Manrope Variable" / "Cormorant Garamond
+ * Variable", so typography.json uses those exact strings as the first family
+ * in each --font-* chain. The brand family is intentionally separate from the
+ * heading family — Theme V2 changes headings to Instrument Serif but the
+ * BrandLockup wordmark stays on Cormorant.
  *
  * No <link rel="preload"> in Page.astro: @font-face lives here in global.css,
  * which Page loads synchronously in <head> (parser-discoverable). @fontsource
  * emits hashed asset URLs, which would make static preload links brittle and
  * risk double-fetches, so preload is intentionally omitted.
  */
-@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource/instrument-serif/400.css";
 @import "@fontsource-variable/manrope/wght.css";
 @import "@fontsource-variable/cormorant-garamond/wght-italic.css";

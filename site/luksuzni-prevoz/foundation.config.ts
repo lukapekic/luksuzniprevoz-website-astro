@@ -70,7 +70,7 @@ export const config = defineFoundationConfig({
     structuredData: ["Organization", "WebSite"],
     ogImages: "static",
   },
-  activeThemeVersion: "version-1",
+  activeThemeVersion: "version-2",
   reviewStalenessWindowMonths: 12,
   performanceBudget: {
     maxJsKb: 50,

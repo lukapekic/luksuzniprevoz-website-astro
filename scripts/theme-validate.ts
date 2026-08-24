@@ -12,6 +12,7 @@
  */
 
 import { resolve, join } from "node:path";
+import { existsSync } from "node:fs";
 import { loadThemeTokens } from "../packages/astro-foundation/src/theme/loader.ts";
 import { ACTIVE_THEME_VERSION } from "../packages/astro-foundation/src/theme/active-theme.ts";
 import { validateThemeSemantics } from "../packages/astro-foundation/src/theme/validate-theme.ts";
@@ -22,7 +23,31 @@ const projectPath = args[0] || "examples/reference-site";
 const rootDir = resolve(import.meta.dirname ?? ".", "..");
 const absProjectPath = resolve(rootDir, projectPath);
 
-const themeVersionDir = join(absProjectPath, "src", "theme", "versions", ACTIVE_THEME_VERSION);
+// Resolve the active theme version from the target project's foundation.config.ts
+// (the per-project selector also read by types:generate), falling back to the
+// core ACTIVE_THEME_VERSION constant. Kept in lockstep with theme-sync.ts so
+// the same version that is synced is the one validated.
+async function resolveActiveThemeVersion(projectDir: string): Promise<string> {
+  for (const p of [
+    join(projectDir, "foundation.config.ts"),
+    join(projectDir, "src", "foundation.config.ts"),
+  ]) {
+    if (!existsSync(p)) continue;
+    try {
+      const mod = await import(p);
+      const cfg = mod.default ?? mod["config"];
+      if (cfg && typeof cfg.activeThemeVersion === "string" && cfg.activeThemeVersion) {
+        return cfg.activeThemeVersion;
+      }
+    } catch {
+      // Fall through to the core constant on any config load failure.
+    }
+  }
+  return ACTIVE_THEME_VERSION;
+}
+
+const activeThemeVersion = await resolveActiveThemeVersion(absProjectPath);
+const themeVersionDir = join(absProjectPath, "src", "theme", "versions", activeThemeVersion);
 
 console.log(`Validating theme tokens from: ${themeVersionDir}`);
 

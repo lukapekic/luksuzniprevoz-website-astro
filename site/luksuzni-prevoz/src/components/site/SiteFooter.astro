@@ -2,17 +2,26 @@
 /**
  * SiteFooter — global site footer (chrome) for Luxury Transportation.
  *
- * Compact, dark, 3-column desktop composition that sits immediately below the
+ * Compact, dark, 3-zone desktop composition that sits immediately below the
  * Final CTA and is deliberately subordinate to it: no conversion messaging,
- * no newsletter, no sitemap, no second CTA (DESIGN.md §6 content-density, §13
- * rejected-footer lessons — "footer made disproportionately tall/empty").
+ * no newsletter, no sitemap, no second CTA, no parent-company prose (DESIGN.md
+ * §6 content-density, §13 rejected-footer lessons — "footer made
+ * disproportionately tall/empty" + "public brand name translated instead of
+ * preserved").
  *
- *   Column 1  Brand       — real BrandLockup (logo.webp + "Luxury
- *                           Transportation" wordmark) + parent-company relation
- *   Column 2  Navigation — route-derived Services + Company link groups
- *                           (navigation.footer), labeled via getNavLabel
- *   Column 3  Contact     — verified-only channels (contact.ts gating) +
- *                           office-hours facts + response note
+ *   Zone 1  Brand      — real BrandLockup (logo.webp + "Luxury
+ *                        Transportation" wordmark). NO competing parent-company
+ *                        / "Luksuzni Prevoz" paragraph beneath it — the public
+ *                        brand identity is owned solely by BrandLockup. The
+ *                        GrandSolution relationship belongs in About context.
+ *   Zone 2  Navigation — route-derived Services + Company link groups
+ *                        (navigation.footer), labeled via getNavLabel. On
+ *                        desktop/tablet the two groups sit side-by-side so the
+ *                        middle zone stays balanced instead of one tall stack.
+ *   Zone 3  Contact    — verified-only channels (contact.ts gating) +
+ *                        verified headquarters location + office-hours facts +
+ *                        response note. Location lives here, not in the bottom
+ *                        row, so the bottom row stays a single compact line.
  *
  * Compliance:
  * - FND-I18N-03: every internal href via getPath() from the route map, never
@@ -24,15 +33,18 @@
  *   second logo or wordmark implementation, no generated monogram square.
  * - Verified-only contact: a null/unverified phone/email/whatsapp never ships
  *   as a clickable tel:/mailto:/wa.me (contact.ts gating contract). While all
- *   channels are unverified, the contact column shows office hours + note only.
+ *   channels are unverified, the contact column shows location + office hours
+ *   + response note only — no fabricated channels.
  * - Office hours are a structural fact (business.supportModel.officeHours);
  *   no 24/7 / instant-booking / last-minute claim is made (the known project
  *   positioning is not a public 24/7 last-minute service — supportModel
  *   public247SupportClaim is false).
+ * - Location is the verified headquarters fact (business.headquarters,
+ *   verificationStatus "verified") — not an invented address.
  * - No islands: entirely server-rendered, zero client JS.
  * - WCAG 2.2 AA: one <footer> landmark + a single aria-labeled <nav>; links
  *   carry aria-current + visible focus-visible; DOM order matches mobile
- *   reading order (brand → nav → contact → bottom row).
+ *   reading order (brand → services → company → contact → bottom row).
  */
 import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
@@ -72,10 +84,6 @@ const contactLabel = t("contact.title", currentLocale);
 const rightsLabel = t("footer.rights", currentLocale);
 const hoursDaysLabel = t("footer.hoursDays", currentLocale);
 const officeNote = t(contact.officeHours.publicNoteKey as UiStringKey, currentLocale);
-const parentRelation = t(
-  business.parentCompany.relationshipDescriptionKey as UiStringKey,
-  currentLocale,
-);
 
 // --- Contact channels — verified only (contact.ts gating contract) -------
 // Contact URLs are constructed here in the data layer (not inline in JSX) so
@@ -91,9 +99,9 @@ const whatsappHref = whatsapp
   ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`
   : null;
 
-// Office hours are a structural fact (business.supportModel.officeHours) —
-// always present, independent of channel verification.
+// Structural facts (one source, all locales) — not prose, not invented.
 const officeHoursFact = business.supportModel.officeHours; // e.g. "08:00-18:00"
+const locationLine = `${business.headquarters.city}, ${business.headquarters.country}`;
 
 // --- Bottom row -----------------------------------------------------------
 const year = new Date().getFullYear();
@@ -102,49 +110,58 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="site-footer__shell">
     <div class="site-footer__grid">
-      {/* 1. Brand — real logo.webp + "Luxury Transportation" wordmark */}
+      {/* 1. Brand — real logo.webp + "Luxury Transportation" wordmark only.
+            No parent-company / "Luksuzni Prevoz" paragraph: the public brand
+            identity is owned solely by BrandLockup (§13 brand-preservation). */}
       <div class="site-footer__col site-footer__col--brand">
         <BrandLockup locale={currentLocale} href={homeHref} variant="full" />
-        <p class="site-footer__parent">{parentRelation}</p>
       </div>
 
-      {/* 2. Services / Company */}
-      <nav class="site-footer__col" aria-label={footerNavLabel}>
-        <p class="site-footer__group-label">{servicesLabel}</p>
-        <ul class="site-footer__list" role="list">
-          {servicesGroup.map((item) => (
-            <li>
-              <a
-                class="site-footer__link"
-                href={href(item.routeKey)}
-                aria-current={isCurrent(item.routeKey) ? "page" : undefined}
-                data-astro-prefetch
-              >
-                {getNavLabel(item.routeKey, currentLocale)}
-              </a>
-            </li>
-          ))}
-        </ul>
+      {/* 2. Navigation — one <nav> landmark. Services + Company sit
+            side-by-side on desktop/tablet (sub-grid) so the zone stays
+            balanced instead of one tall stacked column. */}
+      <nav class="site-footer__nav" aria-label={footerNavLabel}>
+        <div class="site-footer__nav-cols">
+          <div class="site-footer__nav-col">
+            <p class="site-footer__group-label">{servicesLabel}</p>
+            <ul class="site-footer__list" role="list">
+              {servicesGroup.map((item) => (
+                <li>
+                  <a
+                    class="site-footer__link"
+                    href={href(item.routeKey)}
+                    aria-current={isCurrent(item.routeKey) ? "page" : undefined}
+                    data-astro-prefetch
+                  >
+                    {getNavLabel(item.routeKey, currentLocale)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <p class="site-footer__group-label">{companyLabel}</p>
-        <ul class="site-footer__list" role="list">
-          {companyGroup.map((item) => (
-            <li>
-              <a
-                class="site-footer__link"
-                href={href(item.routeKey)}
-                aria-current={isCurrent(item.routeKey) ? "page" : undefined}
-                data-astro-prefetch
-              >
-                {getNavLabel(item.routeKey, currentLocale)}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <div class="site-footer__nav-col">
+            <p class="site-footer__group-label">{companyLabel}</p>
+            <ul class="site-footer__list" role="list">
+              {companyGroup.map((item) => (
+                <li>
+                  <a
+                    class="site-footer__link"
+                    href={href(item.routeKey)}
+                    aria-current={isCurrent(item.routeKey) ? "page" : undefined}
+                    data-astro-prefetch
+                  >
+                    {getNavLabel(item.routeKey, currentLocale)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </nav>
 
-      {/* 3. Contact / Hours */}
-      <div class="site-footer__col">
+      {/* 3. Contact — verified-only channels + verified location + hours. */}
+      <div class="site-footer__col site-footer__col--contact">
         <p class="site-footer__group-label">{contactLabel}</p>
         <ul class="site-footer__list site-footer__list--contact" role="list">
           {phone && phoneHref ? (
@@ -162,7 +179,8 @@ const year = new Date().getFullYear();
               <a class="site-footer__link" href={whatsappHref} rel="noopener noreferrer">{whatsapp}</a>
             </li>
           ) : null}
-          <li class="site-footer__hours">{hoursDaysLabel} {officeHoursFact}</li>
+          <li class="site-footer__fact">{locationLine}</li>
+          <li class="site-footer__fact">{hoursDaysLabel} {officeHoursFact}</li>
         </ul>
         <p class="site-footer__note">{officeNote}</p>
       </div>
@@ -171,9 +189,6 @@ const year = new Date().getFullYear();
     <div class="site-footer__bottom">
       <p class="site-footer__copy">
         © {year} {business.publicBrand} · {rightsLabel}
-      </p>
-      <p class="site-footer__loc">
-        {business.headquarters.city}, {business.headquarters.country}
       </p>
     </div>
   </div>
@@ -192,29 +207,49 @@ const year = new Date().getFullYear();
   .site-footer__shell {
     width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
     margin-inline: auto;
-    padding-block: clamp(2.5rem, 5vw, 4rem);
+    padding-block: clamp(2rem, 4vw, 3rem);
   }
 
-  /* --- Desktop 3-column grid: 1.2fr 1fr 1fr (brand gets a little more) -- */
+  /* --- Grid: mobile = single stack; tablet = brand full row + nav/contact
+     2 cols; desktop = 3 zones (brand / nav / contact). The navigation zone
+     internally splits Services | Company so the middle never becomes one
+     tall stacked column (§6 content-density proportionality). ------------- */
   .site-footer__grid {
     display: grid;
-    gap: clamp(2rem, 5vw, 5rem);
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+  @media (min-width: 48rem) {
+    .site-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .site-footer__col--brand {
+      grid-column: 1 / -1;
+    }
   }
   @media (min-width: 64rem) {
     .site-footer__grid {
-      grid-template-columns: 1.2fr 1fr 1fr;
-      align-items: start;
+      grid-template-columns: 4fr 5fr 3fr;
+    }
+    .site-footer__col--brand {
+      grid-column: auto;
     }
   }
 
   /* --- Brand column ----------------------------------------------------- */
-  .site-footer__parent {
-    margin: var(--space-4) 0 0;
-    max-inline-size: 30rem;
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    line-height: var(--line-height-body);
-    color: var(--color-text-muted);
+  .site-footer__col--brand {
+    margin-block-end: var(--space-2);
+  }
+
+  /* --- Navigation zone: Services + Company side-by-side on tablet+ ------ */
+  .site-footer__nav-cols {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  @media (min-width: 48rem) {
+    .site-footer__nav-cols {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   /* --- Column headings (Manrope semibold, sentence case — no eyebrow) ---
@@ -227,15 +262,8 @@ const year = new Date().getFullYear();
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-muted);
   }
-  /* Visually separate the Company sub-group on desktop; on mobile the gap
-     already separates them. */
-  @media (min-width: 64rem) {
-    .site-footer__group-label + .site-footer__list + .site-footer__group-label {
-      margin-block-start: var(--space-5);
-    }
-  }
   .site-footer__list {
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-4);
     padding: 0;
     list-style: none;
     display: grid;
@@ -268,10 +296,14 @@ const year = new Date().getFullYear();
   .site-footer__link[aria-current="page"] { color: var(--color-accent); }
   .site-footer__link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
 
-  .site-footer__hours {
+  /* --- Contact column: non-link fact rows (location, hours) are compact
+     muted text — no 44px row needed (not interactive). Link rows above
+     (phone/email/whatsapp, when verified) keep the .site-footer__link target. */
+  .site-footer__fact {
     color: var(--color-text-muted);
     font-family: var(--font-body);
     font-size: var(--text-sm);
+    line-height: var(--line-height-body);
   }
   .site-footer__note {
     margin: var(--space-3) 0 0;
@@ -282,27 +314,18 @@ const year = new Date().getFullYear();
     color: var(--color-text-muted);
   }
 
-  /* --- Bottom row ------------------------------------------------------- */
+  /* --- Bottom row: single compact copyright line. Location lives in the
+     contact column, so it is not repeated here to fill width (§13 footer
+     dead-space lesson). --------------------------------------------------- */
   .site-footer__bottom {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    justify-content: space-between;
-    align-items: center;
-    margin-block-start: clamp(2rem, 5vw, 4rem);
-    padding-block: 1.2rem;
+    margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+    padding-block-start: clamp(1rem, 2vw, 1.5rem);
     border-block-start: 1px solid var(--color-border-subtle);
   }
-  .site-footer__copy,
-  .site-footer__loc {
+  .site-footer__copy {
     margin: 0;
     font-family: var(--font-body);
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-  }
-
-  /* --- Mobile: one column, bottom row stacked --------------------------- */
-  @media (max-width: 63.99rem) {
-    .site-footer__bottom { flex-direction: column; align-items: flex-start; }
   }
 </style>

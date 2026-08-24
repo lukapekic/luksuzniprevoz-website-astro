@@ -60,6 +60,12 @@ import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import SiteHeader from "../../components/site/SiteHeader.astro";
 import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
+import FAQ from "../../components/shared/FAQ.astro";
+import FinalCTA from "../../components/shared/FinalCTA.astro";
+import TrustStrip from "../../components/shared/TrustStrip.astro";
+import SiteFooter from "../../components/site/SiteFooter.astro";
+import type { FaqItem } from "../../content/schemas/shared.ts";
+import type { TrustItem } from "../../components/shared/TrustStrip.types.ts";
 import heroImg from "../../assets/hero.webp";
 
 const defaultLocale =
@@ -93,8 +99,12 @@ const groups = [
   { id: "layout-sections", href: "#layout-sections", heading: "Layout / Sections", description: "PageContainer, ReadingContainer, Section spacing and surfaces, and SectionHeading." },
   { id: "breadcrumbs", href: "#breadcrumbs", heading: "Breadcrumbs", description: "Production Breadcrumbs: dark + light surfaces, long/narrow wrapping, and a minimal trail." },
   { id: "navigation", href: "#navigation", heading: "Navigation / Header", description: "The production SiteHeader: desktop overlay and solid states, mobile closed and open states, plus BrandLockup." },
+  { id: "faq", href: "#faq", heading: "FAQ", description: "Production FAQ: dark + light surfaces, long question/answer wrapping, open/close indicator, and focus." },
+  { id: "trust-strip", href: "#trust-strip", heading: "Trust Strip", description: "Production TrustStrip: four items — desktop 4 columns, tablet 2×2, mobile stack, one shared surface." },
+  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / contacts) on the gradient panel — gradient-only, no vehicle asset." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
+  { id: "site-footer", href: "#site-footer", heading: "Site Footer", description: "Production SiteFooter: global chrome, 3-column desktop, real route/contact gating. Rendered near the end as the page footer." },
 ] as const;
 
 // Groups left as placeholders for later steps.
@@ -251,6 +261,27 @@ const samples = {
   bcDelegation: "Prevoz delegacija",
   bcConference: "Prevoz za konferencije i kongrese",
   bcContact: "Kontakt",
+  // ── FAQ ──
+  faqDesc: "Production FAQ — native <details>/<summary> accordion rows, divider-based, no cards. Dark is the canonical surface; light is the same component on an approved light surface. Long question/answer items expose row rhythm and wrapping.",
+  faqDarkLabel: "Dark · canonical",
+  faqDarkNote: "primary dark-surface FAQ · divider hairlines · plus/minus indicator · open/closed rows · focus-visible · long text wrapping.",
+  faqLightLabel: "Light surface",
+  faqLightNote: "same component with on=light — text, dividers, and focus flip to the on-light tokens via color-mix (no parallel variant). Kept compact.",
+  // ── TrustStrip ──
+  trustDesc: "Production TrustStrip — one contained elevated panel holding four short trust items, separated by internal hairline dividers (not four floating cards). Desktop 4 columns · tablet 2×2 · mobile stack. Resize the viewport to review the divider topology.",
+  trustDarkLabel: "Dark · canonical",
+  trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained gold check marker · one shared surface, not nested cards.",
+  // ── Final CTA ──
+  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained warm-charcoal → warm-brown gradient panel (Final-CTA-only gradient exception). Primary Book (gold) → secondary Request a Quote (outlined) → tertiary contact text links. Gradient-only: the approved S-Class cutout is not yet available, so no vehicle asset is wired (a wrong asset is not substituted). Tertiary contact values below are unmistakably dev-only placeholders, not real contact details. Booking flow routes to the contact page as the interim target.",
+  finalCtaHeading: "Zakazite sledeći prevoz sa nama",
+  finalCtaText: "Izaberite uslugu i pošaljite detalje — jednostavne vožnje mogu imati prikaz cene, a za složenije zahteve pripremamo ponudu.",
+  finalCtaPrimaryLabel: "Rezerviši",
+  finalCtaSecondaryLabel: "Zatraži ponudu",
+  finalCtaPhone: "+00 000 000 0000",
+  finalCtaEmail: "dev-preview@example.test",
+  finalCtaWhatsapp: "+00 000 000 0000",
+  // ── Site Footer ──
+  footerDesc: "Production SiteFooter — global chrome rendered as the page footer. Three-column desktop (brand · navigation · contact/hours), stacked on mobile. Links resolve via getPath from the route map; contact channels ship only when verified (currently all unverified, so the contact column shows office hours + note only — no fake phone/email/WhatsApp). currentRouteKey and currentLocale are real (home / sr).",
 } as const;
 
 // ── Breadcrumbs sample trails (dev-only). hrefs are sample anchors ("#"),
@@ -277,6 +308,26 @@ const vehicleOptions = [
   { value: "v-class", label: "Mercedes V-Class" },
   { value: "e-class", label: "Mercedes E-Class" },
   { value: "s-class", label: "Mercedes S-Class" },
+];
+
+// ── FAQ / TrustStrip dev-only sample items (not production copy). Passed as
+//    expressions so no-hardcoded-ui-string (FND-ARCH-03) is not flagged; the
+//    preview is noindex/internal. FAQ items include one longer question and one
+//    longer answer to expose row wrapping. TrustStrip is exactly 4 items — the
+//    component's four-item contract is enforced at render time.
+const faqItems: FaqItem[] = [
+  { question: "Da li možete doći po nas direktno na aerodrom?", answer: "Da. Vozač prati let u realnom vremenu i dočekuje vas u holu, sa tablom na kojoj piše vaše ime — i u slučaju kašnjenja i pri ranijem prispeću." },
+  { question: "Kako se vrši uplata?", answer: "Uplata se vrši po ponudi: deo unapred pri rezervaciji, preostalo na dan prevoza." },
+  { question: "Da li sedišta za decu dolaze bez naknade?", answer: "Da, na raspolaganju su sedišta za decu — navedite uzrast pri rezervaciji." },
+  { question: "Koliko unapred treba rezervisati prevoz?", answer: "Najmanje 24 sata unapred za standardne vožnje; za kongrese i specijalne događaje po dogovoru." },
+  { question: "Da li možete angažovati više vozila za celu delegaciju sa jednim kontaktom?", answer: "Da. Koordiniramo više vozila i vozača uz jedan kontakt za celu grupu." },
+];
+
+const trustItems: TrustItem[] = [
+  { title: "Vozač sa iskustvom", text: "Profesionalni vozač sa lokalnim poznavanjem pravaca." },
+  { title: "Pratite let u realnom vremenu", text: "Vozač prati prispeće i kašnjenje leta." },
+  { title: "Sedišta za decu", text: "Dostupna bez naknade uz prethodnu najavu." },
+  { title: "Jedan kontakt za delegaciju", text: "Koordinacija više vozila preko jednog kontakta." },
 ];
 ---
 
@@ -1151,6 +1202,99 @@ const vehicleOptions = [
       </script>
     </PreviewBlock>
 
+    {/* ── FAQ ─────────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="faq"
+      heading="FAQ"
+      description={samples.faqDesc}
+    >
+      {/* Dark — canonical: the production FAQ on the dark page surface. The page
+          owns the SectionHeading; FAQ owns only its divider rows. */}
+      <SectionHeading
+        heading={samples.faqDarkLabel}
+        description={samples.faqDarkNote}
+        level={3}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)]">
+        <FAQ items={faqItems} on="dark" />
+      </div>
+
+      {/* Light — same component on an approved light surface (Section
+          surface="light"), on=light flips text/divider/focus via color-mix. */}
+      <Section surface="light" spacing="compact" class="mt-[var(--space-section-feature)]">
+        <PageContainer>
+          <SectionHeading
+            heading={samples.faqLightLabel}
+            description={samples.faqLightNote}
+            on="light"
+            level={3}
+          />
+          <div class="mt-[var(--space-6)]">
+            <FAQ items={faqItems} on="light" />
+          </div>
+        </PageContainer>
+      </Section>
+    </PreviewBlock>
+
+    {/* ── Trust Strip ─────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="trust-strip"
+      heading="Trust Strip"
+      description={samples.trustDesc}
+    >
+      {/* Dark — canonical: the production TrustStrip, one shared elevated panel
+          holding exactly four items. No extra card wrapper — the panel is the
+          surface. Resize the viewport to review 4-col / 2×2 / stack dividers. */}
+      <SectionHeading
+        heading={samples.trustDarkLabel}
+        description={samples.trustDarkNote}
+        level={3}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)]">
+        <TrustStrip items={trustItems} on="dark" />
+      </div>
+    </PreviewBlock>
+
+    {/* ── Final CTA ────────────────────────────────────────────────── */}
+    {/* FinalCTA owns its own <Section spacing="feature"> + <PageContainer>, so
+        it is NOT wrapped in a PreviewBlock (no wrapper that alters its page
+        spacing). A small dev-only label sits above; the id anchors the index. */}
+    <section
+      id="final-cta"
+      aria-labelledby="final-cta-section-heading"
+      class="border-block-start border-solid border-[var(--color-divider)]"
+    >
+      <div class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)] py-[var(--space-section-compact)]">
+        <h2
+          id="final-cta-section-heading"
+          data-foundation-allow-string
+          class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+        >
+          Final CTA
+        </h2>
+        <p
+          data-foundation-allow-string
+          class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+        >
+          {samples.finalCtaDesc}
+        </p>
+      </div>
+      <FinalCTA
+        heading={samples.finalCtaHeading}
+        description={samples.finalCtaText}
+        primaryAction={{ label: samples.finalCtaPrimaryLabel, to: "contact" }}
+        secondaryAction={{ label: samples.finalCtaSecondaryLabel, to: "contact" }}
+        contacts={{
+          phone: samples.finalCtaPhone,
+          email: samples.finalCtaEmail,
+          whatsapp: samples.finalCtaWhatsapp,
+        }}
+        locale="sr"
+      />
+    </section>
+
     {/* ── Placeholders (later steps) ───────────────────────────────────── */}
     {placeholderGroups.map((group) => (
       <PreviewBlock
@@ -1159,6 +1303,36 @@ const vehicleOptions = [
         description={group.description}
       />
     ))}
+
+    {/* ── Site Footer ─────────────────────────────────────────────── */}
+    {/* SiteFooter is global chrome and owns its <footer> landmark, so it is
+        NOT wrapped in a PreviewBlock or any rounded/card styling that would
+        change its visual character. A small dev-only label sits above; the
+        footer renders full-width below. Real currentRouteKey (home) and
+        currentLocale (sr) — no fake contact values (the footer applies its own
+        verified/unverified gating on its real canonical data). */}
+    <section
+      id="site-footer"
+      aria-labelledby="site-footer-heading"
+      class="border-block-start border-solid border-[var(--color-divider)]"
+    >
+      <div class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)] py-[var(--space-section-compact)]">
+        <h2
+          id="site-footer-heading"
+          data-foundation-allow-string
+          class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+        >
+          Site Footer
+        </h2>
+        <p
+          data-foundation-allow-string
+          class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+        >
+          {samples.footerDesc}
+        </p>
+      </div>
+      <SiteFooter currentRouteKey="home" currentLocale="sr" />
+    </section>
   </main>
 </Page>
 
