@@ -1,104 +1,25 @@
 ---
 /**
- * Dynamic route page — FND-ARCH-03
+ * Non-default-locale leaf pages — PREFIXED (/en/…, /ru/…).
  *
- * Uses getStaticPaths to generate all routes from the route map.
- * Uses getPath to resolve URLs.
- * Loads content from Content Layer by routeKey + locale.
- * Uses Page, Container, Section primitives via BaseLayout.
+ * Generates English and Russian non-home content pages at their canonical
+ * prefixed URLs: /en/contact/, /ru/kontakty/, etc. The default locale (sr) is
+ * UNPREFIXED and emitted by the root [...slug].astro; this route emits only
+ * the prefixed non-default locales. Both render the shared LeafPage component.
+ *
+ * FND-ARCH-03 / FND-I18N-03: URLs come from the route map (getPath), content
+ * from the `pages` collection by routeKey + locale.
  */
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PageContainer from "../../foundation/ui/PageContainer.astro";
-import Section from "../../foundation/ui/Section.astro";
-import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
-import { routes } from "../../data/routes.ts";
-import { buildPageSeo } from "../../lib/seo.ts";
-import { t } from "../../lib/i18n.ts";
-import type { RouteKey, LocaleCode, UiStringKey } from "@astro-foundation/core";
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import LeafPage from "../../components/site/LeafPage.astro";
+import { buildLeafStaticPaths } from "../../lib/pages.ts";
 
 export async function getStaticPaths() {
-  const pages = await getCollection("pages");
-  const paths: Array<{
-    params: { locale: string; slug: string };
-    props: { routeKey: string; locale: string; content: CollectionEntry<"pages"> };
-  }> = [];
-
-  for (const page of pages) {
-    const { routeKey, locale, status } = page.data;
-    // FND-LIFE-02: production builds emit only `published`. In dev/preview,
-    // draft and in-review pages ARE emitted (so reviewers can see them) but
-    // are marked noindex so they never reach a search index.
-    if (import.meta.env.PROD && status !== "published") continue;
-
-    const route = routes.find((r) => r.key === routeKey);
-    if (!route) continue;
-
-    const slug = route.slugs[locale];
-    if (slug === undefined || slug === "") continue; // home is handled by index.astro
-
-    paths.push({
-      params: { locale, slug },
-      props: { routeKey, locale, content: page },
-    });
-  }
-
-  return paths;
+  // Default locale (sr) is unprefixed — emitted by the root [...slug].astro,
+  // never here. Only prefixed non-default locales ({ locale, slug } params).
+  return buildLeafStaticPaths(["en", "ru"], { prefixed: true });
 }
 
-const { routeKey: routeKeyRaw, locale: localeRaw, content } = Astro.props;
-// The routeKey comes from validated content frontmatter; cast to the
-// generated RouteKey / LocaleCode at this boundary (FND-TYPE-02).
-const routeKey = routeKeyRaw as RouteKey;
-const currentLocale = localeRaw as LocaleCode;
-
-// All text from UI strings dictionary (FND-ARCH-03)
-const pageTitle = t(`${routeKey}.title` as UiStringKey, currentLocale);
-const breadcrumbHome = t("home.title", currentLocale);
-
-// FND-LIFE-02: non-published pages in a dev/preview build are noindex.
-const isUnpublishedPreview = content.data.status !== "published" && !import.meta.env.PROD;
-
-// Build SEO data
-const seo = buildPageSeo({
-  routeKey,
-  locale: currentLocale,
-  title: content.data.seoTitle ?? pageTitle,
-  description: content.data.seoDescription ?? "",
-  noindex: (content.data.noindex ?? false) || isUnpublishedPreview,
-});
-
-// Build breadcrumbs
-const breadcrumbs = [
-  { routeKey: "home" as RouteKey, label: breadcrumbHome },
-  { routeKey, label: pageTitle },
-];
-
-// Render content — Astro 5's render() returns a `Content` component plus
-// headings/remarkPluginFrontmatter (not an `.html` string). Render the
-// component directly so it slots into the prose container.
-const { Content } = await render(content);
+const { routeKey, locale, content } = Astro.props;
 ---
 
-<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={currentLocale}>
-  <PageContainer class="py-[var(--space-4)]">
-    <Breadcrumbs items={breadcrumbs} ariaLabel={t("nav.breadcrumb", currentLocale)} />
-  </PageContainer>
-
-  <Section id="content" class="py-[var(--space-8)]">
-    <PageContainer>
-      <h1 class="font-heading text-[length:var(--text-h1)] font-bold">
-        {content.data.h1}
-      </h1>
-      {content.data.intro && (
-        <p class="mt-[var(--space-4)] font-body text-[length:var(--text-xl)] text-[var(--color-text-muted)]">
-          {content.data.intro}
-        </p>
-      )}
-
-      <div class="mt-[var(--space-8)] prose prose-[var(--color-text-primary)] max-w-none">
-        <Content />
-      </div>
-    </PageContainer>
-  </Section>
-</BaseLayout>
+<LeafPage routeKey={routeKey} locale={locale} content={content} />

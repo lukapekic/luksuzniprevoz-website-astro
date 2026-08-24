@@ -1,67 +1,81 @@
-# Luxury Transportation — Homepage Blueprint v1
+# Luxury Transportation — Homepage Blueprint v1.1
 
 Status: **Locked structural blueprint**  
 Route: Serbian `/` · English `/en/` · Russian `/ru/`  
-Purpose: Source of truth for homepage structure, component selection, surface rhythm, spacing, responsive behavior, image roles, CTA behavior, and implementation constraints.
+Theme: **Black & Platinum — Theme V2**  
+Purpose: Source of truth for Homepage structure, component selection, surface rhythm, spacing, responsive behavior, image roles, CTA behavior, and implementation constraints.
 
-> This blueprint defines structure and behavior only. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content are produced/verified in later passes.
+> This blueprint defines structure and behavior. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content remain subject to their verified data/content sources.
+>
+> **Current revision:** the Homepage Hero is full-bleed and near-viewport-height. Its inner content preserves the approved two-column wireframe relationship.
 
-## 1. Page goal
+---
 
-The homepage must let a visitor understand the offer quickly, identify the right service, build confidence in the operator, inspect the fleet at a glance, and move naturally toward booking or requesting a quote.
+# 1. Page goal
 
-The page should feel premium and cinematic without becoming visually dense or behaving like a SaaS/dashboard interface.
+The Homepage must let a visitor understand the offer quickly, identify the right service, build confidence in the operator, inspect the fleet at a glance, and move naturally toward booking or requesting a quote.
 
-## 2. Primary audience
+The page should feel premium and cinematic without becoming visually dense, decorative, or SaaS/dashboard-like.
+
+---
+
+# 2. Primary audience
 
 - Private clients looking for chauffeured transport in Belgrade.
 - Airport passengers requiring reliable premium pickup/drop-off.
 - Corporate and institutional customers evaluating business transport capability.
 - Special-event customers evaluating premium transport options.
 
-## 3. Core conversion actions
+---
+
+# 3. Core conversion actions
 
 Primary action: **Book a Chauffeur**  
 Secondary action: **Request a Quote**
 
-Do not introduce additional competing primary CTAs on the homepage.
+Do not introduce competing primary Homepage CTAs.
 
-## 4. Page-wide rules
+---
 
-- Main layout max-width: approximately `1280px`.
-- Reading content is constrained where appropriate; target around `920px` maximum for longer copy.
-- Page background uses the main dark semantic background in production.
+# 4. Page-wide rules
+
+- Main inner content alignment uses the active Theme V2 main container.
+- Reading content is constrained with the active reading/narrow measure where appropriate.
+- Page background uses the main dark Theme V2 semantic background.
 - Homepage is dark-first, with one intentional light contained section: **How It Works**.
-- Section spacing uses only approved `compact`, `standard`, and `feature` tiers.
+- Section spacing uses the active `compact`, `standard`, and `feature` tiers.
 - Avoid visible horizontal separators between major sections.
 - Reuse approved components before creating new patterns.
-- No homepage pricing table or large pricing preview.
-- No embedded booking form in the hero.
-- No trusted-client logo wall on the homepage.
+- No Homepage pricing table or large pricing preview.
+- No embedded booking form in the Hero.
+- No trusted-client logo wall on the Homepage.
 - No dedicated About teaser is required.
-- Google Reviews appear before the Final CTA.
+- Google Reviews appear before FinalCTA.
 - All final text and interaction states must satisfy WCAG 2.2 AA.
+- Raw design values come from active Theme V2 JSON; do not duplicate old V1 theme values in page code.
 
-## 5. Homepage order
+---
 
-1. Header
-2. Hero
-3. Main Services / `ServiceShowcase`
+# 5. Homepage order
+
+1. SiteHeader
+2. HomepageHero
+3. ServiceShowcase
 4. Private Chauffeur feature
-5. Why Choose Us / Trust
+5. TrustStrip / Why Choose Us
 6. Fleet showcase
 7. How It Works
 8. Google Reviews
-9. Final CTA
-10. Footer
+9. FinalCTA
+10. SiteFooter
 
-This order is locked for v1 unless the blueprint is explicitly revised.
+This order is locked for v1.1 unless this blueprint is explicitly revised.
 
 ---
 
 # 6. Header
 
-Component: approved site `Header` pattern from `components-rules.v1.md`.
+Component: verified production `SiteHeader`.
 
 ## Desktop
 
@@ -81,8 +95,34 @@ Component: approved site `Header` pattern from `components-rules.v1.md`.
 
 ## Surface behavior
 
-- Transparent/near-transparent over the hero at page top.
-- Sticky compact warm-charcoal surface after scrolling.
+At page top:
+
+- Header visually integrates **over the Hero**.
+- Transparent/near-transparent surface.
+- It must not render as a separate opaque strip above the Hero.
+- Text/actions require sufficient contrast over the Hero image/scrim.
+
+After scroll:
+
+- Sticky compact graphite/dark semantic surface.
+- Transition must not cause layout jump.
+- Use current Theme V2 semantic tokens.
+
+## Integration rule
+
+If Header appearance is wrong on Homepage, inspect:
+
+```text
+overHero prop/state
+position/sticky behavior
+z-index
+Hero/Header stacking context
+parent container ownership
+surface/background inheritance
+scoped-style ownership
+```
+
+before redesigning `SiteHeader`.
 
 ---
 
@@ -94,42 +134,90 @@ Component: `HomepageHero`.
 
 Establish the premium chauffeur positioning immediately and present the two conversion paths without clutter.
 
-## Composition
+## Locked composition
 
-Contained cinematic feature panel inside the main container.
+The Hero is a **full-bleed photographic section**.
 
-Desktop content model:
+- Hero media/scrim spans the full viewport width.
+- Hero is near-viewport-height on desktop.
+- Hero inner content remains aligned to the active main container.
+- Desktop content preserves the approved two-column relationship:
+  - left: primary message and CTAs;
+  - right: concise support/trust statement.
+- The image is one full Hero background/media layer.
+- There is **no separate right-side image column**.
 
-- Left: H1, short proposition, primary CTA, secondary CTA.
-- Right: one concise supporting service/trust statement.
-- Background: Mercedes S-Class contextual photography fills the **entire contained hero panel**. It is not a separate image column or right-side image block.
-
-Do not add badges, rating chips, feature icon rows, fleet specs, pricing, or a booking form.
+Do not add badges, rating chips, feature-icon rows, fleet specs, pricing, or a booking form.
 
 ## Content limits
 
-- One meaningful H1, ideally no more than approximately two visual lines on desktop.
+- One meaningful H1, ideally approximately two visual lines on desktop where localized copy permits.
 - Supporting paragraph: approximately 2–3 lines.
 - Right-side supporting statement: approximately 2–3 lines.
-- Exactly two prominent CTA actions.
+- Exactly two prominent Hero actions:
+  - Book a Chauffeur
+  - Request a Quote
 
-## Layout
+## Desktop geometry
 
-- Main contained panel, not viewport full-bleed.
-- Section/panel radius: `1rem / 16px`.
-- Desktop visual ratio target: approximately `16:7`, with sensible minimum height.
-- Two-column desktop composition.
-- Background image fills the full hero panel edge-to-edge inside the 16px radius and must preserve sufficient negative space behind both text regions.
-- The desktop two-column model applies to **content placement only**; it must not create a separate visual image container.
+- Full viewport-width outer Hero.
+- Near-viewport-height; content must never be clipped to preserve a fixed ratio.
+- Inner content aligns to the Theme V2 main container and page gutter.
+- Desktop content grid approximately **7/5**.
+- Left copy is vertically/optically centered in the primary reading region.
+- Right support statement occupies the lower/right support region without becoming a separate card.
+- Header overlays the upper Hero region at page top.
+- Inner top spacing must account for Header readability without creating a visible strip.
+
+The previous contained `16:7` rounded Hero panel is **rejected for the current Homepage**.
+
+## Layering contract
+
+Required conceptual stacking order:
+
+```text
+0. Hero media/image
+1. scrim/contrast treatment
+2. Hero content
+3. SiteHeader at page top
+```
+
+The implementation may use different numeric z-index values, but the visible order is mandatory.
+
+When Hero content exists in source but is not visible, diagnose:
+
+```text
+scoped-style selector ownership
+position
+z-index
+stacking contexts
+transform
+filter
+isolation
+parent overflow
+PageContainer/Container class forwarding
+```
+
+before changing copy or component structure.
 
 ## Image treatment
 
-- Preferred V1 subject: Mercedes S-Class.
-- Production image receives restrained cinematic darkening/scrim.
-- Stronger dark treatment behind left copy.
+- Preferred subject: Mercedes S-Class contextual photography.
+- Image fills the entire full-bleed Hero.
+- Use restrained cinematic darkening/scrim.
+- Stronger contrast treatment behind left copy.
 - Controlled treatment behind right statement.
-- Preserve the car as the focal subject.
-- No artificial glow or excessive filter treatment.
+- Preserve the vehicle as focal subject.
+- No artificial glow.
+- No metallic/platinum tint over the whole image.
+- No excessive blur/filter treatment.
+
+## Typography
+
+- H1: Inter Tight via active heading token.
+- Supporting/body/UI: Manrope.
+- Do not use BrandLockup Cormorant for Hero copy.
+- Do not reintroduce serif heading treatment.
 
 ## Motion
 
@@ -139,13 +227,29 @@ Do not add badges, rating chips, feature icon rows, fleet specs, pricing, or a b
 
 ## Responsive
 
-- Mobile becomes a clear single-column reading order.
-- Keep both CTAs immediately discoverable.
-- Background focal point/crop must be explicitly reviewed at mobile, tablet portrait, tablet landscape, desktop.
+### Mobile
+
+- Full-bleed image remains.
+- Clear single-column content order.
+- H1/support/CTAs remain immediately discoverable.
+- Right support statement moves below the primary CTA group.
+- Keep both CTAs easy to reach.
+- Explicitly review mobile focal point and text contrast.
+- Do not force desktop masonry/ratio geometry.
+
+### Tablet portrait
+
+- Prefer single-column or carefully balanced split based on available container width.
+- Do not preserve 7/5 if readability becomes cramped.
+
+### Tablet landscape / desktop
+
+- Two-column content model returns when comfortable.
+- Review focal point independently from desktop.
 
 ## Spacing
 
-Use **feature** spacing after Hero.
+Use **feature** transition spacing after the Hero.
 
 ---
 
@@ -153,7 +257,7 @@ Use **feature** spacing after Hero.
 
 Component: `ServiceShowcase`.
 
-This is a **homepage-specific composition** and must not replace the generic Service Card/Grid pattern elsewhere.
+This is a Homepage-specific composition and must not replace the generic service-card/grid pattern elsewhere.
 
 ## Heading
 
@@ -172,54 +276,59 @@ This is a **homepage-specific composition** and must not replace the generic Ser
 Single-row asymmetric mosaic with one clean overall rectangular footprint:
 
 - Private Chauffeur: approximately **35%** of available width; wide/dominant.
-- Airport Transportation: approximately **30%**; vertical/tall treatment.
+- Airport Transportation: approximately **30%**; tall treatment.
 - Final region: approximately **35%**; Business and Special Events stacked vertically.
 
 All regions resolve to the same overall mosaic height.
 
-This asymmetric composition is an explicit homepage blueprint exception to the normal grid presets.
+This is an explicit Homepage exception to the normal grid presets.
 
 ## Card treatment
 
-- Photography fills the **entire card background** edge-to-edge; there is no separate image region above the content.
-- Card radius: `0.75rem / 12px`.
-- Controlled internal bottom gradient/scrim overlays the full-card image for readable title and CTA content.
-- Smaller stacked Business / Special Events cards may use a slightly stronger bottom scrim because of their reduced vertical space.
-- Service name is visible as the heading.
-- Compact, clearly interactive CTA appears with the service name.
-- No low-contrast tiny link treatment.
-- No visible card borders or heavy shadows.
+- Photography fills each card edge-to-edge.
+- No separate image region above content.
+- Use active Theme V2 card radius.
+- Controlled internal bottom scrim for readable title/action content.
+- Smaller stacked cards may use a slightly stronger bottom scrim.
+- Service name is a real semantic heading/link.
+- Compact clearly interactive CTA appears with the service name.
+- No low-contrast tiny-link treatment.
+- No visible decorative card borders or heavy shadows.
 - Card remains physically still on hover.
-- Image may use subtle brightness/contrast hover adjustment only.
+- Image-only brightness/contrast change may be subtle.
 
 ## Private Chauffeur hierarchy
 
-Private Chauffeur is visually dominant through footprint only. Do not add a `Featured` badge.
+Private Chauffeur is dominant through footprint only.
+
+Do not add a `Featured` badge.
 
 ## Responsive
 
 - Desktop/tablet landscape where space allows: asymmetric mosaic.
-- Tablet portrait: clean `2 × 2` service layout.
+- Tablet portrait: clean `2 × 2`.
 - Mobile: one card per row.
-- The mobile layout must not attempt to preserve the desktop masonry proportions.
+- Mobile does not preserve desktop masonry proportions.
 
 ## Surface
 
-Open section on the page background. No large container surface around the service mosaic.
+Open section on page background.
+
+No large container surface around the mosaic.
 
 ## Spacing
 
-Use **standard** section spacing internally; transition to the next feature uses generous breathing room.
+Use **standard** internal section spacing and generous transition rhythm toward the Private Chauffeur feature.
 
 ---
 
 # 9. Private Chauffeur Feature
 
-Component: `OpenSplitSection` with homepage-specific content slot.
+Component: `OpenSplitSection` with Homepage-specific content slot.
 
 ## Purpose
 
-Give the flagship service a second, deeper homepage moment after the visitor has seen all main services.
+Give the flagship service a second, deeper Homepage moment after all primary services are visible.
 
 ## Desktop composition
 
@@ -229,42 +338,44 @@ Give the flagship service a second, deeper homepage moment after the visitor has
 
 ## Content structure
 
-- Short muted-gold accent rule.
-- H2 section heading.
+- Optional short restrained platinum accent rule.
+- H2.
 - Concise descriptive copy.
-- Compact package summary for:
+- Compact package summary:
   - Hourly
   - Half Day
   - Full Day
 - One clear service-level CTA.
 
-The package summary is informational only. Do not turn it into three pricing cards or a pricing table.
+The package summary is informational.
+
+Do not turn it into three pricing cards or a pricing table.
 
 ## Surface
 
 Open section directly on the main page background.
 
-The text side has **no enclosing card or panel**.
+The text side has no enclosing card/panel.
 
 ## Image
 
 - Contextual chauffeur/S-Class photography.
-- Typical ratio: `4:3`.
-- Image radius: `0.75rem / 12px`.
+- Typical ratio around `4:3`.
+- Use Theme V2 card/media radius.
 - `object-cover` with explicit focal positioning.
 
-## Typography/colors in production
+## Typography/colors
 
-- Heading: primary cream text.
-- Body: muted text.
-- Accent rule: restrained muted gold.
+- Heading: Theme V2 primary text.
+- Body: Theme V2 muted text.
+- Accent: restrained platinum, if used.
 - Package labels: high-contrast text with subtle dividers where useful.
 
 ## Responsive
 
-- Mobile defaults to content first, image second.
+- Mobile: content first, image second.
 - Tablet may stack if 5/7 becomes cramped.
-- Do not retain a split if line lengths or CTA targets become compromised.
+- Do not retain split when line length/CTA targets suffer.
 
 ## Spacing
 
@@ -274,7 +385,7 @@ Use **feature** spacing.
 
 # 10. Why Choose Us / Trust
 
-Components: `WhyChooseUs` + `TrustStrip variant="dark"`.
+Components: Homepage section composition + `TrustStrip variant="dark"`.
 
 ## Purpose
 
@@ -284,7 +395,7 @@ Provide a compact confidence checkpoint after the flagship-service explanation.
 
 - Left-aligned heading.
 - Optional short intro line.
-- Four trust items with placeholder content until the content pass.
+- Four verified/placeholder trust items until content pass.
 
 ## TrustStrip structure
 
@@ -296,35 +407,37 @@ Each item:
 
 ## Surface
 
-- Trust strip uses the elevated dark semantic surface in production.
+- Elevated dark Theme V2 semantic surface.
 - One contained surface for all four items.
-- Radius: `1rem / 16px`.
+- Use Theme V2 section radius.
 - No individual card borders/shadows.
 - Subtle vertical dividers allowed on desktop.
 
 ## Responsive
 
 - Desktop: 4 across.
-- Tablet: 2 × 2.
+- Tablet: `2 × 2`.
 - Mobile: stacked.
 
 ## Image
 
-No image. This is an intentional visual break after the photography-heavy sections above.
+No image.
+
+This is an intentional visual break after photography-heavy sections.
 
 ## Spacing
 
-Use **standard** spacing. Keep the section compact.
+Use **standard** spacing and keep it compact.
 
 ---
 
 # 11. Fleet Showcase
 
-Component: `FleetShowcase` / horizontal fleet carousel.
+Component: `FleetShowcase` / `HorizontalCarousel`.
 
 ## Purpose
 
-Show fleet quality and range without duplicating the dedicated Fleet page.
+Show fleet quality/range without duplicating the Fleet page.
 
 ## Heading row
 
@@ -333,21 +446,23 @@ Show fleet quality and range without duplicating the dedicated Fleet page.
 
 ## Carousel
 
-- Vehicle image dominates each item.
-- Model name.
-- Vehicle class.
-- 2–3 compact factual placeholders until fleet data is verified.
-- No pricing.
+Each item contains:
+
+- dominant vehicle image;
+- model name;
+- vehicle class;
+- 2–3 compact verified facts/placeholders;
+- no pricing.
 
 ## Vehicle image rules
 
-- Production vehicle PNGs: `object-contain`.
+- Transparent vehicle PNGs use `object-contain`.
 - Use standardized neutral/dark presentation backgrounds.
-- Do not crop transparent vehicle cutouts with `object-cover`.
+- Do not crop transparent cutouts with `object-cover`.
 
 ## Desktop viewport
 
-Show approximately **2.5–3 cards** in view so there is clear horizontal continuation.
+Show approximately **2.5–3 cards** so horizontal continuation is obvious.
 
 ## Tablet
 
@@ -355,20 +470,22 @@ Approximately **1.5–2 cards** visible.
 
 ## Mobile
 
-Approximately **1.1 cards** visible; swipe intent should be obvious.
+Approximately **1.1 cards** visible.
 
-## Motion
+Swipe continuation must be obvious.
+
+## Motion/accessibility
 
 - No autoplay.
 - Smooth restrained transition.
-- Keyboard controls and accessible control labels required.
+- Keyboard controls and programmatic labels required.
 - Reduced-motion behavior required.
 
 ## Surface
 
-Open section on the main dark page background.
+Open dark section.
 
-Cards/items may use restrained surface contrast, but the whole Fleet section is not wrapped in a large contained panel.
+Cards/items may use restrained surface contrast; the entire section is not one large panel.
 
 ## Spacing
 
@@ -382,29 +499,28 @@ Component: `HowItWorks`.
 
 ## Purpose
 
-Explain that booking is simple and reduce perceived friction before social proof and the final conversion block.
+Explain booking simplicity and reduce perceived friction before reviews/final conversion.
 
 ## Surface
 
-This is the homepage’s intentional **light contained section**.
+The Homepage’s intentional **light contained section**.
 
-Production surface: warm-neutral light semantic surface.
-
-- Contained within the main 1280px grid.
-- Radius: `1rem / 16px`.
+- Theme V2 light semantic surface.
+- Contained within the main inner grid.
+- Theme V2 section radius.
 - Dark text on light surface.
-- Muted-gold details used sparingly.
+- Platinum details used sparingly.
 
 ## Structure
 
 - Heading + short intro.
 - Three sequential steps.
-- Sequence numbers `01`, `02`, `03` are approved here because the content is genuinely sequential.
-- No card boxes around individual steps.
+- Sequence numbers `01`, `02`, `03`.
+- No individual card boxes.
 - Optional subtle connector/divider on desktop.
-- No icons unless final content proves they add clarity.
+- No icons unless final content proves they clarify the process.
 
-Conceptual flow for normal booking:
+Conceptual flow:
 
 1. Choose service / vehicle.
 2. Send request.
@@ -415,12 +531,14 @@ Quote-led copy may adapt while preserving the same three-step visual system.
 ## Responsive
 
 - Desktop: 3 columns.
-- Tablet: retain 3 columns only when legible; otherwise reduce/stack based on container width.
-- Mobile: stacked steps.
+- Tablet: retain 3 only when legible; otherwise adapt/stack by available width.
+- Mobile: stacked.
 
 ## Spacing
 
-Use **standard** spacing. The panel itself should feel compact rather than oversized.
+Use **standard** spacing.
+
+Panel should feel compact rather than oversized.
 
 ---
 
@@ -430,13 +548,13 @@ Component: `GoogleReviews`.
 
 ## Purpose
 
-Provide social proof immediately before the final conversion section.
+Provide social proof immediately before FinalCTA.
 
 ## Surface
 
-Open section on the main dark page background.
+Open section on main dark canvas.
 
-Individual review cards use restrained dark/elevated surface contrast.
+Individual review cards use restrained elevated surface contrast.
 
 ## Structure
 
@@ -445,25 +563,27 @@ Individual review cards use restrained dark/elevated surface contrast.
 - Reviewer name.
 - Rating treatment.
 - Review excerpt.
-- Relevant metadata where available.
-- Compact section CTA linking to the business’s **actual Google Maps / Google Business profile**.
+- Relevant verified metadata.
+- Compact section CTA to the actual Google Maps / Google Business profile.
 
 ## Visual rules
 
-- Review card radius: `0.75rem / 12px`.
+- Use Theme V2 card radius.
 - No oversized bright-yellow star treatment.
-- Google branding/rating presentation remains recognizable but visually restrained.
+- Google branding/rating remains recognizable but restrained.
 - No autoplay.
 
 ## Responsive
 
-- Desktop: approximately 3 review cards visible or equivalent horizontal presentation.
-- Tablet: 1.5–2 as appropriate.
-- Mobile: swipeable cards with clear continuation.
+- Desktop: around 3 review cards.
+- Tablet: around 1.5–2.
+- Mobile: swipeable with clear continuation.
 
 ## External CTA
 
-The compact section-level CTA opens/links to the actual business Google Maps profile. Final URL must be verified before launch.
+Final URL must be verified before launch.
+
+Do not invent a Google profile URL.
 
 ## Spacing
 
@@ -473,20 +593,22 @@ Use **standard** spacing.
 
 # 14. Final CTA
 
-Component: approved `FinalCTA`.
+Component: approved production `FinalCTA`.
 
 ## Purpose
 
-Close the homepage with a strong but medium-height conversion block; it must not feel like a second hero.
+Close the Homepage with a strong medium-height conversion block.
+
+It must not feel like a second Hero.
 
 ## Layout
 
-Contained panel within the main container.
+Contained panel inside the main content container.
 
 Desktop:
 
-- Left/content: approximately **60–65%**.
-- Right/image: approximately **35–40%**.
+- content: approximately **60–65%**;
+- image: approximately **35–40%**.
 
 ## Content
 
@@ -494,86 +616,117 @@ Desktop:
 - Concise supporting copy.
 - Primary: Book a Chauffeur.
 - Secondary: Request a Quote.
-- Compact tertiary contact options: email, phone, WhatsApp.
+- Compact tertiary contacts when canonical verified data exists:
+  - phone
+  - email
+  - WhatsApp
+
+Missing verified contacts must follow canonical contact gating; do not invent them to fill the design.
 
 ## Image
 
-Preferred treatment: front-facing Mercedes S-Class blended into the right side.
+Preferred treatment: front-facing Mercedes S-Class blended into the right media region.
 
 ## Visual treatment
 
-- Radius: `1rem / 16px`.
-- Desktop target height: approximately `22rem–26rem`.
-- Tablet target: approximately `20rem–22rem` where layout permits.
-- Mobile: content-defined height.
-- Restrained warm-charcoal → warm-brown gradient is explicitly approved.
-- No dramatic gold gradient.
+- Use Theme V2 section radius.
+- Medium-height desktop target.
+- Mobile height is content-defined.
+- Restrained graphite → slightly elevated neutral graphite gradient is allowed.
+- No warm-brown/gold theme drift.
+- No dramatic platinum/metallic gradient.
 - No strong glow.
 - No hard image edge.
-- Vehicle must not exceed the intended 35–40% visual footprint.
+- Vehicle remains within the intended 35–40% visual footprint.
 
 ## Responsive
 
-- Mobile content first.
-- Car may move below or softly integrate behind/beside content only if final asset supports legibility.
-- Preserve comfortable CTA targets and sufficient text contrast.
+### Desktop
+
+- ~60–65 / 35–40 split.
+- Content vertically balanced.
+- Image integrated, not a separate framed card.
+
+### Mobile
+
+- Content first.
+- Primary Book CTA full width.
+- Secondary Request Quote CTA full width.
+- Verified phone/email contacts compactly presented.
+- Dedicated media area below content.
+- Image must not sit behind text if that harms legibility.
 
 ## Spacing
 
-Use **feature** spacing before/around the Final CTA.
+Use **feature** spacing before/around FinalCTA.
 
 ---
 
 # 15. Footer
 
-Component: `SiteFooter`.
+Component: verified production `SiteFooter`.
 
 ## Purpose
 
-Compact premium site ending after the strong final CTA; do not create a giant sitemap footer.
+Compact premium ending after FinalCTA.
+
+Do not create a giant sitemap footer.
 
 ## Desktop
 
 Approximately 3 columns:
 
-1. Brand: GS mark + Luxury Transportation + one concise brand line.
+1. Brand.
 2. Services / Company navigation.
-3. Contact: phone, email, WhatsApp, office hours.
+3. Contact / office information.
 
-Bottom row:
+Bottom row may contain:
 
-- legal links
-- copyright
-- language shortcuts if useful
+- legal links;
+- copyright;
+- language shortcuts where useful.
+
+## Contact rule
+
+Footer uses canonical data only.
+
+Target content includes verified:
+
+- address;
+- phone;
+- email;
+- office hours.
+
+Unavailable/unverified values remain gated by the data source.
 
 ## Rules
 
-- Dark surface.
-- No newsletter signup.
-- No oversized social-media block.
-- Parent company relationship may be referenced appropriately in footer context.
+- Dark Theme V2 surface.
+- No newsletter.
+- No oversized social block.
+- No Homepage-specific footer variant.
 
 ## Mobile
 
-Stack cleanly with clear groups and comfortable tap targets.
+Stack cleanly with clear groups and comfortable targets.
 
 ---
 
 # 16. Surface rhythm
 
-The intended homepage rhythm is:
+Intended Homepage rhythm:
 
-1. **Hero** — contained, image-backed, dark/cinematic.
-2. **Services** — open, image-heavy.
-3. **Private Chauffeur** — open split, spacious.
+1. **Hero** — full-bleed image-backed dark/cinematic entrance with contained inner content.
+2. **Services** — open image-heavy section.
+3. **Private Chauffeur** — open spacious split.
 4. **Trust** — contained elevated dark surface.
-5. **Fleet** — open, image-led.
+5. **Fleet** — open image-led section.
 6. **How It Works** — contained light surface.
 7. **Google Reviews** — open dark canvas with contained review cards.
-8. **Final CTA** — contained cinematic gradient.
-9. **Footer** — dark compact ending.
+8. **FinalCTA** — contained graphite cinematic closer.
+9. **Footer** — compact dark ending.
 
-Do not mechanically alternate dark/light surfaces. The light How It Works panel is semantic and intentional.
+Do not mechanically alternate dark/light surfaces.
 
 ---
 
@@ -582,52 +735,59 @@ Do not mechanically alternate dark/light surfaces. The light How It Works panel 
 ## Mobile first
 
 - Complex layouts collapse to one column.
-- Content precedes imagery for split sections unless explicitly overridden.
-- Touch targets remain accessible even when CTAs are visually compact.
-- No horizontal page overflow.
-- Carousel overflow is intentional and contained to the carousel viewport.
+- Split-section content precedes imagery unless explicitly overridden.
+- Touch targets remain accessible.
+- No accidental horizontal page overflow.
+- Carousel overflow is intentional and contained.
+- Hero remains full bleed.
 
 ## Tablet portrait
 
+- Hero may stay single-column if 7/5 is cramped.
 - Services: `2 × 2`.
 - Trust: `2 × 2`.
-- Private Chauffeur split may stack when needed.
-- Fleet/reviews show partial next item where appropriate.
+- Private Chauffeur may stack.
+- Fleet/reviews show partial next item.
 - How It Works may stack if three columns compromise readability.
 
 ## Tablet landscape
 
-- Re-evaluate eligibility for the asymmetric Services mosaic.
-- Re-enable 5/7 split where comfortable.
-- Review image focal positions rather than assuming desktop crops.
+- Re-evaluate Hero 7/5 eligibility.
+- Re-enable asymmetric Services mosaic when comfortable.
+- Re-enable 5/7 Private Chauffeur where comfortable.
+- Review all image focal positions.
 
 ## Desktop
 
-- Full asymmetric Services showcase.
+- Full-bleed near-viewport Hero + contained 7/5 content.
+- Asymmetric Services mosaic.
 - 5/7 Private Chauffeur split.
-- 4-up Trust strip.
-- Horizontal Fleet showcase.
+- 4-up Trust.
+- Horizontal Fleet.
 - 3-step How It Works.
 - Review presentation around 3 cards.
 
 ## Wide desktop
 
-- Main content remains capped around 1280px.
-- Do not stretch card rows or text line length just because more viewport space exists.
+- Hero media remains full bleed.
+- Hero and section inner content remains capped by the Theme V2 main container.
+- Do not stretch card rows or text measures merely because viewport is wider.
 
 ---
 
 # 18. Accessibility / semantic hooks
 
 - Exactly one meaningful page H1 in Hero.
-- Section headings follow logical H2/H3 hierarchy.
-- Service names in showcase are real semantic headings/links, not text baked into images.
+- Logical H2/H3 hierarchy.
+- Service names are semantic headings/links, not baked into images.
 - Carousel controls require keyboard interaction and programmatic labels.
-- Review content and ratings require meaningful accessible text.
-- All image overlays must preserve WCAG 2.2 AA contrast for overlaid text/controls.
-- Focus-visible states must be more explicit than hover states.
-- Reduced motion must disable/reduce cinematic and carousel transitions where appropriate.
-- Decorative images/icons are hidden from assistive technology; meaningful images receive localized alt text.
+- Review ratings require meaningful accessible text.
+- Overlay text/controls must preserve WCAG 2.2 AA contrast at every crop.
+- Focus-visible is more explicit than hover.
+- Reduced motion reduces/disables cinematic/carousel motion.
+- Decorative images/icons are hidden from assistive technology.
+- Meaningful images receive localized alt text.
+- Header-over-Hero treatment must not reduce link/button contrast.
 
 ---
 
@@ -640,61 +800,94 @@ Homepage must provide direct links to:
 - Business Transportation
 - Special Events
 - Fleet
-- Pricing where contextually appropriate through navigation/CTA architecture
+- Pricing where contextually appropriate
 - Contact
 - booking flow
 - quote flow
-- Google Maps profile from the Reviews section
+- Google Maps profile from Reviews
 
-Child pages such as Corporate, Delegation, Conference, Wedding, Prom, and VIP are reached primarily through their hubs/navigation rather than cluttering the homepage.
+Child pages such as Delegation/Conference/Wedding/Prom/VIP remain primarily reached through hubs/navigation rather than cluttering Homepage.
 
 ---
 
-# 20. Content placeholders / later pass
+# 20. Content/data boundaries
 
-Do not finalize during wireframing:
+Do not finalize or invent during layout implementation:
 
-- Hero H1/supporting statement.
-- Service-card supporting language.
-- Private Chauffeur descriptive copy/package wording.
-- Trust-point copy/icons.
+- Hero H1/support statement where localized content is pending.
+- Service support copy.
+- Private Chauffeur descriptive/package wording beyond verified service data.
+- Trust copy/icons.
 - Fleet capacities/features until verified.
-- How It Works final localized wording.
-- Review selection/excerpts.
-- Final CTA copy.
-- Footer brand line.
+- How It Works localized wording.
+- Reviews/excerpts/ratings.
+- FinalCTA contact methods if not verified.
+- Footer contact values if not verified.
+
+Use repository content/data sources.
+
+Presentation components are not data authorities.
 
 ---
 
-# 21. Image requirements / later assets
+# 21. Image requirements
 
-- Hero: cinematic S-Class contextual image; final edited asset pending.
-- ServiceShowcase: one suitable contextual image per main service.
-- Private Chauffeur: chauffeur + S-Class contextual image.
-- Fleet: standardized transparent vehicle PNGs supplied later.
-- Final CTA: preferred front-facing S-Class image blended into gradient surface.
+- Hero: cinematic S-Class contextual image.
+- ServiceShowcase: one contextual image per primary service.
+- Private Chauffeur: chauffeur/S-Class contextual image.
+- Fleet: standardized transparent vehicle PNGs.
+- FinalCTA: front-facing S-Class blended into media region.
 
-Image crops/focal points are part of implementation review at every breakpoint.
+Missing assets do not authorize structural redesign.
+
+Use neutral placeholders until final assets exist.
+
+Image crop/focal point is reviewed at every breakpoint.
 
 ---
 
 # 22. Blueprint-specific exceptions
 
-Approved exceptions for Home v1:
+Approved Homepage v1.1 exceptions:
 
-1. `ServiceShowcase` uses a 35/30/35-style asymmetric composition rather than standard 12-column card spans.
-2. ServiceShowcase cards use overlaid heading/CTA treatment rather than the generic below-image ServiceCard content arrangement.
-3. Final CTA may use a restrained gradient.
-4. How It Works intentionally uses a light contained surface inside a dark-first homepage.
+1. **Homepage Hero is full bleed** while its inner content remains aligned to the main container.
+2. Hero desktop content uses the approved 7/5 two-column relationship; this does not create a separate image column.
+3. `ServiceShowcase` uses a 35/30/35 asymmetric composition instead of standard grid spans.
+4. ServiceShowcase cards use overlaid title/action treatment instead of generic below-image ServiceCard content.
+5. FinalCTA may use a restrained neutral graphite gradient.
+6. How It Works intentionally uses a light contained surface inside the dark-first Homepage.
 
-Agents must not generalize these exceptions to unrelated pages/components.
+These exceptions are Homepage-local.
+
+Do not generalize them to unrelated pages/components.
 
 ---
 
-# 23. Implementation handoff rule
+# 23. Implementation handoff
 
-Implementation order:
+Required order:
 
-**Blueprint → grayscale wireframe → Astro implementation → Design Review → Technical Page Review → Content SEO Review.**
+```text
+AGENTS.md
+→ DESIGN.md
+→ Theme V2
+→ Homepage blueprint
+→ Tailwind-v4 wireframe structural intent
+→ source diagnosis
+→ bounded Astro implementation
+→ Design Review
+→ Technical Page Review
+→ Content/SEO Review where in scope
+```
 
-If structure changes during review, update this blueprint first, then update the wireframe, then implementation.
+If Homepage structure changes:
+
+```text
+blueprint
+→ wireframe
+→ implementation
+```
+
+in that order.
+
+Do not use rejected Homepage implementations as visual authority.

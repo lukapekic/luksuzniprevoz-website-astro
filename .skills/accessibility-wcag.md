@@ -3,7 +3,7 @@ name: accessibility-wcag
 description: Use for UI semantics, forms, navigation, interaction, keyboard operability, focus, contrast, target size, reduced motion, alt text, language/DIR, and any work touching WCAG 2.2 AA conformance. Covers the semantic-HTML-first model and the manual checklist.
 workstream: accessibility
 applies-to: "all components, primitives, pages, forms, navigation, dialogs; src/content/ui/ (a11y.* strings), foundation.config.ts (locales dir/htmlLang)"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Accessibility / WCAG 2.2 AA

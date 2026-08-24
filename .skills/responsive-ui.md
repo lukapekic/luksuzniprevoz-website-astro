@@ -3,7 +3,7 @@ name: responsive-ui
 description: Use for responsive layout, container/width adaptation, breakpoints, touch targets, overflow, orientation, and CSS that must work across the foundation's fixed viewport set. Covers mobile-first, logical properties, and layout-only class passthrough.
 workstream: responsive-ui
 applies-to: "components/, foundation/ui/ (layout/spacing), theme tokens (spacing/layout/radii), any CSS/class composition on primitives"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Responsive UI

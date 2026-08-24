@@ -3,7 +3,7 @@ name: technical-page-review
 description: Use as the final technical gate before declaring a page (or a set of page changes) complete. Aggregates all workstreams — architecture, routing/i18n, SEO, structured data, accessibility, responsive, images/performance — and produces a PASS/FAIL verdict.
 workstream: page-review
 applies-to: "any page-level change before completion; foundation/core or release-affecting changes"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Technical Page Review

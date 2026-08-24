@@ -2,177 +2,163 @@
 name: design-foundation-governance
 description: >
   Mandatory Luxury Transportation design-foundation enforcement. Use whenever creating,
-  editing, reviewing, or reasoning about visual UI, page composition, section surfaces,
-  typography usage, spacing, radius, motion, grid/container behavior, or design tokens.
+  editing, reviewing, or reasoning about visible UI, page composition, typography,
+  surfaces, spacing, radius, motion, grid/container behavior, or design tokens.
 ---
 
 # Luxury Transportation — Design Foundation Governance
 
 ## 0. Mission
 
-Protect the locked visual foundation from agent drift.
+Protect the active design system from agent drift.
+
+Current production direction is **Black & Platinum**.
 
 The project must feel:
 
-- luxury;
+- premium;
 - professional;
 - sharp;
 - calm;
 - contemporary;
-- editorial;
+- discreet;
 - operationally confident.
 
 It must not drift into:
 
-- generic black/gold limousine cliché;
+- generic black/gold limousine styling;
+- newspaper/editorial-serif styling;
 - soft SaaS/dashboard UI;
-- silver/blue corporate styling;
+- blue/silver corporate templates;
 - excessive card grids;
 - excessive rounding;
 - decorative animation;
 - generic AI landing-page aesthetics.
 
-This skill governs visual-system decisions.
-
-It does not replace:
-- page blueprints;
-- component architecture;
-- Tailwind v4 rules;
-- accessibility rules;
-- content/SEO rules.
+This skill governs process and enforcement. It does not store a second copy of raw theme values.
 
 ## 1. Mandatory files to inspect
 
-When available, read:
+For visual work read:
 
 ```text
-design-system.v1.md
-design-system.v1.json
-design-decisions.md
-components-rules.v1.md
-palette.v1.json
-typography.v1.json
-spacing.v1.json
-radii.v1.json
-motion.v1.json
-layout.v1.json
+AGENTS.md
+DESIGN.md
+site/luksuzni-prevoz/foundation.config.ts
+site/luksuzni-prevoz/src/theme/versions/version-2/
 ```
 
-If the task is page-specific, also read the page blueprint before changing composition.
+Inspect the relevant JSON files for the task:
+
+```text
+manifest.json
+palette.json
+typography.json
+spacing.json
+radii.json
+motion.json
+layout.json
+```
+
+If the task is page-specific, read the locked page blueprint before changing composition.
+
+If there is an approved shared component involved, inspect its current verified source/API before redesigning it.
 
 ## 2. Authority
 
-Use this order:
+Use the design hierarchy defined in `DESIGN.md`.
 
-1. explicit task instruction;
-2. locked page blueprint;
-3. locked design decisions;
-4. approved component rules;
-5. design-system/token sources;
-6. product foundation;
-7. wireframe structural intent;
-8. existing approved production components;
-9. external references;
-10. model preference.
+A skill never overrides:
+
+```text
+locked page blueprint
+DESIGN.md
+active Theme V2 JSON
+validated shared component contract
+```
 
 Do not reopen locked decisions silently.
 
-## 3. Visual direction
+## 3. Theme V2 contract
 
-Default direction:
+Theme V2 is selected by the site config and is the raw token source.
 
-```text
-Warm charcoal
-+
-cream
-+
-restrained muted gold
-+
-editorial serif headings
-+
-clean sans-serif operational UI
-+
-contained cinematic photography
-+
-controlled whitespace
-+
-modular grid
-```
-
-Default page balance is approximately:
+Current type roles:
 
 ```text
-70–80% dark
-20–30% light
+Headings     → Inter Tight
+Body / UI    → Manrope
+BrandLockup  → Cormorant Garamond Italic
 ```
 
-This is not a quota.
-
-Surface choice must be semantic.
-
-## 4. Palette governance
-
-Locked semantic roles include:
+Current visual direction:
 
 ```text
-background       #171310
-surface          #211B17
-surfaceElevated  #2A221D
-surfaceLight     #F3EDE3
-inputSurface     #FAF6F0
-accent           #C49A58
-accentHover      #D2AA68
-textPrimary      #F5EFE6
-textMuted        #C8BCAF
-textOnLight      #211B17
-borderSubtle     #3A302A
-inputBorder      #87776A
-divider          #332A24
-focusDark        #E0B86F
-focusLight       #7A5525
+near-black / graphite surfaces
++
+off-white text
++
+restrained platinum accent
++
+light-neutral functional surfaces where semantically useful
 ```
+
+Do not reintroduce Fraunces, Instrument Serif, gold-first styling, or old warm-charcoal values.
+
+## 4. Token governance
 
 Components consume semantic tokens.
 
-Do not hardcode these values inside components.
+Do not:
 
-Do not create a parallel palette.
+- hardcode palette values in components;
+- create page-local token sets;
+- copy raw Theme V2 values into skills/page docs;
+- invent new spacing/radius/color values because an approximation looks close;
+- manually edit generated `theme.css`.
 
-## 5. Gold scarcity rule
+If a global token must change:
 
-Gold is an accent, not a theme fill.
+```text
+Theme V2 JSON
+→ theme validation/sync
+→ generated CSS
+→ implementation review
+```
 
-Approved uses:
+## 5. Platinum restraint
 
-- primary CTA;
-- selected state;
-- focus state where accessible;
-- short heading accent rule;
-- a restrained number of icons/details.
+Platinum is an accent, not a theme fill.
 
-Do not use gold for:
+Suitable uses include:
 
-- body text;
+- important action treatment where component rules call for it;
+- focus/selected states;
+- short rules/dividers/details;
+- small high-value emphasis.
+
+Do not use platinum for:
+
 - every icon;
+- body text;
 - every heading;
+- every border;
 - large decorative backgrounds;
-- borders around every card;
-- generic "luxury" decoration.
+- chrome/metallic effects.
 
-Dark text is required on gold CTA backgrounds.
+A premium result should still work primarily through graphite surfaces, off-white text, spacing, imagery, and hierarchy.
 
 ## 6. Surface hierarchy
 
-Use:
+Use semantic roles intentionally:
 
 ```text
 background
 surface
 surfaceElevated
 surfaceLight
+inputSurface
 ```
-
-with purpose.
 
 ### Open section
 
@@ -180,33 +166,33 @@ Content sits naturally on the page canvas.
 
 ### Contained feature panel
 
-Use only where the blueprint/component gives the section a contained visual identity.
+Use only when the blueprint/component gives the section a contained identity.
 
 ### Light surface
 
-Use for readability/function such as:
+Use for readability or function, such as:
 
-- pricing;
 - forms;
-- calculator;
-- FAQ;
-- long reading;
-- intentional How It Works panel.
+- calculators;
+- pricing;
+- FAQ/reading;
+- blueprint-approved contrast moments.
 
-Do not mechanically alternate dark/light sections.
+Do not alternate dark/light sections mechanically.
 
 ## 7. Same-surface adjacency
 
-If two adjacent sections use the same elevated surface, separate them through:
+Separate adjacent dark sections through:
 
-- surrounding page canvas;
-- approved section rhythm;
+- spacing rhythm;
 - composition;
-- heading hierarchy.
+- imagery;
+- heading hierarchy;
+- contained/open topology.
 
 Do not automatically solve adjacency with:
 
-- gold borders;
+- accent borders;
 - large shadows;
 - random surface changes;
 - arbitrary radius changes.
@@ -215,295 +201,287 @@ Do not automatically solve adjacency with:
 
 Cards must not become dashboard cards.
 
-Default:
+Default priorities:
 
-- surface contrast rather than border;
-- no obvious shadow;
-- no heavy elevation;
-- restrained radius;
-- no physical hover movement.
+```text
+surface contrast
+spacing
+content hierarchy
+image role
+```
 
-Before creating a card ask:
+before:
 
-> Does this content actually represent a bounded reusable item?
+```text
+border
+shadow
+decoration
+```
 
-Do not make every content cluster a card.
+Do not put every information group inside a rounded container.
 
 ## 9. Nested-card warning
 
-Whenever a contained section contains multiple inner cards, check for:
+Avoid card-inside-card compositions unless a real interaction/data hierarchy requires them.
 
-```text
-BIG CARD
-  ├─ CARD
-  ├─ CARD
-  └─ CARD
-```
+Before nesting, ask whether:
 
-If the visual hierarchy becomes dashboard-like:
+- a divider;
+- open layout;
+- typography;
+- spacing;
+- a single parent surface;
 
-- reduce inner surface strength;
-- remove unnecessary borders/shadows;
-- let imagery/dividers/spacing define items;
-- preserve semantic grouping without stacking surfaces.
-
-Nested surfaces require justification.
+would communicate structure better.
 
 ## 10. Radius system
 
-Locked defaults:
+Use the active semantic radius tokens from Theme V2.
+
+Role hierarchy:
 
 ```text
-section/hero/feature panel  1rem / 16px
-card/image panel            0.75rem / 12px
-controls                    0.5rem / 8px
+control
+card/media
+section/major panel
 ```
 
-Do not introduce:
+Do not substitute arbitrary `rounded-*` values across similar components.
 
-```text
-1.5rem
-2rem
-3rem
-```
-
-SaaS-style rounding by default.
-
-Blueprint-specific exceptions must be documented.
+Do not inflate radius to create artificial softness.
 
 ## 11. Spacing tiers
 
-Approved section-separation tiers:
+Page rhythm uses the Theme V2 section spacing tiers:
 
 ```text
-compact   clamp(3rem, 5vw, 4rem)
-standard  clamp(4rem, 7vw, 6rem)
-feature   clamp(5rem, 9vw, 8rem)
+compact
+standard
+feature
 ```
 
-These represent page-level rhythm.
+Choose by section role and blueprint.
 
-They are **not** universal internal component gaps.
-
-Do not use section spacing for:
-
-- field gaps;
-- card padding;
-- heading-to-description gap;
-- icon-to-title gap.
-
-Use the existing internal spacing scale/Tailwind tokens for component internals.
-
-If the project lacks an internal spacing token for a repeated relationship, propose one rather than abusing section spacing.
+Do not invent large whitespace to make a page feel premium.
 
 ## 12. Content-density proportionality
 
-Whitespace must correspond to content role.
+Section height must correspond to:
 
-Do not create huge empty vertical regions merely because the project is premium.
-
-A compact footer stays compact.
-
-A Final CTA remains medium-height.
-
-A trust section stays compact.
-
-Luxury spacing means deliberate hierarchy, not maximum empty space.
-
-## 13. Layout system
-
-Main page container:
-
-```text
-~1280px max
-```
-
-Reading width:
-
-```text
-~920px max
-```
-
-Grid:
-
-```text
-mobile   4 columns
-tablet   8 columns
-desktop 12 columns
-```
-
-Approved desktop compositions:
-
-```text
-12
-6/6
-5/7
-7/5
-4/4/4
-8/4
-3/3/3/3 sparingly
-```
-
-Other compositions require blueprint approval.
-
-## 14. Alignment
-
-Left alignment is the default.
-
-Centered alignment is reserved for intentionally singular compositions such as:
-
-- selected Final CTA treatment;
-- Google Reviews heading if blueprint calls for it;
-- short trust statement;
-- selected How It Works intro.
-
-Do not center everything because it looks "luxury."
-
-## 15. Heading decoration
-
-Avoid uppercase eyebrow labels.
-
-Approved default major-heading decoration:
-
-```text
-short muted-gold accent rule
-```
-
-aligned left.
-
-Sequence numbers such as:
-
-```text
-01 / 02 / 03
-```
-
-are reserved for genuinely sequential content.
-
-Wireframe labels are not production eyebrows.
-
-## 16. Motion
-
-Motion is sparse.
-
-Approved:
-
-- gentle one-time hero copy entrance;
-- extremely slow hero image zoom/pan;
-- selected key-section soft reveal;
-- subtle button color transition;
-- subtle link underline/color transition;
-- restrained image brightness/contrast hover;
-- understated carousel transitions.
-
-Forbidden by default:
-
-- bounce;
-- spring;
-- jumping cards;
-- routine scale-on-hover;
-- exaggerated parallax;
-- autoplay hero video;
-- animation on every section.
-
-Reduced motion is mandatory.
-
-## 17. Borders and shadows
-
-Prefer surface contrast and spacing.
-
-Borders/dividers are appropriate when they improve comprehension, especially:
-
-- FAQ rows;
-- pricing rows;
-- form controls;
-- navigation/footer;
-- dense lists.
-
-Avoid decorative borders around ordinary sections/cards.
-
-Avoid obvious shadows.
-
-## 18. Component hover identity
-
-Default:
-
-### Buttons
-- same-hue brightness/color shift;
-- no scale;
-- no jump.
-
-### Links
-- subtle color/underline transition;
-- no positional movement.
-
-### Images
-- brightness/contrast shift;
-- no scale unless a documented component exception exists.
-
-## 19. Anti-AI visual patterns
-
-Do not default to:
-
-- gradient blobs;
-- glassmorphism;
-- glowing CTA buttons;
-- gradient text;
-- excessive pills;
-- every section in a rounded box;
-- huge rounded corners;
-- arbitrary overlapping blobs;
-- icon/title/body card grids repeated everywhere;
-- constant alternating image/text zig-zags;
-- fake metrics;
-- excessive decorative separators;
-- strong card hover elevation;
-- image zoom everywhere;
-- identical section treatment repeated down the page.
-
-## 20. Blueprint exceptions
-
-A page blueprint may explicitly override a generic rule.
+- content;
+- image role;
+- conversion importance;
+- blueprint spacing tier.
 
 Examples:
 
-- homepage ServiceShowcase uses asymmetric 35/30/35-style mosaic;
-- homepage ServiceShowcase uses full-card imagery instead of generic ServiceCard structure;
-- Final CTA may use restrained warm-charcoal → warm-brown gradient;
-- homepage How It Works is intentionally light.
+- Trust is compact.
+- Footer is compact.
+- Final CTA is a medium-height closer.
+- Hero is the dominant entrance.
+- Reading/functional sections receive the space needed for clarity, not theatrical emptiness.
 
-Do not generalize a page exception to unrelated pages.
+## 13. Layout system
 
-## 21. Global components
+Use the active Theme V2 layout JSON for:
 
-Global components such as:
+- main/reading/narrow containers;
+- page gutters;
+- responsive grid counts;
+- column gaps;
+- breakpoints;
+- approved composition ratios.
+
+A blueprint may define an explicit exception such as a Homepage service mosaic or full-bleed Hero.
+
+Do not convert every section into a 12-column composition when the component's container width is the real driver.
+
+Use container queries where appropriate.
+
+## 14. Full-bleed vs contained ownership
+
+"Full-bleed" describes the visual/media/surface footprint, not necessarily the text measure.
+
+A full-bleed section may still contain an inner `PageContainer`.
+
+When blueprint says full-bleed Hero:
 
 ```text
-Header
-Footer
-Button
-Breadcrumbs
-FAQ
-FinalCTA
+viewport-width media/surface
++
+contained inner content alignment
 ```
 
-should be reused.
+Do not wrap the entire Hero in a main-width container and call the background full bleed.
 
-A page implementation agent must not redesign them locally unless the task explicitly changes the global component.
+## 15. Alignment
 
-## 22. Final self-check
+Strong alignment is a luxury signal.
 
-Before completing design work:
+Prefer:
 
-- [ ] palette uses semantic tokens;
-- [ ] gold remains scarce;
-- [ ] light surfaces are semantic;
-- [ ] radius system preserved;
-- [ ] section rhythm uses approved tiers;
-- [ ] internal spacing is not using section tokens;
-- [ ] no dashboard/card-grid drift;
-- [ ] no generic AI visual effects;
-- [ ] left alignment preserved unless intentionally overridden;
-- [ ] motion remains sparse;
-- [ ] same-surface sections remain distinct without decoration hacks;
-- [ ] blueprint exceptions remain page-specific;
-- [ ] global components were reused rather than reinterpreted.
+- consistent container edges;
+- deliberate grid starts;
+- intentional baseline relationships;
+- controlled asymmetry.
+
+Avoid random offsets and decorative overlaps.
+
+## 16. Typography
+
+Typography implementation belongs to `.skills/typography-system.md`.
+
+At design-foundation level:
+
+- page headings use Inter Tight;
+- body/UI use Manrope;
+- BrandLockup uses Cormorant Garamond Italic only;
+- heading scale comes from Theme V2 tokens;
+- font loading must be verified in browser.
+
+Do not accept a "similar-looking" fallback.
+
+## 17. Heading decoration
+
+Do not add eyebrow labels/rules to every section.
+
+Use a short accent rule or small label only where it improves hierarchy and the blueprint/component identity supports it.
+
+Decorative platinum details should remain sparse.
+
+## 18. Motion
+
+Use Theme V2 motion tokens.
+
+Motion must be:
+
+- subtle;
+- purposeful;
+- low-amplitude;
+- reduced/disabled under `prefers-reduced-motion`.
+
+Do not add decorative loops, floating cards, glow pulses, or dramatic parallax.
+
+## 19. Borders and shadows
+
+Use borders as quiet separators.
+
+Use shadows rarely.
+
+Before adding either, try:
+
+- spacing;
+- surface contrast;
+- composition;
+- imagery.
+
+## 20. Hover identity
+
+Components remain physically stable unless their approved interaction requires movement.
+
+### Buttons
+
+Use restrained state change.
+
+### Links
+
+Use clear hover/focus indication without decorative motion.
+
+### Images
+
+Subtle image-only brightness/contrast/scale may be allowed by component rules.
+
+Do not make cards jump upward by default.
+
+## 21. Astro scoped-style integration
+
+Visual defects can be integration defects.
+
+If a parent Astro component passes a class into a child component and then styles that class from a scoped `<style>`, verify whether the scoped attribute reaches the child-rendered DOM.
+
+Do not assume it does.
+
+For missing/hidden content diagnose:
+
+```text
+DOM ownership
+scoped selector match
+position
+z-index
+stacking context
+transform/filter/isolation
+overflow
+container wrapper behavior
+```
+
+before redesigning.
+
+## 22. Anti-AI visual patterns
+
+Reject default use of:
+
+- glassmorphism;
+- glow;
+- gradient text;
+- decorative gradient blobs;
+- excessive pills;
+- giant rounded rectangles;
+- strong shadows;
+- repeated icon cards;
+- fake metrics;
+- centered-everything;
+- giant empty sections;
+- routine zig-zag image/text;
+- "luxury" metallic/gold decoration.
+
+## 23. Blueprint exceptions
+
+A page blueprint may authorize exceptions to generic layout rules.
+
+Examples can include:
+
+- full-bleed Hero;
+- asymmetric service mosaic;
+- intentional light panel;
+- restrained Final CTA gradient.
+
+Exceptions are local.
+
+Do not generalize them to unrelated pages.
+
+## 24. Global components
+
+Approved global infrastructure should remain stable.
+
+When it looks wrong in a page, investigate:
+
+```text
+prop/data wiring
+CSS/scoped-style ownership
+stacking context
+parent overflow
+container ownership
+surface inheritance
+responsive parent constraints
+duplicate/legacy path
+```
+
+before changing the component design.
+
+## 25. Final self-check
+
+Before completing visible UI work:
+
+- [ ] Current page blueprint was read.
+- [ ] `DESIGN.md` was read.
+- [ ] Active Theme V2 JSON was inspected.
+- [ ] No raw token values were duplicated into the component.
+- [ ] Inter Tight/Manrope/Cormorant roles are preserved.
+- [ ] Platinum remains restrained.
+- [ ] Surface choice is semantic.
+- [ ] Radius/spacing use theme roles.
+- [ ] No unnecessary cardification was introduced.
+- [ ] Full-bleed/contained ownership matches the blueprint.
+- [ ] Responsive states preserve hierarchy.
+- [ ] Reduced-motion behavior is respected.
+- [ ] Shared components were not redesigned without proven root cause.

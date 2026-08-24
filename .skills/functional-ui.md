@@ -179,11 +179,9 @@ or mapped semantic tokens.
 
 Do not hardcode grays.
 
-Controls use project control radius:
+Controls use the active Theme V2 semantic control radius.
 
-```text
-8px
-```
+Do not duplicate its raw value in this skill or in page components.
 
 ## 11. Labels
 

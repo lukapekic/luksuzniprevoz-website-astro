@@ -1,8 +1,9 @@
-# Home Page Assembly — Locked V1
+# Home Page Assembly — Locked V1.1
 
 ## Exact order
+
 1. SiteHeader
-2. HomeHero
+2. HomepageHero
 3. ServiceShowcase
 4. Private Chauffeur Feature
 5. TrustStrip
@@ -12,31 +13,59 @@
 9. FinalCTA
 10. SiteFooter
 
+## Hero/Header integration
+
+At page top:
+
+```text
+SiteHeader overlays/integrates with full-bleed HomepageHero
+```
+
+There is no separate opaque Header strip above the Hero.
+
+Hero media is full viewport width; Hero content is aligned to the main inner container.
+
 ## Spacing sequence
-- Header -> Hero: small local gap (~space-3)
-- Hero -> Services: feature
-- Services internal section: feature with heading-to-grid space-8
-- Services -> Private Chauffeur: feature rhythm
-- Private Chauffeur -> Trust: standard
-- Trust -> Fleet: feature
-- Fleet -> How It Works: standard
-- How It Works -> Reviews: standard
-- Reviews -> Final CTA: feature
-- Final CTA -> Footer: standard
+
+- Header → Hero: integration/overlay, not a normal section gap.
+- Hero → Services: feature.
+- Services → Private Chauffeur: feature rhythm.
+- Private Chauffeur → Trust: standard.
+- Trust → Fleet: feature.
+- Fleet → How It Works: standard.
+- How It Works → Reviews: standard.
+- Reviews → FinalCTA: feature.
+- FinalCTA → Footer: standard/compact ending.
 
 ## Visual surface sequence
-cinematic contained -> open image mosaic -> open editorial split -> elevated contained -> open fleet -> light contained -> open reviews -> cinematic contained -> compact dark footer
+
+```text
+full-bleed cinematic Hero
+→ open image mosaic
+→ open editorial split
+→ elevated contained Trust
+→ open Fleet
+→ light contained How It Works
+→ open Reviews
+→ contained graphite FinalCTA
+→ compact dark Footer
+```
 
 ## Responsive checkpoints
-- 320–375px narrow mobile
-- 390–430px common mobile
-- 768px tablet portrait
-- 1024px tablet landscape / desktop threshold
-- 1280px desktop
-- 1440–1536px wide desktop
+
+Review at minimum:
+
+- narrow/common mobile;
+- tablet portrait;
+- tablet landscape;
+- desktop;
+- wide desktop sanity check.
 
 At all widths:
-- no page horizontal overflow
-- only carousel viewport may intentionally overflow internally
-- no clipped focus rings
-- no copy clipped to preserve fixed heights
+
+- no accidental page horizontal overflow;
+- carousel overflow remains contained to its viewport;
+- no clipped focus rings;
+- no copy clipped to preserve fixed heights;
+- Hero media remains full bleed;
+- Header/Hero contrast remains valid.

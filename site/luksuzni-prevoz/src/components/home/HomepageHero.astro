@@ -27,7 +27,7 @@
  *
  * Composition: the <section> IS the media canvas (full-bleed, no radius). ONE
  * PageContainer lives inside it for CONTENT alignment only — the copy grid is
- * container-capped + page-guttered, the media is not. Desktop 8/4 content
+ * container-capped + page-guttered, the media is not. Desktop 7/5 content
  * placement (left copy / right support statement) is CONTENT-PLACEMENT only —
  * it never creates a separate visual image container (blueprint §7 /
  * blueprint-to-ui §18). Mobile/tablet collapse to a single reading column.
@@ -54,7 +54,7 @@
  * Right-side support (blueprint §7 / 03 §Desktop): a small, restrained,
  * operational text block with a subtle divider — not cards, stats, badges, or
  * icons. Optional only because the editorial hero block does not author it yet
- * (blueprint §20); when supplied, the 8/4 split activates.
+ * (blueprint §20); when supplied, the 7/5 split activates.
  *
  * Image / LCP (03 §Surface/image / responsive-images-performance): the hero
  * image is the page LCP, so astro:assets <Image> is used directly (the
@@ -70,7 +70,7 @@
  * primitive. (Task §24 is stricter than 03 §Motion's permissive language; the
  * stricter, explicit instruction wins.)
  *
- * Breakpoints (task §21 / task 1D): the 8/4 desktop split activates at xl
+ * Breakpoints (task §21 / task 1D): the 7/5 desktop split activates at xl
  * (80rem / 1280px), NOT lg — at 1024–1279px the copy would be too cramped for
  * a side-by-side support column, so laptop stays a comfortable full-width
  * single column. The support statement follows below the CTA group below xl.
@@ -142,54 +142,63 @@ const isDecorative = imageAlt === "";
       Decorative (aria-hidden). */}
   <div class="homepage-hero__scrim" aria-hidden="true"></div>
 
-  {/* Content alignment only — PageContainer caps width to --container-main +
-     owns the page gutter. The media canvas is full-bleed; only the copy grid
-     is container-aligned. The section grid grounds this cell toward the lower /
-     optical region (align-items: end — blueprint §7 / task §19). Generous
-     block-end padding keeps the <Link> focus ring (outline 2px + offset 2px)
-     clear of the section edge (WCAG 2.2 SC 2.4.11 — ServiceCard pattern). */}
-  <PageContainer class="homepage-hero__inner">
-    <div
-      class:list={[
-        "homepage-hero__content",
-        hasSupport && "homepage-hero__content--split",
-      ]}
-    >
-      <div class="homepage-hero__copy">
-        <h1 id={titleId} class="homepage-hero__title">{title}</h1>
-        {description ? (
-          <p class="homepage-hero__desc">{description}</p>
-        ) : null}
+  {/* Content shell — a raw HomepageHero-owned <div>, NOT a class forwarded onto
+     PageContainer's root. Astro does not propagate a parent component's scope id
+     onto a child component's root element, so a scoped rule on a class forwarded
+     to PageContainer→Container would compile with this component's cid but never
+     match the rendered node (AGENTS.md §7; DESIGN.md §15). Keeping
+     homepage-hero__inner on a div this component renders directly makes the
+     scoped z-index:2 + block-padding rule match, so the content stacks above
+     the image/scrim. PageContainer inside caps content to --container-main +
+     owns the page gutter (full-bleed outer media + contained inner content —
+     01-system-rules §1). The section grid grounds this cell toward the lower /
+     optical region (align-items: end — blueprint §7). Generous block-end
+     padding keeps the <Link> focus ring (outline 2px + offset 2px) clear of the
+     section edge (WCAG 2.2 SC 2.4.11 — ServiceCard pattern). */}
+  <div class="homepage-hero__inner">
+    <PageContainer>
+      <div
+        class:list={[
+          "homepage-hero__content",
+          hasSupport && "homepage-hero__content--split",
+        ]}
+      >
+        <div class="homepage-hero__copy">
+          <h1 id={titleId} class="homepage-hero__title">{title}</h1>
+          {description ? (
+            <p class="homepage-hero__desc">{description}</p>
+          ) : null}
 
-        <div class="homepage-hero__actions">
-          <Link
-            variant="cta"
-            to={primaryAction.to}
-            href={primaryAction.href}
-            locale={locale}
-          >
-            {primaryAction.label}
-          </Link>
-          {secondaryAction ? (
+          <div class="homepage-hero__actions">
             <Link
-              variant="button"
-              to={secondaryAction.to}
-              href={secondaryAction.href}
+              variant="cta"
+              to={primaryAction.to}
+              href={primaryAction.href}
               locale={locale}
             >
-              {secondaryAction.label}
+              {primaryAction.label}
             </Link>
-          ) : null}
+            {secondaryAction ? (
+              <Link
+                variant="button"
+                to={secondaryAction.to}
+                href={secondaryAction.href}
+                locale={locale}
+              >
+                {secondaryAction.label}
+              </Link>
+            ) : null}
+          </div>
         </div>
-      </div>
 
-      {hasSupport ? (
-        <aside class="homepage-hero__support">
-          <p class="homepage-hero__support-text">{supportText}</p>
-        </aside>
-      ) : null}
-    </div>
-  </PageContainer>
+        {hasSupport ? (
+          <aside class="homepage-hero__support">
+            <p class="homepage-hero__support-text">{supportText}</p>
+          </aside>
+        ) : null}
+      </div>
+    </PageContainer>
+  </div>
 </section>
 
 <style>
@@ -269,12 +278,11 @@ const isDecorative = imageAlt === "";
     padding-block: clamp(1.5rem, 4vw, 4rem) clamp(2rem, 6vw, 5rem);
   }
 
-  /* Content grid: single column by default; 8fr/4fr split (left copy / right
-     support statement) at xl only (03 §Desktop content grid, rebalanced per
-     task 1E so the copy keeps usable width and the support stays a narrow,
-     restrained column — not a large panel). This is CONTENT-PLACEMENT only —
-     the image fills the whole canvas behind, there is no separate image column
-     (blueprint §7 / blueprint-to-ui §18). */
+  /* Content grid: single column by default; 7fr/5fr split (left copy / right
+     support statement) at xl only (03 §Desktop content grid — the approved
+     Homepage content relationship, blueprint §7 / wireframe). This is
+     CONTENT-PLACEMENT only — the image fills the whole canvas behind, there is
+     no separate image column (blueprint §7 / blueprint-to-ui §18). */
   .homepage-hero__content {
     display: grid;
     gap: var(--space-8);
@@ -363,7 +371,7 @@ const isDecorative = imageAlt === "";
     }
   }
 
-  /* ── xl (>=80rem): 8/4 content split. The split activates at xl (1280px)
+  /* ── xl (>=80rem): 7/5 content split. The split activates at xl (1280px)
      rather than lg so laptop (1024–1279px) stays a comfortable full-width
      single column instead of cramped two-column text (task 1D). Panel height
      is content-safe: a near-viewport min-block-size floor and NO restrictive
@@ -371,7 +379,7 @@ const isDecorative = imageAlt === "";
      GROWS to fit content instead of clipping the CTA row (task 1B). */
   @media (min-width: 80rem) {
     .homepage-hero__content--split {
-      grid-template-columns: 8fr 4fr;
+      grid-template-columns: 7fr 5fr;
       gap: clamp(2rem, 5vw, 5rem);
     }
     .homepage-hero__support {

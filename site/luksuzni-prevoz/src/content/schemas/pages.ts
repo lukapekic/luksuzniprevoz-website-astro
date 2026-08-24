@@ -46,9 +46,20 @@ const pageBase = BaseContentSchema.merge(BaseSeoSchema).extend({
   intro: z.string().optional(),
 });
 
+/**
+ * Homepage hero — the shared heroSchema with `supportText` REQUIRED. The
+ * Homepage locks the 7/5 content split (blueprint §7 / 03-home-hero §Desktop
+ * content grid), whose right column is the support/trust statement; every
+ * locale authors it, so the field is required here. Other archetypes reuse the
+ * shared heroSchema where supportText stays optional (they have no 7/5 split).
+ */
+const homeHeroSchema = heroSchema.extend({
+  supportText: z.string().min(1),
+});
+
 export const homePageSchema = pageBase.extend({
   pageType: z.literal("home"),
-  hero: heroSchema,
+  hero: homeHeroSchema,
   services: z.object({
     heading: sectionHeadingSchema,
     items: z.array(routeCardSchema).length(4),

@@ -18,7 +18,7 @@ Top:
 - transparent/near-transparent over Hero only if contrast is valid
 
 Sticky:
-- background: page background or surface
+- background: Theme V2 background/surface
 - text: primary
 - muted separators only if needed
 - no outer radius
@@ -51,7 +51,7 @@ Keep restrained. No promotional cards or mega-menu.
 - background sticky: page background/surface
 - text: textPrimary
 - muted: textMuted
-- CTA: accent + textOnLight
+- CTA: approved shared Button treatment using Theme V2 tokens
 - radius controls: control radius
 - focus on dark: focusDark
 

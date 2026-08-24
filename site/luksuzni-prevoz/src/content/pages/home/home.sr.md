@@ -18,10 +18,11 @@ hero:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: "Pogledaj vozila"
+    label: "Zatražite ponudu"
     target:
-      type: route
-      routeKey: fleet
+      type: flow
+      flowKey: quote
+  supportText: "Diskretna koordinacija i ručna potvrda za svaku vožnju — profesionalni vozač za poslovne, aerodromske, privatne i posebne događaje."
 
 services:
   heading:

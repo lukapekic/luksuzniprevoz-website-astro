@@ -205,7 +205,7 @@ The gate runs in `.github/workflows/release.yml` on every push to `main`.
 | `docs/optional-vrt.md` | Optional Visual Regression Testing recipe (FND-UI-08..12) |
 | `docs/rule-traceability.md` | Generated rule → enforcer matrix (FND-META-09, auto-generated) |
 | `docs/spec-amendments.md` | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12) |
-| `docs/AGENTS.md` | AI agent development guidelines |
+| `AGENTS.md` | AI agent development guidelines |
 
 ## License
 

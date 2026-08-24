@@ -120,7 +120,7 @@ The photograph must support the composition.
 
 ## 6. Scrims
 
-Use restrained warm-charcoal scrims where text overlays photography.
+Use restrained neutral graphite/dark scrims where text overlays photography.
 
 Prefer directional/local contrast treatment.
 
@@ -242,7 +242,7 @@ Avoid:
 - aggressive vignette;
 - gold tint over everything.
 
-Aim for natural premium photography integrated into warm-charcoal UI.
+Aim for natural premium photography integrated into the Black & Platinum graphite UI.
 
 ## 16. Image hover
 

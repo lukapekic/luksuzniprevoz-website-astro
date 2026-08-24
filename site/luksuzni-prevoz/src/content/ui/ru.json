@@ -28,5 +28,12 @@
   "contact.officeNote": "Обычно отвечаем в течение 2 часов в рабочее время.",
   "brand.monogram": "GS",
   "footer.company": "Компания",
-  "footer.hoursDays": "Пн–Вс"
+  "footer.hoursDays": "Пн–Вс",
+  "booking.mode.hourly": "По часам",
+  "booking.mode.halfDay": "Полдня",
+  "booking.mode.fullDay": "Полный день",
+  "booking.from": "от",
+  "booking.upTo": "до",
+  "booking.unit.hours": "ч",
+  "booking.unit.km": "км"
 }

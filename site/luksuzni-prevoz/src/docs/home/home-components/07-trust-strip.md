@@ -5,7 +5,7 @@
 - heading margin-bottom: `space-6` / about `1.5rem`
 
 ## Contained panel
-- background: surfaceElevated `#2A221D`
+- background: Theme V2 `surfaceElevated` semantic token
 - radius: `1rem`
 - padding: `clamp(1.5rem, 3vw, 2.3rem)`
 
@@ -30,7 +30,7 @@
 
 ## Icon
 - restrained ~`2rem` footprint
-- accent or muted-gold line treatment
+- restrained platinum/accent line treatment only if needed
 - decorative icon hidden from AT if title already conveys meaning
 
 ## Text

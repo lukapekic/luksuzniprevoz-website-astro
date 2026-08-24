@@ -87,6 +87,15 @@ export const heroSchema = z.object({
   description: z.string().min(1).optional(),
   primaryCta: ctaSchema,
   secondaryCta: ctaSchema.optional(),
+  /**
+   * Right-side support/trust statement (blueprint §7 / 03-home-hero §Desktop
+   * content grid). Optional at this shared level: only the Homepage locks it
+   * into the 7/5 split, so other archetypes' heroes may omit it. The Homepage
+   * archetype (homeHeroSchema in pages.ts) requires it once all locale files
+   * author it. Editorial copy only — a single concise statement (string), not
+   * cards/stats/badges (03-home-hero §Forbidden).
+   */
+  supportText: z.string().min(1).optional(),
   image: imageReferenceSchema.optional(),
 });
 

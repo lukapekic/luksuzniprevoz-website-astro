@@ -28,5 +28,12 @@
   "contact.officeNote": "Obično odgovaramo u roku od 2 sata tokom radnog vremena.",
   "brand.monogram": "GS",
   "footer.company": "Kompanija",
-  "footer.hoursDays": "Pon–Ned"
+  "footer.hoursDays": "Pon–Ned",
+  "booking.mode.hourly": "Po satu",
+  "booking.mode.halfDay": "Poludnevni",
+  "booking.mode.fullDay": "Celodnevni",
+  "booking.from": "od",
+  "booking.upTo": "do",
+  "booking.unit.hours": "h",
+  "booking.unit.km": "km"
 }

@@ -20,10 +20,11 @@ hero:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: "Посмотреть автопарк"
+    label: "Запросить расчёт"
     target:
-      type: route
-      routeKey: fleet
+      type: flow
+      flowKey: quote
+  supportText: "Деликатная координация и ручное подтверждение каждой поездки — профессиональный водитель для деловых поездок, трансферов, частных и особых мероприятий."
 
 services:
   heading:

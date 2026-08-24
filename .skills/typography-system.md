@@ -3,7 +3,7 @@ name: typography-system
 description: >
   Mandatory typography implementation and QA for Luxury Transportation. Use whenever
   implementing or reviewing headings, body text, navigation, buttons, forms, labels,
-  tables, pricing, editorial statements, localization, or font loading.
+  tables, pricing, editorial statements, localization, brand lockup, or font loading.
 ---
 
 # Luxury Transportation — Typography System
@@ -12,45 +12,40 @@ description: >
 
 Typography is a primary part of the brand.
 
-Using "a serif" is not enough.
-
 The implementation must preserve:
 
-- correct font families;
-- correct loaded font files;
+- the correct loaded font families;
 - semantic type hierarchy;
 - controlled scale;
-- editorial heading character;
+- serious/professional heading character;
 - readable body measure;
 - consistent weights;
-- line-height;
-- tracking;
-- localization robustness.
+- line-height and tracking;
+- localization robustness;
+- clear separation between page typography and brand-lockup typography.
+
+This skill is procedural. Raw type values live in active Theme V2 JSON.
 
 ## 1. Locked families
 
-Default production direction:
+Current production roles:
 
 ```text
 Headings / selected large statements:
-Fraunces
+Inter Tight
 
 Body / navigation / controls / forms / tables / pricing:
 Manrope
+
+BrandLockup wordmark only:
+Cormorant Garamond Italic
 ```
 
-Comparison preset for final review only:
+Do not silently substitute:
 
 ```text
-DM Serif Display
-Source Sans 3
-```
-
-Do not silently switch to the comparison preset.
-
-Do not use:
-
-```text
+Fraunces
+Instrument Serif
 Georgia
 Times
 Arial
@@ -58,53 +53,77 @@ Helvetica
 system-ui
 ```
 
-as final computed production fonts except as fallback after the intended family.
+as final production typography.
 
-## 2. Font loading is part of implementation
+Fallbacks are acceptable only when the intended font genuinely cannot load; that condition is a defect to diagnose, not a visual alternative.
 
-Do not assume a CSS declaration means the font loaded.
+## 2. Active source
+
+Inspect:
+
+```text
+site/luksuzni-prevoz/src/theme/versions/version-2/typography.json
+site/luksuzni-prevoz/src/styles/fonts.css
+site/luksuzni-prevoz/src/styles/global.css
+site/luksuzni-prevoz/src/theme/generated/theme.css
+```
+
+Do not hand-edit generated theme CSS.
+
+## 3. Font loading is part of implementation
 
 Verify:
 
-- font files/remote loading strategy;
-- required weights;
-- variable-font setup where used;
-- CSS family names;
-- Tailwind semantic font tokens;
-- browser network/load success.
+- self-hosted package/file exists;
+- `@font-face` family name matches the token family;
+- required script subset exists;
+- required weights/axes exist;
+- italic is loaded where the brand uses it;
+- CSS utility maps to `font-family`, not another font property;
+- CSP permits the font source;
+- browser actually fetches the font.
 
-## 3. Runtime computed-font verification
+A declaration alone does not prove a font loaded.
 
-For design review, inspect browser-computed styles.
+## 4. Current project loading contract
 
-At minimum:
-
-```text
-H1 → Fraunces
-H2 → Fraunces
-body paragraph → Manrope
-navigation → Manrope
-button → Manrope
-form label/control → Manrope
-```
-
-If computed style falls back to:
+The current site self-hosts:
 
 ```text
-Georgia
-serif
-Arial
-Helvetica
-system-ui
+Inter Tight Variable
+Manrope Variable
+Cormorant Garamond Variable italic
 ```
 
-before the intended family, fail design review.
+Inter Tight and Manrope must support Serbian Latin, English, and Russian/Cyrillic requirements used by the configured locales.
+
+BrandLockup uses the loaded Cormorant italic face rather than synthetic italic.
+
+Do not add remote Google Fonts loading unless the global CSP/design strategy is explicitly changed.
+
+## 5. Runtime computed-font verification
+
+At minimum inspect browser-computed styles for:
+
+```text
+H1                  → Inter Tight
+H2                  → Inter Tight
+body paragraph      → Manrope
+navigation          → Manrope
+button              → Manrope
+form label/control  → Manrope
+BrandLockup         → Cormorant Garamond + italic
+```
+
+If the intended family is not the first resolved production font, fail typography review.
 
 A screenshot cannot prove font correctness.
 
-## 4. Semantic type scale required
+## 6. Semantic type scale required
 
-The project should expose or define a stable semantic scale, conceptually:
+Use the active Theme V2 semantic scale.
+
+Conceptual roles:
 
 ```text
 display
@@ -118,9 +137,7 @@ ui
 caption
 ```
 
-Exact token values belong in the design system.
-
-Do not let each component invent:
+Do not let components invent unrelated one-off type sizes such as:
 
 ```text
 text-[51px]
@@ -128,280 +145,205 @@ text-[43px]
 text-[37px]
 ```
 
-independently.
+unless a page-specific locked decision explicitly requires an exception.
 
-If the scale is not yet encoded in tokens, flag this before widespread implementation.
+## 7. Heading use
 
-## 5. Heading family use
-
-Serif is primarily for:
+Inter Tight is primarily for:
 
 ```text
 H1
 H2
 H3
-selected large brand statements
+selected large statements
 ```
 
-Do not use serif for:
+Do not use page-heading typography for:
 
-- nav;
-- form labels;
+- navigation;
 - buttons;
-- pricing;
-- data;
-- operational UI;
-- table values.
+- form labels;
+- table values;
+- operational metadata;
+- dense functional UI.
 
-## 6. Heading tracking
+Those remain Manrope.
 
-Target intent:
+## 8. Brand type isolation
 
-```text
-H1/H2 ~ -0.02em
-H3    ~ -0.01em
-```
+Cormorant Garamond Italic is a coded brand identity treatment.
 
-Use semantic tokens if available.
+Use it for the BrandLockup/approved brand wordmark only.
+
+Do not reuse it for:
+
+- H1/H2;
+- pull quotes;
+- Final CTA;
+- service-card titles;
+- decorative accents.
+
+This prevents the site from drifting back toward an editorial/newspaper aesthetic.
+
+## 9. Weight discipline
+
+Use semantic weights from Theme V2.
+
+Inter Tight and Manrope are variable faces; request real supported weights.
+
+Do not:
+
+- synthesize bold/italic to imitate a missing face;
+- use excessive weight jumps section-by-section;
+- compensate for weak hierarchy by making every heading bold.
+
+If `font-synthesis: none` is used defensively, verify the requested weight exists.
+
+## 10. Heading tracking
+
+Use the Theme V2 semantic letter-spacing tokens.
 
 Do not invent tracking per section.
 
-## 7. Line-height
+Inter Tight's compact character means overly tight tracking can become harsh, especially in Cyrillic.
 
-Heading intent:
+Review localized headings visually.
 
-```text
-~1.05–1.15
-```
+## 11. Line-height
 
-Body:
+Use Theme V2 heading/body/UI line-height tokens.
 
-```text
-~1.55–1.65
-```
+Do not:
 
-Do not use excessively tight multi-line headings that collide.
+- collapse multi-line headings until glyphs visually collide;
+- loosen headings into editorial display typography;
+- compress UI text below comfortable readability.
 
-Do not use loose editorial headings that lose impact.
+## 12. H1 line-count intent
 
-## 8. H1 line-count intent
+A page blueprint may constrain visual line count.
 
-Blueprint may constrain visual line count.
+For the Homepage, the target remains a strong desktop H1 that generally resolves to about two visual lines where final localized copy permits.
 
-Example homepage target:
+When a localized H1 becomes too tall:
 
-```text
-ideally ~2 visual lines on desktop
-```
+1. inspect content width;
+2. inspect container/grid allocation;
+3. inspect the semantic H1 token;
+4. inspect copy fit;
+5. inspect breakpoint.
 
-If final localized copy produces 3–4 dominant lines:
+Do not immediately shrink the H1 to an arbitrary small size.
 
-- inspect H1 max width;
-- inspect semantic type scale;
-- inspect copy fit;
-- inspect breakpoint.
+## 13. Body measure
 
-Do not automatically shrink font to tiny size.
+Use Theme V2 measure tokens and layout containers.
 
-Do not ignore blueprint line-count intent.
+Long body text should not span the full 80rem page container.
 
-## 9. Body measure
+Use the reading/narrow measures where appropriate.
 
-Target:
+## 14. Navigation and controls
 
-```text
-60–72 characters per line
-```
+Navigation/buttons/forms use Manrope.
 
-Reading container approximately:
+Keep UI typography:
 
-```text
-42–46rem / ~920px max
-```
+- compact;
+- legible;
+- consistent;
+- free from heading-font decoration.
 
-Text inside split sections may be narrower.
+Do not use all-caps indiscriminately.
 
-Avoid overly wide body copy.
+## 15. Localization robustness
 
-## 10. Alignment
-
-Left is default.
-
-Do not center paragraphs/section headings by default.
-
-Centered text requires intentional blueprint/design-system approval.
-
-## 11. Uppercase labels
-
-Avoid uppercase eyebrow-label patterns.
-
-Wireframe annotations are not production typography.
-
-Do not render:
-
-```text
-MAIN SERVICES
-WHY CHOOSE US
-AIRPORT HERO
-```
-
-unless actual content design explicitly calls for it.
-
-## 12. Section heading consistency
-
-Use shared `SectionHeading` or equivalent primitive.
-
-Repeated H2 sections should not drift in:
-
-- size;
-- weight;
-- tracking;
-- description gap;
-- accent-rule spacing.
-
-## 13. UI text
-
-UI typography must remain operational and precise.
-
-Use Manrope for:
-
-- navigation;
-- CTA;
-- language switch;
-- forms;
-- status;
-- pricing;
-- carousel controls;
-- small labels.
-
-Do not apply editorial serif to operational controls.
-
-## 14. Weight discipline
-
-Only load/use weights the design system needs.
-
-Avoid random:
-
-```text
-300
-500
-600
-700
-800
-```
-
-mixes across similar UI.
-
-Define roles.
-
-For example:
-- body regular;
-- UI medium;
-- button medium/semibold;
-- headings appropriate variable/weight.
-
-Exact values should be project-tokenized.
-
-## 15. Fluid typography
-
-Fluid typography is allowed and preferred where useful.
-
-Use controlled semantic `clamp()` tokens.
-
-Do not create a unique clamp expression for every heading.
-
-## 16. Localization stress
-
-Test typography with:
+Review typography in:
 
 ```text
 Serbian Latin
 English
-Russian
+Russian Cyrillic
 ```
 
 Check:
-- H1 wrapping;
+
+- heading wrap;
 - CTA width;
-- nav;
-- form labels;
-- service names;
-- footer;
-- card headings.
-
-Do not mix scripts accidentally.
-
-For Serbian project locale:
-
-```text
-Latin script only
-```
-
-unless explicitly changed.
-
-## 17. Immutable brand strings
-
-Public brand:
-
-```text
-Luxury Transportation
-```
-
-is a locked identifier.
-
-Do not visually/localize it into a translated brand name unless project rules explicitly change.
-
-## 18. Font fallback visual failure
-
-If the intended font is unavailable during development:
-
-- do not approve final design using fallback appearance;
-- do not tune spacing/type around fallback metrics;
-- fix loading first.
-
-Otherwise layout corrections become invalid when the correct font loads.
-
-## 19. Screenshot QA
-
-Review:
-
-- H1 size relative to hero;
-- number of visual lines;
+- nav width;
+- punctuation;
+- Cyrillic glyph coverage;
+- uppercase behavior;
 - line-height;
-- serif character;
-- body density;
-- nav size;
-- CTA hierarchy;
-- section heading consistency;
-- footer density.
+- truncation.
 
-But screenshot review must be combined with computed-font verification.
+Do not approve the type system using English only.
 
-## 20. Rejection conditions
+## 16. Responsive typography
 
-Reject:
+Use semantic responsive scale behavior.
 
-- wrong computed font;
-- generic serif fallback;
-- system sans fallback;
-- no semantic scale;
-- arbitrary type sizes proliferating;
-- H1 violating locked hierarchy/line count without review;
-- serif used in operational UI;
-- uppercase wireframe annotations promoted to content;
-- mixed Serbian Cyrillic on Latin-only page;
-- body lines excessively wide;
-- all text centered without blueprint basis.
+Avoid arbitrary breakpoint ladders with many one-off sizes.
 
-## 21. Completion report
+If a heading becomes awkward at tablet widths, first inspect:
+
+- available container width;
+- split activation;
+- max-width;
+- grid proportion;
+- copy measure.
+
+Typography should not compensate for a structurally wrong layout.
+
+## 17. Tailwind v4 usage
+
+Use project utilities:
 
 ```text
-FONTS LOADED:
-COMPUTED H1 FONT:
-COMPUTED BODY FONT:
-TYPE TOKENS USED:
-H1 LINE COUNT:
-BODY MEASURE:
-LOCALIZATION TESTED:
-TYPOGRAPHY ISSUES:
+font-heading
+font-body
+font-brand
 ```
+
+where appropriate.
+
+Do not use ambiguous arbitrary font utilities such as:
+
+```text
+font-[var(--font-body)]
+```
+
+when Tailwind could interpret the value for another font property.
+
+Do not assume CSS variables declared only in `:root` automatically create Tailwind font-family utilities; use the registered project utilities.
+
+## 18. Astro scoped styles
+
+Font-family ownership should normally live on the element/component that renders the text.
+
+Do not depend on a parent component's scoped style reaching DOM rendered by a child component unless that relationship is explicitly supported.
+
+## 19. Typography review failures
+
+Fail typography review when:
+
+- H1/H2 resolves to the wrong family;
+- body/UI resolves to Inter Tight because `font-body` was omitted;
+- BrandLockup uses a synthesized/fallback italic;
+- Fraunces or Instrument Serif reappears in page headings;
+- a locale falls back because the selected face lacks required glyphs;
+- arbitrary one-off type values replace the semantic scale;
+- layout is tuned around a fallback font.
+
+## 20. Completion checklist
+
+- [ ] Theme V2 typography JSON inspected.
+- [ ] Fonts CSS inspected.
+- [ ] H1 computed family verified.
+- [ ] H2 computed family verified.
+- [ ] Body/UI computed family verified.
+- [ ] BrandLockup family + italic verified where relevant.
+- [ ] Serbian/English/Russian coverage considered.
+- [ ] Heading wrapping reviewed at tablet widths.
+- [ ] No stale Fraunces/Instrument Serif assumptions introduced.
+- [ ] No arbitrary type scale drift introduced.

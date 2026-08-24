@@ -31,14 +31,14 @@ Do not redesign the page merely because another design is possible.
 
 ## 1. Required inputs
 
-Review, when available:
+Review:
 
-- design-system.v1.md;
-- design-decisions.md;
-- components-rules.v1.md;
-- token JSON;
-- page blueprint;
-- page wireframe;
+- root `AGENTS.md`;
+- `DESIGN.md`;
+- the active Theme V2 JSON under `site/luksuzni-prevoz/src/theme/versions/version-2/`;
+- the locked page blueprint;
+- the page wireframe for structural intent;
+- current verified shared component source/API where relevant;
 - implementation screenshots;
 - browser-rendered page;
 - relevant source/components;
@@ -137,11 +137,12 @@ button
 form control
 ```
 
-Expected default:
+Expected current roles:
 
 ```text
-Fraunces
-Manrope
+Headings     → Inter Tight
+Body / UI    → Manrope
+BrandLockup  → Cormorant Garamond Italic
 ```
 
 Fail if fallback/system fonts are actually rendering.
@@ -265,13 +266,13 @@ Expected:
 
 Flag large SaaS rounding.
 
-## 16. Gold-use review
+## 16. Platinum-use review
 
-Gold should remain scarce.
+Platinum should remain restrained.
 
-Record every major gold use.
+Record any large or repeated platinum/metallic-accent use.
 
-If gold becomes a default icon/text/border color, fail design-system fidelity.
+If platinum becomes the default icon/text/border color or a decorative fill, fail design-system fidelity.
 
 ## 17. Cardification review
 
@@ -398,10 +399,10 @@ SIGNIFICANT
 Hero H1
 
 EXPECTED:
-Fraunces, semantic H1 token, approximately two desktop lines.
+Inter Tight, semantic H1 token, approximately two desktop lines where copy permits.
 
 OBSERVED:
-Computed font-family resolves to Georgia; H1 wraps to three dominant lines.
+Computed font-family resolves to system fallback; H1 wraps to three dominant lines.
 
 WHY:
 Breaks locked typography and changes hero balance.

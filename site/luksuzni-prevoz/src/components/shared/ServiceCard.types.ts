@@ -55,6 +55,22 @@ import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 // import. `import type` is erased at compile time; only the inferred type is used.
 type ServiceCardImage = typeof sampleAsset;
 
+/**
+ * Neutral Black & Platinum placeholder media — used when no photographic asset
+ * is supplied yet (development/asset-gap phase). Each variant is a subtle
+ * semantic-surface gradient so the four cards stay distinguishable by tone
+ * alone, entirely inside the active theme (no raw colors, no gold/blue). The
+ * media LAYER architecture is unchanged: the placeholder renders in the same
+ * `.service-card__image` slot as a real `<Image>`, so swapping to real imagery
+ * later is just passing `image` — no component rewrite (DESIGN.md §14: missing
+ * assets do not authorize redesign).
+ */
+export type ServiceCardPlaceholder =
+  | "graphite" // dark graphite (subtle)
+  | "graphite-light" // slightly lighter graphite
+  | "near-black-graphite" // near-black → graphite
+  | "graphite-near-black"; // graphite → near-black
+
 /** A single CTA. Exactly one of `to` / `href` should be supplied by the caller. */
 export interface ServiceCardAction {
   /** Localized CTA label — from the caller, never hardcoded (FND-ARCH-03). */
@@ -70,10 +86,16 @@ export interface ServiceCardProps {
   title: string;
   /** One concise supporting sentence (localized, from caller). Wraps naturally. */
   description: string;
-  /** Service image — an imported ImageMetadata asset, rendered via astro:assets <Image>. */
-  image: ServiceCardImage;
+  /** Service image — an imported ImageMetadata asset, rendered via astro:assets <Image>.
+   *  Optional: when absent, a neutral placeholder media layer renders instead (see `placeholder`). */
+  image?: ServiceCardImage;
   /** Alt text; empty string = decorative (alt="" + role="presentation"). */
   imageAlt: string;
+  /**
+   * Neutral placeholder variant used when `image` is absent (asset-gap phase).
+   * Ignored when `image` is supplied. Defaults to "graphite".
+   */
+  placeholder?: ServiceCardPlaceholder;
   /** Visible navigation CTA — the only interactive element on the card. */
   action: ServiceCardAction;
   /** Current locale — passed to <Link> for localized route resolution. */

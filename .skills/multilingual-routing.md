@@ -3,7 +3,7 @@ name: multilingual-routing
 description: Use for locales, the route map, translated slugs, URL building, hreflang, language switching, breadcrumbs, static path generation, and per-locale content/UI-string parity. Covers the config-driven, route-registry-derived URL model.
 workstream: i18n-routing
 applies-to: "src/data/routes.ts, src/data/navigation.ts, src/content/pages/, src/content/ui/, foundation.config.ts (locales), any code that builds or links to an internal URL"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Multilingual Routing & i18n

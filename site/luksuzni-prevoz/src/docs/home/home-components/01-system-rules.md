@@ -1,109 +1,155 @@
 # Home Component System — Exact Implementation Rules
 
-## 1. Container
-All Home sections except the footer background use the main shell:
+Status: **Aligned to Homepage Blueprint v1.1 + Theme V2**
 
-```css
-width: min(calc(100% - (2 * page-gutter)), 80rem);
-margin-inline: auto;
+## 1. Container ownership
+
+Most Homepage sections use the active Theme V2 main container for inner content.
+
+The exception is the Homepage Hero:
+
+```text
+full-bleed outer media/surface
++
+main-container inner content
 ```
 
-Use the project's container/gutter tokens instead of copying this literal CSS when available.
+Do not wrap the Hero's entire media footprint in `PageContainer`.
+
+Footer background may be full width while its content remains contained.
 
 ## 2. Section rhythm
-The approved V1 order and spacing is:
 
-1. Header
-2. Hero
-3. Services — `feature`
-4. Private Chauffeur — `feature`
-5. Trust — `standard`
-6. Fleet — `feature`
-7. How It Works — `standard`
-8. Reviews — `standard`
-9. Final CTA — `feature`
-10. Footer — `standard` top separation + compact inner rhythm
+Locked order:
+
+1. SiteHeader
+2. HomepageHero
+3. ServiceShowcase
+4. Private Chauffeur
+5. Trust
+6. Fleet
+7. How It Works
+8. Reviews
+9. FinalCTA
+10. SiteFooter
+
+Use Theme V2 semantic section spacing:
+
+```text
+Hero → Services: feature
+Services → Private Chauffeur: generous feature rhythm
+Private Chauffeur → Trust: standard
+Trust → Fleet: feature
+Fleet → How It Works: standard
+How It Works → Reviews: standard
+Reviews → FinalCTA: feature
+FinalCTA → Footer: standard/compact ending
+```
 
 Do not mechanically alternate surfaces.
 
 ## 3. Open vs contained
+
 Open:
+
 - Services
 - Private Chauffeur
 - Fleet
 - Reviews
 
 Contained:
-- Hero
+
 - Trust
 - How It Works
-- Final CTA
+- FinalCTA
+
+Special:
+
+- HomepageHero = full-bleed outer media with contained inner content.
 
 ## 4. Colors
-Open dark sections:
-- background: page background `#171310`
-- main text: `#F5EFE6`
-- supporting text: `#C8BCAF`
-- accent: `#C49A58`
 
-Contained elevated:
-- background: `#2A221D`
+Use Theme V2 semantic color variables only.
 
-Light contained:
-- background: `#F3EDE3`
-- text: `#211B17`
-- accent: `#C49A58`
-- light focus: `#7A5525`
+Do not duplicate raw palette values.
+
+General mapping:
+
+```text
+open dark sections → background + textPrimary/textMuted
+contained dark      → surface/surfaceElevated
+light contained     → surfaceLight + textOnLight
+accent/detail       → restrained accent/platinum
+```
 
 ## 5. Radius
-- section panels: `1rem`
-- cards/images: `0.75rem`
-- buttons/controls: `0.5rem`
+
+Use Theme V2 semantic radius roles:
+
+```text
+section
+card/media
+control
+```
+
+The full-bleed Homepage Hero does not become a rounded contained panel.
+
 No arbitrary larger rounding.
 
-## 6. Borders/shadows
-- default border: none
-- dividers only where blueprint explicitly allows
-- divider token/value: `#332A24`
-- subtle border token/value: `#3A302A`
-- no card shadow unless a later design review proves it necessary
+## 6. Borders / shadows
+
+- Default decorative border: none.
+- Use divider/border tokens only where structure requires them.
+- No heavy card shadows.
+- Prefer surface contrast + spacing.
 
 ## 7. CTA styling
-Primary CTA:
-- background accent `#C49A58`
-- text `#211B17`
-- hover background `#D2AA68`
-- radius `0.5rem`
-- focus ring appropriate to surface
 
-Secondary CTA:
-- transparent/dark surface
-- primary text color
-- subtle border if required
-- same target height as primary
+Primary and secondary CTA treatments use approved shared Button/component contracts.
 
-Minimum practical target:
-- use project control-height token if one exists
-- otherwise do not go below ~2.75rem visual control height for primary Home CTAs
+Homepage CTA hierarchy:
+
+```text
+Primary    → Book a Chauffeur
+Secondary  → Request a Quote
+Section    → contextual section action
+Tertiary   → verified phone/email/WhatsApp
+```
+
+Do not hardcode old accent colors/radius values in Homepage files.
+
+Interactive target area must satisfy the project accessibility contract.
 
 ## 8. Motion
-- buttons: color/brightness only
-- cards: no translate, no scale
-- image hover: restrained brightness/contrast only
-- hero: optional one-time text entrance + subtle background zoom/pan
-- all nonessential movement disabled by reduced motion
+
+- Buttons: restrained state change.
+- Cards: no routine translate/lift.
+- Images: subtle approved brightness/contrast/scale only.
+- Hero: optional one-time content entrance + subtle background motion.
+- All nonessential movement respects reduced motion.
 
 ## 9. Breakpoints
-The wireframe's behavioral transitions are:
-- below 768px: mobile stack
-- 768–1023px: tablet
-- 1024px+: desktop
-Use project breakpoint tokens that correspond to these values.
+
+Use Theme V2 breakpoints and responsive-layout skill.
+
+Review:
+
+```text
+mobile
+tablet portrait
+tablet landscape
+desktop
+wide desktop
+```
+
+Do not infer that `lg` automatically means a design is acceptable.
 
 ## 10. Accessibility
-- one H1 only
-- logical H2/H3 hierarchy
-- full keyboard behavior
-- visible focus stronger than hover
-- overlay text must retain AA contrast at each crop
-- carousels require labels and controls; no autoplay
+
+- Exactly one H1.
+- Logical heading hierarchy.
+- Keyboard behavior for interactive controls.
+- Visible focus stronger than hover.
+- Overlay content must maintain WCAG 2.2 AA contrast at each image crop.
+- Carousels require labels/controls; no autoplay.
+- Header-over-Hero state must preserve contrast.

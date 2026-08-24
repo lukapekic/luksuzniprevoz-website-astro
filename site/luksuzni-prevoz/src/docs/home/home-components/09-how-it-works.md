@@ -5,8 +5,8 @@
 - main shell
 
 ## Panel
-- background: surfaceLight `#F3EDE3`
-- text: textOnLight `#211B17`
+- background: Theme V2 `surfaceLight` semantic token
+- text: Theme V2 `textOnLight` semantic token
 - radius `1rem`
 - padding: `clamp(2rem, 5vw, 4rem)`
 
@@ -32,7 +32,7 @@ Each step:
 ## Number
 - 01 / 02 / 03
 - heading/display-small token
-- accent/muted-gold
+- restrained Theme V2 platinum/accent detail
 - approved because sequential
 
 ## Text

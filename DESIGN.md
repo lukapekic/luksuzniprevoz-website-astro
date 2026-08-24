@@ -1,11 +1,11 @@
 # DESIGN.md
 
-> **Role:** Mandatory design entrypoint for humans and agents.
+> **Role:** Mandatory visual/design authority for Luxury Transportation.
 >
-> This file does **not** duplicate the design-token source of truth. It defines the
-> project's visual contract, design-source hierarchy, implementation workflow, and
-> review expectations. Raw token values and detailed component rules remain in their
-> dedicated versioned foundation files.
+> This file defines visual intent, authority, design behavior, component identity, and review expectations.
+> It does **not** duplicate raw token values. Raw values live in the active Theme V2 JSON.
+>
+> Technical/foundation authority lives in root `AGENTS.md`.
 
 ---
 
@@ -18,18 +18,21 @@ Luxury Transportation should feel:
 - sharp;
 - calm;
 - contemporary;
-- editorial;
 - discreet;
-- operationally confident.
+- operationally confident;
+- visually restrained;
+- image-led where imagery has a real role;
+- information-rich without becoming dense.
 
 The site should not look like:
 
 - a generic limousine template;
-- black/gold "luxury" cliché;
+- a black/gold luxury cliché;
+- a newspaper/editorial fashion site;
 - a SaaS dashboard;
 - a startup landing page;
 - a card-grid component showcase;
-- a silver/blue corporate site;
+- a silver/blue corporate template;
 - an AI-generated collection of fashionable effects.
 
 The desired character comes from:
@@ -37,11 +40,11 @@ The desired character comes from:
 ```text
 strong hierarchy
 +
-editorial typography
+modern typography
 +
-warm dark surfaces
+near-black graphite surfaces
 +
-restrained cream/gold contrast
+restrained platinum contrast
 +
 high-quality contextual imagery
 +
@@ -54,181 +57,261 @@ minimal visual noise
 
 ---
 
-# 2. Actual design sources of truth
+# 2. Design sources of truth
 
-Do not copy values out of this file into components.
-
-Use the project foundation sources.
-
-## Human-readable
+## Human-readable authority
 
 ```text
-design-system.v1.md
-design-decisions.md
-components-rules.v1.md
-product-foundation.md
+DESIGN.md
+locked page blueprint
+approved shared component contracts
 ```
 
-Use the repository's actual paths if these are stored under `docs/` or another foundation directory.
+## Machine-readable token authority
 
-## Machine-readable design sources
+The current site selects its active theme in:
 
 ```text
-design-system.v1.json
-palette.v1.json
-typography.v1.json
-spacing.v1.json
-radii.v1.json
-motion.v1.json
-layout.v1.json
+site/luksuzni-prevoz/foundation.config.ts
 ```
 
-Design tokens are versioned and mapped into Tailwind semantic tokens.
+The active design-token source is:
 
-Components consume semantic tokens.
+```text
+site/luksuzni-prevoz/src/theme/versions/version-2/
+  manifest.json
+  palette.json
+  typography.json
+  spacing.json
+  radii.json
+  motion.json
+  layout.json
+```
+
+Generated output:
+
+```text
+site/luksuzni-prevoz/src/theme/generated/theme.css
+```
+
+is machine-owned and must not be manually edited.
+
+Do not create parallel palette, typography, spacing, radius, or layout definitions in components, skills, page docs, or CSS patches.
 
 ---
 
 # 3. Design precedence
 
-For a page:
+For visible page work:
 
 ```text
 LOCKED PAGE BLUEPRINT
         ↓
-LOCKED DESIGN DECISIONS
+DESIGN.md
         ↓
-APPROVED COMPONENT RULES
+ACTIVE THEME V2 JSON
         ↓
-DESIGN SYSTEM / TOKENS
+APPROVED SHARED COMPONENT CONTRACTS
         ↓
 WIREFRAME STRUCTURAL INTENT
         ↓
-APPROVED PRODUCTION PATTERNS
+MATCHING .skills PROCEDURE
+        ↓
+VERIFIED PRODUCTION PATTERNS
         ↓
 EXTERNAL REFERENCES
 ```
 
-A page blueprint may explicitly authorize a local exception.
+A page blueprint may authorize a local structural exception.
 
-Do not generalize blueprint exceptions to other pages.
+A wireframe never overrides production tokens, typography, accessibility, routing, or component contracts.
 
----
-
-# 4. What the wireframe means
-
-Wireframes define:
-
-- section order;
-- hierarchy;
-- grouping;
-- relative prominence;
-- approximate composition;
-- grid topology;
-- content/image relationships;
-- responsive stacking intent;
-- presence of controls/actions.
-
-Wireframes do **not** define:
-
-- production font;
-- production palette;
-- uppercase helper labels;
-- grayscale surfaces;
-- skeleton blocks;
-- dashed image boxes;
-- placeholder borders;
-- exact placeholder text widths;
-- final shadow;
-- final card boundary;
-- final image boundary.
-
-Always perform:
-
-```text
-WIREFRAME
-   ↓
-STRUCTURAL EXTRACTION
-   ↓
-VISUAL DECONTAMINATION
-   ↓
-DESIGN-SYSTEM MAPPING
-   ↓
-PRODUCTION UI
-```
-
-Never ship a polished wireframe.
+If implementation and blueprint disagree, do not assume implementation is correct because it exists.
 
 ---
 
-# 5. Locked visual direction
+# 4. Current locked visual direction — Black & Platinum
 
-## Dark-first, not dark-only
+Theme V2 is the current production direction.
 
-Default visual balance is approximately:
+Core character:
 
 ```text
-70–80% dark
-20–30% light
+near-black / graphite canvas
++
+subtle dark surface hierarchy
++
+platinum / silver accent
++
+soft off-white primary text
++
+restrained light-neutral functional surfaces
++
+minimal borders
++
+controlled cinematic photography
 ```
 
-This is a direction, not a mechanical quota.
+Avoid reintroducing:
 
-Light surfaces are semantic tools for:
+- gold as the default luxury accent;
+- warm-brown theme drift;
+- cream/gold page identity;
+- blue/silver corporate styling;
+- decorative metallic gradients;
+- chrome/gloss effects.
+
+Platinum is a restrained accent and contrast tool, not a decorative fill used everywhere.
+
+---
+
+# 5. Typography
+
+Current roles are locked:
+
+```text
+Headings     → Inter Tight
+Body / UI    → Manrope
+BrandLockup  → Cormorant Garamond Italic
+```
+
+## Heading character
+
+Inter Tight should feel:
+
+- serious;
+- modern;
+- controlled;
+- professional;
+- compact enough for strong hierarchy;
+- not newspaper/editorial-serif.
+
+Do not substitute Fraunces, Instrument Serif, or a generic serif for page headings.
+
+## Body/UI
+
+Manrope owns:
+
+- body copy;
+- navigation;
+- buttons;
+- form controls;
+- labels;
+- operational facts;
+- metadata.
+
+## BrandLockup
+
+Cormorant Garamond Italic is a brand-specific exception.
+
+It should not leak into general headings or body UI.
+
+## Acceptance
+
+A visual implementation is not approved until browser-computed fonts are verified for at least:
+
+```text
+H1
+H2
+body paragraph
+navigation
+button
+form control where relevant
+brand lockup where visible
+```
+
+Do not tune layout around a fallback font. Fix loading first.
+
+---
+
+# 6. Dark-first, not dark-only
+
+The site is predominantly dark, but light surfaces are semantic tools.
+
+Use light surfaces for:
 
 - forms;
-- pricing;
-- calculator;
-- FAQ;
-- reading-heavy content;
-- blueprint-approved feature moments.
+- calculators;
+- pricing/function-heavy blocks;
+- FAQ/reading-heavy content where approved;
+- blueprint-approved contrast moments such as Homepage How It Works.
 
-Do not alternate light/dark mechanically.
+Do not alternate dark/light sections mechanically.
 
-## Palette
+Surface choice follows purpose and page rhythm.
 
-Use semantic tokens from the active design system.
+---
 
-General character:
+# 7. Hierarchy before decoration
+
+Solve hierarchy in this order:
+
+1. typography;
+2. scale;
+3. spacing;
+4. composition;
+5. imagery;
+6. surface contrast;
+7. subtle detail.
+
+Decoration comes last.
+
+Do not use:
+
+- glow;
+- metallic gradients;
+- strong shadows;
+- ornamental lines;
+- excessive borders;
+- oversized radius;
+- animation;
+
+to compensate for weak structure.
+
+---
+
+# 8. Spacing and density
+
+Premium does not mean empty.
+
+A section's visual height must match:
+
+- purpose;
+- content density;
+- conversion importance;
+- image role;
+- blueprint spacing tier.
+
+Use the active Theme V2 spacing tokens.
+
+Avoid:
+
+- giant empty sections;
+- overly tall footers;
+- second-Hero Final CTAs;
+- compact content floating inside oversized containers.
+
+---
+
+# 9. Radius
+
+Use Theme V2 semantic radius tokens.
+
+Role hierarchy:
 
 ```text
-warm charcoal
-warm cream
-muted gold
+section / major contained feature
+card / media
+control
 ```
 
-Avoid silver/blue direction.
-
-Gold is scarce.
-
-## Typography
-
-Preferred production pair:
-
-```text
-Fraunces
-Manrope
-```
-
-The alternate type preset is for explicit comparison/review, not casual substitution.
-
-Correct font loading must be verified in the browser.
-
-"Serif-looking" is not enough.
-
-## Radius
-
-General hierarchy:
-
-```text
-section / feature  → 16px
-card / media       → 12px
-control            → 8px
-```
+Do not invent one-off radius values because a screenshot "looks softer."
 
 Avoid oversized SaaS rounding.
 
-## Surfaces
+---
+
+# 10. Surfaces, borders, and shadows
 
 Prefer:
 
@@ -236,6 +319,8 @@ Prefer:
 surface contrast
 +
 spacing
++
+composition
 ```
 
 over:
@@ -246,88 +331,62 @@ border
 shadow
 ```
 
-Cards should not look like application dashboard cards.
+Cards should not resemble dashboard cards.
+
+Borders are quiet separators, not decorative outlines.
+
+Shadows should be rare and restrained.
 
 ---
 
-# 6. High-value design principles
+# 11. Platinum usage
 
-## Hierarchy before decoration
+Platinum is a functional accent.
 
-Use:
+Suitable uses include:
 
-1. typography;
-2. scale;
-3. spacing;
-4. composition;
-5. imagery;
-6. surface contrast.
+- primary/important action treatment where the component contract calls for it;
+- focus treatment;
+- subtle selected state;
+- restrained rules/dividers/details;
+- small high-value emphasis.
 
-Use decoration only after hierarchy works.
+Do not use platinum for:
 
-## Content-density proportionality
+- every icon;
+- every heading;
+- body text;
+- every border;
+- large decorative fills;
+- metallic gradient effects.
 
-Premium does not mean empty.
-
-A section's visual height must match:
-
-- its purpose;
-- content;
-- image role;
-- blueprint spacing tier.
-
-The footer should remain compact.
-
-The Final CTA should not become Hero #2.
-
-## Controlled asymmetry
-
-Asymmetry is blueprint-approved, not random.
-
-Do not invent overlapping compositions to make a page feel "designed."
-
-## No automatic zig-zag
-
-Do not alternate:
-
-```text
-text | image
-image | text
-text | image
-```
-
-for decoration.
-
-Direction follows blueprint/content logic.
-
-## No cardification
-
-Do not turn every group of information into a rounded card.
-
-Use:
-
-- open sections;
-- dividers;
-- typography;
-- layout;
-- imagery;
-- surface changes;
-
-where they communicate structure better.
+The design should still feel premium when most of the page is graphite + off-white without accent decoration.
 
 ---
 
-# 7. Component identity
+# 12. Component identity
 
-Different components must remain visually distinguishable by role.
+Different shared/page components must remain visually distinguishable by role.
+
+## Header
+
+Compact navigation infrastructure.
+
+On blueprints that place Header over Hero, it integrates visually with the Hero at page top and transitions to the approved sticky surface behavior.
 
 ## Hero
 
-Dominant cinematic entrance.
+Dominant cinematic entrance with a clear H1 and primary conversion actions.
 
-## Open Split
+A Hero may be full-bleed or contained only when the page blueprint explicitly says so.
 
-Editorial/explanatory content.
+## Service showcase
+
+Image-led route/service discovery.
+
+## Open split
+
+Explanatory/editorial composition without enclosing everything in a card.
 
 ## Trust
 
@@ -335,7 +394,7 @@ Compact confidence checkpoint.
 
 ## Fleet
 
-Image-led product/vehicle showcase.
+Vehicle-led product showcase.
 
 ## Functional UI
 
@@ -343,21 +402,23 @@ Clear operational interaction without dashboard aesthetics.
 
 ## FAQ
 
-Reading-focused information, usually divider-based.
+Reading-focused information, normally divider-led.
 
 ## Final CTA
 
 Medium-height conversion closer.
 
-**Final CTA must not become a second Hero.**
+**Final CTA must not become Hero #2.**
+
+## Footer
+
+Compact site ending, not a giant sitemap.
 
 ---
 
-# 8. CTA hierarchy
+# 13. CTA hierarchy
 
-CTA roles are structural.
-
-Typical hierarchy:
+CTA roles are structural:
 
 ```text
 Primary      → booking / main conversion
@@ -368,23 +429,23 @@ Tertiary     → phone / email / WhatsApp
 Quiet        → low-emphasis contextual link
 ```
 
-Do not change CTA role/destination to make a layout easier.
+Do not change CTA destination/role to make a composition easier.
 
-Do not turn every action into a gold button.
+Do not render every action with equal emphasis.
 
 ---
 
-# 9. Imagery roles
+# 14. Imagery roles
 
-Do not treat all vehicle imagery the same.
+Image treatment depends on role.
 
 ## Hero
 
-Contextual cinematic image with negative space.
+Contextual cinematic image with intentional focal point and negative space for content.
 
 ## Service showcase
 
-Full-card contextual photography where blueprint requires.
+Contextual photography filling the card/region when blueprint requires.
 
 ## Split section
 
@@ -392,47 +453,117 @@ Contextual photo that materially supports the content.
 
 ## Fleet
 
-Transparent vehicle cutout / standardized vehicle presentation.
+Standardized vehicle presentation; transparent vehicle cutouts use containment rather than crop.
 
 ## Final CTA
 
-Vehicle blended into the panel, not necessarily a separate image card.
+Vehicle/image integrated into its allocated media region; no hard edge if the approved component calls for blending.
 
-Missing asset does not authorize redesign.
+Missing assets do not authorize redesign.
 
 Use a neutral placeholder until the correct asset exists.
 
 ---
 
-# 10. Typography acceptance
+# 15. Hero layering contract
 
-A design implementation is not approved until the actual fonts are verified.
+Image-backed Heroes must have an explicit layer model.
 
-At minimum inspect browser-computed styles for:
-
-```text
-H1
-H2
-body
-navigation
-button
-form control where relevant
-```
-
-Expected default families:
+Conceptually:
 
 ```text
-Fraunces
-Manrope
+media layer
+scrim / overlay layer
+content layer
+header layer when blueprint integrates Header over Hero
 ```
 
-Do not tune layout around a fallback font.
+The content layer must remain above image/scrim at every breakpoint.
 
-Fix loading first.
+When content exists in source but is visually missing, diagnose:
+
+- stacking context;
+- `position`;
+- `z-index`;
+- transforms;
+- filters;
+- isolation;
+- parent overflow;
+- scoped-style ownership;
+- child-component class forwarding;
+
+before rewriting content or redesigning the Hero.
+
+Do not rely on a parent Astro scoped selector to style DOM rendered inside a child component unless scope propagation is explicitly supported by that component contract.
 
 ---
 
-# 11. Responsive acceptance
+# 16. Controlled asymmetry
+
+Asymmetry is blueprint-approved, not random.
+
+Do not invent overlaps, offset cards, or alternating image/text patterns merely to make the page feel "designed."
+
+No automatic zig-zag:
+
+```text
+text | image
+image | text
+text | image
+```
+
+Direction follows page/content logic.
+
+---
+
+# 17. No cardification
+
+Do not turn every information group into a rounded card.
+
+Prefer:
+
+- open sections;
+- typography;
+- dividers;
+- layout;
+- imagery;
+- intentional surface changes;
+
+when those communicate hierarchy better.
+
+---
+
+# 18. Motion
+
+Use Theme V2 motion tokens.
+
+Motion should be:
+
+- subtle;
+- purposeful;
+- low-amplitude;
+- non-blocking.
+
+Suitable patterns may include:
+
+- restrained one-time content entrance;
+- subtle image motion where blueprint allows;
+- carousel transition;
+- small button/image state changes.
+
+Avoid:
+
+- decorative loops;
+- floating UI;
+- dramatic parallax;
+- glow pulses;
+- routine card lift/zoom.
+
+`prefers-reduced-motion` support is required.
+
+---
+
+# 19. Responsive acceptance
 
 Every major page must be reviewed at:
 
@@ -444,28 +575,53 @@ desktop
 wide desktop sanity check
 ```
 
-Tablet is a real review state.
+Mobile-first does not mean "desktop collapsed."
 
-Do not assume:
+Each state must preserve:
 
-```text
-lg breakpoint
-=
-desktop layout approved
-```
+- hierarchy;
+- content order;
+- readable measure;
+- image focal point;
+- accessible CTA targets;
+- intentional carousel continuation;
+- no accidental horizontal overflow.
 
-Use container queries when component behavior depends on available parent width.
+Tablet is a real design state.
+
+Use container queries when component behavior depends on available parent width rather than viewport width.
 
 ---
 
-# 12. Global component stability
+# 20. Tailwind v4 implementation relationship
 
-Once approved, these should behave as shared infrastructure:
+Production styling uses Tailwind CSS v4 and project CSS-first conventions.
+
+Visual decisions come from this file + Theme V2; Tailwind is the implementation mechanism.
+
+Do not:
+
+- create a v3 Tailwind config to express design decisions;
+- copy raw Theme V2 values into arbitrary classes repeatedly;
+- construct dynamic class fragments that Tailwind cannot detect;
+- assume `:root` CSS variables automatically generate Tailwind utilities;
+- solve scoped Astro styling problems with increasingly specific global selectors.
+
+Read `.skills/tailwind-v4.md` for implementation details.
+
+---
+
+# 21. Global component stability
+
+Once approved, shared infrastructure should be reused:
 
 ```text
 Header
 Footer
 Button
+Link
+BrandLockup
+LanguageSwitcher
 Breadcrumbs
 FAQ
 FinalCTA
@@ -474,141 +630,149 @@ carousel mechanics
 form controls
 ```
 
-Page agents reuse them.
+A page-specific task does not grant permission to redesign them.
 
-A page-specific task does not grant permission to redesign global components.
+When a shared component looks wrong on a page, investigate integration/data/stacking/container ownership first.
 
 ---
 
-# 13. Known rejected-design lessons
+# 22. Known rejected-design lessons
 
-The previous failed homepage implementation is **not** an approved design reference.
+The previous failed Homepage implementation is not an approved design reference.
 
-Known failure patterns to prevent:
+Failure patterns to prevent include:
 
 - wrong/fallback typography;
-- H1 too large and structurally unbalanced;
-- required Hero right-side supporting region omitted;
-- secondary Quote CTA replaced with unrelated action;
-- public brand name translated instead of preserved;
-- Serbian Cyrillic mixed into Latin-only locale;
-- Final CTA converted into a second image-background Hero;
-- Final CTA tertiary contact methods omitted;
-- hero imagery reused for Final CTA;
-- footer made disproportionately tall/empty.
+- serif newspaper-like heading drift;
+- missing required Hero supporting region;
+- wrong secondary CTA;
+- translated/altered public brand lockup;
+- locale script inconsistencies;
+- Final CTA becoming a second Hero;
+- tertiary contact methods disappearing without checking canonical contact gating;
+- Hero imagery reused indiscriminately;
+- footer becoming disproportionately tall;
+- contained Homepage Hero when the current locked Homepage blueprint requires full bleed;
+- Header appearing as a separate opaque strip above an integrated Hero.
 
-These are not stylistic preferences.
-
-They are evidence of missing blueprint/design-system compliance.
+These are implementation/compliance failures, not alternative styles.
 
 ---
 
-# 14. Design implementation workflow
+# 23. Wireframe interpretation
 
-For a new page:
+Wireframes define:
+
+- section order;
+- hierarchy;
+- grouping;
+- relative prominence;
+- approximate composition;
+- grid topology;
+- content/image relationships;
+- responsive stacking intent;
+- control/action presence.
+
+Wireframes do not define final:
+
+- fonts;
+- palette;
+- exact tokens;
+- visible helper labels;
+- grayscale placeholders;
+- dashed image boxes;
+- production border/shadow;
+- exact spacing values;
+- implementation/component ownership.
+
+Workflow:
 
 ```text
-1. Read AGENTS.md
-2. Read this file
-3. Read page blueprint
-4. Read page wireframe
-5. Read relevant design skills
-6. Inspect approved primitives/components
-7. Build blueprint compliance matrix
-8. Implement one section/component at a time
-9. Render
-10. Screenshot
-11. Compare
-12. Fix
-13. Lock approved component
-14. Assemble page
-15. Review page-level rhythm
-16. Independent design review
-17. Technical page review
+WIREFRAME
+   ↓
+STRUCTURAL EXTRACTION
+   ↓
+VISUAL DECONTAMINATION
+   ↓
+THEME V2 MAPPING
+   ↓
+PRODUCTION UI
 ```
 
-Do not ask one agent to invent and implement the entire page in one unverified pass.
+Never ship a polished wireframe as production code.
 
 ---
 
-# 15. Rebuild vs refactor rejected UI
+# 24. Implementation workflow
 
-When an existing component is fundamentally inconsistent with the blueprint:
-
-Prefer:
+For a page:
 
 ```text
-fresh visual implementation
+1. Read AGENTS.md.
+2. Read DESIGN.md.
+3. Read the locked page blueprint.
+4. Read the wireframe for structure.
+5. Read matching skills.
+6. Inspect active Theme V2 tokens.
+7. Inspect approved primitives/components/data.
+8. Build a blueprint compliance matrix.
+9. Diagnose current implementation.
+10. Implement one bounded area at a time.
+11. Render and manually review all responsive states.
+12. Run independent design review.
+13. Fix design blockers.
+14. Run technical page review.
+15. Run project check/build and relevant validators.
 ```
 
-while preserving proven:
-
-- data integration;
-- routing;
-- props worth retaining;
-- technical behavior.
-
-Do not incrementally polish a rejected structural interpretation until it becomes harder to understand.
+Do not give an implementation agent one large "fix everything" task when individual root causes can be established first.
 
 ---
 
-# 16. Change-management rules
+# 25. Change management
 
-## If a palette/token changes
+## Raw token change
 
-Update the versioned design token source.
+Update the active Theme V2 JSON.
+
+Regenerate theme CSS through the repository generator.
 
 Do not patch individual components.
 
-## If a global design decision changes
+## Global visual-direction change
 
-Update:
+Update `DESIGN.md` and, if needed, Theme V2 source JSON.
 
-```text
-design-decisions.md
-```
+## Shared component contract change
 
-and affected source documents.
+Update the relevant component documentation/API and any affected page blueprint.
 
-## If a reusable component rule changes
-
-Update:
-
-```text
-components-rules.v1.md
-```
-
-or its next version.
-
-## If page structure changes
+## Page structure change
 
 Update:
 
 ```text
 page blueprint
-↓
-wireframe
-↓
-implementation
+→ wireframe
+→ implementation
 ```
 
-in that order.
+## Procedural change
 
-## If this high-level design philosophy changes
+Update the matching `.skills/*.md`.
 
-Update this `DESIGN.md`.
-
-Do not use `DESIGN.md` as a dumping ground for raw token values.
+Skills should describe process and guardrails, not duplicate the current raw theme.
 
 ---
 
-# 17. Design anti-patterns
+# 26. Design anti-patterns
 
 Do not default to:
 
 - glassmorphism;
 - glowing CTAs;
 - purple/blue gradients;
+- metallic gradients;
 - decorative gradient blobs;
 - gradient text;
 - excessive pills;
@@ -622,36 +786,15 @@ Do not default to:
 - centered-everything;
 - giant whitespace with little content;
 - identical Hero-like treatment for multiple sections;
-- functional UI that resembles an admin dashboard.
+- functional UI that resembles an admin dashboard;
+- black/gold limousine-template styling.
 
 ---
 
-# 18. Design quality question
+# 27. Design quality question
 
 Before approval ask:
 
-> Does this page look like the intentional Luxury Transportation system described by
-> the blueprint and foundation, or does it merely look like a generally attractive
-> AI-generated luxury website?
+> Does this page look like the intentional Black & Platinum Luxury Transportation system defined by the current blueprint and Theme V2, or does it merely look like a generally attractive AI-generated luxury website?
 
 If the answer is the latter, it is not finished.
-
----
-
-# 19. Mandatory design skills
-
-The detailed procedures live in:
-
-```text
-.skills/design-foundation-governance.md
-.skills/blueprint-to-ui.md
-.skills/component-architecture.md
-.skills/high-value-visual-execution.md
-.skills/typography-system.md
-.skills/imagery-art-direction.md
-.skills/functional-ui.md
-.skills/responsive-layout.md
-.skills/design-review.md
-```
-
-Use `AGENTS.md` to determine which skills apply to a given task.

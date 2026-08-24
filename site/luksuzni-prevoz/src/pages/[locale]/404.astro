@@ -2,11 +2,11 @@
 /**
  * Per-locale 404 page — FND-ENV-04.
  *
- * Emits /sr/404/, /en/404/, /ru/404/ so a host can serve a locale-specific
- * 404 based on the path prefix (e.g. Netlify/Cloudflare edge rules). The root
- * src/pages/404.astro remains the host fallback for un-prefixed URLs and uses
- * the default locale. Both use the UI dictionary (FND-ARCH-03) — no hardcoded
- * strings.
+ * Emits /en/404/, /ru/404/ so a host can serve a locale-specific 404 based on
+ * the path prefix (e.g. Netlify/Cloudflare edge rules). The default locale
+ * (sr) is UNPREFIXED — its 404 is the root src/pages/404.astro (host fallback
+ * for un-prefixed URLs). Both use the UI dictionary (FND-ARCH-03) — no
+ * hardcoded strings.
  */
 import Page from "../../foundation/ui/Page.astro";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
@@ -20,7 +20,12 @@ import { routes } from "../../data/routes.ts";
 import { t } from "../../lib/i18n.ts";
 
 export function getStaticPaths() {
-  return config.locales.locales.map((l) => ({ params: { locale: l.code } }));
+  // Default locale (sr) is unprefixed — its 404 is the root pages/404.astro.
+  // Emit only prefixed non-default-locale 404s for hosts that serve a
+  // locale-specific 404 by path prefix.
+  return config.locales.locales
+    .filter((l) => !l.isDefault)
+    .map((l) => ({ params: { locale: l.code } }));
 }
 
 const { locale } = Astro.params;
