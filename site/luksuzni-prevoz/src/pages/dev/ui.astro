@@ -59,6 +59,7 @@ import Section from "../../foundation/ui/Section.astro";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import SiteHeader from "../../components/site/SiteHeader.astro";
 import BrandLockup from "../../foundation/ui/BrandLockup.astro";
+import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
 import heroImg from "../../assets/hero.webp";
 
 const defaultLocale =
@@ -90,6 +91,7 @@ const groups = [
   { id: "buttons-links", href: "#buttons-links", heading: "Buttons / Links", description: "Primary and secondary buttons, plus the canonical link treatments." },
   { id: "form-controls", href: "#form-controls", heading: "Form Controls", description: "Input, select, textarea, checkbox, and the field label / help / error contract." },
   { id: "layout-sections", href: "#layout-sections", heading: "Layout / Sections", description: "PageContainer, ReadingContainer, Section spacing and surfaces, and SectionHeading." },
+  { id: "breadcrumbs", href: "#breadcrumbs", heading: "Breadcrumbs", description: "Production Breadcrumbs: dark + light surfaces, long/narrow wrapping, and a minimal trail." },
   { id: "navigation", href: "#navigation", heading: "Navigation / Header", description: "The production SiteHeader: desktop overlay and solid states, mobile closed and open states, plus BrandLockup." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
@@ -213,27 +215,63 @@ const samples = {
   shHeadingLight: "Pricing",
   shDescLight: "On a light surface the heading and description flip to the on-light text tokens via the on prop — no parallel variant.",
   // ── Navigation / Header ──
-  navHeaderDesc: "The production SiteHeader (BrandLockup + primary nav + SR/EN/RU + Book CTA). Four real states are rendered below in bounded frames. The Header is the real component; dev-only wrappers only provide contrast and force the mobile layout / open panel — no second fake Header.",
+  navHeaderDesc: "The production SiteHeader (BrandLockup + primary nav + SR/EN/RU + Book CTA). Real states are rendered below in bounded frames: desktop overlay, desktop solid, desktop Services + Business flyout, desktop Special Events flyout, desktop language dropdown, mobile closed, and mobile open. The Header is the real component; dev-only wrappers only provide contrast and force the mobile layout / open panel — no second fake Header.",
   overlayLabel: "Desktop · overlay / top-of-page",
   overlayNote: "over the hero · transparent surface · legible navigation · no glass card.",
   solidLabel: "Desktop · scrolled / solid",
   solidNote: "compact warm-charcoal surface · sticky · subtle hairline divider · no gold line or glow.",
   mobileClosedLabel: "Mobile · closed",
-  mobileClosedNote: "BrandLockup + menu trigger + Book discoverable. Toggle and Book keep 44px targets.",
+  mobileClosedNote: "logo-only BrandLockup + menu trigger + Book discoverable (the wordmark is forced mark-only in this narrow preview frame). Toggle and Book keep 44px targets.",
   mobileOpenLabel: "Mobile · open navigation",
-  mobileOpenNote: "full-height dark panel · services + Business/Special Events children indented · SR/EN/RU · Book. Esc / toggle closes (live on the closed state above when the viewport is narrow).",
+  mobileOpenNote: "full-viewport dark panel · logo-only panel header · services + Business/Special Events children indented · SR/EN/RU · Book. Esc / toggle closes. The panel is contained inside this simulated phone frame in the preview (production is viewport-fixed).",
   heroHeadline: "Chauffeured transit, by appointment",
   heroSub: "Belgrade · airport · business · special events",
   solidBody: "Below the header, page content scrolls under the sticky solid bar.",
   brandLockupLabel: "BrandLockup",
-  brandLockupNote: "Real logo.webp + literal “Luxury Transportation” wordmark (Cormorant Garamond italic). Reusable on dark/light surfaces. In the responsive variant the wordmark hides below the lg breakpoint so the compact Header is logo-only; the accessible name stays “Luxury Transportation” in every mode.",
+  brandLockupNote: "Real logo.webp + literal “Luxury Transportation” wordmark (Cormorant Garamond italic). Reusable on dark/light surfaces. Variants: full (always visible), responsive (wordmark hidden below lg via the real viewport — the shared Header bar), mark-only (logo only, for the semantically mobile-only panel header). The accessible name stays “Luxury Transportation” in every variant via sr-only.",
   servicesBusinessLabel: "Desktop · Services + Business flyout",
   servicesBusinessNote: "root Services dropdown open · Business Transportation nested submenu open. Hover/pointer moves trigger→panel→child links without closing; pointer leaving the whole region closes.",
   specialEventsFlyoutLabel: "Desktop · Special Events flyout",
   specialEventsFlyoutNote: "switching branch rows swaps the active flyout with no stale panel left behind.",
   langOpenLabel: "Desktop · language dropdown open",
   langOpenNote: "SR/EN/RU locale dropdown open. Only one top-level dropdown stays open at a time — opening it closes Services and vice versa.",
+  // ── Breadcrumbs ──
+  bcDesc: "Production Breadcrumbs trail — presentation-only nav and ordered list; the final item is the current page (aria-current=page, not a link); the component emits no JSON-LD (the Page owns head schema). Manrope UI text, muted ancestors, a slightly stronger current page, and subtle aria-hidden chevron separators. Shown on dark, on light, in a narrow frame (wrapping), and as a minimal two-crumb trail.",
+  bcAriaLabel: "Putanja stranice",
+  bcDarkLabel: "Standard · dark",
+  bcDarkNote: "muted ancestors · slightly stronger current page · 44px transparent hit areas (no pill) · focus-visible ring · subtle chevron separators.",
+  bcLightLabel: "Light surface",
+  bcLightNote: "same component with on=light — text and focus flip to the on-light tokens via color-mix (no parallel variant).",
+  bcNarrowLabel: "Long trail · narrow frame",
+  bcNarrowNote: "max-w-xs (320px) bound to verify natural crumb-boundary wrapping, no horizontal scroll, and separators that stay attached to their crumb.",
+  bcMinimalLabel: "Minimal trail",
+  bcMinimalNote: "two crumbs — the component must not look overbuilt for short trails.",
+  bcHome: "Početna",
+  bcBusiness: "Poslovni prevoz",
+  bcDelegation: "Prevoz delegacija",
+  bcConference: "Prevoz za konferencije i kongrese",
+  bcContact: "Kontakt",
 } as const;
+
+// ── Breadcrumbs sample trails (dev-only). hrefs are sample anchors ("#"),
+// not production routes (task §16: dev-only/sample content, not production
+// copy authority). Labels are Serbian-Latin samples matching the route map's
+// sr slugs. Passed as expressions so they are not flagged by
+// no-hardcoded-ui-string (FND-ARCH-03); the preview is noindex/internal.
+const bcStandard = [
+  { label: samples.bcHome, href: "#" },
+  { label: samples.bcBusiness, href: "#" },
+  { label: samples.bcDelegation },
+];
+const bcLong = [
+  { label: samples.bcHome, href: "#" },
+  { label: samples.bcBusiness, href: "#" },
+  { label: samples.bcConference },
+];
+const bcMinimal = [
+  { label: samples.bcHome, href: "#" },
+  { label: samples.bcContact },
+];
 
 const vehicleOptions = [
   { value: "v-class", label: "Mercedes V-Class" },
@@ -972,6 +1010,37 @@ const vehicleOptions = [
       </div>
     </PreviewBlock>
 
+    {/* ── Breadcrumbs ─────────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="breadcrumbs"
+      heading="Breadcrumbs"
+      description={samples.bcDesc}
+    >
+      {/* Standard · dark — the real component on a dark surface panel. */}
+      <SectionHeading heading={samples.bcDarkLabel} description={samples.bcDarkNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="mt-[var(--space-8)] rounded-[var(--radius-card)] bg-[var(--color-surface)] p-[var(--space-6)]">
+        <Breadcrumbs items={bcStandard} on="dark" ariaLabel={samples.bcAriaLabel} />
+      </div>
+
+      {/* Light surface — same component, on=light (color-mix, no parallel variant). */}
+      <SectionHeading heading={samples.bcLightLabel} description={samples.bcLightNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="mt-[var(--space-8)] rounded-[var(--radius-card)] bg-[var(--color-surface-light)] p-[var(--space-6)]">
+        <Breadcrumbs items={bcStandard} on="light" ariaLabel={samples.bcAriaLabel} />
+      </div>
+
+      {/* Long trail · narrow frame (max-w-xs = 320px) to verify natural wrapping. */}
+      <SectionHeading heading={samples.bcNarrowLabel} description={samples.bcNarrowNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="mt-[var(--space-8)] max-w-xs rounded-[var(--radius-card)] bg-[var(--color-surface)] p-[var(--space-6)]">
+        <Breadcrumbs items={bcLong} on="dark" ariaLabel={samples.bcAriaLabel} />
+      </div>
+
+      {/* Minimal two-crumb trail — the component must not look overbuilt. */}
+      <SectionHeading heading={samples.bcMinimalLabel} description={samples.bcMinimalNote} level={3} class="mt-[var(--space-section-compact)]" />
+      <div class="mt-[var(--space-8)] rounded-[var(--radius-card)] bg-[var(--color-surface)] p-[var(--space-6)]">
+        <Breadcrumbs items={bcMinimal} on="dark" ariaLabel={samples.bcAriaLabel} />
+      </div>
+    </PreviewBlock>
+
     {/* ── Navigation / Header ───────────────────────────────────────── */}
     <PreviewBlock
       id="navigation"
@@ -1136,20 +1205,42 @@ const vehicleOptions = [
   }
   .dropdown-frame--end { min-block-size: 13rem; }
 
-  /* Force mobile layout regardless of viewport width (preview only) */
+  /* Force mobile layout regardless of viewport width (preview only). */
   .force-mobile { max-inline-size: 28rem; }
   .force-mobile :global(.nav-desktop) { display: none !important; }
   .force-mobile :global(.menu-toggle) { display: inline-flex !important; }
   .force-mobile :global(.lang-switcher) { display: none !important; }
+  /* Force the bar BrandLockup to its mark-only visual inside a mobile preview.
+     The bar uses variant="responsive" (max-lg:sr-only), which keys off the real
+     browser viewport — not this 28rem frame — so the wordmark would otherwise
+     stay visible in the simulated-mobile preview. This replicates the Tailwind
+     sr-only utility against the semantic data-brand-wordmark hook (not a
+     generated Astro ID). Dev-only. */
+  .force-mobile :global([data-brand-wordmark]) {
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border-width: 0 !important;
+  }
 
-  /* Contain the mobile panel inside the open-frame (production is viewport-fixed) */
-  .open-frame { block-size: 32rem; }
+  /* Simulated phone frame for the open-mobile preview: tall enough to review
+     the panel header, service + branch child links, page links, language
+     switcher and Book CTA; content beyond it scrolls inside the panel. The
+     production panel is position: fixed to the viewport; here it is repositioned
+     absolute and contained by this frame (position: relative + overflow:
+     hidden). display:block counters the production lg+ guard so the open panel
+     can be previewed at a desktop browser viewport. Dev-only — never ships. */
+  .open-frame { block-size: 36rem; }
   .open-frame :global(.mobile-panel) {
     position: absolute !important;
-    inset-block: 0;
-    inset-inline-start: auto;
-    inset-inline-end: 0;
-    inline-size: min(100%, 22rem) !important;
-    transform: translateX(0) !important;
+    inset: 0;
+    inline-size: 100% !important;
+    block-size: 100% !important;
+    display: block !important;
   }
 </style>

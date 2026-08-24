@@ -227,17 +227,24 @@ const leafServices = servicesChildren.filter(isLeaf);
       </div>
     </div>
   </div>
+</header>
 
-  {/* Hide THIS instance's mobile panel ASAP when JS is available */}
-  <script is:inline define:vars={{ mobilePanelId }}>
-    try { document.getElementById(mobilePanelId)?.setAttribute("hidden", ""); } catch (e) {}
-  </script>
+{/* No-JS fail-open (FND-ARCH-06): the mobile panel ships [hidden] so it never
+   leaks into desktop states or flash-renders before hydration. Without JS this
+   <noscript> rule reveals it as a full-viewport navigation surface; with JS it
+   is opened on demand by the menu toggle. The panel is a SIBLING of <header>,
+   not a descendant: the header's backdrop-filter would otherwise become the
+   containing block for position: fixed and clip the panel to the header box
+   instead of the viewport. */}
+<noscript>
+  <style>@media (max-width:63.98rem){[data-mobile-panel]{display:block !important}}</style>
+</noscript>
 
-  <!-- Mobile full-height menu panel -->
-  <div id={mobilePanelId} class="mobile-panel" data-mobile-panel role="dialog" aria-modal="true" aria-label={mainNavLabel}>
+<!-- Mobile full-viewport menu panel (sibling of the header; fixed to viewport) -->
+<div id={mobilePanelId} class="mobile-panel" data-mobile-panel role="dialog" aria-modal="true" aria-label={mainNavLabel} hidden>
     <div class="mobile-panel__inner">
       <div class="mobile-panel__header">
-        <BrandLockup locale={currentLocale} href={homeHref} variant="responsive" />
+        <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" />
         <button
           type="button"
           class="menu-close-btn"
@@ -324,7 +331,6 @@ const leafServices = servicesChildren.filter(isLeaf);
       </div>
     </div>
   </div>
-</header>
 
 <style>
   /* --- Shell & sticky surface states -------------------------------------- */
@@ -519,23 +525,27 @@ const leafServices = servicesChildren.filter(isLeaf);
   .menu-toggle__icon { inline-size: 1.5rem; block-size: 1.5rem; }
   @media (min-width: 64rem) { .menu-toggle { display: none; } }
 
-  /* --- Mobile panel ------------------------------------------------------- */
+  /* --- Mobile panel -------------------------------------------------------
+     Full-viewport navigation surface (Step 5C). The panel is a SIBLING of the
+     header (rendered outside <header> in the component) so its position: fixed
+     resolves against the viewport, not the header — the header's
+     backdrop-filter would otherwise become the containing block and clip the
+     panel to the header box. It ships [hidden] (display: none) so it can never
+     leak into desktop states or flash before hydration; a <noscript> rule in
+     the component reveals it for no-JS fail-open. 100dvh covers the dynamic
+     viewport height (100vh fallback); overflow-y scrolls long menus. The
+     [hidden] rule is intentionally separate and sets display: none only — no
+     more-specific rule overrides it. */
+  .mobile-panel[hidden] { display: none; }
   .mobile-panel {
     position: fixed;
-    inset: 0;
-    inset-inline-start: auto;
-    inline-size: min(100%, 28rem);
+    inset-block-start: 0;
+    inset-inline: 0;
+    block-size: 100vh;
+    block-size: 100dvh;
     background: var(--color-surface-elevated);
-    border-inline-start: 1px solid var(--color-border-subtle);
     overflow-y: auto;
     z-index: 70;
-    transform: translateX(100%);
-    transition: transform var(--duration-normal) var(--ease-entrance);
-  }
-  .mobile-panel[hidden] { display: block; transform: translateX(100%); }
-  .mobile-panel[data-open] { transform: translateX(0); }
-  @media (prefers-reduced-motion: reduce) {
-    .mobile-panel, .mobile-panel[data-open], .mobile-panel[hidden] { transition: none; }
   }
   .mobile-panel__inner {
     display: flex;
@@ -544,6 +554,15 @@ const leafServices = servicesChildren.filter(isLeaf);
     min-block-size: 100%;
     gap: var(--space-6);
     padding: var(--space-6) var(--space-5);
+  }
+  /* Desktop (lg+): the mobile dialog is visually unavailable even if stale JS
+     state accidentally leaves it un-hidden (e.g. menu opened on a narrow
+     viewport that then widened). The toggle is already hidden at this
+     breakpoint, so this is a defense-in-depth guard. The dev /dev/ui open-frame
+     override raises specificity (display:block) to keep the simulated-mobile
+     preview working at a desktop browser viewport. */
+  @media (min-width: 64rem) {
+    .mobile-panel { display: none; }
   }
   .mobile-panel__header {
     display: flex;

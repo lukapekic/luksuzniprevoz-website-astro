@@ -23,18 +23,21 @@
  * embed a title (no "FAQ" / "Frequently Asked Questions" / "Česta pitanja"),
  * keeping it focused on rows only (component-architecture.md §14, task §6).
  *
- * Data: `items` is the canonical FaqItem[] ({ question, answer }) — the same
- * shape the content model (`faqSchema`) and the `buildFaqPage` structured-data
- * builder consume, so one source feeds visible rows + FAQ schema with no second
- * copy (structured-data.md). FAQ emits NO JSON-LD itself; the Page primitive owns
- * <head> schema emission.
+ * Data: `items` is the canonical FaqItem[] ({ question, answer }) — the
+ * shape owned by the content model's `faqItemSchema` in
+ * `src/content/schemas/shared.ts` and consumed by the `buildFaqPage`
+ * structured-data builder. The component imports that canonical type (not a
+ * local redefinition), so one source feeds visible rows + FAQ schema with no
+ * second copy (FND-ARCH-03, structured-data.md; same convention as HomeHero /
+ * FinalCTA importing from the shared content-schema layer). FAQ emits NO
+ * JSON-LD itself; the Page primitive owns <head> schema emission.
  *
  * Surface color: `on` mirrors <SectionHeading>'s model so the same component
  * renders correctly on a dark or light <Section> without a parallel variant
  * matrix. Default "dark". class passthrough is layout-only (FND-UI-06). CSS
  * logical properties only (FND-I18N-13).
  */
-import type { FaqItem } from "./FAQ.types.ts";
+import type { FaqItem } from "../../content/schemas/shared.ts";
 
 interface Props {
   /** FAQ question/answer rows, rendered in the order given (1+ items). */

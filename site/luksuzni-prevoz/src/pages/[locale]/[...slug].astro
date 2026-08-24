@@ -82,7 +82,7 @@ const { Content } = await render(content);
 
 <BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={currentLocale}>
   <PageContainer class="py-[var(--space-4)]">
-    <Breadcrumbs items={breadcrumbs} siteUrl="https://reference-site.astro-foundation.dev" locale={currentLocale} />
+    <Breadcrumbs items={breadcrumbs} ariaLabel={t("nav.breadcrumb", currentLocale)} />
   </PageContainer>
 
   <Section id="content" class="py-[var(--space-8)]">

@@ -119,17 +119,27 @@ export const editorialSectionSchema = z.object({
 
 // --- FAQ -------------------------------------------------------------------
 
+/**
+ * A single FAQ question/answer pair. Extracted as a named schema (mirroring
+ * `textItemSchema`) so one canonical contract owns the TypeScript item type
+ * consumed by BOTH the visible <FAQ> component AND the `buildFaqPage`
+ * structured-data builder — single shape, no manual duplicate (FND-ARCH-03,
+ * structured-data.md). `z.infer<typeof faqItemSchema>` is structurally
+ * identical to `buildFaqPage`'s `Array<{ question: string; answer: string }>`,
+ * so the same validated `faq.items` array feeds visible rows and FAQ schema
+ * with no mapping.
+ */
+export const faqItemSchema = z.object({
+  question: z.string().min(1),
+  answer: z.string().min(1),
+});
+
+/** Canonical FAQ item type — the single owner of the { question, answer } shape. */
+export type FaqItem = z.infer<typeof faqItemSchema>;
+
 export const faqSchema = z.object({
   heading: z.string().min(1),
-  items: z
-    .array(
-      z.object({
-        question: z.string().min(1),
-        answer: z.string().min(1),
-      }),
-    )
-    .min(1)
-    .max(10),
+  items: z.array(faqItemSchema).min(1).max(10),
 });
 
 // --- Final CTA -------------------------------------------------------------

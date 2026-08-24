@@ -17,13 +17,25 @@
  * - Restrained size, no uppercase, no excessive tracking, no glow, no shadow.
  * - Logical properties only (FND-I18N-13).
  *
- * Responsive variant ("responsive"): the visible wordmark is hidden below the
- * desktop-nav breakpoint (lg / 64rem) so the compact Header shows logo-only on
- * phone + tablet; the wordmark reappears at 64rem+ alongside the desktop nav.
- * The wordmark text remains in the DOM (visually hidden via sr-only, not
- * removed) so the link's accessible name stays "Luxury Transportation" in every
- * mode — AT never sees just "logo" or "GS". Default variant "full" keeps the
- * wordmark visible at all widths (Footer / standalone use).
+ * Variant contract — the wordmark's *visual* presence is chosen by the caller,
+ * independent of the browser viewport, so the lockup can express intent:
+ * - "full" (default): wordmark always visible (Footer / standalone use).
+ * - "responsive": wordmark hidden below the lg breakpoint (compact Header =
+ *   logo-only on phone + tablet), visible at lg+. Driven by the real viewport
+ *   (max-lg:sr-only) — correct for the shared Header bar which is desktop OR
+ *   mobile depending on the actual viewport.
+ * - "mark-only": wordmark never visible — logo only. For compositions that are
+ *   *semantically* mobile-only regardless of the outer viewport, e.g. the
+ *   mobile-panel header. Using "mark-only" there avoids a second visible
+ *   "Luxury Transportation" inside the panel and does not depend on a viewport
+ *   media query firing.
+ *
+ * In every variant the wordmark text remains in the DOM (visually hidden via
+ * sr-only, not removed) so the link's accessible name stays "Luxury
+ * Transportation" in every mode — AT never sees just "logo" or "GS". The
+ * wordmark span also carries a `data-brand-wordmark` hook so dev-only preview
+ * frames can force the mark-only visual without a second component (the hook is
+ * a stable semantic attribute, not a generated Astro ID).
  */
 import { Image } from "astro:assets";
 import logoImg from "../../assets/logo.webp";
@@ -39,15 +51,19 @@ interface Props {
   /**
    * Display mode for the wordmark.
    * - "full" (default): wordmark always visible.
-   * - "responsive": wordmark hidden below the lg breakpoint (compact Header =
-   *   logo-only), visible at lg+. Accessible name is preserved either way.
+   * - "responsive": wordmark hidden below the lg breakpoint (max-lg:sr-only);
+   *   visible at lg+. Accessible name is preserved either way.
+   * - "mark-only": wordmark never visible (sr-only) — logo only. For
+   *   semantically mobile-only compositions (e.g. the mobile-panel header);
+   *   does not depend on the viewport. Accessible name is preserved.
    */
-  variant?: "full" | "responsive";
+  variant?: "full" | "responsive" | "mark-only";
 }
 
 const { href, class: className, variant = "full" } = Astro.props;
 const Tag: "a" | "span" = href ? "a" : "span";
-const wordmarkDisplay = variant === "responsive" ? "max-lg:sr-only" : "";
+const wordmarkDisplay =
+  variant === "mark-only" ? "sr-only" : variant === "responsive" ? "max-lg:sr-only" : "";
 ---
 
 <Tag
@@ -65,6 +81,7 @@ const wordmarkDisplay = variant === "responsive" ? "max-lg:sr-only" : "";
   />
   <span
     data-foundation-allow-string
+    data-brand-wordmark
     class={`font-brand italic text-[1.375rem] font-normal leading-none tracking-normal text-[var(--color-accent)] select-none ${wordmarkDisplay}`}
   >
     Luxury Transportation

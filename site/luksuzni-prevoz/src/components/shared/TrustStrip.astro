@@ -1,0 +1,249 @@
+---
+/**
+ * TrustStrip — reusable compact confidence checkpoint (shared section-pattern).
+ *
+ * Identity: ONE contained elevated panel holding 4 short trust items (title +
+ * one concise supporting line), separated by subtle internal hairline dividers —
+ * not four floating cards, not dashboard KPI tiles, not a feature-card grid, not
+ * testimonial cards (DESIGN.md §7 "Trust — compact confidence checkpoint";
+ * design-foundation-governance.md §8 card philosophy; 07-trust-strip.md
+ * §Forbidden: "individual cards, counters, statistics, shadows").
+ *
+ * Contract: docs/home/home-components/07-trust-strip.md (locked V1):
+ *   - Panel: bg --color-surface-elevated, --radius-section (16px), padding
+ *     clamp(1.5rem, 3vw, 2.3rem). The bg + radius + panel padding are
+ *     component-specific — the Section primitive's `elevated` surface would put
+ *     section-scale padding on the same element (a huge rounded box), which
+ *     contradicts the locked "open Section + tight contained panel" contract;
+ *     the same documented workaround is used by shared/FinalCTA.astro.
+ *   - Desktop (>=64rem): 4 equal columns, internal vertical hairline dividers,
+ *     first item flush to the panel start, last item no trailing divider,
+ *     each item min-block-size ~8.5rem, vertically centered.
+ *   - Tablet (>=48rem): 2×2, internal cross dividers (one vertical between the
+ *     two columns, one horizontal between the two rows), no outer/right/bottom
+ *     border — the grid reads as one shared surface.
+ *   - Mobile (<48rem): single column, horizontal hairline dividers only, compact
+ *     panel padding ~1rem 1.3rem, items padding-block ~1.3rem.
+ *   - Marker: one restrained ~1.5rem gold accent check per item, decorative
+ *     (aria-hidden) — no information conveyed by icon alone.
+ *   - Text: title <h3> (Manrope, --text-lg, semibold, primary) + one concise
+ *     supporting line (Manrope, --text-sm, muted). No Fraunces, no h2 scale.
+ *
+ * Composition: TrustStrip owns ONLY the panel + items — it composes inside the
+ * PAGE's <Section> + <PageContainer> + <SectionHeading> (the FAQ precedent; the
+ * page owns the section heading, so TrustStrip embeds no title —
+ * component-architecture.md §14). Intended usage:
+ *
+ *   <Section spacing="standard" aria-labelledby="trust-h">
+ *     <PageContainer>
+ *       <SectionHeading id="trust-h" heading={trust.heading.title}
+ *         description={trust.heading.intro} />
+ *       <TrustStrip items={trust.items} />
+ *     </PageContainer>
+ *   </Section>
+ *
+ * Data: `items` is the canonical { title, text } shape owned by `textItemSchema`
+ * in src/content/schemas/shared.ts (the same schema that validates home
+ * `trust.items`), imported via the TrustStripProps/TrustItem alias in
+ * TrustStrip.types.ts — single shape owner, no manual duplicate (FND-ARCH-03,
+ * mirroring FAQ's FaqItem import). No embedded production copy, no hardcoded
+ * labels (component-architecture.md §18/§19).
+ *
+ * Four-item contract: TrustStrip is intentionally a FIXED four-item pattern, not
+ * a variable-count strip. Its locked responsive divider design is built around
+ * exactly 4 items — 4 stacked rows on mobile → 2×2 on tablet → 4 columns on
+ * desktop — and the canonical content contract agrees (`trust.items` is
+ * `z.array(textItemSchema).length(4)`). The divider CSS's nth-child rules are
+ * correct only for 4 (3 or 5 would produce wrong internal borders), so the
+ * component asserts `items.length === 4` at render/build time and throws a
+ * developer-facing error on any other count. Do not generalize the grid to
+ * arbitrary counts — there is no proven product requirement for variable-count
+ * trust strips.
+ *
+ * Surface: `on` mirrors <SectionHeading>/<FAQ>'s model so the same panel renders
+ * on a dark or light <Section> without a parallel variant matrix (default "dark"
+ * → elevated dark panel; "light" → warm cream panel with on-light text + a
+ * color-mix divider — the established on-light derivation, no new token).
+ *
+ * Accessibility: semantic <ul>/<li>; item titles are <h3> (the page's <h2>
+ * section heading → <h3> items, a clean heading hierarchy); the gold marker is
+ * decorative (aria-hidden, focusable="false") — no information is conveyed by
+ * icon alone; no interaction required; DOM order matches visual order; no
+ * hover-only content; no ARIA roles added beyond native list semantics
+ * (accessibility-wcag.md). No client-side JavaScript (component-architecture.md
+ * §21). CSS logical properties only (FND-I18N-13). class passthrough is
+ * layout-only (FND-UI-06).
+ */
+import type { TrustStripProps } from "./TrustStrip.types.ts";
+
+type Props = TrustStripProps;
+
+const { items, on = "dark", class: className } = Astro.props;
+
+// Four-item contract (see header JSDoc): the locked responsive divider design
+// and the canonical content contract both require exactly 4 trust items. Assert
+// at render/build time so a malformed count is caught here rather than silently
+// producing broken internal borders. Server-render-time only — no client JS.
+if (items.length !== 4) {
+  throw new Error(
+    `TrustStrip requires exactly 4 items (received ${items.length}). The locked responsive divider design (mobile 4 stacked → tablet 2×2 → desktop 4 columns) and the canonical \`trust.items\` content contract (\`z.array(textItemSchema).length(4)\`) both require 4.`,
+  );
+}
+---
+
+<div data-on={on} class={className}>
+  <ul class="trust-strip">
+    {
+      items.map((item) => (
+        <li class="trust-item">
+          <span class="trust-mark" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+          </span>
+          <h3 class="trust-title">{item.title}</h3>
+          <p class="trust-text">{item.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  /* Elevated contained panel — the single shared surface for all items. Bg,
+     radius, and the clamp padding are the locked 07 spec values (no
+     panel-padding token; mirrors shared/FinalCTA.astro's scoped panel). The
+     <ul> list reset is folded into the panel rule (no separate reset needed). */
+  .trust-strip {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    background: var(--color-surface-elevated);
+    border-radius: var(--radius-section);
+    padding: 1rem 1.3rem;
+  }
+
+  /* Item: marker → title → text stack, mobile-first. Mobile uses horizontal
+     hairline dividers only (border-block-end), removed on the last item. */
+  .trust-item {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    padding-block: 1.3rem;
+    border-block-end: 1px solid var(--color-divider);
+  }
+  .trust-item:last-child {
+    border-block-end: 0;
+  }
+
+  /* Restrained gold accent marker — decorative (aria-hidden). Sized to the
+     space scale; currentColor + --color-accent keeps gold scarce (a restrained
+     number of icons/details is an approved gold use, design-foundation-
+     governance.md §5). Inline 24-viewBox stroke SVG = the project icon
+     convention (no icon system / dependency exists). */
+  .trust-mark {
+    inline-size: var(--space-6);
+    block-size: var(--space-6);
+    color: var(--color-accent);
+  }
+  .trust-mark svg {
+    inline-size: 100%;
+    block-size: 100%;
+    display: block;
+  }
+
+  /* Title: Manrope (font-body), small-heading scale, semibold, primary — a
+     semantically strong <h3> that is NOT a miniature section heading (no
+     Fraunces, no h2 scale; 07 §Text). */
+  .trust-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    letter-spacing: var(--letter-spacing-normal);
+    color: var(--color-text-primary);
+  }
+
+  /* Supporting text: Manrope, compact, muted — one concise line target. */
+  .trust-text {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  /* Tablet (>=48rem): 2×2 with internal cross dividers, no outer borders.
+     All items get a block-end hairline; odd items (col 1) get an inline-end
+     hairline (the central vertical); the last row removes the block-end. For
+     4 items that yields one vertical + one horizontal internal divider and no
+     right/bottom border — one shared surface. */
+  @media (min-width: 48rem) {
+    .trust-strip {
+      grid-template-columns: repeat(2, 1fr);
+      padding: clamp(1.5rem, 3vw, 2.3rem);
+    }
+    .trust-item {
+      padding: 1.4rem;
+      border-block-end: 1px solid var(--color-divider);
+      border-inline-end: 0;
+    }
+    .trust-item:nth-child(odd) {
+      border-inline-end: 1px solid var(--color-divider);
+    }
+    .trust-item:nth-last-child(-n + 2) {
+      border-block-end: 0;
+    }
+  }
+
+  /* Desktop (>=64rem): 4 equal columns, internal vertical dividers only, first
+     item flush to the panel start, last item no trailing divider, each item
+     min-block-size ~8.5rem and vertically centered. */
+  @media (min-width: 64rem) {
+    .trust-strip {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .trust-item {
+      min-block-size: 8.5rem;
+      align-content: center;
+      padding-inline: 1.5rem;
+      padding-block: 0;
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--color-divider);
+    }
+    .trust-item:first-child {
+      padding-inline-start: 0;
+    }
+    .trust-item:last-child {
+      border-inline-end: 0;
+    }
+  }
+
+  /* On-light derivation (mirrors <FAQ>/<SectionHeading>): warm cream panel +
+     on-light text + a color-mix divider — no new token, no parallel variant
+     matrix. Axis color shorthands override the divider color on both the
+     block and inline hairlines. */
+  [data-on="light"] .trust-strip {
+    background: var(--color-surface-light);
+  }
+  [data-on="light"] .trust-title {
+    color: var(--color-text-on-light);
+  }
+  [data-on="light"] .trust-text {
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+  [data-on="light"] .trust-item {
+    border-block-color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+    border-inline-color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+  }
+</style>
