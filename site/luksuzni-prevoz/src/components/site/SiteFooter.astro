@@ -101,7 +101,16 @@ const whatsappHref = whatsapp
 
 // Structural facts (one source, all locales) — not prose, not invented.
 const officeHoursFact = business.supportModel.officeHours; // e.g. "08:00-18:00"
-const locationLine = `${business.headquarters.city}, ${business.headquarters.country}`;
+// Verified launch address (business.headquarters, verificationStatus "verified")
+// — the real street address, NOT a generic "Belgrade, Serbia" line (task 3B).
+// Gated on verification like the phone/email channels above; degrades to
+// city/country if the address were ever unverified. Rendered ONCE here in the
+// contact column — NOT repeated in the bottom row (which stays a single
+// copyright line, §13 footer dead-space lesson).
+const addressVerified = business.headquarters.verificationStatus === "verified";
+const locationLine = addressVerified
+  ? business.headquarters.streetAddress
+  : `${business.headquarters.city}, ${business.headquarters.country}`;
 
 // --- Bottom row -----------------------------------------------------------
 const year = new Date().getFullYear();

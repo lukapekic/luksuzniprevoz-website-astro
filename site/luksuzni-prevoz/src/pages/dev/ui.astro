@@ -74,6 +74,7 @@ import type { TrustItem } from "../../components/shared/TrustStrip.types.ts";
 import type { ServiceCardProps } from "../../components/shared/ServiceCard.types.ts";
 import heroImg from "../../assets/hero.webp";
 import finalCtaBg from "../../assets/final-cta-bg.webp";
+import { contact, isVerified } from "../../data/contact.ts";
 
 const defaultLocale =
   config.locales.locales.find((l) => l.isDefault) ?? config.locales.locales[0];
@@ -112,7 +113,7 @@ const groups = [
   { id: "open-split-section", href: "#open-split-section", heading: "Open Split Section", description: "Production OpenSplitSection: open content|image composition — canonical 5/7, reverse 5/7, balanced 6/6, wider-content 7/5. DOM always content-first; desktop reversal is grid-based." },
   { id: "horizontal-carousel", href: "#horizontal-carousel", heading: "Horizontal Carousel", description: "Production HorizontalCarousel: two independent instances — Fleet-like visual carousel (compact preset) and Review-like content carousel (standard preset). Instance isolation, scroll snapping, controls, responsive item sizing, progressive enhancement." },
   { id: "homepage-hero", href: "#homepage-hero", heading: "Homepage Hero", description: "Production HomepageHero: one contained cinematic feature panel — full-bleed S-Class image, directional color-mix overlay, left H1 + Book/Request-a-quote CTAs, right support statement. Static, not 100vh." },
-  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / contacts) on the gradient panel — gradient-only, no vehicle asset." },
+  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / one phone + one email) on the gradient panel, with the real final-cta-bg vehicle image wired. Mobile: content-first stacked media + full-width buttons." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
   { id: "site-footer", href: "#site-footer", heading: "Site Footer", description: "Production SiteFooter: global chrome, 3-column desktop, real route/contact gating. Rendered near the end as the page footer." },
@@ -283,14 +284,13 @@ const samples = {
   trustDarkLabel: "Dark · canonical",
   trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained gold check marker · one shared surface, not nested cards.",
   // ── Final CTA ──
-  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained warm-charcoal → warm-brown gradient panel (Final-CTA-only gradient exception). Primary Book (gold) → secondary Request a Quote (outlined) → tertiary contact text links. Gradient-only: the approved S-Class cutout is not yet available, so no vehicle asset is wired (a wrong asset is not substituted). Tertiary contact values below are unmistakably dev-only placeholders, not real contact details. Booking flow routes to the contact page as the interim target.",
+  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained warm-charcoal → warm-brown gradient panel (Final-CTA-only gradient exception). Primary Book (gold) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only; WhatsApp is not rendered here). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified): while phone/email remain owner-confirmation-required (null/unverified), no contact row renders here — no fake placeholder values. Once verified, exactly one phone + one email appear here and in production. Booking flow routes to the contact page as the interim target.",
   finalCtaHeading: "Zakazite sledeći prevoz sa nama",
   finalCtaText: "Izaberite uslugu i pošaljite detalje — jednostavne vožnje mogu imati prikaz cene, a za složenije zahteve pripremamo ponudu.",
   finalCtaPrimaryLabel: "Rezerviši",
   finalCtaSecondaryLabel: "Zatraži ponudu",
-  finalCtaPhone: "+00 000 000 0000",
-  finalCtaEmail: "dev-preview@example.test",
-  finalCtaWhatsapp: "+00 000 000 0000",
+  // (finalCtaPhone/Email/Whatsapp removed — FinalCTA contacts now use the
+  // canonical contact.ts isVerified gating, see fctaContacts. No fake values.)
   // ── Service Card ──
   serviceCardDesc: "Production ServiceCard — one full-bleed 3:2 / object-cover photographic card. A bottom-concentrated darkening scrim (semantic dark tokens via color-mix, no raw black) keeps the image clear up top and readable behind overlaid title → description → visible CTA anchored bottom-left. The photograph IS the card surface — no separate body, no border, no shadow, no glass. The CTA is the only interactive element — no whole-card link, no overlay, no cursor:pointer. Hover shifts the image brightness/contrast only. The card owns its image + scrim, so it is surface-independent (the light-section preview proves the same card renders unchanged on a light parent). Dev-only fixture imagery (hero / final-cta-bg) stands in for the not-yet-produced service-card assets — the production API requires a real image.",
   scDarkLabel: "Dark · canonical",
@@ -387,13 +387,31 @@ const samples = {
   // right-side statement yet — blueprint §20). Fixture imagery (hero.webp)
   // is the approved pending S-Class asset (blueprint §21 — final edited
   // asset pending); the production API requires a real image prop.
-  heroDesc: "Production HomepageHero — one contained cinematic feature panel inside the main container (not full-screen, not 100vh). The S-Class photograph fills the entire rounded panel edge-to-edge; a controlled directional overlay (semantic dark tokens via color-mix, no raw rgba, no gold, no glow) protects overlaid text while keeping the car the focal subject. Desktop 7/5 content placement (left copy / right support statement) is content-placement only — never a separate image column. H1 is the semantic h1 role (Inter Tight, not display-scale), left-aligned. Primary Book (platinum cta link) + secondary Request a quote (outlined button link). The hero is static — no entrance animation, no background zoom. Fixture imagery (hero.webp) is the approved pending S-Class asset — the production API requires a real image prop.",
+  heroDesc: "Production HomepageHero — one contained cinematic feature panel inside the main container (not full-screen, not 100vh). The S-Class photograph fills the entire rounded panel edge-to-edge; a controlled directional overlay (semantic dark tokens via color-mix, no raw rgba, no gold, no glow) protects overlaid text while keeping the car the focal subject. Desktop 8/4 content placement (left copy / right support statement) is content-placement only — never a separate image column. H1 is the semantic h1 role (Inter Tight, not display-scale), left-aligned. Primary Book (platinum cta link) + secondary Request a quote (outlined button link). The hero is static — no entrance animation, no background zoom. Fixture imagery (hero.webp) is the approved pending S-Class asset — the production API requires a real image prop.",
   heroTitle: "Private transportation with a professional chauffeur",
   heroLede: "For business schedules, airport transfers, special events and private travel in Belgrade — with carefully coordinated service and a vehicle suited to your needs.",
   heroPrimaryLabel: "Book a ride",
   heroSecondaryLabel: "Request a quote",
   heroSupport: "Every request is manually confirmed and coordinated by our Belgrade team.",
 } as const;
+
+// FinalCTA contact channels — verified-only canonical gating, mirroring the
+// production home/FinalCTA adapter + SiteFooter (task 2E/3C). Repository
+// contact.ts currently has phone/email/whatsapp = null +
+// "owner-confirmation-required" → no verified channels → the contact row is
+// absent here (no fake placeholder values). Once the owner supplies +
+// verifies phone/email, exactly one phone + one email render here and in
+// production. BLOCKER: see completion report — real launch phone/email are
+// not yet in the repository.
+const fctaPhone = isVerified(contact.phone) ? contact.phone.value : null;
+const fctaEmail = isVerified(contact.email) ? contact.email.value : null;
+const fctaContacts =
+  fctaPhone || fctaEmail
+    ? {
+        phone: fctaPhone ?? undefined,
+        email: fctaEmail ?? undefined,
+      }
+    : undefined;
 
 // ── Breadcrumbs sample trails (dev-only). hrefs are sample anchors ("#"),
 // not production routes (task §16: dev-only/sample content, not production
@@ -1862,11 +1880,10 @@ const reviewFixtureItems: ReviewFixture[] = [
         description={samples.finalCtaText}
         primaryAction={{ label: samples.finalCtaPrimaryLabel, to: "contact" }}
         secondaryAction={{ label: samples.finalCtaSecondaryLabel, to: "contact" }}
-        contacts={{
-          phone: samples.finalCtaPhone,
-          email: samples.finalCtaEmail,
-          whatsapp: samples.finalCtaWhatsapp,
-        }}
+        contacts={fctaContacts}
+        image={finalCtaBg}
+        imageFit="cover"
+        imageAlt=""
         locale="sr"
       />
     </section>

@@ -31,19 +31,20 @@
  */
 // `ImageMetadata` is the type returned by ESM imports of image assets
 // (`import x from "./car.webp"`) and the `src` shape accepted by astro:assets
-// <Image> for imported assets (responsive srcset delivery). It is bound by the
-// ambient `*.webp` module declarations in Astro's client types but is NOT
-// re-exported by the `astro:assets` module in this Astro version, so it is
-// anchored here via a type-only import of a representative asset. `import type`
-// is erased at compile time — there is no runtime or bundle coupling to this
-// file; only its inferred type (`ImageMetadata`) is used. Mirrors
-// shared/FinalCTA.types.ts / shared/ServiceCard.types.ts.
-import type sampleAsset from "../../assets/hero.webp";
+// <Image> for imported assets (responsive srcset delivery). In this Astro
+// version (5.18.2) the canonical export lives on the `astro` package entry
+// (astro/dist/index.d.ts re-exports it from types/public → assets/types), NOT
+// on the `astro:assets` virtual module — so the type is imported from
+// `"astro"`. `import type` is erased at compile time — no runtime/bundle
+// coupling; only the type is used. Mirrors shared/FinalCTA.types.ts. (Earlier
+// these files anchored the type via a fixture-asset type-only import; task 6A
+// replaced that with the canonical Astro export.)
+import type { ImageMetadata } from "astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 
-// `ImageMetadata` (typeof an imported image asset) — see the comment above the
-// import. `import type` is erased at compile time; only the inferred type is used.
-type HomepageHeroImage = typeof sampleAsset;
+// ImageMetadata (typeof an imported image asset) — see the comment above the
+// import. `import type` is erased at compile time; only the type is used.
+type HomepageHeroImage = ImageMetadata;
 
 /** A single CTA. Exactly one of `to` / `href` should be supplied by the caller. */
 export interface HomepageHeroAction {

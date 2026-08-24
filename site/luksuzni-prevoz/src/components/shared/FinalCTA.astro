@@ -40,8 +40,10 @@
  * CTA hierarchy is structural and holds for any localized labels (DESIGN.md §8):
  *   primary   = Book              → <Link variant="cta">   (gold, accent + textOnLight)
  *   secondary = Request a Quote   → <Link variant="button"> (outlined, dark/transparent)
- *   tertiary  = phone/email/WhatsApp → muted <a> text links, subordinate (not pill-heavy,
- *                                       not gold, no equal weight with the CTAs)
+ *   tertiary  = phone/email       → muted <a> text links, subordinate (not pill-heavy,
+ *                                       not gold, no equal weight with the CTAs). FinalCTA
+ *                                       renders ONE phone + ONE email only (task 2D) —
+ *                                       WhatsApp is intentionally not rendered here.
  *
  * Routing: internal CTAs pass `to: RouteKey` → <Link> → getPath (FND-I18N-03);
  * flow/external CTAs pass a pre-resolved `href` (caller runs resolveCtaHref).
@@ -78,15 +80,20 @@ const {
 const headingId = "final-cta-heading";
 
 // Contact hrefs built in the data layer (identifier bindings) so the
-// no-manual-internal-url check sees plain identifiers; tel:/mailto:/wa.me are
+// no-manual-internal-url check sees plain identifiers; tel:/mailto: are
 // external contact points, not internal routes (FND-I18N-03 scope).
+//
+// FinalCTA visual-contact contract (task 2D): exactly ONE phone + ONE email —
+// no WhatsApp rendered here. WhatsApp stays available globally (the SiteFooter
+// contact column + the home adapter gate it via contact.ts); FinalCTA is a
+// visual-contact simplification, so a phone-numbered WhatsApp line is never
+// rendered as a second phone-looking line next to the real phone. The caller
+// passes only verified channels (see /dev/ui + home/FinalCTA gating).
 const phone = contacts?.phone;
 const email = contacts?.email;
-const whatsapp = contacts?.whatsapp;
 const phoneHref = phone ? `tel:${phone}` : null;
 const emailHref = email ? `mailto:${email}` : null;
-const whatsappHref = whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : null;
-const hasContacts = Boolean(phone || email || whatsapp);
+const hasContacts = Boolean(phone || email);
 
 const isDecorative = imageAlt === "";
 const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
@@ -129,13 +136,6 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
             {email && emailHref ? (
               <li>
                 <a class="fcta-contact" href={emailHref}>{email}</a>
-              </li>
-            ) : null}
-            {whatsapp && whatsappHref ? (
-              <li>
-                <a class="fcta-contact" href={whatsappHref} rel="noopener noreferrer">
-                  {whatsapp}
-                </a>
               </li>
             ) : null}
           </ul>
@@ -196,6 +196,20 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     gap: var(--space-3);
   }
 
+  /* Narrow mobile (task 2C): primary + secondary stack full-width so both stay
+     visible and tappable; visual hierarchy is preserved (primary fill,
+     secondary outline — not identical). Above 30rem they return to inline
+     (flex-wrap). The <Link> roots are <a>; full-width + centered text. */
+  @media (max-width: 30rem) {
+    .fcta-actions {
+      flex-direction: column;
+    }
+    .fcta-actions > :global(a) {
+      inline-size: 100%;
+      justify-content: center;
+    }
+  }
+
   /* --- Tertiary contacts: compact muted text links, subordinate (11 §Contact row).
      Not pill-heavy, not gold. min-h-11 touch target (FND-A11Y-05). */
   .fcta-contacts {
@@ -226,11 +240,15 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     outline-offset: 2px;
   }
 
-  /* --- Right-zone vehicle image (11 §Image): blended on the gradient, no hard
-     edge, not a bordered card. object-contain for transparent cutouts (locked
-     intent), object-cover for contextual photos. Lazy (not the LCP). */
+  /* --- Media area (11 §Image): blended on the gradient, no hard edge, not a
+     bordered card. object-contain for transparent cutouts (locked intent),
+     object-cover for contextual photos. Lazy (not the LCP). At mobile this is a
+     dedicated LOWER media area below the copy (task 2B — content first, image
+     second, never behind the text); a substantial landscape crop (15rem floor,
+     not a tiny thumbnail) that connects to the rounded panel via overflow:
+     hidden. At desktop it becomes the right-zone column. */
   .fcta-media {
-    min-block-size: 13rem;
+    min-block-size: 15rem;
   }
   .fcta-img {
     inline-size: 100%;
@@ -250,7 +268,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
       padding: clamp(2rem, 4vw, 3rem);
     }
     .fcta-media {
-      min-block-size: 15rem;
+      min-block-size: 17rem;
     }
   }
 

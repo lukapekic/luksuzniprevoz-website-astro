@@ -21,7 +21,7 @@
  * NOT a split with a separate image column — the image is the panel.
  *
  * Composition: PageContainer once (the contained shell) → the panel →
- * full-bleed <Image> + overlay + inner grid. Desktop 7/5 content placement
+ * full-bleed <Image> + overlay + inner grid. Desktop 8/4 content placement
  * (left copy / right support statement) is CONTENT-PLACEMENT ONLY — it never
  * creates a separate visual image container (blueprint §7 / blueprint-to-ui
  * §18). Mobile/tablet collapse to a single reading column.
@@ -59,11 +59,13 @@
  * primitive. (Task §24 is stricter than 03 §Motion's permissive language; the
  * stricter, explicit instruction wins.)
  *
- * Breakpoints (task §21): the 7/5 desktop split activates at lg (64rem /
- * 1024px) so tablet (768–1023px) stays a comfortable single column instead of
- * cramped two-column text. (Task §21 overrides 03 §Mobile's 48rem split point
- * for the hero.) Mobile (<64rem): single reading column, content-driven panel
- * height, support statement follows below the CTA group.
+ * Breakpoints (task §21 / task 1D): the 8/4 desktop split activates at xl
+ * (80rem / 1280px), NOT lg — at 1024–1279px the copy would be too cramped for
+ * a side-by-side support column, so laptop stays a comfortable full-width
+ * single column. The support statement follows below the CTA group below xl.
+ * (Task §21 overrides 03 §Mobile's 48rem split point for the hero; task 1D
+ * pushes the split from lg to xl on evidence that lg is too early.) Mobile/
+ * tablet (<80rem): single reading column, content-driven panel height.
  *
  * CSS: scoped <style> with var() tokens only (the correct home for complex
  * art-direction — tailwind-v4 §scoped-styles). Logical properties only
@@ -240,10 +242,12 @@ const isDecorative = imageAlt === "";
     padding: clamp(1.5rem, 4vw, 4rem);
   }
 
-  /* Content grid: single column by default; 7fr/5fr split (left copy / right
-     support statement) on desktop only (03 §Desktop content grid). This is
-     CONTENT-PLACEMENT only — the image fills the whole panel behind, there is
-     no separate image column (blueprint §7 / blueprint-to-ui §18). */
+  /* Content grid: single column by default; 8fr/4fr split (left copy / right
+     support statement) at xl only (03 §Desktop content grid, rebalanced per
+     task 1E so the copy keeps usable width and the support stays a narrow,
+     restrained column — not a large panel). This is CONTENT-PLACEMENT only —
+     the image fills the whole panel behind, there is no separate image column
+     (blueprint §7 / blueprint-to-ui §18). */
   .homepage-hero__content {
     display: grid;
     gap: var(--space-8);
@@ -255,19 +259,28 @@ const isDecorative = imageAlt === "";
     max-inline-size: 38rem;
   }
 
-  /* H1: semantic h1 role (--text-h1), active Theme V2 heading font
-     (--font-heading — Inter Tight, a variable face with the full weight range).
-     Explicit --font-weight-regular (400) overrides the UA bold default — the
-     hero title stays a controlled regular, not heavy/bold (task §8 — avoid
+  /* H1: semantic h1 role, active Theme V2 heading font (--font-heading —
+     Inter Tight, a variable face with the full weight range). Explicit
+     --font-weight-regular (400) overrides the UA bold default — the hero
+     title stays a controlled regular, not heavy/bold (task §8 — avoid
      newspaper ultra-light and marketing extra-bold extremes). Left-aligned,
      tight leading, heading tracking, primary cream. max-inline-size keeps it
      ~2–3 controlled lines (blueprint §7 — ideally ~2 desktop lines); never
-     display-scale, never theatrical (task §6). */
+     display-scale, never theatrical (task §6).
+
+     RESPONSIVE SIZING (task 1C): a component-local clamp references semantic
+     type tokens — floor --text-h2, slope 5vw, cap --text-h1 — so the H1 grows
+     smoothly with the viewport WITHOUT touching the global --text-h1 token
+     (global tokens stay untouched). At 1440 it is strong (≈4.5rem); at
+     1024–1280 laptop it is noticeably smaller (≈3.2–4rem) so it does not wrap
+     into a 5-line oversized wall; at mobile it is controlled (floor --text-h2
+     ≈2rem). The global --text-h1 stays the cap, so the display max is never
+     reached (task §6). */
   .homepage-hero__title {
     margin: 0;
     font-family: var(--font-heading);
     font-weight: var(--font-weight-regular);
-    font-size: var(--text-h1);
+    font-size: clamp(var(--text-h2), 5vw, var(--text-h1));
     line-height: var(--line-height-tight);
     letter-spacing: var(--letter-spacing-tight);
     color: var(--color-text-primary);
@@ -312,28 +325,29 @@ const isDecorative = imageAlt === "";
     color: var(--color-text-muted);
   }
 
-  /* ── Below desktop (<64rem): single column, content-driven height. The
-     support statement follows below the CTA group in DOM order; the divider
-     becomes a block-start rule. (task §21 — tablet stays a single column.) */
-  @media (max-width: 63.99rem) {
+  /* ── Below xl (<80rem): single column, content-driven height. The support
+     statement follows below the CTA group in DOM order; the divider becomes a
+     block-start rule. (task 1D — laptop stays a single column, so the copy
+     keeps the full panel width instead of a cramped two-column text.) */
+  @media (max-width: 79.99rem) {
     .homepage-hero__support {
       border-block-start: 1px solid var(--color-divider);
       padding-block-start: var(--space-5);
     }
   }
 
-  /* ── Desktop (>=64rem): 16/7 controlled panel + 7/5 content split. The
-     split activates at lg (1024px) so tablet (768–1023px) stays a comfortable
-     single column rather than cramped two-column text (task §21). Desktop
-     height 32–35rem (03 §Desktop sizing) — controlled, cinematic, not 100vh. */
-  @media (min-width: 64rem) {
-    .homepage-hero__panel {
-      aspect-ratio: 16 / 7;
-      min-block-size: 32rem;
-      max-block-size: 35rem;
-    }
+  /* ── xl (>=80rem): 8/4 content split. The split activates at xl (1280px)
+     rather than lg so laptop (1024–1279px) stays a comfortable full-width
+     single column instead of cramped two-column text (task 1D). Panel height
+     is content-safe: a cinematic min-block-size floor (the base 38rem, which
+     is already ≥ the 03 §Desktop 32–35rem range) and NO restrictive
+     max-block-size / aspect-ratio — when the H1 wraps to more lines the panel
+     GROWS to fit content instead of clipping the CTA row (task 1B). Still not
+     100vh (task §15); still cinematic (the full-bleed image re-crops via
+     object-cover as the panel grows). */
+  @media (min-width: 80rem) {
     .homepage-hero__content--split {
-      grid-template-columns: 7fr 5fr;
+      grid-template-columns: 8fr 4fr;
       gap: clamp(2rem, 5vw, 5rem);
     }
     .homepage-hero__support {
