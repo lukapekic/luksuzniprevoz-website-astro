@@ -1,8 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm exec *)",
-      "Bash(command -v pnpm)"
+      "Bash(rg -n \"breakpoint\" src/theme/generated/theme.css src/styles/*.css)",
+      "Bash(rg -n \"breakpoint|@theme|tailwindcss\" astro.config.* src/styles/global.css)",
+      "Bash(pnpm quality:fast)"
     ]
   }
 }

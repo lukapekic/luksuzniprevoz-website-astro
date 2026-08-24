@@ -11,7 +11,9 @@
  *   - desktop 62/38 content/image, 22–26rem panel;
  *   - warm-charcoal → warm-brown restrained gradient (Final-CTA-only exception);
  *   - CTA hierarchy: primary Book (gold cta link) > secondary Request a Quote
- *     (outlined button link) > tertiary phone/email/WhatsApp (muted text links);
+ *     (outlined button link) > tertiary phone/email (muted text links — ONE
+ *     phone + ONE email only; WhatsApp is intentionally not rendered here,
+ *     task 2D);
  *   - right-zone vehicle blended on the panel, no hard edge, not a bordered
  *     card; object-contain for transparent cutouts, object-cover for
  *     contextual photos;
@@ -29,18 +31,20 @@
  */
 // `ImageMetadata` is the type returned by ESM imports of image assets
 // (`import x from "./car.webp"`) and the `src` shape accepted by astro:assets
-// <Image> for imported assets (responsive srcset delivery). It is bound by the
-// ambient `*.webp` module declarations in Astro's client types but is NOT
-// re-exported by the `astro:assets` module in this Astro version, so it is
-// anchored here via a type-only import of a representative asset. `import type`
-// is erased at compile time — there is no runtime or bundle coupling to this
-// file; only its inferred type (`ImageMetadata`) is used.
-import type sampleAsset from "../../assets/final-cta-bg.webp";
+// <Image> for imported assets (responsive srcset delivery). In this Astro
+// version (5.18.2) the canonical export lives on the `astro` package entry
+// (astro/dist/index.d.ts re-exports it from types/public → assets/types), NOT
+// on the `astro:assets` virtual module — so the type is imported from
+// `"astro"`. `import type` is erased at compile time — no runtime/bundle
+// coupling; only the type is used. (Earlier this file anchored the type via a
+// fixture-asset type-only import; task 6A replaced that with the canonical
+// Astro export.)
+import type { ImageMetadata } from "astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 
-// `ImageMetadata` (typeof an imported image asset) — see the comment above the
-// import. `import type` is erased at compile time; only the inferred type is used.
-type FinalCtaImage = typeof sampleAsset;
+// ImageMetadata (typeof an imported image asset) — see the comment above the
+// import. `import type` is erased at compile time; only the type is used.
+type FinalCtaImage = ImageMetadata;
 
 /** A single CTA. Exactly one of `to` / `href` should be supplied by the caller. */
 export interface FinalCtaAction {
@@ -52,11 +56,14 @@ export interface FinalCtaAction {
   href?: string;
 }
 
-/** Tertiary contact paths. Any combination may be supplied; absent ones are omitted. */
+/** Tertiary contact paths for the FinalCTA visual-contact row. The component
+ *  renders ONE phone + ONE email only (task 2D) — WhatsApp is intentionally
+ *  not rendered here (it stays available in the SiteFooter contact column and
+ *  the home FinalCTA adapter, gated via contact.ts). Absent channels are
+ *  omitted; the caller passes only verified channels. */
 export interface FinalCtaContacts {
   phone?: string;
   email?: string;
-  whatsapp?: string;
 }
 
 export interface FinalCTAProps {

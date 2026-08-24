@@ -1,0 +1,232 @@
+---
+/**
+ * ServiceCard — reusable service-navigation card (shared component-pattern).
+ *
+ * Identity: ONE full-bleed photographic card. The image fills the entire rounded
+ * card surface; a bottom-concentrated darkening scrim (derived from semantic
+ * dark tokens) preserves the vehicle's visibility up top while making overlaid
+ * text readable; the title → description → CTA sit inside the lower image area,
+ * anchored bottom-left. The photograph IS the card surface — no separate body
+ * below the image, no border, no shadow, no glass, no enclosed panel
+ * (design-foundation-governance.md §8 card philosophy; task §2/§18).
+ *
+ * Composition:
+ *
+ *   <article class="service-card">      ← positioning context + 3:2 frame
+ *     <Image class="service-card__image" />   ← absolute, inset:0, object-cover
+ *     <div class="service-card__scrim" />     ← aria-hidden bottom gradient
+ *     <div class="service-card__content">     ← absolute, bottom-left
+ *       <h3>…</h3><p>…</p><Link>…</Link>
+ *     </div>
+ *   </article>
+ *
+ * The card owns its own image + scrim, so it has a STABLE internal contrast
+ * environment and is surface-independent: the same card renders unchanged on a
+ * dark or light parent <Section> because its scrim — not the page surface —
+ * sets the text contrast (task §7/§8/§9). There is therefore no `on` surface
+ * variant (removed from the prior open-body implementation, which needed it
+ * only because text sat directly on the parent page surface).
+ *
+ * Ratio: the whole card is 3:2 (the locked service/card image role,
+ * imagery-art-direction.md §2). The parent grid owns card width; the card owns
+ * no fixed pixel width/height. If realistic copy ever proves 3:2 impossible
+ * without crowding, that is a genuine visual constraint to REPORT, not to
+ * silently fix by switching to a portrait card (task §3).
+ *
+ * Navigation (task §12): the CTA is the ONLY interactive element. It uses the
+ * foundation <Link variant="default"> action link; internal `to: RouteKey`
+ * resolves via getPath (FND-I18N-03 — never manual URLs), flow/external `href`
+ * is pre-resolved by the caller (resolveCtaHref), and prefetch/hreflang are
+ * handled by <Link>. There is NO whole-card anchor, NO absolute invisible click
+ * overlay, NO JS click handler, and NO cursor:pointer on the card — non-
+ * interactive card areas keep the default cursor (task §12/§15).
+ *
+ * Heading (task §10): default <h3> (the card normally sits beneath a section
+ * <h2>); `headingLevel` allows 2 | 3 for valid reuse, H1 is not supported. The
+ * title stays the compact Manrope card-title role (font-body, NOT the serif
+ * heading family), never uppercased, subordinate to real page section headings.
+ *
+ * Motion (task §14/§15): only a restrained image brightness/contrast filter on
+ * card hover / CTA focus-within — the scrim and text stay stable (the scrim is
+ * a separate layer, so darkening the image cannot reduce text contrast). No
+ * scale, no translate, no lift, no shadow, no gradient animation. Gated by
+ * prefers-reduced-motion. No client-side JavaScript, no island
+ * (component-architecture.md §21).
+ *
+ * Focus (task §16): the card clips overflow for its rounded corners, so the
+ * content block's block-end padding is kept larger than the <Link> focus
+ * outline-offset (2px) — the focus ring draws inside the padding and is never
+ * clipped. The <Link> focus color (--color-focus-dark) is legible over the
+ * dark scrim.
+ *
+ * CSS logical properties only (FND-I18N-13). class passthrough is layout-only
+ * (FND-UI-06).
+ */
+import { Image } from "astro:assets";
+import Link from "../../foundation/ui/Link.astro";
+import type { ServiceCardProps } from "./ServiceCard.types.ts";
+
+type Props = ServiceCardProps;
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  action,
+  locale,
+  headingLevel = 3,
+  class: className,
+} = Astro.props;
+
+// Heading level 2 | 3 only (H1 is the page's single heading — never a card).
+const Tag: "h2" | "h3" = headingLevel === 2 ? "h2" : "h3";
+
+// Alt contract: empty alt = decorative (alt="" + role="presentation") — the
+// common case for an atmospheric full-card image whose meaning is carried by
+// the title; non-empty = informative image with that alt. The title is never
+// copied into alt (imagery-art-direction.md §19; task §22).
+const isDecorative = imageAlt === "";
+---
+
+<article class:list={["service-card", className]}>
+  <Image
+    class="service-card__image"
+    src={image}
+    alt={imageAlt}
+    role={isDecorative ? "presentation" : undefined}
+    loading="lazy"
+    widths={[360, 540, 720]}
+    sizes="(min-width: 64rem) 24rem, (min-width: 48rem) 28rem, calc(100vw - 3rem)"
+  />
+
+  <div class="service-card__scrim" aria-hidden="true"></div>
+
+  <div class="service-card__content">
+    <Tag class="service-card__title">{title}</Tag>
+    <p class="service-card__desc">{description}</p>
+    <div class="service-card__action">
+      <Link variant="default" to={action.to} href={action.href} locale={locale}>
+        {action.label}
+      </Link>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Card = the media frame. Establishes the positioning context and the 3:2
+     silhouette. One rounded shape (--radius-card, 12px) clips the image; no
+     inner media radius, no border, no shadow, no glass. A neutral elevated
+     surface shows through while the image loads (no broken-tile flash).
+     isolation:isolate contains the absolute children's stacking order. */
+  .service-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-surface-elevated);
+    isolation: isolate;
+  }
+
+  /* Full-bleed image: fills the entire card surface, edge to edge. object-cover
+     preserves the 3:2 crop without distortion. No movement on hover (filter
+     only — see below). z-index:0 anchors it beneath the scrim + content. */
+  .service-card__image {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    transition: filter var(--duration-fast) var(--ease-standard);
+  }
+
+  /* Bottom-concentrated darkening scrim. Derived ONLY from the semantic dark
+     page-canvas token (--color-background) via color-mix with transparent — no
+     black rgba, no gold, no raw hex. Fully opaque behind the text at the bottom,
+     softening through the middle, mostly transparent up top so the photograph
+     stays premium and readable (task §5). Decorative (aria-hidden). */
+  .service-card__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      var(--color-background) 0%,
+      color-mix(in oklab, var(--color-background), transparent 30%) 45%,
+      color-mix(in oklab, var(--color-background), transparent 70%) 72%,
+      transparent 100%
+    );
+  }
+
+  /* Overlaid content: anchored bottom-left inside the card, over the scrim.
+     Left-aligned, never centered (task §6). max-inline-size caps the text block
+     on wide single-card layouts so copy stays a comfortable measure. The
+     block-end padding is intentionally generous so the CTA focus ring (offset
+     2px) is never clipped by the card's overflow:hidden corners (task §16). */
+  .service-card__content {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: clamp(var(--space-4), 3vw, var(--space-5));
+    max-inline-size: var(--measure-narrow);
+  }
+
+  /* Title: Manrope compact card-title role (font-body, NOT the serif heading
+     family). Semibold, light primary text (the scrim guarantees contrast, so
+     text-primary reads as the light cream regardless of the parent surface).
+     Never uppercased (task §10). */
+  .service-card__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    letter-spacing: var(--letter-spacing-normal);
+    color: var(--color-text-primary);
+  }
+
+  /* Description: Manrope, small, muted-light secondary text. One concise
+     supporting sentence; wraps naturally, no line-clamp (task §11). The finite
+     3:2 card means copy must stay compact — the content model is title + one
+     concise sentence + CTA, not paragraph prose. */
+  .service-card__desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  /* CTA: the only interactive element. <Link variant="default"> owns its own
+     accent/hover/focus treatment (no new Link variant — task §13). The accent
+     reads clearly over the dark lower scrim. */
+  .service-card__action {
+    margin-block-start: var(--space-1);
+  }
+
+  /* Hover relationship (task §14/§15): card hover OR CTA focus-within subtly
+     darkens the image (brightness down, contrast up) — a visual relationship
+     cue. The scrim is a separate layer and stays stable, so text contrast is
+     never reduced (darkening the image behind a dark scrim only strengthens it).
+     No scale, no translate, no shadow. The card surface keeps its default
+     cursor (non-interactive areas are not pointer). */
+  .service-card:hover .service-card__image,
+  .service-card:focus-within .service-card__image {
+    filter: brightness(0.9) contrast(1.06);
+  }
+
+  /* Motion: the only transition is the restrained image filter — disabled under
+     reduced motion (task §14; FND-A11Y motion rules). */
+  @media (prefers-reduced-motion: reduce) {
+    .service-card__image {
+      transition: none;
+    }
+  }
+</style>

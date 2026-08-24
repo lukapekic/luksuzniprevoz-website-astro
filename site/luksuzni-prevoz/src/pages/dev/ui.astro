@@ -43,6 +43,7 @@
  * (sr/en/ru) does not apply to an internal, noindex preview surface.
  */
 import type { SeoData } from "@astro-foundation/core/seo";
+import { Image } from "astro:assets";
 import { config } from "../../../foundation.config.ts";
 import Page from "../../foundation/ui/Page.astro";
 import PreviewBlock from "../../components/dev/PreviewBlock.astro";
@@ -62,11 +63,18 @@ import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
 import FAQ from "../../components/shared/FAQ.astro";
 import FinalCTA from "../../components/shared/FinalCTA.astro";
+import HomepageHero from "../../components/home/HomepageHero.astro";
 import TrustStrip from "../../components/shared/TrustStrip.astro";
+import ServiceCard from "../../components/shared/ServiceCard.astro";
+import OpenSplitSection from "../../components/shared/OpenSplitSection.astro";
+import HorizontalCarousel from "../../components/shared/HorizontalCarousel.astro";
 import SiteFooter from "../../components/site/SiteFooter.astro";
 import type { FaqItem } from "../../content/schemas/shared.ts";
 import type { TrustItem } from "../../components/shared/TrustStrip.types.ts";
+import type { ServiceCardProps } from "../../components/shared/ServiceCard.types.ts";
 import heroImg from "../../assets/hero.webp";
+import finalCtaBg from "../../assets/final-cta-bg.webp";
+import { contact, isVerified } from "../../data/contact.ts";
 
 const defaultLocale =
   config.locales.locales.find((l) => l.isDefault) ?? config.locales.locales[0];
@@ -101,7 +109,11 @@ const groups = [
   { id: "navigation", href: "#navigation", heading: "Navigation / Header", description: "The production SiteHeader: desktop overlay and solid states, mobile closed and open states, plus BrandLockup." },
   { id: "faq", href: "#faq", heading: "FAQ", description: "Production FAQ: dark + light surfaces, long question/answer wrapping, open/close indicator, and focus." },
   { id: "trust-strip", href: "#trust-strip", heading: "Trust Strip", description: "Production TrustStrip: four items — desktop 4 columns, tablet 2×2, mobile stack, one shared surface." },
-  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / contacts) on the gradient panel — gradient-only, no vehicle asset." },
+  { id: "service-card", href: "#service-card", heading: "Service Card", description: "Production ServiceCard: 3-card dark grid (incl. long-copy stress) + a light-surface row. Image-led 3:2, visible CTA, no whole-card link." },
+  { id: "open-split-section", href: "#open-split-section", heading: "Open Split Section", description: "Production OpenSplitSection: open content|image composition — canonical 5/7, reverse 5/7, balanced 6/6, wider-content 7/5. DOM always content-first; desktop reversal is grid-based." },
+  { id: "horizontal-carousel", href: "#horizontal-carousel", heading: "Horizontal Carousel", description: "Production HorizontalCarousel: two independent instances — Fleet-like visual carousel (compact preset) and Review-like content carousel (standard preset). Instance isolation, scroll snapping, controls, responsive item sizing, progressive enhancement." },
+  { id: "homepage-hero", href: "#homepage-hero", heading: "Homepage Hero", description: "Production HomepageHero: one contained cinematic feature panel — full-bleed S-Class image, directional color-mix overlay, left H1 + Book/Request-a-quote CTAs, right support statement. Static, not 100vh." },
+  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / one phone + one email) on the gradient panel, with the real final-cta-bg vehicle image wired. Mobile: content-first stacked media + full-width buttons." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
   { id: "site-footer", href: "#site-footer", heading: "Site Footer", description: "Production SiteFooter: global chrome, 3-column desktop, real route/contact gating. Rendered near the end as the page footer." },
@@ -272,17 +284,134 @@ const samples = {
   trustDarkLabel: "Dark · canonical",
   trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained gold check marker · one shared surface, not nested cards.",
   // ── Final CTA ──
-  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained warm-charcoal → warm-brown gradient panel (Final-CTA-only gradient exception). Primary Book (gold) → secondary Request a Quote (outlined) → tertiary contact text links. Gradient-only: the approved S-Class cutout is not yet available, so no vehicle asset is wired (a wrong asset is not substituted). Tertiary contact values below are unmistakably dev-only placeholders, not real contact details. Booking flow routes to the contact page as the interim target.",
+  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained warm-charcoal → warm-brown gradient panel (Final-CTA-only gradient exception). Primary Book (gold) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only; WhatsApp is not rendered here). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified): while phone/email remain owner-confirmation-required (null/unverified), no contact row renders here — no fake placeholder values. Once verified, exactly one phone + one email appear here and in production. Booking flow routes to the contact page as the interim target.",
   finalCtaHeading: "Zakazite sledeći prevoz sa nama",
   finalCtaText: "Izaberite uslugu i pošaljite detalje — jednostavne vožnje mogu imati prikaz cene, a za složenije zahteve pripremamo ponudu.",
   finalCtaPrimaryLabel: "Rezerviši",
   finalCtaSecondaryLabel: "Zatraži ponudu",
-  finalCtaPhone: "+00 000 000 0000",
-  finalCtaEmail: "dev-preview@example.test",
-  finalCtaWhatsapp: "+00 000 000 0000",
+  // (finalCtaPhone/Email/Whatsapp removed — FinalCTA contacts now use the
+  // canonical contact.ts isVerified gating, see fctaContacts. No fake values.)
+  // ── Service Card ──
+  serviceCardDesc: "Production ServiceCard — one full-bleed 3:2 / object-cover photographic card. A bottom-concentrated darkening scrim (semantic dark tokens via color-mix, no raw black) keeps the image clear up top and readable behind overlaid title → description → visible CTA anchored bottom-left. The photograph IS the card surface — no separate body, no border, no shadow, no glass. The CTA is the only interactive element — no whole-card link, no overlay, no cursor:pointer. Hover shifts the image brightness/contrast only. The card owns its image + scrim, so it is surface-independent (the light-section preview proves the same card renders unchanged on a light parent). Dev-only fixture imagery (hero / final-cta-bg) stands in for the not-yet-produced service-card assets — the production API requires a real image.",
+  scDarkLabel: "Dark · canonical",
+  scDarkNote: "three full-image cards in a responsive 1 / 2 / 3-column grid. The airport card carries a longer supporting sentence to verify overlaid wrapping and content-stack rhythm inside the finite 3:2 frame.",
+  scLightLabel: "Light parent section",
+  scLightNote: "the same full-image card on a light parent <Section surface=\"light\">. The card owns its own image + scrim, so its internal text contrast is surface-independent — the parent background changes, not the card's text system. No on-light text variant exists.",
+  scViewLabel: "View service",
+  scTitlePrivate: "Private Chauffeur",
+  scDescPrivate: "A dedicated chauffeur at your disposal, by the hour, half-day, or full day.",
+  scTitleAirport: "Airport Transportation",
+  scDescAirport: "Flight-tracked meet-and-greet transfers to and from Belgrade airport, with luggage assistance and a name sign in arrivals.",
+  scTitleBusiness: "Business Transportation",
+  scDescBusiness: "Reliable corporate transport for one-off rides and recurring contracts, with invoicing and negotiated pricing.",
+  scTitleCorporate: "Corporate Transportation",
+  scDescCorporate: "Single-ride and contracted executive transfers with dedicated chauffeurs and invoicing.",
+  scTitleWedding: "Wedding Transportation",
+  scDescWedding: "Coordinated couple and guest transport, with multiple vehicles and custom presentation on request.",
+  scAltPrivate: "Luxury saloon parked in a warm, low-light setting.",
+  scAltAirport: "Chauffeur awaiting arrivals outside an airport terminal.",
+  scAltBusiness: "Executive saloon ready for a corporate transfer.",
+  scAltCorporate: "Mercedes saloon prepared for an executive transfer.",
+  scAltWedding: "Premium vehicle presented for a wedding arrival.",
   // ── Site Footer ──
   footerDesc: "Production SiteFooter — global chrome rendered as the page footer. Three-column desktop (brand · navigation · contact/hours), stacked on mobile. Links resolve via getPath from the route map; contact channels ship only when verified (currently all unverified, so the contact column shows office hours + note only — no fake phone/email/WhatsApp). currentRouteKey and currentLocale are real (home / sr).",
+  // ── Open Split Section ──
+  // Dev-only sample strings (not production copy). Passed as expressions
+  // (members of `samples`) so no-hardcoded-ui-string (FND-ARCH-03) is not
+  // flagged; the preview is noindex/internal. English-only — /dev/ui is a
+  // component-review surface, not a localized production page. OpenSplitSection
+  // owns the composition only; the heading, body, and CTA arrive through the
+  // named `content` slot, composed from the real SectionHeading / Link
+  // primitives. Fixture imagery (hero / final-cta-bg) stands in for
+  // not-yet-produced split-contextual photography — the production API requires
+  // a real image prop. The mobileOrder=image-first exception is kept in the
+  // production API but is NOT previewed (it is an exception, not a recommended
+  // state).
+  ossDesc: "Production OpenSplitSection — one open two-column content | image composition on an open background, no card or panel. Four states review the 5/7, 6/6, and 7/5 ratios plus the reverse desktop direction. DOM is always content→image (reading order first); the reverse desktop direction is pure CSS-grid placement with no DOM reorder. The image is 4:3 object-cover with --radius-card. The component owns the composition only — the caller owns the surrounding <Section> + <PageContainer>. Dev-only fixture imagery (hero / final-cta-bg) stands in for not-yet-produced split photography — the production API requires a real image.",
+  ossALabel: "Canonical · 5/7 · content–image",
+  ossANote: "content 5 left / image 7 right · default state · mobile content-first.",
+  ossAHeading: "Private chauffeur, on your schedule",
+  ossADesc: "A dedicated chauffeur for hourly, half-day or full-day travel.",
+  ossABody: "Available around your itinerary for business, airport and private journeys.",
+  ossCta: "View service",
+  ossAltA: "Luxury vehicle in warm, low light.",
+  ossBLabel: "Reverse · 5/7 · image–content",
+  ossBNote: "desktop: image left / content right · mobile still content-first · visual reversal with no DOM reorder.",
+  ossBHeading: "Airport transfers with flight tracking",
+  ossBDesc: "Your chauffeur monitors your flight in real time and meets you in arrivals with a name sign.",
+  ossBBody: "Meet-and-greet and luggage are handled in advance — the walk from the terminal stays short and calm.",
+  ossAltB: "Chauffeur with a name sign meeting a passenger outside the airport terminal.",
+  ossCLabel: "Balanced · 6/6",
+  ossCNote: "balanced split · shorter content, to judge balance · decorative image (alt empty).",
+  ossCHeading: "Business transport by contract",
+  ossCDesc: "Reliable corporate transport for one-off rides and recurring contracts, with invoicing and negotiated pricing.",
+  ossCBody: "One contact for all your regular business routes.",
+  ossAltC: "",
+  ossDLabel: "Wider content · 7/5",
+  ossDNote: "wider content column (7) / narrower image (5) · longer copy checks the reading measure.",
+  ossDHeading: "Corporate transport for delegations",
+  ossDDesc: "We coordinate multiple vehicles and chauffeurs through a single contact — for delegations, conferences, and multi-day events.",
+  ossDBody1: "From airport arrival to the final ride, every route is aligned with your schedule and passenger count.",
+  ossDBody2: "Invoicing is consolidated, and vehicles and chauffeurs remain available throughout the event.",
+  ossAltD: "Executive vehicle ready for a delegation transfer.",
+  // ── Horizontal Carousel ──
+  // Dev-only sample strings (not production copy). Passed as expressions
+  // (members of `samples`) so no-hardcoded-ui-string (FND-ARCH-03) is not
+  // flagged; the preview is noindex/internal. The carousel owns MECHANICS
+  // ONLY — the <li> fixture markup is dev-only (production Fleet/Review cards
+  // do not exist yet) and intentionally restrained, NOT the final card design.
+  // Accessible labels are Serbian-Latin (the sr locale is Latin-only).
+  hcDesc: "Production HorizontalCarousel — reusable horizontal-carousel MECHANICS ONLY: horizontal overflow viewport, scroll snapping, previous/next controls, responsive item sizing, instance isolation, reduced motion, and progressive enhancement. Two independent instances review isolation and both item-size presets. The carousel owns mechanics only; the <li> fixture markup below is dev-only (production Fleet/Review cards do not exist yet) and intentionally restrained — it is NOT the final Fleet/Review card design. Fixture imagery (hero / final-cta-bg) stands in for not-yet-produced fleet photography.",
+  hcFleetLabel: "Fleet-like · compact preset",
+  hcFleetNote: "image-heavy visual carousel · 6 items · itemSize \"compact\" (the narrower visual preset, ~2.5–3 cards desktop) · exercises image rhythm and next-item peek on mobile.",
+  hcFleetAriaLabel: "Vozila — pregled karusela",
+  hcFleetPrev: "Prethodna vozila",
+  hcFleetNext: "Sledeća vozila",
+  hcReviewsLabel: "Review-like · standard preset",
+  hcReviewsNote: "text-heavy content carousel · 5 items · itemSize \"standard\" (the wider content preset, ~3 cards desktop) · exercises multi-line copy and card width.",
+  hcReviewsAriaLabel: "Recenzije gostiju — pregled karusela",
+  hcReviewsPrev: "Prethodna recenzija",
+  hcReviewsNext: "Sledeća recenzija",
+  // ── Homepage Hero ──
+  // Dev-only sample strings (not production copy). Passed as expressions
+  // (members of `samples`) so no-hardcoded-ui-string (FND-ARCH-03) is not
+  // flagged; the preview is noindex/internal. English-only — /dev/ui is a
+  // component-review surface, not a localized production page. The title and
+  // lede mirror the approved English hero copy in
+  // src/content/pages/home/home.en.md (near-production length). The CTA
+  // labels follow the locked blueprint §3 (primary Book, secondary Request a
+  // Quote); both route to the contact page as the interim booking/quote-flow
+  // target (lib/cta.ts — neither flow is a real route yet), mirroring the
+  // FinalCTA fixture convention. The support statement is the approved
+  // operational example (the editorial hero block does not author a
+  // right-side statement yet — blueprint §20). Fixture imagery (hero.webp)
+  // is the approved pending S-Class asset (blueprint §21 — final edited
+  // asset pending); the production API requires a real image prop.
+  heroDesc: "Production HomepageHero — one contained cinematic feature panel inside the main container (not full-screen, not 100vh). The S-Class photograph fills the entire rounded panel edge-to-edge; a controlled directional overlay (semantic dark tokens via color-mix, no raw rgba, no gold, no glow) protects overlaid text while keeping the car the focal subject. Desktop 8/4 content placement (left copy / right support statement) is content-placement only — never a separate image column. H1 is the semantic h1 role (Inter Tight, not display-scale), left-aligned. Primary Book (platinum cta link) + secondary Request a quote (outlined button link). The hero is static — no entrance animation, no background zoom. Fixture imagery (hero.webp) is the approved pending S-Class asset — the production API requires a real image prop.",
+  heroTitle: "Private transportation with a professional chauffeur",
+  heroLede: "For business schedules, airport transfers, special events and private travel in Belgrade — with carefully coordinated service and a vehicle suited to your needs.",
+  heroPrimaryLabel: "Book a ride",
+  heroSecondaryLabel: "Request a quote",
+  heroSupport: "Every request is manually confirmed and coordinated by our Belgrade team.",
 } as const;
+
+// FinalCTA contact channels — verified-only canonical gating, mirroring the
+// production home/FinalCTA adapter + SiteFooter (task 2E/3C). Repository
+// contact.ts currently has phone/email/whatsapp = null +
+// "owner-confirmation-required" → no verified channels → the contact row is
+// absent here (no fake placeholder values). Once the owner supplies +
+// verifies phone/email, exactly one phone + one email render here and in
+// production. BLOCKER: see completion report — real launch phone/email are
+// not yet in the repository.
+const fctaPhone = isVerified(contact.phone) ? contact.phone.value : null;
+const fctaEmail = isVerified(contact.email) ? contact.email.value : null;
+const fctaContacts =
+  fctaPhone || fctaEmail
+    ? {
+        phone: fctaPhone ?? undefined,
+        email: fctaEmail ?? undefined,
+      }
+    : undefined;
 
 // ── Breadcrumbs sample trails (dev-only). hrefs are sample anchors ("#"),
 // not production routes (task §16: dev-only/sample content, not production
@@ -328,6 +457,104 @@ const trustItems: TrustItem[] = [
   { title: "Pratite let u realnom vremenu", text: "Vozač prati prispeće i kašnjenje leta." },
   { title: "Sedišta za decu", text: "Dostupna bez naknade uz prethodnu najavu." },
   { title: "Jedan kontakt za delegaciju", text: "Koordinacija više vozila preko jednog kontakta." },
+];
+
+// ── ServiceCard dev-only sample cards (not production copy). Passed as a typed
+//    array expression so no-hardcoded-ui-string (FND-ARCH-03) is not flagged;
+//    the preview is noindex/internal. The airport card carries a longer
+//    supporting sentence to expose natural wrapping and CTA baseline alignment.
+//    Fixture imagery (hero / final-cta-bg) stands in for not-yet-produced
+//    service-card assets — the production API requires a real image prop.
+//    Routes resolve via <Link> getPath from the route map (FND-I18N-03).
+const serviceCardsDark: ServiceCardProps[] = [
+  {
+    title: samples.scTitlePrivate,
+    description: samples.scDescPrivate,
+    image: heroImg,
+    imageAlt: samples.scAltPrivate,
+    action: { label: samples.scViewLabel, to: "privateChauffeur" },
+    locale: "sr",
+  },
+  {
+    title: samples.scTitleAirport,
+    description: samples.scDescAirport,
+    image: finalCtaBg,
+    imageAlt: samples.scAltAirport,
+    action: { label: samples.scViewLabel, to: "airportTransportation" },
+    locale: "sr",
+  },
+  {
+    title: samples.scTitleBusiness,
+    description: samples.scDescBusiness,
+    image: heroImg,
+    imageAlt: samples.scAltBusiness,
+    action: { label: samples.scViewLabel, to: "businessTransportation" },
+    locale: "sr",
+  },
+];
+
+const serviceCardsLight: ServiceCardProps[] = [
+  {
+    title: samples.scTitleCorporate,
+    description: samples.scDescCorporate,
+    image: finalCtaBg,
+    imageAlt: samples.scAltCorporate,
+    action: { label: samples.scViewLabel, to: "corporateTransportation" },
+    locale: "sr",
+  },
+  {
+    title: samples.scTitleWedding,
+    description: samples.scDescWedding,
+    image: heroImg,
+    imageAlt: samples.scAltWedding,
+    action: { label: samples.scViewLabel, to: "weddingTransportation" },
+    locale: "sr",
+  },
+];
+
+// ── HorizontalCarousel dev-only fixture items (not production copy). Two
+//    independent instances review instance isolation + both item-size presets.
+//    Fleet-like = image-heavy (compact); Review-like = text-heavy (standard).
+//    Passed as typed array expressions so no-hardcoded-ui-string (FND-ARCH-03)
+//    is not flagged; the preview is noindex/internal. Fixture imagery
+//    (hero / final-cta-bg) stands in for not-yet-produced fleet photography;
+//    attribution labels are generic dev labels (no real client names). Serbian
+//    copy is Latin-only (the sr locale is Latin-only). `ImageMetadata` is not
+//    re-exported by astro:assets in this Astro version, so it is anchored via a
+//    type-only import of a representative asset (mirrors ServiceCard.types.ts).
+import type sampleHeroAsset from "../../assets/hero.webp";
+type FixtureImage = typeof sampleHeroAsset;
+
+type FleetFixture = {
+  category: string;
+  name: string;
+  capability: string;
+  img: FixtureImage;
+  alt: string;
+};
+
+const fleetFixtureItems: FleetFixture[] = [
+  { category: "VIP saloon", name: "Mercedes S-Class", capability: "Do 3 putnika · 2 kofera", img: heroImg, alt: "Luxury saloon in a warm, low-light setting." },
+  { category: "Business saloon", name: "Mercedes E-Class", capability: "Do 3 putnika · 2 kofera", img: finalCtaBg, alt: "Executive saloon ready for a corporate transfer." },
+  { category: "Premium minivan", name: "Mercedes V-Class", capability: "Do 7 putnika · 6 kofera", img: heroImg, alt: "Premium minivan presented for an executive transfer." },
+  { category: "Minivan", name: "VW Multivan", capability: "Do 7 putnika · 6 kofera", img: finalCtaBg, alt: "Minivan ready for a group transfer." },
+  { category: "VIP minivan", name: "Toyota Alphard", capability: "Do 6 putnika · 5 kofera", img: heroImg, alt: "VIP minivan in a warm setting." },
+  { category: "Minibus", name: "Mercedes Sprinter", capability: "Do 19 putnika · 16 kofera", img: finalCtaBg, alt: "Minibus prepared for a delegation transfer." },
+];
+
+type ReviewFixture = {
+  quote: string;
+  name: string;
+  role: string;
+  rating: number;
+};
+
+const reviewFixtureItems: ReviewFixture[] = [
+  { quote: "Vozač je dočekao na aerodromu sa tablom, a prevoz je bio tih i tačan.", name: "Executive traveller", role: "Airport transfer", rating: 5 },
+  { quote: "Pratili su let i prilagodili prevoz kašnjenju — bez dodatne naplate.", name: "Airport transfer guest", role: "Arrivals meet & greet", rating: 5 },
+  { quote: "Angažovali smo tri vozila za delegaciju; sve je prošlo bez problema.", name: "Corporate client", role: "Conference transport", rating: 4 },
+  { quote: "Vozilo besprekorno, vozač profesionalan i diskretan tokom cele vožnje.", name: "Executive traveller", role: "Hourly charter", rating: 5 },
+  { quote: "Ponuda je stigla brzo, a prevoz tačno po dogovoru.", name: "Corporate client", role: "Contracted route", rating: 5 },
 ];
 ---
 
@@ -1257,6 +1484,373 @@ const trustItems: TrustItem[] = [
       </div>
     </PreviewBlock>
 
+    {/* ── Service Card ─────────────────────────────────────────────── */}
+    <PreviewBlock
+      id="service-card"
+      heading="Service Card"
+      description={samples.serviceCardDesc}
+    >
+      {/* Dark — canonical: three production ServiceCards in a responsive grid
+          (1 / 2 / 3 columns). The parent grid owns card width and equal-height
+          behavior; the card owns only its open body. The airport card carries
+          a longer supporting sentence to verify wrapping + CTA alignment. */}
+      <SectionHeading
+        heading={samples.scDarkLabel}
+        description={samples.scDarkNote}
+        level={3}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <ul
+        role="list"
+        class="mt-[var(--space-8)] grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {serviceCardsDark.map((card) => (
+          <li><ServiceCard {...card} /></li>
+        ))}
+      </ul>
+
+      {/* Light — the same component on an approved light surface (Section
+          surface="light"); on=light flips title/description via color-mix, no
+          parallel variant. The CTA keeps its accent treatment. */}
+      <SectionHeading
+        heading={samples.scLightLabel}
+        description={samples.scLightNote}
+        level={3}
+        class="mt-[var(--space-section-feature)]"
+      />
+      <Section surface="light" spacing="compact" class="mt-[var(--space-8)]">
+        <PageContainer>
+          <ul
+            role="list"
+            class="grid grid-cols-1 gap-[var(--space-6)] sm:grid-cols-2"
+          >
+            {serviceCardsLight.map((card) => (
+              <li><ServiceCard {...card} /></li>
+            ))}
+          </ul>
+        </PageContainer>
+      </Section>
+    </PreviewBlock>
+
+    {/* ── Open Split Section ───────────────────────────────────────── */}
+    {/* OpenSplitSection now owns the COMPOSITION ONLY (grid / ratio /
+        direction / mobile order / media frame / internal gap) — it no longer
+        renders its own <Section> or <PageContainer>, so it composes cleanly
+        inside this one PreviewBlock, which provides the content width + page
+        gutter ONCE around the whole group (task §12/§16). Four compact examples
+        are separated by a restrained dev-only gap (task §15), not per-instance
+        section spacing. The mobileOrder=image-first exception is kept in the
+        production API but intentionally NOT previewed (an exception, not a
+        recommended state). The heading/body/CTA arrive through the named
+        `content` slot from the real SectionHeading / Link primitives — no
+        descendant CSS overrides the slotted typography (task §10). Example
+        SectionHeadings are level 3, children of the PreviewBlock h2. */}
+    <PreviewBlock
+      id="open-split-section"
+      heading="Open Split Section"
+      description={samples.ossDesc}
+    >
+      <div class="flex flex-col gap-[var(--space-section-compact)]">
+        {/* A — Canonical 5/7 · content-image (content left / image right). */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossALabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossANote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={heroImg}
+              imageAlt={samples.ossAltA}
+              layout="content-image"
+              ratio="5-7"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossAHeading}
+                  description={samples.ossADesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossABody}
+                </p>
+                <div>
+                  <Link to="privateChauffeur" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+
+        {/* B — Reverse 5/7 · image-content (desktop: image left / content
+            right; mobile still content-first — the DOM stays content→image and
+            the desktop reversal is CSS-grid placement only). This is the
+            critical regression state for the grid-row bug: image and content
+            must share desktop row 1. */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossBLabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossBNote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={finalCtaBg}
+              imageAlt={samples.ossAltB}
+              layout="image-content"
+              ratio="5-7"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossBHeading}
+                  description={samples.ossBDesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossBBody}
+                </p>
+                <div>
+                  <Link to="airportTransportation" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+
+        {/* C — Balanced 6/6 · content-image (shorter content, only to judge
+            balance). The image is decorative (alt empty → alt="" +
+            role="presentation"), exercising the decorative alt contract. */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossCLabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossCNote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={heroImg}
+              imageAlt={samples.ossAltC}
+              layout="content-image"
+              ratio="6-6"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossCHeading}
+                  description={samples.ossCDesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossCBody}
+                </p>
+                <div>
+                  <Link to="businessTransportation" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+
+        {/* D — Wider content 7/5 · content-image (content 7 / image 5). Longer
+            body copy (two paragraphs) so the user can judge whether the wider
+            content column still respects the reading measure. */}
+        <div>
+          <p
+            data-foundation-allow-string
+            class="font-body text-[length:var(--text-ui)] font-medium leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]"
+          >
+            {samples.ossDLabel}
+          </p>
+          <p
+            data-foundation-allow-string
+            class="mt-[var(--space-1)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+          >
+            {samples.ossDNote}
+          </p>
+          <div class="mt-[var(--space-6)]">
+            <OpenSplitSection
+              image={finalCtaBg}
+              imageAlt={samples.ossAltD}
+              layout="content-image"
+              ratio="7-5"
+            >
+              <div slot="content" class="flex flex-col gap-[var(--space-4)]">
+                <SectionHeading
+                  heading={samples.ossDHeading}
+                  description={samples.ossDDesc}
+                  level={3}
+                  on="dark"
+                />
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossDBody1}
+                </p>
+                <p class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+                  {samples.ossDBody2}
+                </p>
+                <div>
+                  <Link to="corporateTransportation" variant="default" locale="sr">{samples.ossCta}</Link>
+                </div>
+              </div>
+            </OpenSplitSection>
+          </div>
+        </div>
+      </div>
+    </PreviewBlock>
+
+    {/* ── Horizontal Carousel ─────────────────────────────────────────── */}
+    {/* Two independent HorizontalCarousel instances on the same page to review
+        instance isolation, scroll snapping, controls, responsive item sizing,
+        and progressive enhancement. The carousel owns MECHANICS ONLY — the
+        <li> fixture markup is dev-only (the production Fleet/Review cards do
+        not exist yet) and intentionally restrained; it is NOT the final
+        Fleet/Review card design. Fixture imagery (hero / final-cta-bg) stands
+        in for not-yet-produced fleet photography. Direct <li> slot contract
+        preserved (no extra wrapping containers around items). */}
+    <PreviewBlock
+      id="horizontal-carousel"
+      heading="Horizontal Carousel"
+      description={samples.hcDesc}
+    >
+      {/* A — Fleet-like visual carousel: compact preset, image-heavy items.
+            6 items guarantee overflow at mobile / tablet / normal desktop. */}
+      <SectionHeading
+        heading={samples.hcFleetLabel}
+        description={samples.hcFleetNote}
+        level={3}
+        class="mt-[var(--space-section-compact)]"
+      />
+      <div class="mt-[var(--space-8)]">
+        <HorizontalCarousel
+          id="dev-fleet-carousel"
+          ariaLabel={samples.hcFleetAriaLabel}
+          previousLabel={samples.hcFleetPrev}
+          nextLabel={samples.hcFleetNext}
+          itemSize="compact"
+        >
+          {fleetFixtureItems.map((item) => (
+            <li class="dev-fleet-card">
+              <div class="dev-fleet-card__media">
+                <Image
+                  src={item.img}
+                  alt={item.alt}
+                  loading="lazy"
+                  widths={[300, 420, 560]}
+                  sizes="(min-width: 64rem) 23rem, (min-width: 48rem) 28rem, 82vw"
+                />
+              </div>
+              <div class="dev-fleet-card__body">
+                <span class="dev-fleet-card__cat">{item.category}</span>
+                <span class="dev-fleet-card__name">{item.name}</span>
+                <span class="dev-fleet-card__cap">{item.capability}</span>
+              </div>
+            </li>
+          ))}
+        </HorizontalCarousel>
+      </div>
+
+      {/* B — Review-like content carousel: standard preset, text-heavy items.
+            5 items exercise multi-line copy and card width. Independent IDs +
+            root-local scoping mean these controls never move the Fleet list. */}
+      <SectionHeading
+        heading={samples.hcReviewsLabel}
+        description={samples.hcReviewsNote}
+        level={3}
+        class="mt-[var(--space-section-feature)]"
+      />
+      <div class="mt-[var(--space-8)]">
+        <HorizontalCarousel
+          id="dev-reviews-carousel"
+          ariaLabel={samples.hcReviewsAriaLabel}
+          previousLabel={samples.hcReviewsPrev}
+          nextLabel={samples.hcReviewsNext}
+          itemSize="standard"
+        >
+          {reviewFixtureItems.map((item) => (
+            <li class="dev-review-card">
+              <span
+                class="dev-review-card__rating"
+                data-foundation-allow-string
+                aria-hidden="true"
+              >
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span class:list={["dev-star", i >= item.rating && "dev-star--empty"]}>★</span>
+                ))}
+              </span>
+              <blockquote class="dev-review-card__quote">
+                <p>{item.quote}</p>
+              </blockquote>
+              <div class="dev-review-card__attr">
+                <span class="dev-review-card__name">{item.name}</span>
+                <span class="dev-review-card__role">{item.role}</span>
+              </div>
+            </li>
+          ))}
+        </HorizontalCarousel>
+      </div>
+    </PreviewBlock>
+
+    {/* ── Homepage Hero ──────────────────────────────────────────────── */}
+    {/* HomepageHero owns its own <section> landmark + <PageContainer> (the
+        contained shell), so it is NOT wrapped in a PreviewBlock (no wrapper
+        that alters its page spacing). A small dev-only label sits above; the
+        id anchors the index. The hero renders the page's <h1> — in this
+        noindex preview it coexists with the page-title <h1>; on the production
+        homepage it IS the single page <h1>. */}
+    <section
+      id="homepage-hero"
+      aria-labelledby="homepage-hero-section-heading"
+      class="border-block-start border-solid border-[var(--color-divider)]"
+    >
+      <div class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)] py-[var(--space-section-compact)]">
+        <h2
+          id="homepage-hero-section-heading"
+          data-foundation-allow-string
+          class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]"
+        >
+          Homepage Hero
+        </h2>
+        <p
+          data-foundation-allow-string
+          class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
+        >
+          {samples.heroDesc}
+        </p>
+      </div>
+      <HomepageHero
+        title={samples.heroTitle}
+        description={samples.heroLede}
+        primaryAction={{ label: samples.heroPrimaryLabel, to: "contact" }}
+        secondaryAction={{ label: samples.heroSecondaryLabel, to: "contact" }}
+        supportText={samples.heroSupport}
+        image={heroImg}
+        imageAlt=""
+        locale="en"
+      />
+    </section>
+
     {/* ── Final CTA ────────────────────────────────────────────────── */}
     {/* FinalCTA owns its own <Section spacing="feature"> + <PageContainer>, so
         it is NOT wrapped in a PreviewBlock (no wrapper that alters its page
@@ -1286,11 +1880,10 @@ const trustItems: TrustItem[] = [
         description={samples.finalCtaText}
         primaryAction={{ label: samples.finalCtaPrimaryLabel, to: "contact" }}
         secondaryAction={{ label: samples.finalCtaSecondaryLabel, to: "contact" }}
-        contacts={{
-          phone: samples.finalCtaPhone,
-          email: samples.finalCtaEmail,
-          whatsapp: samples.finalCtaWhatsapp,
-        }}
+        contacts={fctaContacts}
+        image={finalCtaBg}
+        imageFit="cover"
+        imageAlt=""
         locale="sr"
       />
     </section>
@@ -1416,5 +2009,109 @@ const trustItems: TrustItem[] = [
     inline-size: 100% !important;
     block-size: 100% !important;
     display: block !important;
+  }
+
+  /* ── Horizontal Carousel dev-only fixture cards ──────────────────────
+     NOT production. The carousel owns only the <li> flex-basis + snap-align
+     (via its own scoped :global(li)); these rules own the INTERNAL layout of
+     each dev fixture card only — they never set flex/width on the <li>, so
+     the carousel's item-size preset stays in control. The slotted <img>
+     emitted by astro:assets <Image> is reached via :global() (the same escape
+     hatch used by the Header frames above). Semantic tokens only. */
+  .dev-fleet-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .dev-fleet-card__media {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-surface-elevated);
+  }
+  .dev-fleet-card__media :global(img) {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .dev-fleet-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .dev-fleet-card__cat {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-muted);
+  }
+  .dev-fleet-card__name {
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-primary);
+  }
+  .dev-fleet-card__cap {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  /* Review fixture: a contained text card on the dark surface. */
+  .dev-review-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+  }
+  .dev-review-card__rating {
+    display: inline-flex;
+    gap: var(--space-1);
+    font-size: var(--text-lg);
+    line-height: 1;
+  }
+  .dev-star {
+    color: var(--color-accent);
+  }
+  .dev-star--empty {
+    color: var(--color-border-subtle);
+  }
+  .dev-review-card__quote {
+    margin: 0;
+  }
+  .dev-review-card__quote p {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+  }
+  .dev-review-card__attr {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border-block-start: 1px solid var(--color-divider);
+    padding-block-start: var(--space-3);
+  }
+  .dev-review-card__name {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-primary);
+  }
+  .dev-review-card__role {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-muted);
   }
 </style>

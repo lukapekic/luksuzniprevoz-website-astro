@@ -5,7 +5,7 @@
  * so its technical/a11y safeguards beat every cascade layer.
  *
  *   @import "tailwindcss";        → establishes theme/base/components/utilities
- *   ./fonts.css                  → self-hosted @font-face for Instrument Serif/Manrope
+ *   ./fonts.css                  → self-hosted @font-face for Inter Tight/Manrope
  *   ../theme/generated/theme.css  → @layer theme custom properties (merged)
  *   foundation.css               → unlayered safeguards
  */
@@ -22,7 +22,7 @@
  * does NOT generate named font-family utilities for them, and the untyped
  * arbitrary form `font-[var(--font-body)]` resolves to the WRONG property
  * (font-weight, not font-family) — so Manrope never applied and the whole
- * document rendered in the :root default (Instrument Serif).
+ * document rendered in the :root default (Inter Tight).
  *
  * These two @utility declarations register the canonical named utilities
  * (`font-heading` / `font-body`) against the existing tokens, with no value
@@ -32,12 +32,13 @@
  */
 @utility font-heading {
   font-family: var(--font-heading);
-  /* Instrument Serif is a regular-only (400) display face. Without this, a
-   * component that pairs `font-heading` with `font-semibold`/`font-medium`/
-   * `font-bold` would trigger browser-synthesized faux-bold. `font-synthesis:
-   * none` makes the heading render at the real 400 weight — the only weight
-   * Instrument Serif ships — instead of a synthesized heavier face. Body/UI
-   * weights (Manrope, which ships 200–800) are unaffected. (Theme V2.) */
+  /* Inter Tight is a variable face shipping the full weight range (100–900),
+   * so pairing `font-heading` with `font-semibold`/`font-medium`/`font-bold`
+   * renders at a real weight, not a browser-synthesized faux-bold. The
+   * `font-synthesis: none` gate is retained as a defensive guard: if a heading
+   * ever requests a weight the loaded face cannot provide, the browser will
+   * NOT synthesize a heavier face instead of falling through the family chain.
+   * Body/UI weights (Manrope, which ships 200–800) are unaffected. (Theme V2.) */
   font-synthesis: none;
 }
 @utility font-body {

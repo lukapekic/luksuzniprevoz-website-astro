@@ -1,11 +1,11 @@
 {
   "families": {
-    "heading": "Instrument Serif, Georgia, serif",
+    "heading": "Inter Tight Variable, system-ui, sans-serif",
     "body": "Manrope Variable, system-ui, sans-serif",
     "brand": "Cormorant Garamond Variable, Cormorant Garamond, Georgia, serif"
   },
   "fallbacks": {
-    "heading": "Georgia, serif",
+    "heading": "system-ui, sans-serif",
     "body": "system-ui, sans-serif"
   },
   "weights": {

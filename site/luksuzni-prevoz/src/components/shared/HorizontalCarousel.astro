@@ -1,0 +1,379 @@
+---
+/**
+ * HorizontalCarousel — reusable horizontal-carousel mechanics.
+ *
+ * Identity: a horizontally scrollable, snap-to-item content list with
+ * progressive-enhancement previous/next controls. It is consumer-agnostic —
+ * it owns scrolling, snapping, controls, responsive item sizing, instance
+ * isolation, and reduced motion; callers own the actual card/content markup
+ * (component-architecture.md §16; DESIGN.md §12 lists "carousel mechanics" as
+ * shared infrastructure).
+ *
+ * CALLER CONTRACT — slotted direct children must be <li>:
+ *
+ *   <HorizontalCarousel
+ *     id="fleet-carousel"
+ *     ariaLabel="…"
+ *     previousLabel="…"
+ *     nextLabel="…"
+ *     itemSize="compact"
+ *   >
+ *     <li><FleetCard … /></li>
+ *     <li><FleetCard … /></li>
+ *   </HorizontalCarousel>
+ *
+ * The track is a semantic <ul>; slotted children are its <li>. The carousel
+ * styles its direct <li> children only (flex-basis + snap-align) — it does NOT
+ * target h3/p/img/article inside slotted cards (locked contract, task §28).
+ *
+ * SEMANTIC STRUCTURE:
+ *   <div.carousel>
+ *     <div.carousel__controls>  (prev/next buttons; outside the scroll content)
+ *     <div.carousel__viewport>  (overflow-x scroll container, presentational)
+ *       <ul.carousel__track aria-label=…>  (semantic list, owns the name)
+ *         <slot />  (<li> from caller)
+ *
+ * PROGRESSIVE ENHANCEMENT — hard requirement (task §7):
+ *   - Baseline (no JS): a native horizontally scrollable <ul>. Touch/trackpad/
+ *     native scroll work. The control buttons ship with the `hidden` attribute
+ *     (not rendered, not focusable) AND the control row is `display:none` until
+ *     JS adds data-overflow="true" — so no-JS users never see nonfunctional
+ *     buttons. Snap is pure CSS, so it works without JS too.
+ *   - Enhancement (JS): the module script reveals controls only when content
+ *     actually overflows, wires item-based movement, and keeps prev/next
+ *     disabled state in sync with scroll/resize. If the script fails, the list
+ *     still scrolls natively (fail-open, FND-ARCH-06).
+ *
+ * CONTROLS: native <button> styled with Tailwind utilities (the same restrained
+ * control treatment as the Header hamburger / Button.variants). The Button
+ * primitive has no icon-only compact variant and modifying it is out of scope,
+ * so this component owns a local icon-button instead. 44×44 target (FND-A11Y-
+ * 05). Color shift only on hover; no scale (design-foundation-governance.md
+ * §18). Arrow icons are decorative (aria-hidden). NO gold/platinum fill.
+ *
+ * ARIA: minimal and correct (task §24). This is a scrollable content list, not
+ * a tab interface — no role="application"/tabpanel/tablist/aria-live. The <ul>
+ * carries the localized aria-label (semantic grouping element); role="list" is
+ * added because list-style:none removes <ul> list semantics in some screen
+ * readers (accessibility-wcag.md — ARIA only when native semantics are
+ * insufficient; this is the sanctioned fix). Buttons are ordinary native
+ * controls (Tab/Enter/Space), no custom key hijacking (task §22).
+ *
+ * INSTANCE ISOLATION — hard requirement (task §5/§9): the bundled module script
+ * runs once and initializes every [data-horizontal-carousel] root; each init
+ * queries only within its own root, so Fleet controls can never move Reviews.
+ *
+ * Theme V2: semantic tokens only (var(--color-*)). No hardcoded gold/platinum/
+ * warm-charcoal/raw hex. Theme flows through automatically; theme files untouched.
+ *
+ * class passthrough is layout-only (FND-UI-06). CSS logical properties only
+ * (FND-I18N-13).
+ */
+import type { HorizontalCarouselProps } from "./HorizontalCarousel.types.ts";
+
+type Props = HorizontalCarouselProps;
+
+const {
+  id,
+  ariaLabel,
+  previousLabel,
+  nextLabel,
+  itemSize = "standard",
+  class: className,
+} = Astro.props;
+
+const viewportId = `${id}-viewport`;
+
+// Control appearance lives in utility classes (matches the Header hamburger /
+// Button.variants treatment). No scale hover; enabled:hover color shift only;
+// disabled = opacity + not-allowed, not color-only (tailwind-v4.md §39).
+const buttonClass = [
+  "carousel__button inline-flex min-h-11 min-w-11 items-center justify-center",
+  "rounded-[var(--radius-control)]",
+  "border border-solid border-[var(--color-border-subtle)]",
+  "bg-[var(--color-surface-elevated)] text-[var(--color-text-primary)]",
+  "transition-colors duration-[var(--duration-fast)] ease-[var(--ease-standard)]",
+  "enabled:hover:bg-[var(--color-surface)] enabled:hover:border-[var(--color-divider)]",
+  "enabled:active:bg-[var(--color-surface)]",
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)]",
+  "disabled:cursor-not-allowed disabled:opacity-60",
+].join(" ");
+---
+
+<div
+  id={id}
+  class:list={["carousel", className]}
+  data-horizontal-carousel
+  data-item-size={itemSize}
+  data-overflow="false"
+>
+  <div class="carousel__controls">
+    <button
+      type="button"
+      class={buttonClass}
+      data-carousel-prev
+      aria-label={previousLabel}
+      aria-controls={viewportId}
+      hidden
+    >
+      <svg
+        class="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </button>
+    <button
+      type="button"
+      class={buttonClass}
+      data-carousel-next
+      aria-label={nextLabel}
+      aria-controls={viewportId}
+      hidden
+    >
+      <svg
+        class="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="carousel__viewport" id={viewportId} data-carousel-viewport>
+    <ul class="carousel__track" role="list" aria-label={ariaLabel} data-carousel-track>
+      <slot />
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* --- Item-width preset (fluid, responsive) --------------------------------
+     Driven by a single --carousel-item-size custom property switched per preset
+     and breakpoint. Fluid clamp()/min() keeps widths responsive without
+     breakpoint noise; the fixed viewport set (320/768/1024) is honored via two
+     min-width queries. Mobile peeks ~1.1 items; tablet shows ~1.5–2; desktop
+     shows ~2.5–3. The "compact" desktop value is the locked Fleet card width from
+     the approved wireframe (08-fleet-showcase.md). */
+  .carousel {
+    --carousel-item-size: min(82vw, 20rem);
+  }
+  @media (min-width: 48rem) {
+    .carousel {
+      --carousel-item-size: clamp(22rem, 38vw, 26rem);
+    }
+  }
+  @media (min-width: 64rem) {
+    .carousel {
+      --carousel-item-size: clamp(20rem, 30vw, 26rem);
+    }
+    .carousel[data-item-size="compact"] {
+      --carousel-item-size: clamp(18rem, 29vw, 23.5rem);
+    }
+  }
+
+  /* Control row: hidden by default (no-JS + no-overflow). JS reveals it via
+     data-overflow="true", which also reserves the bottom gap. Keeps nonfunctional
+     controls off the page for no-JS users and when content fits. The buttons are
+     also `hidden` in markup until the script removes that attribute. */
+  .carousel__controls {
+    display: none;
+  }
+  .carousel[data-overflow="true"] .carousel__controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-block-end: var(--space-4);
+  }
+
+  /* Viewport: the only element on the page that may intentionally overflow
+     horizontally (responsive-layout.md §14/§18, blueprint §17). inline-proximity
+     (not mandatory) so free touch scrolling stays pleasant; task §13 leaves
+     mandatory-vs-proximity for manual review. overscroll-behavior-x: contain
+     stops carousel scroll from leaking into the page. Discreet native scrollbar
+     via standard scrollbar-width/scrollbar-color (no ::-webkit-scrollbar hacks,
+     task §14). */
+  .carousel__viewport {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-subtle) transparent;
+  }
+  /* Smooth programmatic scroll only when motion is welcome. Under
+     prefers-reduced-motion, falls back to instant/auto (task §12). The theme
+     already zeroes --duration-* under reduced motion; scroll-behavior is a
+     separate property and must be handled here. */
+  @media (prefers-reduced-motion: no-preference) {
+    .carousel__viewport {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Track: flex row of caller <li>. gap is the only spacing the carousel owns
+     (08-fleet-showcase.md: item gap space-4). list-style:none → role="list" is
+     set in markup to preserve list semantics for SRs. */
+  .carousel__track {
+    display: flex;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Slotted direct children (caller <li>). Styled via :global() because Astro
+     scoped CSS does not hash slotted content — this is the documented slot-
+     styling escape hatch (task §29). Selector stays contained: it only matches
+     <li> that are direct children of this scoped track. flex 0 0 keeps items
+     at the preset width (no grow/shrink) so the row overflows to scroll;
+     scroll-snap-align:start snaps items to the viewport's leading edge. */
+  .carousel__track > :global(li) {
+    flex: 0 0 var(--carousel-item-size);
+    scroll-snap-align: start;
+  }
+</style>
+
+<script>
+  // island: HorizontalCarousel — progressive scroll controls.
+  // Baseline (no JS): a natively scrollable, snap-to-item <ul>. Controls ship
+  // hidden and are revealed only after init, and only when content overflows,
+  // so no-JS users and no-overflow cases never see nonfunctional buttons. All
+  // state is root-local; multiple carousels are independent. FND-ARCH-05 (data
+  // hooks), FND-ARCH-06 (try/catch, fail open — the list still scrolls).
+  try {
+    const TOL = 1; // px tolerance for sub-pixel scroll/rounding edges
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const behavior = (): ScrollBehavior =>
+      reducedMotion.matches ? "auto" : "smooth";
+
+    const roots = document.querySelectorAll<HTMLElement>(
+      "[data-horizontal-carousel]",
+    );
+    roots.forEach((root) => initCarousel(root));
+
+    function initCarousel(root: HTMLElement): void {
+      const viewport = root.querySelector<HTMLElement>(
+        "[data-carousel-viewport]",
+      );
+      const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+      const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+      const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+      if (!viewport || !track || !prev || !next) return;
+
+      const items = Array.from(track.children) as HTMLElement[];
+
+      // rAF-throttled state sync (cheap; avoids per-frame work — task §20).
+      let scheduled = false;
+      const schedule = (): void => {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(() => {
+          scheduled = false;
+          syncState();
+        });
+      };
+
+      /** Reveal controls iff content overflows; keep prev/next disabled state
+       *  in sync with the current scroll position and available width. */
+      const syncState = (): void => {
+        const hasOverflow = viewport.scrollWidth - viewport.clientWidth > TOL;
+        root.setAttribute("data-overflow", hasOverflow ? "true" : "false");
+        prev.hidden = !hasOverflow;
+        next.hidden = !hasOverflow;
+        if (!hasOverflow) return; // nothing to scroll → controls stay hidden
+
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        const atStart = viewport.scrollLeft <= TOL;
+        const atEnd = viewport.scrollLeft >= maxScroll - TOL;
+        prev.disabled = atStart;
+        next.disabled = atEnd;
+      };
+
+      /** Start position of `el` in the viewport's OWN scroll coordinate — the
+       *  scrollLeft value that would align the item's left edge to the
+       *  viewport's leading edge. Derived from live getBoundingClientRect so it
+       *  is independent of offsetParent / page layout.
+       *
+       *  INVARIANT: item positions and the scroll position must share this one
+       *  coordinate system. The prior code compared viewport.scrollLeft
+       *  (scroll-container-local) against item.offsetLeft (offsetParent-relative
+       *  — it includes the viewport's own page offset, since overflow:auto does
+       *  NOT make the viewport an offsetParent). That constant offset made the
+       *  anchor under-report the leading item after a manual mid-track scroll,
+       *  so Next re-targeted an already-passed item and the track never
+       *  advanced — the reported stuck bug. */
+      const itemStart = (el: Element): number =>
+        el.getBoundingClientRect().left -
+        viewport.getBoundingClientRect().left +
+        viewport.scrollLeft;
+
+      /** Index of the leading item — the rightmost item whose start is at/before
+       *  the current scroll position (the item anchored at the start edge). Used
+       *  for one-item step movement (task §10). */
+      const currentIndex = (): number => {
+        const sl = viewport.scrollLeft;
+        let idx = 0;
+        for (let i = 0; i < items.length; i++) {
+          if (itemStart(items[i]) <= sl + TOL) idx = i;
+          else break;
+        }
+        return idx;
+      };
+
+      /** Move one item in dir. Uses scrollIntoView({ inline: "start" }) — a
+       *  direction-safe browser API (respects dir/RTL, task §11) — with
+       *  block:"nearest" so the page never scrolls vertically when a control
+       *  is clicked (focus stays on the button, task §23). */
+      const step = (dir: "prev" | "next"): void => {
+        const idx = currentIndex();
+        const targetIdx = dir === "next" ? idx + 1 : idx - 1;
+        if (targetIdx < 0 || targetIdx >= items.length) return;
+        const target = items[targetIdx];
+        if (!target) return;
+        target.scrollIntoView({
+          behavior: behavior(),
+          block: "nearest",
+          inline: "start",
+        });
+      };
+
+      prev.addEventListener("click", () => step("prev"));
+      next.addEventListener("click", () => step("next"));
+      viewport.addEventListener(
+        "scroll",
+        () => {
+          schedule();
+        },
+        { passive: true },
+      );
+
+      // ResizeObserver catches responsive width changes (mobile→tablet→desktop)
+      // that change item widths / overflow, so disabled state recalculates
+      // (task §21). No measurement is cached across resizes.
+      const ro = new ResizeObserver(() => schedule());
+      ro.observe(viewport);
+      // Observe items too: their height may change (e.g. translated text or
+      // image aspect) without the viewport resizing, which can shift layout.
+      items.forEach((item) => ro.observe(item));
+
+      syncState();
+    }
+  } catch (e) {
+    // FND-ARCH-06: fail open — without this script the list is still a
+    // natively scrollable snap list; controls simply stay hidden.
+  }
+</script>
