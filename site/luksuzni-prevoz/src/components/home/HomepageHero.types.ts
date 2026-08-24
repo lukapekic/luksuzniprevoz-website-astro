@@ -3,8 +3,9 @@
  *
  * Presentation-only: all copy, links, and imagery arrive via props
  * (component-architecture.md §18 — the component owns NO copy). One known
- * composition — a contained cinematic photographic panel — there are no slots
- * for arbitrary hero layouts and no generalized `Hero`/`ImageTextPanel`
+ * composition — a full-bleed near-viewport photographic hero whose media
+ * canvas is overlaid by the sticky SiteHeader at the page top — there are no
+ * slots for arbitrary hero layouts and no generalized `Hero`/`ImageTextPanel`
  * (component-architecture.md §25; blueprint §7).
  *
  * Contract: docs/home/home-components/03-home-hero.md (exact V1 spec)

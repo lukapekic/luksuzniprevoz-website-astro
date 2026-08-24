@@ -16,21 +16,30 @@
  * and finalCta blocks are typed and passed straight to the components. All three
  * locales (sr/en/ru) are required (FND-I18N — every locale for every page).
  *
- * V1 partial assembly: only the chrome + Hero + FinalCTA are mounted today. The
- * remaining sections (ServiceShowcase, PrivateChauffeur, Trust, Fleet,
- * HowItWorks, GoogleReviews) slot into <main> between Hero and FinalCTA as their
- * components land (13 §Exact order). Each component owns its own section spacing,
- * so no wrapper rhythm is added here.
+ * Clean-slate shell assembly (Step 1). Verified components mounted in the
+ * locked order: SiteHeader (§1), HomepageHero (§2), TrustStrip (§5), FinalCTA
+ * (§9), SiteFooter (§10). The remaining regions — ServiceShowcase (§3),
+ * PrivateChauffeur (§4), Fleet (§6), HowItWorks (§7), GoogleReviews (§8) — are
+ * clean integration boundaries only (TODO markers, no rendered markup): they
+ * slot in between Hero and FinalCTA as their homepage-specific components land
+ * (13 §Exact order). Each component owns its own section spacing, so no wrapper
+ * rhythm is added here.
  */
 import Page from "../../foundation/ui/Page.astro";
 import SiteHeader from "../../components/site/SiteHeader.astro";
 import SiteFooter from "../../components/site/SiteFooter.astro";
 import HomepageHero from "../../components/home/HomepageHero.astro";
-import FinalCTA from "../../components/home/FinalCTA.astro";
+import FinalCTA from "../../components/shared/FinalCTA.astro";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import TrustStrip from "../../components/shared/TrustStrip.astro";
 import { getCollection } from "astro:content";
 import { buildPageSeo } from "../../lib/seo.ts";
 import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
+import { contact, isVerified } from "../../data/contact.ts";
 import heroImg from "../../assets/hero.webp";
+import finalCtaImg from "../../assets/final-cta-bg.webp";
 import type { LocaleCode } from "@astro-foundation/core";
 
 export function getStaticPaths() {
@@ -60,7 +69,18 @@ if (entry.data.pageType !== "home") {
     `Home route entry for locale "${currentLocale}" has pageType "${entry.data.pageType}" — expected "home".`,
   );
 }
-const { hero, finalCta, seoTitle, seoDescription } = entry.data;
+const { hero, finalCta, seoTitle, seoDescription, trust } = entry.data;
+
+// TrustStrip (blueprint §10 / 13 §5) — canonical content IS authored for all
+// three locales (home.*.md `trust`: a `heading.title` + exactly 4 `items` with
+// title+text), so the verified TrustStrip is mounted now, not deferred. The
+// `trust.heading` slot is optional in homePageSchema; it is present in every
+// authored locale, but the section is guarded so an unauthored heading never
+// produces an unlabeled <Section> (aria-labelledby only set when heading
+// renders). TrustStrip embeds no heading of its own — the page owns the <h2>
+// via <SectionHeading> (component-architecture.md §14, TrustStrip JSDoc).
+const trustHeading = trust.heading;
+const trustHeadingId = "home-trust-heading";
 
 // --- SEO (content-driven) -------------------------------------------------
 const seo = buildPageSeo({
@@ -104,6 +124,41 @@ const heroSecondaryAction = hero.secondaryCta
       href: resolveCtaHref(hero.secondaryCta as Cta, currentLocale),
     }
   : undefined;
+
+// --- FinalCTA (canonical shared component, same as /dev/ui) --------------
+// The Homepage uses the SAME authoritative shared/FinalCTA.astro the user
+// approved in /dev/ui — the legacy home/FinalCTA.astro adapter is deleted.
+// The editorial `finalCta` block (heading/text/primaryCta/secondaryCta) maps
+// straight onto the shared component's presentation-only props; CTA hrefs
+// resolve via resolveCtaHref (FND-I18N-03 — never manual URLs). The image is
+// the approved final-cta-bg.webp, wired via the component's <Image> API with
+// imageFit="cover" (contextual photo, right-zone) — matching /dev/ui.
+//
+// Contacts use the SAME verified-only canonical gating as /dev/ui + SiteFooter
+// (contact.ts isVerified): one phone + one email only (no WhatsApp line here).
+// Repository contact.ts currently has phone/email = null +
+// "owner-confirmation-required" → no verified channels → the contact row is
+// absent (no fake placeholder values). Once the owner verifies, exactly one
+// phone + one email render here, in /dev/ui, and in SiteFooter.
+const finalCtaPrimaryAction = {
+  label: finalCta.primaryCta.label,
+  href: resolveCtaHref(finalCta.primaryCta as Cta, currentLocale),
+};
+const finalCtaSecondaryAction = finalCta.secondaryCta
+  ? {
+      label: finalCta.secondaryCta.label,
+      href: resolveCtaHref(finalCta.secondaryCta as Cta, currentLocale),
+    }
+  : undefined;
+const fctaPhone = isVerified(contact.phone) ? contact.phone.value : null;
+const fctaEmail = isVerified(contact.email) ? contact.email.value : null;
+const finalCtaContacts =
+  fctaPhone || fctaEmail
+    ? {
+        phone: fctaPhone ?? undefined,
+        email: fctaEmail ?? undefined,
+      }
+    : undefined;
 ---
 
 <Page
@@ -113,19 +168,103 @@ const heroSecondaryAction = hero.secondaryCta
   <SiteHeader currentRouteKey="home" currentLocale={currentLocale} overHero={true} />
 
   <main id="main-content" class="flex-1">
-    <HomepageHero
-      title={hero.title}
-      description={hero.description}
-      primaryAction={heroPrimaryAction}
-      secondaryAction={heroSecondaryAction}
-      image={heroImg}
+    {/* The full-bleed Hero is the first element under the sticky SiteHeader.
+        The hero media must start at the page top BEHIND the overlaid header
+        (transparent over-hero state at page top, solid on scroll). The header
+        is position:sticky (in-flow), so the hero is pulled up under it by
+        --site-header-height (exposed by SiteHeader); the header's z-index
+        keeps it above the media. The offset is a homepage layout concern
+        (owned here, not in the reusable hero component). */}
+    <div class="home-hero-offset">
+      <HomepageHero
+        title={hero.title}
+        description={hero.description}
+        primaryAction={heroPrimaryAction}
+        secondaryAction={heroSecondaryAction}
+        image={heroImg}
+        imageAlt=""
+        locale={currentLocale}
+      />
+    </div>
+
+    {/*
+      13 §Exact order — locked homepage section sequence. Verified components
+      already mounted: HomepageHero (§2), TrustStrip (§5), FinalCTA (§9). The
+      remaining regions are clean integration boundaries only — NO visible
+      placeholders, NO dev fixtures, NO legacy markup. Each lands as its
+      homepage-specific component is implemented in a later task.
+
+      §3 ServiceShowcase — homepage-specific asymmetric mosaic (blueprint §8).
+        TODO(home-services): implement ServiceShowcase wrapper under
+        src/components/home/ and mount `services` (entry.data.services) here.
+        Deferred: no generic card grid, no legacy service-grid.
+
+      §4 Private Chauffeur feature — OpenSplitSection + homepage content slot
+        (blueprint §9). TODO(home-flagship): wire OpenSplitSection with
+        `flagshipFeature` (entry.data.flagshipFeature) + approved contextual
+        image. Deferred until approved image + blueprint presentation land.
+
+      §5 TrustStrip — MOUNTED below (canonical 4-item content is authored).
+    */}
+
+    <Section
+      spacing="standard"
+      aria-labelledby={trustHeading ? trustHeadingId : undefined}
+    >
+      <PageContainer>
+        {trustHeading ? (
+          <SectionHeading
+            id={trustHeadingId}
+            heading={trustHeading.title}
+            description={trustHeading.intro}
+            class="mb-[var(--space-6)]"
+          />
+        ) : null}
+        <TrustStrip items={trust.items} />
+      </PageContainer>
+    </Section>
+
+    {/*
+      §6 Fleet showcase — HorizontalCarousel + future Fleet presentation
+        (blueprint §11). TODO(home-fleet): build FleetCard + mount
+        `fleet` (entry.data.fleet) on HorizontalCarousel. Deferred: no
+        /dev/ui fixture cards, no object-cover on transparent vehicle PNGs.
+
+      §7 How It Works — intentional light contained section (blueprint §12).
+        TODO(home-process): implement HowItWorks light panel + mount `process`
+        (entry.data.process). Deferred: no rejected old styling, no visible
+        placeholder steps.
+
+      §8 Google Reviews — HorizontalCarousel + GoogleReviews presentation
+        (blueprint §13). TODO(home-reviews): mount `reviews`
+        (entry.data.reviews) once review data + Maps profile URL are verified.
+        Deferred: no fake production reviews, no dev/ui review fixtures.
+    */}
+
+    <FinalCTA
+      heading={finalCta.heading}
+      description={finalCta.text}
+      primaryAction={finalCtaPrimaryAction}
+      secondaryAction={finalCtaSecondaryAction}
+      contacts={finalCtaContacts}
+      image={finalCtaImg}
+      imageFit="cover"
       imageAlt=""
       locale={currentLocale}
     />
-    {/* 13 §Exact order: ServiceShowcase, PrivateChauffeur, Trust, Fleet,
-        HowItWorks, GoogleReviews mount here as their components land. */}
-    <FinalCTA currentLocale={currentLocale} finalCta={finalCta} />
   </main>
 
   <SiteFooter currentRouteKey="home" currentLocale={currentLocale} />
 </Page>
+
+<style>
+  /* Pull the full-bleed hero up under the sticky SiteHeader so the hero media
+     starts at the page top behind the overlaid header chrome. --site-header-
+     height is the header's own total height (exposed globally by
+     SiteHeader.astro); using it keeps the offset in lockstep with the header
+     instead of a hardcoded magic number. Scoped: this wrapper is rendered by
+     the page, so the scope applies. */
+  .home-hero-offset {
+    margin-block-start: calc(-1 * var(--site-header-height));
+  }
+</style>

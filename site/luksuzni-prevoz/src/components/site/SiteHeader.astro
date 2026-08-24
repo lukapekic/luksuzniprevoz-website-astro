@@ -368,12 +368,14 @@ const leafServices = servicesChildren.filter(isLeaf);
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: var(--space-4);
-    min-height: 4rem; /* mobile */
+    /* Tracks --site-header-height (minus the 1px header border) so the header's
+       own min-height and the page-level hero-under-header offset share ONE
+       source of truth. */
+    min-height: calc(var(--site-header-height) - 1px);
     padding-block: var(--space-2);
   }
   @media (min-width: 64rem) {
     .site-header__row {
-      min-height: 4.5rem; /* desktop */
       gap: var(--space-6);
     }
   }
@@ -652,6 +654,24 @@ const leafServices = servicesChildren.filter(isLeaf);
     transform: translateY(-150%);
   }
   .skip-link:focus { transform: translateY(0); }
+</style>
+
+<style is:global>
+  /* --site-header-height: the single source of truth for the header's total
+     height (row min-height + the 1px header border). The homepage uses it to
+     pull its full-bleed hero up under the overlaid sticky header so the hero
+     media starts at the page top behind the header chrome (the header's
+     z-index keeps it above the media). Defined globally because the hero is a
+     later sibling, not a descendant of the header. Mirrors the
+     .site-header__row min-heights (4rem mobile / 4.5rem desktop) + 1px. */
+  :root {
+    --site-header-height: calc(4rem + 1px);
+  }
+  @media (min-width: 64rem) {
+    :root {
+      --site-header-height: calc(4.5rem + 1px);
+    }
+  }
 </style>
 
 <script>

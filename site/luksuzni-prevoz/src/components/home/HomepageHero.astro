@@ -1,30 +1,41 @@
 ---
 /**
- * HomepageHero — homepage hero panel (homepage-specific component).
+ * HomepageHero — homepage hero (homepage-specific component).
  *
- * CLEAN-SLATE BUILD. This is a new, from-authority-only implementation of the
- * locked hero contract. It does not reuse, refactor, or inherit markup, CSS,
- * class names, spacing, typography, overlay, image crop, or layout from the
- * rejected legacy HomeHero.astro (deleted). Every decision below is derived
- * from the current approved design authority:
+ * CLEAN-SLATE BUILD. This is a from-authority-only implementation of the locked
+ * hero contract. It does not reuse, refactor, or inherit markup, CSS, class
+ * names, spacing, typography, overlay, image crop, or layout from the rejected
+ * legacy HomeHero.astro (deleted). Every decision below is derived from the
+ * current approved design authority:
  *
  *   Contract:  docs/home/home-components/03-home-hero.md (exact V1 spec)
  *   Blueprint: docs/home/reference/blueprint.md §7 (Hero)
  *   Tokens:    docs/home/home-components/00-token-matrix.md
  *   Theme:     Theme V2 (Platinum) — generated/theme.css (active)
  *
- * Identity (blueprint §7): a CONTAINED CINEMATIC FEATURE PANEL. The Mercedes
- * S-Class photograph fills the entire rounded panel edge-to-edge; a
- * controlled directional overlay (semantic dark tokens via color-mix — no raw
- * rgba, no gold, no glow) protects overlaid text while keeping the car the
- * focal subject. It is NOT full-screen, NOT 100vh, NOT a centered template,
- * NOT a split with a separate image column — the image is the panel.
+ * Identity (blueprint §7, refined): a FULL-BLEED NEAR-VIEWPORT PHOTOGRAPHIC
+ * HERO. The Mercedes S-Class photograph fills the entire section edge to edge
+ * across the full page width; the sticky SiteHeader overlays it at the page
+ * top (the page pulls the hero up under the header via --site-header-height;
+ * the header's z-index keeps it above the media). A controlled directional
+ * overlay (semantic dark tokens via color-mix — no raw rgba, no gold, no glow)
+ * protects overlaid text — stronger behind the left copy, a darkened top strip
+ * for header-chrome legibility, a bottom settle for the CTAs — while keeping
+ * the car the focal subject. It is NOT a contained rounded card/panel, NOT a
+ * centered template, NOT a split with a separate image column — the image is
+ * the canvas.
  *
- * Composition: PageContainer once (the contained shell) → the panel →
- * full-bleed <Image> + overlay + inner grid. Desktop 8/4 content placement
- * (left copy / right support statement) is CONTENT-PLACEMENT ONLY — it never
- * creates a separate visual image container (blueprint §7 / blueprint-to-ui
- * §18). Mobile/tablet collapse to a single reading column.
+ * Composition: the <section> IS the media canvas (full-bleed, no radius). ONE
+ * PageContainer lives inside it for CONTENT alignment only — the copy grid is
+ * container-capped + page-guttered, the media is not. Desktop 8/4 content
+ * placement (left copy / right support statement) is CONTENT-PLACEMENT only —
+ * it never creates a separate visual image container (blueprint §7 /
+ * blueprint-to-ui §18). Mobile/tablet collapse to a single reading column.
+ *
+ * Height: near-viewport min-block-size (svh with a vh fallback), content-safe
+ * — there is NO max-block-size / aspect-ratio, so the hero grows when H1/CTA
+ * copy wraps to more lines instead of clipping the action row. It is not a
+ * forced 100vh for spectacle; it just occupies most of the opening viewport.
  *
  * H1 (03 §Typography / task §6 / task §8): the page's single <h1>, left-aligned,
  * on the active Theme V2 heading font (Inter Tight via --font-heading — a
@@ -43,15 +54,15 @@
  * Right-side support (blueprint §7 / 03 §Desktop): a small, restrained,
  * operational text block with a subtle divider — not cards, stats, badges, or
  * icons. Optional only because the editorial hero block does not author it yet
- * (blueprint §20); when supplied, the 7/5 split activates.
+ * (blueprint §20); when supplied, the 8/4 split activates.
  *
  * Image / LCP (03 §Surface/image / responsive-images-performance): the hero
  * image is the page LCP, so astro:assets <Image> is used directly (the
  * foundation Image primitive types `src: string` and can't accept an imported
  * ImageMetadata — FND-IMG-08 only bans raw <img>/<picture>) with eager loading
- * + fetchpriority="high" + responsive widths/sizes. It is decorative
- * atmosphere behind the H1/copy (alt="" + role="presentation") — the title
- * carries the meaning, never copied into alt (imagery-art-direction §19).
+ * + fetchpriority="high" + responsive widths/sizes at 100vw (full-bleed). It is
+ * decorative atmosphere behind the H1/copy (alt="" + role="presentation") — the
+ * title carries the meaning, never copied into alt (imagery-art-direction §19).
  *
  * Motion (task §24): STATIC. No entrance animation, no background zoom/pan,
  * no parallax, no IntersectionObserver. The hero is a still composition; the
@@ -65,12 +76,16 @@
  * single column. The support statement follows below the CTA group below xl.
  * (Task §21 overrides 03 §Mobile's 48rem split point for the hero; task 1D
  * pushes the split from lg to xl on evidence that lg is too early.) Mobile/
- * tablet (<80rem): single reading column, content-driven panel height.
+ * tablet (<80rem): single reading column, content-driven height.
  *
  * CSS: scoped <style> with var() tokens only (the correct home for complex
  * art-direction — tailwind-v4 §scoped-styles). Logical properties only
  * (FND-I18N-13). class passthrough is layout-only (FND-UI-06). No raw hex,
  * no raw rgba, no brand-font literals (FND-THEME-09 / task §31).
+ *
+ * NOTE: the hero-under-header offset (margin-block-start: -1*var(--site-header-
+ * height)) is owned by the homepage PAGE, not this component — the component is
+ * reused in /dev/ui where the hero is not the first element under a header.
  */
 import { Image } from "astro:assets";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
@@ -100,98 +115,113 @@ const isDecorative = imageAlt === "";
 ---
 
 <section class:list={["homepage-hero", className]} aria-labelledby={titleId}>
-  <PageContainer>
-    <div class="homepage-hero__panel" data-hero-panel>
-      {/* Full-bleed S-Class background (blueprint §7). Decorative atmosphere
-          behind the H1/copy but the page LCP — so eager + fetchpriority="high"
-          + responsive widths/sizes. object-cover; object-position biases the
-          subject so the left copy keeps negative space (asset-specific crop,
-          reviewed per breakpoint — task §13). */}
-      <Image
-        class="homepage-hero__image"
-        src={image}
-        alt={imageAlt}
-        role={isDecorative ? "presentation" : undefined}
-        loading="eager"
-        fetchpriority="high"
-        widths={[480, 768, 1024]}
-        sizes="(min-width: 80rem) 80rem, 100vw"
-      />
+  {/* Full-bleed S-Class background (blueprint §7). The section IS the media
+      canvas — no contained panel, no radius, full page width behind the
+      overlaid sticky SiteHeader. Decorative atmosphere behind the H1/copy but
+      the page LCP — so eager + fetchpriority="high" + responsive widths at
+      100vw. object-cover; object-position biases the subject right so the left
+      copy keeps negative space (asset-specific crop, reviewed per breakpoint
+      — task §13). */}
+  <Image
+    class="homepage-hero__image"
+    src={image}
+    alt={imageAlt}
+    role={isDecorative ? "presentation" : undefined}
+    loading="eager"
+    fetchpriority="high"
+    widths={[640, 768, 1024, 1536, 1920]}
+    sizes="100vw"
+  />
 
-      {/* Controlled directional overlay (03 §Surface/image): stronger behind
-          the left copy, controlled behind the right statement, with a bottom
-          settle so overlaid text keeps WCAG 2.2 AA contrast at every crop.
-          Built ONLY from --color-background via color-mix (the repo scrim
-          convention — no raw rgba, no gold, no glow). Decorative (aria-hidden). */}
-      <div class="homepage-hero__scrim" aria-hidden="true"></div>
+  {/* Controlled directional overlay (03 §Surface/image), rebuilt for the
+      full-width canvas. Stronger behind the left copy, a darkened top strip so
+      the overlaid Header chrome (logo / nav / Book / language) keeps AA
+      contrast over the photograph, and a bottom settle so the CTAs + support
+      keep AA contrast at every crop. Built ONLY from --color-background via
+      color-mix (the repo scrim convention — no raw rgba, no gold, no glow).
+      Decorative (aria-hidden). */}
+  <div class="homepage-hero__scrim" aria-hidden="true"></div>
 
-      <div class="homepage-hero__inner">
-        <div
-          class:list={[
-            "homepage-hero__content",
-            hasSupport && "homepage-hero__content--split",
-          ]}
-        >
-          <div class="homepage-hero__copy">
-            <h1 id={titleId} class="homepage-hero__title">{title}</h1>
-            {description ? (
-              <p class="homepage-hero__desc">{description}</p>
-            ) : null}
+  {/* Content alignment only — PageContainer caps width to --container-main +
+     owns the page gutter. The media canvas is full-bleed; only the copy grid
+     is container-aligned. The section grid grounds this cell toward the lower /
+     optical region (align-items: end — blueprint §7 / task §19). Generous
+     block-end padding keeps the <Link> focus ring (outline 2px + offset 2px)
+     clear of the section edge (WCAG 2.2 SC 2.4.11 — ServiceCard pattern). */}
+  <PageContainer class="homepage-hero__inner">
+    <div
+      class:list={[
+        "homepage-hero__content",
+        hasSupport && "homepage-hero__content--split",
+      ]}
+    >
+      <div class="homepage-hero__copy">
+        <h1 id={titleId} class="homepage-hero__title">{title}</h1>
+        {description ? (
+          <p class="homepage-hero__desc">{description}</p>
+        ) : null}
 
-            <div class="homepage-hero__actions">
-              <Link
-                variant="cta"
-                to={primaryAction.to}
-                href={primaryAction.href}
-                locale={locale}
-              >
-                {primaryAction.label}
-              </Link>
-              {secondaryAction ? (
-                <Link
-                  variant="button"
-                  to={secondaryAction.to}
-                  href={secondaryAction.href}
-                  locale={locale}
-                >
-                  {secondaryAction.label}
-                </Link>
-              ) : null}
-            </div>
-          </div>
-
-          {hasSupport ? (
-            <aside class="homepage-hero__support">
-              <p class="homepage-hero__support-text">{supportText}</p>
-            </aside>
+        <div class="homepage-hero__actions">
+          <Link
+            variant="cta"
+            to={primaryAction.to}
+            href={primaryAction.href}
+            locale={locale}
+          >
+            {primaryAction.label}
+          </Link>
+          {secondaryAction ? (
+            <Link
+              variant="button"
+              to={secondaryAction.to}
+              href={secondaryAction.href}
+              locale={locale}
+            >
+              {secondaryAction.label}
+            </Link>
           ) : null}
         </div>
       </div>
+
+      {hasSupport ? (
+        <aside class="homepage-hero__support">
+          <p class="homepage-hero__support-text">{supportText}</p>
+        </aside>
+      ) : null}
     </div>
   </PageContainer>
 </section>
 
 <style>
-  /* --- Panel: the contained cinematic feature panel ----------------------
-     One rounded silhouette (--radius-section, 16px) clipping the full-bleed
-     image to the corners. A neutral elevated surface shows through while the
-     eager image loads (no broken-tile flash). isolation:isolate contains the
-     absolute children's stacking order. Mobile-first: content-driven height
-     (min 38rem), never a forced desktop ratio, never 100vh (task §15). */
-  .homepage-hero__panel {
+  /* --- Full-bleed hero media canvas ---------------------------------------
+     The <section> IS the media canvas: full page width, no contained panel,
+     no border-radius. Near-viewport min-block-size (svh with a vh fallback),
+     content-safe — NO max-block-size / aspect-ratio, so the hero grows when
+     H1/CTA copy wraps instead of clipping the action row. display:grid makes
+     the inner content cell the single in-flow grid item; align-items:end
+     grounds it toward the lower/optical region. isolation:isolate contains
+     the absolute children's stacking order. The page pulls this section up
+     under the overlaid sticky header (--site-header-height, owned by the page). */
+  .homepage-hero {
     position: relative;
-    overflow: hidden;
-    border-radius: var(--radius-section);
-    background: var(--color-surface-elevated);
     isolation: isolate;
-    min-block-size: 38rem;
+    display: grid;
+    align-items: end;
+    min-block-size: 78vh;
+    min-block-size: 78svh;
+  }
+  @media (min-width: 64rem) {
+    .homepage-hero {
+      min-block-size: 84vh;
+      min-block-size: 84svh;
+    }
   }
 
-  /* Full-bleed image: fills the entire panel surface, edge to edge inside the
-     16px radius. object-cover preserves the crop without distortion. The
-     subject is biased toward the right so the left copy keeps negative space
-     (blueprint §7 — preserve the car as focal subject). z-index:0 anchors it
-     beneath the overlay + content. */
+  /* Full-bleed image: fills the entire section surface, edge to edge. object-
+     cover preserves the crop without distortion. The subject is biased toward
+     the right so the left copy keeps negative space (blueprint §7 — preserve
+     the car as focal subject). z-index:0 anchors it beneath the overlay +
+     content. */
   .homepage-hero__image {
     position: absolute;
     inset: 0;
@@ -202,12 +232,13 @@ const isDecorative = imageAlt === "";
     z-index: 0;
   }
 
-  /* Controlled directional overlay. Derived ONLY from --color-background via
-     color-mix with transparent (the repo scrim convention — ServiceCard /
-     SiteHeader) — no black rgba, no gold, no raw hex. Stronger behind the left
-     copy (≈92% background), controlled across the right statement (≈60%), plus
-     a soft bottom settle so the support statement and CTAs keep AA contrast.
-     Decorative (aria-hidden). */
+  /* Controlled directional overlay, rebuilt for the full-width canvas. Derived
+     ONLY from --color-background via color-mix (the repo scrim convention —
+     ServiceCard / SiteHeader) — no raw rgba, no gold, no raw hex. Three passes:
+     a left→right fade (strong behind the left copy, clears toward the right so
+     the vehicle stays the focal subject), a top darken (overlaid Header chrome
+     keeps AA contrast over the photograph), and a bottom settle (CTAs + support
+     stay legible). Decorative (aria-hidden). */
   .homepage-hero__scrim {
     position: absolute;
     inset: 0;
@@ -215,38 +246,34 @@ const isDecorative = imageAlt === "";
     background:
       linear-gradient(
         90deg,
-        color-mix(in oklab, var(--color-background), transparent 8%) 0%,
-        color-mix(in oklab, var(--color-background), transparent 24%) 42%,
-        color-mix(in oklab, var(--color-background), transparent 40%) 100%
+        color-mix(in oklab, var(--color-background), transparent 6%) 0%,
+        color-mix(in oklab, var(--color-background), transparent 30%) 45%,
+        color-mix(in oklab, var(--color-background), transparent 58%) 100%
       ),
       linear-gradient(
-        0deg,
-        color-mix(in oklab, var(--color-background), transparent 18%) 0%,
-        transparent 50%
+        180deg,
+        color-mix(in oklab, var(--color-background), transparent 12%) 0%,
+        transparent 24%,
+        transparent 68%,
+        color-mix(in oklab, var(--color-background), transparent 14%) 100%
       );
   }
 
-  /* Inner content shell: the grid context for content placement. Padding
-     clamp(1.5rem, 4vw, 4rem) (03 §Inner padding). align-items:end grounds the
-     content toward the lower/optical region (blueprint §7 / task §19). The
-     block-end padding is intentionally generous so the <Link> focus ring
-     (outline 2px + offset 2px) is never clipped by the panel's
-     overflow:hidden corners (WCAG 2.2 SC 2.4.11 — ServiceCard pattern). */
+  /* Inner content shell (PageContainer root): container-aligned copy grid. As
+     the single in-flow grid item it is grounded to the bottom by the section's
+     align-items:end. block padding is generous so the <Link> focus ring is
+     never clipped and the CTAs do not pin to the extreme bottom edge. */
   .homepage-hero__inner {
     position: relative;
     z-index: 2;
-    inline-size: 100%;
-    block-size: 100%;
-    display: grid;
-    align-items: end;
-    padding: clamp(1.5rem, 4vw, 4rem);
+    padding-block: clamp(1.5rem, 4vw, 4rem) clamp(2rem, 6vw, 5rem);
   }
 
   /* Content grid: single column by default; 8fr/4fr split (left copy / right
      support statement) at xl only (03 §Desktop content grid, rebalanced per
      task 1E so the copy keeps usable width and the support stays a narrow,
      restrained column — not a large panel). This is CONTENT-PLACEMENT only —
-     the image fills the whole panel behind, there is no separate image column
+     the image fills the whole canvas behind, there is no separate image column
      (blueprint §7 / blueprint-to-ui §18). */
   .homepage-hero__content {
     display: grid;
@@ -328,7 +355,7 @@ const isDecorative = imageAlt === "";
   /* ── Below xl (<80rem): single column, content-driven height. The support
      statement follows below the CTA group in DOM order; the divider becomes a
      block-start rule. (task 1D — laptop stays a single column, so the copy
-     keeps the full panel width instead of a cramped two-column text.) */
+     keeps the full canvas width instead of a cramped two-column text.) */
   @media (max-width: 79.99rem) {
     .homepage-hero__support {
       border-block-start: 1px solid var(--color-divider);
@@ -339,12 +366,9 @@ const isDecorative = imageAlt === "";
   /* ── xl (>=80rem): 8/4 content split. The split activates at xl (1280px)
      rather than lg so laptop (1024–1279px) stays a comfortable full-width
      single column instead of cramped two-column text (task 1D). Panel height
-     is content-safe: a cinematic min-block-size floor (the base 38rem, which
-     is already ≥ the 03 §Desktop 32–35rem range) and NO restrictive
-     max-block-size / aspect-ratio — when the H1 wraps to more lines the panel
-     GROWS to fit content instead of clipping the CTA row (task 1B). Still not
-     100vh (task §15); still cinematic (the full-bleed image re-crops via
-     object-cover as the panel grows). */
+     is content-safe: a near-viewport min-block-size floor and NO restrictive
+     max-block-size / aspect-ratio — when the H1 wraps to more lines the hero
+     GROWS to fit content instead of clipping the CTA row (task 1B). */
   @media (min-width: 80rem) {
     .homepage-hero__content--split {
       grid-template-columns: 8fr 4fr;
