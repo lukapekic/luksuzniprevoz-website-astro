@@ -303,13 +303,32 @@ const buttonClass = [
         next.disabled = atEnd;
       };
 
-      /** Index of the leftmost item at/before the current scroll position —
-       *  the "current" item. Used for one-item step movement (task §10). */
+      /** Start position of `el` in the viewport's OWN scroll coordinate — the
+       *  scrollLeft value that would align the item's left edge to the
+       *  viewport's leading edge. Derived from live getBoundingClientRect so it
+       *  is independent of offsetParent / page layout.
+       *
+       *  INVARIANT: item positions and the scroll position must share this one
+       *  coordinate system. The prior code compared viewport.scrollLeft
+       *  (scroll-container-local) against item.offsetLeft (offsetParent-relative
+       *  — it includes the viewport's own page offset, since overflow:auto does
+       *  NOT make the viewport an offsetParent). That constant offset made the
+       *  anchor under-report the leading item after a manual mid-track scroll,
+       *  so Next re-targeted an already-passed item and the track never
+       *  advanced — the reported stuck bug. */
+      const itemStart = (el: Element): number =>
+        el.getBoundingClientRect().left -
+        viewport.getBoundingClientRect().left +
+        viewport.scrollLeft;
+
+      /** Index of the leading item — the rightmost item whose start is at/before
+       *  the current scroll position (the item anchored at the start edge). Used
+       *  for one-item step movement (task §10). */
       const currentIndex = (): number => {
         const sl = viewport.scrollLeft;
         let idx = 0;
         for (let i = 0; i < items.length; i++) {
-          if (items[i].offsetLeft <= sl + TOL) idx = i;
+          if (itemStart(items[i]) <= sl + TOL) idx = i;
           else break;
         }
         return idx;

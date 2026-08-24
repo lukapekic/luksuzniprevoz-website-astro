@@ -25,10 +25,12 @@
 import Page from "../../foundation/ui/Page.astro";
 import SiteHeader from "../../components/site/SiteHeader.astro";
 import SiteFooter from "../../components/site/SiteFooter.astro";
-import HomeHero from "../../components/home/HomeHero.astro";
+import HomepageHero from "../../components/home/HomepageHero.astro";
 import FinalCTA from "../../components/home/FinalCTA.astro";
 import { getCollection } from "astro:content";
 import { buildPageSeo } from "../../lib/seo.ts";
+import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
+import heroImg from "../../assets/hero.webp";
 import type { LocaleCode } from "@astro-foundation/core";
 
 export function getStaticPaths() {
@@ -68,8 +70,40 @@ const seo = buildPageSeo({
   description: seoDescription,
 });
 
-// Right-side hero statement is not authored in the hero content yet → HomeHero
-// renders a single content column (blueprint §7 right statement is pending).
+// Hero CTAs resolve via resolveCtaHref (FND-I18N-03 — flow targets route to
+// the contact page as the interim booking/quote target; lib/cta.ts).
+//
+// TEMPORARY COMPATIBILITY WIRING — NOT the final locked Hero composition.
+// The locked hero contract (03-home-hero / blueprint §7) requires:
+//   • primary    Book            → booking flow (interim → contact)   [wired]
+//   • secondary  Request a Quote  → caller equivalent                  [pending]
+//   • right-side support statement                                    [pending]
+// The editorial hero block (src/content/pages/home/home.*.md) authors
+// `primaryCta` ("Book a ride" → booking flow → interim contact) and a
+// `secondaryCta` of "View fleet" → fleet. "View fleet" is NOT the final
+// approved secondary hero action (the contract wants Request a Quote), and
+// the right-side support statement is not authored at all (heroSchema has no
+// support field — blueprint §20 pending content pass). So `secondaryAction`
+// is wired from the current `secondaryCta` only to keep the secondary <Link>
+// rendering, and `supportText` is omitted → HomepageHero renders a single
+// left content column. Do NOT treat "View fleet" as the final secondary.
+//
+// TODO(home-assembly): author the final hero secondary ("Request a Quote") and
+//   the right-side support statement in the editorial home content, then
+//   promote `secondaryAction` / `supportText` to required props (see
+//   HomepageHero.types.ts TODO(home-visual-lock)) and re-wire this call site
+//   before the Homepage visual lock.
+// The hero image is the approved pending S-Class asset (blueprint §21).
+const heroPrimaryAction = {
+  label: hero.primaryCta.label,
+  href: resolveCtaHref(hero.primaryCta as Cta, currentLocale),
+};
+const heroSecondaryAction = hero.secondaryCta
+  ? {
+      label: hero.secondaryCta.label,
+      href: resolveCtaHref(hero.secondaryCta as Cta, currentLocale),
+    }
+  : undefined;
 ---
 
 <Page
@@ -79,7 +113,15 @@ const seo = buildPageSeo({
   <SiteHeader currentRouteKey="home" currentLocale={currentLocale} overHero={true} />
 
   <main id="main-content" class="flex-1">
-    <HomeHero currentLocale={currentLocale} hero={hero} />
+    <HomepageHero
+      title={hero.title}
+      description={hero.description}
+      primaryAction={heroPrimaryAction}
+      secondaryAction={heroSecondaryAction}
+      image={heroImg}
+      imageAlt=""
+      locale={currentLocale}
+    />
     {/* 13 §Exact order: ServiceShowcase, PrivateChauffeur, Trust, Fleet,
         HowItWorks, GoogleReviews mount here as their components land. */}
     <FinalCTA currentLocale={currentLocale} finalCta={finalCta} />
