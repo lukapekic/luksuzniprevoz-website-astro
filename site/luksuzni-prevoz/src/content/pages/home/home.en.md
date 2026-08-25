@@ -65,6 +65,7 @@ flagshipFeature:
 trust:
   heading:
     title: "A consistent standard for every journey"
+    intro: "From first contact to arrival at your destination — the same attention to the chauffeur, vehicle and coordination."
   items:
     - title: "Professional chauffeurs"
       text: "Suit-and-tie chauffeurs experienced in business, private and VIP transportation."
@@ -88,6 +89,7 @@ fleet:
 process:
   heading:
     title: "How booking works"
+    intro: "Three straightforward steps from your request to a confirmed pickup."
   steps:
     - title: "Send your request"
       text: "Choose the service and provide the date, time, locations, passenger count and preferred vehicle."

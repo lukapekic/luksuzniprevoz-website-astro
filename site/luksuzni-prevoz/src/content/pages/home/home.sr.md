@@ -63,6 +63,7 @@ flagshipFeature:
 trust:
   heading:
     title: "Standard koji ostaje isti za svaku vožnju"
+    intro: "Od prvog kontakta do dolaska na odredište — ista pažnja prema vozaču, vozilu i koordinaciji."
   items:
     - title: "Profesionalni vozači"
       text: "Vozači u odelu i kravati, sa iskustvom u poslovnom, privatnom i VIP prevozu."
@@ -86,6 +87,7 @@ fleet:
 process:
   heading:
     title: "Kako funkcioniše rezervacija"
+    intro: "Tri jednostavna koraka od vašeg zahteva do potvrđenog preuzimanja."
   steps:
     - title: "Pošaljite zahtev"
       text: "Unesite uslugu, datum, vreme, lokacije, broj putnika i željeno vozilo."

@@ -65,19 +65,18 @@ export interface Vehicle {
 // --- Authoritative fleet facts --------------------------------------------
 // Sourced from "Cene Limo servis usluga.xlsx" (table "LIMO SERVIS USLUGE").
 // Display names are the source's `sourceName` verbatim.
-
 export const vehicles: Vehicle[] = [
   {
     id: "skoda-superb",
     displayName: "Škoda Superb",
     vehicleClass: "sedan",
-    passengers: null,
+    passengers: 3,
   },
   {
     id: "mercedes-e-class",
     displayName: "Mercedes E klasa",
     vehicleClass: "sedan",
-    passengers: null,
+    passengers: 3,
   },
   {
     id: "mercedes-v-class-6-plus-1-extra-long",
@@ -101,13 +100,13 @@ export const vehicles: Vehicle[] = [
     id: "mercedes-s-class",
     displayName: "Mercedes S klasa",
     vehicleClass: "sedan",
-    passengers: null,
+    passengers: 3,
   },
   {
     id: "mercedes-sprinter",
     displayName: "Mercedes Sprinter",
     vehicleClass: "bus",
-    passengers: null,
+    passengers: 19,
   },
 ];
 

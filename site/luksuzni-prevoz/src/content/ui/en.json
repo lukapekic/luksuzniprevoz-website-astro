@@ -35,5 +35,17 @@
   "booking.from": "from",
   "booking.upTo": "up to",
   "booking.unit.hours": "h",
-  "booking.unit.km": "km"
+  "booking.unit.km": "km",
+  "fleet.class.sedan": "Sedan",
+  "fleet.class.van": "Van",
+  "fleet.class.minivan": "Minivan",
+  "fleet.class.bus": "Bus",
+  "fleet.passengers": "passengers",
+  "fleet.carousel.ariaLabel": "Fleet — browse vehicles",
+  "fleet.carousel.previous": "Previous vehicles",
+  "fleet.carousel.next": "Next vehicles",
+  "reviews.carousel.ariaLabel": "Guest reviews — browse reviews",
+  "reviews.carousel.previous": "Previous review",
+  "reviews.carousel.next": "Next review",
+  "reviews.rating.outOf": "out of 5"
 }

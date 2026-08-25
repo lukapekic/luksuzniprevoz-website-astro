@@ -1,0 +1,110 @@
+---
+/**
+ * HowItWorks — Homepage intentional light contained section (V1.1).
+ *
+ * Blueprint §12 / 09-how-it-works: the Homepage's deliberate light visual pause
+ * inside the dark-first page. The outer <Section surface="open-dark"
+ * spacing="standard"> owns the vertical rhythm on the page canvas; a single
+ * contained light panel (Theme V2 `--color-surface-light` + `--radius-section`)
+ * sits inside <PageContainer> so the panel is the only light surface — never a
+ * full-bleed light section (blueprint §4: one intentional light contained
+ * section).
+ *
+ * Composition (wireframe §HOW IT WORKS, exact): heading block (H2 + short
+ * intro) → semantic <ol> of exactly three steps. Steps are NOT cards (DESIGN.md
+ * §17 "No cardification"); separation comes from spacing + a large muted
+ * 01/02/03 number + a light-surface divider (border-b on mobile, border-e on
+ * md+), mirroring the wireframe's per-cell border pattern exactly (the same
+ * pattern PrivateChauffeurFeature uses for its package summary).
+ *
+ * Step numbers: presentation-derived from ordered position (01/02/03), never
+ * authored per locale. They are large muted-on-light markers — NOT icons (the
+ * wireframe uses the numeric progression as the visual device) and NOT accent
+ * gold (platinum-on-light fails large-text contrast, so the muted-on-light
+ * derivation is used instead, matching FAQ/TrustStrip's on-light secondary
+ * treatment). No animation, no client JS (static Astro output).
+ *
+ * Canonical process meaning (blueprint §12): choose service/vehicle → send
+ * request → team confirms. The actual localized step copy comes from the
+ * validated `process.steps` content for sr/en/ru (the authored flow is
+ * request → confirmation → pickup, consistent with the manual-confirmation
+ * booking model); no operational claims (instant/automatic/24-7 confirmation)
+ * are invented here.
+ *
+ * Heading hierarchy: the Hero owns the only H1; this section renders one H2
+ * (via <SectionHeading on="light">) and each step title is an H3. Ownership/
+ * data: presentation-only (FND-ARCH-03). class passthrough is layout-only
+ * (FND-UI-06). CSS logical properties only (FND-I18N-13).
+ */
+import type { HowItWorksProps } from "./HowItWorks.types.ts";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+
+type Props = HowItWorksProps;
+
+const { heading, steps } = Astro.props;
+
+if (steps.length !== 3) {
+  throw new Error(
+    `HowItWorks requires exactly 3 process steps (received ${steps.length}). The light-panel 3-step process design (blueprint §12 / homePageSchema process.steps z.array(textItemSchema).length(3)) is locked to 3.`,
+  );
+}
+
+// Stable single-instance heading id → aria-labelledby on the <Section>.
+const headingId = "home-how-it-works-heading";
+
+// Step-cell classes — three complete static class strings keyed by column
+// index (tailwind-v4.md §12/§13 — never constructed dynamically). The border
+// pattern mirrors the wireframe exactly: mobile = horizontal divider between
+// rows (border-b on cells 0/1, none on 2); md+ = vertical divider between
+// columns (border-e on cells 0/1, none on 2) with matching inline padding so
+// the divider line sits centered in the gutter. No cards/boxes (blueprint §12
+// / DESIGN.md §17). The on-light divider has no dedicated token, so it uses
+// the established on-light color-mix derivation (color-mix of --color-text-
+// on-light toward --color-surface-light) — the same technique TrustStrip and
+// FAQ use for on-light hairlines (no new token, no parallel variant matrix).
+const STEP_CELL_CLASSES = [
+  "grid gap-[var(--space-3)] border-b border-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_75%)] py-[var(--space-5)] md:border-b-0 md:border-e md:pe-[var(--space-8)]",
+  "grid gap-[var(--space-3)] border-b border-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_75%)] py-[var(--space-5)] md:border-b-0 md:border-e md:px-[var(--space-8)]",
+  "grid gap-[var(--space-3)] py-[var(--space-5)] md:ps-[var(--space-8)]",
+];
+---
+
+<Section spacing="standard" surface="open-dark" aria-labelledby={headingId}>
+  <PageContainer>
+    <div
+      class="rounded-[var(--radius-section)] bg-[var(--color-surface-light)] p-[var(--space-6)] text-[var(--color-text-on-light)] md:p-[var(--space-10)] lg:p-[var(--space-16)]"
+    >
+      <SectionHeading
+        id={headingId}
+        heading={heading.title}
+        description={heading.intro}
+        level={2}
+        on="light"
+        accent={false}
+        class="mb-[var(--space-10)] max-w-[var(--measure-body)]"
+      />
+
+      <ol class="grid list-none grid-cols-1 md:grid-cols-3">
+        {steps.map((step, i) => (
+          <li class:list={[STEP_CELL_CLASSES[i]]}>
+            <span
+              class="font-heading text-[length:var(--text-h3)] font-bold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_35%)]"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3
+              class="font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-on-light)]"
+            >
+              {step.title}
+            </h3>
+            <p class="font-body text-[length:var(--text-sm)] leading-[var(--line-height-body)] text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_35%)]">
+              {step.text}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </PageContainer>
+</Section>

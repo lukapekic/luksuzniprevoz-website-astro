@@ -24,12 +24,12 @@
  *
  * Clean-slate shell assembly (Step 1). Verified components mounted in the
  * locked order: SiteHeader (§1), HomepageHero (§2), ServiceShowcase (§3),
- * PrivateChauffeurFeature (§4), TrustStrip (§5), FinalCTA (§9), SiteFooter
- * (§10). The remaining regions — Fleet (§6), HowItWorks (§7), GoogleReviews
- * (§8) — are clean integration boundaries only (TODO markers, no rendered
- * markup): they slot in between Hero and FinalCTA as their homepage-specific
- * components land (13 §Exact order). Each component owns its own section
- * spacing, so no wrapper rhythm is added here.
+ * PrivateChauffeurFeature (§4), TrustStrip (§5), FleetShowcase (§6),
+ * HowItWorks (§7), FinalCTA (§9), SiteFooter (§10). The remaining region —
+ * GoogleReviews (§8) — is a clean integration boundary only (TODO marker, no
+ * rendered markup): it slots in between How It Works and FinalCTA as its
+ * homepage-specific component lands in a later task (13 §Exact order). Each
+ * component owns its own section spacing, so no wrapper rhythm is added here.
  *
  * Routing invariant (P1.5): the default locale (sr) is UNPREFIXED, so the
  * Serbian home is generated at `/` by pages/index.astro; non-default locales
@@ -44,6 +44,9 @@ import SiteFooter from "../site/SiteFooter.astro";
 import HomepageHero from "./HomepageHero.astro";
 import ServiceShowcase from "./ServiceShowcase.astro";
 import PrivateChauffeurFeature from "./PrivateChauffeurFeature.astro";
+import FleetShowcase from "./FleetShowcase.astro";
+import HowItWorks from "./HowItWorks.astro";
+import ReviewsShowcase from "./ReviewsShowcase.astro";
 import FinalCTA from "../shared/FinalCTA.astro";
 import Section from "../../foundation/ui/Section.astro";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
@@ -55,6 +58,8 @@ import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
 import { t } from "../../lib/i18n.ts";
 import { contact, isVerified } from "../../data/contact.ts";
 import { getService } from "../../data/services.ts";
+import { vehicles, type VehicleClass } from "../../data/fleet.ts";
+import { getReviewsSummary } from "../../data/reviews.ts";
 import heroImg from "../../assets/hero.webp";
 import finalCtaImg from "../../assets/final-cta-bg.webp";
 import type { LocaleCode } from "@astro-foundation/core";
@@ -81,7 +86,7 @@ if (entry.data.pageType !== "home") {
     `Home route entry for locale "${currentLocale}" has pageType "${entry.data.pageType}" — expected "home".`,
   );
 }
-const { hero, services, flagshipFeature, finalCta, seoTitle, seoDescription, trust } = entry.data;
+const { hero, services, flagshipFeature, finalCta, seoTitle, seoDescription, trust, process, fleet, reviews } = entry.data;
 
 // TrustStrip (blueprint §10 / 13 §5) — canonical content IS authored for all
 // three locales (home.*.md `trust`: a `heading.title` + exactly 4 `items` with
@@ -217,6 +222,77 @@ const flagshipPackages = [
 // — missing assets do not authorize redesign). Flagged for the content/asset
 // owner; OpenSplitSection requires an image so omitting it is not an option.
 const flagshipImage = finalCtaImg;
+
+// --- Fleet showcase (blueprint §11 / 08-fleet-showcase) ---------------------
+// Three concerns kept separate (08 §Content/data boundaries), mirroring the
+// Private Chauffeur feature's ownership split:
+//   • editorial content  → fleet.heading (title + intro) + fleet.cta (label)
+//   • vehicle facts      → vehicles (fleet.ts) projected to display strings
+//   • route destination  → resolveCtaHref(fleet.cta) → <Link href>
+//
+// Vehicle identity is NOT translated — `vehicle.displayName` is rendered
+// verbatim (fleet.ts vocabulary: one source, all locales). `vehicleClass` is
+// a canonical structural enum (sedan/van/minivan/bus); its localized display
+// label comes from the UI dictionary (`fleet.class.*`) via static keys keyed
+// by VehicleClass — never a dynamically-built `t()` key (UiStringKey is a
+// literal union; FND-ARCH-03 / FND-TYPE-02). Passenger capacity is rendered
+// ONLY where `vehicle.passengers !== null` (the 6/7/8 V-Class/Vito facts);
+// null capacities are omitted, never fabricated as 0/N/A/unknown (08 §Forbidden;
+// task §11). No pricing, no luggage/year/engine facts (task §13). All seven
+// canonical vehicles render in declaration order — the home content models no
+// `fleet.vehicleIds` subset, so the homepage does not silently override the
+// roster. NEW fleet.* UI keys (class labels, passenger word, carousel control
+// labels) are flagged for loc-owner review, same as the booking.* keys.
+const fleetCta = {
+  label: fleet.cta.label,
+  href: resolveCtaHref(fleet.cta as Cta, currentLocale),
+};
+const fleetClassLabels: Record<VehicleClass, string> = {
+  sedan: t("fleet.class.sedan", currentLocale),
+  van: t("fleet.class.van", currentLocale),
+  minivan: t("fleet.class.minivan", currentLocale),
+  bus: t("fleet.class.bus", currentLocale),
+};
+const fleetPassengersWord = t("fleet.passengers", currentLocale);
+const fleetCarouselLabels = {
+  ariaLabel: t("fleet.carousel.ariaLabel", currentLocale),
+  previous: t("fleet.carousel.previous", currentLocale),
+  next: t("fleet.carousel.next", currentLocale),
+};
+const fleetVehicles = vehicles.map((vehicle) => ({
+  id: vehicle.id,
+  name: vehicle.displayName,
+  classLabel: fleetClassLabels[vehicle.vehicleClass],
+  passengerText:
+    vehicle.passengers !== null
+      ? `${vehicle.passengers} ${fleetPassengersWord}`
+      : undefined,
+}));
+
+// --- Google Reviews (blueprint §13 / 10-reviews) — MOCK DATA MODE --------------
+// The review dataset comes from the local mocked Places fixture via
+// data/reviews.ts getReviewsSummary() (the single swap point for the future
+// real Google Reviews package). The UI consumes only the normalized
+// ReviewViewModel[] — never the raw Google shape. Review text is NOT localized
+// per page locale (an external Google review keeps its own language — task
+// §28); only the UI chrome (heading, CTA, carousel labels, rating unit) is
+// localized, inside ReviewsShowcase via t().
+//
+// External-link safety (task §22 / 10-reviews.md "do not invent a verified
+// URL"): the section-level "View Google reviews" CTA is GATED on a non-null
+// URL. The verified production destination is contact.office.googleMapsUrl
+// (currently null / owner-confirmation-required); it takes precedence when
+// verified. Until then, in MOCK DATA MODE, the mock place-level googleMapsUri
+// from the fixture is used for STRUCTURAL TESTING only — it is an obviously-
+// fake path (mock-luxury-transportation) on a .mock.json fixture with a MOCK
+// import comment, so it can never be mistaken for a verified production Google
+// destination. When both are null the CTA is hidden (no invented link).
+const reviewsSummary = getReviewsSummary();
+const reviewsProfileUrl =
+  contact.office.verificationStatus === "verified" &&
+  contact.office.googleMapsUrl
+    ? contact.office.googleMapsUrl
+    : reviewsSummary.googleMapsUrl;
 ---
 
 <Page
@@ -306,21 +382,53 @@ const flagshipImage = finalCtaImg;
     </Section>
 
     {/*
-      §6 Fleet showcase — HorizontalCarousel + future Fleet presentation
-        (blueprint §11). TODO(home-fleet): build FleetCard + mount
-        `fleet` (entry.data.fleet) on HorizontalCarousel. Deferred: no
-        /dev/ui fixture cards, no object-cover on transparent vehicle PNGs.
-
-      §7 How It Works — intentional light contained section (blueprint §12).
-        TODO(home-process): implement HowItWorks light panel + mount `process`
-        (entry.data.process). Deferred: no rejected old styling, no visible
-        placeholder steps.
-
-      §8 Google Reviews — HorizontalCarousel + GoogleReviews presentation
-        (blueprint §13). TODO(home-reviews): mount `reviews`
-        (entry.data.reviews) once review data + Maps profile URL are verified.
-        Deferred: no fake production reviews, no dev/ui review fixtures.
+      §6 Fleet showcase — MOUNTED below (blueprint §11 / 08-fleet-showcase):
+        an open dark feature section with the heading row (editorial
+        `fleet.heading` + the resolved "View fleet" section action) and the
+        reused shared HorizontalCarousel (itemSize "compact") carrying all
+        seven canonical vehicles in declaration order. Each card is a
+        presentation-only projection of fleet.ts (display name verbatim,
+        localized vehicle-class label, passenger-capacity chip only where
+        non-null) on a neutral graphite placeholder media stage — final
+        transparent vehicle cutouts are not produced yet (DESIGN.md §14 —
+        missing assets do not authorize redesign). No pricing, no fabricated
+        facts. The carousel mechanics are reused unchanged (task §8/§17/§27).
     */}
+    <FleetShowcase
+      heading={fleet.heading}
+      cta={fleetCta}
+      vehicles={fleetVehicles}
+      carouselLabels={fleetCarouselLabels}
+      locale={currentLocale}
+    />
+
+    {/*
+      §7 How It Works — intentional light contained section (blueprint §12 /
+        09-how-it-works). MOUNTED below: one contained light panel with the
+        heading block + a semantic 3-step ordered process (request →
+        confirmation → pickup) from `process` (entry.data.process). The
+        component owns its panel/dividers; this page owns the section rhythm.
+    */}
+    <HowItWorks heading={process.heading} steps={process.steps} />
+
+    {/*
+      §8 Google Reviews — MOUNTED below (blueprint §13 / 10-reviews): an open
+        dark standard section with the heading row (editorial `reviews.heading`
+        + the gated external "View Google reviews" action) and the reused shared
+        HorizontalCarousel (itemSize "standard") carrying the five synthetic mock
+        reviews. MOCK DATA MODE — data/reviews.ts (local Places fixture) is the
+        single swap point for the future real Google Reviews package; the section
+        CTA is gated so a mock URL can never be mistaken for a verified
+        production Google destination. The carousel mechanics are reused
+        unchanged (no Reviews-only carousel behavior).
+    */}
+    <ReviewsShowcase
+      heading={reviews.heading}
+      profileLabel={reviews.externalProfileLabel}
+      profileUrl={reviewsProfileUrl}
+      reviews={reviewsSummary.reviews}
+      locale={currentLocale}
+    />
 
     <FinalCTA
       heading={finalCta.heading}
