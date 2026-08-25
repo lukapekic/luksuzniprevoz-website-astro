@@ -723,3 +723,20 @@ The governance scripts do not become a visual source of truth. Existing authorit
 5. wireframe geometry.
 
 `AGENTS.md` remains the technical/procedural authority.
+
+## Universal UI completion protocol
+
+Harness-specific hooks provide immediate feedback but are not required
+for correctness.
+
+Any agent modifying production UI MUST:
+
+1. Run `pnpm design:context <target>` before implementation.
+2. Follow the authorities returned by that command.
+3. Run `pnpm design:detect <target>` after implementation.
+4. Run `pnpm check`.
+5. Report any unresolved governance failure explicitly.
+
+An agent MUST NOT declare production UI work complete while a P0/P1
+design-governance finding remains unresolved unless the task explicitly
+documents an approved exception.

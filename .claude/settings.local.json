@@ -7,7 +7,36 @@
       "Bash(rg -l site/SiteHeader /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
       "Bash(rg -l site/SiteFooter /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
       "Bash(rg -c version-1 /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src --glob !**/versions/version-1/**)",
-      "Bash(awk -F: '{s+=$2} END {print s+0}')"
+      "Bash(awk -F: '{s+=$2} END {print s+0}')",
+      "Bash(git -C /projects/luksuzniprevoz-website-astro status --short)",
+      "Bash(git *)"
     ]
-  }
+  },
+  "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "Edit|Write",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/design/hook.mjs\"",
+              "timeout": 8,
+              "statusMessage": "Checking design rules"
+            }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/design/hook.mjs\"",
+              "timeout": 30,
+              "statusMessage": "Design governance pass"
+            }
+          ]
+        }
+      ]
+    }
 }

@@ -6,7 +6,7 @@
  * Extracted from the leaf route files so the default-locale (unprefixed) and
  * non-default-locale (prefixed) leaf routes share one rendering path. The
  * route files own only `getStaticPaths` (via lib/pages.ts buildLeafStaticPaths)
- * + the typed props; this component owns the breadcrumb/heading/prose shell.
+ * + the typed props; this component owns the breadcrumb/heading/rich-text shell.
  *
  * FND-ARCH-03: all text from the UI dictionary via `t()`. FND-I18N-03: every
  * URL via getPath (Breadcrumbs/Link), never string-built. Uses Page, Container,

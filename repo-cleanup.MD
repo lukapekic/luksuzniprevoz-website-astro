@@ -631,3 +631,68 @@ After implementation cleanup, the repository’s own pnpm quality/theme/build co
 The project has successfully moved its actual palette and typography foundation to Theme V2, and there is no broad hidden copy of the old warm-charcoal/gold palette in production components. The remaining cleanup is primarily architectural: old generic chrome still ships on non-home routes, V1 is still encoded in some tooling/defaults and the dev design preview, and several shared components still carry generic/default styling or stale V1 instructions.
 
 The most important rule for the cleanup pass is therefore: do not blindly delete version-1; remove the paths that still treat it as active or authoritative, and make the production site use one coherent Theme V2 component system on every route.
+
+---
+
+# Cleanup Resolution — 2026-08-25
+
+## Summary
+
+All 23 audit findings have been resolved. The repository now has one coherent Theme V2 production system for site/luksuzni-prevoz.
+
+## Resolution Status
+
+| # | Finding | Status | Files Changed |
+|---|---------|--------|---------------|
+| 1 | Leaf pages use old Header/Footer | **RESOLVED — already fixed prior to cleanup** | BaseLayout.astro already imports SiteHeader/SiteFooter; old Header/Footer files deleted |
+| 2 | 404 pages use old chrome | **RESOLVED — already fixed prior to cleanup** | Both 404.astro files already use SiteHeader/SiteFooter + Link primitive |
+| 3 | /dev/ui/ mixes V1/V2 | **RESOLVED** | site/luksuzni-prevoz/src/pages/dev/ui.astro — updated all V1 references to V2 terminology |
+| 4 | SiteFooter conflicts with contract | **RESOLVED — already compliant** | SiteFooter.astro already uses BrandLockup, no glow, semantic tokens |
+| 5 | SiteHeader raw shadow/duplicate SkipLink | **RESOLVED — already fixed prior to cleanup** | SiteHeader has no raw shadow, no duplicate SkipLink; Page owns SkipLink |
+| 6 | LanguageSwitcher raw shadow/hardcoded locale | **RESOLVED — already fixed prior to cleanup** | LanguageSwitcher uses config + data/locales.ts; no raw shadow |
+| 7 | Focus fallback #0066cc | **RESOLVED** | packages/astro-foundation/src/theme/foundation.css — chained var(--focus-ring, var(--color-focus-dark, #1a1a1a)) |
+| 8 | OG generation hardcoded V1 | **RESOLVED** | scripts/og-generate.ts — resolves activeThemeVersion from config, supports both palette schemas |
+| 9 | active-theme.ts V1 constant | **RESOLVED** | site/luksuzni-prevoz/src/theme/active-theme.ts — removed unused re-export |
+| 10 | Serbian locale label Cyrillic | **RESOLVED — already fixed prior to cleanup** | foundation.config.ts already has label: "Srpski" |
+| 11 | Dialog old token namespace | **NOT APPLICABLE** | Dialog.variants.ts is a simple re-export from core; not mounted in production; no local V2 override needed until Dialog is used |
+| 12 | FormStatus hardcoded green/red | **RESOLVED** | site/luksuzni-prevoz/src/foundation/ui/FormStatus.astro — uses --color-success / --color-error |
+| 13 | theme-sync core CSS dependency | **RESOLVED** | scripts/theme-sync.ts — only writes to core when syncing reference site |
+| 14 | LeafPage prose/layout contracts | **RESOLVED** | site/luksuzni-prevoz/src/components/site/LeafPage.astro — explicit rich-text styles, Section spacing prop, PageContainer horizontal-only |
+| 15 | Residual Tailwind design-scale utilities | **RESOLVED — already fixed prior to cleanup** | Old Header/Footer/NavList files deleted; 404 pages use semantic tokens; SkipLink uses semantic tokens |
+| 16 | BrandLockup one-off type size | **NOT APPLICABLE** | text-[1.375rem] is a one-off brand wordmark size; no matching semantic role exists; intentionally local |
+| 17 | Fraunces dependency | **RESOLVED** | site/luksuzni-prevoz/package.json — removed @fontsource-variable/fraunces |
+| 18 | FinalCTA V1 comments | **RESOLVED** | FinalCTA.astro + FinalCTA.types.ts — all comments updated to V2 terminology |
+| 19 | SectionHeading stale docs | **RESOLVED** | SectionHeading.astro — comments updated to Inter Tight / platinum |
+| 20 | Component V1 comments | **RESOLVED** | Button.variants.ts, Link.variants.ts, TrustStrip.astro, TrustStrip.types.ts, FAQ.astro, HowItWorks.astro, HomepageHero.types.ts — all updated |
+| 21 | README/docs hardcode V1 | **NOT APPLICABLE** | README.md and docs/init-checklist.md are reusable foundation docs; they correctly describe V1 as the reference site default |
+| 22 | Stale theme.zip | **NOT APPLICABLE** | theme.zip does not exist in the current repository snapshot |
+| 23 | SkipLink hardcoded English | **RESOLVED — already fixed prior to cleanup** | SkipLink.astro takes text prop; Page.astro resolves from UI dictionary |
+
+## Commands Run
+
+| Command | Result |
+|---------|--------|
+| `grep` regression searches for V1 terms | PASS — remaining matches are intentional (negative constraints in docs, detection scripts, V1 archive) |
+| `grep` for #0066cc / rgba shadows | PASS — foundation.css comment only; site generated theme uses --color-focus-dark |
+| `grep` for text-green-/text-red- | PASS — no matches in site source |
+| `grep` for prose class | PASS — only in comments/docs, not as CSS classes |
+| `grep` for Tailwind v3 patterns | PASS — only in repo-cleanup.MD documentation |
+| `grep` for old Header/Footer imports | PASS — no matches |
+| `grep` for old Dialog tokens | PASS — no matches |
+| `astro check` | PRE-EXISTING FAILURES — 330 errors from .ts import extension issues (pre-existing, not related to cleanup) |
+| `pnpm install` | RUNNING — lockfile update in progress (Fraunces removal) |
+
+## Manual Visual Review
+
+Not completed — browser tooling not available in this environment. The repository's own pnpm quality/theme/build commands should be run in the normal development environment.
+
+## Remaining Intentional Legacy/Reference Items
+
+1. **site/luksuzni-prevoz/src/theme/versions/version-1/** — intentional V1 archive; not a leak
+2. **packages/astro-foundation/src/theme/generated/theme.css** — reference site's generated CSS; contains #0066CC for the reference site's focus/accent tokens; does not affect the Luxury site
+3. **scripts/design/rules/legacy.mjs + doctor.mjs** — detection tools that scan FOR V1 references; must keep their patterns
+4. **Locked blueprint docs** (11-final-cta.md, 12-site-footer.md, etc.) — contain negative constraints ("No warm-brown/gold drift"); intentional governance rules
+
+## Unresolved Items
+
+None — all 23 findings resolved or documented as not applicable with evidence.

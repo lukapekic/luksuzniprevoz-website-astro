@@ -39,14 +39,15 @@
     "changeset": "changeset",
     "release": "changeset publish",
     "release:next": "changeset publish --tag next",
-    
+
      "design:sync": "node scripts/design/sync.mjs",
      "design:sync:check": "node scripts/design/sync.mjs --check",
      "design:context": "node scripts/design/context.mjs",
      "design:detect": "node scripts/design/detect.mjs",
      "design:doctor": "node scripts/design/doctor.mjs",
      "design:self-test": "node scripts/design/self-test.mjs",
-     "design:governance": "pnpm design:sync:check && pnpm design:doctor && pnpm design:detect"
+     "design:governance": "pnpm design:sync:check && pnpm design:doctor && pnpm design:detect",
+     "design:guard": "pnpm design:sync:check && pnpm design:doctor && pnpm design:detect && pnpm check"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
