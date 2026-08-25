@@ -9,8 +9,7 @@
  * source of truth. UI-string completeness (FND-I18N-08) is checked here, as it
  * reads JSON dictionaries.
  *
- * Defaults to the luksuzni-prevoz site; pass a path to target another project
- * (e.g. `pnpm content:validate examples/reference-site`).
+ * Defaults to the luksuzni-prevoz site; pass a path to target another project.
  *
  * Usage: pnpm content:validate [path/to/project] [--json]
  */
@@ -101,7 +100,7 @@ if (existsSync(routesPath)) {
 }
 
 // --- Load fleet + clients (optional — for FND-DATA-08 cross-ref resolution) ---
-// These are absent in some projects (e.g. the reference site has no fleet); a
+// These are absent in some projects; a
 // failed load simply omits the referent set, which makes the corresponding
 // cross-ref resolution inert for that target.
 let vehicleIds: string[] | undefined;

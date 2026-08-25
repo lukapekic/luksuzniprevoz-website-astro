@@ -8,7 +8,7 @@
  * slots for arbitrary hero layouts and no generalized `Hero`/`ImageTextPanel`
  * (component-architecture.md §25; blueprint §7).
  *
- * Contract: docs/home/home-components/03-home-hero.md (exact V1 spec)
+ * Contract: docs/home/home-components/03-home-hero.md
  * Blueprint: docs/home/reference/blueprint.md §7 (Hero)
  * Tokens: docs/home/home-components/00-token-matrix.md (locked color/space/radius)
  *
@@ -62,7 +62,7 @@ export interface HomepageHeroProps {
   title: string;
   /** Short proposition / lede (localized, from caller). ~2–3 desktop lines. */
   description?: string;
-  /** Primary conversion action — Book (gold-... platinum <Link variant="cta">). Required. */
+  /** Primary conversion action — Book (platinum accent <Link variant="cta">). Required. */
   primaryAction: HomepageHeroAction;
   /**
    * Secondary conversion action — the locked hero composition's "Request a Quote"

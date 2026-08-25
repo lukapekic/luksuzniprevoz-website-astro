@@ -19,7 +19,7 @@ const jsonFlag = args.includes("--json");
 const targetArg = args.find((a) => !a.startsWith("--"));
 const resolvedTarget = targetArg
   ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "examples", "reference-site");
+  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
 
 const issues: FoundationIssue[] = [];
 const reportFilePath = resolvedTarget;

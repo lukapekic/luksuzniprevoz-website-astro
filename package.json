@@ -8,9 +8,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "pnpm --filter @astro-foundation/reference-site dev",
-    "build": "pnpm types:generate && pnpm --filter @astro-foundation/reference-site build",
-    "check": "pnpm types:generate && pnpm --filter @astro-foundation/reference-site check && pnpm --filter @astro-foundation/core check",
+    "dev": "pnpm --filter @luksuzni-prevoz/site dev",
+    "build": "pnpm types:generate && pnpm --filter @luksuzni-prevoz/site build",
+    "check": "pnpm types:generate && pnpm --filter @luksuzni-prevoz/site check && pnpm --filter @astro-foundation/core check",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -29,16 +29,24 @@
     "secret-scan": "tsx scripts/secret-scan.ts",
     "audit:deps": "pnpm audit --prod || (echo '⚠ Dependency audit found vulnerabilities (see above). Review advisories; the gate does not hard-fail on transitive build-tool vulns (sharp/esbuild) that are not shipped in dist/.' && exit 0)",
     "test:unit": "pnpm --filter @astro-foundation/core test:unit && pnpm --filter eslint-plugin-astro-foundation test:unit",
-    "test:e2e": "pnpm --filter @astro-foundation/reference-site exec playwright test tests/smoke/navigation.spec.ts tests/smoke/responsive.spec.ts",
-    "test:a11y": "pnpm --filter @astro-foundation/reference-site exec playwright test tests/smoke/accessibility.spec.ts",
+    "test:e2e": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/navigation.spec.ts tests/smoke/responsive.spec.ts",
+    "test:a11y": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/accessibility.spec.ts",
     "test:lighthouse": "lhci autorun",
-    "swap-config": "tsx scripts/swap-config.ts",
     "quality:fast": "pnpm foundation:doctor && pnpm types:generate && pnpm theme:sync && pnpm theme:validate && pnpm routes:validate && pnpm content:validate && pnpm seo:validate && pnpm lint && pnpm test:unit",
-    "quality:page": "pnpm quality:fast && pnpm build && echo \"Checking generated artifact drift...\" && git diff --exit-code -- examples/reference-site/src/theme/generated/ packages/astro-foundation/src/generated/",
+    "quality:page": "pnpm quality:fast && pnpm build && echo \"Checking generated artifact drift...\" && git diff --exit-code -- site/luksuzni-prevoz/src/theme/generated/ packages/astro-foundation/src/generated/",
     "quality:release": "pnpm quality:page && echo \"Verifying rule traceability...\" && pnpm traceability --check && echo \"Parsing waivers...\" && pnpm parse-waivers && echo \"Scanning for secrets...\" && pnpm secret-scan && echo \"Auditing dependencies...\" && pnpm audit:deps && echo \"Running e2e tests...\" && pnpm test:e2e && echo \"Running a11y tests...\" && pnpm test:a11y && echo \"Running lighthouse...\" && pnpm test:lighthouse",
     "changeset": "changeset",
     "release": "changeset publish",
-    "release:next": "changeset publish --tag next"
+    "release:next": "changeset publish --tag next",
+
+     "design:sync": "node scripts/design/sync.mjs",
+     "design:sync:check": "node scripts/design/sync.mjs --check",
+     "design:context": "node scripts/design/context.mjs",
+     "design:detect": "node scripts/design/detect.mjs",
+     "design:doctor": "node scripts/design/doctor.mjs",
+     "design:self-test": "node scripts/design/self-test.mjs",
+     "design:governance": "pnpm design:sync:check && pnpm design:doctor && pnpm design:detect",
+     "design:guard": "pnpm design:sync:check && pnpm design:doctor && pnpm design:detect && pnpm check"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",

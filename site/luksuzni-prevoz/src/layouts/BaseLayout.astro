@@ -1,15 +1,24 @@
 ---
 /**
- * BaseLayout — FND-ARCH-03
+ * BaseLayout — the single production chrome path for non-home routes.
  *
- * Uses Page primitive (owns <head>), Header, Footer, and Container.
- * Imports generated theme.css and foundation.css.
- * Sets up <html> with proper lang/dir via Page primitive.
- * All text comes from UI strings dictionary.
+ * Composes the reviewed production chrome: the `Page` primitive (owns <head>,
+ * lang/dir, global CSS, and the single SkipLink) + the reviewed `SiteHeader`
+ * and `SiteFooter` contracts. The Homepage bypasses BaseLayout only because
+ * its full-bleed Hero must mount under the over-hero header state; every leaf /
+ * service / hub / fleet / pricing / about / contact / error route goes through
+ * this one layout so the site ships one coherent Theme V2 chrome.
+ *
+ * `overHero` defaults to `false` — leaf routes have no hero, so the header
+ * renders solid from the page top (no transparent-over-hero state). Pass
+ * `overHero={true}` only for a page whose first region is a full-bleed hero.
+ *
+ * FND-ARCH-03: all text from UI strings. FND-I18N-03: every href via getPath /
+ * the shared primitives — never manual locale concatenation.
  */
 import Page from "../foundation/ui/Page.astro";
-import Header from "../foundation/ui/Header.astro";
-import Footer from "../foundation/ui/Footer.astro";
+import SiteHeader from "../components/site/SiteHeader.astro";
+import SiteFooter from "../components/site/SiteFooter.astro";
 import type { SeoData } from "@astro-foundation/core/seo";
 import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 import { config } from "../../foundation.config.ts";
@@ -19,6 +28,11 @@ interface Props {
   titleTemplate?: string;
   currentRouteKey?: RouteKey;
   currentLocale?: LocaleCode;
+  /**
+   * Whether the header sits over a full-bleed hero at page top, allowing the
+   * transparent-over-hero state. Defaults `false` (leaf routes have no hero).
+   */
+  overHero?: boolean;
 }
 
 const {
@@ -26,6 +40,7 @@ const {
   titleTemplate,
   currentRouteKey = "home",
   currentLocale = "sr",
+  overHero = false,
 } = Astro.props;
 
 const localeConfig = config.locales.locales.find((l) => l.code === currentLocale);
@@ -41,12 +56,12 @@ const fullSeo: SeoData = {
 };
 ---
 
-<Page seo={fullSeo} titleTemplate={titleTemplate} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
-  <Header currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+<Page seo={fullSeo} titleTemplate={titleTemplate} locale={currentLocale} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
+  <SiteHeader currentRouteKey={currentRouteKey} currentLocale={currentLocale} overHero={overHero} />
 
   <main id="main-content" class="flex-1">
     <slot />
   </main>
 
-  <Footer currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+  <SiteFooter currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
 </Page>

@@ -19,17 +19,17 @@ Document your deployment configuration here. The fields below cover all deployme
 pnpm build
 ```
 
-The build command runs from the **reference-site directory** (or your project root if it is a standalone Astro site):
+The build command runs from the **production site directory** (or your project root if it is a standalone Astro site):
 
 ```bash
 # In the monorepo:
-cd examples/reference-site && pnpm build
+cd site/luksuzni-prevoz && pnpm build
 
 # Or if using the root-level build script:
 pnpm build
 ```
 
-Build output is written to `examples/reference-site/dist/`.
+Build output is written to `site/luksuzni-prevoz/dist/`.
 
 ## Environments
 

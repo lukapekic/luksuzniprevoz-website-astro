@@ -42,7 +42,7 @@ Every indexable page is fully crawlable, correctly described, and correctly clus
 ## Procedure
 1. **Set per-page SEO in frontmatter** of `{routeKey}/{locale}.md` (per-route folder): `seoTitle` (unique, meaningful), `seoDescription` (useful, not keyword-stuffed), `h1` (defaults to `seoTitle`), `noindex` if needed, `ogImage`/`ogImageAlt`.
 2. **Translate** `seoTitle` and `seoDescription` per locale — don't copy the source locale.
-3. **Canonical/hreflang:** use `buildPageSeo`/`buildHreflangSet` (reference site: `src/lib/seo.ts`). Confirm the page **self-canonicalizes** and the hreflang set is the full reciprocal cluster.
+3. **Canonical/hreflang:** use `buildPageSeo`/`buildHreflangSet` (see `site/luksuzni-prevoz/src/lib/seo.ts`). Confirm the page **self-canonicalizes** and the hreflang set is the full reciprocal cluster.
 4. **Sitemap/robots:** confirm the route's `noindex`/`sitemap.include` reflects intent. Don't add `noindex` + keep in sitemap — they must agree.
 5. **Internal links:** render navigation/breadcrumbs/CTAs as crawlable `<a href>` via `<Link>`/`getPath`. No JS-only or `<div onclick>` navigation.
 6. **Redirects:** if you rename a slug, set `previousSlugs` for every affected locale and run `pnpm generate:redirects` so the old URL 301s to the new one.

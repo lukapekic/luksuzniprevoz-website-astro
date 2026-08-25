@@ -8,7 +8,7 @@ All items must be completed before the project is considered production-ready.
 ## 1. Scaffold the Starter Template
 
 - [ ] Create the project using `create-astro-foundation` or `degit`
-- [ ] Verify the monorepo structure is intact (`packages/`, `examples/`, `scripts/`, `docs/`)
+- [ ] Verify the monorepo structure is intact (`packages/`, `site/`, `scripts/`, `docs/`)
 - [ ] Run `pnpm install` with no errors
 
 ## 2. Fill `foundation.config.ts`

@@ -109,7 +109,7 @@ export const FoundationConfigSchema = z
     brand: z.string().min(1),
     locales: LocaleConfigSchema,
     capabilities: CapabilitiesSchema.default(capabilitiesDefault),
-    activeThemeVersion: z.string().default("version-1"),
+    activeThemeVersion: z.string().min(1, "activeThemeVersion is required — each site must select its theme in foundation.config.ts"),
     reviewStalenessWindowMonths: z.number().min(1).default(12),
     performanceBudget: PerformanceBudgetSchema.default(performanceBudgetDefault),
   })

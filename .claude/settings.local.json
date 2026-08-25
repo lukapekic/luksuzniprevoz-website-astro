@@ -1,22 +1,46 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rg -n \"breakpoint\" src/theme/generated/theme.css src/styles/*.css)",
-      "Bash(rg -n \"breakpoint|@theme|tailwindcss\" astro.config.* src/styles/global.css)",
-      "Bash(pnpm quality:fast)",
-      "Bash(sed -n '/^services:/,/^flagshipFeature:/p' src/content/pages/home/home.sr.md)",
-      "Bash(sed -n '/^services:/,/^flagshipFeature:/p' src/content/pages/home/home.ru.md)",
-      "Read(//home/node/.nvm/versions/**)",
-      "Bash(command -v corepack)",
-      "Bash(export COREPACK_HOME=/tmp/corepack)",
-      "Bash(export ASTRO_TELEMETRY_DISABLED=1 HOME=/tmp)",
-      "Bash(corepack pnpm *)",
-      "Bash(export HOME=/tmp)",
-      "Bash(corepack pnpm@10.14.0 types:generate site/luksuzni-prevoz)",
-      "Bash(grep *)",
-      "Bash(identify site/luksuzni-prevoz/src/assets/rear-seat.webp)",
-      "Bash(python3 -c ' *)",
-      "Bash(HOME=/tmp ASTRO_TELEMETRY_DISABLED=1 corepack pnpm --filter @luksuzni-prevoz/site build)"
+      "Bash(rg -l 'ui/Header\\\\.astro' /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
+      "Bash(rg -l 'ui/Footer\\\\.astro' /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
+      "Bash(rg -l layouts/BaseLayout /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
+      "Bash(rg -l site/SiteHeader /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
+      "Bash(rg -l site/SiteFooter /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src -g *.astro -g *.ts)",
+      "Bash(rg -c version-1 /projects/luksuzniprevoz-website-astro/site/luksuzni-prevoz/src --glob !**/versions/version-1/**)",
+      "Bash(awk -F: '{s+=$2} END {print s+0}')",
+      "Bash(git -C /projects/luksuzniprevoz-website-astro status --short)",
+      "Bash(git *)",
+      "Bash(pnpm design:context site/luksuzni-prevoz/foundation.config.ts)",
+      "Bash(node -e \"console.log\\(process.version\\)\")",
+      "Bash(corepack enable *)",
+      "Bash(pnpm --version)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/design/hook.mjs\"",
+            "timeout": 8,
+            "statusMessage": "Checking design rules"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/design/hook.mjs\"",
+            "timeout": 30,
+            "statusMessage": "Design governance pass"
+          }
+        ]
+      }
     ]
   }
 }

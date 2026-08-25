@@ -509,7 +509,7 @@ pnpm lint
 pnpm test:unit
 ```
 
-Many scripts accept a project path. For the current Luxury Transportation site, prefer an explicit target where the script otherwise defaults to the reference site, for example:
+Many scripts accept a project path and default to `site/luksuzni-prevoz`. You can also pass an explicit target:
 
 ```bash
 pnpm foundation:doctor site/luksuzni-prevoz
@@ -674,3 +674,253 @@ Before reporting a task complete:
 - distinguish automated verification from manual visual review.
 
 Never hide known deviations behind “done”, “finished”, or “production-ready”.
+
+# AGENTS.md additions
+
+Add this as a concise section near the existing agent procedure / quality workflow. Do not duplicate the full skill contents in `AGENTS.md`.
+
+## Deterministic design-governance workflow
+
+For production UI work, agents MUST use the repository design-governance layer.
+
+Before editing:
+
+```bash
+pnpm design:context <target>
+```
+
+If the context command reports a missing/stale machine-readable snapshot:
+
+```bash
+pnpm design:sync
+```
+
+Before declaring UI work complete:
+
+```bash
+pnpm design:detect <target>
+pnpm check
+```
+
+Major page work also runs the page-specific and release gates already required elsewhere in this file.
+
+`pnpm design:doctor` checks drift between the active theme, generated design snapshot, selectors, current design documentation, and global site integration. It is maintenance/verification, not permission to redesign.
+
+### Workflow doctrine
+
+**Refinement preserves. Redesign replaces.**
+
+A cleanup, refactor, accessibility correction, responsive correction, token migration, performance fix, or bug fix MUST preserve approved component identity, factual copy, CTA roles, and locked blueprint structure unless the task explicitly authorizes a design-direction change.
+
+### Design-governance authority
+
+The governance scripts do not become a visual source of truth. Existing authority remains:
+
+1. locked page blueprint;
+2. `DESIGN.md`;
+3. active theme + generated semantic tokens;
+4. reviewed shared component contract;
+5. wireframe geometry.
+
+`AGENTS.md` remains the technical/procedural authority.
+
+## Theme Ownership and Upgrade Protocol
+
+### Single source of truth
+
+Each site MUST select its active theme through its own `foundation.config.ts`.
+
+For the Luxury Transportation site, the canonical selector is:
+
+`site/luksuzni-prevoz/foundation.config.ts`
+
+using:
+
+`activeThemeVersion`
+
+Shared foundation packages MAY contain theme implementations, schemas,
+generators, validation logic, and reusable theme utilities.
+
+Shared packages MUST NOT:
+
+- choose the active theme for a product site;
+- expose an `ACTIVE_THEME_VERSION` used as a site selector;
+- silently fall back to `version-1`, `version-2`, or any other theme;
+- override a site's `foundation.config.ts`.
+
+If a site's configured theme cannot be resolved, theme generation MUST fail
+with a clear error.
+
+Missing or invalid theme configuration is never permission to use a fallback.
+
+### Theme resolution invariant
+
+For every production site, these layers MUST agree:
+
+`foundation.config.ts`
+→ configured `activeThemeVersion`
+→ resolved theme implementation
+→ generated theme output
+→ `.design/system.json`
+
+A mismatch between these layers is a governance failure.
+
+For Luxury Transportation, the currently configured production theme is
+resolved from the site's config. Agents MUST NOT hard-code the current version
+into generic/shared tooling merely because it is the presently active theme.
+
+### Theme upgrades
+
+When creating or activating a new theme version, agents MUST follow this
+sequence.
+
+1. Create the new theme implementation using the repository's established
+   versioned theme structure.
+
+2. Preserve previous theme versions unless the task explicitly authorizes
+   their removal.
+
+3. Validate the new theme implementation before activation.
+
+4. Change the target site's `foundation.config.ts`:
+   `activeThemeVersion`.
+
+5. Do NOT change shared foundation code merely to activate the theme.
+
+6. Run the repository theme generation/synchronization command.
+
+7. Run theme validation.
+
+8. Regenerate the machine-readable design snapshot:
+
+   `pnpm design:sync`
+
+9. Run:
+
+   `pnpm design:doctor`
+
+10. Run:
+
+    `pnpm design:detect`
+
+11. Run:
+
+    `pnpm check`
+
+12. Verify that the configured version, generated theme output, and
+    `.design/system.json` all report the same active version.
+
+13. Search the repository for stale references to the previous theme in:
+    - production UI;
+    - generated configuration;
+    - governance files;
+    - dev previews;
+    - documentation;
+    - comments;
+    - test fixtures.
+
+14. Classify every remaining previous-theme reference before removing it.
+    Historical theme implementations, archived documentation, and another
+    site's legitimate theme selection are not automatically stale.
+
+### Theme-independent documentation
+
+Blueprints, wireframes, and shared component contracts MUST describe styling
+through semantic design roles/tokens rather than literal theme values whenever
+the theme system already owns those values.
+
+Prefer concepts such as:
+
+- `background`
+- `surface`
+- `surfaceElevated`
+- `surfaceLight`
+- `text`
+- `textSecondary`
+- `textMuted`
+- `border`
+- `borderStrong`
+- `accent`
+- semantic spacing roles
+- semantic radius roles
+- semantic container roles
+
+Blueprints MUST NOT lock a production design to:
+
+- hex colors;
+- RGB/HSL literals;
+- theme-version-specific color names;
+- raw radius values;
+- raw spacing values;
+- raw breakpoint values;
+
+unless the value is genuinely structural and is not represented by the design
+system.
+
+A normal palette/theme upgrade SHOULD therefore require no blueprint or
+wireframe rewrite.
+
+### No fallback rule
+
+Agents MUST NOT introduce code equivalent to:
+
+- "if configured theme cannot be found, use version-1";
+- "if activeThemeVersion is absent, use the package default";
+- "use the first available theme";
+- "use the latest theme automatically".
+
+Theme selection is explicit configuration.
+
+Failure to resolve explicit configuration MUST stop the relevant generation or
+validation command.
+
+### Shared foundation rule
+
+`packages/astro-foundation` is infrastructure, not product configuration.
+
+It owns reusable mechanisms.
+
+The target site's `foundation.config.ts` owns product-level theme selection.
+
+Do not move product-specific active-theme decisions into shared foundation code.
+
+### Theme-related task completion gate
+
+An agent modifying any of the following:
+
+- theme versions;
+- theme manifests;
+- theme generation;
+- theme validation;
+- `foundation.config.ts`;
+- generated theme outputs;
+- design token generation;
+- `.design/system.json`;
+- theme governance logic;
+
+MUST NOT declare the task complete until the applicable checks have passed:
+
+```bash
+pnpm theme:sync
+pnpm theme:validate
+pnpm design:sync
+pnpm design:doctor
+pnpm design:detect
+pnpm check
+
+## Universal UI completion protocol
+
+Harness-specific hooks provide immediate feedback but are not required
+for correctness.
+
+Any agent modifying production UI MUST:
+
+1. Run `pnpm design:context <target>` before implementation.
+2. Follow the authorities returned by that command.
+3. Run `pnpm design:detect <target>` after implementation.
+4. Run `pnpm check`.
+5. Report any unresolved governance failure explicitly.
+
+An agent MUST NOT declare production UI work complete while a P0/P1
+design-governance finding remains unresolved unless the task explicitly
+documents an approved exception.

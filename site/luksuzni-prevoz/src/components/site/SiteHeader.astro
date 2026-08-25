@@ -1,20 +1,21 @@
 ---
 /**
- * SiteHeader — premium site chrome for the Luxury Transportation homepage V1.
+ * SiteHeader — premium site chrome for Luxury Transportation (Theme V2).
  *
  * Contract: docs/home/home-components/02-site-header.md
  * Blueprint: docs/home/reference/blueprint.md §6 (Header)
- * Tokens: docs/home/home-components/00-token-matrix.md (locked color/space/radius vars)
- * Step 5A Visual Refinement:
+ * Tokens: active Theme V2 semantic color/space/radius roles
+ *
  *   - Real logo.webp asset + Cormorant Garamond italic wordmark via BrandLockup
- *   - Transparent warm-black/charcoal overlay at top; solid warm-charcoal on scroll
+ *   - Translucent near-black graphite overlay at page top; solid graphite on scroll
  *   - Clean PageContainer-spanning geometry without large card shell
  *   - Compact globe + locale dropdown for language switcher
  *   - Restrained Manrope navigation with quiet active states
  *   - Consistent mobile language treatment inside full-height drawer
  *
  * Composite built on foundation primitives (LanguageSwitcher, BrandLockup, Link).
- * All links are server-rendered regardless of JS.
+ * All links are server-rendered regardless of JS. The single skip-to-content link
+ * is owned by `Page` (FND-A11Y-08); SiteHeader renders no skip link of its own.
  */
 import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
@@ -78,7 +79,6 @@ const menuLabel = t("nav.menu", currentLocale);
 const closeLabel = t("nav.close", currentLocale);
 const mainNavLabel = t("nav.main", currentLocale);
 const langLabel = t("nav.language", currentLocale);
-const skipLabel = t("a11y.skipToContent", currentLocale);
 
 const isCurrent = (key: RouteKey): boolean => currentRouteKey === key;
 
@@ -98,9 +98,6 @@ const isLeaf = (node: unknown): node is NavLeaf =>
 const branches = servicesChildren.filter(isBranch);
 const leafServices = servicesChildren.filter(isLeaf);
 ---
-
-<!-- Skip link target is #main-content -->
-<a href="#main-content" class="skip-link" data-skip-link>{skipLabel}</a>
 
 <header
   data-site-header
@@ -346,7 +343,10 @@ const leafServices = servicesChildren.filter(isLeaf);
     position: sticky;
     top: 0;
     z-index: 50;
-    /* Default = solid (no-JS safe). Scrolled is warm charcoal with high opacity + subtle divider */
+    /* Default = solid (no-JS safe). Scrolled is near-black graphite with high
+       opacity + a subtle divider. The restrained backdrop blur keeps the
+       translucent over-hero state legible against photographic media; it is the
+       only effect here — no heavy shadow (DESIGN.md §7/§10). */
     background: color-mix(in oklab, var(--color-background) 92%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -355,13 +355,13 @@ const leafServices = servicesChildren.filter(isLeaf);
                 border-color var(--duration-normal) var(--ease-standard);
   }
 
-  /* Top / overlay state: translucent warm-black / charcoal over hero */
+  /* Top / overlay state: translucent near-black graphite over hero */
   .site-header[data-over-hero="true"][data-state="top"] {
     background: color-mix(in oklab, var(--color-background) 45%, transparent);
     border-block-end-color: color-mix(in oklab, var(--color-border-subtle) 30%, transparent);
   }
 
-  /* Scrolled state: increased opacity warm charcoal */
+  /* Scrolled state: increased opacity near-black graphite */
   .site-header[data-state="scrolled"] {
     background: color-mix(in oklab, var(--color-background) 96%, transparent);
     border-block-end-color: var(--color-border-subtle);
@@ -436,7 +436,9 @@ const leafServices = servicesChildren.filter(isLeaf);
   /* --- Dropdowns (desktop) ----------------------------------------------- */
   /* Intrinsic max-content sizing: the panel fits its longest label without
      wrapping, floored by a rem min and capped so a long single label cannot
-     blow out into a mega menu. No arbitrary pixel widths. */
+     blow out into a mega menu. No arbitrary pixel widths. The elevated
+     graphite surface + subtle border is the separation; no heavy shadow
+     (DESIGN.md §10 — surface contrast over shadow). */
   .dropdown {
     position: absolute;
     inset-block-start: calc(100% + var(--space-2));
@@ -447,7 +449,6 @@ const leafServices = servicesChildren.filter(isLeaf);
     background: var(--color-surface-elevated);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-control);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     padding: var(--space-2);
     z-index: 60;
   }
@@ -645,24 +646,6 @@ const leafServices = servicesChildren.filter(isLeaf);
     display: flex;
     justify-content: flex-start;
   }
-
-  /* --- Skip link ---------------------------------------------------------- */
-  .skip-link {
-    position: fixed;
-    top: var(--space-2);
-    inset-inline-start: var(--space-2);
-    z-index: 100;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-control);
-    background: var(--color-accent);
-    color: var(--color-text-on-light);
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    text-decoration: none;
-    transform: translateY(-150%);
-  }
-  .skip-link:focus { transform: translateY(0); }
 </style>
 
 <style is:global>

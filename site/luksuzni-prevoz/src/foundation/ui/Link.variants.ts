@@ -1,7 +1,7 @@
 /**
  * Link variant definitions — local to the luksuzni site.
  *
- * Overrides the core re-export (which used reference-site token names that do
+ * Overrides the core re-export (which used legacy token names that do
  * not exist here). Uses the shared `variants()` engine with complete static
  * class strings on locked tokens. The Link primitive itself (Link.astro) owns
  * routing: internal links resolve via getPath() (FND-I18N-03); external links
@@ -10,7 +10,7 @@
  *
  *   default → inline text/action link (accent, underline on hover)
  *   nav     → navigation link (Header/NavList)
- *   cta     → primary CTA link (gold, button-shaped) for navigation CTAs
+ *   cta     → primary CTA link (platinum accent, button-shaped) for navigation CTAs
  *   button  → secondary CTA link (outlined, button-shaped)
  *
  * Links must stay distinguishable from <Button> (restrained color/underline,

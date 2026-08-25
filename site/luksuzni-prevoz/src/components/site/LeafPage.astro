@@ -6,11 +6,16 @@
  * Extracted from the leaf route files so the default-locale (unprefixed) and
  * non-default-locale (prefixed) leaf routes share one rendering path. The
  * route files own only `getStaticPaths` (via lib/pages.ts buildLeafStaticPaths)
- * + the typed props; this component owns the breadcrumb/heading/prose shell.
+ * + the typed props; this component owns the breadcrumb/heading/rich-text shell.
  *
  * FND-ARCH-03: all text from the UI dictionary via `t()`. FND-I18N-03: every
  * URL via getPath (Breadcrumbs/Link), never string-built. Uses Page, Container,
  * Section, Breadcrumbs primitives via BaseLayout.
+ *
+ * Layout contracts:
+ * - Section owns vertical rhythm via its `spacing` prop (not class overrides).
+ * - PageContainer owns horizontal containment only (no vertical padding).
+ * - Rich-text content uses explicit Theme V2 styles (no @tailwindcss/typography).
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
@@ -53,16 +58,18 @@ const breadcrumbs = [
 
 // Render content — Astro 5's render() returns a `Content` component plus
 // headings/remarkPluginFrontmatter (not an `.html` string). Render the
-// component directly so it slots into the prose container.
+// component directly so it slots into the rich-text container.
 const { Content } = await render(content);
 ---
 
 <BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={currentLocale}>
-  <PageContainer class="py-[var(--space-4)]">
-    <Breadcrumbs items={breadcrumbs} ariaLabel={t("nav.breadcrumb", currentLocale)} />
-  </PageContainer>
+  <Section spacing="compact">
+    <PageContainer>
+      <Breadcrumbs items={breadcrumbs} ariaLabel={t("nav.breadcrumb", currentLocale)} />
+    </PageContainer>
+  </Section>
 
-  <Section id="content" class="py-[var(--space-8)]">
+  <Section id="content" spacing="standard">
     <PageContainer>
       <h1 class="font-heading text-[length:var(--text-h1)] font-bold">
         {content.data.h1}
@@ -73,9 +80,125 @@ const { Content } = await render(content);
         </p>
       )}
 
-      <div class="mt-[var(--space-8)] prose prose-[var(--color-text-primary)] max-w-none">
+      <div class="leaf-rich-text mt-[var(--space-8)]">
         <Content />
       </div>
     </PageContainer>
   </Section>
 </BaseLayout>
+
+<style>
+  /* Rich-text styles for rendered Markdown content. Uses Theme V2 semantic
+     tokens — no @tailwindcss/typography plugin. Styles common Markdown
+     elements (headings, paragraphs, lists, links, code, blockquotes) with
+     the project's typography and spacing tokens. */
+  .leaf-rich-text {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+  }
+  .leaf-rich-text :global(h2) {
+    margin-block-start: var(--space-8);
+    margin-block-end: var(--space-4);
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+  }
+  .leaf-rich-text :global(h3) {
+    margin-block-start: var(--space-6);
+    margin-block-end: var(--space-3);
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+  }
+  .leaf-rich-text :global(h4) {
+    margin-block-start: var(--space-4);
+    margin-block-end: var(--space-2);
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+  }
+  .leaf-rich-text :global(p) {
+    margin-block-end: var(--space-4);
+  }
+  .leaf-rich-text :global(ul),
+  .leaf-rich-text :global(ol) {
+    margin-block-end: var(--space-4);
+    padding-inline-start: var(--space-6);
+  }
+  .leaf-rich-text :global(li) {
+    margin-block-end: var(--space-2);
+  }
+  .leaf-rich-text :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .leaf-rich-text :global(a:hover) {
+    color: var(--color-accent-hover);
+  }
+  .leaf-rich-text :global(a:focus-visible) {
+    outline: 2px solid var(--color-focus-dark);
+    outline-offset: 2px;
+    border-radius: var(--radius-control);
+  }
+  .leaf-rich-text :global(strong) {
+    font-weight: var(--font-weight-semibold);
+  }
+  .leaf-rich-text :global(blockquote) {
+    margin-block: var(--space-4);
+    padding-inline-start: var(--space-4);
+    border-inline-start: 3px solid var(--color-accent);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+  .leaf-rich-text :global(code) {
+    font-size: 0.9em;
+    padding: 0.15em 0.4em;
+    background: var(--color-surface);
+    border-radius: var(--radius-control);
+  }
+  .leaf-rich-text :global(pre) {
+    margin-block: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    overflow-x: auto;
+  }
+  .leaf-rich-text :global(pre code) {
+    padding: 0;
+    background: transparent;
+  }
+  .leaf-rich-text :global(hr) {
+    margin-block: var(--space-8);
+    border: 0;
+    border-block-start: 1px solid var(--color-divider);
+  }
+  .leaf-rich-text :global(img) {
+    max-inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--radius-card);
+  }
+  .leaf-rich-text :global(table) {
+    inline-size: 100%;
+    margin-block: var(--space-4);
+    border-collapse: collapse;
+  }
+  .leaf-rich-text :global(th),
+  .leaf-rich-text :global(td) {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-divider);
+    text-align: start;
+  }
+  .leaf-rich-text :global(th) {
+    font-weight: var(--font-weight-semibold);
+    background: var(--color-surface);
+  }
+</style>

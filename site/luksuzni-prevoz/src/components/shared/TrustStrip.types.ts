@@ -15,7 +15,7 @@
  * `textItemSchema` is `{ title: string; text: string }` (both required, no
  * `icon`, no `description`). The locked TrustStrip visual direction allows a
  * small *restrained accent marker* (07-trust-strip.md §Icon) — a single
- * decorative gold check applied uniformly per item, not a data-driven icon key
+ * decorative platinum accent check applied uniformly per item, not a data-driven icon key
  * (there is no icon system to resolve a key against, and the content model
  * authors no icon field). So the presentation API carries no `icon` prop: the
  * marker is purely decorative presentation, `aria-hidden` (see TrustStrip.astro).

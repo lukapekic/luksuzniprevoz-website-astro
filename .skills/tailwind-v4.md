@@ -2521,7 +2521,7 @@ component boundaries
 
 Then map those concepts to the project's tokens.
 
-Do not import the reference site's exact:
+Do not import another site's exact:
 
 * colors;
 * typography;

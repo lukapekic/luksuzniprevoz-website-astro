@@ -259,7 +259,7 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
     // data. The archetype schemas enforce this at `astro sync` via z.enum; this
     // enforces it in the content:validate script path (which does not run the
     // site schema) so the gate catches bad refs before the build. Referent sets
-    // are optional — omitted sets (e.g. the reference site has no fleet) skip
+    // are optional — omitted sets (e.g. a site with no fleet) skip
     // that resolution, so this stays inert where the data does not exist.
     const refs = collectContentRefs(fm, routeKey);
     const vehicleSet = opts.vehicleIds ? new Set(opts.vehicleIds) : undefined;

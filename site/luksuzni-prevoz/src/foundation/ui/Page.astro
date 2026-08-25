@@ -12,6 +12,8 @@
  */
 import type { SeoData } from "@astro-foundation/core/seo";
 import { composeTitle } from "@astro-foundation/core/seo";
+import type { LocaleCode } from "@astro-foundation/core";
+import { t } from "../../lib/i18n.ts";
 import SkipLink from "./SkipLink.astro";
 // Global CSS entry (Tailwind v4 + Foundation theme). Imported here because
 // Page owns <html>/<head>; every page uses Page directly or via BaseLayout.
@@ -23,9 +25,16 @@ interface Props {
   titleTemplate?: string;
   /** Layout-only class on <body> (FND-UI-06) */
   class?: string;
+  /** Current locale — localizes the SkipLink label (FND-ARCH-03). */
+  locale?: LocaleCode;
 }
 
-const { seo, titleTemplate, class: className } = Astro.props;
+const { seo, titleTemplate, class: className, locale } = Astro.props;
+
+// SkipLink label from the UI dictionary (FND-ARCH-03); English fallback only if
+// a page renders Page without a locale (defensive — every production route
+// passes one via BaseLayout / HomePage).
+const skipText = locale ? t("a11y.skipToContent", locale) : "Skip to main content";
 
 const pageTitle = composeTitle(seo.title, seo.brand, titleTemplate);
 const ogType = seo.ogType ?? "website";
@@ -78,7 +87,10 @@ const ogType = seo.ogType ?? "website";
     ))}
   </head>
   <body class={className}>
-    <SkipLink />
+    {/* Single skip-to-content link, owned by Page (FND-A11Y-08). No other
+        component renders one. Label is localized through the UI dictionary
+        via the `locale` prop (FND-ARCH-03). */}
+    <SkipLink text={skipText} />
     <slot />
   </body>
 </html>

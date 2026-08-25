@@ -28,13 +28,12 @@
  * BaseLayout because BaseLayout composes the production Header/Footer and
  * expects a RouteKey; the home page likewise uses Page directly for its chrome.
  *
- * Foundation wiring: fonts (Fraunces/Manrope) are self-hosted via
- * @fontsource-variable and loaded through global.css → fonts.css; the semantic
- * type tokens (--text-ui, --text-caption) and the "Fraunces Variable" /
- * "Manrope Variable" family names come from src/theme/versions/version-1/
- * typography.json and are emitted into generated/theme.css by theme:sync. This
- * page consumes only real theme tokens via var() — no fake demo CSS, no local
- * font/size overrides.
+ * Foundation wiring: fonts (Inter Tight for headings, Manrope for body/UI,
+ * Cormorant Garamond Italic for BrandLockup only) are loaded through
+ * global.css → fonts.css; the semantic type tokens (--text-ui, --text-caption)
+ * and the font family names come from the active Theme V2 typography.json and
+ * are emitted into generated/theme.css by theme:sync. This page consumes only
+ * real theme tokens via var() — no fake demo CSS, no local font/size overrides.
  *
  * String contract: every visible label here is an internal, non-translatable
  * tooling string (English-only). They are marked `data-foundation-allow-string`
@@ -96,7 +95,7 @@ const seo: SeoData = {
 // member expression, which the URL lint rule treats as a simple expression.
 const groups = [
   { id: "foundations", href: "#foundations", heading: "Foundations", description: "What this page verifies, font loading, and token sources." },
-  { id: "typography", href: "#typography", heading: "Typography", description: "Fraunces + Manrope and the semantic type roles." },
+  { id: "typography", href: "#typography", heading: "Typography", description: "Inter Tight headings + Manrope body/UI and the semantic type roles." },
   { id: "colors-surfaces", href: "#colors-surfaces", heading: "Colors / Surfaces", description: "Semantic palette and surface hierarchy." },
   { id: "radius", href: "#radius", heading: "Radius", description: "Section / card / control radius hierarchy." },
   { id: "spacing", href: "#spacing", heading: "Spacing", description: "Section rhythm tiers and the internal spacing scale." },
@@ -128,10 +127,10 @@ const placeholderGroups = groups.filter((g) => placeholderIds.includes(g.id));
 // are complete static strings (Tailwind detects them as literal substrings in
 // this file); every value is a var() token reference.
 const typeRoles = [
-  { role: "display", token: "--text-display", family: "Fraunces", cls: "font-heading text-[length:var(--text-display)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Chauffeured transit, by appointment" },
-  { role: "h1", token: "--text-h1", family: "Fraunces", cls: "font-heading text-[length:var(--text-h1)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Premium airport transfers" },
-  { role: "h2", token: "--text-h2", family: "Fraunces", cls: "font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Fleet and service" },
-  { role: "h3", token: "--text-h3", family: "Fraunces", cls: "font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Mercedes V-Class" },
+  { role: "display", token: "--text-display", family: "Inter Tight", cls: "font-heading text-[length:var(--text-display)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Chauffeured transit, by appointment" },
+  { role: "h1", token: "--text-h1", family: "Inter Tight", cls: "font-heading text-[length:var(--text-h1)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Premium airport transfers" },
+  { role: "h2", token: "--text-h2", family: "Inter Tight", cls: "font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Fleet and service" },
+  { role: "h3", token: "--text-h3", family: "Inter Tight", cls: "font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]", sample: "Mercedes V-Class" },
   { role: "body-lg", token: "--text-lg", family: "Manrope", cls: "font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-primary)]", sample: "Representative body-large copy used to verify measure and weight." },
   { role: "body", token: "--text-base", family: "Manrope", cls: "font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-primary)]", sample: "Representative body copy used to verify measure and weight." },
   { role: "body-sm", token: "--text-sm", family: "Manrope", cls: "font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-primary)]", sample: "Representative body-small copy used to verify measure and weight." },
@@ -229,10 +228,10 @@ const samples = {
   containedDarkLabel: "contained-dark",
   elevatedLabel: "elevated",
   lightLabel: "light",
-  sectionHeadingDesc: "Fraunces heading with optional Manrope description and a restrained short gold accent rule. No eyebrow / kicker. Level 2 or 3; left-aligned.",
+  sectionHeadingDesc: "Inter Tight heading with optional Manrope description and a restrained short platinum accent rule. No eyebrow / kicker. Level 2 or 3; left-aligned.",
   shHeadingOnly: "Fleet and service",
   shHeadingWithDesc: "How booking works",
-  shDesc: "A concise Manrope description capped to the body measure, supporting the Fraunces heading without competing with it.",
+  shDesc: "A concise Manrope description capped to the body measure, supporting the Inter Tight heading without competing with it.",
   shHeadingAccent: "Chauffeured transit, by appointment",
   shHeadingLight: "Pricing",
   shDescLight: "On a light surface the heading and description flip to the on-light text tokens via the on prop — no parallel variant.",
@@ -241,7 +240,7 @@ const samples = {
   overlayLabel: "Desktop · overlay / top-of-page",
   overlayNote: "over the hero · transparent surface · legible navigation · no glass card.",
   solidLabel: "Desktop · scrolled / solid",
-  solidNote: "compact warm-charcoal surface · sticky · subtle hairline divider · no gold line or glow.",
+  solidNote: "compact near-black graphite surface · sticky · subtle hairline divider · no glow.",
   mobileClosedLabel: "Mobile · closed",
   mobileClosedNote: "logo-only BrandLockup + menu trigger + Book discoverable (the wordmark is forced mark-only in this narrow preview frame). Toggle and Book keep 44px targets.",
   mobileOpenLabel: "Mobile · open navigation",
@@ -282,9 +281,9 @@ const samples = {
   // ── TrustStrip ──
   trustDesc: "Production TrustStrip — one contained elevated panel holding four short trust items, separated by internal hairline dividers (not four floating cards). Desktop 4 columns · tablet 2×2 · mobile stack. Resize the viewport to review the divider topology.",
   trustDarkLabel: "Dark · canonical",
-  trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained gold check marker · one shared surface, not nested cards.",
+  trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained platinum accent check marker · one shared surface, not nested cards.",
   // ── Final CTA ──
-  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained warm-charcoal → warm-brown gradient panel (Final-CTA-only gradient exception). Primary Book (gold) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only; WhatsApp is not rendered here). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified): while phone/email remain owner-confirmation-required (null/unverified), no contact row renders here — no fake placeholder values. Once verified, exactly one phone + one email appear here and in production. Booking flow routes to the contact page as the interim target.",
+  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained graphite gradient panel (Final-CTA-only gradient exception). Primary Book (platinum accent) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only; WhatsApp is not rendered here). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified): while phone/email remain owner-confirmation-required (null/unverified), no contact row renders here — no fake placeholder values. Once verified, exactly one phone + one email appear here and in production. Booking flow routes to the contact page as the interim target.",
   finalCtaHeading: "Zakazite sledeći prevoz sa nama",
   finalCtaText: "Izaberite uslugu i pošaljite detalje — jednostavne vožnje mogu imati prikaz cene, a za složenije zahteve pripremamo ponudu.",
   finalCtaPrimaryLabel: "Rezerviši",
@@ -642,16 +641,16 @@ const reviewFixtureItems: ReviewFixture[] = [
           data-foundation-allow-string
           class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
         >
-          Fonts: Fraunces (headings) and Manrope (body/UI) are self-hosted via
-          @fontsource-variable and loaded through global.css → fonts.css. The
-          family names "Fraunces Variable" / "Manrope Variable" and every size
-          token below come from the versioned token source.
+          Fonts: Inter Tight (headings), Manrope (body/UI), and Cormorant Garamond
+          Italic (BrandLockup only) are loaded through global.css → fonts.css. The
+          font family names and every size token below come from the active Theme V2
+          token source.
         </p>
         <p
           data-foundation-allow-string
           class="max-w-[var(--measure-body)] font-body text-base leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
         >
-          Token source: src/theme/versions/version-1/{`{palette,typography,spacing,radii,layout,motion}.json`}
+          Token source: src/theme/versions/version-2/{`{palette,typography,spacing,radii,layout,motion}.json`}
           → generated/theme.css (emitted by theme:sync). Components consume
           semantic tokens via var() only.
         </p>
@@ -920,7 +919,7 @@ const reviewFixtureItems: ReviewFixture[] = [
         class="mt-[var(--space-2)] max-w-[var(--measure-body)] font-body text-sm leading-[var(--line-height-body)] text-[var(--color-text-muted)]"
       >
         Inline action link (accent, underline on hover), navigation link,
-        primary CTA link (gold, button-shaped), and secondary CTA link
+        primary CTA link (platinum accent, button-shaped), and secondary CTA link
         (outlined). Links stay visually distinct from buttons.
       </p>
       <ul class="mt-[var(--space-6)] flex flex-col gap-[var(--space-5)]">

@@ -3,9 +3,7 @@ import { defineFoundationConfig } from "@astro-foundation/core";
 /**
  * Luksuzni Prevoz — site configuration.
  *
- * Identity (brand, site, locales) is authoritative here. Routes, capabilities,
- * and the performance budget are placeholders carried over from the reference
- * site — replace with the real project data.
+ * Identity (brand, site, locales) is authoritative here.
  */
 export const config = defineFoundationConfig({
   foundationVersion: "0.1.0",
@@ -17,7 +15,7 @@ export const config = defineFoundationConfig({
         code: "sr",
         htmlLang: "sr",
         hreflang: "sr",
-        label: "Српски",
+        label: "Srpski",
         dir: "ltr",
         isDefault: true,
         isXDefault: true,

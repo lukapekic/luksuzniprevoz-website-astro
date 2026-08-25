@@ -1,6 +1,6 @@
 /**
  * Foundation UI barrel exports.
- * Re-exports all variant definitions and types for use across the reference site.
+ * Re-exports all variant definitions and types for use across the production site.
  */
 export { linkVariants } from "./Link.variants.ts";
 export { buttonVariants } from "./Button.variants.ts";

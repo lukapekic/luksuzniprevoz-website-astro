@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Playwright config for the reference site.
+ * Playwright config for the production site.
  *
  * FND-COMPAT-03: 3 engines (Chromium, Firefox, WebKit) for the functional smoke
  * suite. Tests run against the production `astro build` output via

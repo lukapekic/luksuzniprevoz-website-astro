@@ -2,18 +2,17 @@
 /**
  * SectionHeading — canonical reusable section-heading composition.
  *
- * Anatomy: optional short gold accent rule → heading (H2 or H3) → optional
+ * Anatomy: optional short platinum accent rule → heading (H2 or H3) → optional
  * concise description. Heading level is configurable (2 default) without
  * changing the visual role unpredictably. Left-aligned by default; no
  * center/right variants (design-foundation-governance.md §14).
  *
- * Typography: Fraunces for the heading (font-heading), Manrope for the
+ * Typography: Inter Tight for the heading (font-heading), Manrope for the
  * description (font-body), via the approved typography utilities/tokens.
  *
- * Accent rule: restrained, short, gold, left-aligned, above the heading. It is
+ * Accent rule: restrained, short, platinum accent, left-aligned, above the heading. It is
  * NOT an uppercase eyebrow/kicker label and NOT a full-width separator
- * (design-foundation-governance.md §5/§15). Dark text is never set on gold here
- * — gold is the rule fill only.
+ * (design-foundation-governance.md §5/§15).
  *
  * Surface: `on` controls the text-color treatment so the same semantic tokens
  * handle dark and light surfaces without a parallel variant matrix. `on="light"`
@@ -34,7 +33,7 @@ interface Props {
   level?: 2 | 3;
   /** Surface the heading sits on — drives text color (default dark) */
   on?: "dark" | "light";
-  /** Show the short gold accent rule above the heading (default false) */
+  /** Show the short platinum accent rule above the heading (default false) */
   accent?: boolean;
   /** Element id (for aria-labelledby on the parent <Section>) */
   id?: string;

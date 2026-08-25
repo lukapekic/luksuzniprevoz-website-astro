@@ -72,6 +72,38 @@
     {
       "name": "tailwind-v4",
       "status": "existing-separate-skill"
-    }
+    },
+    {
+    "name": "design-governance",
+    "required_for": ["all production UI work", "agent entry/exit workflow"]
+  },
+  {
+    "name": "design-shape",
+    "required_for": ["new page planning", "major section planning"]
+  },
+  {
+    "name": "design-audit",
+    "required_for": ["technical design audit"]
+  },
+  {
+    "name": "design-critique",
+    "required_for": ["visual UX critique"]
+  },
+  {
+    "name": "design-polish",
+    "required_for": ["final visual refinement"]
+  },
+  {
+    "name": "design-harden",
+    "required_for": ["edge-case hardening", "i18n resilience"]
+  },
+  {
+    "name": "design-adapt",
+    "required_for": ["responsive adaptation"]
+  },
+  {
+    "name": "design-craft-floor",
+    "required_for": ["immediately before production UI editing"]
+  }
   ]
 }

@@ -2,18 +2,18 @@
 /**
  * FinalCTA — reusable closing conversion section (shared section-pattern).
  *
- * Contract: docs/home/home-components/11-final-cta.md (exact V1 spec)
+ * Contract: docs/home/home-components/11-final-cta.md
  * Design:  DESIGN.md §7 (component identity — "medium-height conversion closer,
  *          must not become a second Hero") / §8 (CTA hierarchy) / §9 (imagery)
- * Tokens: 00-token-matrix.md (locked color/space/radius vars)
+ * Tokens: active Theme V2 semantic color/space/radius roles
  *
  * Composes the approved foundation primitives rather than hand-rolling them:
  *   <Section spacing="feature" surface="open-dark">  — owns vertical rhythm only
  *   <PageContainer>                                   — max-w --container-main + page gutter
- *   <SectionHeading id>                               — Fraunces H2 + Manrope description
- *   <Link variant="cta" | "button">                   — gold primary / outlined secondary CTAs
+ *   <SectionHeading id>                               — Inter Tight H2 + Manrope description
+ *   <Link variant="cta" | "button">                   — platinum accent primary / outlined secondary CTAs
  *
- * The architectural panel itself (warm restrained gradient + --radius-section +
+ * The architectural panel itself (restrained gradient + --radius-section +
  * overflow hidden + 62/38 grid) is component-specific styling built only on
  * locked tokens in a scoped <style> block — the Section primitive's
  * `contained-dark` surface puts bg/radius and feature padding on the same
@@ -21,11 +21,10 @@
  * contradicts the locked "tight panel + external feature rhythm" contract, so
  * the panel is rendered explicitly here.
  *
- * Gradient (11 §Panel): warm-charcoal → warm-brown, restrained — the sanctioned
+ * Gradient (11 §Panel): restrained graphite gradient — the sanctioned
  * Final-CTA-only gradient exception (design-foundation-governance.md §20). No
- * gold, no glow, no gradient text, no glass. Built from --color-background →
- * --color-surface-elevated only — no raw rgba (unlike the rejected home
- * FinalCTA scrim), so it survives `no-raw-design-value`.
+ * glow, no gradient text, no glass. Built from --color-background →
+ * --color-surface-elevated only — no raw rgba, so it survives `no-raw-design-value`.
  *
  * Image (11 §Image): right-zone vehicle, object-contain for transparent
  * cutouts (locked intent) / object-cover for contextual photos, blended on the
@@ -38,10 +37,10 @@
  * correct placeholder > wrong asset > redesign).
  *
  * CTA hierarchy is structural and holds for any localized labels (DESIGN.md §8):
- *   primary   = Book              → <Link variant="cta">   (gold, accent + textOnLight)
+ *   primary   = Book              → <Link variant="cta">   (platinum accent, accent + textOnLight)
  *   secondary = Request a Quote   → <Link variant="button"> (outlined, dark/transparent)
  *   tertiary  = phone/email       → muted <a> text links, subordinate (not pill-heavy,
- *                                       not gold, no equal weight with the CTAs). FinalCTA
+ *                                       no equal weight with the CTAs). FinalCTA
  *                                       renders ONE phone + ONE email only (task 2D) —
  *                                       WhatsApp is intentionally not rendered here.
  *
@@ -158,13 +157,13 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
 </Section>
 
 <style>
-  /* --- Panel: contained architectural panel, warm restrained gradient (11 §Panel) */
+  /* --- Panel: contained architectural panel, restrained graphite gradient (11 §Panel) */
   .fcta-panel {
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-section);
-    /* warm-charcoal → warm-brown, restrained. Final-CTA-only gradient exception.
-       Tokens only — no gold, no glow, no raw rgba. */
+    /* Restrained graphite gradient. Final-CTA-only gradient exception.
+       Tokens only — no glow, no raw rgba. */
     background: linear-gradient(
       135deg,
       var(--color-background) 0%,
@@ -189,7 +188,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     min-block-size: auto;
   }
 
-  /* --- CTA group: primary (gold cta) + secondary (outlined button), gap space-3 */
+  /* --- CTA group: primary (platinum accent cta) + secondary (outlined button), gap space-3 */
   .fcta-actions {
     display: flex;
     flex-wrap: wrap;
@@ -211,7 +210,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
   }
 
   /* --- Tertiary contacts: compact muted text links, subordinate (11 §Contact row).
-     Not pill-heavy, not gold. min-h-11 touch target (FND-A11Y-05). */
+     Not pill-heavy. min-h-11 touch target (FND-A11Y-05). */
   .fcta-contacts {
     display: flex;
     flex-wrap: wrap;
