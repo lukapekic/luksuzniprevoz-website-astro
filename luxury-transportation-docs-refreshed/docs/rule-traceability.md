@@ -59,7 +59,7 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-LIFE-09 | auto:script | script, validator |
 | FND-META-03 | auto:script | validator |
 | FND-META-07 | review/guidance | docs |
-| FND-META-08 | review/guidance | docs |
+| FND-META-08 | auto:script | docs, script |
 | FND-META-09 | auto:script | docs, script |
 | FND-META-10 | auto:script | docs, script, validator |
 | FND-PERF-03 | review/guidance | docs |
