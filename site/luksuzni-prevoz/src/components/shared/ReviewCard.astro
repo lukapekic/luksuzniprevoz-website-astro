@@ -1,0 +1,151 @@
+---
+/**
+ * ReviewCard — one social-proof review excerpt (shared, presentation-only).
+ *
+ * Contract: docs/home/home-components/10-reviews.md (GoogleReviews V1.1).
+ * Wireframe authority: docs/home/reference/wireframe.html §REVIEWS card anatomy
+ *   = rating → review excerpt → reviewer name (pushed to the card foot). The
+ *   wireframe draws NO per-card Google destination link and NO avatar, so this
+ *   card renders neither (the view model still carries those slots for the
+ *   future package; they are simply not surfaced yet).
+ *
+ * Composition: `<article class="review-card">` is the single child of a carousel
+ * `<li>`. The carousel's track is `display:flex` with the default `align-items:
+ * stretch`, so every `<li>` stretches to the tallest card's height; `block-size:
+ * 100%` here fills that stretched `<li>` (percentage height resolves to auto /
+ * content height when the parent is indefinite, so the card degrades cleanly
+ * outside a stretch context). The author row uses `margin-block-start:auto` so
+ * names align across cards of differing excerpt length — the wireframe `mt-auto`
+ * pattern. No brutal line-clamping (task §24 / 10-reviews.md "stable readable
+ * footprint without forcing a decorative fixed height").
+ *
+ * Rating treatment (task §20 / 10-reviews.md "restrained rating"): five small
+ * star glyphs in the platinum accent (`--color-accent`) for filled, muted
+ * (`--color-border-subtle`) for empty — NOT gold/yellow, NOT oversized. Stars
+ * are `aria-hidden`; the rating container carries `role="img"` + a full
+ * localized numeric label ("5 od 5") so the rating never relies on glyphs alone
+ * (WCAG 1.1.1 / accessibility-wcag.md). No icon package — a single static SVG
+ * star path.
+ *
+ * Typography/color: quote → `textPrimary` (Manrope); name → `textPrimary` small
+ * semibold; relative time → `textMuted`. Surface → `surfaceElevated` + `card`
+ * radius, no heavy shadow/border (10-reviews.md). class passthrough is layout-
+ * only (FND-UI-06). CSS logical properties only (FND-I18N-13). Static — no JS.
+ */
+import type { ReviewCardProps } from "./ReviewCard.types.ts";
+
+type Props = ReviewCardProps;
+
+const { id, authorName, rating, text, relativeTime, ratingLabel, class: className } =
+  Astro.props;
+
+// Five stars keyed by index — complete static class strings, never constructed
+// dynamically (tailwind-v4.md §12/§13). Filled stars use the platinum accent;
+// empty stars use the muted border token. Both render the same solid SVG path;
+// only the foreground color differs.
+const STAR_COUNT = 5;
+---
+<article
+  id={id}
+  class:list={["review-card", className]}
+>
+  <div class="review-card__rating" role="img" aria-label={ratingLabel}>
+    <span class="review-card__stars" aria-hidden="true">
+      {Array.from({ length: STAR_COUNT }).map((_, i) => (
+        <svg
+          class:list={[
+            "review-card__star",
+            i >= rating && "review-card__star--empty",
+          ]}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+        </svg>
+      ))}
+    </span>
+  </div>
+
+  <blockquote class="review-card__quote">
+    <p>{text}</p>
+  </blockquote>
+
+  <div class="review-card__attr">
+    <span class="review-card__name">{authorName}</span>
+    {relativeTime ? (
+      <span class="review-card__time">{relativeTime}</span>
+    ) : null}
+  </div>
+</article>
+
+<style>
+  /* Card surface: elevated semantic surface + card radius, no heavy border/
+     shadow (10-reviews.md). Flex column with the author row pushed to the foot
+     via margin-block-start:auto. block-size:100% fills the stretched carousel
+     <li>; resolves to content height when the parent is indefinite. */
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    block-size: 100%;
+    padding: var(--space-6);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-elevated);
+  }
+
+  /* Rating row: small platinum stars. No gold, no oversized yellow treatment. */
+  .review-card__stars {
+    display: inline-flex;
+    gap: var(--space-1);
+  }
+  .review-card__star {
+    inline-size: 1rem;
+    block-size: 1rem;
+    color: var(--color-accent);
+  }
+  .review-card__star--empty {
+    color: var(--color-border-subtle);
+  }
+
+  /* Review excerpt: primary text, body measure/leading. Normal selectable text
+     (accessibility-wcag.md). No line-clamp (task §24). */
+  .review-card__quote {
+    margin: 0;
+  }
+  .review-card__quote p {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+  }
+
+  /* Author row: pushed to the card foot (mt-auto) so names align across cards
+     of differing excerpt length (wireframe mt-auto pattern). Name semibold
+     primary; relative time muted, separated by a quiet middot. */
+  .review-card__attr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1);
+    margin-block-start: auto;
+  }
+  .review-card__name {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .review-card__time {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .review-card__time::before {
+    content: "·";
+    margin-inline-end: var(--space-1);
+    color: var(--color-text-muted);
+  }
+</style>

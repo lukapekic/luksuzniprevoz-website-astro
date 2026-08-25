@@ -3,7 +3,7 @@ name: astro-architecture
 description: Use whenever changing project architecture, components, data flow, dependencies, TypeScript types/config, folder structure, or refactoring anything across the Astro Foundation monorepo. Covers the static-first Astro model, folder ownership, primitives, generated artifacts, and the enforced ESLint contract.
 workstream: architecture
 applies-to: "packages/, examples/, scripts/, foundation.config.ts, astro.config.mjs, tsconfig.json"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Astro Architecture
@@ -60,7 +60,7 @@ These hard-fail the gate. Every architecture change must keep them green:
 | `no-legacy-collection` | FND-DATA-06 | no legacy collection definitions |
 
 ## Procedure
-1. **Read the area first.** Confirm the target folder, primitive, or helper actually exists in this repo (don't assume a generic Astro API). Cross-check against `docs/AGENTS.md`.
+1. **Read the area first.** Confirm the target folder, primitive, or helper actually exists in this repo (don't assume a generic Astro API). Cross-check against `AGENTS.md`.
 2. **Reuse before creating.** Look for a foundation helper or primitive that already centralizes the needed behavior (routing, SEO, schema, i18n, image, theme). Only add new code when reuse would not centralize correctness or remove meaningful duplication.
 3. **Keep it static.** Reach for an island (`client:*`) only for genuine client-side interaction, and add the `// island: <reason>` comment. Prefer server-rendered-at-build-time, zero-JS output.
 4. **Keep folders owned.** Put primitives in `foundation/`, composition in `components/`, data in `data/`. Don't leak one concern into another's owner.
@@ -104,4 +104,4 @@ These hard-fail the gate. Every architecture change must keep them green:
 - A gate fails and the only clear fix would **weaken or disable an enforced rule** → escalate; consider a documented waiver (see `docs/exceptions.md`) instead.
 - You need to **change a `@astro-foundation/core` public API** → escalate (consumers depend on it).
 - You need to **add a runtime dependency** → justify it against the performance budget (`maxJsKb`, `maxIslandsPerRoute`) and the third-party/consent model first.
-- A requirement conflicts with `docs/AGENTS.md` or a non-waivable rule (e.g. FND-A11Y-01) → do not proceed silently; log a waiver or escalate.
+- A requirement conflicts with `AGENTS.md` or a non-waivable rule (e.g. FND-A11Y-01) → do not proceed silently; log a waiver or escalate.

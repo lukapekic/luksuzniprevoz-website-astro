@@ -3,7 +3,7 @@ name: responsive-images-performance
 description: Use for images, fonts, LCP/INP/CLS (Core Web Vitals), loading strategy, layout stability, client JS/hydration budget, and Astro image optimization. Covers the Image primitive roles and the configured performance budget.
 workstream: performance-images
 applies-to: "images (src/assets, public/images), fonts, <Image> primitive usage, client:* islands, foundation.config.ts (performanceBudget), astro.config.mjs (image domains)"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Responsive Images & Performance

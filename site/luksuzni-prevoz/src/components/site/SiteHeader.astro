@@ -198,15 +198,23 @@ const leafServices = servicesChildren.filter(isLeaf);
         </ul>
       </nav>
 
-      <!-- Actions: language switcher dropdown + Book CTA + mobile trigger -->
+      <!-- Actions: language switcher dropdown + Book CTA + mobile trigger.
+           The desktop LanguageSwitcher is wrapped in a SiteHeader-owned
+           .lang-switcher div so the scoped responsive visibility rule (hidden
+           below lg, shown at lg+) actually matches — a class forwarded onto
+           LanguageSwitcher's root compiles with SiteHeader's cid, but the
+           rendered node carries LanguageSwitcher's own cid, so the rule never
+           matched (AGENTS.md §7; DESIGN.md §15). Mobile uses the in-panel
+           LanguageSwitcher below. -->
       <div class="header-actions">
-        <LanguageSwitcher
-          currentLocale={currentLocale}
-          currentRouteKey={currentRouteKey}
-          class="lang-switcher"
-          ariaLabel={langLabel}
-          idPrefix={`${idPrefix}-lang`}
-        />
+        <div class="lang-switcher">
+          <LanguageSwitcher
+            currentLocale={currentLocale}
+            currentRouteKey={currentRouteKey}
+            ariaLabel={langLabel}
+            idPrefix={`${idPrefix}-lang`}
+          />
+        </div>
         <Link to="contact" variant="cta" size="sm" class="book-cta">
           {bookLabel}
         </Link>
@@ -325,7 +333,7 @@ const leafServices = servicesChildren.filter(isLeaf);
             idPrefix={`${idPrefix}-m-lang`}
           />
         </div>
-        <Link to="contact" variant="cta" size="sm" class="book-cta book-cta--mobile w-full">
+        <Link to="contact" variant="cta" size="sm" class="book-cta w-full">
           {bookLabel}
         </Link>
       </div>
@@ -500,10 +508,11 @@ const leafServices = servicesChildren.filter(isLeaf);
     gap: var(--space-3);
     justify-self: end;
   }
+  /* Desktop (lg+) LanguageSwitcher visibility: hidden below lg (mobile uses the
+     in-panel switcher), shown at lg+. display:flex avoids the inline-block
+     baseline strut so the globe trigger centers cleanly in the header row. */
   .lang-switcher { display: none; }
-  @media (min-width: 64rem) { .lang-switcher { display: block; } }
-
-  .book-cta--mobile { min-block-size: 3rem; }
+  @media (min-width: 64rem) { .lang-switcher { display: flex; align-items: center; } }
 
   .menu-toggle {
     display: inline-flex;

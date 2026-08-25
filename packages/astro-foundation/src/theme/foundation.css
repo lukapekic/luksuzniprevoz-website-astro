@@ -42,8 +42,16 @@ html {
   }
 }
 
-/* No horizontal overflow — FND-RESP-03 */
-html,
-body {
+/* No horizontal overflow — FND-RESP-03.
+   Only html carries overflow-x:hidden. Adding body here made body a scroll
+   container (overflow-y:visible clamps to auto when the other axis is hidden),
+   which became the nearest overflow ancestor for SiteHeader's position:sticky —
+   so the header stuck to body's scrollport and scrolled off with the viewport
+   instead of pinning to the viewport. With body's overflow back at visible
+   (both axes, no clamping), body is not a scroll container, so the header's
+   nearest scroll-container ancestor is the viewport (html propagates its
+   overflow to the viewport) and sticky pins to the viewport. html alone still
+   clips horizontal overflow (FND-RESP-03). */
+html {
   overflow-x: hidden;
 }

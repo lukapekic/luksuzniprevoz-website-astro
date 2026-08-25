@@ -504,7 +504,7 @@ Before creating a component:
 Reject:
 
 ```text
-<Button gold rounded="xl" shadow />
+<Button rawColor="metallic" rounded="xl" shadow />
 ```
 
 Reject:

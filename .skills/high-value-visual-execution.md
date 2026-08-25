@@ -42,7 +42,7 @@ Solve hierarchy using:
 Decoration comes last.
 
 Do not solve weak hierarchy with:
-- gold;
+- decorative metallic accent;
 - shadow;
 - glow;
 - border;
@@ -107,7 +107,7 @@ Final CTA
 all look like:
 
 ```text
-full background image + big serif heading + gold button
+full background image + oversized decorative heading + metallic-accent button
 ```
 
 The site needs visual rhythm through different composition identities.
@@ -202,17 +202,17 @@ Do not invent overlapping asymmetry elsewhere to make the page "designer."
 Light panels should feel integrated with the dark system.
 
 Use:
-- warm cream;
+- light-neutral semantic surface;
 - dark text;
-- scarce gold;
+- restrained platinum detail;
 - same typography;
 - same radius language.
 
 Do not turn light sections into generic SaaS white dashboards.
 
-## 12. Gold restraint
+## 12. Platinum restraint
 
-If gold appears in:
+If platinum/metallic accent appears in:
 
 - every icon;
 - every line;
@@ -222,7 +222,7 @@ If gold appears in:
 
 the page has failed.
 
-Gold should feel intentional because it is rare.
+Platinum should feel intentional because it is restrained.
 
 ## 13. Hero quality
 
@@ -305,7 +305,7 @@ Prefer:
 After implementing page, list each major section's composition:
 
 ```text
-Hero          contained image background
+Hero          blueprint-defined full-bleed/contained cinematic entrance
 Services      open mosaic
 Split         open 5/7
 Trust         contained strip
@@ -329,7 +329,7 @@ Reject default use of:
 - gradient text;
 - giant pill UI;
 - huge soft radii;
-- glowing gold edges;
+- glowing metallic edges;
 - constant card shadows;
 - card lift;
 - image zoom;
@@ -360,8 +360,8 @@ Do not make random batches of visual tweaks.
 
 Known failure patterns to explicitly guard against:
 
-- correct dark/gold palette but wrong overall structure;
-- generic serif instead of verified Fraunces;
+- correct Black & Platinum palette but wrong overall structure;
+- wrong/fallback heading font instead of verified Inter Tight;
 - H1 too large and wrapping into 3+ dominant lines;
 - required hero supporting region omitted;
 - secondary CTA replaced with unrelated action;
@@ -385,7 +385,7 @@ Ask:
 5. Are section identities distinct?
 6. Is imagery carrying enough visual weight?
 7. Is typography actually the brand typography?
-8. Is gold rare?
+8. Is platinum restrained?
 9. Does Final CTA feel different from Hero?
 10. Does whitespace correspond to content?
 11. Did implementation preserve the blueprint rather than simplify it?
@@ -398,7 +398,7 @@ If several answers are weak, page is not ready.
 PRIMARY HIERARCHY:
 SECTION RHYTHM:
 CARDIFICATION RISK:
-GOLD USE:
+PLATINUM USE:
 IMAGE ROLE:
 HERO VS FINAL CTA:
 WHITESPACE:

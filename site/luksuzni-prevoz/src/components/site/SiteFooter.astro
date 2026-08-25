@@ -2,50 +2,71 @@
 /**
  * SiteFooter — global site footer (chrome) for Luxury Transportation.
  *
- * Compact, dark, 3-zone desktop composition that sits immediately below the
- * Final CTA and is deliberately subordinate to it: no conversion messaging,
- * no newsletter, no sitemap, no second CTA, no parent-company prose (DESIGN.md
- * §6 content-density, §13 rejected-footer lessons — "footer made
- * disproportionately tall/empty" + "public brand name translated instead of
- * preserved").
+ * P9 — "Low Horizon" variant. A deliberately quiet cinematic closing frame that
+ * sits immediately below the Final CTA and is subordinate to it: no conversion
+ * messaging, no newsletter, no sitemap, no second CTA, no oversized brand
+ * billboard (DESIGN.md §6 content-density, §13 rejected-footer lessons —
+ * "footer made disproportionately tall/empty", "footer becoming a second Hero").
  *
- *   Zone 1  Brand      — real BrandLockup (logo.webp + "Luxury
- *                        Transportation" wordmark). NO competing parent-company
- *                        / "Luksuzni Prevoz" paragraph beneath it — the public
- *                        brand identity is owned solely by BrandLockup. The
- *                        GrandSolution relationship belongs in About context.
+ *   Zone 1  Brand      — the GS mark only (src/assets/logo.webp). BrandLockup is
+ *                        intentionally NOT used: it inherently carries the
+ *                        "Luxury Transportation" wordmark, which the Low
+ *                        Horizon direction removes from the Footer. The mark
+ *                        is small, high-contrast, and quiet; the Footer is
+ *                        GrandSolution-identified (GS mark + "© GrandSolution"
+ *                        in the bottom row). The mark links home.
  *   Zone 2  Navigation — route-derived Services + Company link groups
- *                        (navigation.footer), labeled via getNavLabel. On
- *                        desktop/tablet the two groups sit side-by-side so the
- *                        middle zone stays balanced instead of one tall stack.
- *   Zone 3  Contact    — verified-only channels (contact.ts gating) +
- *                        verified headquarters location + office-hours facts +
- *                        response note. Location lives here, not in the bottom
- *                        row, so the bottom row stays a single compact line.
+ *                        (navigation.footer), labeled via getNavLabel. Desktop
+ *                        places the two groups side-by-side inside the central
+ *                        nav zone (one coherent navigation group, floor-locked
+ *                        minmax tracks) so the middle stays balanced rather
+ *                        than one tall stack.
+ *   Zone 3  Contact    — the strongest informational block (P9.1 hierarchy):
+ *                        verified-only channels (contact.ts gating) at
+ *                        highest emphasis, then office hours and the verified
+ *                        office address (contact.office, street / postal+city /
+ *                        country) as secondary muted facts, then the response
+ *                        note as the smallest, most muted line.
+ *
+ *   Bottom row          — a single restrained line, split left/right on
+ *                        desktop: "© {year} GrandSolution · {rights}" (legal/
+ *                        operating identity from business.ts) on the left, and
+ *                        the verified headquarters city/country on the right.
+ *
+ * Low Horizon treatment (P9.1): the generic border between the body and the
+ * bottom row is replaced by a 1px platinum horizon — a horizontal
+ * linear-gradient (transparent → low-opacity --color-accent → center peak →
+ * transparent) with a barely-visible radial glow centered on the line. Both
+ * are CSS pseudo-elements, so they are automatically excluded from the
+ * accessibility tree. Footer background gains subtle vertical depth
+ * (--color-surface at the top fading to --color-background) plus the original
+ * near-subliminal top platinum wash, all in one background system so the
+ * bottom row reads as the final fade-out of one composition rather than a
+ * separate legal sub-footer.
  *
  * Compliance:
  * - FND-I18N-03: every internal href via getPath() from the route map, never
  *   manually concatenated. Works for sr/en/ru via the locale routing helpers.
  * - FND-ARCH-03: every user-visible string via t() / getNavLabel; facts via
  *   business.ts / contact.ts. No invented contact/legal/office data.
- * - Brand: reuses the approved BrandLockup (variant="full" — wordmark always
- *   visible, the Footer/standalone mode per BrandLockup's contract) — no
- *   second logo or wordmark implementation, no generated monogram square.
+ * - Brand: the GS mark is rendered directly from the existing logo.webp asset
+ *   (no BrandLockup, no recreated/text logo, no new logo). The mark's accessible
+ *   name is the canonical operating identity (business.parentCompany.name).
  * - Verified-only contact: a null/unverified phone/email/whatsapp never ships
  *   as a clickable tel:/mailto:/wa.me (contact.ts gating contract). While all
- *   channels are unverified, the contact column shows location + office hours
- *   + response note only — no fabricated channels.
+ *   channels are unverified, the contact column shows office hours + response
+ *   note only — no fabricated channels.
  * - Office hours are a structural fact (business.supportModel.officeHours);
- *   no 24/7 / instant-booking / last-minute claim is made (the known project
- *   positioning is not a public 24/7 last-minute service — supportModel
- *   public247SupportClaim is false).
- * - Location is the verified headquarters fact (business.headquarters,
- *   verificationStatus "verified") — not an invented address.
+ *   no 24/7 / instant-booking / last-minute claim is made.
+ * - Location is the verified headquarters fact (business.headquarters city/
+ *   country, verificationStatus "verified") — not an invented address.
  * - No islands: entirely server-rendered, zero client JS.
  * - WCAG 2.2 AA: one <footer> landmark + a single aria-labeled <nav>; links
- *   carry aria-current + visible focus-visible; DOM order matches mobile
- *   reading order (brand → services → company → contact → bottom row).
+ *   carry aria-current + visible focus-visible; the decorative horizon glow
+ *   is a pseudo-element (excluded from AT); DOM order matches mobile reading
+ *   order (brand → services → company → contact → bottom row).
  */
+import { Image } from "astro:assets";
 import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
@@ -53,7 +74,7 @@ import { navigation, getNavLabel, type NavLeaf } from "../../data/navigation.ts"
 import { business } from "../../data/business.ts";
 import { contact, isVerified } from "../../data/contact.ts";
 import { t } from "../../lib/i18n.ts";
-import BrandLockup from "../../foundation/ui/BrandLockup.astro";
+import logoImg from "../../assets/logo.webp";
 import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
 
 interface Props {
@@ -101,34 +122,61 @@ const whatsappHref = whatsapp
 
 // Structural facts (one source, all locales) — not prose, not invented.
 const officeHoursFact = business.supportModel.officeHours; // e.g. "08:00-18:00"
-// Verified launch address (business.headquarters, verificationStatus "verified")
-// — the real street address, NOT a generic "Belgrade, Serbia" line (task 3B).
-// Gated on verification like the phone/email channels above; degrades to
-// city/country if the address were ever unverified. Rendered ONCE here in the
-// contact column — NOT repeated in the bottom row (which stays a single
-// copyright line, §13 footer dead-space lesson).
-const addressVerified = business.headquarters.verificationStatus === "verified";
-const locationLine = addressVerified
-  ? business.headquarters.streetAddress
-  : `${business.headquarters.city}, ${business.headquarters.country}`;
+// Localized days label + structural hours range, joined with a punctuation
+// separator (same convention as the copyright line — not translated content).
+const hoursLine = `${hoursDaysLabel} · ${officeHoursFact}`;
+
+// Full office address for the Contact column — verified contact.office only
+// (same gating contract as the channels: an unverified/null address never
+// ships). Structured fields render as three compact lines: street /
+// postal+city / country. Nothing is hardcoded; every line comes from contact.ts.
+const officeAddressVerified =
+  contact.office.verificationStatus === "verified" && contact.office.address !== null;
+const officeAddressLines = officeAddressVerified
+  ? [
+      contact.office.address,
+      `${contact.office.postalCode} ${contact.office.city}`,
+      contact.office.country,
+    ]
+  : [];
+
+// Bottom-row compact location — verified headquarters city/country
+// (business.headquarters, verificationStatus "verified"). Rendered ONCE here
+// in the bottom row; the detailed street address lives in the Contact column.
+const locationLine = `${business.headquarters.city} · ${business.headquarters.country}`;
 
 // --- Bottom row -----------------------------------------------------------
+// Copyright carries the canonical operating/legal identity (business.parentCompany
+// .name = "GrandSolution"), not the public wordmark — the Low Horizon Footer is
+// GrandSolution-identified. Year is computed at build time, never hardcoded.
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="site-footer__shell">
     <div class="site-footer__grid">
-      {/* 1. Brand — real logo.webp + "Luxury Transportation" wordmark only.
-            No parent-company / "Luksuzni Prevoz" paragraph: the public brand
-            identity is owned solely by BrandLockup (§13 brand-preservation). */}
+      {/* 1. Brand — GS mark only (logo.webp). No "Luxury Transportation" wordmark:
+            the Low Horizon Footer is GrandSolution-identified. BrandLockup is
+            intentionally not used (it inherently carries the wordmark). The mark
+            is sized via .site-footer__logo (token-based, quiet anchor: larger at
+            desktop, scaled down on mobile/tablet). */}
       <div class="site-footer__col site-footer__col--brand">
-        <BrandLockup locale={currentLocale} href={homeHref} variant="full" />
+        <a class="site-footer__brand" href={homeHref} aria-label={business.parentCompany.name}>
+          <Image
+            src={logoImg}
+            alt=""
+            aria-hidden="true"
+            width={70}
+            height={52}
+            class="site-footer__logo"
+            loading="eager"
+          />
+        </a>
       </div>
 
       {/* 2. Navigation — one <nav> landmark. Services + Company sit
-            side-by-side on desktop/tablet (sub-grid) so the zone stays
-            balanced instead of one tall stacked column. */}
+            side-by-side inside the central nav zone (desktop) so the middle
+            stays balanced instead of one tall stacked column. */}
       <nav class="site-footer__nav" aria-label={footerNavLabel}>
         <div class="site-footer__nav-cols">
           <div class="site-footer__nav-col">
@@ -169,78 +217,118 @@ const year = new Date().getFullYear();
         </div>
       </nav>
 
-      {/* 3. Contact — verified-only channels + verified location + hours. */}
+      {/* 3. Contact — the strongest informational block (P9.1 hierarchy):
+            verified channels first (highest emphasis), then hours + full
+            verified office address as secondary muted facts, then the response
+            note as the smallest, most muted line. Compact location stays in the
+            bottom row — the street address is not duplicated there. */}
       <div class="site-footer__col site-footer__col--contact">
         <p class="site-footer__group-label">{contactLabel}</p>
-        <ul class="site-footer__list site-footer__list--contact" role="list">
-          {phone && phoneHref ? (
-            <li>
-              <a class="site-footer__link" href={phoneHref}>{phone}</a>
-            </li>
-          ) : null}
-          {email && emailHref ? (
-            <li>
-              <a class="site-footer__link" href={emailHref}>{email}</a>
-            </li>
-          ) : null}
-          {whatsapp && whatsappHref ? (
-            <li>
-              <a class="site-footer__link" href={whatsappHref} rel="noopener noreferrer">{whatsapp}</a>
-            </li>
-          ) : null}
-          <li class="site-footer__fact">{locationLine}</li>
-          <li class="site-footer__fact">{hoursDaysLabel} {officeHoursFact}</li>
-        </ul>
+        {phoneHref || emailHref || whatsappHref ? (
+          <ul class="site-footer__list site-footer__channels" role="list">
+            {phone && phoneHref ? (
+              <li>
+                <a class="site-footer__link site-footer__link--channel" href={phoneHref}>{phone}</a>
+              </li>
+            ) : null}
+            {email && emailHref ? (
+              <li>
+                <a class="site-footer__link site-footer__link--channel" href={emailHref}>{email}</a>
+              </li>
+            ) : null}
+            {whatsapp && whatsappHref ? (
+              <li>
+                <a class="site-footer__link site-footer__link--channel" href={whatsappHref} rel="noopener noreferrer">{whatsapp}</a>
+              </li>
+            ) : null}
+          </ul>
+        ) : null}
+        <p class="site-footer__fact">{hoursLine}</p>
+        {officeAddressLines.length > 0 ? (
+          <address class="site-footer__address">
+            {officeAddressLines.map((line) => (
+              <span class="site-footer__address-line">{line}</span>
+            ))}
+          </address>
+        ) : null}
         <p class="site-footer__note">{officeNote}</p>
       </div>
     </div>
 
     <div class="site-footer__bottom">
       <p class="site-footer__copy">
-        © {year} {business.publicBrand} · {rightsLabel}
+        © {year} {business.parentCompany.name} · {rightsLabel}
       </p>
+      <p class="site-footer__locale">{locationLine}</p>
     </div>
   </div>
 </footer>
 
 <style>
-  /* --- Surface: dark, subtle top divider, no rounded outer panel ---------
+  /* --- Surface: one graphite-depth background system (P9.1 background depth).
      No top margin: the footer sits compactly below the Final CTA, which owns
-     its own bottom rhythm. The 1px border is the restrained separator
-     (§Surface: prefer surface contrast/spacing over a decorative heavy rule). */
+     its own bottom rhythm. The 1px top border is the restrained separator.
+     The layered background gives the upper footer slightly elevated graphite
+     (--color-surface) fading back to near-black (--color-background) toward
+     the bottom row — the "final fade-out" — with the near-subliminal platinum
+     top wash retained. All values are semantic Theme V2 roles via color-mix;
+     gradients are plain CSS backgrounds, so they stay outside the
+     accessibility tree. */
   .site-footer {
-    background: var(--color-surface);
+    position: relative;
     border-block-start: 1px solid var(--color-border-subtle);
+    background:
+      radial-gradient(
+        ellipse 65% 55% at 50% 0%,
+        color-mix(in srgb, var(--color-accent) 4%, transparent),
+        transparent 70%
+      ),
+      linear-gradient(180deg, var(--color-surface), var(--color-background) 55%);
   }
 
   .site-footer__shell {
+    position: relative;
+    z-index: 1;
     width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
     margin-inline: auto;
-    padding-block: clamp(2rem, 4vw, 3rem);
+    /* Generous but restrained top rhythm; compact bottom so the closing row
+       reads as a fade-out, not a second sub-footer band (§compact). */
+    padding-block: clamp(2.25rem, 4vw, 3.25rem) clamp(1.25rem, 2vw, 1.75rem);
   }
 
-  /* --- Grid: mobile = single stack; tablet = brand full row + nav/contact
-     2 cols; desktop = 3 zones (brand / nav / contact). The navigation zone
-     internally splits Services | Company so the middle never becomes one
-     tall stacked column (§6 content-density proportionality). ------------- */
+  /* --- Grid: mobile = single stack; tablet = brand|nav row + contact row;
+     desktop = 3 zones (brand / nav / contact). The navigation zone internally
+     splits Services | Company so the middle never becomes one tall column
+     (§6 content-density proportionality). The brand zone stays small and quiet
+     (just the GS mark), so it gets the narrowest track on desktop. ---------- */
   .site-footer__grid {
     display: grid;
     gap: clamp(2rem, 5vw, 3rem);
   }
   @media (min-width: 48rem) {
     .site-footer__grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: auto 1fr;
       align-items: start;
     }
-    .site-footer__col--brand {
+    /* Contact drops to its own full-width row on tablet — do not squeeze the
+       four desktop columns too early. */
+    .site-footer__col--contact {
       grid-column: 1 / -1;
     }
   }
   @media (min-width: 64rem) {
     .site-footer__grid {
-      grid-template-columns: 4fr 5fr 3fr;
+      /* Three main zones (P9.1): quiet GS anchor / coherent nav group /
+         contact destination. minmax floors keep the nav zone and contact
+         column usable at lg (1024px) instead of collapsing into equal fr
+         slices — verified: at 64rem the floors resolve brand ≈ 8.75rem,
+         nav = 26.25rem, contact = 18.75rem. */
+      grid-template-columns:
+        minmax(7.5rem, 0.65fr)
+        minmax(26.25rem, 1.55fr)
+        minmax(18.75rem, 1fr);
     }
-    .site-footer__col--brand {
+    .site-footer__col--contact {
       grid-column: auto;
     }
   }
@@ -248,6 +336,46 @@ const year = new Date().getFullYear();
   /* --- Brand column ----------------------------------------------------- */
   .site-footer__col--brand {
     margin-block-end: var(--space-2);
+  }
+  /* GS mark: quiet anchor, no card/border/glow. Scaled from spacing tokens —
+     mobile/tablet stays compact (space-8 ≈ 45px wide); desktop grows to a
+     stronger but restrained presence (space-10 ≈ 54px wide, within the
+     52–60px P9.1 target). Aspect ratio is preserved by width/height attrs +
+     object-contain. */
+  .site-footer__logo {
+    block-size: var(--space-8);
+    inline-size: auto;
+    object-fit: contain;
+  }
+  .site-footer__brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 44×44 touch target (FND-A11Y-05): the visible GS mark is small,
+       so the hit area is enlarged via min-block/inline-size on touch widths.
+       Reset to the compact pointer size at desktop. */
+    min-block-size: 2.75rem;
+    min-inline-size: 2.75rem;
+    border-radius: var(--radius-control);
+    text-decoration: none;
+  }
+  .site-footer__brand:focus-visible {
+    outline: 2px solid var(--color-focus-dark);
+    outline-offset: 2px;
+  }
+  @media (min-width: 64rem) {
+    .site-footer__logo {
+      block-size: var(--space-10);
+    }
+    .site-footer__brand {
+      min-block-size: auto;
+      min-inline-size: auto;
+    }
+  }
+  @media (min-width: 64rem) {
+    .site-footer__col--brand {
+      margin-block-end: 0;
+    }
   }
 
   /* --- Navigation zone: Services + Company side-by-side on tablet+ ------ */
@@ -262,8 +390,8 @@ const year = new Date().getFullYear();
   }
 
   /* --- Column headings (Manrope semibold, sentence case — no eyebrow) ---
-     Brand font (Cormorant) stays exclusive to the BrandLockup above; body/UI
-     text is Manrope (§Typography). No uppercase eyebrow labels (§Typography). */
+     Brand font (Cormorant) stays exclusive to BrandLockup; body/UI text is
+     Manrope (§Typography). No uppercase eyebrow labels (§Typography). */
   .site-footer__group-label {
     margin: 0 0 var(--space-3);
     font-family: var(--font-body);
@@ -305,33 +433,103 @@ const year = new Date().getFullYear();
   .site-footer__link[aria-current="page"] { color: var(--color-accent); }
   .site-footer__link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
 
-  /* --- Contact column: non-link fact rows (location, hours) are compact
-     muted text — no 44px row needed (not interactive). Link rows above
-     (phone/email/whatsapp, when verified) keep the .site-footer__link target. */
+  /* --- Contact column (P9.1 hierarchy): channels carry the highest emphasis
+     in the footer body — base size + medium weight in primary text color —
+     so phone/email clearly outrank the sm nav links; hours and the verified
+     office address are secondary muted compact facts; the response note is
+     the smallest, most muted line (dimmed muted still ≥ 4.5:1 against the
+     near-black lower footer, WCAG 2.2 AA). */
+  .site-footer__channels {
+    margin-block-end: var(--space-3);
+  }
+  .site-footer__link--channel {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+  }
   .site-footer__fact {
+    margin: 0;
     color: var(--color-text-muted);
     font-family: var(--font-body);
     font-size: var(--text-sm);
     line-height: var(--line-height-body);
   }
+  .site-footer__address {
+    margin-block-start: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    font-style: normal;
+    color: var(--color-text-muted);
+  }
+  .site-footer__address-line {
+    display: block;
+  }
   .site-footer__note {
     margin: var(--space-3) 0 0;
-    max-inline-size: 26rem;
+    max-inline-size: 24rem;
     font-family: var(--font-body);
     font-size: var(--text-xs);
     line-height: var(--line-height-body);
-    color: var(--color-text-muted);
+    color: color-mix(in srgb, var(--color-text-muted) 75%, transparent);
   }
 
-  /* --- Bottom row: single compact copyright line. Location lives in the
-     contact column, so it is not repeated here to fill width (§13 footer
-     dead-space lesson). --------------------------------------------------- */
+  /* --- Bottom row: single restrained line, split left/right on desktop.
+     Left = copyright (operating identity + rights); right = verified
+     location. Mobile stacks. The generic border is replaced by the Low
+     Horizon (P9.1): ::before is the 1px platinum horizon (transparent →
+     low-opacity accent → center peak → transparent, all semantic Theme V2
+     color via color-mix); ::after is a barely-visible radial glow straddling
+     the line. Both are decorative pseudo-elements — automatically outside
+     the accessibility tree — with pointer-events:none. The tighter gap and
+     the shared graphite-depth background make the row read as the final
+     fade-out of the footer composition, not a separate legal sub-footer. */
   .site-footer__bottom {
-    margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-block-start: clamp(1.25rem, 2.5vw, 2rem);
     padding-block-start: clamp(1rem, 2vw, 1.5rem);
-    border-block-start: 1px solid var(--color-border-subtle);
   }
-  .site-footer__copy {
+  .site-footer__bottom::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    block-size: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--color-accent) 14%, transparent) 22%,
+      color-mix(in srgb, var(--color-accent) 32%, transparent) 50%,
+      color-mix(in srgb, var(--color-accent) 14%, transparent) 78%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+  .site-footer__bottom::after {
+    content: "";
+    position: absolute;
+    /* Straddles the horizon line so the glow peaks exactly on it. */
+    inset-block-start: calc(-1 * var(--space-6));
+    inset-inline: 0;
+    block-size: var(--space-12);
+    background: radial-gradient(
+      ellipse 55% 100% at 50% 50%,
+      color-mix(in srgb, var(--color-accent) 4%, transparent),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  @media (min-width: 48rem) {
+    .site-footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .site-footer__copy,
+  .site-footer__locale {
     margin: 0;
     font-family: var(--font-body);
     font-size: var(--text-xs);

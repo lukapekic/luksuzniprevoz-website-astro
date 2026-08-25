@@ -3,7 +3,7 @@ name: technical-seo
 description: Use for indexability, metadata (title/description/canonical/OG), hreflang, sitemaps, robots, internal links, mobile/desktop content parity, and Core Web Vitals-related SEO. Covers the route-registry-derived SEO model and Google's 2026 expectations.
 workstream: technical-seo
 applies-to: "src/content/pages/ frontmatter, src/lib/seo.ts, src/data/routes.ts (noindex/sitemap/previousSlugs), foundation.config.ts (site/brand), robots.txt, sitemap generation"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Technical SEO

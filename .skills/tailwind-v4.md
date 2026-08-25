@@ -1,21 +1,19 @@
 ---
-
 name: tailwind-v4
 description: >
-Mandatory Tailwind CSS v4 implementation and review rules. Use for every task that
-creates, edits, reviews, migrates, debugs, or reasons about Tailwind CSS, CSS,
-responsive layout, component styling, design tokens, Astro styling, UI states,
-accessibility styling, or frontend visual implementation in a Tailwind v4 project.
-Prevents Tailwind v3 regressions, legacy configuration, invalid dynamic classes,
-token drift, arbitrary-value sprawl, inaccessible state styling, and unverified
-responsive implementations.
----------------------------
+  Mandatory Tailwind CSS v4 implementation and review rules. Use for every task that
+  creates, edits, reviews, migrates, debugs, or reasons about Tailwind CSS, CSS,
+  responsive layout, component styling, design tokens, Astro styling, UI states,
+  accessibility styling, or frontend visual implementation in this Tailwind v4 project.
+---
 
 # Tailwind CSS v4 — Nuclear-Grade Agent Skill
 
 ## 0. Mission
 
 You are working inside a **Tailwind CSS v4 project**.
+
+Current Luxury Transportation packages are pinned to Tailwind CSS `4.3.3` and `@tailwindcss/vite` `4.3.3`. Verify `package.json`/lockfile before assuming those exact versions in a future task.
 
 Tailwind v4 is a hard architectural constraint.
 
@@ -47,21 +45,23 @@ A task is complete only when the implementation is valid for the installed Tailw
 
 # 1. Authority hierarchy
 
-When instructions conflict, use this order of authority:
+When instructions conflict, use this order:
 
-1. installed package versions in `package.json` / lockfile;
-2. existing project architecture;
-3. project's global Tailwind stylesheet;
-4. project-specific design-system documentation;
-5. project-specific coding-agent rules;
-6. this skill;
-7. current Tailwind v4 documentation;
-8. existing local component patterns;
+1. root `AGENTS.md`;
+2. installed package versions in `package.json` / lockfile;
+3. `DESIGN.md` + active Theme V2 JSON for visual/token intent;
+4. the project's actual Tailwind/Vite/global-CSS architecture;
+5. locked page blueprint for page-specific structure;
+6. current official Tailwind CSS v4 documentation;
+7. this skill;
+8. verified local component patterns;
 9. model memory.
+
+This skill is procedural and cannot override repository authority.
 
 **Model memory is the lowest authority.**
 
-Never overwrite a working project pattern merely because you remember another Tailwind pattern.
+Do not replace a verified project pattern merely because another Tailwind v4 pattern is also valid.
 
 ---
 
@@ -96,7 +96,7 @@ CLASS_MERGING_HELPERS
 FORMATTER/LINTER
 ```
 
-For an Astro + Tailwind v4 project, expect architecture resembling:
+For this repository, verify the actual production chain:
 
 ```text
 Astro
@@ -105,16 +105,21 @@ Vite
   ↓
 @tailwindcss/vite
   ↓
-global.css
+site/luksuzni-prevoz/src/styles/global.css
   ↓
-@import "tailwindcss";
-  ↓
-@theme { ... }
+@import "tailwindcss"
+@import fonts
+@import generated Theme V2 CSS
+@import unlayered Foundation safeguards
 ```
 
-Do not assume filenames.
+The current Theme V2 generator emits semantic CSS custom properties under `@layer theme`; it does **not** place all project tokens inside Tailwind `@theme`.
 
-Discover them.
+Named project font utilities are registered with `@utility`.
+
+Do not assume every project CSS variable automatically produces a Tailwind utility.
+
+Discover and preserve the actual architecture.
 
 ---
 
@@ -141,50 +146,64 @@ Report them or preserve the current architecture unless the task explicitly incl
 
 # 4. Tailwind v4 architectural baseline
 
-The preferred Tailwind v4 entry point is:
+Tailwind v4 uses the CSS import entry:
 
 ```css
 @import "tailwindcss";
 ```
 
-Project design tokens should normally be defined using:
+Tailwind v4 supports CSS-first configuration through directives such as:
 
 ```css
-@theme {
-  /* tokens */
-}
+@theme { ... }
+@utility ...
+@source ...
+@reference ...
+@custom-variant ...
 ```
 
-Example:
+However, **framework capability is not permission to rewrite this repository's theme architecture**.
 
-```css
-@import "tailwindcss";
-
-@theme {
-  --color-primary: #1a4c7c;
-  --color-surface: #ffffff;
-  --color-text: #101828;
-
-  --font-heading: "Fraunces", serif;
-  --font-body: "Manrope", sans-serif;
-
-  --radius-card: 1rem;
-}
-```
-
-This may expose utilities such as:
+Current project contract:
 
 ```text
-bg-primary
-text-primary
-bg-surface
-text-text
-font-heading
-font-body
-rounded-card
+Theme V2 JSON
+  ↓
+repository theme:sync generator
+  ↓
+generated theme.css
+  ↓
+@layer theme { :root { semantic CSS variables } }
+  ↓
+global.css
+  ↓
+registered project utilities + Tailwind utilities
 ```
 
-Always inspect the actual project's theme before using token names.
+Therefore:
+
+- do not copy Theme V2 JSON into a new `@theme` block;
+- do not manually edit generated `theme.css`;
+- do not create duplicate design-token namespaces;
+- do not assume a `:root` token creates utilities like `font-heading` automatically;
+- use existing registered project utilities where available;
+- use CSS variables directly when a semantic token intentionally has no Tailwind utility;
+- introduce `@theme` only for a deliberate Tailwind-native token/utility requirement that does not duplicate the generator and is approved by repository authority.
+
+Portable Tailwind v4 example:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-brand: oklch(0.7 0.1 250);
+  --font-display: "Example Sans", sans-serif;
+}
+```
+
+This example demonstrates Tailwind v4 syntax only; it is **not** the Luxury Transportation token source.
+
+Always inspect the current project's theme before using token names.
 
 ---
 
@@ -308,19 +327,29 @@ Use:
 <div class="bg-brand text-white">
 ```
 
+Prefer native CSS theme variables over the legacy `theme()` function in custom CSS; current Tailwind v4 documentation treats `theme()` as deprecated.
+
+For this repository specifically, do not migrate generated Theme V2 `:root` tokens into `@theme` merely to generate utilities. Preserve the generator architecture and register only the utilities actually required.
+
 ---
 
 ## `@source`
 
-Use when Tailwind's automatic source detection cannot discover classes from an external source.
+Tailwind v4 uses automatic source detection.
 
-Example:
+Use `@source` only when legitimate classes live in sources automatic detection will not scan, such as an ignored/external library.
 
 ```css
 @source "../node_modules/example-library";
 ```
 
-Do **not** create a v3 `content: []` array instead.
+For monorepo/base-path cases, inspect whether the Tailwind import should use `source(...)` rather than registering broad directories blindly.
+
+If a stylesheet deliberately disables automatic detection with `source(none)`, every required source must be registered explicitly.
+
+For the rare case where a static utility must be generated even though it does not appear in source, Tailwind v4 uses `@source inline(...)` rather than a v3 `safelist` config.
+
+Do **not** create a v3 `content: []` array or `safelist` option.
 
 ---
 
@@ -680,11 +709,13 @@ Static maps are preferred.
 
 # 14. Do not safelist around bad architecture
 
-If Tailwind cannot detect a class because the application constructs it dynamically, first fix the architecture.
+If Tailwind cannot detect a class because the application constructs it dynamically, first fix the architecture by mapping variants to complete static class strings.
 
-Do not immediately create a giant safelist.
+Do not immediately force-generate a large class set.
 
-In native v4 projects, do not fall back to v3-style configuration because dynamic class generation was poorly designed.
+If a legitimate static safelist is truly required, use Tailwind v4 `@source inline(...)` narrowly and document why.
+
+Do not fall back to v3-style `safelist`/`content` configuration.
 
 ---
 
@@ -1579,15 +1610,9 @@ rounded-[22px]
 
 across similar components.
 
-If project tokens exist:
+If project radius utilities/tokens exist, reuse the semantic project roles rather than inventing a parallel naming scheme.
 
-```text
-rounded-card
-rounded-button
-rounded-media
-```
-
-reuse them.
+For Luxury Transportation, inspect Theme V2 `radii.json` and the generated/registered utility surface before choosing classes.
 
 Do not turn every section into a rounded card.
 

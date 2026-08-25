@@ -3,522 +3,382 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Luxury Transportation — Homepage Wireframe v1</title>
-  <style>
-    :root {
-      --wf-page: #202020;
-      --wf-surface: #303030;
-      --wf-elevated: #3b3b3b;
-      --wf-light: #d8d8d8;
-      --wf-light-2: #c6c6c6;
-      --wf-line: #5b5b5b;
-      --wf-line-light: #aaa;
-      --wf-text: #ececec;
-      --wf-muted: #aaa;
-      --wf-dark-text: #2e2e2e;
-      --page-gutter: clamp(1rem, 3vw, 2rem);
-      --space-compact: clamp(3rem, 5vw, 4rem);
-      --space-standard: clamp(4rem, 7vw, 6rem);
-      --space-feature: clamp(5rem, 9vw, 8rem);
-      --section-radius: 1rem;
-      --card-radius: 0.75rem;
-      --control-radius: 0.5rem;
-      --max: 80rem;
-      --reading: 57.5rem;
+  <title>Luxury Transportation — Homepage Wireframe v1.1</title>
+
+  <!--
+    Tailwind CSS v4 Play CDN — WIREFRAME/DEVELOPMENT ONLY.
+    Production uses the repository Vite + @tailwindcss/vite pipeline.
+    This file intentionally uses Tailwind v4 CSS-first syntax and static class strings.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-wf-page: #202224;
+      --color-wf-surface: #2b2e31;
+      --color-wf-elevated: #383c40;
+      --color-wf-light: #d9dad8;
+      --color-wf-line: #5d6267;
+      --color-wf-line-light: #a6a9ac;
+      --color-wf-text: #eeeeec;
+      --color-wf-muted: #aeb2b5;
+      --color-wf-dark-text: #26282a;
+      --color-wf-block: #777c81;
+      --color-wf-block-dark: #555a5f;
+
+      --radius-wf-control: 0.375rem;
+      --radius-wf-card: 0.75rem;
+      --radius-wf-section: 1rem;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--wf-page);
-      color: var(--wf-text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.5;
-    }
-
-    .shell {
-      width: min(calc(100% - (var(--page-gutter) * 2)), var(--max));
+    @utility wf-shell {
+      width: min(calc(100% - (2 * clamp(1rem, 3vw, 2rem))), 80rem);
       margin-inline: auto;
     }
 
-    .label {
+    @utility wf-feature-space {
+      padding-block: clamp(5rem, 9vw, 8rem);
+    }
+
+    @utility wf-standard-space {
+      padding-block: clamp(4rem, 7vw, 6rem);
+    }
+
+    @utility wf-label {
       margin: 0;
+      color: var(--color-wf-muted);
       font-size: 0.72rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--wf-muted);
     }
 
-    .skeleton-line {
+    @utility wf-line {
       height: 0.75rem;
       border-radius: 999px;
-      background: #686868;
+      background: var(--color-wf-block-dark);
     }
 
-    .skeleton-line.light { background: #9f9f9f; }
-    .w-25 { width: 25%; }
-    .w-35 { width: 35%; }
-    .w-45 { width: 45%; }
-    .w-55 { width: 55%; }
-    .w-65 { width: 65%; }
-    .w-75 { width: 75%; }
-    .w-85 { width: 85%; }
-    .w-100 { width: 100%; }
+    @utility wf-title-block {
+      height: 2.2rem;
+      border-radius: 0.35rem;
+      background: var(--color-wf-block);
+    }
 
-    .heading-block { display: grid; gap: 0.65rem; max-width: 42rem; }
-    .heading-block .title-block { height: 2.2rem; width: min(28rem, 72%); background: #777; border-radius: 0.35rem; }
-
-    .button-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-    .button {
-      height: 2.75rem;
+    @utility wf-button {
+      min-height: 2.75rem;
       min-width: 9.5rem;
-      border: 1px solid #8b8b8b;
-      border-radius: var(--control-radius);
-      background: #717171;
-    }
-    .button.secondary { background: transparent; }
-
-    .section-open { padding-block: var(--space-standard); }
-    .section-feature { padding-block: var(--space-feature); }
-
-    /* Header */
-    .header-wrap {
-      position: relative;
-      z-index: 5;
-      padding-top: 0.8rem;
-    }
-    .header {
-      min-height: 4.25rem;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 1rem;
-    }
-    .brand-placeholder { width: 13rem; height: 2rem; border-radius: 0.35rem; background: #666; }
-    .nav-placeholder { justify-self: center; width: min(30rem, 70%); height: 1.1rem; border-radius: 999px; background: #505050; }
-    .header-actions { display: flex; gap: 0.7rem; align-items: center; }
-    .lang-placeholder { width: 4.5rem; height: 1.8rem; border-radius: var(--control-radius); border: 1px solid #646464; }
-    .book-placeholder { width: 7.5rem; height: 2.5rem; border-radius: var(--control-radius); background: #707070; }
-
-    /* Hero */
-    .hero {
-      margin-top: 0.8rem;
-      min-height: clamp(32rem, 43.75vw, 35rem);
-      aspect-ratio: 16 / 7;
-      max-height: 35rem;
-      border-radius: var(--section-radius);
-      background:
-        linear-gradient(90deg, #2a2a2a 0%, #393939 42%, #474747 100%);
-      overflow: hidden;
-      padding: clamp(1.5rem, 4vw, 4rem);
-      display: grid;
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      align-items: end;
-      gap: clamp(2rem, 5vw, 5rem);
-      position: relative;
-    }
-    .hero::after {
-      content: "FULL-PANEL S-CLASS BACKGROUND IMAGE";
-      position: absolute;
-      inset: 1.25rem;
-      display: grid;
-      place-items: start end;
-      padding: 1rem;
-      border: 1px dashed #666;
-      border-radius: calc(var(--section-radius) - 0.25rem);
-      color: #999;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-    }
-    .hero-copy { display: grid; gap: 1.1rem; align-self: center; max-width: 38rem; }
-    .hero-h1 { height: 5.5rem; width: 88%; background: #777; border-radius: 0.45rem; }
-    .hero-support { display: grid; gap: 0.55rem; max-width: 31rem; }
-    .hero-side {
-      align-self: end;
-      margin-bottom: 1.5rem;
-      display: grid;
-      gap: 0.55rem;
-      padding: 1rem;
-      border-left: 1px solid #686868;
+      border: 1px solid var(--color-wf-line);
+      border-radius: var(--radius-wf-control);
+      background: var(--color-wf-block);
     }
 
-    /* Services */
-    .services-head { margin-bottom: 2rem; }
-    .service-showcase {
-      display: grid;
-      grid-template-columns: 35fr 30fr 35fr;
-      gap: 1rem;
-      height: clamp(28rem, 40vw, 34rem);
-    }
-    .service-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--card-radius);
-      background: linear-gradient(160deg, #474747, #303030);
-      border: 1px solid #494949;
-    }
-    .service-card::before {
-      content: "FULL-CARD BACKGROUND IMAGE";
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: start center;
-      padding-top: 1rem;
-      border: 1px dashed #696969;
-      border-radius: inherit;
-      color: #8e8e8e;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-    }
-    .service-overlay {
-      position: absolute;
-      inset: auto 1.2rem 1.15rem 1.2rem;
-      display: grid;
-      gap: 0.65rem;
-    }
-    .service-title { width: 65%; height: 1.65rem; background: #8b8b8b; border-radius: 0.3rem; }
-    .service-cta { width: 7.5rem; height: 2rem; border: 1px solid #858585; border-radius: var(--control-radius); }
-    .service-stack { display: grid; grid-template-rows: 1fr 1fr; gap: 1rem; min-width: 0; }
-
-    /* Private chauffeur split */
-    .split {
-      display: grid;
-      grid-template-columns: 5fr 7fr;
-      gap: clamp(2rem, 5vw, 5rem);
-      align-items: center;
-    }
-    .split-copy { display: grid; gap: 1rem; }
-    .accent-rule { width: 3.5rem; height: 0.18rem; background: #777; }
-    .split-title { height: 3.4rem; width: 82%; background: #747474; border-radius: 0.4rem; }
-    .copy-lines { display: grid; gap: 0.55rem; }
-    .package-row {
-      margin-top: 0.7rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-block: 1px solid var(--wf-line);
-      padding-block: 1rem;
-    }
-    .package { min-height: 3.2rem; padding-inline: 0.9rem; border-right: 1px solid var(--wf-line); display: grid; align-content: center; gap: 0.4rem; }
-    .package:first-child { padding-left: 0; }
-    .package:last-child { border-right: 0; }
-    .package .p1 { width: 75%; height: 0.85rem; background: #727272; border-radius: 999px; }
-    .package .p2 { width: 55%; height: 0.6rem; background: #585858; border-radius: 999px; }
-    .split-image {
-      aspect-ratio: 4 / 3;
-      border-radius: var(--card-radius);
-      background: #444;
-      border: 1px dashed #707070;
-      display: grid;
-      place-items: center;
-      color: #999;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      font-size: 0.72rem;
-    }
-
-    /* Trust */
-    .trust-head { margin-bottom: 1.5rem; }
-    .trust-strip {
-      border-radius: var(--section-radius);
-      background: var(--wf-elevated);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: clamp(1.5rem, 3vw, 2.3rem);
-    }
-    .trust-item { min-height: 8.5rem; padding-inline: 1.5rem; display: grid; align-content: center; gap: 0.65rem; border-right: 1px solid var(--wf-line); }
-    .trust-item:first-child { padding-left: 0; }
-    .trust-item:last-child { border-right: 0; }
-    .trust-icon { width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid #777; }
-    .trust-title { width: 70%; height: 1rem; background: #777; border-radius: 0.25rem; }
-
-    /* Fleet */
-    .section-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; margin-bottom: 2rem; }
-    .compact-cta { width: 8.5rem; height: 2.25rem; border: 1px solid #777; border-radius: var(--control-radius); flex: 0 0 auto; }
-    .carousel-viewport { overflow: hidden; }
-    .fleet-track { display: flex; gap: 1rem; width: max-content; }
-    .fleet-card { width: clamp(18rem, 29vw, 23.5rem); border-radius: var(--card-radius); overflow: hidden; background: #313131; border: 1px solid #464646; }
-    .fleet-image { aspect-ratio: 16 / 9; margin: 1rem; border-radius: 0.55rem; border: 1px dashed #666; display: grid; place-items: center; color: #888; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; }
-    .fleet-meta { padding: 0 1rem 1.2rem; display: grid; gap: 0.6rem; }
-    .fleet-title { height: 1.3rem; width: 68%; background: #787878; border-radius: 0.3rem; }
-    .fleet-class { height: 0.75rem; width: 42%; background: #565656; border-radius: 999px; }
-    .fleet-facts { display: flex; gap: 0.55rem; margin-top: 0.25rem; }
-    .fact { width: 4.2rem; height: 1.7rem; border: 1px solid #5a5a5a; border-radius: var(--control-radius); }
-
-    /* How it works */
-    .how-panel {
-      background: var(--wf-light);
-      color: var(--wf-dark-text);
-      border-radius: var(--section-radius);
-      padding: clamp(2rem, 5vw, 4rem);
-    }
-    .how-panel .label { color: #5a5a5a; }
-    .how-panel .title-block { background: #777; }
-    .how-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); }
-    .step { min-height: 9rem; padding-right: clamp(1rem, 3vw, 2.5rem); display: grid; align-content: start; gap: 0.85rem; position: relative; }
-    .step + .step { padding-left: clamp(1rem, 3vw, 2.5rem); border-left: 1px solid var(--wf-line-light); }
-    .number { font-size: 2rem; font-weight: 700; color: #777; }
-    .step-title { width: 72%; height: 1.1rem; background: #797979; border-radius: 0.25rem; }
-
-    /* Reviews */
-    .review-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .review-card { min-height: 14rem; border-radius: var(--card-radius); background: var(--wf-elevated); padding: 1.4rem; display: grid; align-content: start; gap: 1rem; }
-    .stars { width: 7rem; height: 1rem; border: 1px solid #777; border-radius: 999px; }
-    .review-lines { display: grid; gap: 0.55rem; }
-    .reviewer { margin-top: auto; width: 42%; height: 0.85rem; background: #777; border-radius: 999px; }
-
-    /* Final CTA */
-    .final-cta {
-      min-height: 22rem;
-      max-height: 26rem;
-      border-radius: var(--section-radius);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 62fr 38fr;
-      background: linear-gradient(110deg, #333 0%, #3d3d3d 58%, #4a4a4a 100%);
-    }
-    .final-copy { padding: clamp(2rem, 5vw, 4rem); display: grid; align-content: center; gap: 1rem; }
-    .final-title { height: 4.7rem; width: 80%; background: #7d7d7d; border-radius: 0.45rem; }
-    .contact-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.4rem; }
-    .contact-pill { width: 6.8rem; height: 1.9rem; border: 1px solid #707070; border-radius: var(--control-radius); }
-    .final-image { margin: 1.5rem 1.5rem 1.5rem 0; border: 1px dashed #747474; border-radius: 0.7rem; display: grid; place-items: center; color: #969696; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.08em; }
-
-    /* Footer */
-    .footer { margin-top: var(--space-standard); background: #191919; border-top: 1px solid #343434; }
-    .footer-main { padding-block: clamp(2.5rem, 5vw, 4rem); display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); }
-    .footer-col { display: grid; align-content: start; gap: 0.8rem; }
-    .footer-block { height: 0.8rem; border-radius: 999px; background: #4e4e4e; }
-    .footer-bottom { padding-block: 1.2rem; border-top: 1px solid #343434; display: flex; justify-content: space-between; gap: 1rem; }
-    .footer-bottom .footer-block { width: 12rem; }
-
-    /* breakpoint behavior */
-    @media (max-width: 1023px) {
-      .header { grid-template-columns: auto 1fr auto; }
-      .nav-placeholder { display: none; }
-      .hero { aspect-ratio: auto; max-height: none; min-height: 34rem; grid-template-columns: 1fr 0.8fr; }
-      .service-showcase { height: auto; grid-template-columns: repeat(2, 1fr); }
-      .service-card { min-height: 20rem; }
-      .service-stack { display: contents; }
-      .split { grid-template-columns: 1fr; }
-      .split-image { max-width: 46rem; width: 100%; }
-      .trust-strip { grid-template-columns: repeat(2, 1fr); }
-      .trust-item { border-right: 0; border-bottom: 1px solid var(--wf-line); padding: 1.4rem; }
-      .trust-item:nth-child(odd) { border-right: 1px solid var(--wf-line); }
-      .trust-item:nth-last-child(-n + 2) { border-bottom: 0; }
-      .review-track { grid-template-columns: 1fr 1fr; overflow: hidden; }
-      .review-card:nth-child(3) { display: none; }
-      .final-cta { min-height: 20rem; grid-template-columns: 62fr 38fr; }
-      .footer-main { grid-template-columns: 1.2fr 1fr 1fr; }
-    }
-
-    @media (max-width: 767px) {
-      .header { min-height: 3.75rem; gap: 0.65rem; }
-      .brand-placeholder { width: 8.5rem; height: 1.7rem; }
-      .lang-placeholder { display: none; }
-      .book-placeholder { width: 6.2rem; height: 2.25rem; }
-      .hero { margin-top: 0.5rem; min-height: 38rem; grid-template-columns: 1fr; align-items: end; padding: 1.5rem; }
-      .hero::after { right: 1.5rem; top: 1.5rem; width: calc(100% - 3rem); height: 35%; }
-      .hero-copy { align-self: end; margin-top: 13rem; }
-      .hero-h1 { width: 92%; height: 4.5rem; }
-      .hero-side { border-left: 0; border-top: 1px solid #686868; margin-bottom: 0; padding-inline: 0; }
-      .service-showcase { grid-template-columns: 1fr; }
-      .service-stack { display: grid; grid-template-rows: none; gap: 1rem; }
-      .service-card { min-height: 19rem; }
-      .package-row { grid-template-columns: 1fr; }
-      .package { padding: 0.9rem 0; border-right: 0; border-bottom: 1px solid var(--wf-line); }
-      .package:last-child { border-bottom: 0; }
-      .trust-strip { grid-template-columns: 1fr; padding: 1rem 1.3rem; }
-      .trust-item, .trust-item:nth-child(odd) { border-right: 0; border-bottom: 1px solid var(--wf-line); padding: 1.3rem 0; }
-      .trust-item:last-child { border-bottom: 0; }
-      .section-heading-row { align-items: start; flex-direction: column; }
-      .fleet-card { width: min(82vw, 20rem); }
-      .steps { grid-template-columns: 1fr; }
-      .step, .step + .step { min-height: auto; padding: 1.3rem 0; border-left: 0; border-bottom: 1px solid var(--wf-line-light); }
-      .step:last-child { border-bottom: 0; }
-      .review-track { display: flex; overflow: hidden; }
-      .review-card, .review-card:nth-child(3) { display: grid; width: min(82vw, 20rem); flex: 0 0 auto; }
-      .final-cta { max-height: none; min-height: 0; grid-template-columns: 1fr; }
-      .final-copy { padding: 2rem 1.5rem; }
-      .final-title { height: 3.8rem; width: 88%; }
-      .final-image { min-height: 13rem; margin: 0 1.5rem 1.5rem; }
-      .footer-main { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-bottom { flex-direction: column; }
+    @utility wf-button-secondary {
+      min-height: 2.75rem;
+      min-width: 9.5rem;
+      border: 1px solid var(--color-wf-line);
+      border-radius: var(--radius-wf-control);
+      background: transparent;
     }
   </style>
 </head>
-<body>
-  <!-- Wireframe interpretation notes:
-       1) HERO: the production S-Class image fills the entire rounded hero panel as its background.
-          The two-column layout controls text placement only; there is no separate right-side image box.
-       2) SERVICE SHOWCASE: each service photo fills its entire card edge-to-edge as a background image.
-          Title and CTA sit over an internal bottom scrim/gradient for readable contrast.
-       3) Dashed image outlines in this wireframe are labels only, not production image containers. -->
-  <div class="header-wrap shell">
-    <header class="header" aria-label="Wireframe header">
-      <div class="brand-placeholder" aria-label="Brand lockup placeholder"></div>
-      <div class="nav-placeholder" aria-label="Navigation placeholder"></div>
-      <div class="header-actions">
-        <div class="lang-placeholder" aria-label="Language switcher placeholder"></div>
-        <div class="book-placeholder" aria-label="Book CTA placeholder"></div>
+
+<body class="m-0 overflow-x-hidden bg-wf-page text-wf-text antialiased">
+  <!--
+    HEADER OVER HERO:
+    sticky header remains in document flow, while -mb-20 lets the Hero begin at page top.
+    This is wireframe geometry only; production SiteHeader keeps its own verified implementation.
+  -->
+  <header class="sticky top-0 z-50 -mb-20 h-20 bg-transparent" aria-label="Wireframe header">
+    <div class="wf-shell grid h-full grid-cols-[auto_1fr_auto] items-center gap-4">
+      <div class="h-8 w-40 rounded bg-wf-block md:w-52" aria-label="Brand lockup placeholder"></div>
+
+      <div class="mx-auto hidden h-4 w-full max-w-md rounded-full bg-wf-block-dark lg:block" aria-label="Navigation placeholder"></div>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden h-8 w-16 rounded-wf-control border border-wf-line md:block" aria-label="Language switcher placeholder"></div>
+        <div class="h-10 w-24 rounded-wf-control bg-wf-block" aria-label="Book CTA placeholder"></div>
       </div>
-    </header>
-  </div>
+    </div>
+  </header>
 
   <main>
-    <section class="shell hero" aria-label="Hero wireframe">
-      <div class="hero-copy">
-        <p class="label">Hero / H1 + support + 2 CTAs</p>
-        <div class="hero-h1"></div>
-        <div class="hero-support">
-          <div class="skeleton-line w-85"></div>
-          <div class="skeleton-line w-65"></div>
-        </div>
-        <div class="button-row">
-          <div class="button" aria-label="Primary CTA placeholder"></div>
-          <div class="button secondary" aria-label="Secondary CTA placeholder"></div>
-        </div>
+    <!-- HERO: FULL-BLEED MEDIA + CONTAINED 7/5 CONTENT -->
+    <section
+      class="relative min-h-[clamp(42rem,90svh,60rem)] overflow-hidden bg-wf-surface"
+      aria-label="Full-bleed Hero wireframe"
+    >
+      <div class="absolute inset-0 bg-[linear-gradient(110deg,#25282b_0%,#35393d_45%,#4a4f54_100%)]" aria-hidden="true"></div>
+      <div class="absolute inset-0 grid place-items-center border-y border-dashed border-wf-line/70 text-xs font-bold tracking-[0.08em] text-wf-muted" aria-hidden="true">
+        FULL-BLEED S-CLASS HERO IMAGE / MEDIA LAYER
       </div>
-      <div class="hero-side">
-        <p class="label">Short right-side statement</p>
-        <div class="skeleton-line w-100"></div>
-        <div class="skeleton-line w-75"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,22,24,.78)_0%,rgba(20,22,24,.46)_48%,rgba(20,22,24,.28)_100%)]" aria-hidden="true"></div>
+
+      <div class="wf-shell relative z-20 grid min-h-[clamp(42rem,90svh,60rem)] grid-cols-1 gap-10 pb-12 pt-32 md:pb-16 md:pt-36 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end lg:gap-[clamp(2rem,5vw,5rem)] lg:pb-[clamp(3rem,7vw,6rem)]">
+        <div class="grid max-w-[38rem] content-end gap-5 lg:self-center">
+          <p class="wf-label">Hero / H1 + support + 2 CTAs</p>
+          <div class="h-20 w-[92%] rounded-md bg-wf-block md:h-24 lg:h-28 lg:w-[88%]"></div>
+
+          <div class="grid max-w-[31rem] gap-2">
+            <div class="wf-line w-[85%]"></div>
+            <div class="wf-line w-[66%]"></div>
+          </div>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div class="wf-button w-full sm:w-auto" aria-label="Primary CTA placeholder"></div>
+            <div class="wf-button-secondary w-full sm:w-auto" aria-label="Secondary CTA placeholder"></div>
+          </div>
+        </div>
+
+        <div class="grid gap-2 border-t border-wf-line pt-5 lg:mb-4 lg:border-t-0 lg:border-s lg:ps-6">
+          <p class="wf-label">Short right-side support statement</p>
+          <div class="wf-line w-full"></div>
+          <div class="wf-line w-[75%]"></div>
+        </div>
       </div>
     </section>
 
-    <section class="shell section-feature" aria-label="Services wireframe">
-      <div class="heading-block services-head">
-        <p class="label">Main services</p>
-        <div class="title-block"></div>
-        <div class="skeleton-line w-65"></div>
+    <!-- SERVICES -->
+    <section class="wf-shell wf-feature-space" aria-label="Services wireframe">
+      <div class="mb-8 grid max-w-2xl gap-3">
+        <p class="wf-label">Main services</p>
+        <div class="wf-title-block w-[72%] max-w-md"></div>
+        <div class="wf-line w-[65%]"></div>
       </div>
 
-      <div class="service-showcase">
-        <article class="service-card" aria-label="Private Chauffeur service card placeholder">
-          <div class="service-overlay"><div class="service-title"></div><div class="service-cta"></div></div>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:h-[clamp(28rem,40vw,34rem)] lg:grid-cols-[35fr_30fr_35fr]">
+        <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+          <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+            PRIVATE CHAUFFEUR IMAGE
+          </div>
+          <div class="absolute inset-x-5 bottom-5 grid gap-3">
+            <div class="h-7 w-[65%] rounded bg-wf-block"></div>
+            <div class="h-9 w-28 rounded-wf-control border border-wf-line"></div>
+          </div>
         </article>
-        <article class="service-card" aria-label="Airport service card placeholder">
-          <div class="service-overlay"><div class="service-title"></div><div class="service-cta"></div></div>
+
+        <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+          <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+            AIRPORT IMAGE
+          </div>
+          <div class="absolute inset-x-5 bottom-5 grid gap-3">
+            <div class="h-7 w-[65%] rounded bg-wf-block"></div>
+            <div class="h-9 w-28 rounded-wf-control border border-wf-line"></div>
+          </div>
         </article>
-        <div class="service-stack">
-          <article class="service-card" aria-label="Business service card placeholder">
-            <div class="service-overlay"><div class="service-title"></div><div class="service-cta"></div></div>
+
+        <div class="grid gap-4 md:contents lg:grid lg:grid-rows-2">
+          <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+            <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+              BUSINESS IMAGE
+            </div>
+            <div class="absolute inset-x-5 bottom-5 grid gap-3">
+              <div class="h-6 w-[62%] rounded bg-wf-block"></div>
+              <div class="h-8 w-24 rounded-wf-control border border-wf-line"></div>
+            </div>
           </article>
-          <article class="service-card" aria-label="Special events service card placeholder">
-            <div class="service-overlay"><div class="service-title"></div><div class="service-cta"></div></div>
+
+          <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+            <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+              SPECIAL EVENTS IMAGE
+            </div>
+            <div class="absolute inset-x-5 bottom-5 grid gap-3">
+              <div class="h-6 w-[62%] rounded bg-wf-block"></div>
+              <div class="h-8 w-24 rounded-wf-control border border-wf-line"></div>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="shell section-feature split" aria-label="Private Chauffeur feature wireframe">
-      <div class="split-copy">
-        <p class="label">Private Chauffeur / Open split 5:7</p>
-        <div class="accent-rule"></div>
-        <div class="split-title"></div>
-        <div class="copy-lines">
-          <div class="skeleton-line w-100"></div>
-          <div class="skeleton-line w-85"></div>
-          <div class="skeleton-line w-65"></div>
-        </div>
-        <div class="package-row" aria-label="Hourly Half Day Full Day placeholders">
-          <div class="package"><div class="p1"></div><div class="p2"></div></div>
-          <div class="package"><div class="p1"></div><div class="p2"></div></div>
-          <div class="package"><div class="p1"></div><div class="p2"></div></div>
-        </div>
-        <div class="button-row"><div class="button secondary"></div></div>
-      </div>
-      <div class="split-image">CONTEXT IMAGE 4:3</div>
-    </section>
+    <!-- PRIVATE CHAUFFEUR FEATURE -->
+    <section class="wf-shell wf-feature-space grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr] lg:gap-[clamp(2rem,5vw,5rem)]" aria-label="Private Chauffeur feature wireframe">
+      <div class="grid gap-4">
+        <p class="wf-label">Private Chauffeur / open split 5:7</p>
+        <div class="h-[3px] w-14 bg-wf-block"></div>
+        <div class="h-14 w-[82%] rounded bg-wf-block"></div>
 
-    <section class="shell section-open" aria-label="Trust wireframe">
-      <div class="heading-block trust-head">
-        <p class="label">Why choose us</p>
-        <div class="title-block"></div>
-        <div class="skeleton-line w-55"></div>
-      </div>
-      <div class="trust-strip">
-        <div class="trust-item"><div class="trust-icon"></div><div class="trust-title"></div><div class="skeleton-line w-85"></div><div class="skeleton-line w-65"></div></div>
-        <div class="trust-item"><div class="trust-icon"></div><div class="trust-title"></div><div class="skeleton-line w-85"></div><div class="skeleton-line w-65"></div></div>
-        <div class="trust-item"><div class="trust-icon"></div><div class="trust-title"></div><div class="skeleton-line w-85"></div><div class="skeleton-line w-65"></div></div>
-        <div class="trust-item"><div class="trust-icon"></div><div class="trust-title"></div><div class="skeleton-line w-85"></div><div class="skeleton-line w-65"></div></div>
-      </div>
-    </section>
+        <div class="grid gap-2">
+          <div class="wf-line w-full"></div>
+          <div class="wf-line w-[85%]"></div>
+          <div class="wf-line w-[66%]"></div>
+        </div>
 
-    <section class="shell section-feature" aria-label="Fleet wireframe">
-      <div class="section-heading-row">
-        <div class="heading-block">
-          <p class="label">Fleet showcase</p>
-          <div class="title-block"></div>
-          <div class="skeleton-line w-65"></div>
+        <div class="mt-3 grid grid-cols-1 border-y border-wf-line sm:grid-cols-3">
+          <div class="grid gap-2 border-b border-wf-line py-4 sm:border-b-0 sm:border-e sm:pe-4">
+            <div class="h-3 w-[75%] rounded-full bg-wf-block"></div>
+            <div class="h-2 w-[55%] rounded-full bg-wf-block-dark"></div>
+          </div>
+          <div class="grid gap-2 border-b border-wf-line py-4 sm:border-b-0 sm:border-e sm:px-4">
+            <div class="h-3 w-[75%] rounded-full bg-wf-block"></div>
+            <div class="h-2 w-[55%] rounded-full bg-wf-block-dark"></div>
+          </div>
+          <div class="grid gap-2 py-4 sm:ps-4">
+            <div class="h-3 w-[75%] rounded-full bg-wf-block"></div>
+            <div class="h-2 w-[55%] rounded-full bg-wf-block-dark"></div>
+          </div>
         </div>
-        <div class="compact-cta" aria-label="View fleet CTA placeholder"></div>
+
+        <div class="wf-button-secondary mt-2 w-40"></div>
       </div>
-      <div class="carousel-viewport">
-        <div class="fleet-track">
-          <article class="fleet-card"><div class="fleet-image">VEHICLE PNG</div><div class="fleet-meta"><div class="fleet-title"></div><div class="fleet-class"></div><div class="fleet-facts"><div class="fact"></div><div class="fact"></div><div class="fact"></div></div></div></article>
-          <article class="fleet-card"><div class="fleet-image">VEHICLE PNG</div><div class="fleet-meta"><div class="fleet-title"></div><div class="fleet-class"></div><div class="fleet-facts"><div class="fact"></div><div class="fact"></div><div class="fact"></div></div></div></article>
-          <article class="fleet-card"><div class="fleet-image">VEHICLE PNG</div><div class="fleet-meta"><div class="fleet-title"></div><div class="fleet-class"></div><div class="fleet-facts"><div class="fact"></div><div class="fact"></div><div class="fact"></div></div></div></article>
-          <article class="fleet-card"><div class="fleet-image">VEHICLE PNG</div><div class="fleet-meta"><div class="fleet-title"></div><div class="fleet-class"></div><div class="fleet-facts"><div class="fact"></div><div class="fact"></div><div class="fact"></div></div></div></article>
-        </div>
+
+      <div class="aspect-[4/3] w-full rounded-wf-card border border-dashed border-wf-line bg-wf-surface grid place-items-center text-xs font-bold tracking-[0.08em] text-wf-muted">
+        CONTEXT IMAGE 4:3
       </div>
     </section>
 
-    <section class="shell section-open" aria-label="How it works wireframe">
-      <div class="how-panel">
-        <div class="heading-block how-head">
-          <p class="label">How it works / light contained section</p>
-          <div class="title-block"></div>
-          <div class="skeleton-line light w-55"></div>
+    <!-- TRUST -->
+    <section class="wf-shell wf-standard-space" aria-label="Trust wireframe">
+      <div class="mb-6 grid max-w-2xl gap-3">
+        <p class="wf-label">Why choose us</p>
+        <div class="wf-title-block w-[72%] max-w-md"></div>
+        <div class="wf-line w-[55%]"></div>
+      </div>
+
+      <div class="grid grid-cols-1 rounded-wf-section bg-wf-elevated p-5 md:grid-cols-2 lg:grid-cols-4 lg:p-8">
+        <div class="grid min-h-32 content-center gap-3 border-b border-wf-line py-5 md:border-e md:pe-6 lg:border-b-0">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
         </div>
-        <div class="steps">
-          <div class="step"><div class="number">01</div><div class="step-title"></div><div class="skeleton-line light w-100"></div><div class="skeleton-line light w-75"></div></div>
-          <div class="step"><div class="number">02</div><div class="step-title"></div><div class="skeleton-line light w-100"></div><div class="skeleton-line light w-75"></div></div>
-          <div class="step"><div class="number">03</div><div class="step-title"></div><div class="skeleton-line light w-100"></div><div class="skeleton-line light w-75"></div></div>
+        <div class="grid min-h-32 content-center gap-3 border-b border-wf-line py-5 md:ps-6 lg:border-b-0 lg:border-e lg:pe-6">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
+        </div>
+        <div class="grid min-h-32 content-center gap-3 border-b border-wf-line py-5 md:border-b-0 md:border-e md:pe-6 lg:ps-6">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
+        </div>
+        <div class="grid min-h-32 content-center gap-3 py-5 md:ps-6">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
         </div>
       </div>
     </section>
 
-    <section class="shell section-open" aria-label="Google reviews wireframe">
-      <div class="section-heading-row">
-        <div class="heading-block">
-          <p class="label">Google reviews</p>
-          <div class="title-block"></div>
-          <div class="skeleton-line w-65"></div>
+    <!-- FLEET -->
+    <section class="wf-shell wf-feature-space" aria-label="Fleet wireframe">
+      <div class="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
+        <div class="grid max-w-2xl flex-1 gap-3">
+          <p class="wf-label">Fleet showcase</p>
+          <div class="wf-title-block w-[72%] max-w-md"></div>
+          <div class="wf-line w-[65%]"></div>
         </div>
-        <div class="compact-cta" aria-label="Google Maps profile CTA placeholder"></div>
+        <div class="h-10 w-36 rounded-wf-control border border-wf-line"></div>
       </div>
-      <div class="review-track">
-        <article class="review-card"><div class="stars"></div><div class="review-lines"><div class="skeleton-line w-100"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-85"></div><div class="skeleton-line w-55"></div></div><div class="reviewer"></div></article>
-        <article class="review-card"><div class="stars"></div><div class="review-lines"><div class="skeleton-line w-100"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-75"></div></div><div class="reviewer"></div></article>
-        <article class="review-card"><div class="stars"></div><div class="review-lines"><div class="skeleton-line w-100"></div><div class="skeleton-line w-85"></div><div class="skeleton-line w-65"></div><div class="skeleton-line w-45"></div></div><div class="reviewer"></div></article>
+
+      <div class="overflow-hidden">
+        <div class="flex w-max gap-4">
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="shell section-feature" aria-label="Final CTA wireframe">
-      <div class="final-cta">
-        <div class="final-copy">
-          <p class="label">Final CTA / 60–65% content</p>
-          <div class="final-title"></div>
-          <div class="copy-lines"><div class="skeleton-line w-85"></div><div class="skeleton-line w-65"></div></div>
-          <div class="button-row"><div class="button"></div><div class="button secondary"></div></div>
-          <div class="contact-row"><div class="contact-pill"></div><div class="contact-pill"></div><div class="contact-pill"></div></div>
+    <!-- HOW IT WORKS -->
+    <section class="wf-shell wf-standard-space" aria-label="How It Works wireframe">
+      <div class="rounded-wf-section bg-wf-light p-6 text-wf-dark-text md:p-10 lg:p-16">
+        <div class="mb-10 grid max-w-2xl gap-3">
+          <p class="text-xs font-bold uppercase tracking-[0.08em] text-neutral-600">How it works / light contained</p>
+          <div class="h-9 w-[72%] max-w-md rounded bg-neutral-500"></div>
+          <div class="h-3 w-[55%] rounded-full bg-neutral-400"></div>
         </div>
-        <div class="final-image">FRONT S-CLASS / 35–40%</div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3">
+          <div class="grid gap-3 border-b border-wf-line-light py-5 md:border-b-0 md:border-e md:pe-8">
+            <div class="text-3xl font-bold text-neutral-500">01</div>
+            <div class="h-5 w-[72%] rounded bg-neutral-500"></div>
+            <div class="h-3 w-full rounded-full bg-neutral-400"></div>
+            <div class="h-3 w-[75%] rounded-full bg-neutral-400"></div>
+          </div>
+          <div class="grid gap-3 border-b border-wf-line-light py-5 md:border-b-0 md:border-e md:px-8">
+            <div class="text-3xl font-bold text-neutral-500">02</div>
+            <div class="h-5 w-[72%] rounded bg-neutral-500"></div>
+            <div class="h-3 w-full rounded-full bg-neutral-400"></div>
+            <div class="h-3 w-[75%] rounded-full bg-neutral-400"></div>
+          </div>
+          <div class="grid gap-3 py-5 md:ps-8">
+            <div class="text-3xl font-bold text-neutral-500">03</div>
+            <div class="h-5 w-[72%] rounded bg-neutral-500"></div>
+            <div class="h-3 w-full rounded-full bg-neutral-400"></div>
+            <div class="h-3 w-[75%] rounded-full bg-neutral-400"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="wf-shell wf-standard-space" aria-label="Google Reviews wireframe">
+      <div class="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
+        <div class="grid max-w-2xl flex-1 gap-3">
+          <p class="wf-label">Google reviews</p>
+          <div class="wf-title-block w-[72%] max-w-md"></div>
+          <div class="wf-line w-[65%]"></div>
+        </div>
+        <div class="h-10 w-36 rounded-wf-control border border-wf-line"></div>
+      </div>
+
+      <div class="grid grid-flow-col auto-cols-[82%] gap-4 overflow-hidden md:auto-cols-[48%] lg:grid-flow-row lg:grid-cols-3 lg:auto-cols-auto">
+        <article class="grid min-h-56 content-start gap-4 rounded-wf-card bg-wf-elevated p-6"><div class="h-4 w-28 rounded-full border border-wf-line"></div><div class="grid gap-2"><div class="wf-line w-full"></div><div class="wf-line w-full"></div><div class="wf-line w-[85%]"></div></div><div class="mt-auto h-3 w-[42%] rounded-full bg-wf-block"></div></article>
+        <article class="grid min-h-56 content-start gap-4 rounded-wf-card bg-wf-elevated p-6"><div class="h-4 w-28 rounded-full border border-wf-line"></div><div class="grid gap-2"><div class="wf-line w-full"></div><div class="wf-line w-[90%]"></div><div class="wf-line w-[70%]"></div></div><div class="mt-auto h-3 w-[42%] rounded-full bg-wf-block"></div></article>
+        <article class="grid min-h-56 content-start gap-4 rounded-wf-card bg-wf-elevated p-6"><div class="h-4 w-28 rounded-full border border-wf-line"></div><div class="grid gap-2"><div class="wf-line w-full"></div><div class="wf-line w-[85%]"></div><div class="wf-line w-[60%]"></div></div><div class="mt-auto h-3 w-[42%] rounded-full bg-wf-block"></div></article>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="wf-shell wf-feature-space" aria-label="Final CTA wireframe">
+      <div class="grid overflow-hidden rounded-wf-section bg-[linear-gradient(110deg,#303336_0%,#383c40_60%,#41464b_100%)] lg:min-h-[22rem] lg:grid-cols-[62fr_38fr]">
+        <div class="grid content-center gap-5 p-6 md:p-10 lg:p-16">
+          <p class="wf-label">Final CTA / 60–65% content</p>
+          <div class="h-16 w-[82%] rounded bg-wf-block"></div>
+          <div class="grid gap-2"><div class="wf-line w-[85%]"></div><div class="wf-line w-[65%]"></div></div>
+
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <div class="wf-button w-full sm:w-auto"></div>
+            <div class="wf-button-secondary w-full sm:w-auto"></div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <div class="h-8 w-28 rounded-wf-control border border-wf-line"></div>
+            <div class="h-8 w-28 rounded-wf-control border border-wf-line"></div>
+          </div>
+        </div>
+
+        <div class="min-h-52 border-t border-dashed border-wf-line lg:m-6 lg:ms-0 lg:min-h-0 lg:rounded-wf-card lg:border" aria-label="Final CTA vehicle media placeholder">
+          <div class="grid h-full place-items-center text-xs font-bold tracking-[0.08em] text-wf-muted">FRONT S-CLASS / 35–40%</div>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer" aria-label="Footer wireframe">
-    <div class="shell footer-main">
-      <div class="footer-col"><p class="label">Brand</p><div class="footer-block w-75"></div><div class="footer-block w-100"></div><div class="footer-block w-65"></div></div>
-      <div class="footer-col"><p class="label">Services / Company</p><div class="footer-block w-65"></div><div class="footer-block w-55"></div><div class="footer-block w-75"></div><div class="footer-block w-45"></div></div>
-      <div class="footer-col"><p class="label">Contact / Hours</p><div class="footer-block w-75"></div><div class="footer-block w-85"></div><div class="footer-block w-65"></div><div class="footer-block w-55"></div></div>
+  <!-- FOOTER -->
+  <footer class="mt-16 border-t border-wf-line/50 bg-[#191b1d]" aria-label="Footer wireframe">
+    <div class="wf-shell grid grid-cols-1 gap-8 py-12 md:grid-cols-[1.2fr_1fr_1fr] md:gap-10">
+      <div class="grid content-start gap-3"><p class="wf-label">Brand</p><div class="wf-line w-[75%]"></div><div class="wf-line w-full"></div><div class="wf-line w-[65%]"></div></div>
+      <div class="grid content-start gap-3"><p class="wf-label">Services / Company</p><div class="wf-line w-[65%]"></div><div class="wf-line w-[55%]"></div><div class="wf-line w-[75%]"></div></div>
+      <div class="grid content-start gap-3"><p class="wf-label">Contact / Hours</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[85%]"></div><div class="wf-line w-[65%]"></div></div>
     </div>
-    <div class="shell footer-bottom"><div class="footer-block"></div><div class="footer-block"></div></div>
+    <div class="wf-shell flex flex-col gap-3 border-t border-wf-line/50 py-5 md:flex-row md:justify-between">
+      <div class="wf-line w-48"></div>
+      <div class="wf-line w-48"></div>
+    </div>
   </footer>
 </body>
 </html>

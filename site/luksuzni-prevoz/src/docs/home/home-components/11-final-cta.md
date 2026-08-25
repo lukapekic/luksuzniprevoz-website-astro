@@ -1,61 +1,76 @@
-# FinalCTA — Exact V1 Contract
+# FinalCTA — Exact V1.1 Contract
 
 ## Section wrapper
-- feature spacing before/around CTA
-- main shell
+
+- Feature spacing before/around CTA.
+- Contained by the Theme V2 main container.
 
 ## Panel
-- radius `1rem`
-- overflow hidden
-- warm-charcoal -> warm-brown restrained gradient
-- no gold gradient
-- no glow
 
-## Desktop >=64rem
+- Theme V2 section radius.
+- Overflow hidden.
+- Restrained neutral graphite → slightly elevated graphite gradient is allowed.
+- No warm-brown/gold theme drift.
+- No metallic/platinum gradient.
+- No glow.
+
+## Desktop
+
 Grid:
-- `62fr 38fr`
-- min-height `22rem`
-- max-height `26rem`
+
+```text
+~62fr 38fr
+```
 
 Content:
-- padding `clamp(2rem, 5vw, 4rem)`
-- vertically centered
-- stack gap about `space-4`
+
+- vertically centered;
+- Theme V2 semantic spacing;
+- strong but not Hero-scale heading.
 
 Image:
-- right zone visually constrained to 35–40%
-- front-facing S-Class
-- blended/no hard edge
-- not a separate bordered card
+
+- visually constrained to about 35–40%;
+- preferred front-facing S-Class;
+- blended/no hard edge;
+- not a separate bordered card.
 
 ## Tablet
-- target min-height around `20rem`
-- keep 62/38 while legible
-- reduce overlap rather than forcing hard stack
+
+Keep the split only while content remains legible.
+
+Do not force desktop geometry when the available width is too small.
 
 ## Mobile
-- one column
-- no max-height
-- copy padding `2rem 1.5rem`
-- image zone min-height around `13rem`
-- image follows copy or softly integrates without harming contrast
+
+- One column.
+- Content first.
+- Book CTA full width.
+- Request Quote CTA full width.
+- Verified phone/email contacts presented compactly.
+- Dedicated media area below content.
+- No image-behind-copy treatment if it harms legibility.
 
 ## CTA group
-- primary: Book a Chauffeur
-- secondary: Request a Quote
-- gap `space-3`
-- primary uses accent + textOnLight
-- secondary dark/transparent
+
+- Primary: Book a Chauffeur.
+- Secondary: Request a Quote.
+- Use approved shared Button contracts.
 
 ## Contact row
-Only when verified data exists:
-- phone
-- email
-- WhatsApp
-- compact, not pill-heavy decoration
-- gap around `space-3`
+
+Only show canonical verified data.
+
+Potential methods:
+
+- phone;
+- email;
+- WhatsApp.
+
+Do not invent missing values for visual completeness.
 
 ## Typography
-- strong H2-size heading
-- short supporting paragraph
-- no second-hero scale
+
+- Inter Tight heading.
+- Manrope supporting/contacts/UI.
+- FinalCTA must remain visibly distinct from the full-bleed Homepage Hero.

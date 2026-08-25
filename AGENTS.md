@@ -1,536 +1,383 @@
 # AGENTS.md
 
-> **Purpose:** Universal agent entrypoint for this repository.
+> **Purpose:** Single authoritative technical/foundation rulebook and universal agent entrypoint for this repository.
 >
-> `docs/AGENTS.md` is the authoritative technical/foundation rulebook.  
-> `DESIGN.md` is the mandatory visual/design entrypoint.  
+> `AGENTS.md` at repository root is the **only AGENTS authority**.  
+> `DESIGN.md` is the mandatory visual/design authority.  
 > `.skills/*.md` contains task-specific operating procedures.  
+> Page blueprints define page-specific structure and may authorize explicit local exceptions.
 >
-> Skills explain **how to work**. They do not override locked project sources of truth.
+> **Do not create or restore `docs/AGENTS.md`.**
 
 ---
 
-## 1. Source-of-truth hierarchy
+# 1. Source-of-truth hierarchy
 
-### Global technical authority
+Use the smallest relevant authority chain. When sources disagree, the higher source wins.
 
-`docs/AGENTS.md` wins for:
+## Technical / foundation
 
-- `FND-*` rules;
-- architecture;
-- primitives;
-- configuration variants;
-- quality gates;
-- Lighthouse thresholds;
-- CSP;
-- waivers;
-- traceability;
-- non-waivable requirements.
+```text
+1. root AGENTS.md
+2. validated repository configuration and generated contracts
+3. approved page blueprint for page-specific requirements
+4. current verified shared component/API contracts
+5. matching .skills procedure
+6. existing implementation
+```
 
-Traceability is enforced through:
+`AGENTS.md` wins for:
+
+- FND rules and non-waivable requirements;
+- architecture and primitives;
+- data/content boundaries;
+- routing/i18n rules;
+- generated-file ownership;
+- quality gates and verification discipline;
+- CSP/security requirements;
+- waivers and traceability.
+
+Traceability is documented in:
 
 ```text
 docs/rule-traceability.md
 ```
 
-and:
+and checked with:
 
 ```bash
 pnpm traceability --check
 ```
 
-### Visual/design authority
+## Visual / design
 
-For any visual, page, component, layout, typography, imagery, responsive, or interaction-design task, read:
+For any visible UI work, read:
 
 ```text
 DESIGN.md
 ```
 
-`DESIGN.md` is the design entrypoint. It points to the actual locked foundation files and defines how agents must interpret them.
-
-### Page-level authority
-
-When implementing a page with an approved blueprint/wireframe:
+The visual hierarchy is:
 
 ```text
-locked page blueprint
-    ↓
-approved component rules / locked design decisions
-    ↓
-design-system and token sources
-    ↓
-wireframe structural intent
-    ↓
-existing approved implementation patterns
+1. locked page blueprint
+2. DESIGN.md
+3. active theme version JSON tokens
+4. approved shared component contracts
+5. wireframe structural intent
+6. matching .skills procedure
+7. current verified production patterns
+8. external references
 ```
 
-A blueprint may explicitly authorize a page-specific exception to a generic component/layout rule.
+A wireframe defines structure/geometry only. It never overrides active theme tokens, production typography, accessibility, routing, or component contracts.
 
-A wireframe **never** overrides production typography, colors, tokens, motion, radius, or visual-system rules.
+## Skills
 
-### Skill authority
-
-`.skills/*.md` files are procedures and review protocols.
+`.skills/*.md` explain **how to work**. They are procedural, not an independent source of product/theme truth.
 
 If a skill conflicts with:
 
 ```text
-docs/AGENTS.md
+AGENTS.md
+DESIGN.md
 locked page blueprint
-locked design decision
-validated design token source
+active theme token JSON
+validated repository configuration
 ```
 
-the source-of-truth file wins.
+the source-of-truth file wins and the stale skill should be corrected.
 
 ---
 
-## 2. Always-on contract
+# 2. Repository and package manager
 
-- **Use `pnpm` only.** Never use `npm` or `yarn`.
-- Repository package manager: `pnpm@10.14.0`.
-- Astro remains static-first unless runtime rendering is explicitly required (`output: "static"`).
-- Never weaken or bypass TypeScript, lint, accessibility, SEO, route, theme, localization, or quality rules.
-- Never manually edit generated files such as `theme/generated/theme.css` or generated `types.ts`.
-- Never manually concatenate localized internal URLs. Use `getPath()` / `<Link>` and approved routing helpers.
-- All user-visible UI strings come from the approved localization/content sources. Do not invent translations during implementation.
+This is a pnpm workspace monorepo.
+
+- Package manager: `pnpm@10.14.0`.
+- Node: `>=20`.
+- Current product site: `site/luksuzni-prevoz/`.
+- Core library: `packages/astro-foundation/`.
+- ESLint plugin: `packages/eslint-plugin-astro-foundation/`.
+- Shared scripts: `scripts/`.
+- Agent skills: `.skills/`.
+
+**Use `pnpm` only. Never use `npm` or `yarn`.**
+
+Astro remains static-first unless runtime rendering is explicitly required.
+
+---
+
+# 3. Always-on agent contract
+
+- Do not weaken or bypass TypeScript, lint, accessibility, SEO, route, theme, localization, security, or quality rules.
+- Do not manually edit generated files such as `src/theme/generated/theme.css` or generated `types.ts`.
+- Do not manually concatenate localized internal URLs. Use `getPath()`, `<Link>`, and approved routing helpers.
+- All user-visible strings come from approved localization/content sources. Do not invent translations during implementation.
+- Do not hardcode pricing, fleet facts, contact details, locale paths, service relationships, or design-token values inside page components.
 - Reuse foundation helpers before creating duplicate routing, SEO, schema, i18n, image, validation, or data logic.
 - Prefer native semantic HTML before ARIA or unnecessary abstraction.
-- Avoid unnecessary client-side JavaScript and dependencies. `client:*` requires the repository's required `// island:` justification/comment.
+- Avoid unnecessary client-side JavaScript and dependencies. `client:*` requires the repository's required island justification/comment.
 - Do not refactor unrelated stable code during scoped work.
-- Every configured locale is required for every page. No silent fallback or optional locale page.
-- Do not hardcode pricing, fleet facts, contact details, locale paths, service relationships, or design tokens inside page components.
+- Every configured locale is required for every page unless the validated content model explicitly says otherwise.
 - Do not silently reopen locked product/design decisions.
-- Do not silently simplify required blueprint regions to make implementation easier.
-- Run the relevant quality gate before declaring work complete.
+- Do not silently simplify required blueprint regions.
+- Diagnose from source before patching screenshots or symptoms.
+- Run the relevant quality/verification commands before reporting completion.
+- Never claim a command/gate passed unless it actually ran successfully.
 
 ---
 
-## 3. Design work is a special case
+# 4. Core FND rules retained from the former docs/AGENTS.md
 
-For **any** task that affects visible UI, first read:
+These rules remain authoritative after removal of `docs/AGENTS.md`.
+
+## Code / architecture
+
+- **FND-ARCH-03** — All user-visible strings must come from approved UI/content sources.
+- **FND-UI-06** — Class passthrough on primitives is layout-only unless the primitive explicitly documents a broader contract.
+- `Page` owns `<head>` and sets document `lang`/`dir`; no other component emits head tags.
+- Generated artifacts are machine-owned and must be regenerated, not hand-edited.
+
+## Routing / i18n
+
+- **FND-I18N-03** — Internal URLs come from the route map / `getPath()`, never folder names or manual locale concatenation.
+- **FND-I18N-04** — `trailingSlash` is always `"always"`; internal paths end with `/`.
+- **FND-I18N-13** — Direction-sensitive CSS uses logical properties. Do not use physical left/right properties where logical equivalents exist.
+- Language switching, hreflang, breadcrumbs, navigation, and localized links use approved routing helpers/data.
+- No silent locale fallback for page content.
+
+## Accessibility / responsive
+
+- WCAG 2.2 AA is the minimum target.
+- **FND-A11Y-05** — Interactive targets must meet the project minimum target size of 44×44 CSS px.
+- **FND-RESP-03** — No accidental horizontal page overflow.
+- Responsive review must cover mobile, tablet portrait, tablet landscape, desktop, and a wide-desktop sanity check.
+- Prefer semantic HTML; use ARIA to add missing semantics, not to replace native semantics.
+- Focus-visible states must be clearly perceivable.
+- Reduced-motion behavior is required where motion exists.
+
+## CSS / theme
+
+- **FND-CSS-04** — Generated theme CSS uses `@layer theme`.
+- Active theme source lives under the current site's `src/theme/versions/<activeThemeVersion>/`.
+- `foundation.config.ts` selects the active theme version.
+- `theme/generated/theme.css` is generated by `theme:sync` and must not be manually edited.
+- Components consume semantic tokens/utilities; they do not copy raw palette/type/spacing values.
+- Tailwind work follows `.skills/tailwind-v4.md`.
+
+## Islands / client JS
+
+- Prefer static Astro output.
+- Use client-side JavaScript only when behavior genuinely requires it.
+- Any `client:*` island must include the repository-required justification.
+- Do not add dependencies merely to avoid a small amount of native HTML/CSS/JS.
+
+---
+
+# 5. Current Luxury Transportation data boundaries
+
+For `site/luksuzni-prevoz/`:
+
+```text
+foundation.config.ts
+  → site identity, locales, capabilities, active theme, performance budget
+
+src/data/routes.ts
+  → route map / localized paths
+
+src/data/navigation.ts
+  → navigation relationships
+
+src/data/*
+  → verified operational/business data such as service rules, contacts, fleet relationships
+
+src/content/pages/*
+  → localized page/editorial content
+
+src/content/ui/*
+  → localized UI strings
+
+src/theme/versions/version-2/*
+  → active raw design-token source
+
+src/theme/generated/theme.css
+  → generated CSS output; never edit directly
+```
+
+Presentation components must not become alternate data stores.
+
+If a business fact is unverified, preserve the project's verification/placeholder gating. Do not invent it to make a UI look complete.
+
+---
+
+# 6. Active design/theme contract
+
+The current product design direction is defined by:
 
 ```text
 DESIGN.md
-.skills/design-foundation-governance.md
+site/luksuzni-prevoz/src/theme/versions/version-2/
 ```
 
-Then load only the additional matching skills required by the task.
+Theme V2 is the active Black & Platinum system.
 
-Do not treat an existing implementation as authoritative merely because it already exists.
+Current type roles:
 
-If an implementation has been marked rejected or failed review:
+```text
+Headings     → Inter Tight
+Body / UI    → Manrope
+BrandLockup  → Cormorant Garamond Italic
+```
 
-- do not use its markup/CSS as a design reference;
-- preserve only proven integration/data behavior;
-- rebuild from locked sources where necessary.
+Do not reintroduce Fraunces, Instrument Serif, gold-first styling, or old warm-charcoal token values into production unless a future locked design decision explicitly changes the active theme.
+
+Raw values belong in Theme V2 JSON, not in `AGENTS.md`, `DESIGN.md`, skills, or components.
 
 ---
 
-## 4. Universal skills directory
+# 7. Tailwind CSS v4 contract
 
-All agent skills live directly in:
+The current site uses Tailwind CSS v4 with `@tailwindcss/vite`.
 
-```text
-.skills/
+Canonical global entry:
+
+```css
+@import "tailwindcss";
+@import "./fonts.css";
+@import "../theme/generated/theme.css";
+@import "@astro-foundation/core/theme/foundation.css";
 ```
 
-Skills are Markdown files.
+Rules:
 
-Do not assume agent-specific folders such as:
-
-```text
-.claude/skills/
-.cursor/skills/
-.codex/skills/
-```
-
-The repository uses `.skills/` as the universal skill source.
+- Do not introduce `@tailwind base`, `@tailwind components`, or `@tailwind utilities`.
+- Do not create a v3-style `tailwind.config.*` unless a deliberate compatibility/migration task requires it.
+- Use CSS-first Tailwind v4 features (`@theme`, `@utility`, `@source`, `@reference`) according to `.skills/tailwind-v4.md`.
+- Keep utility class names statically detectable; map runtime variants to complete class strings.
+- Use `@source` only when automatic detection cannot see a legitimate source.
+- Use `@reference` in scoped/component CSS only when access to Tailwind theme/utilities is actually needed.
+- Prefer semantic project utilities/tokens over repeated arbitrary values.
+- The active generated theme currently exposes project tokens as CSS custom properties under `@layer theme`; named project utilities such as `font-heading`, `font-body`, and `font-brand` are registered in the global CSS entry. Do not assume every `:root` token automatically creates a Tailwind utility.
+- Astro scoped-style ownership must be understood before styling elements rendered inside child components. Parent scoped selectors are not a reliable way to style arbitrary child-component DOM.
 
 ---
 
-# 5. Skill registry
+# 8. Primitive/component contract
+
+Shared infrastructure includes:
+
+```text
+Page
+Container / PageContainer / ReadingContainer
+Section / SectionHeading
+Link
+Button and form controls
+BrandLockup
+SiteHeader
+LanguageSwitcher
+Breadcrumbs
+FAQ
+TrustStrip
+HorizontalCarousel
+FinalCTA
+SiteFooter
+```
+
+Once a shared component is reviewed and approved, page work reuses it.
+
+When a reused component appears wrong in a page, investigate integration before redesign:
+
+```text
+prop/data wiring
+slot/API mismatch
+scoped-style ownership
+stacking context / z-index
+positioning
+parent overflow
+container ownership
+surface inheritance
+responsive parent constraints
+duplicate/legacy import path
+```
+
+A page-specific task does not grant permission to redesign shared infrastructure unless root cause is proven to be inside the shared component.
+
+---
+
+# 9. Rejected implementation rule
+
+A rejected implementation is not a design reference.
+
+It may be inspected for:
+
+- data integration;
+- routing;
+- useful prop contracts;
+- proven technical behavior.
+
+Do not inherit its:
+
+- composition;
+- spacing;
+- typography;
+- imagery treatment;
+- CSS;
+- CTA choices;
+- component boundaries;
+
+unless those are independently validated against current authority.
+
+---
+
+# 10. Skill registry
+
+All skills live directly in `.skills/`.
 
 ## Architecture / framework
 
-### `.skills/astro-architecture.md`
+- `astro-architecture.md` — Astro architecture, component boundaries, islands, dependencies, data/content architecture.
+- `tailwind-v4.md` — all Tailwind CSS work and v4 anti-regression rules.
+- `multilingual-routing.md` — locale routing, slugs, hreflang, breadcrumbs, switching, parity.
 
-Read for:
+## Design / UI
 
-- Astro architecture;
-- component boundaries;
-- types;
-- islands/client JS;
-- dependencies;
-- repository refactors;
-- data/content architecture.
+- `design-foundation-governance.md` — active theme governance and design-token discipline.
+- `blueprint-to-ui.md` — mandatory for blueprint/wireframe implementation.
+- `component-architecture.md` — components, variants, shared/page-local composition.
+- `high-value-visual-execution.md` — hierarchy, restraint, whitespace, component identity.
+- `typography-system.md` — Inter Tight / Manrope / brand typography and font QA.
+- `imagery-art-direction.md` — image roles, crop, focal points, scrims.
+- `functional-ui.md` — forms, booking, pricing/calculator states.
+- `responsive-layout.md` — design-level responsive composition.
+- `design-review.md` — independent visual review.
 
-### `.skills/tailwind-v4.md`
+## Technical / quality
 
-Read for:
+- `responsive-ui.md` — technical responsive correctness.
+- `responsive-images-performance.md` — image delivery, LCP, CLS, performance.
+- `accessibility-wcag.md` — WCAG 2.2 AA.
+- `technical-seo.md` — metadata/indexability/internal-link technical behavior.
+- `structured-data.md` — JSON-LD/schema.
+- `technical-page-review.md` — final technical page gate.
 
-- all Tailwind CSS work;
-- Tailwind v4 architecture;
-- CSS-first configuration;
-- `@theme`;
-- `@utility`;
-- `@source`;
-- `@reference`;
-- static class detection;
-- prevention of Tailwind v3 regressions.
-
-> Current repository filename is `tailwind-v4.md`. If renamed, prefer the correctly spelled `tailwind-v4.md` and update this file at the same time.
-
-### `.skills/multilingual-routing.md`
-
-Read for:
-
-- locale routing;
-- localized slugs;
-- `getPath()` / `<Link>`;
-- hreflang;
-- breadcrumbs;
-- language switching;
-- UI/content parity;
-- Serbian/English/Russian routing behavior.
+`skills-manifest.json` is metadata only.
 
 ---
 
-# 6. Design / UI skills
+# 11. Required skill bundles
 
-## `.skills/design-foundation-governance.md`
+Load the smallest complete bundle.
 
-Read for every visual task.
-
-Covers:
-
-- locked palette/surface hierarchy;
-- design tokens;
-- radius;
-- spacing;
-- grid/container rules;
-- motion philosophy;
-- gold scarcity;
-- card philosophy;
-- design anti-patterns;
-- global design constraints.
-
----
-
-## `.skills/blueprint-to-ui.md`
-
-Mandatory when implementing from a page blueprint or wireframe.
-
-Covers:
-
-- blueprint compliance matrix;
-- MUST / SHOULD / MAY interpretation;
-- wireframe decontamination;
-- geometry vs visual styling;
-- placeholder boundaries;
-- required-region preservation;
-- CTA intent locking;
-- immutable product strings;
-- locale integrity;
-- missing assets;
-- prevention of silent structural omissions.
-
----
-
-## `.skills/component-architecture.md`
-
-Read when:
-
-- creating a component;
-- creating a variant;
-- extracting shared UI;
-- refactoring components;
-- deciding global vs page-local composition.
-
-Covers:
-
-- reuse-first decisions;
-- component identity;
-- minimal APIs;
-- page-local composition;
-- avoidance of mega-components;
-- avoidance of one-off component proliferation;
-- shared primitives;
-- carousel/form/control ownership.
-
----
-
-## `.skills/high-value-visual-execution.md`
-
-Read for visual implementation and refinement.
-
-Covers:
-
-- visual hierarchy;
-- restraint;
-- whitespace discipline;
-- content-density proportionality;
-- component identity;
-- avoiding cardification;
-- avoiding generic AI visual patterns;
-- distinguishing Hero / feature section / Final CTA;
-- premium visual rhythm.
-
----
-
-## `.skills/typography-system.md`
-
-Read for any text-bearing visual implementation or typography review.
-
-Covers:
-
-- Fraunces / Manrope usage;
-- semantic type scale;
-- font loading;
-- computed-font verification;
-- heading hierarchy;
-- line-height;
-- tracking;
-- measure;
-- localization expansion;
-- prevention of fallback-font acceptance.
-
----
-
-## `.skills/imagery-art-direction.md`
-
-Read for any image-bearing UI.
-
-Covers:
-
-- cinematic hero imagery;
-- contextual split imagery;
-- full-card service photography;
-- transparent vehicle PNGs;
-- Final CTA vehicle treatment;
-- focal points;
-- responsive crop;
-- object-fit;
-- scrims;
-- missing-asset policy;
-- image-role fidelity.
-
----
-
-## `.skills/functional-ui.md`
-
-Read for:
-
-- forms;
-- booking;
-- calculator;
-- pricing interactions;
-- segmented controls;
-- validation;
-- stateful service UI.
-
-Covers:
-
-- Fixed / Estimated / Quote states;
-- Pending confirmation;
-- progressive disclosure;
-- field architecture;
-- form/control consistency;
-- prevention of SaaS/dashboard visual drift.
-
----
-
-## `.skills/responsive-layout.md`
-
-Read for **design-level responsive composition**.
-
-Covers:
-
-- mobile-first layout;
-- tablet portrait;
-- tablet landscape;
-- desktop;
-- wide desktop;
-- 4/8/12 grid;
-- split activation;
-- container-query decisions;
-- content order;
-- layout topology;
-- localization expansion.
-
----
-
-## `.skills/design-review.md`
-
-Mandatory independent visual review after significant page implementation.
-
-Covers:
-
-- blueprint completeness;
-- visual-system compliance;
-- CTA correctness;
-- component identity;
-- computed-font inspection;
-- geometry/proportions;
-- surface rhythm;
-- cardification;
-- responsive screenshots;
-- imagery/crop;
-- severity-ranked findings.
-
-The design reviewer must **not redesign a locked page merely because another design is possible**.
-
----
-
-# 7. Technical / quality skills
-
-## `.skills/responsive-ui.md`
-
-Read for **technical responsive correctness**.
-
-This is distinct from `responsive-layout.md`.
-
-Use it for:
-
-- overflow;
-- logical properties;
-- viewport behavior;
-- touch target sizing;
-- technical breakpoint correctness;
-- responsive interaction behavior.
-
-### Division of responsibility
-
-```text
-responsive-layout.md
-= visual composition and layout reasoning
-
-responsive-ui.md
-= technical responsive correctness
-```
-
-Use both for full page implementations.
-
----
-
-## `.skills/responsive-images-performance.md`
-
-Read for:
-
-- responsive image delivery;
-- Astro image pipeline;
-- `srcset` / `sizes`;
-- image dimensions;
-- LCP image behavior;
-- font performance;
-- CLS;
-- INP/LCP-related frontend performance;
-- client-side JS budget.
-
-This skill governs **delivery/performance**, while `imagery-art-direction.md` governs **visual role/crop/art direction**.
-
-Use both for production imagery.
-
----
-
-## `.skills/accessibility-wcag.md`
-
-Read for:
-
-- WCAG 2.2 AA;
-- semantics;
-- keyboard;
-- focus-visible;
-- contrast;
-- forms;
-- dialogs;
-- motion;
-- target sizes;
-- language / `dir`;
-- accessible interaction behavior.
-
-Accessibility is non-waivable where foundation rules say so.
-
----
-
-## `.skills/technical-seo.md`
-
-Read for:
-
-- indexability;
-- metadata;
-- canonical;
-- hreflang;
-- sitemap;
-- robots;
-- internal-link technical behavior;
-- Core Web Vitals SEO requirements.
-
----
-
-## `.skills/structured-data.md`
-
-Read for:
-
-- JSON-LD;
-- schema generation;
-- schema eligibility;
-- validation;
-- page-specific structured-data review.
-
----
-
-## `.skills/technical-page-review.md`
-
-Mandatory final technical gate for a completed page.
-
-Covers:
-
-- semantics;
-- technical SEO;
-- accessibility;
-- route integrity;
-- structured data;
-- responsive technical checks;
-- performance fundamentals;
-- page-level quality gates.
-
-`design-review.md` and `technical-page-review.md` are separate gates.
-
-Passing one does not imply passing the other.
-
----
-
-# 8. Non-skill metadata
-
-## `.skills/skills-manifest.json`
-
-This is metadata, not an instructional skill.
-
-Use it to:
-
-- enumerate skills;
-- support tooling;
-- describe skill categories;
-- help automation select matching skills.
-
-Do not treat it as a replacement for the Markdown skill itself.
-
----
-
-# 9. Required skill bundles
-
-Do not load every skill for every task.
-
-Use the smallest complete bundle.
-
-## A. Implement a new page from blueprint + wireframe
+## New/major page from blueprint + wireframe
 
 Mandatory:
 
 ```text
+AGENTS.md
 DESIGN.md
+page blueprint
+page wireframe
 .skills/design-foundation-governance.md
 .skills/blueprint-to-ui.md
 .skills/component-architecture.md
@@ -542,56 +389,12 @@ DESIGN.md
 .skills/accessibility-wcag.md
 ```
 
-Add:
+Add imagery/performance skills for image-bearing pages, functional UI for forms/pricing/booking, and multilingual routing when routes/locales/links are touched.
+
+## Small visual patch
 
 ```text
-.skills/imagery-art-direction.md
-.skills/responsive-images-performance.md
-```
-
-when the page contains imagery.
-
-Add:
-
-```text
-.skills/functional-ui.md
-```
-
-when the page contains forms, pricing, booking, calculators, filters, or state-heavy UI.
-
-Also load:
-
-```text
-.skills/multilingual-routing.md
-```
-
-when route/locale content or links are touched.
-
----
-
-## B. Implement a reusable visual component
-
-Read:
-
-```text
-DESIGN.md
-.skills/design-foundation-governance.md
-.skills/component-architecture.md
-.skills/responsive-layout.md
-.skills/responsive-ui.md
-.skills/tailwind-v4.md
-.skills/accessibility-wcag.md
-```
-
-Add typography/image/functional skills as required by the component.
-
----
-
-## C. Small visual patch
-
-Read:
-
-```text
+AGENTS.md
 DESIGN.md
 .skills/design-foundation-governance.md
 .skills/tailwind-v4.md
@@ -599,81 +402,23 @@ DESIGN.md
 
 plus only the specialist skill relevant to the patch.
 
-Do not load the full page-implementation bundle unless required.
-
----
-
-## D. Pricing / booking / calculator work
-
-Read:
+## Page design review
 
 ```text
-.skills/astro-architecture.md
-.skills/functional-ui.md
-.skills/component-architecture.md
-.skills/responsive-layout.md
-.skills/responsive-ui.md
-.skills/accessibility-wcag.md
-.skills/tailwind-v4.md
-```
-
-Also inspect validated pricing/service data sources.
-
-Never hardcode pricing into visual components.
-
----
-
-## E. Image-heavy section
-
-Read:
-
-```text
-.skills/imagery-art-direction.md
-.skills/responsive-images-performance.md
-.skills/responsive-layout.md
-.skills/design-foundation-governance.md
-```
-
-These responsibilities are separate:
-
-```text
-art direction
-≠
-image delivery/performance
-```
-
----
-
-## F. Page design review
-
-Read:
-
-```text
+AGENTS.md
 DESIGN.md
+page blueprint
+page wireframe
 .skills/design-review.md
 .skills/design-foundation-governance.md
 .skills/typography-system.md
 .skills/responsive-layout.md
 ```
 
-Also read:
+## Technical page review
 
 ```text
-current page blueprint
-current wireframe
-```
-
-Review rendered screenshots/browser output.
-
-Do not perform the technical page review implicitly.
-
----
-
-## G. Technical page review
-
-Read:
-
-```text
+AGENTS.md
 .skills/technical-page-review.md
 .skills/accessibility-wcag.md
 .skills/technical-seo.md
@@ -685,198 +430,169 @@ Read:
 
 ---
 
-# 10. Blueprint implementation workflow
+# 12. Blueprint implementation workflow
 
-For a locked blueprint/wireframe page, use this order:
+For a locked page:
 
 ```text
-1. Read docs/AGENTS.md
-2. Read DESIGN.md
-3. Read page blueprint
-4. Read wireframe
-5. Load matching skills
-6. Inspect existing approved primitives/components
-7. Build blueprint compliance matrix
-8. Implement one component/section at a time
-9. Render in browser
-10. Review mobile
-11. Review tablet portrait
-12. Review tablet landscape
-13. Review desktop
-14. Run independent design review
-15. Fix design-review blockers
-16. Run technical page review
-17. Run required quality gate
+1. Read root AGENTS.md.
+2. Read DESIGN.md.
+3. Read the page blueprint.
+4. Read the wireframe for structural intent.
+5. Load only matching skills.
+6. Inspect active theme JSON and verified shared components/data.
+7. Build a blueprint compliance matrix.
+8. Diagnose existing implementation before editing.
+9. Implement one bounded section/component at a time.
+10. Render/review mobile.
+11. Review tablet portrait.
+12. Review tablet landscape.
+13. Review desktop.
+14. Wide-desktop sanity check.
+15. Independent design review.
+16. Fix design blockers.
+17. Technical page review.
+18. Run required project checks/build.
+19. Report exact files changed, commands run, and unresolved items.
 ```
 
-Do not begin by copying wireframe HTML/CSS.
+Do not begin by copying wireframe CSS into production.
 
 ---
 
-# 11. Wireframe rule
+# 13. Wireframe rule
 
-A grayscale HTML wireframe defines:
+A wireframe may define:
 
 - hierarchy;
 - grouping;
+- relative prominence;
 - content relationship;
 - approximate geometry;
-- layout topology;
+- grid topology;
 - image footprint;
-- responsive intent.
+- responsive stacking intent;
+- presence/order of actions.
 
-It does **not** define production:
+A wireframe does not define final:
 
 - fonts;
-- colors;
+- raw colors;
+- production token values;
 - helper labels;
-- borders;
+- skeletons;
+- dashed image outlines;
+- exact spacing;
 - shadows;
-- skeleton blocks;
-- dashed outlines;
-- exact placeholder widths;
-- visible cards;
-- image boundaries;
-- final spacing values.
+- borders;
+- component implementation strategy.
 
-Production styling is reconstructed from the design foundation.
+For this repository, wireframes may use Tailwind CSS v4 utility syntax to make responsive geometry explicit, but production code must still map the structure to actual Astro components and active semantic tokens.
 
 ---
 
-# 12. Rejected implementation rule
+# 14. Quality and verification
 
-If a page/component has been explicitly marked rejected:
+## Foundation commands
 
-```text
-REJECTED IMPLEMENTATION
-≠
-DESIGN REFERENCE
+Common root commands:
+
+```bash
+pnpm foundation:doctor
+pnpm types:generate
+pnpm theme:validate
+pnpm theme:sync
+pnpm routes:validate
+pnpm content:validate
+pnpm seo:validate
+pnpm lint
+pnpm test:unit
 ```
 
-It may be inspected only for:
+Many scripts accept a project path. For the current Luxury Transportation site, prefer an explicit target where the script otherwise defaults to the reference site, for example:
 
-- existing integration;
-- data wiring;
-- prop contracts worth preserving;
-- technical behavior proven correct.
-
-Do not inherit:
-
-- visual composition;
-- spacing;
-- typography;
-- image treatment;
-- CSS;
-- CTA choices;
-- component boundaries;
-
-unless separately validated against locked sources.
-
----
-
-# 13. Global component rule
-
-Once approved, global components should be treated as stable infrastructure:
-
-```text
-Header
-Footer
-Button
-Breadcrumbs
-FAQ
-FinalCTA
-shared layout primitives
-shared carousel mechanics
-shared form controls
+```bash
+pnpm foundation:doctor site/luksuzni-prevoz
+pnpm theme:sync site/luksuzni-prevoz
+pnpm theme:validate site/luksuzni-prevoz
+pnpm routes:validate site/luksuzni-prevoz
+pnpm content:validate site/luksuzni-prevoz
+pnpm seo:validate site/luksuzni-prevoz
 ```
 
-A page agent should reuse them.
+## Site-specific page verification
 
-Do not redesign global components inside a page task.
+For current page work also run:
 
----
-
-# 14. Page completion requires separate reviews
-
-A page is not complete after it builds.
-
-Required conceptual gates:
-
-```text
-IMPLEMENTATION
-    ↓
-DESIGN REVIEW
-    ↓
-TECHNICAL PAGE REVIEW
-    ↓
-CONTENT/SEO REVIEW when content work is in scope
-    ↓
-QUALITY GATE
+```bash
+pnpm --filter @luksuzni-prevoz/site check
+pnpm --filter @luksuzni-prevoz/site build
 ```
 
-Design and technical review are independent.
+The root `quality:*` scripts are foundation-wide gates and some still target the reference implementation internally. Until those scripts are deliberately retargeted, do not imply that a root `quality:fast/page/release` result alone proves the Luxury Transportation site page passed its own Astro check/build.
 
----
-
-# 15. Quality gates
-
-During development:
+## Existing root gates
 
 ```bash
 pnpm quality:fast
-```
-
-Includes repository-configured fast checks such as:
-
-- doctor;
-- types;
-- theme sync/validation;
-- routes;
-- content;
-- SEO;
-- lint;
-- unit tests.
-
-Before declaring any page task complete:
-
-```bash
 pnpm quality:page
-```
-
-Includes:
-
-```text
-quality:fast
-+
-build
-+
-generated-artifact drift checks
-```
-
-Before deploy or foundation/core changes:
-
-```bash
 pnpm quality:release
 ```
 
-Includes repository-configured release checks such as:
-
-- page quality;
-- traceability;
-- waivers;
-- secret scan;
-- dependency audit;
-- e2e;
-- accessibility;
-- Lighthouse.
-
-Do not claim a gate passed unless it was actually run.
+Do not edit package scripts as part of unrelated page work.
 
 ---
 
-# 16. Scale envelope
+# 15. Testing / platform expectations
 
-Do not silently exceed:
+Foundation/reference testing includes:
+
+- Vitest unit tests;
+- Playwright E2E where configured;
+- accessibility tests;
+- Lighthouse CI.
+
+Reference responsive test widths include:
+
+```text
+320
+768
+1024
+1440
+1920
+```
+
+Design review is not limited to those exact widths; tablet portrait and tablet landscape are distinct acceptance states.
+
+Do not ask isolated coding agents to install browsers/system packages unless the task explicitly provisions that capability. Use the available repository checks plus manual browser review when appropriate.
+
+---
+
+# 16. Lighthouse / security baseline
+
+Existing Foundation Lighthouse thresholds:
+
+```text
+accessibility   ≥ 0.95
+SEO             ≥ 0.95
+best-practices  ≥ 0.90
+performance     ≥ 0.90
+```
+
+Existing security/header baseline includes CSP and:
+
+- `X-Content-Type-Options`;
+- `Referrer-Policy`;
+- `Permissions-Policy`;
+- HSTS where deployment supports it.
+
+Do not weaken these to make a page or integration easier.
+
+---
+
+# 17. Scale envelope and exceptions
+
+The current architecture is designed around:
 
 ```text
 ≤ 30 routes per locale
@@ -885,56 +601,76 @@ Do not silently exceed:
 single static site
 ```
 
-Out of scope by design unless architecture is explicitly revisited:
-
-- pagination;
-- SSR/endpoints;
-- CMS;
-- authentication;
-- site search.
+Out-of-scope architecture such as SSR/endpoints, CMS, authentication, site search, or large pagination requires an explicit architecture decision.
 
 See:
 
 ```text
 docs/scale-envelope.md
-```
-
-If the project begins requiring several of these, escalate instead of bending validators.
-
----
-
-# 17. Exceptions
-
-Any deviation from an `FND-*` rule requires the documented waiver process in:
-
-```text
 docs/exceptions.md
 ```
 
-Non-waivable rules cannot be waived.
-
-Do not create informal exceptions inside components.
+Any permitted deviation from an FND rule uses the documented waiver process. Non-waivable rules cannot be waived.
 
 ---
 
-# 18. Completion discipline
+# 18. Change management
 
-Before reporting completion:
+## Theme/token change
 
-- identify which skills were applied;
+Update:
+
+```text
+site/luksuzni-prevoz/src/theme/versions/version-2/*.json
+```
+
+then regenerate:
+
+```text
+src/theme/generated/theme.css
+```
+
+Do not patch individual components to mimic a theme change.
+
+## Global design-direction change
+
+Update:
+
+```text
+DESIGN.md
+```
+
+and the active Theme V2 sources if raw tokens change.
+
+## Page structure change
+
+Update in this order:
+
+```text
+page blueprint
+→ wireframe
+→ implementation
+```
+
+## Agent procedure change
+
+Update the relevant `.skills/*.md`.
+
+A skill must not become a second storage location for current raw design values.
+
+---
+
+# 19. Completion discipline
+
+Before reporting a task complete:
+
+- identify the authority files and skills applied;
 - list files changed;
-- list tests/gates actually run;
+- list tests/checks/gates actually run;
 - report unresolved TODOs;
 - report placeholders/missing assets;
 - report any blueprint deviation;
-- report any new component/variant and its justification.
+- report any new component/variant and why it was necessary;
+- distinguish automated verification from manual visual review.
 
-Never hide known deviations behind wording such as:
-
-```text
-done
-finished
-production-ready
-```
-
-when required review or verification has not occurred.
+Never hide known deviations behind “done”, “finished”, or “production-ready”.

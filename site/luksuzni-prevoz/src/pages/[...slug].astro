@@ -1,0 +1,30 @@
+---
+/**
+ * Default-locale (sr) leaf pages — UNPREFIXED.
+ *
+ * Generates the Serbian (default-locale) non-home content pages at their
+ * canonical unprefixed URLs: /kontakt/, /vozila/, /cene/, /o-nama/,
+ * /privatni-vozac/, etc. The default locale is unprefixed, so its leaves are
+ * emitted by this root catch-all; non-default-locale leaves keep their
+ * /locale/ prefix and are emitted by [locale]/[...slug].astro. Both render the
+ * shared LeafPage component.
+ *
+ * Static-path safety (FND-I18N / astro-architecture): getStaticPaths
+ * enumerates ONLY the valid default-locale slugs from the route map + content
+ * collection — it never emits en/ru paths, and unknown paths are not
+ * generated (the host serves 404.html). The catch-all cannot turn an unknown
+ * path into Serbian content because it generates only its explicit enumerated
+ * set (home, with slug "", is skipped — handled by the home route files).
+ */
+import LeafPage from "../components/site/LeafPage.astro";
+import { buildLeafStaticPaths } from "../lib/pages.ts";
+
+export async function getStaticPaths() {
+  // Default locale (sr) only, unprefixed param shape ({ slug }).
+  return buildLeafStaticPaths(["sr"], { prefixed: false });
+}
+
+const { routeKey, locale, content } = Astro.props;
+---
+
+<LeafPage routeKey={routeKey} locale={locale} content={content} />

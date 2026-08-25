@@ -1,0 +1,224 @@
+---
+/**
+ * ServiceShowcase — Homepage-specific service mosaic (blueprint §8 / 04-service-
+ * showcase / 05-service-card). NOT a generic service grid: it owns the locked
+ * Homepage asymmetric 35/30/35 desktop topology and its responsive collapse.
+ *
+ * Ownership (04-service-showcase §Ownership):
+ *   ServiceShowcase owns → section-local composition, the mosaic topology,
+ *     card placement/order, and the section heading/CTA composition.
+ *   ServiceCard owns     → one image-backed service tile (media, scrim, content,
+ *     interaction). It is reused here with NO Homepage-specific placement pushed
+ *     into it: the generic card root gained only `width:100%`+`min-width:0`
+ *     (correct grid-item containment — fills its track, never overflows it) and
+ *     an OPTIONAL `image`/`placeholder` media mode. Neither is Homepage-local.
+ * The page assembly only mounts this component; it does not duplicate the grid.
+ *
+ * Composition authority = the current wireframe (docs/home/reference/wireframe.
+ * html §SERVICES). Production code maps that geometry to Astro + Theme V2
+ * semantic tokens; it does not ship the wireframe's placeholder palette.
+ *
+ * Desktop (lg): one coherent rectangular mosaic at a single overall height —
+ *   col 1 (35fr) Private Chauffeur  · full height
+ *   col 2 (30fr) Airport Transport   · full height
+ *   col 3 (35fr) wrapper grid-rows-2 → Business + Special Events stacked (½ each)
+ * DOM/content order stays canonical (blueprint §8): Private, Airport, Business,
+ * Special Events. Private Chauffeur is dominant by FOOTPRINT only — no badge.
+ *
+ * Tablet portrait (md): clean 2 × 2 — the col-3 wrapper becomes display:contents
+ * so Business + Special Events rejoin the outer 2-col grid as normal items.
+ * Tablet landscape / desktop: the asymmetric mosaic returns (lg breakpoint).
+ *
+ * Mobile: one card per row; desktop masonry proportions are NOT preserved.
+ *
+ * Card height: ServiceCard's generic 3:2 aspect ratio gives natural height on
+ * mobile/tablet (no definite grid height). On desktop the mosaic container gets
+ * a definite height from an aspect-ratio (scoped CSS, lg breakpoint) and each
+ * card is stretched to its grid track (lg:h-full / 1fr row). Because the card
+ * root now has width:100% (definite inline = track) AND h-full (definite
+ * block = track height), both box dimensions are definite → the 3:2
+ * aspect-ratio is overridden per CSS spec, so the cards fill the mosaic cells
+ * WITHOUT their aspect-ratio computing a wider inline size from the definite
+ * height (the prior overflow defect). lg:min-h-0 lets the stacked half-height
+ * cards shrink to their 1fr track; lg:min-w-0 on the third region keeps it from
+ * inflating column 3. Tracks use minmax(0, 35fr/30fr/35fr) so no min-content can
+ * inflate a track. This is how ServiceCard stays generic (keeps 3:2 for its
+ * normal grid use, e.g. /dev/ui) while the Homepage controls footprint here —
+ * exactly 05-service-card §Geometry ("ServiceShowcase determines card
+ * footprint; ServiceCard must not hardcode Homepage mosaic widths").
+ *
+ * Content/data: title / text / ctaLabel / routeKey come straight from the
+ * canonical Homepage editorial content (entry.data.services.items — routeCard-
+ * schema, exactly 4). The section heading comes from entry.data.services.heading.
+ * The component owns NO copy (FND-ARCH-03) — every visible string is a prop.
+ *
+ * Routing: each card's CTA is `{ to: routeKey }` → <Link> resolves via getPath
+ * (FND-I18N-03). No hardcoded locale prefixes, no manual URL building.
+ *
+ * PLACEHOLDER IMAGERY PHASE (reported, not silently worked around): real
+ * per-service photography is not yet produced (routeCard.image is optional +
+ * unauthored for every locale). Per the task's approved placeholder strategy,
+ * NO photographic asset is wired — each card renders a neutral Black & Platinum
+ * placeholder media layer (ServiceCard `placeholder` prop, semantic-surface
+ * gradients), distinguished by subtle tone variation only. The media-layer
+ * architecture (media → scrim → content) is identical to the real-image path,
+ * so swapping in photography later is just authoring routeCard.image + passing
+ * ServiceCard `image` — no component rewrite. Placeholder media is decorative
+ * (aria-hidden) — the service title carries the meaning (imagery-art-direction
+ * §19; mirrors Hero/FinalCTA imageAlt="" on this page).
+ *
+ * Accessibility: section <h2> (SectionHeading) + per-card <h3> (ServiceCard
+ * headingLevel=3) → logical H1→H2→H3 hierarchy (single page H1 stays in Hero).
+ * The CTA is the only interactive element per card (ServiceCard contract — no
+ * nested interactive targets). Section is aria-labelledby the heading id.
+ * Static — no client JS, no island (component-architecture §21).
+ */
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import ServiceCard from "../shared/ServiceCard.astro";
+import type { ServiceCardPlaceholder } from "../shared/ServiceCard.types.ts";
+import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+
+/** Canonical Homepage service item (routeCardSchema shape — editorial copy only). */
+interface HomeServiceItem {
+  routeKey: string;
+  title: string;
+  text?: string;
+  ctaLabel: string;
+}
+
+interface Props {
+  /** Section heading (entry.data.services.heading). */
+  heading: { title: string; intro?: string };
+  /**
+   * Exactly four service items in canonical order: Private Chauffeur, Airport
+   * Transportation, Business Transportation, Special Events. The content schema
+   * (homePageSchema.services.items length(4)) guarantees the count; this prop
+   * is typed as an array and guarded at runtime below.
+   */
+  items: HomeServiceItem[];
+  /** Current locale — forwarded to <Link> for localized route resolution. */
+  locale: LocaleCode;
+}
+
+const { heading, items, locale } = Astro.props;
+
+const headingId = "home-services-heading";
+
+// PLACEHOLDER IMAGERY PHASE: real per-service photography is not yet produced
+// (routeCard.image is optional + unauthored for every locale). Per the task's
+// approved placeholder strategy, NO photographic asset is wired here — each
+// card renders a neutral Black & Platinum placeholder media layer instead
+// (ServiceCard `placeholder` prop, semantic-surface gradients). The four cards
+// are distinguished by subtle tone variation only. This is an INTERIM: once
+// per-service photography exists it should be authored as routeCard.image in
+// home.{sr,en,ru}.md and passed as ServiceCard `image` here (the media-layer
+// architecture is identical — no rewrite). See ServiceCard.types.ts
+// ServiceCardPlaceholder. (DESIGN.md §14: missing assets do not authorize
+// redesign; no external/invented media.)
+const placeholderFor: Record<string, ServiceCardPlaceholder> = {
+  privateChauffeur: "graphite",
+  airportTransportation: "graphite-light",
+  businessTransportation: "near-black-graphite",
+  specialEvents: "graphite-near-black",
+};
+
+// Canonical-order guard — the schema enforces length 4, but the array type does
+// not carry tuple arity, so narrow here before placing each card.
+if (items.length !== 4) {
+  throw new Error(
+    `ServiceShowcase expects exactly 4 service items (canonical: Private Chauffeur, Airport, Business, Special Events); received ${items.length}.`,
+  );
+}
+const [privateChauffeur, airport, business, specialEvents] = items;
+
+// Map a canonical service item to ServiceCard's presentation-only props. The CTA
+// target IS the item's routeKey (routeCard has no separate target — the card
+// links to the service route itself); label is the authored ctaLabel. No `image`
+// is passed → ServiceCard renders the neutral placeholder media layer.
+const card = (item: HomeServiceItem, className: string) => ({
+  title: item.title,
+  description: item.text ?? "",
+  imageAlt: "",
+  placeholder: placeholderFor[item.routeKey] ?? "graphite",
+  action: { label: item.ctaLabel, to: item.routeKey as RouteKey },
+  locale,
+  headingLevel: 3 as const,
+  class: className,
+});
+---
+
+<Section spacing="standard" aria-labelledby={headingId}>
+  <PageContainer>
+    <SectionHeading
+      id={headingId}
+      heading={heading.title}
+      description={heading.intro}
+      class="mb-[var(--space-8)]"
+    />
+
+    {/*
+      Mosaic grid — wireframe §SERVICES geometry, mapped to Theme V2 tokens.
+      Desktop (lg): 35fr 30fr 35fr at one definite overall height; the third
+      region is a nested grid-rows-2 so Business + Special Events stack at ½ each.
+      Tablet portrait (md): 2 × 2 — the third region uses display:contents so its
+      two cards rejoin the outer 2-col grid. Mobile: single column.
+
+      The lg column ratio (35/30/35) and the responsive overall height are bespoke
+      Homepage composition with no semantic token (blueprint §22 declares 35/30/35
+      a Homepage exception), so they live in the scoped <style> below as section
+      composition CSS (AGENTS §7) — not as arbitrary Tailwind utility values
+      (FND-THEME-09). Mobile/tablet use static utilities on the element.
+    */}
+    <div class="service-showcase__mosaic grid grid-cols-1 gap-4 md:grid-cols-2">
+      {/* 1. Private Chauffeur — col 1, full mosaic height (dominant by footprint). */}
+      <ServiceCard {...card(privateChauffeur, "lg:h-full lg:min-h-0")} />
+
+      {/* 2. Airport Transportation — col 2, full mosaic height. */}
+      <ServiceCard {...card(airport, "lg:h-full lg:min-h-0")} />
+
+      {/*
+        3+4. Third region — Business + Special Events.
+        Mobile: a stacked 1-col grid. md: display:contents → cards become direct
+        items of the outer 2-col grid (clean 2 × 2). lg: a grid-rows-2 filling
+        col 3's full height → two ½-height stacked cards. lg:min-w-0 keeps this
+        grid child from inflating column 3's track.
+      */}
+      <div class="service-showcase__region grid gap-4 md:contents lg:grid lg:grid-rows-2 lg:h-full lg:min-w-0">
+        <ServiceCard {...card(business, "lg:h-full lg:min-h-0")} />
+        <ServiceCard {...card(specialEvents, "lg:h-full lg:min-h-0")} />
+      </div>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  /* Homepage asymmetric mosaic — blueprint §8 / 04-service-showcase / wireframe
+     §SERVICES. Desktop (lg) only: 35fr 30fr 35fr columns at one responsive
+     overall height derived from the container width via aspect-ratio (a ratio,
+     not a raw length) — so the two dominant cards fill the full height while
+     Business + Special Events stack at ½ each inside the third region's
+     grid-rows-2. The definite height also overrides ServiceCard's generic 3:2
+     aspect-ratio for these cells (both box dimensions become definite under grid
+     stretch), so the generic primitive stays 3:2 everywhere else while the
+     Homepage controls footprint here. Mobile (1-col) and tablet portrait (2×2)
+     keep ServiceCard's natural 3:2 — no fixed mosaic height, no aspect-ratio.
+
+     Scoped (this component renders the mosaic div, so the scope applies). It
+     targets only .service-showcase__mosaic — NOT the child ServiceCard roots
+     (parent scoped CSS does not reach child DOM; placement is via grid stretch,
+     not parent selectors). */
+  @media (min-width: 64rem) {
+    .service-showcase__mosaic {
+      /* minmax(0, …) clamps each track's automatic minimum to 0 so a card's
+         intrinsic/aspect-ratio-computed size can NEVER inflate a track beyond
+         its fr share — the canonical grid-containment fix. The card root also
+         carries width:100% + min-width:0 (ServiceCard) so it fills, and cannot
+         overflow, its track. Together: every card stays inside its assigned
+         track and the 35/30/35 proportions hold. */
+      grid-template-columns: minmax(0, 35fr) minmax(0, 30fr) minmax(0, 35fr);
+      aspect-ratio: 5 / 2;
+    }
+  }
+</style>

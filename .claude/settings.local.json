@@ -3,7 +3,20 @@
     "allow": [
       "Bash(rg -n \"breakpoint\" src/theme/generated/theme.css src/styles/*.css)",
       "Bash(rg -n \"breakpoint|@theme|tailwindcss\" astro.config.* src/styles/global.css)",
-      "Bash(pnpm quality:fast)"
+      "Bash(pnpm quality:fast)",
+      "Bash(sed -n '/^services:/,/^flagshipFeature:/p' src/content/pages/home/home.sr.md)",
+      "Bash(sed -n '/^services:/,/^flagshipFeature:/p' src/content/pages/home/home.ru.md)",
+      "Read(//home/node/.nvm/versions/**)",
+      "Bash(command -v corepack)",
+      "Bash(export COREPACK_HOME=/tmp/corepack)",
+      "Bash(export ASTRO_TELEMETRY_DISABLED=1 HOME=/tmp)",
+      "Bash(corepack pnpm *)",
+      "Bash(export HOME=/tmp)",
+      "Bash(corepack pnpm@10.14.0 types:generate site/luksuzni-prevoz)",
+      "Bash(grep *)",
+      "Bash(identify site/luksuzni-prevoz/src/assets/rear-seat.webp)",
+      "Bash(python3 -c ' *)",
+      "Bash(HOME=/tmp ASTRO_TELEMETRY_DISABLED=1 corepack pnpm --filter @luksuzni-prevoz/site build)"
     ]
   }
 }

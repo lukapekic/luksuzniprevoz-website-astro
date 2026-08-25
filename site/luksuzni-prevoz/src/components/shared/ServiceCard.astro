@@ -72,7 +72,8 @@ const {
   title,
   description,
   image,
-  imageAlt,
+  imageAlt = "",
+  placeholder = "graphite",
   action,
   locale,
   headingLevel = 3,
@@ -87,18 +88,31 @@ const Tag: "h2" | "h3" = headingLevel === 2 ? "h2" : "h3";
 // the title; non-empty = informative image with that alt. The title is never
 // copied into alt (imagery-art-direction.md §19; task §22).
 const isDecorative = imageAlt === "";
+
+// Media mode: a real photographic asset (astro:assets <Image>) renders when
+// `image` is supplied; otherwise a neutral placeholder gradient layer renders
+// in the same slot. The placeholder preserves the full media-layer architecture
+// (media → scrim → content) so real imagery drops in later by just supplying
+// `image` — no markup/rewrite (DESIGN.md §14).
 ---
 
 <article class:list={["service-card", className]}>
-  <Image
-    class="service-card__image"
-    src={image}
-    alt={imageAlt}
-    role={isDecorative ? "presentation" : undefined}
-    loading="lazy"
-    widths={[360, 540, 720]}
-    sizes="(min-width: 64rem) 24rem, (min-width: 48rem) 28rem, calc(100vw - 3rem)"
-  />
+  {image ? (
+    <Image
+      class="service-card__image"
+      src={image}
+      alt={imageAlt}
+      role={isDecorative ? "presentation" : undefined}
+      loading="lazy"
+      widths={[360, 540, 720]}
+      sizes="(min-width: 64rem) 24rem, (min-width: 48rem) 28rem, calc(100vw - 3rem)"
+    />
+  ) : (
+    <div
+      class:list={["service-card__image", `service-card__image--${placeholder}`]}
+      aria-hidden="true"
+    />
+  )}
 
   <div class="service-card__scrim" aria-hidden="true"></div>
 
@@ -122,6 +136,20 @@ const isDecorative = imageAlt === "";
   .service-card {
     position: relative;
     display: block;
+    /* Grid-track containment: width:100% makes the card's inline size DEFINITE
+       (= its grid track), and min-width:0 lets it shrink below intrinsic
+       min-content. Together these prevent the card's `aspect-ratio: 3/2` from
+       computing a definite inline size from a definite block size (e.g. when a
+       caller stretches the card to a fixed grid-row height via h-full) and
+       overflowing its track into neighboring columns. With BOTH axes definite
+       (track width + stretched height), aspect-ratio is ignored and the card
+       fills its cell exactly. In a normal unconstrained-height grid (e.g.
+       /dev/ui), height stays auto and aspect-ratio still yields 3:2 from the
+       track width — so this generic primitive keeps its 3:2 silhouette there
+       and only fills a fixed-height cell here. (05-service-card §Geometry:
+       ServiceShowcase determines card footprint; the card fills it.) */
+    width: 100%;
+    min-width: 0;
     aspect-ratio: 3 / 2;
     overflow: hidden;
     border-radius: var(--radius-card);
@@ -129,9 +157,13 @@ const isDecorative = imageAlt === "";
     isolation: isolate;
   }
 
-  /* Full-bleed image: fills the entire card surface, edge to edge. object-cover
-     preserves the 3:2 crop without distortion. No movement on hover (filter
-     only — see below). z-index:0 anchors it beneath the scrim + content. */
+  /* Full-bleed media layer: fills the entire card surface, edge to edge. For a
+     real photo, <Image> uses object-cover (preserves the 3:2 crop without
+     distortion). For a placeholder, the same slot renders a neutral semantic-
+     surface gradient (see variants below). No movement on hover (filter only —
+     see below). z-index:0 anchors it beneath the scrim + content. The media
+     layer's containing block is the card (position:relative) — never the grid,
+     PageContainer, or viewport — so it can never paint across grid gaps. */
   .service-card__image {
     position: absolute;
     inset: 0;
@@ -141,6 +173,39 @@ const isDecorative = imageAlt === "";
     object-position: center;
     z-index: 0;
     transition: filter var(--duration-fast) var(--ease-standard);
+  }
+
+  /* Neutral Black & Platinum placeholder gradients (asset-gap phase). Each
+     variant is a subtle semantic-surface tone so four cards stay
+     distinguishable without leaving the theme — no raw colors, no gold/blue.
+     object-fit/position are harmless on these divs. */
+  .service-card__image--graphite {
+    background: linear-gradient(
+      155deg,
+      var(--color-surface-elevated),
+      var(--color-surface)
+    );
+  }
+  .service-card__image--graphite-light {
+    background: linear-gradient(
+      155deg,
+      color-mix(in oklab, var(--color-surface-elevated), var(--color-text-primary) 7%),
+      var(--color-surface-elevated)
+    );
+  }
+  .service-card__image--near-black-graphite {
+    background: linear-gradient(
+      180deg,
+      var(--color-background),
+      var(--color-surface)
+    );
+  }
+  .service-card__image--graphite-near-black {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface),
+      var(--color-background)
+    );
   }
 
   /* Bottom-concentrated darkening scrim. Derived ONLY from the semantic dark

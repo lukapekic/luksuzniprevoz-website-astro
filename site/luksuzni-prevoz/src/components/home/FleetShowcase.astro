@@ -1,0 +1,205 @@
+---
+/**
+ * FleetShowcase — Homepage fleet showcase (V1.1).
+ *
+ * Blueprint §11 / 08-fleet-showcase: a vehicle-led horizontal showcase that
+ * lets a visitor inspect fleet quality/range without duplicating the Fleet
+ * page. The outer <Section surface="open-dark" spacing="feature"> owns the
+ * vertical rhythm on the page canvas (feature tier, per the blueprint's
+ * Trust→Fleet feature transition and 08 §Section); a <PageContainer> owns the
+ * horizontal gutter + main-container cap. The whole Fleet section is NOT one
+ * large contained panel — the cards are the only surfaces (08 §Section).
+ *
+ * Heading row (wireframe §FLEET, exact): heading block (H2 + short intro) on
+ * the left, the compact "View fleet" section action on the right at md+
+ * (items-end); on mobile the action stacks below the heading. The wireframe's
+ * `Fleet showcase` uppercase chip is a wireframe-only helper label, not a
+ * production eyebrow — production uses the canonical <SectionHeading> with no
+ * eyebrow, matching the other open-dark home sections (ServiceShowcase /
+ * HowItWorks / Trust).
+ *
+ * Carousel: the approved shared <HorizontalCarousel> is reused UNCHANGED
+ * (08 §Carousel viewport / track; task §8/§17/§27). It owns scroll/snap/
+ * controls/instance-isolation/reduced-motion; this component owns only the
+ * per-card composition slotted as direct <li>. itemSize="compact" is the
+ * narrower visual preset tuned for the Fleet card width (the locked
+ * wireframe desktop ~2.5–3 cards; tablet ~1.5–2; mobile ~1.1 —
+ * HorizontalCarousel scoped CSS, mirrored from /dev/ui's Fleet instance).
+ *
+ * Fleet item / card (wireframe §FLEET, exact): an inset 16:9 media stage (the
+ * wireframe's `m-4 aspect-video` region) + a content block (`px-4 pb-5`): H3
+ * model name → muted vehicle-class line → a row of outlined fact chips. Per
+ * 08 §Meta content the order is model name → vehicle class → verified compact
+ * facts. Only verified facts are rendered: the passenger-capacity chip appears
+ * solely where `vehicle.passengers !== null`; null capacities are omitted,
+ * never fabricated as 0 / N/A / unknown (08 §Forbidden; task §11). No pricing,
+ * no luggage/year/engine/wifi/chauffeur facts (task §13).
+ *
+ * Placeholder media — mandatory interim (task §14/§15/§16; DESIGN.md §14):
+ * final transparent vehicle cutouts are not produced yet, so the media region
+ * is a near-black graphite stage with a subtle surface gradient and a quiet
+ * hairline — no image download, no fake car drawing, no giant vehicle name in
+ * the stage. It is decorative (aria-hidden) — the model name carries the
+ * meaning. The architecture is future-ready: the stage is a contained box fit
+ * for a later `object-contain` transparent cutout (08 §Vehicle image — never
+ * object-cover for cutouts), so swapping in photography later needs no
+ * carousel/card rewrite.
+ *
+ * Ownership/data: presentation-only (FND-ARCH-03). The editorial heading +
+ * CTA label come from the home content `fleet` block (passed as props); the
+ * per-vehicle name/classLabel/passengerText are pre-resolved by the page from
+ * canonical `src/data/fleet.ts` + the UI dictionary; the CTA href is resolved
+ * by the page via resolveCtaHref → <Link href> (FND-I18N-03 — no hardcoded
+ * locale prefix). Display names are used verbatim (not translated).
+ *
+ * Heading hierarchy: the Hero owns the only H1; this section renders one H2
+ * (SectionHeading) and each card model name is an H3. class passthrough is
+ * layout-only (FND-UI-06). CSS logical properties only (FND-I18N-13). No
+ * client JS beyond the carousel's own progressive-enhancement script.
+ */
+import type { FleetShowcaseProps } from "./FleetShowcase.types.ts";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import Link from "../../foundation/ui/Link.astro";
+import HorizontalCarousel from "../shared/HorizontalCarousel.astro";
+
+type Props = FleetShowcaseProps;
+
+const { heading, cta, vehicles, carouselLabels, locale } = Astro.props;
+
+// Stable single-instance heading id → aria-labelledby on the <Section>.
+const headingId = "home-fleet-heading";
+---
+
+<Section spacing="feature" surface="open-dark" aria-labelledby={headingId}>
+  <PageContainer>
+    {/* Heading row — heading left, compact "View fleet" section action right
+        at md+ (items-end); stacks on mobile (wireframe §FLEET heading row). */}
+    <div
+      class="mb-[var(--space-8)] flex flex-col items-start justify-between gap-[var(--space-5)] md:flex-row md:items-end"
+    >
+      <SectionHeading
+        id={headingId}
+        heading={heading.title}
+        description={heading.intro}
+        level={2}
+        class="max-w-2xl"
+      />
+      <Link href={cta.href} variant="button" locale={locale}>{cta.label}</Link>
+    </div>
+
+    <HorizontalCarousel
+      id="home-fleet-carousel"
+      ariaLabel={carouselLabels.ariaLabel}
+      previousLabel={carouselLabels.previous}
+      nextLabel={carouselLabels.next}
+      itemSize="compact"
+    >
+      {vehicles.map((vehicle) => (
+        <li class="fleet-card">
+          {/* Media stage — inset 16:9 graphite placeholder (decorative). A
+              future transparent vehicle cutout sits centered here via
+              object-contain; the stage is never object-cover for cutouts. */}
+          <div class="fleet-card__media" aria-hidden="true"></div>
+          <div class="fleet-card__body">
+            <h3 class="fleet-card__name">{vehicle.name}</h3>
+            <span class="fleet-card__class">{vehicle.classLabel}</span>
+            {vehicle.passengerText ? (
+              <ul class="fleet-card__facts" role="list">
+                <li class="fleet-card__fact">{vehicle.passengerText}</li>
+              </ul>
+            ) : null}
+          </div>
+        </li>
+      ))}
+    </HorizontalCarousel>
+  </PageContainer>
+</Section>
+
+<style>
+  /* Fleet card — the carousel's scoped :global(li) owns flex-basis + snap-align
+     (the item-size preset); these rules own the INTERNAL card layout only and
+     NEVER set flex/width on the <li>. The track's default align-items: stretch
+     makes every card the same height (the tallest item); content stays
+     top-aligned so missing fact chips (null capacities) leave quiet space at
+     the foot rather than being fabricated. Semantic tokens only. */
+
+  .fleet-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+  }
+
+  /* Media stage — wireframe `m-4 aspect-video rounded-lg`. 16:9 graphite
+     placeholder: a subtle surface-elevated → surface gradient with a quiet
+     hairline so the stage boundary is perceptible without a heavy border or
+     shadow (DESIGN.md §10). No image, no vehicle drawing, no name in the
+     stage. Future-ready for an object-contain transparent cutout. Decorative
+     (aria-hidden in markup). */
+  .fleet-card__media {
+    margin: var(--space-4);
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-card);
+    background:
+      radial-gradient(120% 85% at 50% 16%, var(--color-surface-elevated), transparent 62%),
+      linear-gradient(180deg, var(--color-surface-elevated), var(--color-surface));
+  }
+
+  /* Content block — wireframe `grid gap-3 px-4 pb-5` (no top padding: the
+     media's block-end margin gives the gap). */
+  .fleet-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-inline: var(--space-4);
+    padding-block-end: var(--space-5);
+  }
+
+  /* Model name — wireframe h-5 (the larger title line). Inter Tight via
+     font-heading. */
+  .fleet-card__name {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    color: var(--color-text-primary);
+  }
+
+  /* Vehicle class — wireframe h-3 muted line; subordinate to the name. */
+  .fleet-card__class {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  /* Fact chips — wireframe `flex gap-2` of outlined controls (rounded-control,
+     border-subtle). Display-only (non-interactive), so no 44px target. Rendered
+     only where a verified fact exists (passenger capacity, non-null). */
+  .fleet-card__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fleet-card__fact {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--space-3);
+    padding-block: var(--space-1);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-control);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-muted);
+  }
+</style>

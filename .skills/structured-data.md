@@ -3,7 +3,7 @@ name: structured-data
 description: Use when generating or reviewing JSON-LD structured data (Organization, WebSite, WebPage, BreadcrumbList, LocalBusiness, FAQ, Service). Covers the typed builders, route-derived URLs, visible-content alignment, and Google's spam/manual-action boundaries.
 workstream: structured-data
 applies-to: "src/lib/seo.ts (structuredData), src/foundation/ui/Breadcrumbs.astro, Page.astro (JSON-LD emission), foundation.config.ts (capabilities.structuredData)"
-source-of-truth: docs/AGENTS.md
+source-of-truth: AGENTS.md
 ---
 
 # Structured Data (JSON-LD)
