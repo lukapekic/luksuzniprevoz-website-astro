@@ -13,7 +13,10 @@
       "Bash(corepack pnpm *)",
       "Bash(export HOME=/tmp)",
       "Bash(corepack pnpm@10.14.0 types:generate site/luksuzni-prevoz)",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "Bash(identify site/luksuzni-prevoz/src/assets/rear-seat.webp)",
+      "Bash(python3 -c ' *)",
+      "Bash(HOME=/tmp ASTRO_TELEMETRY_DISABLED=1 corepack pnpm --filter @luksuzni-prevoz/site build)"
     ]
   }
 }

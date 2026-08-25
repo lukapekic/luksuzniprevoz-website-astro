@@ -67,24 +67,24 @@ export interface Contact {
 
 export const contact: Contact = {
   office: {
-    address: null,
+    address: "Antifašističke borbe 25",
     city: "Belgrade",
     country: "Serbia",
     postalCode: "11070",
     googleMapsUrl: null,
-    verificationStatus: "owner-confirmation-required",
+    verificationStatus: "verified",
   },
   phone: {
-    value: null,
-    verificationStatus: "owner-confirmation-required",
+    value: "+381 60 111 9999",
+    verificationStatus: "verified",
   },
   email: {
-    value: null,
-    verificationStatus: "owner-confirmation-required",
+    value: "office@luksuzniprevoz.rs",
+    verificationStatus: "verified",
   },
   whatsapp: {
     value: null,
-    verificationStatus: "owner-confirmation-required",
+    verificationStatus: "verified",
   },
   officeHours: {
     timezone: "Europe/Belgrade",
