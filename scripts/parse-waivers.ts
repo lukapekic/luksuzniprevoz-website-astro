@@ -31,7 +31,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg ? resolve(ROOT, targetArg) : resolve(ROOT, "examples", "reference-site");
+const resolvedTarget = targetArg ? resolve(ROOT, targetArg) : resolve(ROOT, "site", "luksuzni-prevoz");
 const exceptionsPath = resolve(resolvedTarget, "docs", "exceptions.md");
 // Fall back to the monorepo-root docs/exceptions.md (the canonical one).
 const rootExceptions = resolve(ROOT, "docs", "exceptions.md");

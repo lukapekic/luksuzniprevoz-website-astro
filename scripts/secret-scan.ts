@@ -6,7 +6,7 @@
  * (a gitleaks integration is the optional upgrade for larger orgs).
  *
  * Scans:
- *  - examples/reference-site/dist/** (the shipped artifact) — always
+ *  - site/luksuzni-prevoz/dist/** (the shipped artifact) — always
  *  - source files NOT in dist, only when --source is passed (dev guard)
  *
  * Fails the gate on any match. Patterns cover the common leak classes:
@@ -25,7 +25,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const includeSource = process.argv.includes("--source");
 
-const DIST = resolve(ROOT, "examples", "reference-site", "dist");
+const DIST = resolve(ROOT, "site", "luksuzni-prevoz", "dist");
 
 const PATTERNS: { name: string; re: RegExp }[] = [
   { name: "OpenAI key", re: /\bsk-[A-Za-z0-9-]{20,}\b/ },
@@ -88,7 +88,7 @@ if (!existsSync(DIST)) {
 for (const f of walk(DIST)) scanFile(f);
 
 if (includeSource) {
-  for (const f of walk(resolve(ROOT, "examples", "reference-site", "src"))) {
+  for (const f of walk(resolve(ROOT, "site", "luksuzni-prevoz", "src"))) {
     if (/\.(ts|astro|json|mjs|js)$/.test(f)) scanFile(f);
   }
   for (const f of walk(resolve(ROOT, "scripts")).filter((f) => f.endsWith(".ts"))) scanFile(f);

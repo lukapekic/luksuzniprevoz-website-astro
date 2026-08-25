@@ -27,7 +27,7 @@ export type Manifest = z.infer<typeof ManifestSchema>;
 // ── Palette (FND-THEME-04) ──
 // Two coexisting vocabularies, discriminated by value shape:
 //   • Structured (v1): { modes: { light: {surface,text,focus,accent,border} } }
-//     — requires a "light" mode. The reference site uses this.
+//     — requires a "light" mode.
 //   • Flat: Record<string, string> of semantic color keys (background, accent,
 //     textPrimary, success…). Dark-first sites with no mode switching use this.
 // Discrimination is natural: a {modes:{…}} object has object values (rejected by

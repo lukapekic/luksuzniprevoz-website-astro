@@ -3,51 +3,68 @@
  * FND-THEME-07
  *
  * Usage: pnpm theme:sync [path/to/project]
- *   If no path is given, defaults to examples/reference-site.
+ *   If no path is given, defaults to site/luksuzni-prevoz.
  *   Writes to <project>/src/theme/generated/theme.css.
- *   Also writes to packages/astro-foundation/src/theme/generated/theme.css as default.
  */
 
 import { resolve, join } from "node:path";
 import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { loadThemeTokens } from "../packages/astro-foundation/src/theme/loader.ts";
-import { ACTIVE_THEME_VERSION } from "../packages/astro-foundation/src/theme/active-theme.ts";
 import { generateThemeCss } from "../packages/astro-foundation/src/theme/sync.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
 import { validateThemeSemantics } from "../packages/astro-foundation/src/theme/validate-theme.ts";
 
 const args = process.argv.slice(2);
-const projectPath = args[0] || "examples/reference-site";
+const projectPath = args[0] || "site/luksuzni-prevoz";
 const rootDir = resolve(import.meta.dirname ?? ".", "..");
 const absProjectPath = resolve(rootDir, projectPath);
 
-// Resolve the active theme version from the target project's foundation.config.ts
-// (the per-project selector also read by types:generate), falling back to the
-// core ACTIVE_THEME_VERSION constant. This lets each consumer site pin its own
-// active version while the core constant remains the shared default — so syncing
-// the reference site still resolves its v1, and syncing the luksuzni site
-// resolves its v2.
+// Resolve the active theme version from the target project's foundation.config.ts.
+// Each site MUST select its own theme — there is no shared fallback.
+// A missing config, missing activeThemeVersion, or load failure is a hard error.
 async function resolveActiveThemeVersion(projectDir: string): Promise<string> {
-  for (const p of [
+  const candidates = [
     join(projectDir, "foundation.config.ts"),
     join(projectDir, "src", "foundation.config.ts"),
-  ]) {
-    if (!existsSync(p)) continue;
-    try {
-      const mod = await import(p);
-      const cfg = mod.default ?? mod["config"];
-      if (cfg && typeof cfg.activeThemeVersion === "string" && cfg.activeThemeVersion) {
-        return cfg.activeThemeVersion;
-      }
-    } catch {
-      // Fall through to the core constant on any config load failure.
-    }
+  ];
+  const found = candidates.find((p) => existsSync(p));
+  if (!found) {
+    throw new Error(
+      `Cannot resolve active theme: no foundation.config.ts found at:\n` +
+        candidates.map((p) => `  - ${p}`).join("\n") +
+        `\nEach site must define activeThemeVersion in its own foundation.config.ts.`,
+    );
   }
-  return ACTIVE_THEME_VERSION;
+  try {
+    const mod = await import(found);
+    const cfg = mod.default ?? mod["config"];
+    if (cfg && typeof cfg.activeThemeVersion === "string" && cfg.activeThemeVersion) {
+      return cfg.activeThemeVersion;
+    }
+    throw new Error(
+      `activeThemeVersion is missing or empty in ${found}.\n` +
+        `Each site must explicitly select its theme version.`,
+    );
+  } catch (error) {
+    if (error.message?.includes("activeThemeVersion")) throw error;
+    throw new Error(
+      `Failed to load foundation config from ${found}: ${error.message}\n` +
+        `Ensure the file is valid TypeScript and exports a config with activeThemeVersion.`,
+    );
+  }
 }
 
 const activeThemeVersion = await resolveActiveThemeVersion(absProjectPath);
 const themeVersionDir = join(absProjectPath, "src", "theme", "versions", activeThemeVersion);
+
+if (!existsSync(themeVersionDir)) {
+  console.error(
+    `✖ Configured activeThemeVersion "${activeThemeVersion}" has no theme directory at:\n` +
+      `  ${themeVersionDir}\n` +
+      `  Check that the version exists in src/theme/versions/.`,
+  );
+  process.exit(1);
+}
 
 console.log(`Loading theme tokens from: ${themeVersionDir}`);
 
@@ -73,29 +90,19 @@ mkdirSync(join(projectOutput, ".."), { recursive: true });
 writeFileSync(projectOutput, css, "utf-8");
 console.log(`✓ Wrote ${projectOutput}`);
 
-// Write to core package default ONLY when syncing the reference site (the core's
-// own default consumer). Syncing a product site (e.g. luksuzni-prevoz) must NOT
-// mutate the core generated CSS — otherwise the core file represents "the last
-// project synced" rather than the reference site's validated tokens.
-const referenceSiteDir = resolve(rootDir, "examples", "reference-site");
-const isReferenceSite = absProjectPath === referenceSiteDir ||
-  absProjectPath === resolve(referenceSiteDir);
-if (isReferenceSite) {
-  const coreOutput = join(
-    rootDir,
-    "packages",
-    "astro-foundation",
-    "src",
-    "theme",
-    "generated",
-    "theme.css",
-  );
-  mkdirSync(join(coreOutput, ".."), { recursive: true });
-  writeFileSync(coreOutput, css, "utf-8");
-  console.log(`✓ Wrote ${coreOutput}`);
-} else {
-  console.log(`⊘ Skipped core package write (not the reference site).`);
-}
+// Write to core package default so the package ships with a validated theme.
+const coreOutput = join(
+  rootDir,
+  "packages",
+  "astro-foundation",
+  "src",
+  "theme",
+  "generated",
+  "theme.css",
+);
+mkdirSync(join(coreOutput, ".."), { recursive: true });
+writeFileSync(coreOutput, css, "utf-8");
+console.log(`✓ Wrote ${coreOutput}`);
 
 console.log(
   `\nTheme "${tokens.manifest.name}" v${tokens.manifest.themeVersion} synced successfully.`,

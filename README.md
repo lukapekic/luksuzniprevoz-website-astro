@@ -46,8 +46,8 @@ See `docs/init-checklist.md` for the complete bootstrap checklist.
 ## Development
 
 ```bash
-# Start dev server (from the reference site)
-cd examples/reference-site && pnpm dev
+# Start dev server (production site)
+pnpm dev
 
 # Validate everything
 pnpm quality:fast
@@ -73,15 +73,15 @@ astro-foundation/
 │   │   │   ├── content/          # Content schemas, frontmatter parsing
 │   │   │   ├── ui/               # Variant utility, SEO data helpers
 │   │   │   └── validators/       # Route, content, SEO validators
-│   │   └── tests/unit/           # 244 unit tests
+│   │   └── tests/unit/           # Unit tests
 │   │
 │   ├── eslint-plugin-astro-foundation/  # Custom ESLint rules
-│   │   └── src/rules/             # 9 rules, 78 tests
+│   │   └── src/rules/             # Enforced lint rules
 │   │
 │   └── create-astro-foundation/  # Scaffold CLI (degit template)
 │
-├── examples/
-│   └── reference-site/           # Working reference implementation
+├── site/
+│   └── luksuzni-prevoz/          # Production site
 │       ├── foundation.config.ts  # Site configuration
 │       ├── src/
 │       │   ├── content/
@@ -95,7 +95,7 @@ astro-foundation/
 ├── scripts/                      # CLI scripts (doctor, validators, generators)
 ├── tests/fixtures/               # Shared test fixtures
 ├── docs/                          # Documentation
-├── foundation.config.ts          # Root config (re-exports reference site)
+├── foundation.config.ts          # Root config (re-exports production site)
 └── package.json                   # Monorepo root
 ```
 

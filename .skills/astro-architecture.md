@@ -2,7 +2,7 @@
 name: astro-architecture
 description: Use whenever changing project architecture, components, data flow, dependencies, TypeScript types/config, folder structure, or refactoring anything across the Astro Foundation monorepo. Covers the static-first Astro model, folder ownership, primitives, generated artifacts, and the enforced ESLint contract.
 workstream: architecture
-applies-to: "packages/, examples/, scripts/, foundation.config.ts, astro.config.mjs, tsconfig.json"
+applies-to: "packages/, site/, scripts/, foundation.config.ts, astro.config.mjs, tsconfig.json"
 source-of-truth: AGENTS.md
 ---
 
@@ -28,7 +28,7 @@ A change that fits the foundation's static-first, config-driven, type-safe model
   - `packages/astro-foundation/` → `@astro-foundation/core` (i18n, seo, theme, core).
   - `packages/eslint-plugin-astro-foundation/` → 9 enforced lint rules.
   - `packages/create-astro-foundation/` → scaffolding CLI.
-  - `examples/reference-site/` → reference implementation (consumer of core).
+  - `site/luksuzni-prevoz/` → production site (consumer of core).
   - `scripts/` → validators/generators (doctor, types, theme, routes, content, seo, og, redirects, traceability, waivers, secret-scan).
 - **Static output.** `output: "static"` in `astro.config.mjs`. No SSR, no server endpoints, no per-request state. `build.format: "directory"`. This is load-bearing: the whole-build validation and generated-artifact drift checks depend on it.
 - **Folder ownership.** Each folder owns one concern: `foundation/` (primitives), `components/` (composition), `content/` (Markdown + UI strings), `data/` (route map, navigation, business), `theme/` (tokens + generated CSS), `pages/` (routes). Don't mix concerns across owners.

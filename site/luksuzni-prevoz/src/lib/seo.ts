@@ -1,5 +1,5 @@
 /**
- * SEO helpers for the reference site.
+ * SEO helpers for the production site.
  * Builds SeoData objects from content and config.
  * FND-SEO-13: Title template "{title} | {brand}"
  */

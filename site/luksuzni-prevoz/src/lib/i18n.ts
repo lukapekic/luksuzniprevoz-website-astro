@@ -1,5 +1,5 @@
 /**
- * i18n helpers for the reference site.
+ * i18n helpers for the production site.
  * Loads UI strings from the content/ui/*.json dictionary.
  * FND-ARCH-03: All user-visible strings come from UI dictionary.
  * FND-TYPE-02: `t()` is keyed by the generated `UiStringKey` union, so a

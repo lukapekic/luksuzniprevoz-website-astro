@@ -16,7 +16,7 @@ const body = isProd
 User-agent: *
 Allow: /
 
-Sitemap: https://reference-site.astro-foundation.dev/sitemap-index.xml
+Sitemap: https://luksuzniprevoz.rs/sitemap-index.xml
 `
   : `# Non-production robots.txt — disallow all crawling (FND-ENV-02).
 User-agent: *

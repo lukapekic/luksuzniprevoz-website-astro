@@ -1,7 +1,7 @@
 /**
  * Input/Select/Textarea variant definitions — local to the luksuzni site.
  *
- * Overrides the core re-export (reference-site tokens that don't exist here).
+ * Overrides the core re-export (legacy tokens that don't exist here).
  * Uses the shared `variants()` engine with complete static class strings on
  * locked tokens. Shared by Input.astro, Select.astro, Textarea.astro.
  *

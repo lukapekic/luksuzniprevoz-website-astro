@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "cd examples/reference-site && npx astro build && npx astro preview --port 4321",
+      "startServerCommand": "cd site/luksuzni-prevoz && npx astro build && npx astro preview --port 4321",
       "startServerReadyPattern": "ready",
       "url": [
         "http://localhost:4321/sr/",

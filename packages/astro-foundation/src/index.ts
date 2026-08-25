@@ -31,8 +31,6 @@ export {
 
 // theme re-exports
 export {
-  ACTIVE_THEME_VERSION,
-  type ActiveThemeVersion,
   loadThemeTokens,
   loadThemeTokensOrThrow,
   type LoadThemeOptions,

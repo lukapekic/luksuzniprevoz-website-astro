@@ -1,5 +1,4 @@
 // @astro-foundation/core theme subpath
-export { ACTIVE_THEME_VERSION, type ActiveThemeVersion } from "./active-theme.ts";
 export { loadThemeTokens, loadThemeTokensOrThrow, type LoadThemeOptions } from "./loader.ts";
 export {
   ManifestSchema,

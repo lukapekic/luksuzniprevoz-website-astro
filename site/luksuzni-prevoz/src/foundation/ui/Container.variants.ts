@@ -2,7 +2,7 @@
  * Container variant definitions — local to the luksuzni site.
  *
  * Overrides the core re-export. The core containerVariants is written against
- * reference-site token names (--container-sm/md/lg/xl, --gutter-md) that do not
+ * legacy token names (--container-sm/md/lg/xl, --gutter-md) that do not
  * exist in this site's locked theme, so the re-export resolved to nothing. This
  * local override keeps the shared `variants()` engine but supplies complete
  * static class strings built only on the locked Luxury Transportation layout

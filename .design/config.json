@@ -7,9 +7,7 @@
     "generatedCss": "site/luksuzni-prevoz/src/theme/generated/theme.css",
     "activeManifestStatus": "active",
     "activeThemeSources": [
-      "packages/astro-foundation/src/theme/active-theme.ts",
-      "examples/reference-site/src/theme/active-theme.ts",
-      "site/luksuzni-prevoz/src/theme/active-theme.ts"
+      "site/luksuzni-prevoz/foundation.config.ts"
     ]
   },
   "productionUiRoots": [
@@ -25,13 +23,11 @@
   "dataRoot": "site/luksuzni-prevoz/src/data",
   "contentRoot": "site/luksuzni-prevoz/src/content",
   "legacyAllowedRoots": [
-    "site/luksuzni-prevoz/src/theme/versions/version-1",
-    "examples/reference-site/src/theme/versions/version-1"
+    "site/luksuzni-prevoz/src/theme/versions/version-1"
   ],
   "generatedAllowedRoots": [
     "site/luksuzni-prevoz/src/theme/generated",
-    "packages/astro-foundation/src/theme/generated",
-    "examples/reference-site/src/theme/generated"
+    "packages/astro-foundation/src/theme/generated"
   ],
   "sharedComponents": [
     "SiteHeader",

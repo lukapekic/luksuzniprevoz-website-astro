@@ -2,7 +2,7 @@
  * og:generate — FND-SEO-07.
  *
  * Generates OG images (1200×630) for every indexable route × locale combination
- * on the reference site. Emits PNGs when a font is available (satori + resvg);
+ * on the target site. Emits PNGs when a font is available (satori + resvg);
  * otherwise SVG previews. Files are written to dist/og/<locale>/<route>.{png|svg}.
  *
  * A font is loaded from src/theme/fonts/ if present (place a `sans.ttf` and
@@ -21,7 +21,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg ? resolve(MONO_ROOT, targetArg) : resolve(MONO_ROOT, "examples", "reference-site");
+const resolvedTarget = targetArg ? resolve(MONO_ROOT, targetArg) : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
 
 // --- Load config ---
 let configFilePath: string | undefined;
@@ -84,7 +84,8 @@ if (fontIssues.length > 0) {
 }
 
 // --- Resolve active theme version from the project's foundation.config.ts ---
-let activeThemeVersion = "version-1";
+// Each site MUST select its own theme — there is no shared fallback.
+let activeThemeVersion: string | undefined;
 for (const p of [
   resolve(resolvedTarget, "foundation.config.ts"),
   resolve(resolvedTarget, "src", "foundation.config.ts"),
@@ -94,13 +95,20 @@ for (const p of [
     const mod = await import(p);
     const cfg = (mod.default ?? mod["config"]) as { activeThemeVersion?: string };
     if (cfg?.activeThemeVersion) { activeThemeVersion = cfg.activeThemeVersion; break; }
-  } catch { /* fall through to default */ }
+  } catch { /* continue to error below */ }
+}
+if (!activeThemeVersion) {
+  console.error(
+    `✖ Cannot resolve active theme: no foundation.config.ts with activeThemeVersion found for ${resolvedTarget}.\n` +
+      `  Each site must define activeThemeVersion in its own foundation.config.ts.`,
+  );
+  process.exit(1);
 }
 
 // --- Theme colors (from the active theme's palette) ---
 // Supports two palette schemas:
 //   - Flat semantic tokens (Luxury site V1/V2): { background, textPrimary, accent }
-//   - Nested modes.light (reference site V1): { modes: { light: { surface: { base }, text: { primary }, accent: { primary } } } }
+//   - Nested modes.light (legacy V1): { modes: { light: { surface: { base }, text: { primary }, accent: { primary } } } }
 let theme: { background?: string; foreground?: string; accent?: string } = {};
 const palettePath = resolve(resolvedTarget, "src/theme/versions", activeThemeVersion, "palette.json");
 if (existsSync(palettePath)) {
@@ -114,7 +122,7 @@ if (existsSync(palettePath)) {
         accent: palette.accent,
       };
     }
-    // Nested modes.light schema (reference site V1)
+    // Nested modes.light schema (legacy V1 palette)
     else if (palette.modes?.light) {
       const light = palette.modes.light;
       theme = {

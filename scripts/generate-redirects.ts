@@ -22,7 +22,7 @@ const formatArg = args.find((a) => a.startsWith("--format="))?.split("=")[1] ?? 
 const targetArg = args.find((a) => !a.startsWith("--"));
 const resolvedTarget = targetArg
   ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "examples", "reference-site");
+  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
 
 // --- Load config ---
 let configFilePath: string | undefined;

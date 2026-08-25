@@ -22,7 +22,8 @@ const jsonMode = argv.includes("--json");
 const soft = argv.includes("--soft");
 
 function findDirectThemeLiteral(text) {
-  const match = text.match(/ACTIVE_THEME_VERSION\s*=\s*["'](version-\d+)["']/);
+  const match = text.match(/\bactiveThemeVersion\s*:\s*["'](version-\d+)["']/);
+
   return match?.[1] ?? null;
 }
 

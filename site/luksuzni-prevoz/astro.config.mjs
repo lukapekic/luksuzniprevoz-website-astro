@@ -15,8 +15,8 @@ export default defineConfig({
   // FND-ENV-06: server-side env schema. Secrets are declared here and accessed
   // via `import { env } from "astro:env/getServerSecret"` — they are NEVER
   // inlined into the static bundle. The secret-scan step (quality:release)
-  // independently verifies nothing leaked into dist/. The reference site has
-  // no real secrets; this declares the pattern a consuming project follows.
+  // independently verifies nothing leaked into dist/. This declares the
+  // pattern a consuming project follows.
   env: {
     schema: {
       // Example: a contact-form endpoint key (server-only, never client-exposed).

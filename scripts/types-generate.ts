@@ -1,13 +1,11 @@
 /**
  * types:generate — FND-TYPE-01, FND-TYPE-03, FND-TYPE-04
  *
- * Reads the reference site's foundation.config.ts and routes, then generates
+ * Reads the site's foundation.config.ts and routes, then generates
  * src/generated/types.ts with machine-owned type definitions.
  *
  * Usage: pnpm types:generate [path/to/project]
- *   If no path is given, defaults to site/luksuzni-prevoz (the luksuzni project
- *   is the active development target; the reference site can be regenerated
- *   with `pnpm types:generate examples/reference-site`).
+ *   If no path is given, defaults to site/luksuzni-prevoz.
  */
 import { existsSync, readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
@@ -138,8 +136,19 @@ const tokenNames = new Set<string>();
 const themeDir = resolve(
   resolvedTarget,
   "src/theme/versions",
-  config.activeThemeVersion ?? "version-1",
+  config.activeThemeVersion,
 );
+if (!existsSync(themeDir)) {
+  issues.push({
+    ruleId: "FND-TYPE-01",
+    severity: "error",
+    filePath: themeDir,
+    offendingValue: `Configured activeThemeVersion "${config.activeThemeVersion}" has no theme directory`,
+    fix: `Ensure src/theme/versions/${config.activeThemeVersion}/ exists`,
+  });
+  console.error(formatIssues(issues));
+  process.exit(1);
+}
 if (existsSync(themeDir)) {
   const loadJson = (name: string): Record<string, unknown> | undefined => {
     const p = join(themeDir, name);

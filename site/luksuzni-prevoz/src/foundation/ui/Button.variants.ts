@@ -2,7 +2,7 @@
  * Button variant definitions — local to the luksuzni site.
  *
  * The core `@astro-foundation/core/ui` buttonVariants is written against the
- * reference-site token names (--accent-primary, --radius-lg, --focus-ring …),
+ * legacy token names (--accent-primary, --radius-lg, --focus-ring …),
  * which do not exist in this site's locked theme, so the re-exported map
  * resolved to nothing. This local override keeps the shared `variants()` engine
  * but supplies complete static class strings built only on the locked Luxury
