@@ -1,66 +1,93 @@
 # Scale Envelope (FND-SCALE-02)
 
-This document records the architecture boundaries the Foundation Template is
-designed for, and **why** the implementation choices (in-memory route maps,
-whole-build validation, no pagination/SSR) are correct *within* those
-boundaries. It exists so a team can decide, before bending a boundary, whether
-this template is still the right tool.
+This document records the operating scale for which the current Luxury Transportation architecture is intentionally optimized.
 
-## The envelope
+The goal is not to prevent future growth. It identifies the point at which the architecture should be reconsidered deliberately instead of being stretched invisibly.
 
-The template is designed for:
+## Current envelope
 
-- **≤ 30 routes per locale** (enforced by `routes:validate`, FND-SCALE-01).
-- **2–6 locales** (enforced by the config schema, `.min(2).max(6)`).
-- **≤ ~20–50 pages per locale** of Markdown content.
-- **Static output** (`output: "static"`), built in full at build time.
-- **A single deployable site** (no sub-sites / multi-tenant).
+The foundation/configuration contract is designed for:
 
-Within this envelope the template's quality bars (unit, e2e, a11y, Lighthouse,
-content-lifecycle, lint) hold and the build stays fast.
+- **≤ 30 routes per locale** (validated by `routes:validate`, FND-SCALE-01).
+- **2–6 locales** (foundation config schema).
+- **roughly tens of editorial pages per locale**, stored in repository Markdown.
+- **static Astro output** built as a complete site.
+- **one production Luxury Transportation site**, with shared foundation packages as infrastructure rather than separate deployable sites.
+- typed in-repo operational data rather than a live CMS/database.
 
-## Why in-memory route maps & whole-build validation
+The current production configuration uses **3 locales** (`sr`, `en`, `ru`) and is well inside the route ceiling.
 
-Routing, hreflang, parity, and staleness are all computed from **in-memory**
-copies of the route map, locale config, and content collection loaded at build
-time. There is no database, no incremental index, no per-page lookup.
+## Why whole-build validation remains appropriate
 
-This is deliberate and correct *within the envelope*:
+Routing, hreflang/parity, content lifecycle, and typed cross-references depend on seeing the complete route/content set.
 
-- **Whole-build is the only way to enforce reciprocity and parity.** hreflang
-  reciprocity (FND-I18N-11) and locale parity (FND-LIFE-03) require comparing
-  every locale's version of every route against every other. That is an
-  O(routes × locales²) check that only makes sense over the full set — there is
-  no useful "incremental" version of it. At 30 routes × 6 locales that is
-  ~540 comparisons; trivial in memory.
-- **Content-lifecycle staleness (FND-LIFE-07)** recomputes a source digest and
-  compares it against every translation — again, a whole-build cross-product,
-  not a per-file check.
-- **Determinism.** A static build with the entire route/content set in memory
-  produces identical output on every run; there is no cached index to drift.
-  This is what makes the generated-types and generated-theme-CSS drift checks
-  (`quality:page`) meaningful.
+Within the current envelope:
 
-The cost is O(n) memory and build time, which is fine at ≤30 routes × ≤6
-locales. Beyond that, the build stays correct but slow; that is the signal to
-reconsider the architecture, not to add an index.
+- in-memory route maps are simple and deterministic;
+- locale parity/hreflang checks can compare the whole set cheaply;
+- source-digest translation checks can run over all localized content;
+- generated type/theme outputs can be drift-checked reproducibly;
+- static output keeps runtime complexity and attack surface low.
 
-## What this rules out (and why)
+This favors correctness and reviewability over introducing a database/index before the content volume requires one.
 
-| Feature | Why it's out of scope at this scale |
-|---------|-------------------------------------|
-| Pagination | Adds a second axis (route × page) to every cross-locale check; the envelope assumes a bounded page set. |
-| SSR / server endpoints | Breaks the "whole-build in memory" model and the static-output drift checks. |
-| CMS / live content | Content is repo Markdown so the build is deterministic and reviewable; a CMS reintroduces an external index. |
-| Auth / user data | No per-request state; the template is stateless static. |
-| Site search | A ~20-page site doesn't justify an index; add a client-side solution per project. |
-| VRT (default) | Hundreds of snapshots for a 20-page site cost more in flake than they catch; see `docs/optional-vrt.md`. |
+## Architectural assumptions
+
+### Static-first
+
+The public site is a static marketing/service site. Server state is not part of page rendering.
+
+Forms may submit to a deliberately chosen serverless/external endpoint, but that does not convert the entire site into an SSR application.
+
+### Repository-owned content
+
+Editorial content and typed operational data are version-controlled. A CMS is not currently part of the authority chain.
+
+### Bounded localization
+
+The design assumes a small set of fully supported locales with explicit route slugs and validation. Adding dozens of locales changes editorial, build, and QA economics and should be treated as an architecture decision.
+
+### No user account state
+
+Authentication, dashboards, user-specific content, and persistent application state are outside the current public-site architecture.
+
+## Features that require deliberate review
+
+| Change | Why it changes the envelope |
+|---|---|
+| >30 routes per locale | Validator/config limit and larger whole-build cross-locale set. |
+| >6 locales | Exceeds configured locale schema and multiplies editorial/QA workload. |
+| CMS/live database | Introduces external content truth, cache/index lifecycle, and runtime failure modes. |
+| SSR/server rendering | Changes deployment/runtime/security/performance assumptions. |
+| User accounts/auth | Introduces private state, security boundaries, and application workflows. |
+| Large route-level pagination/catalog | Adds a second scale axis to route/parity/SEO handling. |
+| Site-wide search | May justify a generated or external index once content volume makes navigation insufficient. |
+| Multiple deployable brands/sites | Requires an explicit multi-site product/configuration model rather than hidden shared defaults. |
+
+## Visual QA at this scale
+
+Exhaustive snapshot/VRT enumeration is not a default requirement for the current site.
+
+The active workflow favors:
+
+1. locked blueprints/component contracts;
+2. deterministic design detectors and theme/token governance;
+3. representative mobile/tablet/desktop inspection;
+4. accessibility/E2E checks;
+5. bounded visual review: one batched inspection, one correction batch, at most one confirmation pass.
+
+A future VRT system can be introduced when the number of independently evolving surfaces makes its maintenance cost worthwhile. It should be a current engineering decision, not restored from the retired template-era VRT document.
 
 ## When to step outside the envelope
 
-If a project needs **several** of the items above, or exceeds **>30 routes per
-locale** or **>6 locales**, treat it as a signal that this template's
-architecture no longer fits. At that point the right move is to fork the
-architecture deliberately (e.g. move to SSR, add a content index) — not to
-quietly exceed the limits the validators enforce, which will degrade build
-performance and the meaning of the drift checks.
+Revisit the architecture when several of the following become true:
+
+- route count approaches/exceeds the configured ceiling;
+- editorial build/validation time becomes materially expensive;
+- content must update independently of code deploys;
+- runtime personalization/authentication becomes required;
+- the business needs many deployable sites or tenants;
+- a search/index becomes necessary for normal navigation;
+- the static deployment model no longer supports required functionality.
+
+At that point, document the new architecture and update validators/configuration intentionally. Do not silently disable limits or introduce hidden fallbacks simply to keep old assumptions passing.

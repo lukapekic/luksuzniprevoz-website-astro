@@ -1,158 +1,169 @@
 # Manual Accessibility Checklist (FND-A11Y-09)
 
-Automated tests catch many issues, but some accessibility requirements can only be verified manually. Complete this checklist before every release.
+The production target is **WCAG 2.2 AA minimum**. Automated linting, `astro check`, Playwright/axe checks, and validators catch many failures; the items below require manual verification on representative production pages.
 
----
+Use real localized content, not placeholder strings.
 
-## 1. Keyboard-Only Walkthrough
+## 1. Keyboard-only walkthrough
 
-Navigate the entire site using only the keyboard (Tab, Shift+Tab, Enter, Space, Escape, Arrow keys).
+Navigate with Tab, Shift+Tab, Enter, Space, Escape, and Arrow keys where the widget pattern requires them.
 
-- [ ] All interactive elements are reachable via Tab
-- [ ] Tab order follows a logical, predictable sequence (top-to-bottom, left-to-right)
-- [ ] No keyboard traps — every focusable element can be exited
-- [ ] Modal dialogs trap focus correctly (Tab cycles within the dialog)
-- [ ] Escape closes open modals, menus, and disclosure panels
-- [ ] Arrow keys work in composite widgets (tabs, menus, radio groups)
-- [ ] Home/End keys work in lists and menus where applicable
+- [ ] All interactive elements are keyboard reachable.
+- [ ] Focus order follows the visual/logical reading order.
+- [ ] There are no keyboard traps.
+- [ ] Menus, disclosures, dialogs, and other composites use the expected keyboard interaction.
+- [ ] Escape closes dismissible overlays/menus where appropriate.
+- [ ] Opening/closing UI does not unexpectedly reset focus.
+- [ ] Whole-card visual treatments do not create invalid nested interactive targets.
 
-## 2. Skip Link
+## 2. Skip link and landmarks
 
-- [ ] A skip-to-content link is the first focusable element on the page
-- [ ] The skip link is **visible on focus** (not just on hover)
-- [ ] The skip link navigates to the main content area
-- [ ] After activation, focus moves to the main content
+- [ ] The skip-to-content link is the first meaningful focus target.
+- [ ] It becomes visible on keyboard focus.
+- [ ] Activation moves the user to the main content region.
+- [ ] The page has one clear `<main>` landmark.
+- [ ] Header/navigation/footer landmarks are semantically identifiable.
 
-## 3. Visible Focus Indicator
+## 3. Visible focus on every relevant surface
 
-Check in **every theme mode** (light, dark, and any additional modes).
+Theme V2 is dark-first and includes multiple **surface contexts**, not separate light/dark theme modes. Check focus on:
 
-- [ ] Every interactive control (buttons, links, inputs, selects) shows a visible focus ring on keyboard focus
-- [ ] The focus indicator has sufficient contrast against the background (minimum 3:1)
-- [ ] The focus indicator is not suppressed by `outline: none` without a replacement
-- [ ] Custom focus styles (if any) are at least as visible as the browser default
-- [ ] Focus is not lost when switching between theme modes
-- [ ] Focus is visible on all components: Button, Link, Input, Select, Dialog, NavList, LanguageSwitcher, Disclosure, Checkbox, Textarea
+- dark background/surface;
+- elevated dark surface;
+- intentional light functional surface (`surfaceLight`);
+- image/scrim overlays;
+- form/input surfaces.
 
-## 4. Screen-Reader Spot Check
+Verify:
 
-Test with at least one screen reader (NVDA on Windows, VoiceOver on macOS/iOS, or Orca on Linux).
+- [ ] Every interactive control has a visible keyboard focus indicator.
+- [ ] Focus contrast is at least 3:1 against adjacent colors.
+- [ ] `outline: none` is never used without an equivalent visible replacement.
+- [ ] Focus treatment remains visible on `SiteHeader`, navigation/dropdowns, `LanguageSwitcher`, buttons/links, form controls, FAQ/disclosures, dialogs (if present), carousel controls, and footer links.
+- [ ] Focus is not hidden behind sticky/fixed UI.
 
-- [ ] Page title is announced correctly
-- [ ] Heading hierarchy (h1 → h6) is logical and announced in order
-- [ ] Images have meaningful alt text (or empty alt for decorative)
-- [ ] Form fields have associated labels
-- [ ] Error messages are announced (not just displayed visually)
-- [ ] Language switcher announces the current and available languages
-- [ ] Breadcrumb trail is announced as a navigation landmark/list
-- [ ] Modal dialogs announce their purpose and trap focus
-- [ ] Content in non-default languages is announced in the correct language (via `lang` attribute)
+## 4. Screen-reader spot check
 
-## 5. Zoom and Responsive Layout (400% / 320px)
+Test at least one current screen reader, for example NVDA, VoiceOver, or Orca.
 
-- [ ] At **400% browser zoom**, all content remains readable and functional
-- [ ] No content is cut off or overlapping
-- [ ] Text reflows into a single column at extreme zoom levels
-- [ ] At **320px viewport width**, the layout adapts correctly
-- [ ] Horizontal scrolling is never required for reading text
-- [ ] Touch targets remain at least 44×44 CSS pixels at all sizes
-- [ ] Images scale proportionally and do not overflow their containers
+- [ ] Document title and current language are announced correctly.
+- [ ] Heading hierarchy is logical; one page-level H1 is exposed.
+- [ ] Informative images have useful localized alt text.
+- [ ] Decorative imagery is ignored (`alt=""` and the component's decorative contract).
+- [ ] Form fields have programmatic labels and useful instructions.
+- [ ] Validation errors identify the field/problem and are announced.
+- [ ] Status/success feedback is exposed through the appropriate live-region behavior.
+- [ ] Language switching exposes the current language and alternatives clearly.
+- [ ] Breadcrumbs, when present, are announced as navigation/list structure.
+- [ ] Non-default-language fragments use the correct `lang` when needed.
 
-## 6. Text-Spacing Override
+## 5. Zoom, text resize, and narrow viewport
 
-Apply the following user stylesheet (per WCAG 1.4.12):
+Check at 200% and 400% browser zoom and at a 320 CSS-pixel viewport.
+
+- [ ] Content reflows without loss of information/function.
+- [ ] Reading text does not require horizontal scrolling.
+- [ ] Controls are not clipped or overlapped.
+- [ ] Navigation remains operable.
+- [ ] Touch targets are at least 44×44 CSS pixels where WCAG target-size guidance applies.
+- [ ] Images preserve useful composition and do not overflow.
+- [ ] Long Serbian/Russian/English labels do not break controls.
+
+## 6. WCAG text-spacing override
+
+Apply a user override equivalent to WCAG 1.4.12:
 
 ```css
 * {
   line-height: 1.5 !important;
   letter-spacing: 0.12em !important;
   word-spacing: 0.16em !important;
-  paragraph-spacing: 2em !important; /* via margin-bottom */
 }
 p {
   margin-bottom: 2em !important;
 }
 ```
 
-- [ ] No text is truncated, clipped, or overlapping
-- [ ] All text remains readable
-- [ ] UI controls (buttons, inputs) remain functional and not overlapped
-- [ ] Navigation items remain accessible
+- [ ] Text is not truncated, clipped, or overlapped.
+- [ ] Buttons and form controls remain usable.
+- [ ] Navigation and localized labels remain readable.
+- [ ] Important information is not hidden because a fixed height cannot grow.
 
-## 7. Windows High Contrast Mode (`forced-colors: active`)
+## 7. Forced colors / high contrast
 
-Enable "High Contrast" mode in Windows Settings → Accessibility.
+Enable Windows High Contrast / `forced-colors: active` where possible.
 
-- [ ] All text remains readable against the high-contrast background
-- [ ] Borders and outlines are visible (not replaced by invisible colors)
-- [ ] Links are distinguishable from body text (underlined or otherwise differentiated)
-- [ ] Focus indicators are visible (browsers apply a default in forced-colors mode)
-- [ ] Form controls remain usable
-- [ ] Images with text overlay remain readable
-- [ ] No information is conveyed by color alone
+- [ ] Text remains readable.
+- [ ] Focus rings and control boundaries remain visible.
+- [ ] Links remain distinguishable from surrounding text.
+- [ ] Form controls remain understandable and operable.
+- [ ] No meaning relies on color alone.
+- [ ] Image-overlay copy still has an understandable fallback/contrast treatment.
 
-## 8. Reduced Motion (`prefers-reduced-motion: reduce`)
+## 8. Reduced motion
 
-Enable "Reduce motion" in OS accessibility settings.
+Enable `prefers-reduced-motion: reduce`.
 
-- [ ] No autoplay animations or videos
-- [ ] Transition durations are instant or near-instant (per theme `motion.reduced` values)
-- [ ] No parallax scrolling effects
-- [ ] No blinking or flashing content
-- [ ] Content that was animated still conveys its meaning without the animation
+Theme-generated reduced-motion tokens set motion durations/features to their reduced state. Verify the rendered experience, not only the token values.
 
-## 9. Alt Text Review
+- [ ] No essential content depends on animation.
+- [ ] No parallax or non-essential cinematic movement remains.
+- [ ] No flashing/blinking content is introduced.
+- [ ] Hover/focus/expanded-state feedback remains understandable even when motion is removed.
+- [ ] Carousels and interactive state changes remain usable without animation.
 
-Audit every `<Image>` primitive (or generated `<img>`) on the site.
+## 9. Contrast and color
 
-- [ ] Every informational image has descriptive alt text
-- [ ] Decorative images have `role="decorative"` (or `alt=""`)
-- [ ] Complex images (charts, infographics) have extended descriptions
-- [ ] Alt text is in the correct locale language
-- [ ] Alt text does not include redundant phrases like "image of" or "link to"
-- [ ] Logo images use the brand name as alt text (e.g., `alt="Acme Corp"`)
-- [ ] Icon-only buttons have `aria-label` describing the action
+Check computed/rendered colors on each relevant surface.
 
----
+- [ ] Normal text reaches at least 4.5:1 contrast.
+- [ ] Large text reaches at least 3:1.
+- [ ] Interactive boundaries/focus indicators meet applicable non-text contrast requirements.
+- [ ] Muted copy on dark surfaces uses the semantic theme tokens and remains readable.
+- [ ] Text on `surfaceLight` uses the light-surface text tokens, not dark-surface text colors.
+- [ ] Text over photography remains readable with the approved scrim/overlay contract.
 
-## 10. Visual Regression Review (FND-THEME-10)
+## 10. Images and media
 
-> The template does not ship an automated VRT pipeline by default (see
-> `docs/optional-vrt.md`). Instead, any unintended visual change to a rendered
-> primitive must be caught by manual review and — if it changes the visual
-> contract — promoted to a **new theme version**.
+- [ ] Decorative marketing imagery has empty alt text through the component contract.
+- [ ] Informative images have concise, localized alt text.
+- [ ] Alt text does not repeat nearby visible text unnecessarily.
+- [ ] Logos have an accessible name where they function as identity/navigation.
+- [ ] Meaning is not embedded only in an image.
+- [ ] Cropping/focal points do not remove information required to understand an informative image.
 
-Compare every rendered primitive against the last released theme version
-(`src/theme/versions/<active>/`). Do this before any release that touches
-theme tokens, variants, or primitive markup.
+## 11. Forms (FND-A11Y-10)
 
-- [ ] Render each primitive in **every `allCombinations()` variant** (variant ×
-      size × tone, ≤3 axes) in both light and dark theme modes
-- [ ] No primitive's rendered appearance changed unintentionally
-- [ ] Any **intentional** visual change is recorded as a **new theme version**
-      (a new directory under `src/theme/versions/`, not an edit to the existing
-      one) — per FND-THEME-10
-- [ ] Focus rings, hover, and active states are visually consistent with the
-      prior version (or deliberately versioned)
-- [ ] RTL layouts render as the mirror of LTR (no asymmetric drift)
-- [ ] Typography scale, spacing scale, and radii produce no visible shift at
-      the spec's viewport set (320 / 390 / 768 / 1024 / 1440 / 1920)
-- [ ] If a visual change is disputed, err toward a new theme version —
-      versioning is cheap, silent drift is not
+For every production form:
 
-If your team has opted into automated VRT per `docs/optional-vrt.md`, this
-checklist item is supplemented (not replaced) by the snapshot diff.
+- [ ] Every control has a visible/programmatic label.
+- [ ] `autocomplete` uses a valid WHATWG token where applicable.
+- [ ] Required state is communicated programmatically, not by color alone.
+- [ ] Error messages explain both the problem and recovery.
+- [ ] Error focus/summary behavior is useful after submission.
+- [ ] Success/failure status is announced.
+- [ ] Any spam protection remains keyboard and screen-reader accessible.
+- [ ] No personal data is placed in query strings.
 
----
+## 12. Responsive composition and reading order
 
-## Tools Used
+The visual layout may change between mobile, tablet, and desktop, but semantic order must remain useful.
 
-| Tool | Version | Date |
-|------|---------|------|
-| | | |
-| | | |
+- [ ] CSS reordering does not create a mismatch between visual and focus order.
+- [ ] Split sections stack in the blueprint-approved content/image order.
+- [ ] Hidden decorative elements do not create empty accessible content.
+- [ ] Desktop-only visual affordances have mobile equivalents where required.
 
-## Notes
+## 13. Final release record
 
-_
-_(Document any issues found, workarounds applied, or future improvements.)_
+For a significant page/UI release, record:
+
+- pages/routes checked;
+- viewport/device classes checked;
+- screen reader/browser combination used;
+- unresolved accessibility defects;
+- any approved waiver reference from `docs/exceptions.md`.
+
+A visual refinement that stays within the active theme tokens and locked component/page contracts does **not** require a new theme version by itself. Theme versioning follows the Theme Ownership and Upgrade Protocol in `AGENTS.md`.
+
+Accessibility failures are not waived by redesign preference. In particular, `FND-A11Y-01` is non-waivable.

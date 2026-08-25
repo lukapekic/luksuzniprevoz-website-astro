@@ -1,57 +1,60 @@
 # Exceptions & Waivers (FND-META-10)
 
-This file tracks approved exceptions and waivers to the Foundation Template specification.
+This is the canonical repository waiver registry parsed by `pnpm parse-waivers`.
 
-> **Template projects start with an empty exceptions file.** If your project requires an exception, document it below using the waiver format.
+It is for explicit exceptions to `FND-*` foundation rules. It is **not** a place to bypass `DESIGN.md`, locked blueprints, accessibility requirements, or deterministic design-governance findings merely for convenience.
 
----
+## No approved exceptions
 
-## No Exceptions
+This project currently has no approved waiver entries.
 
-This project currently has no approved exceptions.
+## Rules
 
----
+- `FND-A11Y-01` is non-waivable.
+- Approved waivers must include a review date.
+- Review dates may be at most six months from the request/review point enforced by the parser.
+- Expired waivers must be marked `expired` or renewed through an explicit review.
+- Do not change field names below: `scripts/parse-waivers.ts` parses them mechanically.
+- A waiver documents risk acceptance; it does not change the underlying rule or design-system authority.
 
-## Waiver Format
+## Waiver format
 
-To request a waiver, create a new section with the following format:
+Create real waiver entries as top-level `### [W-NNN]` sections using exactly these fields:
 
 ```markdown
 ### [W-001] Brief Title
 
 - **Rule**: FND-XX-YY
 - **Severity**: error | warning
-- **Component/Area**: _e.g. Header, /about page, theme tokens_
-- **Requested by**: _Name, Date_
-- **Reason**: Why the exception is needed. Include context about
-  why compliance is infeasible or would cause disproportionate effort.
-- **Proposed Mitigation**: What is done instead to reduce risk.
-- **Review Date**: When this waiver should be re-evaluated (max 6 months).
+- **Component/Area**: Header, route, validator, theme tooling, etc.
+- **Requested by**: Name, YYYY-MM-DD
+- **Reason**: Why compliance is currently infeasible or disproportionate.
+- **Proposed Mitigation**: What reduces the resulting risk.
+- **Review Date**: YYYY-MM-DD
 - **Status**: proposed | approved | expired
 ```
 
-### Example Waiver
+## Example only
+
+The fenced example below is intentionally ignored by the parser.
 
 ```markdown
-### [W-001] Third-Party Script Without Lazy Loading
+### [W-001] Temporary Third-Party Loading Exception
 
 - **Rule**: FND-PERF-03
-- **Severity**: error
-- **Component/Area**: Cookie consent banner
-- **Requested by**: Jane Doe, 2025-01-15
-- **Reason**: The cookie consent provider (VendorX) requires their script
-  to be loaded synchronously to function correctly. The script is 12 KB
-  which is under the per-island JS budget, but loads before hydration.
-- **Proposed Mitigation**: The script is only loaded for EU visitors
-  (geo-targeted via server header). A preconnect hint is added to
-  reduce connection time. Performance impact is monitored in CI via
-  Lighthouse CI budget.
-- **Review Date**: 2025-07-15
-- **Status**: approved
+- **Severity**: warning
+- **Component/Area**: Third-party integration
+- **Requested by**: Example Owner, 2026-08-25
+- **Reason**: Vendor integration temporarily cannot use the preferred loading strategy.
+- **Proposed Mitigation**: Scope the integration, measure its impact, and replace it before the review date.
+- **Review Date**: 2026-11-25
+- **Status**: proposed
 ```
 
----
+## Active waivers
 
-## Expired Waivers
+_Add real approved/proposed entries here when needed._
 
-_(Expired waivers are moved here for audit trail.)_
+## Expired waivers
+
+_Move expired entries here and keep `Status: expired` for audit history._

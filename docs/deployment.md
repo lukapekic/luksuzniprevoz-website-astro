@@ -1,279 +1,227 @@
 # Deployment Guide (FND-ENV-01)
 
-Document your deployment configuration here. The fields below cover all deployment aspects required by the Foundation Template spec.
+This document records the deployment contract for the production Luxury Transportation site.
 
----
+## Verified production facts
 
-## Host & Plan
-
-| Field | Value |
-|-------|-------|
-| Hosting provider | _e.g. Cloudflare Pages, Vercel, Netlify, Fly.io_ |
-| Plan/tier | _e.g. Pro, Hobby, Starter_ |
-| Region(s) | _e.g. eu-west-1, us-east-1_ |
-| Edge functions | _yes/no_ |
-
-## Build Command
-
-```bash
-pnpm build
-```
-
-The build command runs from the **production site directory** (or your project root if it is a standalone Astro site):
-
-```bash
-# In the monorepo:
-cd site/luksuzni-prevoz && pnpm build
-
-# Or if using the root-level build script:
-pnpm build
-```
-
-Build output is written to `site/luksuzni-prevoz/dist/`.
-
-## Environments
-
-| Environment | URL | Notes |
-|-------------|-----|-------|
-| Production | _e.g. https://mysite.com_ | |
-| Staging | _e.g. https://staging.mysite.com_ | Mirror of production |
-| Preview | _Auto-generated per PR_ | |
-
-### Environment Variables
-
-| Variable | Production | Staging | Description |
-|----------|-----------|---------|-------------|
-| `SITE_URL` | `https://mysite.com` | `https://staging.mysite.com` | Overrides `site` in config |
-
-> **Note**: The Foundation Template reads configuration from `foundation.config.ts` at build time. Runtime environment variables are only needed if your deployment platform requires them.
-
-## Redirect Mechanism (FND-ENV-10)
-
-The template generates redirect rules from `previousSlugs` in route definitions.
-
-| Platform | File | Command |
-|----------|------|--------|
-| Cloudflare Pages | `_redirects` in `dist/` | `pnpm generate:redirects --format=cloudflare` |
-| Vercel | `vercel.json` in `dist/` | `pnpm generate:redirects --format=vercel` |
-| Generic | `redirects.json` in `dist/` | `pnpm generate:redirects --format=json` |
-
-For Astro's built-in redirects, add them to `astro.config.mjs`:
-
-```js
-export default defineConfig({
-  redirects: {
-    '/old-path': '/new-path',
-  },
-});
-```
-
-For programmatic redirects based on `previousSlugs`, run `pnpm generate:redirects` and deploy the generated file alongside your build output.
-
-## Header Mechanism (FND-ENV-08)
-
-Security headers are set per platform:
-
-| Header | Value | Notes |
-|--------|-------|-------|
-| `X-Content-Type-Options` | `nosniff` | |
-| `X-Frame-Options` | `DENY` | |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` | |
-| `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | Adjust as needed |
-| `Content-Security-Policy` | See CSP Note below | **Start in report-only mode** |
-
-### CSP Note (Open Item #2)
-
-> **Important**: Start with `Content-Security-Policy-Report-Only` to collect violations without breaking anything. Only promote to `Content-Security-Policy` after reviewing reports and resolving all legitimate violations.
-
-```http
-Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none'; report-uri /csp-report
-```
-
-## CI System
-
-| Field | Value |
-|-------|-------|
-| CI provider | _e.g. GitHub Actions, GitLab CI_ |
-| Config file | _e.g. `.github/workflows/ci.yml`_ |
-| Runner | _e.g. ubuntu-latest_ |
-| Node version | 22 (per `.nvmrc`) |
+| Item | Current contract |
+|---|---|
+| Production site | `https://luksuzniprevoz.rs` |
+| Application | `site/luksuzni-prevoz` |
+| Site package | `@luksuzni-prevoz/site` |
+| Framework | Astro, static output |
 | Package manager | pnpm |
+| Node | version from `.nvmrc` |
+| CI | GitHub Actions under `.github/workflows/` |
+| Active theme selector | `site/luksuzni-prevoz/foundation.config.ts -> activeThemeVersion` |
 
-### CI Pipeline
+The final hosting product/account/plan is operational infrastructure and should be recorded here when it is fixed in repository/deployment configuration. Do not invent a provider-specific deployment contract merely because DNS or redirects are managed through that provider.
 
-```yaml
-# Example GitHub Actions workflow
-jobs:
-  quality:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm quality:release
+## Build and quality gates
+
+Install dependencies from the repository root:
+
+```bash
+pnpm install --frozen-lockfile
 ```
 
-## Deploy Trigger
+Build the production site explicitly when needed:
 
-| Trigger | Action |
-|---------|--------|
-| Push to `main` | Deploy to production |
-| Push to PR branch | Deploy to preview URL |
-| Manual trigger | Available via platform UI |
-
-### Deploy Gate
-
-Deployment only proceeds if:
-
-1. `pnpm quality:fast` passes (all checks green)
-2. `pnpm test:unit` passes (all tests green)
-3. `pnpm lint` passes (zero errors)
-
-## Rollback Procedure
-
-1. **Identify the last known-good deploy** in your hosting platform's deploy log
-2. **Roll back** using the platform's rollback feature:
-   - **Cloudflare Pages**: Deployments → Select previous deployment → Rollback
-   - **Vercel**: Deployments → Select previous → Promote to Production
-   - **Netlify**: Deploys → Select previous → Deploy this again
-3. **Verify** the rollback by:
-   - Loading the site and checking key pages
-   - Running `foundation:doctor` against the rolled-back code
-4. **Root cause analysis**: Create an issue documenting what broke and why
-
-## DNS & TLS
-
-| Field | Value |
-|-------|-------|
-| Domain | _e.g. mysite.com_ |
-| DNS provider | _e.g. Cloudflare, Route 53_ |
-| TLS mode | _Full (strict)_ |
-| Certificate | _Auto-managed by host_ |
-| HSTS | _Enable after first successful production deploy_ |
-
-### DNS Records
-
-| Type | Name | Value |
-|------|------|-------|
-| CNAME | `@` or `www` | _e.g. your-site.pages.dev_ |
-| TXT | `@` | SPF / verification records |
-
-## Cache Policy
-
-| Resource | Cache | Max-Age | Notes |
-|----------|-------|---------|-------|
-| HTML pages | No cache (or short) | 0 or 60s | Ensures content updates are immediate |
-| CSS/JS (hashed) | Immutable | 1 year | Filenames include content hash |
-| Fonts | Immutable | 1 year | |
-| Images (optimized) | Long | 30 days | Via Astro's image optimization |
-| OG images | Long | 7 days | |
-| `_redirects` / redirects | No cache | 0 | Must be fresh on every request |
-| `robots.txt` | Short | 1 hour | |
-| `sitemap.xml` | Short | 1 hour | |
-
-### Cache Headers (Platform-Specific)
-
-For Cloudflare Pages, configure via `_headers` file in `public/`:
-
-``nolang
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.html
-  Cache-Control: no-cache
+```bash
+pnpm --filter @luksuzni-prevoz/site build
 ```
 
----
+Before production deployment, run the repository's canonical release/quality gates defined in `package.json` and `AGENTS.md`.
 
-## Post-Deploy Verification
+For design-sensitive changes, the governance layer must also be green:
 
-After every deploy, verify:
+```bash
+pnpm design:sync:check
+pnpm design:doctor
+pnpm design:detect
+```
 
-- [ ] Site loads at the production URL
-- [ ] HTTPS is active (no mixed content warnings)
-- [ ] `robots.txt` is served at `/robots.txt` (disallow-all on preview, allow + sitemap on prod)
-- [ ] `sitemap.xml` is served at `/sitemap-index.xml`
-- [ ] Language switching works for all locales
-- [ ] All redirect rules are active (test a `previousSlug` URL)
-- [ ] Lighthouse scores meet the performance budget thresholds
+or the repository's combined gate when available:
 
----
+```bash
+pnpm design:guard
+```
 
-## Consent Banner (FND-SCOPE / FND-ENV-09)
+Never deploy from an obsolete example/reference application. Production commands and CI must target `@luksuzni-prevoz/site`.
 
-The Foundation Template does **not** ship a consent-banner component. Setting
-`capabilities.consentBanner: true` in `foundation.config.ts` is a **flag that
-implies a reviewed third-party decision** — it does not produce any UI.
+## Theme generation
 
-### Why no banner ships by default
+The site chooses its active theme only through:
 
-- A consent banner is a legal/compliance decision (GDPR/ePrivacy scope, regional
-  enforcement, consent-string vendor choice) that varies per project and
-  jurisdiction. A generic banner would be wrong for most consumers.
-- Every banner adds a third-party script and a JS island, which conflicts with
-  the template's performance budget (FND-PERF-03) and the "simple, high-value"
-  goal.
+```text
+site/luksuzni-prevoz/foundation.config.ts
+→ activeThemeVersion
+```
 
-### What to do when `consentBanner: true`
+Before deploying a theme-system change:
 
-1. **Select a reviewed consent vendor** (or build a minimal in-house banner) and
-   record the decision here — name, purpose, script weight, and the
-   `thirdParty[]` entry it maps to in `foundation.config.ts`.
-2. **Lazy-load the banner script** (FND-PERF-06) and gate every third-party
-   script on consent before it loads.
-3. **Block third-party scripts by default** in CSP; allow them only after
-   consent (the banner sets the necessary CSP exceptions per-vendor).
-4. **Provide a re-consent UI** in the footer so users can withdraw consent.
+```bash
+pnpm theme:sync
+pnpm theme:validate
+pnpm design:sync
+pnpm design:doctor
+pnpm design:detect
+```
 
-Record the vendor decision in the table below (template projects start empty):
+A missing or invalid configured theme must fail. No package-level fallback to an older theme is permitted.
 
-| Vendor | Purpose | Script weight | Loaded when | FND-ENV-09 mitigation |
-|--------|---------|---------------|-------------|------------------------|
-| _e.g. Cookiebot_ | _Consent management_ | _KB_ | _After consent_ | _Gated in CSP_ |
+## Build output
 
----
+The production Astro build output is:
 
-## Form Handling (FND-A11Y-10 / FND-PERF-06 / FND-ENV-06/09)
+```text
+site/luksuzni-prevoz/dist/
+```
 
-The template ships form *primitives* (`Field`, `Input`, `Select`, `Textarea`,
-`Checkbox`, `FormStatus`) but **no form-handling endpoint**. Wiring a form is a
-per-project decision. Record it here so the choice is auditable.
+Only generated production output should be deployed. Do not publish repository docs, source Markdown, local design-governance caches, test artifacts, or secrets.
 
-### Decision record
+## Redirects (FND-ENV-10)
 
-| Decision | Option chosen | Notes |
-|----------|---------------|-------|
-| Submission endpoint | _e.g. Astro SSR action / serverless function / third-party form service_ | _Where does the POST go?_ |
-| Spam mitigation | _e.g. Honeypot field / Turnstile / hCaptcha_ | _Must be accessible (FND-A11Y-10): no CAPTCHA-only gate that a screen reader can't pass_ |
-| PII in query strings | _Never_ | Form data must be POST-body, never in the URL (FND-ENV-06) |
-| Privacy statement | _Link to /privacy/ before submission_ | _Required where personal data is collected_ |
-| Success/error feedback | `FormStatus` + `aria-live` region | _Already provided by the primitive_ |
-| Secrets | `astro:env` server-side schema | _Endpoint keys live in server env, never in `dist/` (verified by `secret-scan`)_ |
+Localized routes and previous slugs are data-driven. Generate redirects with the repository's redirect command rather than hand-maintaining duplicate localized redirect lists.
 
-### Requirements any form must meet
+```bash
+pnpm generate:redirects
+```
 
-- **Accessible spam mitigation (FND-A11Y-10):** a honeypot or a token-based
-  challenge (Turnstile/hCaptcha) is preferred over a visual CAPTCHA. If a
-  CAPTCHA is unavoidable, provide an audio alternative.
-- **No PII in query strings (FND-ENV-06):** form submissions are `POST`; the
-  secret-scan gate additionally rejects any secret pattern in `dist/`.
-- **Privacy statement:** link to a legal/privacy page before the submit button
-  where personal data is collected.
-- **Per-locale labels (FND-ARCH-03):** all field labels, errors, and the
-  success message come from the UI dictionary (`form.error.*`, `form.success`).
+Use the supported format/target required by the selected host. Verify generated redirects after any route/slug migration and before removing the old WordPress deployment.
 
-### Per-locale 404 (FND-ENV-04)
+Internal application navigation must continue to use route keys/helpers; redirects are an edge/deployment concern, not a substitute for correct internal routing.
 
-The template emits both a root `404.astro` (the host fallback, default locale)
-and per-locale `404` pages at `/sr/404/`, `/en/404/`, `/ru/404/`. Configure
-your host to serve the locale-specific 404 based on the path prefix:
+## Security headers (FND-ENV-08)
 
-| Host | Rule |
-|------|------|
-| Cloudflare Pages | `_redirects`: `/*/404 /:locale/404/ 404` (or a Cloudflare Worker) |
-| Netlify | `netlify.toml`: a `404` redirect per locale prefix |
-| Vercel | `vercel.json`: `cleanUrls` + a custom 404 route |
+At the hosting edge, maintain at minimum a reviewed policy for:
+
+- `X-Content-Type-Options: nosniff`;
+- clickjacking protection (`frame-ancestors` in CSP, with `X-Frame-Options` only where useful for compatibility);
+- `Referrer-Policy`;
+- `Permissions-Policy`;
+- `Content-Security-Policy`.
+
+CSP must be based on the actual production asset/script requirements. Start a materially new CSP in report-only mode when needed, review violations, then enforce it. Do not copy a generic CSP that breaks Astro assets, analytics, maps, consent tooling, or form providers.
+
+Do not add `'unsafe-inline'`, new third-party origins, or wildcard sources without a documented requirement.
+
+## Third-party/consent handling (FND-ENV-09)
+
+`foundation.config.ts` may declare third-party capabilities, but a capability flag does not itself implement legal consent UX.
+
+For every production third party:
+
+1. record the purpose and origin;
+2. load it according to the configured strategy;
+3. keep non-essential scripts blocked until consent where legally required;
+4. reflect allowed origins in CSP deliberately;
+5. provide a way to revisit consent if a consent system is used;
+6. verify performance impact against the production budget.
+
+Do not fabricate a consent vendor in this document. Record the selected implementation once confirmed.
+
+## Forms (FND-A11Y-10, FND-ENV-06, FND-ENV-09)
+
+The site has form capability, but the submission endpoint/provider is an explicit production decision.
+
+Any deployed form must:
+
+- submit personal data via POST/body, never query strings;
+- keep endpoint secrets server-side/out of `dist/`;
+- use accessible labels, errors, status feedback, and autocomplete tokens;
+- use accessible spam mitigation;
+- link the appropriate privacy/legal information where required;
+- localize reusable field/status strings through the UI dictionary;
+- gate third-party form/anti-spam scripts according to consent/CSP requirements.
+
+Record the final endpoint, spam mitigation, and data-retention/provider decision when implemented.
+
+## Cache policy
+
+Recommended default for a static Astro deployment:
+
+| Resource | Policy |
+|---|---|
+| Hashed CSS/JS/assets | Long-lived immutable cache |
+| Fonts with content-hashed filenames | Long-lived immutable cache |
+| Optimized/hash-addressed images | Long-lived cache appropriate to generated filename strategy |
+| HTML | Short/no-cache policy according to host deploy semantics |
+| Redirect configuration | Must refresh with each deploy |
+| `robots.txt` / sitemap | Short cache; must reflect current release |
+
+Do not cache mutable HTML or redirect files for a year simply because static assets use immutable caching.
+
+## DNS/TLS
+
+Production requirements:
+
+- [ ] `luksuzniprevoz.rs` resolves to the current production deployment.
+- [ ] HTTPS is mandatory.
+- [ ] Certificate renewal is automated by the selected host/edge where possible.
+- [ ] HTTP redirects to HTTPS.
+- [ ] `www`/apex canonicalization matches SEO configuration.
+- [ ] HSTS is enabled only after HTTPS/canonical routing is stable and recovery implications are understood.
+
+## CI/release expectations
+
+GitHub Actions is the repository CI system. CI must target the production site and shared foundation packages that remain part of the codebase.
+
+The release pipeline should cover, as applicable:
+
+- install with frozen lockfile;
+- generated types/theme synchronization and drift checks;
+- route/content/SEO validation;
+- lint/type checking;
+- unit tests;
+- rule traceability + waiver parsing;
+- secret/dependency checks;
+- production-site build;
+- E2E/accessibility tests;
+- Lighthouse/performance checks;
+- design-governance gate for production UI/theme changes.
+
+If CI configuration still names a removed `reference-site`, treat that as a blocking stale reference and update it before release.
+
+## Rollback
+
+1. Identify the last known-good production deployment/commit.
+2. Roll the host back or redeploy that exact commit/artifact.
+3. Verify critical localized routes, booking/contact paths, theme assets, redirects, and SEO endpoints.
+4. Record the regression and root cause before re-releasing.
+5. Re-run the applicable quality/governance gates on the corrective change.
+
+Do not "fix forward" by manually editing generated production files at the host.
+
+## Post-deploy verification
+
+After a production deploy, verify at minimum:
+
+- [ ] HTTPS/canonical host works.
+- [ ] Serbian default routes work without an unintended locale prefix.
+- [ ] `/en` and `/ru` route behavior and language switching work.
+- [ ] Representative service/hub/page routes render correctly.
+- [ ] 404 behavior works for relevant locale paths.
+- [ ] Redirects from migrated/previous slugs work.
+- [ ] `robots.txt` and sitemap endpoints are correct for production.
+- [ ] No preview/noindex behavior leaked into production.
+- [ ] Forms/booking/contact actions behave as designed.
+- [ ] No mixed content, CSP, console, or blocked-asset errors.
+- [ ] Theme output matches the configured active theme.
+- [ ] Lighthouse/performance remains within the configured budget.
+
+## Deployment decisions still requiring an explicit record
+
+Keep these fields updated once infrastructure is finalized:
+
+| Decision | Value |
+|---|---|
+| Hosting provider / plan | TBD until encoded/confirmed |
+| Production deploy trigger | TBD until finalized |
+| Preview/staging URL strategy | TBD until finalized |
+| Form submission endpoint | TBD until implemented |
+| Spam mitigation | TBD until implemented |
+| Consent implementation/vendor | TBD if required |
+| CSP reporting endpoint | TBD if used |
+
+Unknown operational facts are better marked TBD than invented.

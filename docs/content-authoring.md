@@ -1,300 +1,304 @@
 # Content Authoring Guide
 
-This guide covers how to author, manage, and translate content in the Astro Foundation Template.
+This guide describes the production editorial model for `site/luksuzni-prevoz`.
 
----
+The key separation is:
 
-## Markdown Format (FND-LIFE-05)
-
-All page content is stored as Markdown files in `src/content/pages/`.
-
-### File Layout Convention
-
-One folder per route, one file per locale — nested, not flat:
-
-```
-src/content/pages/{routeKey}/{locale}.md
+```text
+editorial/localized copy → src/content/
+operational/business truth → src/data/
+routes/localized slugs → src/data/routes.ts
+presentation → DESIGN.md + blueprints + components + theme tokens
 ```
 
-Examples:
+Content authors must not duplicate facts already owned by typed data modules and must not choose layout/styling from Markdown.
 
-```
-src/content/pages/
-  home/
-    sr.md          # Serbian home page
-    en.md          # English home page
-    ru.md          # Russian home page
-  private-chauffeur/
-    sr.md          # Serbian private-chauffeur page
-    en.md          # English private-chauffeur page
-    ru.md          # Russian private-chauffeur page
-  about/
-    sr.md          # Serbian about page
-    en.md          # English about page
-    ru.md          # Russian about page
+## 1. Content location and identity (FND-LIFE-05)
+
+Production page content lives under:
+
+```text
+site/luksuzni-prevoz/src/content/pages/
 ```
 
-Folder and file names are organization only. The authoritative identity is the
-frontmatter `routeKey` + `locale` (never the path) — `content:validate` asserts
-`(routeKey, locale)` uniqueness and route binding from the frontmatter, and the
-content loader globs `**/*.md` recursively so the nested layout is discovered.
+The Astro loader recursively discovers `**/*.md`.
 
-### Frontmatter Fields (FND-LIFE-05)
+Current files are organized by route folder, for example:
 
-Every content file must include the following frontmatter:
+```text
+src/content/pages/home/home.sr.md
+src/content/pages/home/home.en.md
+src/content/pages/home/home.ru.md
+```
+
+The filename/path is organizational only. **Authoritative identity is the frontmatter pair `routeKey` + `locale`.** Do not derive routing behavior from the filename.
+
+## 2. Base frontmatter
+
+Every page archetype extends the shared foundation identity/lifecycle and SEO schemas.
+
+Typical base fields:
 
 ```yaml
 ---
-routeKey: "about"          # Required. Must match a key in the route map.
-locale: "en"               # Required. BCP 47 locale code matching foundation.config.ts.
-status: "published"        # Required. One of: draft, in-review, published.
-translationState: "reviewed" # Optional. One of: missing, draft, reviewed.
+routeKey: home
+locale: sr
+pageType: home
+status: published
+translationState: reviewed
+reviewedOn: 2026-08-17
 
-# SEO fields (FND-SEO-01, FND-SEO-03)
-seoTitle: "About Us | My Brand"          # Required. 30–60 chars.
-seoDescription: "Learn about our team..." # Required. 50–160 chars.
-ogImage: "/og/about-en.jpg"              # Optional. OG image URL.
-ogImageAlt: "Team photo"                  # Optional. Alt text for OG image.
-noindex: false                            # Optional. Exclude from search engines.
-h1: "About Us"                            # Optional. Custom H1 (defaults to seoTitle).
-reviewedOn: "2025-01-15"                  # Optional. Last content review date.
+seoTitle: "Luxury Transportation | Privatni i poslovni prevoz sa vozačem"
+seoDescription: "Privatni prevoz sa profesionalnim vozačem u Beogradu..."
 ---
-
-Page content goes here in Markdown.
 ```
 
-#### Field Reference
+### Identity/lifecycle fields
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `routeKey` | `string` | Yes | Key from the route map in `src/data/routes.ts` |
-| `locale` | `string` | Yes | BCP 47 locale code (must exist in `foundation.config.ts`) |
-| `status` | `string` | Yes | `draft`, `in-review`, or `published` |
-| `translationState` | `string` | No | `missing`, `draft`, or `reviewed` (FND-LIFE-03) |
-| `seoTitle` | `string` | Yes | 30–60 characters, page title for search engines |
-| `seoDescription` | `string` | Yes | 50–160 characters, meta description |
-| `ogImage` | `string` | No | Path or URL to Open Graph image (1200×630) |
-| `ogImageAlt` | `string` | No | Alt text for OG image |
-| `noindex` | `boolean` | No | Exclude page from sitemap and add `noindex` meta tag |
-| `h1` | `string` | No | Custom H1 heading (defaults to `seoTitle`) |
-| `reviewedOn` | `string` | No | ISO date of last content review (FND-LIFE-09) |
+| Field | Requirement | Notes |
+|---|---|---|
+| `routeKey` | required | Must resolve to `src/data/routes.ts`. CamelCase route keys are valid. |
+| `locale` | required | Must be one of the configured site locales. |
+| `pageType` | required by site page schema | One of the seven page archetypes below. |
+| `status` | defaults to `draft` | `draft`, `in-review`, `published`. |
+| `translationState` | defaults to `missing` | `missing`, `draft`, `reviewed`. |
+| `sourceLocale` | translation-only when applicable | Source language for lifecycle tracking. |
+| `sourceDigest` | managed lifecycle metadata | Do not invent; keep in sync via content digest tooling. |
+| `reviewedOn` | optional | ISO date / parsed date used for staleness checks. |
 
----
+### SEO fields
 
-## Content Model & Archetypes (FND-DATA-08, FND-DATA-09)
+| Field | Requirement | Notes |
+|---|---|---|
+| `seoTitle` | required | Page-specific title. Do not manually append the brand if the template composes it. Validator warns when the composed title exceeds 60 characters. |
+| `seoDescription` | required | Schema maximum 300; production SEO validator warns when description exceeds 160 characters. |
+| `ogImage` | optional | OG asset path/URL according to the active OG strategy. |
+| `ogImageAlt` | optional | Localized alt text where the OG image needs it. |
+| `noindex` | defaults to `false` | Use deliberately for pages that should not be indexed. |
 
-Content frontmatter is **editorial copy only**. It holds localized headings,
-intros, CTA labels, FAQ Q/A, and section prose, plus references to structured
-data by stable id. The Markdown layer is a discriminated union of seven page
-archetypes on the `pageType` field (see `src/content/schemas/pages.ts`):
+Do not invent artificial minimum SEO lengths. Prefer accurate, useful copy that stays within the validator's production limits.
 
-| `pageType`   | Route `kind` | Used for                                       |
-|--------------|--------------|------------------------------------------------|
-| `home`       | `page`       | The homepage                                   |
-| `service`    | `service`    | A leaf service page (e.g. private chauffeur)    |
-| `hub`        | `hub`        | A collection index (e.g. business transport)    |
-| `fleet`      | `page`       | The vehicle roster page                         |
-| `pricing`    | `page`       | The pricing matrix page                         |
-| `about`      | `page`       | The about page                                  |
-| `contact`    | `page`       | The contact page                                |
+## 3. Page archetypes (FND-DATA-08, FND-DATA-09)
 
-`pageType` ↔ route `kind` consistency is enforced by `content:validate`
-(FND-DATA-09): a `service` archetype must bind to a `kind:"service"` route, a
-`hub` to `kind:"hub"`, and the page archetypes to `kind:"page"`.
+`site/luksuzni-prevoz/src/content/schemas/pages.ts` defines seven explicit archetypes:
 
-### Content must NOT duplicate operational facts
+| `pageType` | Required route kind | Purpose |
+|---|---|---|
+| `home` | `page` | Homepage |
+| `service` | `service` | Leaf service page |
+| `hub` | `hub` | Service-family hub |
+| `fleet` | `page` | Fleet page |
+| `pricing` | `page` | Pricing page |
+| `about` | `page` | About page |
+| `contact` | `page` | Contact page |
 
-Frontmatter MUST NOT contain: prices or pricing formulas, phone/email/address,
-office hours, vehicle capacities, service limits, or localized URLs/slugs.
-Those live in `src/data/*.ts`. Content references them by stable id:
+`content:validate` verifies the page type matches the structural route kind.
+
+Do not add arbitrary fields to an archetype. Update the schema deliberately when the editorial contract genuinely changes.
+
+## 4. Editorial content vs operational truth
+
+Markdown owns localized/editorial material such as:
+
+- headings and intros;
+- section prose;
+- CTA labels;
+- FAQ questions/answers;
+- route-card titles/text;
+- localized image alt text;
+- localized client-facing explanation.
+
+Markdown must **not** duplicate:
+
+- prices or pricing formulas;
+- phone/email/address;
+- office hours;
+- vehicle capacity/specification truth;
+- operational limits;
+- client approval/public-logo status;
+- localized slugs/URLs.
+
+Those belong in typed data modules under:
+
+```text
+site/luksuzni-prevoz/src/data/
+```
+
+Examples include `routes.ts`, `fleet.ts`, `pricing.ts`, `clients.ts`, `contact.ts`, and operational/service data modules.
+
+If a fact already has a typed source, reference it by stable ID instead of copying it into localized Markdown.
+
+## 5. Internal links and CTA targets
+
+Do not author internal localized URLs manually.
+
+CTA targets use typed intent:
 
 ```yaml
-# references fleet vehicles (ids resolve in src/data/fleet.ts)
-fleetSection:
-  vehicleIds:
-    - mercedes-s-class
-    - mercedes-e-class
-# references a route, never a raw URL
 primaryCta:
-  label: "View our fleet"
+  label: "Pogledaj vozila"
   target:
     type: route
     routeKey: fleet
 ```
 
-Cross-reference resolution is enforced at two layers: the archetype schemas
-(`z.enum` against the live route/vehicle/client data) reject a bad id at
-`astro sync`, and `content:validate` resolves them again in the script path
-(FND-DATA-08) so the gate catches bad refs before the build. CTA targets are a
-`route` | `flow` discriminated union — never a raw internal URL.
-
-### Content must NOT choose presentation
-
-Frontmatter MUST NOT contain `layout`, `columns`, `theme`, `background`,
-`imagePosition`, raw CSS classes, or color/spacing values. Blueprints and
-components own presentation. An image may carry a normalized `focalPoint`
-(x/y in 0–1) for art direction — a presentation *hint*, not layout.
-
----
-
-## Content Lifecycle States (FND-LIFE-02, FND-LIFE-03, FND-LIFE-06, FND-LIFE-08)
-
-### Status Field
-
-The `status` field controls whether content appears in the build output:
-
-| Status | Build | Sitemap | Search Engines |
-|--------|-------|---------|---------------|
-| `draft` | Excluded | Excluded | Excluded |
-| `in-review` | Included | Excluded | Excluded |
-| `published` | Included | Included | Included |
-
-### Translation State
-
-The `translationState` field tracks translation quality:
-
-| State | Meaning |
-|-------|---------|
-| `missing` | No translation exists yet (content falls back to default locale or is omitted per `missingTranslation` strategy) |
-| `draft` | Translation is a work in progress |
-| `reviewed` | Translation has been reviewed by a native speaker |
-
-### Review Staleness (FND-LIFE-08)
-
-If `reviewedOn` is set and `reviewStalenessWindowMonths` is configured in `foundation.config.ts`, the SEO validator will warn when content has not been reviewed within the window.
-
-Example: If `reviewStalenessWindowMonths: 12` and `reviewedOn: "2024-01-15"`, a warning is issued after 2025-01-15.
-
----
-
-## Image Handling (FND-IMG-01, FND-IMG-08)
-
-### Use Frontmatter, Not Markdown Syntax
-
-**Do not use Markdown image syntax** (`![](path)`). The Foundation Template uses the `<Image>` primitive for all images.
-
-**Instead**, declare images in frontmatter and render them via the component:
+or an application flow:
 
 ```yaml
----
-routeKey: "about"
-locale: "en"
-status: "published"
-seoTitle: "About Us"
-seoDescription: "Learn about our team"
-heroImage: "/images/team.jpg"
-heroImageAlt: "Our team at the annual retreat"
----
+primaryCta:
+  label: "Rezerviši"
+  target:
+    type: flow
+    flowKey: booking
 ```
 
-Then in the page component:
+Routes resolve through the repository's localization helpers. Never hard-code `/en/...`, `/ru/...`, or Serbian internal paths in content.
 
-```astro
----
-import Image from "@astro-foundation/core/ui";
-const { heroImage, heroImageAlt } = Astro.props;
----
+## 6. Presentation is not content
 
-<Image src={heroImage} alt={heroImageAlt} role="hero" />
+Frontmatter must not choose visual implementation.
+
+Do not add fields such as:
+
+```text
+layout
+columns
+theme
+background
+imagePosition
+cardStyle
+cssClass
+radius
+spacing
+breakpoint
 ```
 
-### Image Rules
+Presentation comes from `DESIGN.md`, the active theme, locked blueprints, shared contracts, and components.
 
-1. **Always use the `<Image>` primitive** — never raw `<img>` or `<picture>` (enforced by `no-raw-img-element` rule)
-2. **Always provide alt text** — empty string only for decorative images with `role="decorative"`
-3. **Store images in `src/assets/`** or `public/images/`
-4. **Use Astro's image optimization** for responsive images
-5. **Generate OG images** via `pnpm og:generate` if `capabilities.ogImages` is `"generated"`
+An image may carry a normalized `focalPoint` when the schema supports it. That is an art-direction hint, not permission to define layout.
 
-### Image Roles
+## 7. Images (FND-IMG-01, FND-IMG-08)
 
-| Role | Description |
-|------|-------------|
-| `"hero"` | Full-width hero image, LCP candidate |
-| `"content"` | Inline content image |
-| `"logo"` | Brand logo |
-| `"decorative"` | Visual-only, hidden from screen readers |
-| `"icon"` | Small icon (not a photo) |
+Do not use Markdown image syntax for production page imagery.
 
----
+Structured editorial image references use the site's `imageReferenceSchema`, which contains:
 
-## UI Strings Dictionary (FND-I18N-08, FND-ARCH-03)
-
-UI strings (button labels, navigation items, form labels, error messages, etc.) are stored in JSON files:
-
-```
-src/content/ui/
-  sr.json    # Serbian UI strings
-  en.json    # English UI strings
-  ru.json    # Russian UI strings
+```yaml
+image:
+  src: "/images/example.webp"
+  alt: "Localized useful description"
+  role: informative
+  focalPoint:
+    x: 0.5
+    y: 0.4
 ```
 
-### Format
+`role` is:
 
-```json
-{
-  "nav.home": "Početna",
-  "nav.about": "O nama",
-  "nav.services": "Usluge",
-  "nav.contact": "Kontakt",
-  "nav.language": "Jezik",
-  "form.name": "Ime",
-  "form.email": "E-pošta",
-  "form.submit": "Pošalji",
-  "form.success": "Poruka je poslata!",
-  "form.error.required": "Ovo polje je obavezno",
-  "a11y.skipLink": "Preskoči na sadržaj",
-  "a11y.closeMenu": "Zatvori meni",
-  "a11y.openMenu": "Otvori meni"
-}
+- `informative` — alt text must communicate the image's purpose;
+- `decorative` — use empty alt text according to the component/accessibility contract.
+
+Rendering is component-specific. Production components currently use Astro's `astro:assets <Image>` for imported `ImageMetadata` where appropriate. Follow the component contract; do not assume a generic foundation Image component exists.
+
+Raw `<img>`/`<picture>` usage remains prohibited where the project lint rule requires the approved image pipeline.
+
+## 8. UI dictionaries (FND-I18N-08, FND-ARCH-03)
+
+Reusable interface strings live in:
+
+```text
+site/luksuzni-prevoz/src/content/ui/sr.json
+site/luksuzni-prevoz/src/content/ui/en.json
+site/luksuzni-prevoz/src/content/ui/ru.json
 ```
 
-### Rules
+Use them for navigation, generic controls, form labels/errors, accessibility labels, and other repeated UI strings.
 
-1. **All locales must have the same set of keys** (enforced by `content:validate` — FND-I18N-08)
-2. **Never hardcode UI strings** in templates — use the dictionary (enforced by `no-hardcoded-ui-string` ESLint rule)
-3. **Use dot-notation keys** for namespacing (e.g., `nav.home`, `form.submit`)
-4. **Reference strings in templates** using the `t()` function: `t("nav.home")`
+Rules:
 
----
+1. Locale dictionaries must keep matching key coverage where the validator requires parity.
+2. Do not hard-code translatable reusable UI strings in components.
+3. Keep stable semantic keys; do not encode presentation in key names.
+4. Use the project's translation helper rather than indexing locale JSON manually in arbitrary components.
 
-## Translation Workflow
+Page-specific editorial prose stays in the page Markdown rather than bloating the global UI dictionary.
 
-### Adding a New Page
+## 9. Translation lifecycle
 
-1. Add the route to `src/data/routes.ts` with slugs for all locales
-2. Create a per-route folder `src/content/pages/{routeKey}/` and add one file per
-   locale: `{locale}.md` (e.g. `home/sr.md`, `home/en.md`, `home/ru.md`)
-3. Add UI strings used by the page to each `src/content/ui/{locale}.json`
-4. Run `pnpm content:validate` to verify route binding and coverage
-5. Run `pnpm seo:validate` to verify SEO data
-6. Run `pnpm routes:validate` to verify route definitions
+Serbian is the default production locale; English and Russian are localized alternatives according to `foundation.config.ts`.
 
-### Adding a New Locale
+For a translated page:
 
-1. Add the locale to `foundation.config.ts` → `locales.locales`
-2. Add slugs for the new locale in every route in `src/data/routes.ts`
-3. Create content files for the new locale for all routes
-4. Create `src/content/ui/{locale}.json` with all keys from existing locale files
-5. Write 404 page copy for the new locale
-6. If `capabilities.legalPages` is `true`, create legal pages for the new locale
-7. Run `pnpm quality:fast` to verify everything
-8. Test language switching on every page
+- set `sourceLocale` to the source language where lifecycle tracking is used;
+- keep `sourceDigest` synchronized with the source content;
+- use `translationState: reviewed` only after review;
+- update `reviewedOn` when a real editorial review occurred.
 
-### Updating Existing Content
+Use the canonical repository command for digest synchronization:
 
-1. Edit the Markdown file
-2. Update `reviewedOn` to today's date
-3. Set `status` to `in-review` during the review process
-4. After review, set `status` back to `published`
-5. Run `pnpm content:validate` and `pnpm seo:validate`
+```bash
+pnpm content:sync-digests
+```
 
-### Translating Content
+Then validate:
 
-1. Copy the source locale's `.md` file to the target locale within the same
-   per-route folder (e.g. `home/sr.md` → `home/en.md`)
-2. Translate all text content (body, frontmatter fields)
-3. Translate `seoTitle` and `seoDescription` (not just copy)
-4. Translate any alt text for images
-5. Set `translationState: "reviewed"` after native speaker review
-6. Verify parity via `content:validate` (FND-I18N-10)
+```bash
+pnpm content:validate
+```
+
+Do not fake a digest or review date to silence a gate.
+
+## 10. Adding a page
+
+1. Add/confirm the route in `site/luksuzni-prevoz/src/data/routes.ts` with all configured locale slugs.
+2. Choose the correct `pageType`/route kind.
+3. Create the localized Markdown files under `src/content/pages/`.
+4. Author only editorial copy and typed references.
+5. Add reusable UI keys only when the interface genuinely needs them.
+6. Run the applicable validation stack:
+
+```bash
+pnpm types:generate
+pnpm routes:validate
+pnpm content:validate
+pnpm seo:validate
+pnpm check
+```
+
+For production UI implementation of the page, separately follow the relevant blueprint and design-governance workflow:
+
+```bash
+pnpm design:context <target>
+```
+
+Content authoring is not authorization to redesign a page.
+
+## 11. Adding or changing a locale
+
+Locale configuration is owned by the production site's `foundation.config.ts`.
+
+A locale change requires coordinated updates to:
+
+- locale config;
+- route slugs;
+- UI dictionaries;
+- page content;
+- SEO/hreflang/parity validation;
+- any locale-aware 404 or routing behavior.
+
+Run the full route/content/SEO checks after the change. Do not introduce an implicit fallback language that conflicts with the configured `missingTranslation` strategy.
+
+## 12. Authoring completion checklist
+
+Before considering a content batch complete:
+
+- [ ] `routeKey` and `locale` resolve correctly.
+- [ ] `pageType` matches route kind.
+- [ ] No operational truth is duplicated in Markdown.
+- [ ] No internal raw URLs are authored where a route target exists.
+- [ ] No layout/theme/CSS choices are encoded in content.
+- [ ] Image roles/alts are valid.
+- [ ] UI dictionary parity is maintained.
+- [ ] Translation lifecycle metadata is truthful.
+- [ ] SEO fields pass repository validation.
+- [ ] `pnpm content:validate` and `pnpm seo:validate` pass.
