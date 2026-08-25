@@ -1,21 +1,27 @@
 ---
 /**
- * Localized 404 page — FND-ENV-04
+ * Root 404 — the default-locale (sr) not-found page at `/404/`.
  *
- * Uses Page with noindex, working navigation.
- * Shows content for current locale (defaults to sr).
+ * Hosts serve this for any unprefixed URL that does not match a generated
+ * route. It is noindex (FND-ENV-04) and uses the same production chrome
+ * (Page + SiteHeader + SiteFooter) as every other route — one coherent Theme V2
+ * chrome across home / leaf / error. The CTA reuses the approved Link
+ * `cta` variant rather than a hand-built action (no second local button).
+ *
+ * All user-visible strings come from the UI dictionary (FND-ARCH-03); the home
+ * href comes from getPath (FND-I18N-03) — never manual locale concatenation.
  */
 import Page from "../foundation/ui/Page.astro";
-import PageContainer from "../foundation/ui/PageContainer.astro";
+import SiteHeader from "../components/site/SiteHeader.astro";
+import SiteFooter from "../components/site/SiteFooter.astro";
 import Section from "../foundation/ui/Section.astro";
-import Header from "../foundation/ui/Header.astro";
-import Footer from "../foundation/ui/Footer.astro";
-import { getPath } from "@astro-foundation/core/i18n";
+import PageContainer from "../foundation/ui/PageContainer.astro";
+import Link from "../foundation/ui/Link.astro";
 import { config } from "../../foundation.config.ts";
-import { routes } from "../data/routes.ts";
+import { t } from "../lib/i18n.ts";
+import type { LocaleCode } from "@astro-foundation/core";
 
-// Default to sr locale for 404
-const currentLocale = "sr";
+const currentLocale: LocaleCode = "sr";
 const currentRouteKey = "home";
 
 const localeConfig = config.locales.locales.find((l) => l.code === currentLocale);
@@ -24,31 +30,26 @@ const localeInfo = {
   dir: localeConfig?.dir ?? "ltr",
 };
 
+const notFoundTitle = t("error.404.title", currentLocale);
+const notFoundMessage = t("error.404.message", currentLocale);
+const homeLabel = t("home.title", currentLocale);
+
 const seo = {
-  title: "404 — Page not found",
-  description: "The page you are looking for does not exist.",
+  title: `404 — ${notFoundTitle}`,
+  description: notFoundMessage,
   locale: localeInfo,
   brand: config.brand,
   noindex: true,
 };
-
-// Load UI strings
-import srStrings from "../content/ui/sr.json";
-const strings = srStrings as unknown as Record<string, string>;
-
-const defaultLocale = config.locales.locales.find((l) => l.isDefault)?.code ?? "sr";
-const homeHref = getPath("home", currentLocale, routes, defaultLocale);
-const notFoundTitle = strings["error.404.title"] ?? "Page not found";
-const notFoundMessage = strings["error.404.message"] ?? "The page you are looking for does not exist.";
 ---
 
-<Page seo={seo} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
-  <Header currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+<Page seo={seo} locale={currentLocale} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
+  <SiteHeader currentRouteKey={currentRouteKey} currentLocale={currentLocale} overHero={false} />
 
   <main id="main-content" class="flex-1">
-    <Section id="not-found" class="py-[var(--space-16)]">
-      <PageContainer class="text-center">
-        <h1 class="font-heading text-[length:var(--text-display)] font-bold text-[var(--color-text-muted)]">
+    <Section id="not-found" spacing="feature" class="text-center">
+      <PageContainer>
+        <h1 class="font-heading text-[length:var(--text-display)] font-bold text-[var(--color-text-muted)] leading-[var(--line-height-tight)]">
           404
         </h1>
         <p class="mt-[var(--space-4)] font-body text-[length:var(--text-xl)] text-[var(--color-text-muted)]">
@@ -57,17 +58,14 @@ const notFoundMessage = strings["error.404.message"] ?? "The page you are lookin
         <p class="mt-[var(--space-2)] font-body text-[var(--color-text-muted)]">
           {notFoundMessage}
         </p>
-        <div class="mt-[var(--space-8)] flex justify-center gap-4">
-          <a
-            href={homeHref}
-            class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-control)] bg-[var(--color-accent)] px-6 py-3 font-body text-base font-medium text-[var(--color-text-on-light)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-accent-hover)]"
-          >
-            {strings["home.title"] ?? "Добродошли"}
-          </a>
+        <div class="mt-[var(--space-8)] flex justify-center">
+          <Link to={currentRouteKey} locale={currentLocale} variant="cta">
+            {homeLabel}
+          </Link>
         </div>
       </PageContainer>
     </Section>
   </main>
 
-  <Footer currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+  <SiteFooter currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
 </Page>

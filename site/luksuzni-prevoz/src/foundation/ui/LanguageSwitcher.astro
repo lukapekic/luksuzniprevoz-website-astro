@@ -15,6 +15,7 @@
 import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
+import { localeCountryNames } from "../../data/locales.ts";
 import { t } from "../../lib/i18n.ts";
 import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 
@@ -43,52 +44,38 @@ const {
 const switcherLabel = ariaLabel ?? t("nav.language", currentLocale);
 const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
-/** Locale metadata with country labels and SVG flags */
+/** Locale display metadata derived from config + the locale data module
+ * (FND-ARCH-03 — no duplicated component literals). The language name, hreflang,
+ * and htmlLang come from `foundation.config.ts`; the country name comes from
+ * `data/locales.ts`; the short code is derived from the locale code. */
 interface LocaleMeta {
   code: LocaleCode;
-  shortCode: string; // SR, EN, RU
-  langName: string; // Serbian / Српски / English / Русский
-  countryName: string; // Srbija / United Kingdom / Россия
+  shortCode: string; // SR, EN, RU (derived from code)
+  langName: string; // from config.locales[].label (Serbian Latin → "Srpski")
+  countryName: string; // from data/locales.ts
   hreflang: string;
   htmlLang: string;
 }
 
-const localeMetadata: Record<LocaleCode, LocaleMeta> = {
-  sr: {
-    code: "sr",
-    shortCode: "SR",
-    langName: "Српски",
-    countryName: "Srbija",
-    hreflang: "sr",
-    htmlLang: "sr",
-  },
-  en: {
-    code: "en",
-    shortCode: "EN",
-    langName: "English",
-    countryName: "United Kingdom",
-    hreflang: "en",
-    htmlLang: "en",
-  },
-  ru: {
-    code: "ru",
-    shortCode: "RU",
-    langName: "Русский",
-    countryName: "Россия",
-    hreflang: "ru",
-    htmlLang: "ru",
-  },
-};
+const localeMetadata = Object.fromEntries(
+  config.locales.locales.map((l) => {
+    const code = l.code as LocaleCode;
+    return [
+      code,
+      {
+        code,
+        shortCode: code.toUpperCase(),
+        langName: l.label,
+        countryName: localeCountryNames[code] ?? "",
+        hreflang: l.hreflang,
+        htmlLang: l.htmlLang,
+      } satisfies LocaleMeta,
+    ];
+  }),
+) as Record<LocaleCode, LocaleMeta>;
 
-const currentMeta = localeMetadata[currentLocale] ?? localeMetadata.sr;
-const allLocales = config.locales.locales.map((l) => localeMetadata[l.code as LocaleCode] ?? {
-  code: l.code as LocaleCode,
-  shortCode: l.code.toUpperCase(),
-  langName: l.label,
-  countryName: "",
-  hreflang: l.hreflang,
-  htmlLang: l.htmlLang,
-});
+const currentMeta = localeMetadata[currentLocale] ?? localeMetadata[defaultLocale];
+const allLocales = config.locales.locales.map((l) => localeMetadata[l.code as LocaleCode]);
 
 const panelId = `${idPrefix}-panel`;
 const triggerId = `${idPrefix}-btn`;
@@ -120,7 +107,7 @@ const triggerId = `${idPrefix}-btn`;
 
   <div
     id={panelId}
-    class="lang-panel absolute inset-inline-end-0 inset-block-start-[calc(100%+var(--space-2))] z-60 min-w-[15rem] p-[var(--space-2)] rounded-[var(--radius-control)] bg-[var(--color-surface-elevated)] border border-solid border-[var(--color-border-subtle)] shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
+    class="lang-panel absolute inset-inline-end-0 inset-block-start-[calc(100%+var(--space-2))] z-60 min-w-[15rem] p-[var(--space-2)] rounded-[var(--radius-control)] bg-[var(--color-surface-elevated)] border border-solid border-[var(--color-border-subtle)]"
     role="menu"
     aria-labelledby={triggerId}
     data-dropdown-panel
@@ -145,8 +132,8 @@ const triggerId = `${idPrefix}-btn`;
               aria-current={isCurrent ? "true" : undefined}
             >
               <div class="flex items-center gap-[var(--space-3)] min-w-0">
-                <!-- Flag SVG -->
-                <span class="flag-icon inline-flex shrink-0 size-4 overflow-hidden rounded-[2px] shadow-[0_0_1px_color-mix(in_oklab,var(--color-text-primary)_20%,transparent)]" aria-hidden="true">
+                <!-- Flag SVG — factual flag artwork (colors preserved, not recolored to the theme) -->
+                <span class="flag-icon inline-flex shrink-0 size-4 overflow-hidden" aria-hidden="true">
                   {loc.code === "sr" && (
                     <svg viewBox="0 0 640 480" class="size-full object-cover">
                       <rect width="640" height="160" fill="#c6363c" />

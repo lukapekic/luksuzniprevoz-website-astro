@@ -10,3 +10,7 @@ lhci-reports
 .pnpm-store
 .vercel
 .netlify
+
+# Design-governance local/ephemeral state
+.design/.cache/
+.design/*.tmp

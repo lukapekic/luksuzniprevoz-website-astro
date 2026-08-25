@@ -17,7 +17,7 @@ export const config = defineFoundationConfig({
         code: "sr",
         htmlLang: "sr",
         hreflang: "sr",
-        label: "Српски",
+        label: "Srpski",
         dir: "ltr",
         isDefault: true,
         isXDefault: true,

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "project": "Luxury Transportation",
+  "siteRoot": "site/luksuzni-prevoz",
+  "theme": {
+    "versionsDir": "site/luksuzni-prevoz/src/theme/versions",
+    "generatedCss": "site/luksuzni-prevoz/src/theme/generated/theme.css",
+    "activeManifestStatus": "active",
+    "activeThemeSources": [
+      "packages/astro-foundation/src/theme/active-theme.ts",
+      "examples/reference-site/src/theme/active-theme.ts",
+      "site/luksuzni-prevoz/src/theme/active-theme.ts"
+    ]
+  },
+  "productionUiRoots": [
+    "site/luksuzni-prevoz/src/components",
+    "site/luksuzni-prevoz/src/foundation/ui",
+    "site/luksuzni-prevoz/src/layouts",
+    "site/luksuzni-prevoz/src/pages",
+    "site/luksuzni-prevoz/src/styles"
+  ],
+  "docsRoots": [
+    "site/luksuzni-prevoz/src/docs"
+  ],
+  "dataRoot": "site/luksuzni-prevoz/src/data",
+  "contentRoot": "site/luksuzni-prevoz/src/content",
+  "legacyAllowedRoots": [
+    "site/luksuzni-prevoz/src/theme/versions/version-1",
+    "examples/reference-site/src/theme/versions/version-1"
+  ],
+  "generatedAllowedRoots": [
+    "site/luksuzni-prevoz/src/theme/generated",
+    "packages/astro-foundation/src/theme/generated",
+    "examples/reference-site/src/theme/generated"
+  ],
+  "sharedComponents": [
+    "SiteHeader",
+    "SiteFooter",
+    "FinalCTA",
+    "FAQ",
+    "OpenSplitSection",
+    "ServiceCard",
+    "TrustStrip",
+    "HorizontalCarousel",
+    "PageContainer",
+    "ReadingContainer",
+    "Section",
+    "SectionHeading",
+    "Button",
+    "Link",
+    "BrandLockup"
+  ],
+  "surfaceMap": {
+    "home": {
+      "match": [
+        "src/pages/index.astro",
+        "src/pages/[locale]/index.astro",
+        "src/components/home/",
+        "src/content/pages/home/",
+        "src/docs/home/"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/home/reference/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/home/home-components"
+      ]
+    },
+    "private-chauffeur": {
+      "match": [
+        "private-chauffeur",
+        "privatni-vozac",
+        "chauffeur"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/services/private-chauffeur/blueprint.md",
+        "site/luksuzni-prevoz/src/docs/private-chauffeur/reference/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/private-chauffeur"
+      ]
+    },
+    "airport-transportation": {
+      "match": [
+        "airport-transportation",
+        "airport-transfer",
+        "aerodrom"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/services/airport-transportation/blueprint.md",
+        "site/luksuzni-prevoz/src/docs/airport-transportation/reference/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/airport-transportation"
+      ]
+    },
+    "business-transportation": {
+      "match": [
+        "business-transportation",
+        "corporate-transportation",
+        "poslovni"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/services/business-transportation/blueprint.md",
+        "site/luksuzni-prevoz/src/docs/business-transportation/reference/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/business-transportation"
+      ]
+    }
+  }
+}

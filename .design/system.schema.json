@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Luxury Transportation Design System Snapshot",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "sourceHash", "theme", "tokens", "cssVariables", "inventory"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string" },
+    "sourceHash": { "type": "string" },
+    "theme": {
+      "type": "object",
+      "required": ["directory", "version", "name", "status"],
+      "properties": {
+        "directory": { "type": "string" },
+        "version": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "tokens": { "type": "object" },
+    "cssVariables": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "inventory": {
+      "type": "object",
+      "required": ["components", "docs", "dataModules"],
+      "properties": {
+        "components": { "type": "array", "items": { "type": "string" } },
+        "docs": { "type": "array", "items": { "type": "string" } },
+        "dataModules": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

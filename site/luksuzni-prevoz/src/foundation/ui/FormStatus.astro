@@ -5,6 +5,7 @@
  * Contract:
  * - Renders an aria-live region for form feedback
  * - Screen reader announces changes without interrupting
+ * - Uses Theme V2 semantic status tokens (--color-success, --color-error)
  * - class passthrough is layout-only (FND-UI-06)
  * - CSS logical properties only (FND-I18N-13)
  */
@@ -24,8 +25,8 @@ const {
 } = Astro.props;
 
 const colorMap = {
-  success: "text-green-700 dark:text-green-400",
-  error: "text-red-700 dark:text-red-400",
+  success: "text-[var(--color-success)]",
+  error: "text-[var(--color-error)]",
   info: "text-[var(--color-text-muted)]",
 };
 ---

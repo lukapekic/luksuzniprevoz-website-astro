@@ -9,8 +9,8 @@
  *
  *   - contained architectural panel, content left, vehicle image right;
  *   - desktop 62/38 content/image, 22–26rem panel;
- *   - warm-charcoal → warm-brown restrained gradient (Final-CTA-only exception);
- *   - CTA hierarchy: primary Book (gold cta link) > secondary Request a Quote
+ *   - restrained graphite gradient (Final-CTA-only exception);
+ *   - CTA hierarchy: primary Book (platinum accent cta link) > secondary Request a Quote
  *     (outlined button link) > tertiary phone/email (muted text links — ONE
  *     phone + ONE email only; WhatsApp is intentionally not rendered here,
  *     task 2D);
@@ -71,7 +71,7 @@ export interface FinalCTAProps {
   heading: string;
   /** Short supporting paragraph (localized, from caller). */
   description?: string;
-  /** Primary conversion action — Book (gold <Link variant="cta">). Required. */
+  /** Primary conversion action — Book (platinum accent <Link variant="cta">). Required. */
   primaryAction: FinalCtaAction;
   /** Secondary conversion action — Request a Quote (<Link variant="button">). */
   secondaryAction?: FinalCtaAction;

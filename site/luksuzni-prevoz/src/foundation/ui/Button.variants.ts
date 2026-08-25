@@ -9,7 +9,7 @@
  * Transportation tokens.
  *
  * Roles (locked CTA hierarchy, FND-UI-03 / DESIGN.md §8):
- *   primary   → highest-emphasis action (Book). Gold surface, dark text.
+ *   primary   → highest-emphasis action (Book). Platinum accent surface, dark text.
  *   secondary → supporting action (Request a Quote). Dark elevated surface.
  *
  * No ghost/outline/tertiary variants — added only when a blueprint requires one
@@ -32,8 +32,8 @@ export const buttonVariants = variants({
   ].join(" "),
   axes: {
     variant: {
-      // Gold is scarce (design-foundation-governance.md §5): the primary CTA is
-      // one of the approved gold uses. Dark text on gold is required.
+      // Platinum accent is the primary CTA surface (design-foundation-governance.md §5).
+      // Dark text on accent is required for contrast.
       primary:
         "bg-[var(--color-accent)] text-[var(--color-text-on-light)] enabled:hover:bg-[var(--color-accent-hover)] enabled:active:bg-[var(--color-accent)]",
       secondary:

@@ -38,7 +38,15 @@
     "quality:release": "pnpm quality:page && echo \"Verifying rule traceability...\" && pnpm traceability --check && echo \"Parsing waivers...\" && pnpm parse-waivers && echo \"Scanning for secrets...\" && pnpm secret-scan && echo \"Auditing dependencies...\" && pnpm audit:deps && echo \"Running e2e tests...\" && pnpm test:e2e && echo \"Running a11y tests...\" && pnpm test:a11y && echo \"Running lighthouse...\" && pnpm test:lighthouse",
     "changeset": "changeset",
     "release": "changeset publish",
-    "release:next": "changeset publish --tag next"
+    "release:next": "changeset publish --tag next",
+    
+     "design:sync": "node scripts/design/sync.mjs",
+     "design:sync:check": "node scripts/design/sync.mjs --check",
+     "design:context": "node scripts/design/context.mjs",
+     "design:detect": "node scripts/design/detect.mjs",
+     "design:doctor": "node scripts/design/doctor.mjs",
+     "design:self-test": "node scripts/design/self-test.mjs",
+     "design:governance": "pnpm design:sync:check && pnpm design:doctor && pnpm design:detect"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",

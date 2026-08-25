@@ -73,19 +73,29 @@ mkdirSync(join(projectOutput, ".."), { recursive: true });
 writeFileSync(projectOutput, css, "utf-8");
 console.log(`✓ Wrote ${projectOutput}`);
 
-// Write to core package default
-const coreOutput = join(
-  rootDir,
-  "packages",
-  "astro-foundation",
-  "src",
-  "theme",
-  "generated",
-  "theme.css",
-);
-mkdirSync(join(coreOutput, ".."), { recursive: true });
-writeFileSync(coreOutput, css, "utf-8");
-console.log(`✓ Wrote ${coreOutput}`);
+// Write to core package default ONLY when syncing the reference site (the core's
+// own default consumer). Syncing a product site (e.g. luksuzni-prevoz) must NOT
+// mutate the core generated CSS — otherwise the core file represents "the last
+// project synced" rather than the reference site's validated tokens.
+const referenceSiteDir = resolve(rootDir, "examples", "reference-site");
+const isReferenceSite = absProjectPath === referenceSiteDir ||
+  absProjectPath === resolve(referenceSiteDir);
+if (isReferenceSite) {
+  const coreOutput = join(
+    rootDir,
+    "packages",
+    "astro-foundation",
+    "src",
+    "theme",
+    "generated",
+    "theme.css",
+  );
+  mkdirSync(join(coreOutput, ".."), { recursive: true });
+  writeFileSync(coreOutput, css, "utf-8");
+  console.log(`✓ Wrote ${coreOutput}`);
+} else {
+  console.log(`⊘ Skipped core package write (not the reference site).`);
+}
 
 console.log(
   `\nTheme "${tokens.manifest.name}" v${tokens.manifest.themeVersion} synced successfully.`,

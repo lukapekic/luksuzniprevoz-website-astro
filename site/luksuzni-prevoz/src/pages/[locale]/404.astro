@@ -5,18 +5,18 @@
  * Emits /en/404/, /ru/404/ so a host can serve a locale-specific 404 based on
  * the path prefix (e.g. Netlify/Cloudflare edge rules). The default locale
  * (sr) is UNPREFIXED — its 404 is the root src/pages/404.astro (host fallback
- * for un-prefixed URLs). Both use the UI dictionary (FND-ARCH-03) — no
- * hardcoded strings.
+ * for un-prefixed URLs). Both use the production chrome (Page + SiteHeader +
+ * SiteFooter) and the UI dictionary (FND-ARCH-03) — no hardcoded strings —
+ * and the approved Link `cta` variant (no hand-built action).
  */
 import Page from "../../foundation/ui/Page.astro";
-import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SiteHeader from "../../components/site/SiteHeader.astro";
+import SiteFooter from "../../components/site/SiteFooter.astro";
 import Section from "../../foundation/ui/Section.astro";
-import Header from "../../foundation/ui/Header.astro";
-import Footer from "../../foundation/ui/Footer.astro";
-import { getPath } from "@astro-foundation/core/i18n";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import Link from "../../foundation/ui/Link.astro";
 import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 import { config } from "../../../foundation.config.ts";
-import { routes } from "../../data/routes.ts";
 import { t } from "../../lib/i18n.ts";
 
 export function getStaticPaths() {
@@ -38,13 +38,12 @@ const localeInfo = {
   dir: localeConfig?.dir ?? "ltr",
 };
 
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
-const homeHref = getPath("home", currentLocale, routes, defaultLocale);
 const notFoundTitle = t("error.404.title", currentLocale);
 const notFoundMessage = t("error.404.message", currentLocale);
+const homeLabel = t("home.title", currentLocale);
 
 const seo = {
-  title: "404 — Page not found",
+  title: `404 — ${notFoundTitle}`,
   description: notFoundMessage,
   locale: localeInfo,
   brand: config.brand,
@@ -52,13 +51,13 @@ const seo = {
 };
 ---
 
-<Page seo={seo} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
-  <Header currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+<Page seo={seo} locale={currentLocale} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
+  <SiteHeader currentRouteKey={currentRouteKey} currentLocale={currentLocale} overHero={false} />
 
   <main id="main-content" class="flex-1">
-    <Section id="not-found" class="py-[var(--space-16)]">
-      <PageContainer class="text-center">
-        <h1 class="font-heading text-[length:var(--text-display)] font-bold text-[var(--color-text-muted)]">
+    <Section id="not-found" spacing="feature" class="text-center">
+      <PageContainer>
+        <h1 class="font-heading text-[length:var(--text-display)] font-bold text-[var(--color-text-muted)] leading-[var(--line-height-tight)]">
           404
         </h1>
         <p class="mt-[var(--space-4)] font-body text-[length:var(--text-xl)] text-[var(--color-text-muted)]">
@@ -67,17 +66,14 @@ const seo = {
         <p class="mt-[var(--space-2)] font-body text-[var(--color-text-muted)]">
           {notFoundMessage}
         </p>
-        <div class="mt-[var(--space-8)] flex justify-center gap-4">
-          <a
-            href={homeHref}
-            class="inline-flex min-h-11 items-center justify-center rounded-[var(--radius-control)] bg-[var(--color-accent)] px-6 py-3 font-body text-base font-medium text-[var(--color-text-on-light)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-accent-hover)]"
-          >
-            {t("home.title", currentLocale)}
-          </a>
+        <div class="mt-[var(--space-8)] flex justify-center">
+          <Link to={currentRouteKey} locale={currentLocale} variant="cta">
+            {homeLabel}
+          </Link>
         </div>
       </PageContainer>
     </Section>
   </main>
 
-  <Footer currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
+  <SiteFooter currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
 </Page>

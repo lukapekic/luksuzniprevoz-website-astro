@@ -10,7 +10,7 @@
  *
  *   default → inline text/action link (accent, underline on hover)
  *   nav     → navigation link (Header/NavList)
- *   cta     → primary CTA link (gold, button-shaped) for navigation CTAs
+ *   cta     → primary CTA link (platinum accent, button-shaped) for navigation CTAs
  *   button  → secondary CTA link (outlined, button-shaped)
  *
  * Links must stay distinguishable from <Button> (restrained color/underline,

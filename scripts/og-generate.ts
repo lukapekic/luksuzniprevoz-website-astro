@@ -83,14 +83,40 @@ if (fontIssues.length > 0) {
   for (const issue of fontIssues) console.warn(`  ${issue.locale}: ${issue.message}`);
 }
 
-// --- Theme colors (from the active theme's palette, first/light mode) ---
+// --- Resolve active theme version from the project's foundation.config.ts ---
+let activeThemeVersion = "version-1";
+for (const p of [
+  resolve(resolvedTarget, "foundation.config.ts"),
+  resolve(resolvedTarget, "src", "foundation.config.ts"),
+]) {
+  if (!existsSync(p)) continue;
+  try {
+    const mod = await import(p);
+    const cfg = (mod.default ?? mod["config"]) as { activeThemeVersion?: string };
+    if (cfg?.activeThemeVersion) { activeThemeVersion = cfg.activeThemeVersion; break; }
+  } catch { /* fall through to default */ }
+}
+
+// --- Theme colors (from the active theme's palette) ---
+// Supports two palette schemas:
+//   - Flat semantic tokens (Luxury site V1/V2): { background, textPrimary, accent }
+//   - Nested modes.light (reference site V1): { modes: { light: { surface: { base }, text: { primary }, accent: { primary } } } }
 let theme: { background?: string; foreground?: string; accent?: string } = {};
-const palettePath = resolve(resolvedTarget, "src/theme/versions/version-1/palette.json");
+const palettePath = resolve(resolvedTarget, "src/theme/versions", activeThemeVersion, "palette.json");
 if (existsSync(palettePath)) {
   try {
     const palette = JSON.parse(readFileSync(palettePath, "utf-8"));
-    const light = palette.modes?.light;
-    if (light) {
+    // Flat semantic token schema (Luxury site V1/V2)
+    if (palette.background && palette.textPrimary && palette.accent) {
+      theme = {
+        background: palette.background,
+        foreground: palette.textPrimary,
+        accent: palette.accent,
+      };
+    }
+    // Nested modes.light schema (reference site V1)
+    else if (palette.modes?.light) {
+      const light = palette.modes.light;
       theme = {
         background: light.surface?.base,
         foreground: light.text?.primary,

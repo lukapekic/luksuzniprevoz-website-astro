@@ -24,10 +24,10 @@
  *     border — the grid reads as one shared surface.
  *   - Mobile (<48rem): single column, horizontal hairline dividers only, compact
  *     panel padding ~1rem 1.3rem, items padding-block ~1.3rem.
- *   - Marker: one restrained ~1.5rem gold accent check per item, decorative
+ *   - Marker: one restrained ~1.5rem platinum accent check per item, decorative
  *     (aria-hidden) — no information conveyed by icon alone.
  *   - Text: title <h3> (Manrope, --text-lg, semibold, primary) + one concise
- *     supporting line (Manrope, --text-sm, muted). No Fraunces, no h2 scale.
+ *     supporting line (Manrope, --text-sm, muted). No heading font, no h2 scale.
  *
  * Composition: TrustStrip owns ONLY the panel + items — it composes inside the
  * PAGE's <Section> + <PageContainer> + <SectionHeading> (the FAQ precedent; the
@@ -145,11 +145,11 @@ if (items.length !== 4) {
     border-block-end: 0;
   }
 
-  /* Restrained gold accent marker — decorative (aria-hidden). Sized to the
-     space scale; currentColor + --color-accent keeps gold scarce (a restrained
-     number of icons/details is an approved gold use, design-foundation-
-     governance.md §5). Inline 24-viewBox stroke SVG = the project icon
-     convention (no icon system / dependency exists). */
+  /* Restrained platinum accent marker — decorative (aria-hidden). Sized to the
+     space scale; currentColor + --color-accent keeps the accent restrained
+     (a restrained number of icons/details is an approved accent use,
+     design-foundation-governance.md §5). Inline 24-viewBox stroke SVG = the
+     project icon convention (no icon system / dependency exists). */
   .trust-mark {
     inline-size: var(--space-6);
     block-size: var(--space-6);
@@ -163,7 +163,7 @@ if (items.length !== 4) {
 
   /* Title: Manrope (font-body), small-heading scale, semibold, primary — a
      semantically strong <h3> that is NOT a miniature section heading (no
-     Fraunces, no h2 scale; 07 §Text). */
+     heading font, no h2 scale; 07 §Text). */
   .trust-title {
     margin: 0;
     font-family: var(--font-body);

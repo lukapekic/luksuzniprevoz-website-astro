@@ -674,3 +674,52 @@ Before reporting a task complete:
 - distinguish automated verification from manual visual review.
 
 Never hide known deviations behind “done”, “finished”, or “production-ready”.
+
+# AGENTS.md additions
+
+Add this as a concise section near the existing agent procedure / quality workflow. Do not duplicate the full skill contents in `AGENTS.md`.
+
+## Deterministic design-governance workflow
+
+For production UI work, agents MUST use the repository design-governance layer.
+
+Before editing:
+
+```bash
+pnpm design:context <target>
+```
+
+If the context command reports a missing/stale machine-readable snapshot:
+
+```bash
+pnpm design:sync
+```
+
+Before declaring UI work complete:
+
+```bash
+pnpm design:detect <target>
+pnpm check
+```
+
+Major page work also runs the page-specific and release gates already required elsewhere in this file.
+
+`pnpm design:doctor` checks drift between the active theme, generated design snapshot, selectors, current design documentation, and global site integration. It is maintenance/verification, not permission to redesign.
+
+### Workflow doctrine
+
+**Refinement preserves. Redesign replaces.**
+
+A cleanup, refactor, accessibility correction, responsive correction, token migration, performance fix, or bug fix MUST preserve approved component identity, factual copy, CTA roles, and locked blueprint structure unless the task explicitly authorizes a design-direction change.
+
+### Design-governance authority
+
+The governance scripts do not become a visual source of truth. Existing authority remains:
+
+1. locked page blueprint;
+2. `DESIGN.md`;
+3. active theme + generated semantic tokens;
+4. reviewed shared component contract;
+5. wireframe geometry.
+
+`AGENTS.md` remains the technical/procedural authority.

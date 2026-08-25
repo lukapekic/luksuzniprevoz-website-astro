@@ -8,9 +8,12 @@ html {
   text-size-adjust: 100%;
 }
 
-/* Focus visible fallback — ensures focus is always visible */
+/* Focus visible fallback — ensures focus is always visible.
+   Chain: --focus-ring (reference site) → --color-focus-dark (Theme V2 sites)
+   → dark neutral fallback. The old #0066cc blue is eliminated so no target
+   project silently falls back to a non-semantic blue focus ring. */
 :focus-visible {
-  outline: 2px solid var(--focus-ring, #0066cc);
+  outline: 2px solid var(--focus-ring, var(--color-focus-dark, #1a1a1a));
   outline-offset: 2px;
 }
 

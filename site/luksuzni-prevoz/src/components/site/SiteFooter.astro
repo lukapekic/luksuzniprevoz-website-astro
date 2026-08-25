@@ -2,27 +2,23 @@
 /**
  * SiteFooter — global site footer (chrome) for Luxury Transportation.
  *
- * P9 — "Low Horizon" variant. A deliberately quiet cinematic closing frame that
- * sits immediately below the Final CTA and is subordinate to it: no conversion
- * messaging, no newsletter, no sitemap, no second CTA, no oversized brand
- * billboard (DESIGN.md §6 content-density, §13 rejected-footer lessons —
- * "footer made disproportionately tall/empty", "footer becoming a second Hero").
+ * Aligned to the locked footer contract
+ * (docs/home/home-components/12-site-footer.md) and active Theme V2. A compact,
+ * quiet closing frame subordinate to the Final CTA: no conversion messaging,
+ * no newsletter, no sitemap, no second CTA, no oversized brand billboard
+ * (DESIGN.md §6 content-density, §8 rejected-footer lessons).
  *
- *   Zone 1  Brand      — the GS mark only (src/assets/logo.webp). BrandLockup is
- *                        intentionally NOT used: it inherently carries the
- *                        "Luxury Transportation" wordmark, which the Low
- *                        Horizon direction removes from the Footer. The mark
- *                        is small, high-contrast, and quiet; the Footer is
- *                        GrandSolution-identified (GS mark + "© GrandSolution"
- *                        in the bottom row). The mark links home.
+ *   Zone 1  Brand      — the approved BrandLockup (logo + "Luxury Transportation"
+ *                        wordmark via font-brand). The lockup's accessible name
+ *                        is the visible wordmark; it links home. The parent-
+ *                        company relationship ("GrandSolution") is referenced
+ *                        quietly in the bottom-row copyright.
  *   Zone 2  Navigation — route-derived Services + Company link groups
  *                        (navigation.footer), labeled via getNavLabel. Desktop
  *                        places the two groups side-by-side inside the central
- *                        nav zone (one coherent navigation group, floor-locked
- *                        minmax tracks) so the middle stays balanced rather
- *                        than one tall stack.
- *   Zone 3  Contact    — the strongest informational block (P9.1 hierarchy):
- *                        verified-only channels (contact.ts gating) at
+ *                        nav zone so the middle stays balanced rather than one
+ *                        tall stack.
+ *   Zone 3  Contact    — verified-only channels (contact.ts gating) at the
  *                        highest emphasis, then office hours and the verified
  *                        office address (contact.office, street / postal+city /
  *                        country) as secondary muted facts, then the response
@@ -33,25 +29,19 @@
  *                        operating identity from business.ts) on the left, and
  *                        the verified headquarters city/country on the right.
  *
- * Low Horizon treatment (P9.1): the generic border between the body and the
- * bottom row is replaced by a 1px platinum horizon — a horizontal
- * linear-gradient (transparent → low-opacity --color-accent → center peak →
- * transparent) with a barely-visible radial glow centered on the line. Both
- * are CSS pseudo-elements, so they are automatically excluded from the
- * accessibility tree. Footer background gains subtle vertical depth
- * (--color-surface at the top fading to --color-background) plus the original
- * near-subliminal top platinum wash, all in one background system so the
- * bottom row reads as the final fade-out of one composition rather than a
- * separate legal sub-footer.
+ * Surface: a simple Theme V2 dark footer surface (--color-surface) with a
+ * single subtle 1px semantic top divider (--color-divider) and a matching
+ * divider above the bottom row. No gradient wash, no radial glow, no heavy
+ * shadow — the locked contract forbids glow/heavy shadow; hierarchy comes
+ * from typography, spacing, and surface contrast (DESIGN.md §7/§10).
  *
  * Compliance:
  * - FND-I18N-03: every internal href via getPath() from the route map, never
  *   manually concatenated. Works for sr/en/ru via the locale routing helpers.
  * - FND-ARCH-03: every user-visible string via t() / getNavLabel; facts via
  *   business.ts / contact.ts. No invented contact/legal/office data.
- * - Brand: the GS mark is rendered directly from the existing logo.webp asset
- *   (no BrandLockup, no recreated/text logo, no new logo). The mark's accessible
- *   name is the canonical operating identity (business.parentCompany.name).
+ * - Brand: the approved BrandLockup (no direct logo render, no recreated/text
+ *   logo, no new logo). The lockup's accessible name is "Luxury Transportation".
  * - Verified-only contact: a null/unverified phone/email/whatsapp never ships
  *   as a clickable tel:/mailto:/wa.me (contact.ts gating contract). While all
  *   channels are unverified, the contact column shows office hours + response
@@ -62,11 +52,9 @@
  *   country, verificationStatus "verified") — not an invented address.
  * - No islands: entirely server-rendered, zero client JS.
  * - WCAG 2.2 AA: one <footer> landmark + a single aria-labeled <nav>; links
- *   carry aria-current + visible focus-visible; the decorative horizon glow
- *   is a pseudo-element (excluded from AT); DOM order matches mobile reading
- *   order (brand → services → company → contact → bottom row).
+ *   carry aria-current + visible focus-visible; DOM order matches mobile
+ *   reading order (brand → services → company → contact → bottom row).
  */
-import { Image } from "astro:assets";
 import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
@@ -74,7 +62,7 @@ import { navigation, getNavLabel, type NavLeaf } from "../../data/navigation.ts"
 import { business } from "../../data/business.ts";
 import { contact, isVerified } from "../../data/contact.ts";
 import { t } from "../../lib/i18n.ts";
-import logoImg from "../../assets/logo.webp";
+import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
 
 interface Props {
@@ -155,23 +143,18 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="site-footer__shell">
     <div class="site-footer__grid">
-      {/* 1. Brand — GS mark only (logo.webp). No "Luxury Transportation" wordmark:
-            the Low Horizon Footer is GrandSolution-identified. BrandLockup is
-            intentionally not used (it inherently carries the wordmark). The mark
-            is sized via .site-footer__logo (token-based, quiet anchor: larger at
-            desktop, scaled down on mobile/tablet). */}
+      {/* 1. Brand — the approved BrandLockup (logo + "Luxury Transportation"
+            wordmark via font-brand). The lockup's accessible name is the visible
+            wordmark; it links home. The parent-company relationship ("GrandSolution")
+            is referenced quietly in the bottom-row copyright, per the locked
+            footer contract. */}
       <div class="site-footer__col site-footer__col--brand">
-        <a class="site-footer__brand" href={homeHref} aria-label={business.parentCompany.name}>
-          <Image
-            src={logoImg}
-            alt=""
-            aria-hidden="true"
-            width={70}
-            height={52}
-            class="site-footer__logo"
-            loading="eager"
-          />
-        </a>
+        <BrandLockup
+          locale={currentLocale}
+          href={homeHref}
+          variant="full"
+          class="site-footer__brand"
+        />
       </div>
 
       {/* 2. Navigation — one <nav> landmark. Services + Company sit
@@ -265,34 +248,22 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  /* --- Surface: one graphite-depth background system (P9.1 background depth).
-     No top margin: the footer sits compactly below the Final CTA, which owns
-     its own bottom rhythm. The 1px top border is the restrained separator.
-     The layered background gives the upper footer slightly elevated graphite
-     (--color-surface) fading back to near-black (--color-background) toward
-     the bottom row — the "final fade-out" — with the near-subliminal platinum
-     top wash retained. All values are semantic Theme V2 roles via color-mix;
-     gradients are plain CSS backgrounds, so they stay outside the
-     accessibility tree. */
+  /* --- Surface: a simple Theme V2 dark footer surface with a single subtle
+     semantic top divider. No gradient wash, no radial glow, no heavy shadow
+     (locked footer contract §Surface: "no glow or heavy shadow"; DESIGN.md
+     §7/§10 — surface contrast and a quiet separator, not decoration). The
+     footer sits compactly below the Final CTA, which owns its own bottom
+     rhythm, so there is no top margin. */
   .site-footer {
-    position: relative;
-    border-block-start: 1px solid var(--color-border-subtle);
-    background:
-      radial-gradient(
-        ellipse 65% 55% at 50% 0%,
-        color-mix(in srgb, var(--color-accent) 4%, transparent),
-        transparent 70%
-      ),
-      linear-gradient(180deg, var(--color-surface), var(--color-background) 55%);
+    border-block-start: 1px solid var(--color-divider);
+    background: var(--color-surface);
   }
 
   .site-footer__shell {
-    position: relative;
-    z-index: 1;
     width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
     margin-inline: auto;
     /* Generous but restrained top rhythm; compact bottom so the closing row
-       reads as a fade-out, not a second sub-footer band (§compact). */
+       reads as the end of the composition, not a second sub-footer band. */
     padding-block: clamp(2.25rem, 4vw, 3.25rem) clamp(1.25rem, 2vw, 1.75rem);
   }
 
@@ -318,15 +289,14 @@ const year = new Date().getFullYear();
   }
   @media (min-width: 64rem) {
     .site-footer__grid {
-      /* Three main zones (P9.1): quiet GS anchor / coherent nav group /
-         contact destination. minmax floors keep the nav zone and contact
-         column usable at lg (1024px) instead of collapsing into equal fr
-         slices — verified: at 64rem the floors resolve brand ≈ 8.75rem,
-         nav = 26.25rem, contact = 18.75rem. */
+      /* Three zones: brand lockup / coherent nav group / contact destination.
+         The brand column carries the BrandLockup (logo + wordmark), so it gets
+         a wider floor than the old small-mark anchor; the nav zone keeps its
+         floor so Services + Company stay usable at lg. */
       grid-template-columns:
-        minmax(7.5rem, 0.65fr)
-        minmax(26.25rem, 1.55fr)
-        minmax(18.75rem, 1fr);
+        minmax(13rem, 1fr)
+        minmax(26rem, 1.5fr)
+        minmax(18rem, 1fr);
     }
     .site-footer__col--contact {
       grid-column: auto;
@@ -337,42 +307,19 @@ const year = new Date().getFullYear();
   .site-footer__col--brand {
     margin-block-end: var(--space-2);
   }
-  /* GS mark: quiet anchor, no card/border/glow. Scaled from spacing tokens —
-     mobile/tablet stays compact (space-8 ≈ 45px wide); desktop grows to a
-     stronger but restrained presence (space-10 ≈ 54px wide, within the
-     52–60px P9.1 target). Aspect ratio is preserved by width/height attrs +
-     object-contain. */
-  .site-footer__logo {
-    block-size: var(--space-8);
-    inline-size: auto;
-    object-fit: contain;
-  }
+  /* BrandLockup owns its logo + wordmark rendering and its own focus-visible
+     ring. The footer only enforces the 44×44 touch target (FND-A11Y-05) at
+     touch widths so the lockup is an easy tap target on mobile/tablet; the
+     compact pointer size returns at desktop. */
   .site-footer__brand {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    /* 44×44 touch target (FND-A11Y-05): the visible GS mark is small,
-       so the hit area is enlarged via min-block/inline-size on touch widths.
-       Reset to the compact pointer size at desktop. */
     min-block-size: 2.75rem;
-    min-inline-size: 2.75rem;
-    border-radius: var(--radius-control);
-    text-decoration: none;
-  }
-  .site-footer__brand:focus-visible {
-    outline: 2px solid var(--color-focus-dark);
-    outline-offset: 2px;
   }
   @media (min-width: 64rem) {
-    .site-footer__logo {
-      block-size: var(--space-10);
-    }
     .site-footer__brand {
       min-block-size: auto;
-      min-inline-size: auto;
     }
-  }
-  @media (min-width: 64rem) {
     .site-footer__col--brand {
       margin-block-end: 0;
     }
@@ -475,51 +422,15 @@ const year = new Date().getFullYear();
 
   /* --- Bottom row: single restrained line, split left/right on desktop.
      Left = copyright (operating identity + rights); right = verified
-     location. Mobile stacks. The generic border is replaced by the Low
-     Horizon (P9.1): ::before is the 1px platinum horizon (transparent →
-     low-opacity accent → center peak → transparent, all semantic Theme V2
-     color via color-mix); ::after is a barely-visible radial glow straddling
-     the line. Both are decorative pseudo-elements — automatically outside
-     the accessibility tree — with pointer-events:none. The tighter gap and
-     the shared graphite-depth background make the row read as the final
-     fade-out of the footer composition, not a separate legal sub-footer. */
+     location. Mobile stacks. The separator above this row is a quiet 1px
+     semantic divider (--color-divider) — no decorative gradient or glow. */
   .site-footer__bottom {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
     margin-block-start: clamp(1.25rem, 2.5vw, 2rem);
     padding-block-start: clamp(1rem, 2vw, 1.5rem);
-  }
-  .site-footer__bottom::before {
-    content: "";
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
-    block-size: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--color-accent) 14%, transparent) 22%,
-      color-mix(in srgb, var(--color-accent) 32%, transparent) 50%,
-      color-mix(in srgb, var(--color-accent) 14%, transparent) 78%,
-      transparent 100%
-    );
-    pointer-events: none;
-  }
-  .site-footer__bottom::after {
-    content: "";
-    position: absolute;
-    /* Straddles the horizon line so the glow peaks exactly on it. */
-    inset-block-start: calc(-1 * var(--space-6));
-    inset-inline: 0;
-    block-size: var(--space-12);
-    background: radial-gradient(
-      ellipse 55% 100% at 50% 50%,
-      color-mix(in srgb, var(--color-accent) 4%, transparent),
-      transparent 70%
-    );
-    pointer-events: none;
+    border-block-start: 1px solid var(--color-divider);
   }
   @media (min-width: 48rem) {
     .site-footer__bottom {
