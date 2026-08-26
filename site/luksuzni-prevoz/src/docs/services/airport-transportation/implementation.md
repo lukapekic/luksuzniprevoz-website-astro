@@ -47,13 +47,26 @@ site/luksuzni-prevoz/src/docs/services/airport-transportation/
   acceptance.md
 ```
 
-Mandatory specialist skill:
+Mandatory skills (all required; no substitute bundle):
 
 ```text
+.skills/design-foundation-governance.md
+.skills/blueprint-to-ui.md
+.skills/component-architecture.md
+.skills/high-value-visual-execution.md
+.skills/typography-system.md
+.skills/responsive-layout.md
+.skills/responsive-ui.md
+.skills/tailwind-v4.md
+.skills/accessibility-wcag.md
 .skills/functional-ui.md
+.skills/imagery-art-direction.md
+.skills/responsive-images-performance.md
+.skills/technical-seo.md
+.skills/structured-data.md
+.skills/multilingual-routing.md
+.skills/technical-page-review.md
 ```
-
-Also load the normal design/responsive/a11y/imagery/Tailwind bundle required by root `AGENTS.md`.
 
 Before editing:
 
@@ -86,7 +99,7 @@ vertical arrival timeline
 open cinematic FBO split with portrait media
 Homepage carousel mechanics with full-image vehicle cards
 one divided standards panel with four groups
-section-number eyebrow system
+  heading-led sections without visible numbering
 ```
 
 Do not preserve obsolete v2 visual behavior as a fallback.
@@ -136,16 +149,16 @@ No component or localized Markdown may become a second factual source.
 # 4. Airport pricing contract
 
 Airport fares are vehicle-specific. Numeric values, currency, status, and unit
-metadata come exclusively from the shared pricing source. The Airport page may
-display a fare only when that source contains a validated Airport fare for the
-vehicle. Until the owner-supplied values are present, render the approved
-unavailable/pending state in the reserved fare region.
+metadata come exclusively from the shared pricing source. Every current fleet
+vehicle has an owner-supplied EUR fare for Belgrade Airport ↔ Belgrade city
+locations. The typed source is authoritative and the page must not derive or
+duplicate values.
 
 Hard reject:
 
 - price literals in components, content, or UI dictionaries;
 - deriving Airport fare from hourly or per-kilometre values;
-- inferred currency;
+- any currency other than the typed EUR value;
 - fake zero/placeholder amount;
 - price schema that is not identical to visible validated pricing.
 
@@ -507,11 +520,22 @@ The form represents:
 
 ```ts
 interface AirportBookingIntent {
-  routeKey: "airportTransportation";
+  service: "airportTransportation";
   flightNumber?: string;
   date: string;
   time: string;
 }
+
+The canonical implementation is `src/lib/booking/airport-booking-intent.ts`.
+It owns field names, ISO date and `HH:mm` validation, query serialization, and
+query parsing. Both the current GET form and the future booking page MUST use
+that module; neither may redefine the contract.
+
+Form states are explicitly limited to `idle`, `invalid`, `submitting`,
+`handoff`, `error`, and `unavailable`. Native browser validation remains the
+first line of defense; errors require visible text, `aria-invalid`, and an
+associated description. The current static form does not invent a success
+state: it hands off to the booking route with the serialized intent.
 ```
 
 The receiving detailed booking form must receive and prefill these values.
@@ -533,7 +557,8 @@ Do not:
 - collect fields and discard them;
 - redirect to a page that cannot consume them.
 
-If no detailed booking form exists at implementation time, adding/wiring that receiving state is a functional prerequisite of this change. The compact form must not ship dead.
+The future booking route is a route-map entry. Query parameters must not create
+indexable duplicate pages; the receiving page owns canonical/noindex handling.
 
 ## Visual state
 
@@ -631,14 +656,15 @@ Required:
 - content-supplied vehicle IDs;
 - canonical vehicle facts from `fleet.ts`;
 - dominant active recommendation;
-- visible next recommendation/peek where space allows;
+- visible next recommendation/peek at the defined responsive states;
 - previous/next controls;
 - active index counter;
 - mobile touch/scroll behavior;
 - no autoplay;
 - keyboard-safe controls;
 - vehicle-specific Airport fare from shared pricing data when validated;
-- explicit pending/unavailable fare state while owner values are absent.
+- no pending fare state is permitted for a vehicle rendered by this contract;
+  missing data fails validation.
 
 Do not reuse Homepage `FleetShowcase` markup/CSS wholesale.
 
@@ -700,12 +726,8 @@ Do not duplicate the Airport arrival timeline inside Standards.
 
 Reuse the existing shared FAQ.
 
-Page-level composition may add:
-
-- `07` eyebrow;
-- visible row number;
-- plus/minus state;
-- subtle hover/open treatment.
+Page-level composition may add only the approved heading and description; it
+must not add visible section numbers or a second accordion state owner.
 
 The FAQ component remains the single accordion owner.
 
@@ -795,7 +817,7 @@ Verify:
 
 # 22. Responsive behavior
 
-Review:
+Review and record evidence at:
 
 ```text
 320
@@ -815,9 +837,11 @@ Open 5/7 on desktop; mobile and tablet portrait use one clear vertical sequence.
 
 ## Booking
 
-Desktop 5/7 editorial/form.
-Tablet may reduce to one balanced form row.
-Mobile single column.
+Desktop uses 5/7 editorial/form columns. Tablet portrait uses a single
+balanced form row when the measured container cannot preserve both columns;
+tablet landscape re-evaluates the same constraint rather than inheriting the
+desktop split. Mobile is a single column. At every state, fields retain their
+labels, 44px targets, logical reading order, and no horizontal overflow.
 
 ## Arrival
 
@@ -952,7 +976,7 @@ Airport v3 is complete only when:
 - Private Aviation copy/presentation reads as a premium VIP capability without security claims;
 - VehicleRecommendations is an accessible Homepage-mechanics carousel with full-image cards;
 - ServiceStandards shows four concise groups in one divided panel;
-- section-number eyebrows are consistent;
+- every section has a heading and no visible section-number eyebrows;
 - localized UI/content is complete in SR/EN/RU;
 - data/content separation remains intact;
 - responsive states pass;

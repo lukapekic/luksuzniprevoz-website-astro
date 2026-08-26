@@ -347,3 +347,12 @@ Fail typography review when:
 - [ ] Heading wrapping reviewed at tablet widths.
 - [ ] No stale Fraunces/Instrument Serif assumptions introduced.
 - [ ] No arbitrary type scale drift introduced.
+
+## Universal role contract
+
+All production text MUST resolve through the semantic roles `font-heading`
+(Inter Tight), `font-body` (Manrope), or `font-brand` (Cormorant Garamond
+Italic for BrandLockup only). Page blueprints MUST declare heading levels and
+text roles; components MUST NOT introduce raw font families, arbitrary weights,
+tracking, or line-height values. Acceptance requires computed-style checks for
+H1, H2, body/UI, navigation, buttons, and inputs in every configured locale.

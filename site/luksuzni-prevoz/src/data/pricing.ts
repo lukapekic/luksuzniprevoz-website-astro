@@ -14,10 +14,9 @@
  *
  * Source: owner-supplied "Cene Limo servis usluga.xlsx", table "LIMO SERVIS
  * USLUGE", columns: Najam po satu / Poludnevni najam 5h·100km / Celodnevni
- * najam 10h·200km / Prevoz po km. The "Aerodromski transfer" column and the
- * "PUTEVI IZ BEOGRADA" section are excluded (per the source manifest) and are
- * not represented here. Currency is not explicitly stated in the source
- * (currencyStatus: "not-explicitly-stated-in-source"); do not assume EUR/RSD.
+ * najam 10h·200km / Prevoz po km. Airport transfer values are also represented
+ * below, owner-confirmed in EUR for Belgrade Airport ↔ Belgrade city locations.
+ * The "PUTEVI IZ BEOGRADA" section remains outside this service contract.
  *
  * No Zod: no external untrusted input, no independent artifact to validate.
  * Typing is the validation; the module-load guard is the structural check.
@@ -55,7 +54,7 @@ export const pricingUnits = {
  * Per-vehicle fares. `hourly` / `halfDay` / `fullDay` are flat fares (the
  * source's "Najam po satu" / "Poludnevni najam" / "Celodnevni najam"); `perKm`
  * is the per-kilometre rate (the source's "Prevoz po km"). All numbers are
- * exactly as supplied; currency is unspecified in the source.
+ * exactly as supplied; Airport transfer values are owner-confirmed in EUR.
  */
 export interface VehiclePricing {
   vehicleId: VehicleId;
@@ -67,8 +66,12 @@ export interface VehiclePricing {
   fullDay: number;
   /** Prevoz po km — per-kilometre rate. */
   perKm: number;
-  /** Airport transfer fare. Owner values are pending; null is explicit absence. */
-  airportTransfer: { amount: number; currency: string } | null;
+  /** Airport transfer fare, per vehicle, Belgrade Airport ↔ Belgrade city. */
+  airportTransfer: {
+    amount: number;
+    currency: "EUR";
+    scope: "belgrade-airport-to-belgrade-city";
+  };
 }
 
 // --- Authoritative pricing facts ------------------------------------------
@@ -81,7 +84,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 140,
     fullDay: 220,
     perKm: 1.0,
-    airportTransfer: null,
+    airportTransfer: { amount: 40, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
   "mercedes-e-class": {
     vehicleId: "mercedes-e-class",
@@ -89,7 +92,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 160,
     fullDay: 240,
     perKm: 1.1,
-    airportTransfer: null,
+    airportTransfer: { amount: 45, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
   "mercedes-v-class-6-plus-1-extra-long": {
     vehicleId: "mercedes-v-class-6-plus-1-extra-long",
@@ -97,7 +100,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 180,
     fullDay: 280,
     perKm: 1.3,
-    airportTransfer: null,
+    airportTransfer: { amount: 60, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
   "mercedes-v-class-7-plus-1-extra-long": {
     vehicleId: "mercedes-v-class-7-plus-1-extra-long",
@@ -105,7 +108,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 180,
     fullDay: 280,
     perKm: 1.3,
-    airportTransfer: null,
+    airportTransfer: { amount: 60, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
   "mercedes-vito-tourer-8-plus-1": {
     vehicleId: "mercedes-vito-tourer-8-plus-1",
@@ -113,7 +116,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 170,
     fullDay: 260,
     perKm: 1.2,
-    airportTransfer: null,
+    airportTransfer: { amount: 50, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
   "mercedes-s-class": {
     vehicleId: "mercedes-s-class",
@@ -121,7 +124,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 320,
     fullDay: 550,
     perKm: 2.0,
-    airportTransfer: null,
+    airportTransfer: { amount: 90, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
   "mercedes-sprinter": {
     vehicleId: "mercedes-sprinter",
@@ -129,7 +132,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 200,
     fullDay: 320,
     perKm: 2.6,
-    airportTransfer: null,
+    airportTransfer: { amount: 100, currency: "EUR", scope: "belgrade-airport-to-belgrade-city" },
   },
 };
 

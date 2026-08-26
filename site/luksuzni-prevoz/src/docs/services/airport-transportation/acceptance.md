@@ -73,19 +73,14 @@ No unrelated sections were inserted.
 - [ ] no form, price, ratings, fleet specs, trust chips or logos inside Hero.
 - [ ] focal point reviewed at all target widths.
 
-## 4. Section eyebrow system
+## 4. Section heading system
 
-- [ ] 01 Overview.
-- [ ] 02 Arrival.
-- [ ] 03 Booking.
-- [ ] 04 Private Aviation.
-- [ ] 05 Vehicles.
-- [ ] 06 Standards.
-- [ ] 07 FAQ.
-- [ ] labels localized.
-- [ ] numbers stay visually subordinate.
-- [ ] consistent platinum/accent treatment.
-- [ ] no decorative eyebrow cards.
+- [ ] Every section has a localized heading.
+- [ ] Overview, Arrival, Booking, Vehicles, Standards, FAQ, and Final CTA use
+      heading plus description.
+- [ ] Private Aviation may use a restrained accent rule with its description.
+- [ ] No visible section numbers or numbered eyebrows remain.
+- [ ] No decorative eyebrow cards.
 
 ## 5. Service Overview
 
@@ -121,15 +116,20 @@ No unrelated sections were inserted.
 - [ ] no Airport-local storage convention invented.
 - [ ] no dead/non-submitting form ships.
 - [ ] secondary quote action remains subordinate.
+- [ ] canonical contract is `src/lib/booking/airport-booking-intent.ts`.
+- [ ] query parameters are `service`, `flightNumber`, `date`, and `time`.
+- [ ] supported states are idle, invalid, submitting, handoff, error, and unavailable.
 
 ## 7. Pricing hard gate
 
 - [ ] Airport fare is keyed by vehicle in shared pricing data.
 - [ ] no price literal exists in components/content/UI strings.
 - [ ] no hourly/per-km derivation is used as Airport fare.
-- [ ] no inferred currency.
-- [ ] no fake zero/placeholder amount.
-- [ ] pending/unavailable state renders while owner values are absent.
+- [ ] currency is explicitly EUR.
+- [ ] Airport fare scope is Belgrade Airport ↔ Belgrade city locations.
+- [ ] no fake zero/placeholder amount or derived hourly/per-km value.
+- [ ] every displayed vehicle has a validated typed Airport fare.
+- [ ] all Airport fares are EUR and scoped to Belgrade Airport ↔ Belgrade city.
 - [ ] JSON-LD price, if emitted later, matches visible validated pricing.
 
 ## 8. Arrival timeline
@@ -179,7 +179,7 @@ No unrelated sections were inserted.
 - [ ] no focus trap.
 - [ ] no accidental page overflow.
 - [ ] vehicle facts from `fleet.ts`.
-- [ ] validated vehicle-specific fare or approved pending state.
+- [ ] validated vehicle-specific EUR fare from shared pricing data.
 - [ ] no invented luggage/equipment facts.
 - [ ] not a copy of Homepage FleetShowcase.
 

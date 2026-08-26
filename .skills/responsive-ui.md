@@ -69,3 +69,11 @@ Layout that adapts from 320px to 1920px with no horizontal overflow, no loss of 
 - RTL/`dir` mirroring can't be achieved with logical properties alone → escalate (may indicate a component needing a variant).
 - A layout requires orientation-specific CSS or a fixed height that conflicts with translation expansion → escalate; don't clip silently.
 - A primitive needs appearance customization that passthrough forbids → add a variant/token, don't bypass the lint rule.
+
+## Strict responsive evidence
+
+Every review records pass/fail evidence for 320, 390, 768, 1024, 1440, and
+1920px, including both tablet orientations. The record must cover topology,
+reading order, focus order, overflow, target size, translated-content expansion,
+carousel behavior, and image focal points. A generic “responsive” approval is
+not sufficient. Missing evidence is an unresolved quality finding.

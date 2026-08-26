@@ -372,3 +372,13 @@ BOOKING HANDOFF:
 MOBILE:
 ACCESSIBILITY:
 ```
+
+## 27. Canonical booking-form state model
+
+Booking-start forms MUST use the shared typed intent contract and explicitly
+model only these states: `idle`, `invalid`, `submitting`, `handoff`, `error`,
+and `unavailable`. Native constraints remain authoritative for required fields;
+custom errors must be visible, associated with their control, and reflected by
+`aria-invalid`. Query-string handoff must serialize and parse through one
+shared helper. A static page must not invent a success/confirmation state or
+discard entered values.

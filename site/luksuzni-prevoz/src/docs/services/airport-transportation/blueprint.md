@@ -84,9 +84,9 @@ No content/UI string becomes the source of those facts.
 
 Airport fares are vehicle-specific and belong to the shared pricing source. The
 page displays a fare only when the selected vehicle has a validated Airport fare
-and currency/unit metadata. Until values are supplied, preserve the fare region
-and render the approved unavailable/pending state—never a fabricated zero,
-inferred currency, or hourly/per-km derivation.
+and currency/unit metadata. Airport transfer fares are now supplied for every
+vehicle in EUR and apply only to Belgrade Airport ↔ Belgrade city locations.
+Render the typed fare from shared pricing data; never duplicate or derive it.
 
 ## 5. Locked page order
 
@@ -142,29 +142,29 @@ Private Aviation is the intentional cinematic open-section exception. Its
 portrait media is a distinct card/media surface rather than a padded image
 inside a larger containing panel.
 
-## 6. Section index system
+## 6. Section heading system
 
-Use a restrained page-wide metadata motif:
+Every section has a localized heading. Use a restrained page-wide heading
+motif:
 
 ```text
-01 — Pregled
-02 — Dolazak
-03 — Rezervacija
-04 — Privatna avijacija
-05 — Vozila
-06 — Standardi
-07 — Česta pitanja
+Pregled
+Dolazak
+Rezervacija
+Privatna avijacija
+Vozila
+Standardi
+Česta pitanja
 ```
 
 Rules:
 
-- number + localized label in normal title case;
-- platinum is reserved primarily for the number / short rule;
-- label stays muted;
-- small UI role;
-- never competes with the H2;
-- no decorative boxes around the index;
-- do not turn every section into an uppercase editorial eyebrow.
+- use heading plus description for Overview, Arrival, Booking, Vehicles,
+  Standards, FAQ, and Final CTA;
+- Private Aviation may use a short accent rule in addition to its description;
+- no visible section numbers or numbered eyebrows;
+- the heading never competes with the H2 and no section becomes an uppercase
+  decorative label.
 
 The Hero may use an unnumbered service eyebrow.
 

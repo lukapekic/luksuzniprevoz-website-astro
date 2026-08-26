@@ -78,3 +78,13 @@ Every indexable page is fully crawlable, correctly described, and correctly clus
 - hreflang cluster can't be made reciprocal because a locale genuinely lacks the route → confirm against `parityFloor`/`missingTranslation`; if it can't satisfy the spec, escalate.
 - Lighthouse SEO < 0.95 on a release gate and the cause is structural (not a single missing field) → escalate rather than patching fields to game the score.
 - A requirement to canonicalize to a different domain or merge locales → escalate (international SEO decision).
+
+## Strict page contract
+
+Every indexable page contract MUST explicitly define its localized title,
+description, H1, canonical route key, hreflang cluster, sitemap/robots intent,
+OG image and alt text, internal-link targets, and structured-data eligibility.
+Query-parameter variants (including booking handoffs) MUST NOT become indexable
+duplicate pages. Visible FAQ content and FAQ JSON-LD MUST come from the same
+validated array. Prices, offers, ratings, and availability MUST remain absent
+from schema until their data contract is explicitly approved.

@@ -424,3 +424,14 @@ WIDE DESKTOP:
 OVERFLOW:
 LOCALIZATION STRESS:
 ```
+
+## 24. Locked contract language
+
+Page blueprints and acceptance files MUST state measurable behavior for each
+review state. Do not use unbounded phrases such as “when space allows”,
+“adapt as needed”, or “reduce if necessary”. Every transition must name the
+state, topology, order, width rule, image rule, and interaction behavior.
+
+The implementation owner must be explicit: page composition belongs to the
+page; reusable component adaptation belongs to the component contract. A
+component change requires a cross-consumer review before implementation.
