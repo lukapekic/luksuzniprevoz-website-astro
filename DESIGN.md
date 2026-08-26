@@ -3,7 +3,7 @@
 > **Role:** Mandatory visual/design authority for Luxury Transportation.
 >
 > This file defines visual intent, authority, design behavior, component identity, and review expectations.
-> It does **not** duplicate raw token values. Raw values live in the active Theme V2 JSON.
+> It does **not** duplicate raw token values. Raw values live in the theme selected by the site's `foundation.config.ts`.
 >
 > Technical/foundation authority lives in root `AGENTS.md`.
 
@@ -75,7 +75,7 @@ The current site selects its active theme in:
 site/luksuzni-prevoz/foundation.config.ts
 ```
 
-The active design-token source is:
+Resolve `activeThemeVersion` from that configuration. The current design-token source is:
 
 ```text
 site/luksuzni-prevoz/src/theme/versions/version-2/
@@ -109,7 +109,7 @@ LOCKED PAGE BLUEPRINT
         ↓
 DESIGN.md
         ↓
-ACTIVE THEME V2 JSON
+CONFIGURED ACTIVE THEME JSON
         ↓
 APPROVED SHARED COMPONENT CONTRACTS
         ↓
@@ -282,7 +282,7 @@ A section's visual height must match:
 - image role;
 - blueprint spacing tier.
 
-Use the active Theme V2 spacing tokens.
+Use the configured active theme's spacing tokens.
 
 Avoid:
 
@@ -295,7 +295,7 @@ Avoid:
 
 # 9. Radius
 
-Use Theme V2 semantic radius tokens.
+Use the configured active theme's semantic radius tokens.
 
 Role hierarchy:
 
@@ -535,7 +535,7 @@ when those communicate hierarchy better.
 
 # 18. Motion
 
-Use Theme V2 motion tokens.
+Use the configured active theme's motion tokens.
 
 Motion should be:
 
@@ -597,12 +597,12 @@ Use container queries when component behavior depends on available parent width 
 
 Production styling uses Tailwind CSS v4 and project CSS-first conventions.
 
-Visual decisions come from this file + Theme V2; Tailwind is the implementation mechanism.
+Visual decisions come from this file plus the configured active theme; Tailwind is the implementation mechanism.
 
 Do not:
 
 - create a v3 Tailwind config to express design decisions;
-- copy raw Theme V2 values into arbitrary classes repeatedly;
+- copy raw configured-theme values into arbitrary classes repeatedly;
 - construct dynamic class fragments that Tailwind cannot detect;
 - assume `:root` CSS variables automatically generate Tailwind utilities;
 - solve scoped Astro styling problems with increasingly specific global selectors.
@@ -694,7 +694,7 @@ STRUCTURAL EXTRACTION
    ↓
 VISUAL DECONTAMINATION
    ↓
-THEME V2 MAPPING
+CONFIGURED ACTIVE THEME MAPPING
    ↓
 PRODUCTION UI
 ```
@@ -713,7 +713,7 @@ For a page:
 3. Read the locked page blueprint.
 4. Read the wireframe for structure.
 5. Read matching skills.
-6. Inspect active Theme V2 tokens.
+6. Resolve and inspect the configured active theme tokens.
 7. Inspect approved primitives/components/data.
 8. Build a blueprint compliance matrix.
 9. Diagnose current implementation.
@@ -733,7 +733,7 @@ Do not give an implementation agent one large "fix everything" task when individ
 
 ## Raw token change
 
-Update the active Theme V2 JSON.
+Update the configured active theme JSON.
 
 Regenerate theme CSS through the repository generator.
 
@@ -741,7 +741,7 @@ Do not patch individual components.
 
 ## Global visual-direction change
 
-Update `DESIGN.md` and, if needed, Theme V2 source JSON.
+Update `DESIGN.md` and, if needed, the configured active theme source JSON.
 
 ## Shared component contract change
 
@@ -795,6 +795,6 @@ Do not default to:
 
 Before approval ask:
 
-> Does this page look like the intentional Black & Platinum Luxury Transportation system defined by the current blueprint and Theme V2, or does it merely look like a generally attractive AI-generated luxury website?
+> Does this page look like the intentional Black & Platinum Luxury Transportation system defined by the current blueprint and configured active theme, or does it merely look like a generally attractive AI-generated luxury website?
 
 If the answer is the latter, it is not finished.

@@ -342,6 +342,14 @@ All skills live directly in `.skills/`.
 
 ## Design / UI
 
+- `design-governance.md` — deterministic production-UI entry/exit workflow.
+- `design-shape.md` — new-page and major-section planning.
+- `design-audit.md` — measurable technical design audit.
+- `design-critique.md` — visual and UX critique.
+- `design-polish.md` — final visual refinement.
+- `design-harden.md` — edge cases, localization, and failure-state hardening.
+- `design-adapt.md` — focused responsive adaptation.
+- `design-craft-floor.md` — minimum craft gate before production UI editing.
 - `design-foundation-governance.md` — active theme governance and design-token discipline.
 - `blueprint-to-ui.md` — mandatory for blueprint/wireframe implementation.
 - `component-architecture.md` — components, variants, shared/page-local composition.
@@ -835,11 +843,12 @@ Prefer concepts such as:
 - `surface`
 - `surfaceElevated`
 - `surfaceLight`
-- `text`
-- `textSecondary`
+- `textPrimary`
 - `textMuted`
-- `border`
-- `borderStrong`
+- `textOnLight`
+- `borderSubtle`
+- `inputBorder`
+- `divider`
 - `accent`
 - semantic spacing roles
 - semantic radius roles
@@ -907,6 +916,7 @@ pnpm design:sync
 pnpm design:doctor
 pnpm design:detect
 pnpm check
+```
 
 ## Universal UI completion protocol
 

@@ -71,7 +71,7 @@ try {
   const system = loadSystem(root);
   const raw = await readStdin();
   let event = {};
-  try { event = raw ? JSON.parse(raw) : {}; } catch {}
+  try { event = raw ? JSON.parse(raw) : {}; } catch { /* Invalid hook input is treated as an empty event. */ }
 
   let files;
   if (isStopEvent(event)) {

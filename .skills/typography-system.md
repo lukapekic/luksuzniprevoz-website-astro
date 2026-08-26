@@ -24,7 +24,7 @@ The implementation must preserve:
 - localization robustness;
 - clear separation between page typography and brand-lockup typography.
 
-This skill is procedural. Raw type values live in active Theme V2 JSON.
+This skill is procedural. Raw type values live in the configured active theme JSON.
 
 ## 1. Locked families
 
@@ -62,7 +62,7 @@ Fallbacks are acceptable only when the intended font genuinely cannot load; that
 Inspect:
 
 ```text
-site/luksuzni-prevoz/src/theme/versions/version-2/typography.json
+site/luksuzni-prevoz/src/theme/versions/<activeThemeVersion>/typography.json
 site/luksuzni-prevoz/src/styles/fonts.css
 site/luksuzni-prevoz/src/styles/global.css
 site/luksuzni-prevoz/src/theme/generated/theme.css
@@ -121,7 +121,7 @@ A screenshot cannot prove font correctness.
 
 ## 6. Semantic type scale required
 
-Use the active Theme V2 semantic scale.
+Use the configured active theme's semantic scale.
 
 Conceptual roles:
 
@@ -187,7 +187,7 @@ This prevents the site from drifting back toward an editorial/newspaper aestheti
 
 ## 9. Weight discipline
 
-Use semantic weights from Theme V2.
+Use semantic weights from the configured active theme.
 
 Inter Tight and Manrope are variable faces; request real supported weights.
 
@@ -201,7 +201,7 @@ If `font-synthesis: none` is used defensively, verify the requested weight exist
 
 ## 10. Heading tracking
 
-Use the Theme V2 semantic letter-spacing tokens.
+Use the configured active theme's semantic letter-spacing tokens.
 
 Do not invent tracking per section.
 
@@ -211,7 +211,7 @@ Review localized headings visually.
 
 ## 11. Line-height
 
-Use Theme V2 heading/body/UI line-height tokens.
+Use configured active-theme heading/body/UI line-height tokens.
 
 Do not:
 
@@ -237,7 +237,7 @@ Do not immediately shrink the H1 to an arbitrary small size.
 
 ## 13. Body measure
 
-Use Theme V2 measure tokens and layout containers.
+Use configured active-theme measure tokens and layout containers.
 
 Long body text should not span the full 80rem page container.
 
@@ -337,7 +337,7 @@ Fail typography review when:
 
 ## 20. Completion checklist
 
-- [ ] Theme V2 typography JSON inspected.
+- [ ] Configured active-theme typography JSON inspected.
 - [ ] Fonts CSS inspected.
 - [ ] H1 computed family verified.
 - [ ] H2 computed family verified.

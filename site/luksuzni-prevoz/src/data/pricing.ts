@@ -67,6 +67,8 @@ export interface VehiclePricing {
   fullDay: number;
   /** Prevoz po km — per-kilometre rate. */
   perKm: number;
+  /** Airport transfer fare. Owner values are pending; null is explicit absence. */
+  airportTransfer: { amount: number; currency: string } | null;
 }
 
 // --- Authoritative pricing facts ------------------------------------------
@@ -79,6 +81,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 140,
     fullDay: 220,
     perKm: 1.0,
+    airportTransfer: null,
   },
   "mercedes-e-class": {
     vehicleId: "mercedes-e-class",
@@ -86,6 +89,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 160,
     fullDay: 240,
     perKm: 1.1,
+    airportTransfer: null,
   },
   "mercedes-v-class-6-plus-1-extra-long": {
     vehicleId: "mercedes-v-class-6-plus-1-extra-long",
@@ -93,6 +97,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 180,
     fullDay: 280,
     perKm: 1.3,
+    airportTransfer: null,
   },
   "mercedes-v-class-7-plus-1-extra-long": {
     vehicleId: "mercedes-v-class-7-plus-1-extra-long",
@@ -100,6 +105,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 180,
     fullDay: 280,
     perKm: 1.3,
+    airportTransfer: null,
   },
   "mercedes-vito-tourer-8-plus-1": {
     vehicleId: "mercedes-vito-tourer-8-plus-1",
@@ -107,6 +113,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 170,
     fullDay: 260,
     perKm: 1.2,
+    airportTransfer: null,
   },
   "mercedes-s-class": {
     vehicleId: "mercedes-s-class",
@@ -114,6 +121,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 320,
     fullDay: 550,
     perKm: 2.0,
+    airportTransfer: null,
   },
   "mercedes-sprinter": {
     vehicleId: "mercedes-sprinter",
@@ -121,6 +129,7 @@ export const pricing: Record<VehicleId, VehiclePricing> = {
     halfDay: 200,
     fullDay: 320,
     perKm: 2.6,
+    airportTransfer: null,
   },
 };
 

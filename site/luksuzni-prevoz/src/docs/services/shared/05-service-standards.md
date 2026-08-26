@@ -19,6 +19,13 @@ heading + short statement | divider-led standard rows/grid
 
 Tablet/mobile stack naturally.
 
+## Airport divided-panel variant
+
+Airport Transportation uses one contained panel with four concise standard
+groups separated by responsive dividers. It is visually related to the
+Homepage standards/trust treatment: one architectural unit, no floating card
+grid. Tablet uses a deliberate 2×2 topology; mobile uses one column.
+
 ## Content sources
 
 Primary factual source: `operations.ts`, supplemented only by service-specific verified capability flags from `services.ts`.

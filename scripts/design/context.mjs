@@ -6,7 +6,6 @@ import {
   discoverSurface,
   existingPaths,
   findRepoRoot,
-  firstExisting,
   loadConfig,
   loadSystem,
   normalizeTarget,

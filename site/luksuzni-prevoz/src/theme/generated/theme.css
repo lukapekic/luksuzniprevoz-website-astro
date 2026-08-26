@@ -16,7 +16,7 @@
   --color-text-primary: #F3F3F0;
   --color-text-muted: #B5B7BA;
   --color-text-on-light: #17191B;
-  --color-border-subtle: #2A2D31;
+  --color-border-subtle: #5B6067;
   --color-input-border: #5B6067;
   --color-divider: #24272B;
   --color-focus-dark: #D7DADE;
@@ -44,6 +44,7 @@
   --text-display: clamp(3.25rem, 7vw, 6.25rem);
   --text-ui: 0.875rem;
   --text-caption: 0.75rem;
+  --text-brand: 1.375rem;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;

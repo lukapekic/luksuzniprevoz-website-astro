@@ -49,7 +49,7 @@ When instructions conflict, use this order:
 
 1. root `AGENTS.md`;
 2. installed package versions in `package.json` / lockfile;
-3. `DESIGN.md` + active Theme V2 JSON for visual/token intent;
+3. `DESIGN.md` + configured active-theme JSON for visual/token intent;
 4. the project's actual Tailwind/Vite/global-CSS architecture;
 5. locked page blueprint for page-specific structure;
 6. current official Tailwind CSS v4 documentation;
@@ -109,11 +109,11 @@ site/luksuzni-prevoz/src/styles/global.css
   ↓
 @import "tailwindcss"
 @import fonts
-@import generated Theme V2 CSS
+@import generated active-theme CSS
 @import unlayered Foundation safeguards
 ```
 
-The current Theme V2 generator emits semantic CSS custom properties under `@layer theme`; it does **not** place all project tokens inside Tailwind `@theme`.
+The current theme generator emits semantic CSS custom properties under `@layer theme`; it does **not** place all project tokens inside Tailwind `@theme`.
 
 Named project font utilities are registered with `@utility`.
 
@@ -167,7 +167,7 @@ However, **framework capability is not permission to rewrite this repository's t
 Current project contract:
 
 ```text
-Theme V2 JSON
+configured active-theme JSON
   ↓
 repository theme:sync generator
   ↓
@@ -182,7 +182,7 @@ registered project utilities + Tailwind utilities
 
 Therefore:
 
-- do not copy Theme V2 JSON into a new `@theme` block;
+- do not copy configured active-theme JSON into a new `@theme` block;
 - do not manually edit generated `theme.css`;
 - do not create duplicate design-token namespaces;
 - do not assume a `:root` token creates utilities like `font-heading` automatically;
@@ -329,7 +329,7 @@ Use:
 
 Prefer native CSS theme variables over the legacy `theme()` function in custom CSS; current Tailwind v4 documentation treats `theme()` as deprecated.
 
-For this repository specifically, do not migrate generated Theme V2 `:root` tokens into `@theme` merely to generate utilities. Preserve the generator architecture and register only the utilities actually required.
+For this repository specifically, do not migrate generated active-theme `:root` tokens into `@theme` merely to generate utilities. Preserve the generator architecture and register only the utilities actually required.
 
 ---
 
@@ -1612,7 +1612,7 @@ across similar components.
 
 If project radius utilities/tokens exist, reuse the semantic project roles rather than inventing a parallel naming scheme.
 
-For Luxury Transportation, inspect Theme V2 `radii.json` and the generated/registered utility surface before choosing classes.
+For Luxury Transportation, inspect the configured active theme's `radii.json` and the generated/registered utility surface before choosing classes.
 
 Do not turn every section into a rounded card.
 

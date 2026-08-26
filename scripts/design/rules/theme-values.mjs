@@ -5,7 +5,7 @@ export const rule = {
   id: "theme/raw-design-value",
   description: "Production UI must consume semantic theme tokens instead of raw color values.",
   severity: "P2",
-  scan({ root, config, files }) {
+  scan({ root, files }) {
     const findings = [];
     const colorRe = /#[0-9a-fA-F]{3,8}\b|(?:rgb|rgba|hsl|hsla|oklch|oklab|lab|lch)\s*\(/g;
 

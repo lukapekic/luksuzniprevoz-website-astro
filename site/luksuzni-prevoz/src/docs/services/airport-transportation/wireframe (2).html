@@ -1,0 +1,815 @@
+<html lang="en">
+  <head>
+    <title>Airport Transportation structural wireframe</title>
+    <link rel="stylesheet" href="../shared/wireframe-base.css" />
+    <style>
+      /* Page-local STRUCTURAL rules only. Every value is a semantic token from the
+       active generated theme. No raw colors, fonts, spacing or breakpoints.
+
+       Surface rhythm (deliberate alternation, not mechanical):
+         Hero              full-bleed media
+         Overview          open dark      — page canvas, no panel
+         Arrival           contained dark
+         Booking           contained light
+         Private aviation  open dark      — cinematic, portrait media
+         Vehicles          open dark      — media cards carry the containment
+         Standards         contained dark — one panel, four divided columns
+         FAQ               contained light reading panel
+         FinalCTA          shared contained closer                              */
+
+      /* --- Fail-loud banner: only visible when NO structural state is set ----
+       Without data-wf-layout every grid falls back to its single-column
+       default, which looks like a finished mobile design rather than a broken
+       desktop one. Make that state announce itself instead of misleading. */
+      .ap-nojs {
+        display: none;
+      }
+      html:not([data-wf-layout]) .ap-nojs {
+        display: block;
+        margin-block-end: var(--space-6);
+        border-inline-start-color: var(--color-error);
+      }
+
+      /* --- Full-bleed hero --------------------------------------------------- */
+      .ap-hero-region {
+        position: relative;
+      }
+      .ap-hero-header {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline: 0;
+        z-index: 2;
+      }
+      .ap-hero {
+        position: relative;
+        min-height: calc(var(--space-24) * 9);
+        display: grid;
+        align-items: end;
+        overflow: clip;
+        background: var(--color-surface);
+      }
+      .ap-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, var(--color-background), transparent);
+        opacity: 0.72;
+      }
+      .ap-hero-inner {
+        position: relative;
+        z-index: 1;
+        padding-block: var(--space-section-feature) var(--space-section-standard);
+      }
+      .ap-hero-copy {
+        max-width: var(--container-narrow);
+      }
+      .ap-hero-note {
+        position: absolute;
+        z-index: 1;
+        inset-inline-end: var(--space-6);
+        inset-block-end: var(--space-6);
+        color: var(--color-text-muted);
+        font-size: var(--text-caption);
+      }
+
+      /* --- Shared helpers ---------------------------------------------------- */
+      .ap-pad {
+        padding: var(--space-8);
+      }
+      .ap-section-label {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+      .ap-section-label .wf-marker {
+        flex: none;
+      }
+      .ap-section-label .wf-line {
+        width: var(--space-20);
+      }
+
+      /* --- Overview — OPEN DARK, no panel ------------------------------------ */
+      .ap-group {
+        display: grid;
+        grid-template-columns: var(--space-10) 1fr;
+        gap: var(--space-4);
+        align-items: start;
+        padding-block: var(--space-6);
+        border-block-end: 1px solid var(--color-divider);
+      }
+      .ap-icon {
+        width: var(--space-8);
+        height: var(--space-8);
+        border-radius: var(--radius-control);
+        border: 1px solid var(--color-border-subtle);
+      }
+
+      /* --- Arrival — vertical timeline --------------------------------------- */
+      .ap-timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        padding-inline-start: var(--space-8);
+        position: relative;
+      }
+      .ap-timeline::before {
+        content: "";
+        position: absolute;
+        inset-block: var(--space-3) var(--space-4);
+        inset-inline-start: var(--space-3);
+        border-inline-start: 1px solid var(--color-divider);
+      }
+      .ap-timeline li {
+        position: relative;
+        padding-block-end: var(--space-8);
+      }
+      .ap-timeline li:last-child {
+        padding-block-end: 0;
+      }
+      .ap-timeline-node {
+        position: absolute;
+        inset-inline-start: calc(var(--space-8) * -1);
+        inset-block-start: var(--space-1);
+        width: var(--space-6);
+        height: var(--space-6);
+        border-radius: var(--radius-control);
+        border: 1px solid var(--color-accent);
+        background: var(--color-surface);
+      }
+
+      /* --- Booking — compact, 2 rows: [flight] / [date | time] --------------- */
+      .ap-form {
+        display: grid;
+        gap: var(--space-4);
+      }
+      .ap-form-field {
+        display: grid;
+        gap: var(--space-2);
+      }
+      .ap-form-field .wf-title-sm {
+        width: var(--space-20);
+        height: var(--space-3);
+      }
+      .ap-field-compact {
+        min-height: var(--space-10);
+      }
+      .ap-form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-4);
+        margin-block-start: var(--space-2);
+      }
+      .ap-policy-note {
+        margin-block-start: var(--space-5);
+        padding-block-start: var(--space-4);
+        border-block-start: 1px solid var(--color-input-border);
+      }
+
+      /* --- Private aviation — OPEN DARK, cinematic, portrait media right ----- */
+      .ap-aviation {
+        display: grid;
+        gap: var(--space-8);
+        align-items: center;
+      }
+      .ap-aviation-copy {
+        display: grid;
+        gap: var(--space-6);
+      }
+      .ap-aviation-media {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        display: grid;
+        place-items: center;
+        padding: var(--space-6);
+        text-align: center;
+        border: 1px dashed var(--color-border-subtle);
+        border-radius: var(--radius-card);
+        color: var(--color-text-muted);
+        font-size: var(--text-caption);
+      }
+      .ap-aviation-media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-card);
+        background: linear-gradient(to top, var(--color-background), transparent);
+        opacity: 0.55;
+      }
+
+      /* --- Vehicles — media-filled cards, copy overlaid at the bottom -------- */
+      .ap-vehicle {
+        position: relative;
+        min-height: calc(var(--space-24) * 5);
+        display: grid;
+        align-items: end;
+        overflow: clip;
+        border-radius: var(--radius-card);
+        border: 1px dashed var(--color-border-subtle);
+      }
+      .ap-vehicle::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, var(--color-background), transparent);
+        opacity: 0.78;
+      }
+      .ap-vehicle-note {
+        position: absolute;
+        inset-block-start: var(--space-4);
+        inset-inline: var(--space-4);
+        color: var(--color-text-muted);
+        font-size: var(--text-caption);
+        text-align: center;
+      }
+      .ap-vehicle-copy {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: var(--space-2);
+        padding: var(--space-5);
+      }
+      .ap-vehicle-meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding-block-start: var(--space-3);
+        border-block-start: 1px solid var(--color-divider);
+      }
+      .ap-vehicle-meta .wf-line {
+        width: var(--space-16);
+      }
+      .ap-vehicle-meta .wf-title-sm {
+        width: var(--space-10);
+        height: var(--space-4);
+      }
+
+      /* --- Standards — ONE panel, four columns divided by rules -------------- */
+      .ap-standards-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .ap-standard-col {
+        display: grid;
+        gap: var(--space-3);
+        align-content: start;
+        padding: var(--space-6);
+      }
+      .ap-standard-col + .ap-standard-col {
+        border-block-start: 1px solid var(--color-divider);
+      }
+      .ap-check {
+        width: var(--space-5);
+        height: var(--space-5);
+        border-radius: var(--radius-control);
+        border: 1px solid var(--color-accent);
+      }
+
+      /* ====================== STRUCTURAL RESPONSIVE STATES ===================
+       Driven by wireframe-responsive.js from the active breakpoint tokens.   */
+
+      .ap-vehicle-track {
+        display: flex;
+        gap: var(--column-gap-mobile);
+        overflow: hidden;
+      }
+      .ap-vehicle-track > * { flex: 0 0 88%; }
+      html[data-wf-layout="tablet-portrait"] .ap-vehicle-track > *,
+      html[data-wf-layout="tablet-landscape"] .ap-vehicle-track > * { flex-basis: 44%; }
+      html[data-wf-layout="desktop"] .ap-vehicle-track > *,
+      html[data-wf-layout="wide"] .ap-vehicle-track > * { flex-basis: 32%; }
+
+      /* Booking: date + time share a row from tablet up. */
+      html[data-wf-layout="tablet-portrait"] .ap-form,
+      html[data-wf-layout="tablet-landscape"] .ap-form,
+      html[data-wf-layout="desktop"] .ap-form,
+      html[data-wf-layout="wide"] .ap-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      html[data-wf-layout="tablet-portrait"] .ap-form-field-wide,
+      html[data-wf-layout="tablet-landscape"] .ap-form-field-wide,
+      html[data-wf-layout="desktop"] .ap-form-field-wide,
+      html[data-wf-layout="wide"] .ap-form-field-wide {
+        grid-column: 1 / -1;
+      }
+      html[data-wf-layout="tablet-portrait"] .ap-form-actions,
+      html[data-wf-layout="tablet-landscape"] .ap-form-actions,
+      html[data-wf-layout="desktop"] .ap-form-actions,
+      html[data-wf-layout="wide"] .ap-form-actions {
+        grid-column: 1 / -1;
+      }
+      html[data-wf-layout="tablet-portrait"] .ap-policy-note,
+      html[data-wf-layout="tablet-landscape"] .ap-policy-note,
+      html[data-wf-layout="desktop"] .ap-policy-note,
+      html[data-wf-layout="wide"] .ap-policy-note {
+        grid-column: 1 / -1;
+      }
+
+      /* Private aviation: portrait media to the right, content left. */
+      html[data-wf-layout="tablet-landscape"] .ap-aviation,
+      html[data-wf-layout="desktop"] .ap-aviation,
+      html[data-wf-layout="wide"] .ap-aviation {
+        grid-template-columns: 7fr 5fr;
+        gap: var(--column-gap-tablet);
+      }
+
+      /* Standards: four columns divided by vertical rules. */
+      html[data-wf-layout="tablet-portrait"] .ap-standards-grid,
+      html[data-wf-layout="tablet-landscape"] .ap-standards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      html[data-wf-layout="tablet-portrait"] .ap-standard-col:nth-child(2n),
+      html[data-wf-layout="tablet-landscape"] .ap-standard-col:nth-child(2n) {
+        border-inline-start: 1px solid var(--color-divider);
+      }
+      html[data-wf-layout="tablet-portrait"] .ap-standard-col:nth-child(2),
+      html[data-wf-layout="tablet-landscape"] .ap-standard-col:nth-child(2) {
+        border-block-start: 0;
+      }
+      html[data-wf-layout="desktop"] .ap-standards-grid,
+      html[data-wf-layout="wide"] .ap-standards-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      html[data-wf-layout="desktop"] .ap-standard-col + .ap-standard-col,
+      html[data-wf-layout="wide"] .ap-standard-col + .ap-standard-col {
+        border-block-start: 0;
+        border-inline-start: 1px solid var(--color-divider);
+      }
+
+      /* Arrival stacks copy-first below desktop. */
+      .ap-arrival-media {
+        order: 2;
+      }
+      .ap-arrival-copy {
+        order: 1;
+      }
+      html[data-wf-layout="desktop"] .ap-arrival-media,
+      html[data-wf-layout="wide"] .ap-arrival-media,
+      html[data-wf-layout="desktop"] .ap-arrival-copy,
+      html[data-wf-layout="wide"] .ap-arrival-copy {
+        order: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="wf-shell wf-note ap-nojs">
+      <strong>Layout state not applied.</strong> No <code>data-wf-layout</code> is set on
+      <code>&lt;html&gt;</code>, so every grid is falling back to its single-column default — this
+      is NOT the desktop composition. JavaScript is disabled or blocked in this viewer. Open the
+      file in a real browser to review desktop, tablet and mobile states.
+    </aside>
+    <aside class="wf-shell wf-note">
+      Semantic wireframe only — structure, grouping, prominence and stacking intent. Theme values
+      come from the active generated theme via <code>wireframe-base.css</code>. Do not copy this CSS
+      or placeholder markup into production. Booking actions are placeholders: the detailed booking
+      form does not exist yet, so every booking target is currently empty.
+    </aside>
+    <main>
+      <div class="ap-hero-region">
+        <header
+          class="ap-hero-header wf-shell wf-header"
+          aria-label="SiteHeader placeholder — transparent, overlaid on hero"
+        >
+          <div class="wf-brand"></div>
+          <div class="wf-nav"></div>
+          <div class="wf-actions">
+            <div class="wf-button wf-button-secondary"></div>
+            <div class="wf-button"></div>
+          </div>
+        </header>
+        <section class="ap-hero" aria-label="ServiceHero / full-bleed">
+          <span class="ap-hero-note"
+            >Cinematic airport / chauffeur handover media — full panel, no radius</span
+          >
+          <div class="wf-shell ap-hero-inner">
+            <div class="ap-hero-copy wf-stack">
+              <p class="wf-label">ServiceHero / full-bleed · one H1 · no eyebrow</p>
+              <div class="wf-title-lg"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 74%"></div>
+              </div>
+              <div class="wf-row">
+                <div class="wf-button"></div>
+                <div class="wf-button wf-button-secondary"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section
+        class="wf-shell wf-section-standard wf-grid wf-grid-5-7"
+        aria-label="ServiceOverview / grouped-icons — open dark"
+      >
+        <div class="wf-stack">
+          <p class="wf-label">
+            ServiceOverview / grouped-icons · OPEN DARK — page canvas, no container
+          </p>
+          <div class="ap-section-label">
+            <div class="wf-marker"></div>
+            <div class="wf-line"></div>
+          </div>
+          <div class="wf-title"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width: 80%"></div>
+            <div class="wf-line" style="width: 62%"></div>
+          </div>
+        </div>
+        <div class="wf-grid wf-grid-2">
+          <div class="ap-group">
+            <div class="ap-icon"></div>
+            <div class="wf-stack-sm">
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 78%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-group">
+            <div class="ap-icon"></div>
+            <div class="wf-stack-sm">
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 86%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-group">
+            <div class="ap-icon"></div>
+            <div class="wf-stack-sm">
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 70%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-group">
+            <div class="ap-icon"></div>
+            <div class="wf-stack-sm">
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 74%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="wf-shell wf-section-compact"
+        aria-label="AirportArrivalTimeline / contained dark panel"
+      >
+        <div class="wf-contained ap-pad wf-grid wf-grid-7-5">
+          <div class="ap-arrival-media wf-media">
+            Arrival / meet-and-greet / rear-cabin context media
+          </div>
+          <div class="ap-arrival-copy wf-stack">
+            <p class="wf-label">
+              Arrival handling · CONTAINED DARK · the page&#x27;s only numbered sequence
+            </p>
+            <div class="ap-section-label">
+              <div class="wf-marker"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-title"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width: 72%"></div>
+            </div>
+            <ol class="ap-timeline">
+              <li>
+                <span class="ap-timeline-node"></span>
+                <div class="wf-stack-sm">
+                  <div class="wf-title-sm"></div>
+                  <div class="wf-lines">
+                    <div class="wf-line"></div>
+                    <div class="wf-line" style="width: 80%"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <span class="ap-timeline-node"></span>
+                <div class="wf-stack-sm">
+                  <div class="wf-title-sm"></div>
+                  <div class="wf-lines">
+                    <div class="wf-line"></div>
+                    <div class="wf-line" style="width: 74%"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <span class="ap-timeline-node"></span>
+                <div class="wf-stack-sm">
+                  <div class="wf-title-sm"></div>
+                  <div class="wf-lines">
+                    <div class="wf-line"></div>
+                    <div class="wf-line" style="width: 68%"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <span class="ap-timeline-node"></span>
+                <div class="wf-stack-sm">
+                  <div class="wf-title-sm"></div>
+                  <div class="wf-lines">
+                    <div class="wf-line"></div>
+                    <div class="wf-line" style="width: 76%"></div>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+      <section
+        class="wf-shell wf-section-compact"
+        aria-label="AirportBookingBlock / contained light functional panel"
+      >
+        <div class="wf-light ap-pad wf-grid wf-grid-5-7">
+          <div class="wf-stack">
+            <p class="wf-label">
+              AirportBookingBlock · CONTAINED LIGHT · after arrival, once the service is understood
+            </p>
+            <div class="ap-section-label">
+              <div class="wf-marker"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-title"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width: 76%"></div>
+            </div>
+          </div>
+          <div class="ap-form">
+            <div class="ap-form-field ap-form-field-wide">
+              <div class="wf-title-sm"></div>
+              <div class="wf-field ap-field-compact"></div>
+            </div>
+            <div class="ap-form-field">
+              <div class="wf-title-sm"></div>
+              <div class="wf-field ap-field-compact"></div>
+            </div>
+            <div class="ap-form-field">
+              <div class="wf-title-sm"></div>
+              <div class="wf-field ap-field-compact"></div>
+            </div>
+            <div class="ap-form-actions">
+              <div class="wf-button"></div>
+              <div class="wf-line" style="width: var(--space-24)"></div>
+            </div>
+            <div class="ap-policy-note wf-stack-sm">
+              <div class="wf-line" style="width: 88%"></div>
+              <div class="wf-line" style="width: 64%"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="wf-shell wf-section-feature ap-aviation"
+        aria-label="Private aviation and FBO — open dark, cinematic"
+      >
+        <div class="ap-aviation-copy">
+          <p class="wf-label">
+            Private aviation &amp; FBO · OPEN DARK · highest tier — separates itself by air and
+            scale, not by a panel
+          </p>
+          <div class="ap-section-label">
+            <div class="wf-marker"></div>
+            <div class="wf-line"></div>
+          </div>
+          <div class="wf-title-lg"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width: 78%"></div>
+          </div>
+          <div class="wf-divider-list">
+            <div class="wf-divider-row">
+              <div class="wf-marker"></div>
+              <div class="wf-stack-sm">
+                <div class="wf-title-sm"></div>
+                <div class="wf-line" style="width: 82%"></div>
+              </div>
+            </div>
+            <div class="wf-divider-row">
+              <div class="wf-marker"></div>
+              <div class="wf-stack-sm">
+                <div class="wf-title-sm"></div>
+                <div class="wf-line" style="width: 76%"></div>
+              </div>
+            </div>
+            <div class="wf-divider-row">
+              <div class="wf-marker"></div>
+              <div class="wf-stack-sm">
+                <div class="wf-title-sm"></div>
+                <div class="wf-line" style="width: 70%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wf-row"><div class="wf-line" style="width: var(--space-24)"></div></div>
+        </div>
+        <div class="ap-aviation-media">
+          Private aviation / FBO media — portrait 4:5, night apron, card radius
+        </div>
+      </section>
+      <section
+        class="wf-shell wf-section-standard"
+        aria-label="VehicleRecommendations / Homepage carousel mechanics with full-image cards"
+      >
+        <div class="wf-stack" style="max-width: var(--measure-body)">
+          <p class="wf-label">
+            VehicleRecommendations · OPEN DARK · Homepage carousel mechanics · full-image cards ·
+            vehicle-specific shared fare + capacity
+          </p>
+          <div class="ap-section-label">
+            <div class="wf-marker"></div>
+            <div class="wf-line"></div>
+          </div>
+          <div class="wf-title"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width: 70%"></div>
+          </div>
+        </div>
+        <div class="ap-vehicle-track" style="margin-block-start: var(--space-8)">
+          <article class="ap-vehicle">
+            <span class="ap-vehicle-note">Vehicle media fills card</span>
+            <div class="ap-vehicle-copy">
+              <div class="wf-title-sm"></div>
+              <div class="ap-vehicle-meta">
+                <div class="wf-line"></div>
+                <div class="wf-title-sm"></div>
+              </div>
+            </div>
+          </article>
+          <article class="ap-vehicle">
+            <span class="ap-vehicle-note">Vehicle media fills card</span>
+            <div class="ap-vehicle-copy">
+              <div class="wf-title-sm"></div>
+              <div class="ap-vehicle-meta">
+                <div class="wf-line"></div>
+                <div class="wf-title-sm"></div>
+              </div>
+            </div>
+          </article>
+          <article class="ap-vehicle">
+            <span class="ap-vehicle-note">Vehicle media fills card</span>
+            <div class="ap-vehicle-copy">
+              <div class="wf-title-sm"></div>
+              <div class="ap-vehicle-meta">
+                <div class="wf-line"></div>
+                <div class="wf-title-sm"></div>
+              </div>
+            </div>
+          </article>
+          <article class="ap-vehicle">
+            <span class="ap-vehicle-note">Vehicle media fills card</span>
+            <div class="ap-vehicle-copy">
+              <div class="wf-title-sm"></div>
+              <div class="ap-vehicle-meta">
+                <div class="wf-line"></div>
+                <div class="wf-title-sm"></div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="wf-row" style="margin-block-start: var(--space-8)">
+          <div class="wf-button wf-button-secondary"></div>
+          <div class="wf-line" style="width: var(--space-24)"></div>
+        </div>
+      </section>
+      <section class="wf-shell wf-section-compact" aria-label="ServiceStandards / divided-panel">
+        <div class="wf-contained">
+          <div class="ap-standards-grid">
+            <div class="ap-standard-col">
+              <div class="ap-check"></div>
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 84%"></div>
+                <div class="wf-line" style="width: 64%"></div>
+              </div>
+            </div>
+            <div class="ap-standard-col">
+              <div class="ap-check"></div>
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 78%"></div>
+                <div class="wf-line" style="width: 70%"></div>
+              </div>
+            </div>
+            <div class="ap-standard-col">
+              <div class="ap-check"></div>
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 82%"></div>
+                <div class="wf-line" style="width: 66%"></div>
+              </div>
+            </div>
+            <div class="ap-standard-col">
+              <div class="ap-check"></div>
+              <div class="wf-title-sm"></div>
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width: 76%"></div>
+                <div class="wf-line" style="width: 60%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="wf-label" style="margin-block-start: var(--space-4)">
+          ServiceStandards · CONTAINED DARK · one panel, four columns divided by rules — no section
+          heading, no separate cards
+        </p>
+      </section>
+      <section
+        class="wf-shell wf-section-compact"
+        aria-label="FAQ / shared component, contained light reading panel"
+      >
+        <div class="wf-light ap-pad">
+          <div class="wf-reading" style="margin-inline: auto">
+            <div class="wf-stack">
+              <p class="wf-label">
+                FAQ / verified shared component · CONTAINED LIGHT · reading container, not full main
+                width
+              </p>
+              <div class="ap-section-label">
+                <div class="wf-marker"></div>
+                <div class="wf-line"></div>
+              </div>
+              <div class="wf-title"></div>
+            </div>
+            <div class="wf-divider-list" style="margin-block-start: var(--space-8)">
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 78%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 66%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 72%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 60%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 74%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 68%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 70%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 64%"></div>
+              </div>
+              <div class="wf-divider-row">
+                <div class="wf-marker"></div>
+                <div class="wf-line" style="width: 76%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="wf-shell wf-section-compact"
+        aria-label="FinalCTA / verified shared component"
+      >
+        <div class="wf-contained ap-pad wf-grid wf-grid-7-5">
+          <div class="wf-stack">
+            <p class="wf-label">FinalCTA / verified shared component · unchanged</p>
+            <div class="wf-title"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width: 72%"></div>
+            </div>
+            <div class="wf-row">
+              <div class="wf-button"></div>
+              <div class="wf-button wf-button-secondary"></div>
+            </div>
+            <div class="wf-lines"><div class="wf-line" style="width: 56%"></div></div>
+          </div>
+          <div class="wf-media">Shared FinalCTA media region</div>
+        </div>
+      </section>
+    </main>
+    <footer class="wf-shell wf-footer">
+      <p class="wf-label">SiteFooter / verified shared component</p>
+    </footer>
+    <script src="../shared/wireframe-responsive.js"></script>
+  </body>
+</html>

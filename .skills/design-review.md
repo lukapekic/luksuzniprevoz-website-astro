@@ -35,7 +35,7 @@ Review:
 
 - root `AGENTS.md`;
 - `DESIGN.md`;
-- the active Theme V2 JSON under `site/luksuzni-prevoz/src/theme/versions/version-2/`;
+- the configured active theme JSON under `site/luksuzni-prevoz/src/theme/versions/<activeThemeVersion>/`;
 - the locked page blueprint;
 - the page wireframe for structural intent;
 - current verified shared component source/API where relevant;

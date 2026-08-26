@@ -5,7 +5,6 @@
   "theme": {
     "versionsDir": "site/luksuzni-prevoz/src/theme/versions",
     "generatedCss": "site/luksuzni-prevoz/src/theme/generated/theme.css",
-    "activeManifestStatus": "active",
     "activeThemeSources": [
       "site/luksuzni-prevoz/foundation.config.ts"
     ]
@@ -27,7 +26,7 @@
   ],
   "generatedAllowedRoots": [
     "site/luksuzni-prevoz/src/theme/generated",
-    "packages/astro-foundation/src/theme/generated"
+    "site/luksuzni-prevoz/src/theme/generated"
   ],
   "sharedComponents": [
     "SiteHeader",
@@ -69,8 +68,7 @@
         "chauffeur"
       ],
       "blueprints": [
-        "site/luksuzni-prevoz/src/docs/services/private-chauffeur/blueprint.md",
-        "site/luksuzni-prevoz/src/docs/private-chauffeur/reference/blueprint.md"
+        "site/luksuzni-prevoz/src/docs/services/private-chauffeur/blueprint.md"
       ],
       "contracts": [
         "site/luksuzni-prevoz/src/docs/services/shared",
@@ -84,8 +82,7 @@
         "aerodrom"
       ],
       "blueprints": [
-        "site/luksuzni-prevoz/src/docs/services/airport-transportation/blueprint.md",
-        "site/luksuzni-prevoz/src/docs/airport-transportation/reference/blueprint.md"
+        "site/luksuzni-prevoz/src/docs/services/airport-transportation/blueprint.md"
       ],
       "contracts": [
         "site/luksuzni-prevoz/src/docs/services/shared",
@@ -99,8 +96,7 @@
         "poslovni"
       ],
       "blueprints": [
-        "site/luksuzni-prevoz/src/docs/services/business-transportation/blueprint.md",
-        "site/luksuzni-prevoz/src/docs/business-transportation/reference/blueprint.md"
+        "site/luksuzni-prevoz/src/docs/services/business-transportation/blueprint.md"
       ],
       "contracts": [
         "site/luksuzni-prevoz/src/docs/services/shared",

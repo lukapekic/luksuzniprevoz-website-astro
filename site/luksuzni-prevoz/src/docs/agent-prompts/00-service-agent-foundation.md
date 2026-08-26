@@ -233,7 +233,7 @@ page-local radii scales
 page-local breakpoint systems
 arbitrary Tailwind colors/radii/shadows
 legacy Theme V1 values
-Fraunces
+legacy Fraunces typography
 warm-charcoal/gold-first styling
 metallic gradients
 glow-heavy luxury effects

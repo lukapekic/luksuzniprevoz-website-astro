@@ -1,0 +1,49 @@
+/* Global CSS entry (Tailwind v4 + Foundation theme).
+ *
+ * Layer order matches the spec: @layer theme, base, components, utilities.
+ * foundation.css is imported last and is deliberately UNLAYERED (FND-CSS-04)
+ * so its technical/a11y safeguards beat every cascade layer.
+ *
+ *   @import "tailwindcss";        → establishes theme/base/components/utilities
+ *   ./fonts.css                  → self-hosted @font-face for Inter Tight/Manrope
+ *   ../theme/generated/theme.css  → @layer theme custom properties (merged)
+ *   foundation.css               → unlayered safeguards
+ */
+@import "tailwindcss";
+@import "./fonts.css";
+@import "../theme/generated/theme.css";
+@import "@astro-foundation/core/theme/foundation.css";
+
+/*
+ * Font-family utilities.
+ *
+ * The locked families (--font-heading / --font-body) are emitted by theme:sync
+ * into `@layer theme { :root { … } }`, NOT into `@theme`. Tailwind v4 therefore
+ * does NOT generate named font-family utilities for them, and the untyped
+ * arbitrary form `font-[var(--font-body)]` resolves to the WRONG property
+ * (font-weight, not font-family) — so Manrope never applied and the whole
+ * document rendered in the :root default (Inter Tight).
+ *
+ * These two @utility declarations register the canonical named utilities
+ * (`font-heading` / `font-body`) against the existing tokens, with no value
+ * duplication and no generator change. Production components use `font-body`
+ * for controls/labels/body and `font-heading` for headings. This is additive —
+ * it does not alter existing tokens or other components.
+ */
+@utility font-heading {
+  font-family: var(--font-heading);
+  /* Inter Tight is a variable face shipping the full weight range (100–900),
+   * so pairing `font-heading` with `font-semibold`/`font-medium`/`font-bold`
+   * renders at a real weight, not a browser-synthesized faux-bold. The
+   * `font-synthesis: none` gate is retained as a defensive guard: if a heading
+   * ever requests a weight the loaded face cannot provide, the browser will
+   * NOT synthesize a heavier face instead of falling through the family chain.
+   * Body/UI weights (Manrope, which ships 200–800) are unaffected. (Theme V2.) */
+  font-synthesis: none;
+}
+@utility font-body {
+  font-family: var(--font-body);
+}
+@utility font-brand {
+  font-family: var(--font-brand);
+}

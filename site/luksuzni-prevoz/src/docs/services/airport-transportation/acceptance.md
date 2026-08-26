@@ -1,728 +1,310 @@
-# Airport Transportation — Acceptance Contract
+# Airport Transportation — Acceptance Contract v3
 
-Status: **Required completion gate**  
+Status: **Required completion gate — v3.2 wireframe-aligned**
 Route key: `airportTransportation`
+Page type: `service`
 
-The page is not approved until every applicable item passes.
+Do not approve Airport v3 until every applicable item below passes.
 
----
-
-# 1. Authority
+## 1. Authority / sync
 
 - [ ] `AGENTS.md` read.
 - [ ] `DESIGN.md` read.
-- [ ] shared agent foundation read.
-- [ ] component reuse registry read.
-- [ ] Airport blueprint read.
-- [ ] Airport wireframe read.
-- [ ] shared service contracts read.
-- [ ] `.skills/functional-ui.md` read.
-- [ ] matching required skills loaded.
-- [ ] `pnpm design:context site/luksuzni-prevoz` ran successfully before UI work.
+- [ ] Airport v3 `blueprint.md` read.
+- [ ] Airport v3 `wireframe (2).html` read.
+- [ ] Airport v3 `implementation.md` read.
+- [ ] Shared ServiceHero v2 read.
+- [ ] Shared ServiceOverview v2 read.
+- [ ] Shared VehicleRecommendations v2 read.
+- [ ] Shared ServiceStandards v2 read.
+- [ ] Required skills loaded.
+- [ ] `pnpm design:context site/luksuzni-prevoz` ran successfully.
+- [ ] No old contained-Hero / details-list contract remains in the implemented page.
 
----
-
-# 2. Shared reuse
-
-Reused:
-
-- [ ] `ServiceHero`
-- [ ] `ServiceOverview`
-- [ ] `VehicleRecommendations`
-- [ ] `ServiceStandards`
-- [ ] `OpenSplitSection`
-- [ ] `FAQ`
-- [ ] `FinalCTA`
-- [ ] `Section`
-- [ ] `PageContainer`
-- [ ] `ReadingContainer`
-- [ ] `SectionHeading`
-- [ ] `Link`
-- [ ] `Button`
-- [ ] `Field/Input/Select` if real fields are activated
-- [ ] `BaseLayout`
-- [ ] `SiteHeader`
-- [ ] `SiteFooter`
-- [ ] existing CTA/routing helpers
-
-No Airport-local clone substitutes for these.
-
----
-
-# 3. New-component budget
-
-Expected:
-
-```text
-AirportTransportationPage.astro
-AirportBookingBlock.astro
-```
-
-Infrastructure change:
-
-```text
-ContentPageRenderer.astro mapping
-```
-
-- [ ] Every additional component is reported.
-- [ ] Every additional component has a semantic/structural justification.
-- [ ] No Airport-specific wrapper simply renames a shared primitive.
-- [ ] No `ArrivalHandling.astro` exists without explicit justification.
-- [ ] No `PrivateAviationFeature.astro` exists without explicit justification.
-- [ ] No Airport-specific field/control family exists.
-
----
-
-# 4. Renderer / dispatcher
-
-- [ ] Airport no longer renders through generic prose-only `LeafPage`.
-- [ ] `AirportTransportationPage` exists.
-- [ ] Existing `ContentPageRenderer` is reused.
-- [ ] Dispatcher includes `airportTransportation`.
-- [ ] Private Chauffeur mapping remains intact if already implemented.
-- [ ] Other unimplemented pages still fall back to `LeafPage`.
-- [ ] No second dispatcher exists.
-- [ ] No duplicate route conditionals were added to locale catch-all files.
-- [ ] No manual localized path construction exists.
-
----
-
-# 5. Page order
+## 2. Page order
 
 Exact visible order:
 
-- [ ] `ServiceHero`
-- [ ] `ServiceOverview`
-- [ ] `AirportBookingBlock`
-- [ ] Arrival Handling & Flight Tracking
+- [ ] full-bleed ServiceHero
+- [ ] grouped-icon ServiceOverview
+- [ ] Arrival Handling timeline
+- [ ] AirportBookingBlock mini form
 - [ ] Private Aviation / FBO
-- [ ] `VehicleRecommendations`
-- [ ] `ServiceStandards`
-- [ ] `FAQ`
-- [ ] `FinalCTA`
-
-Global:
-
-- [ ] approved `SiteHeader`
-- [ ] approved `SiteFooter`
-
-Must not appear:
-
-- [ ] no booking form in Hero
-- [ ] no reviews carousel
-- [ ] no client-logo strip
-- [ ] no Homepage TrustStrip
-- [ ] no separate Airport pricing table
-- [ ] no separate Private Aviation service page
-- [ ] no duplicate closing CTA
-- [ ] no unrelated service-card grid
-
----
-
-# 6. Hero
-
-- [ ] Shared `ServiceHero`.
-- [ ] Variant is `contained`.
-- [ ] Remains contained at mobile/tablet/desktop.
-- [ ] Exactly one H1.
-- [ ] Primary Airport booking CTA.
-- [ ] Secondary quote CTA when authored.
-- [ ] No calculator/form.
-- [ ] No fare.
-- [ ] No fleet specs.
-- [ ] No rating.
-- [ ] No trust chips.
-- [ ] Airport/chauffeur image remains transportation-led.
-- [ ] Crop/scrim reviewed at all responsive states.
-
----
-
-# 7. Overview
-
-- [ ] Shared `ServiceOverview`.
-- [ ] Uses divider-led facts rather than cards.
-- [ ] Editorial body comes from content.
-- [ ] Capability truth comes from `services.ts`.
-- [ ] No unsupported Airport feature appears.
-- [ ] No duplicated factual literals in component code.
-
-Verified state can include only supported facts such as:
-
-- [ ] Belgrade Nikola Tesla scope
-- [ ] one-way capability
-- [ ] return capability
-- [ ] point-to-point standard stops
-- [ ] meet & greet
-- [ ] flight tracking
-- [ ] luggage assistance
-- [ ] name sign
-- [ ] waiting allowance
-
----
-
-# 8. Airport pricing — hard rejection gate
-
-All must be true:
-
-- [ ] no fixed Airport fare value
-- [ ] no estimated Airport fare value
-- [ ] no "from" Airport fare
-- [ ] no per-km-derived Airport fare
-- [ ] no hourly-derived Airport fare
-- [ ] no EUR inference
-- [ ] no RSD inference
-- [ ] no currency symbol inference
-- [ ] no fake zero price
-- [ ] no placeholder price
-- [ ] no copied old-site Airport price
-- [ ] no duplicated excluded spreadsheet value
-
-Fail immediately if any unsupported price appears.
-
----
-
-# 9. AirportBookingBlock — current repository mode
-
-- [ ] Component exists as the page-specific functional composition.
-- [ ] Uses one coherent light functional parent.
-- [ ] Does not resemble a dashboard.
-- [ ] Communicates trip-detail categories the team needs.
-- [ ] Communicates current booking/quote commercial path.
-- [ ] Communicates manual confirmation quietly and clearly.
-- [ ] Uses existing authored booking/quote CTAs.
-- [ ] Uses `resolveCtaHref()`.
-- [ ] Does not label current state Fixed.
-- [ ] Does not label current state Estimated.
-- [ ] Does not display a fare.
-
-## Dead-control hard gate
-
-Unless a real state-preserving booking handoff has been implemented and validated:
-
-- [ ] no pickup input
-- [ ] no drop-off input
-- [ ] no date input
-- [ ] no time input
-- [ ] no vehicle select
-- [ ] no one-way/return interactive control
-- [ ] no submit button for a non-submitting form
-- [ ] no localStorage handoff
-- [ ] no sessionStorage handoff
-- [ ] no invented query-string handoff
-- [ ] no client-side calculator state
-
-The production page must not collect data it cannot carry forward.
-
----
-
-# 10. Future-field activation gate
-
-If real fields are present because repository capabilities changed:
-
-- [ ] validated booking handoff exists.
-- [ ] receiving flow preserves submitted selection.
-- [ ] `Field` reused.
-- [ ] `Input` reused.
-- [ ] `Select` reused.
-- [ ] approved `Button` reused.
-- [ ] every field has a real label.
-- [ ] placeholder is not the label.
-- [ ] errors are textual and not color-only.
-- [ ] result follows required inputs on mobile.
-- [ ] Fixed state has authoritative Airport price data.
-- [ ] Quote state remains distinct.
-- [ ] Estimated exists only if newly supported by authoritative data.
-- [ ] manual confirmation remains explicit.
-- [ ] no Airport-specific control clone exists.
-
----
-
-# 11. Arrival Handling & Flight Tracking
-
-- [ ] Direct composition uses `OpenSplitSection`.
-- [ ] Desktop media 7 / content 5.
-- [ ] Mobile content first / media second.
-- [ ] `flightTracking` from `services.ts`.
-- [ ] `meetAndGreet` from `services.ts`.
-- [ ] `luggageAssistance` from `services.ts`.
-- [ ] `nameSign` from `services.ts`.
-- [ ] waiting minutes read from `services.ts`.
-- [ ] "60" is not hardcoded as a component fact.
-- [ ] no unlimited-wait claim.
-- [ ] no guarantee beyond verified data.
-- [ ] no Arrival feature cards.
-- [ ] no Airport-specific split component.
-
----
-
-# 12. Private Aviation / FBO
-
-- [ ] Direct composition uses existing Section/container/split primitives.
-- [ ] Contained/elevated feature remains subordinate to main Airport service.
-- [ ] `privateAviation` fact comes from `services.ts`.
-- [ ] `commercialAviation` fact comes from `services.ts`.
-- [ ] `fboCoordination` fact comes from `services.ts`.
-- [ ] No security/bodyguard claim.
-- [ ] No guaranteed apron/private-terminal access claim.
-- [ ] No aviation operations claim.
-- [ ] No new service page was created.
-- [ ] Quote CTA reuses existing page CTA contract where used.
-- [ ] VIP relationship uses approved route helpers when shown.
-
----
-
-# 13. Vehicle Recommendations
-
-- [ ] Shared `VehicleRecommendations`.
-- [ ] IDs come from page content.
-- [ ] Canonical facts come from `fleet.ts`.
-- [ ] capacity shown only from canonical data.
-- [ ] class labels localized through approved UI strings.
-- [ ] no Airport fare.
-- [ ] no invented luggage capacity.
-- [ ] no invented vehicle feature.
-- [ ] no Homepage FleetShowcase clone.
-- [ ] missing image state follows shared placeholder contract.
-- [ ] Fleet CTA uses route helpers.
-
----
-
-# 14. Service Standards
-
-- [ ] Shared `ServiceStandards`.
-- [ ] General facts come from `operations.ts`.
-- [ ] Airport supplements come from verified `services.ts`.
-- [ ] Does not duplicate the full Arrival Handling section.
-- [ ] No cards/badge wall.
-- [ ] No internal enum values displayed directly.
-- [ ] No security-service marketing.
-
----
-
-# 15. FAQ
-
-- [ ] Existing shared `FAQ`.
-- [ ] Page owns Section/container/heading.
-- [ ] `ReadingContainer` used.
-- [ ] Content supplies FAQ.
-- [ ] Visible FAQ and FAQ schema use same array.
-- [ ] No duplicate FAQ data.
-- [ ] No second accordion.
-- [ ] Keyboard accessible.
-
----
-
-# 16. Final CTA
-
-- [ ] Existing shared `FinalCTA`.
-- [ ] No Airport visual variant.
-- [ ] No second-Hero scale.
-- [ ] No page-local gradient.
-- [ ] No page-local radius.
-- [ ] Contact channels remain verification-gated.
-- [ ] CTA targets use existing routing/flow behavior.
-
----
-
-# 17. Contact / booking policy
-
-Where relevant:
-
-- [ ] public minimum lead-time truth comes from `contact.ts`.
-- [ ] no last-minute marketing claim.
-- [ ] no public 24/7 support claim.
-- [ ] no instant confirmation claim.
-- [ ] office/support claims come from canonical data.
-- [ ] verified phone/email only are rendered.
-- [ ] no fake WhatsApp link exists when value is null.
-
----
-
-# 18. Content
-
-Expected locale content:
-
-- [ ] Serbian Airport content entry
-- [ ] English Airport content entry
-- [ ] Russian Airport content entry
-
-Each:
-
-- [ ] `routeKey: airportTransportation`
-- [ ] `pageType: service`
-- [ ] valid locale/lifecycle
-- [ ] valid SEO
-- [ ] Hero
-- [ ] overview
-- [ ] `booking` section
-- [ ] `arrivalHandling` section
-- [ ] `privateAviationFbo` section
-- [ ] vehicle recommendations
+- [ ] Homepage-mechanics VehicleRecommendations carousel
+- [ ] divided-panel ServiceStandards
 - [ ] FAQ
-- [ ] Final CTA
+- [ ] FinalCTA
 
-Content must not duplicate:
+No unrelated sections were inserted.
 
-- [ ] Airport capabilities
-- [ ] waiting minutes
-- [ ] Airport fare
-- [ ] currency
-- [ ] fleet capacity
-- [ ] contact data
-- [ ] lead time
-- [ ] route URLs
+## 2A. Repo surface / density gate
 
-If approved content is not included in implementation, declare it as a blocker.
+- [ ] Hero is the only full-bleed content region.
+- [ ] Main regions use the semantic main-container role.
+- [ ] Major contained sections use the semantic section-radius role.
+- [ ] Media/cards use the semantic card-radius role where applicable.
+- [ ] Controls use the control radius, not section/card radius.
+- [ ] Overview is an open-dark standard section.
+- [ ] Booking is a compact contained light panel, not a full-width light band.
+- [ ] Booking controls are not nested inside an unnecessary second white card.
+- [ ] Arrival is a compact contained-dark panel.
+- [ ] FBO is an open feature split with portrait media.
+- [ ] FBO uses the local `private-flight.jpg` asset.
+- [ ] Vehicles are an open-dark carousel with full-image cards.
+- [ ] Standards use one contained divided panel and four groups only.
+- [ ] FAQ is a contained light reading panel.
+- [ ] FinalCTA remains the existing medium-height contained closer.
+- [ ] No giant empty sections.
+- [ ] No oversized SaaS rounding.
+- [ ] Section index labels do not become uppercase eyebrows everywhere.
 
----
+## 3. Hero
 
-# 19. UI strings
+- [ ] `ServiceHero` reused.
+- [ ] `variant="full-bleed"`.
+- [ ] full viewport width.
+- [ ] no outer card radius.
+- [ ] media not constrained by PageContainer.
+- [ ] content aligned to semantic inner container.
+- [ ] SiteHeader overlays using approved header behavior.
+- [ ] navigation/language menu remains readable and above Hero layers.
+- [ ] exactly one H1.
+- [ ] H1/CTA contrast passes WCAG AA.
+- [ ] no form, price, ratings, fleet specs, trust chips or logos inside Hero.
+- [ ] focal point reviewed at all target widths.
 
-- [ ] Existing reusable labels reused first.
-- [ ] New Airport labels added only when needed.
-- [ ] All configured locales have parity.
-- [ ] No hardcoded English in reusable/page components.
-- [ ] No agent-invented Serbian/Russian translation.
-- [ ] Data controls state; UI strings only control presentation wording.
+## 4. Section eyebrow system
 
----
+- [ ] 01 Overview.
+- [ ] 02 Arrival.
+- [ ] 03 Booking.
+- [ ] 04 Private Aviation.
+- [ ] 05 Vehicles.
+- [ ] 06 Standards.
+- [ ] 07 FAQ.
+- [ ] labels localized.
+- [ ] numbers stay visually subordinate.
+- [ ] consistent platinum/accent treatment.
+- [ ] no decorative eyebrow cards.
 
-# 20. CTA / routing
+## 5. Service Overview
 
-- [ ] `resolveCtaHref()` reused.
-- [ ] Internal routes use `RouteKey`/`Link`/`getPath()`.
-- [ ] No `/en/` string construction.
-- [ ] No `/ru/` string construction.
-- [ ] No new booking route invented.
-- [ ] No Airport-local CTA resolver.
-- [ ] Current booking/quote flows still use supported interim handoff.
+- [ ] uses `ServiceOverview` grouped-icons variant.
+- [ ] exactly four semantic groups unless canonical data makes one unavailable.
+- [ ] Transfer combines point-to-point + one-way + return.
+- [ ] Arrival combines tracking + meet/greet + waiting.
+- [ ] Assistance combines luggage + name sign.
+- [ ] Aviation combines commercial/private/FBO.
+- [ ] waiting minutes come from canonical data.
+- [ ] no duplicate one-boolean-per-row notebook list.
+- [ ] icons are restrained and decorative/aria-hidden.
+- [ ] no feature cards/badge wall.
+- [ ] no internal enum values shown raw.
 
----
+## 6. Booking mini form
 
-# 21. SEO
+- [ ] old "Details we need" list removed.
+- [ ] old quote/result panel removed.
+- [ ] fields are Flight number, Date, Time.
+- [ ] every field has a visible label.
+- [ ] no placeholder-only labels.
+- [ ] primary Continue action has clear contrast on light surface.
+- [ ] no white-on-white primary action.
+- [ ] 44×44 targets.
+- [ ] visible focus.
+- [ ] validation/errors are accessible.
+- [ ] no price/result is displayed inside the booking-start form.
+- [ ] form creates a typed/validated Airport booking intent.
+- [ ] submitted values are preserved.
+- [ ] detailed booking form receives and prefills the values.
+- [ ] no manual localized URL concatenation.
+- [ ] no Airport-local storage convention invented.
+- [ ] no dead/non-submitting form ships.
+- [ ] secondary quote action remains subordinate.
 
-- [ ] Existing SEO builder reused.
-- [ ] One H1 only.
-- [ ] No component emits `<head>`.
-- [ ] SEO title localized.
-- [ ] SEO description localized.
+## 7. Pricing hard gate
+
+- [ ] Airport fare is keyed by vehicle in shared pricing data.
+- [ ] no price literal exists in components/content/UI strings.
+- [ ] no hourly/per-km derivation is used as Airport fare.
+- [ ] no inferred currency.
+- [ ] no fake zero/placeholder amount.
+- [ ] pending/unavailable state renders while owner values are absent.
+- [ ] JSON-LD price, if emitted later, matches visible validated pricing.
+
+## 8. Arrival timeline
+
+- [ ] semantic ordered list.
+- [ ] vertical connecting line.
+- [ ] clear node/icon for each step.
+- [ ] flight tracking step depends on canonical capability.
+- [ ] meet-and-greet step depends on canonical capability.
+- [ ] luggage step depends on canonical capability.
+- [ ] onward/direct journey reflects canonical service behavior.
+- [ ] waiting value, when visible, comes from data.
+- [ ] no unsupported step invented.
+- [ ] timeline meaning works without motion.
+- [ ] reduced motion honored.
+- [ ] mobile order is timeline/copy before media.
+
+## 9. Private Aviation / FBO
+
+- [ ] section renders only when canonical capability permits.
+- [ ] content 7 / media 5 desktop relationship.
+- [ ] portrait media uses the approved card/media role.
+- [ ] no nested image card.
+- [ ] image crop/focal point reviewed.
+- [ ] content communicates discreet pre-arrival coordination.
+- [ ] content communicates itinerary/team coordination.
+- [ ] content communicates FBO/handler-aware pickup.
+- [ ] content communicates premium onward continuity.
+- [ ] no security/bodyguard claim.
+- [ ] no apron-access guarantee.
+- [ ] no private-terminal guarantee.
+- [ ] no aviation-operations claim.
+- [ ] VIP route link uses route helpers if shown.
+
+## 10. VehicleRecommendations
+
+- [ ] shared component reused.
+- [ ] Homepage HorizontalCarousel mechanics are reused.
+- [ ] cards use full-image backgrounds, scrims, and overlaid copy.
+- [ ] active vehicle is visually dominant.
+- [ ] next recommendation can peek where appropriate.
+- [ ] previous/next controls exist and are accessible.
+- [ ] position counter is present.
+- [ ] no autoplay.
+- [ ] keyboard navigation works.
+- [ ] touch/scroll behavior works.
+- [ ] no focus trap.
+- [ ] no accidental page overflow.
+- [ ] vehicle facts from `fleet.ts`.
+- [ ] validated vehicle-specific fare or approved pending state.
+- [ ] no invented luggage/equipment facts.
+- [ ] not a copy of Homepage FleetShowcase.
+
+## 11. ServiceStandards
+
+- [ ] shared component reused.
+- [ ] four visible groups maximum in one divided panel.
+- [ ] Professional chauffeur group.
+- [ ] Prepared vehicle group.
+- [ ] Passenger care group.
+- [ ] Comfort & journey group.
+- [ ] each group uses verified `operations.ts` facts.
+- [ ] no exhaustive true-field dump.
+- [ ] no badge wall.
+- [ ] no security/bodyguard claim.
+- [ ] no duplicated Arrival workflow.
+- [ ] responsive layout becomes 2×2 / single column when needed.
+
+## 12. FAQ
+
+- [ ] shared FAQ reused.
+- [ ] section eyebrow present.
+- [ ] row targets comfortably tappable.
+- [ ] plus/minus state perceivable.
+- [ ] keyboard accessible.
+- [ ] visible FAQ items and FAQ structured data use the same array.
+- [ ] no duplicate accordion implementation.
+
+## 13. Content / localization
+
+SR, EN and RU entries:
+
+- [ ] exist.
+- [ ] validate as `pageType: service`.
+- [ ] have valid lifecycle fields.
+- [ ] have valid SEO.
+- [ ] booking section no longer owns obsolete details-list items.
+- [ ] Private Aviation content matches the premium coordination direction.
+- [ ] no canonical numeric service fact duplicated into Markdown.
+- [ ] translation source digests are current.
+
+UI dictionaries:
+
+- [ ] all v3 keys exist in SR.
+- [ ] all v3 keys exist in EN.
+- [ ] all v3 keys exist in RU.
+- [ ] key parity exact.
+- [ ] waiting minutes interpolate canonical value.
+- [ ] operations numbers interpolate canonical values where used.
+
+## 14. Responsive
+
+Review:
+
+```text
+320
+768
+1024
+1440
+1920
+```
+
+- [ ] no horizontal overflow.
+- [ ] full-bleed Hero at all widths.
+- [ ] Hero content/focal subject do not collide.
+- [ ] booking fields stack cleanly.
+- [ ] timeline remains continuous/readable.
+- [ ] FBO remains an open portrait-media feature.
+- [ ] carousel does not leak outside page.
+- [ ] standards groups and dividers remain readable.
+- [ ] FAQ/CTA remain correctly proportioned.
+
+## 15. Accessibility
+
+- [ ] WCAG 2.2 AA.
+- [ ] exactly one H1.
+- [ ] logical heading hierarchy.
+- [ ] 44×44 targets.
+- [ ] visible focus.
+- [ ] labelled form controls.
+- [ ] accessible form errors.
+- [ ] decorative icons hidden from AT.
+- [ ] carousel controls named.
+- [ ] timeline semantic.
+- [ ] reduced motion.
+- [ ] meaningful image alt.
+- [ ] no color-only state.
+
+## 16. SEO / structured data
+
+- [ ] existing SEO builder reused.
 - [ ] canonical intact.
 - [ ] hreflang intact.
 - [ ] lifecycle/noindex intact.
+- [ ] FAQ schema matches visible FAQ.
 - [ ] no raw localized URLs.
+- [ ] no invented price/currency in schema.
 
----
+## 17. Technical / visual quality gates
 
-# 22. Structured data
-
-- [ ] Approved builders reused.
-- [ ] FAQ schema equals visible FAQ.
-- [ ] no invented Airport price in schema.
-- [ ] no invented currency in schema.
-- [ ] no duplicated route URL.
-- [ ] no duplicated Airport operational facts.
-- [ ] no ad-hoc schema object where approved helper exists.
-
----
-
-# 23. Theme / CSS
-
-- [ ] active theme resolved through site config.
-- [ ] no theme fallback added.
-- [ ] no raw color literals.
-- [ ] no local palette.
-- [ ] no local spacing scale.
-- [ ] no local radius scale.
-- [ ] no local breakpoint system.
-- [ ] no wireframe CSS copied.
-- [ ] no Tailwind v3 regression.
-- [ ] no gold-first luxury styling.
-- [ ] no glass.
-- [ ] no glow.
-- [ ] no dashboard shadow system.
-- [ ] no routine hover lift.
-- [ ] functional block uses semantic light/input tokens.
-
----
-
-# 24. Typography
-
-Computed browser verification:
-
-- [ ] H1 approved heading font.
-- [ ] H2 approved heading font.
-- [ ] body approved body font.
-- [ ] controls approved UI/body font if functional controls exist.
-- [ ] navigation approved.
-- [ ] CTA approved.
-- [ ] brand font does not leak into page typography.
-
----
-
-# 25. Accessibility
-
-- [ ] WCAG 2.2 AA baseline.
-- [ ] one H1.
-- [ ] heading hierarchy.
-- [ ] semantic sections.
-- [ ] 44×44 target minimum.
-- [ ] visible focus.
-- [ ] no horizontal overflow.
-- [ ] reduced motion.
-- [ ] image alt semantics correct.
-- [ ] light surface contrast compliant.
-- [ ] FAQ keyboard accessible.
-- [ ] result state has textual meaning, not color-only.
-- [ ] if fields exist, every control is labelled.
-- [ ] if fields exist, errors are associated and textual.
-- [ ] no ARIA replacement for native semantics.
-
----
-
-# 26. Responsive review
-
-Review independently:
-
-```text
-mobile
-tablet portrait
-tablet landscape
-desktop
-wide desktop
-```
-
-## Mobile
-
-- [ ] contained Hero works.
-- [ ] Hero CTAs stack cleanly.
-- [ ] AirportBookingBlock stacks detail requirements → state → actions.
-- [ ] no dead-control UI.
-- [ ] Arrival copy comes before media.
-- [ ] FBO feature remains compact/subordinate.
-- [ ] vehicle names wrap.
-- [ ] FAQ summaries wrap.
-- [ ] no horizontal overflow.
-
-## Tablet portrait
-
-- [ ] Booking block does not mimic dense desktop grid.
-- [ ] Arrival split transforms intentionally.
-- [ ] FBO feature remains readable.
-- [ ] vehicle section does not become cramped.
-
-## Tablet landscape
-
-- [ ] booking zones use width sensibly.
-- [ ] Arrival 7/5 intent emerges cleanly.
-- [ ] no awkward empty surface regions.
-
-## Desktop
-
-- [ ] Hero contained.
-- [ ] Booking functional composition is coherent, not dashboard-like.
-- [ ] Arrival media 7 / copy 5.
-- [ ] FBO feature remains secondary.
-- [ ] no unsupported calculator state.
-
-## Wide desktop
-
-- [ ] semantic containers cap content.
-- [ ] media remains controlled.
-- [ ] text measure stays readable.
-- [ ] functional panel does not become excessively wide/sparse.
-
----
-
-# 27. Image / performance
-
-- [ ] approved Astro image pipeline.
-- [ ] Hero image appropriate for LCP.
-- [ ] image dimensions/aspects avoid CLS.
-- [ ] responsive image delivery where applicable.
-- [ ] focal points honored.
-- [ ] no remote random stock.
-- [ ] no redesign due missing assets.
-- [ ] no unnecessary client JS.
-
----
-
-# 28. JavaScript / functional behavior
-
-Current handoff mode:
-
-- [ ] zero unnecessary client JS.
-- [ ] no fake calculator.
-- [ ] no fake loading state.
-- [ ] no dead form.
-- [ ] no local client-side storage scheme.
-
-If functional mode was legitimately activated:
-
-- [ ] state architecture documented.
-- [ ] validation documented.
-- [ ] result-state transitions documented.
-- [ ] booking handoff documented.
-- [ ] pending-confirmation behavior documented.
-- [ ] `client:*` justification present when required.
-- [ ] reduced motion respected.
-
----
-
-# 29. Automated validation
-
-Minimum:
+Run and pass:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
 pnpm content:validate site/luksuzni-prevoz
-pnpm routes:validate site/luksuzni-prevoz
 pnpm seo:validate site/luksuzni-prevoz
+pnpm routes:validate site/luksuzni-prevoz
 pnpm --filter @luksuzni-prevoz/site check
 pnpm --filter @luksuzni-prevoz/site build
-pnpm design:guard
-```
-
-Run additional required project gates as scope/policy requires:
-
-```bash
 pnpm lint
-pnpm test:unit
-pnpm test:e2e
-pnpm test:a11y
 ```
 
-Record actual results.
+Also complete the repository design review/detector workflow required by `AGENTS.md`.
 
----
+## 18. Final rejection conditions
 
-# 30. Manual visual review
+Reject immediately if any of these remain:
 
-Record:
-
-```text
-mobile              PASS / FAIL / NOT RUN
-tablet portrait     PASS / FAIL / NOT RUN
-tablet landscape    PASS / FAIL / NOT RUN
-desktop             PASS / FAIL / NOT RUN
-wide desktop        PASS / FAIL / NOT RUN
-
-font verification   PASS / FAIL / NOT RUN
-keyboard review     PASS / FAIL / NOT RUN
-focus review        PASS / FAIL / NOT RUN
-image crop review   PASS / FAIL / NOT RUN
-overflow review     PASS / FAIL / NOT RUN
-functional review   PASS / FAIL / NOT RUN
-```
-
----
-
-# 31. Immediate rejection conditions
-
-Reject if any is true:
-
-- Airport still uses generic `LeafPage`.
-- shared service components were cloned.
-- an Airport fare was fabricated.
-- currency was inferred.
-- pricing was derived from `pricing.ts` chauffeur values.
-- dead form fields were shipped.
-- collected values are discarded during handoff.
-- fake Fixed/Estimated state exists.
-- waiting allowance is hardcoded in component logic.
-- Airport capabilities are copied into component literals.
-- last-minute/24-7/instant-confirmation claim appears.
-- Arrival split was reinvented.
-- Private Aviation became a separate page without blueprint change.
-- FBO copy implies security/aviation access beyond verified capability.
-- localized routes are string-built.
-- page-specific controls duplicate foundation primitives.
-- raw theme values were introduced.
-- wireframe CSS was copied.
-- responsive review was skipped.
-- blockers were hidden.
-
----
-
-# 32. Required completion report
-
-```text
-AIRPORT TRANSPORTATION IMPLEMENTATION REPORT
-
-STATUS:
-PASS / PARTIAL / BLOCKED
-
-FILES CREATED:
--
-
-FILES MODIFIED:
--
-
-REUSED SHARED COMPONENTS:
--
-
-NEW COMPONENTS:
--
-
-WHY EACH NEW COMPONENT WAS REQUIRED:
--
-
-PAGE-LOCAL COMPOSITIONS:
--
-
-NEW SHARED VARIANTS:
--
-
-DATA SOURCES USED:
--
-
-AIRPORT PRICING STATE:
--
-
-BOOKING HANDOFF STATE:
--
-
-FUNCTIONAL UI MODE:
-handoff-only / validated-interactive
-
-CONTENT / UI STRING STATUS:
--
-
-RESPONSIVE REVIEW:
-mobile:
-tablet portrait:
-tablet landscape:
-desktop:
-wide desktop:
-
-ACCESSIBILITY REVIEW:
--
-
-COMMANDS RUN:
-command → result
-
-DESIGN DETECTOR:
--
-
-SITE CHECK:
--
-
-SITE BUILD:
--
-
-BLUEPRINT DEVIATIONS / DATA-GATED ADAPTATIONS:
--
-
-SHARED COMPONENT BLOCKERS:
--
-
-FUNCTIONAL BLOCKERS:
--
-
-CONTENT BLOCKERS:
--
-
-KNOWN TODOs:
--
-```
-
-A generic "done" response is not an acceptable handoff.
+- contained Airport Hero;
+- old details-list booking block;
+- dead booking fields;
+- white-on-white primary action;
+- one-way/return/direct as three redundant fact rows;
+- generic Arrival divider list instead of timeline;
+- nested/padded FBO image card;
+- static cramped vehicle cards;
+- long standards notebook list;
+- hardcoded, inferred, or fabricated Airport price/currency;
+- missing SR/EN/RU UI parity.

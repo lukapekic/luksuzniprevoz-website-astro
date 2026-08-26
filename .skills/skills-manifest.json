@@ -1,109 +1,33 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "project": "Luxury Transportation",
+  "scope": "Complete metadata index for .skills; authority and required bundles remain in AGENTS.md.",
   "skills": [
-    {
-      "name": "design-foundation-governance",
-      "required_for": [
-        "visual UI",
-        "page composition",
-        "design review"
-      ]
-    },
-    {
-      "name": "blueprint-to-ui",
-      "required_for": [
-        "page implementation",
-        "major section implementation"
-      ]
-    },
-    {
-      "name": "component-architecture",
-      "required_for": [
-        "new components",
-        "refactors",
-        "variants"
-      ]
-    },
-    {
-      "name": "responsive-layout",
-      "required_for": [
-        "page/component implementation",
-        "responsive review"
-      ]
-    },
-    {
-      "name": "typography-system",
-      "required_for": [
-        "text-bearing UI",
-        "font QA",
-        "design review"
-      ]
-    },
-    {
-      "name": "imagery-art-direction",
-      "required_for": [
-        "image-bearing UI",
-        "asset review"
-      ]
-    },
-    {
-      "name": "functional-ui",
-      "required_for": [
-        "forms",
-        "calculator",
-        "booking",
-        "pricing states"
-      ]
-    },
-    {
-      "name": "high-value-visual-execution",
-      "required_for": [
-        "visual refinement",
-        "design quality"
-      ]
-    },
-    {
-      "name": "design-review",
-      "required_for": [
-        "post-implementation design QA"
-      ]
-    },
-    {
-      "name": "tailwind-v4",
-      "status": "existing-separate-skill"
-    },
-    {
-    "name": "design-governance",
-    "required_for": ["all production UI work", "agent entry/exit workflow"]
-  },
-  {
-    "name": "design-shape",
-    "required_for": ["new page planning", "major section planning"]
-  },
-  {
-    "name": "design-audit",
-    "required_for": ["technical design audit"]
-  },
-  {
-    "name": "design-critique",
-    "required_for": ["visual UX critique"]
-  },
-  {
-    "name": "design-polish",
-    "required_for": ["final visual refinement"]
-  },
-  {
-    "name": "design-harden",
-    "required_for": ["edge-case hardening", "i18n resilience"]
-  },
-  {
-    "name": "design-adapt",
-    "required_for": ["responsive adaptation"]
-  },
-  {
-    "name": "design-craft-floor",
-    "required_for": ["immediately before production UI editing"]
-  }
+    { "name": "astro-architecture", "category": "architecture" },
+    { "name": "tailwind-v4", "category": "architecture" },
+    { "name": "multilingual-routing", "category": "architecture" },
+    { "name": "design-governance", "category": "design-workflow" },
+    { "name": "design-shape", "category": "design-workflow" },
+    { "name": "design-audit", "category": "design-workflow" },
+    { "name": "design-critique", "category": "design-workflow" },
+    { "name": "design-polish", "category": "design-workflow" },
+    { "name": "design-harden", "category": "design-workflow" },
+    { "name": "design-adapt", "category": "design-workflow" },
+    { "name": "design-craft-floor", "category": "design-workflow" },
+    { "name": "design-foundation-governance", "category": "design" },
+    { "name": "blueprint-to-ui", "category": "design" },
+    { "name": "component-architecture", "category": "design" },
+    { "name": "high-value-visual-execution", "category": "design" },
+    { "name": "typography-system", "category": "design" },
+    { "name": "imagery-art-direction", "category": "design" },
+    { "name": "functional-ui", "category": "design" },
+    { "name": "responsive-layout", "category": "design" },
+    { "name": "design-review", "category": "design" },
+    { "name": "responsive-ui", "category": "technical-quality" },
+    { "name": "responsive-images-performance", "category": "technical-quality" },
+    { "name": "accessibility-wcag", "category": "technical-quality" },
+    { "name": "technical-seo", "category": "technical-quality" },
+    { "name": "structured-data", "category": "technical-quality" },
+    { "name": "technical-page-review", "category": "technical-quality" }
   ]
 }

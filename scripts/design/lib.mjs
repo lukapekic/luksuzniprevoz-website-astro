@@ -105,20 +105,24 @@ export function isGeneratedPath(root, config, filePath) {
 export function resolveActiveTheme(root, config) {
   const versionsDir = path.join(root, config.theme.versionsDir);
   if (!fs.existsSync(versionsDir)) throw new Error(`Theme versions directory not found: ${config.theme.versionsDir}`);
-  const candidates = [];
-  for (const entry of fs.readdirSync(versionsDir, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    const manifestPath = path.join(versionsDir, entry.name, "manifest.json");
-    if (!fs.existsSync(manifestPath)) continue;
-    const manifest = readJson(manifestPath);
-    if (manifest.status === config.theme.activeManifestStatus) {
-      candidates.push({ directory: entry.name, manifest, manifestPath, dir: path.dirname(manifestPath) });
-    }
+  const selectors = config.theme.activeThemeSources || [];
+  if (selectors.length !== 1) {
+    throw new Error(`Expected exactly one site-owned active-theme source, found ${selectors.length}.`);
   }
-  if (candidates.length !== 1) {
-    throw new Error(`Expected exactly one theme manifest with status "${config.theme.activeManifestStatus}", found ${candidates.length}.`);
+  const selectorPath = path.join(root, selectors[0]);
+  if (!fs.existsSync(selectorPath)) throw new Error(`Active-theme source not found: ${selectors[0]}`);
+  const selectorText = readText(selectorPath);
+  const match = selectorText.match(/\bactiveThemeVersion\s*:\s*["']([^"']+)["']/);
+  if (!match?.[1]) throw new Error(`activeThemeVersion is missing or not a string literal in ${selectors[0]}.`);
+
+  const directory = match[1];
+  const dir = path.join(versionsDir, directory);
+  const manifestPath = path.join(dir, "manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    throw new Error(`Configured activeThemeVersion "${directory}" has no manifest at ${rel(root, manifestPath)}.`);
   }
-  return candidates[0];
+  const manifest = readJson(manifestPath);
+  return { directory, manifest, manifestPath, dir };
 }
 
 export function themeSourceFiles(active) {
@@ -143,6 +147,16 @@ export function parseCssVariables(css) {
   let match;
   while ((match = re.exec(css))) vars[match[1]] = match[2].trim();
   return vars;
+}
+
+export function parseGeneratedCssVariables(css) {
+  const reducedMotionIndex = css.indexOf("@media (prefers-reduced-motion: reduce)");
+  const baseCss = reducedMotionIndex === -1 ? css : css.slice(0, reducedMotionIndex);
+  const reducedMotionCss = reducedMotionIndex === -1 ? "" : css.slice(reducedMotionIndex);
+  return {
+    base: parseCssVariables(baseCss),
+    reducedMotion: parseCssVariables(reducedMotionCss)
+  };
 }
 
 export function listComponents(root, config) {
@@ -212,7 +226,8 @@ export function buildSystemSnapshot(root, config) {
       description: active.manifest.description ?? ""
     },
     tokens: tokenFiles,
-    cssVariables: parseCssVariables(css),
+    cssVariables: parseGeneratedCssVariables(css).base,
+    cssVariablesReducedMotion: parseGeneratedCssVariables(css).reducedMotion,
     inventory
   };
 }
@@ -245,8 +260,14 @@ export function targetFiles(root, config, target) {
   if (!absolute) return collectImplementationFiles(root, config);
   if (!fs.existsSync(absolute)) throw new Error(`Target does not exist: ${rel(root, absolute)}`);
   const stat = fs.statSync(absolute);
-  if (stat.isDirectory()) return walkFiles(absolute, { extensions: UI_EXTENSIONS });
-  return [absolute];
+  if (stat.isDirectory()) {
+    return walkFiles(absolute, { extensions: UI_EXTENSIONS }).filter(
+      (file) => !isGeneratedPath(root, config, file) && !isAllowedLegacyPath(root, config, file),
+    );
+  }
+  return isGeneratedPath(root, config, absolute) || isAllowedLegacyPath(root, config, absolute)
+    ? []
+    : [absolute];
 }
 
 export function makeFinding({ ruleId, severity = "P2", file, line = 1, message, recommendation = "" }) {

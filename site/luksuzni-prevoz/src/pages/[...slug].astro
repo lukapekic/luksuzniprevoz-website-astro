@@ -16,7 +16,7 @@
  * path into Serbian content because it generates only its explicit enumerated
  * set (home, with slug "", is skipped — handled by the home route files).
  */
-import LeafPage from "../components/site/LeafPage.astro";
+import ContentPageRenderer from "../components/site/ContentPageRenderer.astro";
 import { buildLeafStaticPaths } from "../lib/pages.ts";
 
 export async function getStaticPaths() {
@@ -27,4 +27,4 @@ export async function getStaticPaths() {
 const { routeKey, locale, content } = Astro.props;
 ---
 
-<LeafPage routeKey={routeKey} locale={locale} content={content} />
+<ContentPageRenderer routeKey={routeKey} locale={locale} content={content} />

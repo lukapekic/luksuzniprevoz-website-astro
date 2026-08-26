@@ -166,7 +166,7 @@ Verify:
 - site theme selection still comes only from `foundation.config.ts`;
 - no manual generated-theme edits;
 - no raw palette/radius/breakpoint system introduced;
-- no Theme V1/Fraunces/gold-first drift;
+- no legacy Theme V1/Fraunces/gold-first drift;
 - Inter Tight/Manrope semantic roles remain intact;
 - premium effect comes from hierarchy/composition/imagery rather than effects;
 - no cardification/SaaS dashboard drift;

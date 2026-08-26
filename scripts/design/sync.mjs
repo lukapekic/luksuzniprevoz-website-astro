@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import fs from "node:fs";
 import path from "node:path";
 import { buildSystemSnapshot, findRepoRoot, loadConfig, loadSystem, writeJson } from "./lib.mjs";
 

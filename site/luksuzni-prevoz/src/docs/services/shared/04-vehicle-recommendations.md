@@ -14,6 +14,16 @@ Show a small, service-relevant fleet subset without duplicating the Homepage fle
 - each item: vehicle image, canonical display name, vehicle class/verified facts where appropriate, short localized suitability copy;
 - section CTA: View Full Fleet.
 
+## Airport full-image carousel variant
+
+Airport Transportation reuses the Homepage `HorizontalCarousel` mechanics and
+the full-image/scrim/overlaid-copy visual language of Homepage service cards.
+It remains a vehicle recommendation component, not a route-card component.
+
+Vehicle-specific Airport fares come only from shared pricing data. Missing
+owner-supplied values render the approved pending state; they are never inferred
+from other pricing units.
+
 ## Data rules
 
 - vehicle identity/capacity comes only from `fleet.ts`;

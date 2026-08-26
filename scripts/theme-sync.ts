@@ -90,20 +90,6 @@ mkdirSync(join(projectOutput, ".."), { recursive: true });
 writeFileSync(projectOutput, css, "utf-8");
 console.log(`✓ Wrote ${projectOutput}`);
 
-// Write to core package default so the package ships with a validated theme.
-const coreOutput = join(
-  rootDir,
-  "packages",
-  "astro-foundation",
-  "src",
-  "theme",
-  "generated",
-  "theme.css",
-);
-mkdirSync(join(coreOutput, ".."), { recursive: true });
-writeFileSync(coreOutput, css, "utf-8");
-console.log(`✓ Wrote ${coreOutput}`);
-
 console.log(
   `\nTheme "${tokens.manifest.name}" v${tokens.manifest.themeVersion} synced successfully.`,
 );

@@ -179,7 +179,7 @@ or mapped semantic tokens.
 
 Do not hardcode grays.
 
-Controls use the active Theme V2 semantic control radius.
+Controls use the configured active theme's semantic control radius.
 
 Do not duplicate its raw value in this skill or in page components.
 

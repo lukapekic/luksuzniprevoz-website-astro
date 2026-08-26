@@ -1,0 +1,24 @@
+{
+  "duration": {
+    "fast": "150ms",
+    "normal": "250ms",
+    "slow": "450ms",
+    "cinematic": "900ms"
+  },
+
+  "easing": {
+    "standard": "cubic-bezier(0.2, 0, 0, 1)",
+    "entrance": "cubic-bezier(0.16, 1, 0.3, 1)"
+  },
+
+  "patterns": {
+    "fadeUp": true,
+    "sectionReveal": true,
+    "heroZoom": true,
+    "imageHover": true,
+    "buttonHover": true,
+    "carouselTransition": true
+  },
+
+  "reducedMotionRequired": true
+}

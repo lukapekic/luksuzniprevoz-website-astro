@@ -269,10 +269,10 @@ export async function generateOgImage(
     const displayTitle =
       opts.title.length > maxTitleLen ? opts.title.slice(0, maxTitleLen) + "…" : opts.title;
 
-    const fonts: Record<string, { data: ArrayBuffer; weight: 400 | 700; style: "normal" }> = {
-      sans: { data: opts.font!, weight: 400, style: "normal" },
-    };
-    if (opts.fontBold) fonts["sansBold"] = { data: opts.fontBold, weight: 700, style: "normal" };
+    const fonts: Array<{ name: string; data: ArrayBuffer; weight: 400 | 700; style: "normal" }> = [
+      { name: "sans", data: opts.font!, weight: 400, style: "normal" },
+    ];
+    if (opts.fontBold) fonts.push({ name: "sans", data: opts.fontBold, weight: 700, style: "normal" });
 
     const svg = await satori(
       {

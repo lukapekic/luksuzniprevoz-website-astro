@@ -1,0 +1,21 @@
+{
+  "business.coverage.primary": "Основная зона бизнес-транспорта",
+  "business.coverage.outsideQuote": "Маршруты за пределами стандартной зоны рассматриваются через индивидуальный расчёт",
+  "business.commercial.oneOff": "Разовый запрос",
+  "business.commercial.recurring": "Регулярная схема",
+  "business.commercial.estimateRequest": "Запрос на предварительный расчёт",
+  "business.commercial.quoteRequest": "Индивидуальный расчёт",
+  "business.capability.recurringContracts": "Регулярные договорные схемы",
+  "business.capability.invoicing": "Выставление счетов бизнес-клиентам",
+  "business.capability.negotiatedPricing": "Согласованные коммерческие условия",
+  "business.capability.dedicatedChauffeurAcrossStops": "Один водитель между связанными точками расписания",
+  "business.coordination.multipleVehicles": "Несколько автомобилей",
+  "business.coordination.mixedVehicleClasses": "Комбинация разных классов автомобилей",
+  "business.coordination.dedicatedCoordinator": "Выделенная координация",
+  "business.coordination.airportArrivals": "Встречи в аэропорту",
+  "business.coordination.hotelTransfers": "Трансферы до и от отелей",
+  "business.coordination.venueShuttles": "Транспорт между площадками мероприятия",
+  "business.coordination.multiVehicleSchedules": "Расписание для нескольких автомобилей",
+  "business.coordination.executiveTransfers": "Индивидуальные поездки руководителей",
+  "business.coordination.groupTransport": "Групповой транспорт"
+}

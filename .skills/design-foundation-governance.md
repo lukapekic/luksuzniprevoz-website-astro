@@ -45,7 +45,7 @@ For visual work read:
 AGENTS.md
 DESIGN.md
 site/luksuzni-prevoz/foundation.config.ts
-site/luksuzni-prevoz/src/theme/versions/version-2/
+site/luksuzni-prevoz/src/theme/versions/<activeThemeVersion>/
 ```
 
 Inspect the relevant JSON files for the task:
@@ -73,15 +73,15 @@ A skill never overrides:
 ```text
 locked page blueprint
 DESIGN.md
-active Theme V2 JSON
+configured active theme JSON
 validated shared component contract
 ```
 
 Do not reopen locked decisions silently.
 
-## 3. Theme V2 contract
+## 3. Current active-theme contract
 
-Theme V2 is selected by the site config and is the raw token source.
+The site config selects the raw token source. It currently selects Theme V2; do not encode that current selection into shared tooling.
 
 Current type roles:
 
@@ -113,14 +113,14 @@ Do not:
 
 - hardcode palette values in components;
 - create page-local token sets;
-- copy raw Theme V2 values into skills/page docs;
+- copy raw configured-theme values into skills/page docs;
 - invent new spacing/radius/color values because an approximation looks close;
 - manually edit generated `theme.css`.
 
 If a global token must change:
 
 ```text
-Theme V2 JSON
+configured active theme JSON
 → theme validation/sync
 → generated CSS
 → implementation review
@@ -236,7 +236,7 @@ would communicate structure better.
 
 ## 10. Radius system
 
-Use the active semantic radius tokens from Theme V2.
+Use the configured active theme's semantic radius tokens.
 
 Role hierarchy:
 
@@ -252,7 +252,7 @@ Do not inflate radius to create artificial softness.
 
 ## 11. Spacing tiers
 
-Page rhythm uses the Theme V2 section spacing tiers:
+Page rhythm uses the configured active theme's section spacing tiers:
 
 ```text
 compact
@@ -283,7 +283,7 @@ Examples:
 
 ## 13. Layout system
 
-Use the active Theme V2 layout JSON for:
+Use the configured active theme layout JSON for:
 
 - main/reading/narrow containers;
 - page gutters;
@@ -336,7 +336,7 @@ At design-foundation level:
 - page headings use Inter Tight;
 - body/UI use Manrope;
 - BrandLockup uses Cormorant Garamond Italic only;
-- heading scale comes from Theme V2 tokens;
+- heading scale comes from configured active-theme tokens;
 - font loading must be verified in browser.
 
 Do not accept a "similar-looking" fallback.
@@ -351,7 +351,7 @@ Decorative platinum details should remain sparse.
 
 ## 18. Motion
 
-Use Theme V2 motion tokens.
+Use configured active-theme motion tokens.
 
 Motion must be:
 
@@ -474,7 +474,7 @@ Before completing visible UI work:
 
 - [ ] Current page blueprint was read.
 - [ ] `DESIGN.md` was read.
-- [ ] Active Theme V2 JSON was inspected.
+- [ ] Configured active-theme JSON was inspected.
 - [ ] No raw token values were duplicated into the component.
 - [ ] Inter Tight/Manrope/Cormorant roles are preserved.
 - [ ] Platinum remains restrained.
