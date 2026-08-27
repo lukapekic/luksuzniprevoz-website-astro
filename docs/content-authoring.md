@@ -78,9 +78,36 @@ seoDescription: "Privatni prevoz sa profesionalnim vozačem u Beogradu..."
 
 Do not invent artificial minimum SEO lengths. Prefer accurate, useful copy that stays within the validator's production limits.
 
+### Empty route scaffolds
+
+An approved route may reserve all configured locale identities before editorial
+copy exists. Use the strict scaffold shape instead of placeholder prose:
+
+```yaml
+---
+routeKey: privateChauffeur
+locale: sr
+pageType: scaffold
+targetPageType: service
+scaffold: true
+status: draft
+translationState: missing
+noindex: true
+---
+```
+
+Scaffolds contain no SEO or editorial copy. They render only the already
+localized route label, emit no canonical/hreflang/structured data, and their
+route must remain `availability: "scaffold"` so it stays out of the sitemap.
+
+Replace the scaffold in every configured locale with the complete archetype
+content before changing the route to `availability: "published"`. The content
+validator fails on a missing route/locale file and on partial reviewed parity;
+there is no language fallback.
+
 ## 3. Page archetypes (FND-DATA-08, FND-DATA-09)
 
-`site/luksuzni-prevoz/src/content/schemas/pages.ts` defines seven explicit archetypes:
+`site/luksuzni-prevoz/src/content/schemas/pages.ts` defines seven authored archetypes plus the non-publishable scaffold shape:
 
 | `pageType` | Required route kind | Purpose            |
 | ---------- | ------------------- | ------------------ |

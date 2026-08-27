@@ -21,7 +21,7 @@ export interface ContentFile {
  */
 export function extractBody(raw: string): string {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  return m ? m[2] ?? "" : raw;
+  return m ? (m[2] ?? "") : raw;
 }
 
 /**
@@ -138,7 +138,10 @@ interface ContentRefs {
   vehicles: string[];
   clients: string[];
 }
-function collectContentRefs(frontmatter: Record<string, unknown>, topLevelRouteKey: string): ContentRefs {
+function collectContentRefs(
+  frontmatter: Record<string, unknown>,
+  topLevelRouteKey: string,
+): ContentRefs {
   const refs: ContentRefs = { routes: [], vehicles: [], clients: [] };
   const seenRoutes = new Set<string>();
 
@@ -203,12 +206,26 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
   const { routes, contentFiles } = opts;
   const issues: FoundationIssue[] = [];
   const routeKeys = new Set(routes.map((r) => r.key));
+  const configuredLocaleCodes = opts.config.locales.locales.map((locale) => locale.code);
+  const configuredLocaleSet = new Set(configuredLocaleCodes);
 
   for (const cf of contentFiles) {
     const fm = cf.frontmatter;
     const routeKey = String(fm["routeKey"] ?? "");
     const locale = String(fm["locale"] ?? "");
     const status = String(fm["status"] ?? "draft");
+    const isScaffold = fm["scaffold"] === true || fm["pageType"] === "scaffold";
+
+    if (locale && !configuredLocaleSet.has(locale)) {
+      issues.push({
+        ruleId: "FND-I18N-10",
+        severity: "error",
+        filePath: cf.filePath,
+        offendingValue: `Content uses unconfigured locale "${locale}"`,
+        expectedValue: `One of: ${configuredLocaleCodes.join(", ")}`,
+        docAnchor: "#FND-I18N-10",
+      });
+    }
 
     // FND-DATA-05: Content binds to routes by explicit key
     if (!routeKey) {
@@ -236,7 +253,18 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
     // service → kind:"service"; hub → kind:"hub". The schema declares the
     // editorial shape; the route declares the structural kind; this asserts
     // they agree (analogous to services.ts's kind-parity guard).
-    const pageType = String(fm["pageType"] ?? "");
+    const declaredPageType = String(fm["pageType"] ?? "");
+    const pageType = isScaffold ? String(fm["targetPageType"] ?? "") : declaredPageType;
+    if (isScaffold && !PAGE_TYPE_TO_KIND[pageType]) {
+      issues.push({
+        ruleId: "FND-DATA-09",
+        severity: "error",
+        filePath: cf.filePath,
+        offendingValue: `Scaffold has invalid or missing targetPageType "${pageType}"`,
+        expectedValue: "A valid non-home page archetype",
+        docAnchor: "#FND-DATA-09",
+      });
+    }
     if (pageType && routeKey) {
       const expectedKind = PAGE_TYPE_TO_KIND[pageType];
       const route = routes.find((r) => r.key === routeKey);
@@ -327,23 +355,42 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
       }
     }
 
-    // Validate against BaseSeoSchema
-    const seoResult = BaseSeoSchema.safeParse({
-      seoTitle: fm["seoTitle"],
-      seoDescription: fm["seoDescription"],
-      ogImage: fm["ogImage"],
-      ogImageAlt: fm["ogImageAlt"],
-      noindex: fm["noindex"],
-    });
-    if (!seoResult.success) {
-      for (const err of seoResult.error.issues) {
+    if (isScaffold) {
+      const scaffoldIsValid =
+        status === "draft" &&
+        String(fm["translationState"] ?? "missing") === "missing" &&
+        fm["noindex"] === true;
+      if (!scaffoldIsValid) {
         issues.push({
-          ruleId: "FND-DATA-07",
+          ruleId: "FND-LIFE-02",
           severity: "error",
           filePath: cf.filePath,
-          offendingValue: `seo.${err.path.join(".")}: ${err.message}`,
-          docAnchor: "#FND-DATA-07",
+          offendingValue:
+            "Scaffold pages must be status:draft, translationState:missing, and noindex:true",
+          expectedValue: "A non-publishable empty scaffold",
+          docAnchor: "#FND-LIFE-02",
         });
+      }
+    } else {
+      // Authored entries require complete SEO content. Scaffolds intentionally
+      // carry no editorial or SEO copy.
+      const seoResult = BaseSeoSchema.safeParse({
+        seoTitle: fm["seoTitle"],
+        seoDescription: fm["seoDescription"],
+        ogImage: fm["ogImage"],
+        ogImageAlt: fm["ogImageAlt"],
+        noindex: fm["noindex"],
+      });
+      if (!seoResult.success) {
+        for (const err of seoResult.error.issues) {
+          issues.push({
+            ruleId: "FND-DATA-07",
+            severity: "error",
+            filePath: cf.filePath,
+            offendingValue: `seo.${err.path.join(".")}: ${err.message}`,
+            docAnchor: "#FND-DATA-07",
+          });
+        }
       }
     }
 
@@ -406,6 +453,28 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
         });
       }
       seenLocales.add(locale);
+    }
+  }
+
+  // Strict structural parity: every declared route reserves exactly one file
+  // for every configured locale, even while the route is only a scaffold.
+  for (const route of routes) {
+    const files = byRoute.get(route.key) ?? [];
+    const presentLocales = new Set(
+      files.map((file) => String(file.frontmatter["locale"] ?? "")).filter(Boolean),
+    );
+    for (const locale of configuredLocaleCodes) {
+      if (!presentLocales.has(locale)) {
+        issues.push({
+          ruleId: "FND-I18N-10",
+          severity: "error",
+          filePath: "(content parity)",
+          offendingValue: `Route "${route.key}" is missing its "${locale}" content file`,
+          expectedValue: "Exactly one content file for every configured route/locale pair",
+          fix: `Add a strict scaffold or complete localized content for ${route.key}/${locale}`,
+          docAnchor: "#FND-I18N-10",
+        });
+      }
     }
   }
 
@@ -498,7 +567,9 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
     const localeCount = opts.config.locales.locales.length;
     for (const route of routes) {
       const files = byRoute.get(route.key) ?? [];
-      if (files.length === 0) continue;
+      if (files.length === 0 || files.every((file) => file.frontmatter["scaffold"] === true)) {
+        continue;
+      }
       const reviewedLocales = new Set(
         files
           .filter((f) => String(f.frontmatter["translationState"] ?? "missing") === "reviewed")
@@ -508,7 +579,7 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
       if (parity < parityFloor) {
         issues.push({
           ruleId: "FND-I18N-10",
-          severity: "warning",
+          severity: "error",
           filePath: "(content parity)",
           offendingValue: `Route "${route.key}" is reviewed in ${reviewedLocales.size}/${localeCount} locales (${Math.round(parity * 100)}%)`,
           expectedValue: `At least ${Math.round(parityFloor * 100)}% reviewed coverage (parityFloor: ${parityFloor})`,

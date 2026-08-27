@@ -13,18 +13,19 @@
  */
 import HomePage from "../../components/home/HomePage.astro";
 import type { LocaleCode } from "@astro-foundation/core";
+import { nonDefaultLocales } from "../../data/locales.ts";
 
 export function getStaticPaths() {
   // Default locale (sr) is unprefixed — generated at `/` by pages/index.astro,
   // never here. Only the prefixed non-default locales are emitted.
-  return [
-    { params: { locale: "en" } },
-    { params: { locale: "ru" } },
-  ];
+  return nonDefaultLocales.map((locale) => ({ params: { locale } }));
 }
 
 const { locale } = Astro.params;
-const currentLocale = (locale ?? "en") as LocaleCode;
+const currentLocale = locale as LocaleCode;
+if (!nonDefaultLocales.includes(currentLocale)) {
+  throw new Error(`Unconfigured prefixed locale: ${locale ?? "(missing)"}`);
+}
 ---
 
 <HomePage locale={currentLocale} />

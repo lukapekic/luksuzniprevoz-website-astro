@@ -15,7 +15,7 @@
 import { getPath } from "@astro-foundation/core/i18n";
 import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
-import { localeCountryNames } from "../../data/locales.ts";
+import { defaultLocale, localeCountryNames } from "../../data/locales.ts";
 import { t } from "../../lib/i18n.ts";
 import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 
@@ -42,8 +42,6 @@ const {
 } = Astro.props;
 
 const switcherLabel = ariaLabel ?? t("nav.language", currentLocale);
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
-
 /** Locale display metadata derived from config + the locale data module
  * (FND-ARCH-03 — no duplicated component literals). The language name, hreflang,
  * and htmlLang come from `foundation.config.ts`; the country name comes from
@@ -74,7 +72,8 @@ const localeMetadata = Object.fromEntries(
   }),
 ) as Record<LocaleCode, LocaleMeta>;
 
-const currentMeta = localeMetadata[currentLocale] ?? localeMetadata[defaultLocale];
+const currentMeta = localeMetadata[currentLocale];
+if (!currentMeta) throw new Error(`LanguageSwitcher received an unconfigured locale: ${currentLocale}`);
 const allLocales = config.locales.locales.map((l) => localeMetadata[l.code as LocaleCode]);
 
 const panelId = `${idPrefix}-panel`;

@@ -23,7 +23,6 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
-const DEFAULT_LOCALE_FALLBACK = "sr";
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
 const resolvedTarget = targetArg
@@ -77,17 +76,21 @@ if (existsSync(pagesDir)) {
 }
 
 // Group by routeKey; the source is the default-locale entry with no sourceLocale.
-const configPath = [resolve(resolvedTarget, "foundation.config.ts"), resolve(resolvedTarget, "src/foundation.config.ts")].find(existsSync);
-let defaultLocale = DEFAULT_LOCALE_FALLBACK;
-if (configPath) {
-  try {
-    const mod = await import(configPath);
-    const cfg = mod.default ?? mod.config;
-    defaultLocale = cfg?.locales?.locales?.find((l: { isDefault: boolean }) => l.isDefault)?.code ?? DEFAULT_LOCALE_FALLBACK;
-  } catch {
-    // fall back to the constant
-  }
+const configPath = [
+  resolve(resolvedTarget, "foundation.config.ts"),
+  resolve(resolvedTarget, "src/foundation.config.ts"),
+].find(existsSync);
+if (!configPath) throw new Error(`No foundation.config.ts found for ${resolvedTarget}`);
+
+const configModule = await import(configPath);
+const digestConfig = configModule.default ?? configModule.config;
+const configuredDefaultLocale = digestConfig?.locales?.locales?.find(
+  (locale: { isDefault: boolean }) => locale.isDefault,
+);
+if (!configuredDefaultLocale) {
+  throw new Error("foundation.config.ts must declare exactly one default locale");
 }
+const defaultLocale = configuredDefaultLocale.code as string;
 
 const byRoute = new Map<string, Entry[]>();
 for (const e of entries) {
@@ -123,7 +126,8 @@ function setFmField(fmText: string, key: string, value: string): string {
 let updated = 0;
 for (const [, files] of byRoute) {
   const source = files.find(
-    (e) => e.fm["sourceLocale"] === undefined || String(e.fm["sourceLocale"]) === String(e.fm["locale"]),
+    (e) =>
+      e.fm["sourceLocale"] === undefined || String(e.fm["sourceLocale"]) === String(e.fm["locale"]),
   );
   if (!source) continue;
   const digest = computeSourceDigest(source.fm, extractBody(source.raw));
@@ -131,7 +135,11 @@ for (const [, files] of byRoute) {
   for (const e of files) {
     const locale = String(e.fm["locale"] ?? "");
     if (locale === defaultLocale && e.fm["sourceLocale"] === undefined) continue; // source itself
-    const newFm = setFmField(setFmField(e.fmText, "sourceLocale", defaultLocale), "sourceDigest", digest);
+    const newFm = setFmField(
+      setFmField(e.fmText, "sourceLocale", defaultLocale),
+      "sourceDigest",
+      digest,
+    );
     if (newFm !== e.fmText) {
       writeFileSync(e.path, `---\n${newFm}\n---\n${e.body}`);
       updated++;

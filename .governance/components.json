@@ -94,6 +94,7 @@
         "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
         "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
         "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
+        "site/luksuzni-prevoz/src/components/site/ScaffoldPage.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"
@@ -125,6 +126,7 @@
         "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
         "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
         "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
+        "site/luksuzni-prevoz/src/components/site/ScaffoldPage.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"

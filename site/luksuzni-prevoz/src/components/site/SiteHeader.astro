@@ -18,7 +18,6 @@
  * is owned by `Page` (FND-A11Y-08); SiteHeader renders no skip link of its own.
  */
 import { getPath } from "@astro-foundation/core/i18n";
-import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
 import {
   navigation,
@@ -32,6 +31,7 @@ import LanguageSwitcher from "../../foundation/ui/LanguageSwitcher.astro";
 import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import Link from "../../foundation/ui/Link.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import { defaultLocale } from "../../data/locales.ts";
 
 interface Props {
   currentRouteKey: RouteKey;
@@ -53,8 +53,6 @@ const {
   overHero = true,
   idPrefix = "hdr",
 } = Astro.props;
-
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
 /** Resolve a route href for the current locale (FND-I18N-03). */
 const href = (key: RouteKey): string => getPath(key, currentLocale, routes, defaultLocale);

@@ -2,13 +2,16 @@
 import type { CollectionEntry } from "astro:content";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import LeafPage from "./LeafPage.astro";
+import ScaffoldPage from "./ScaffoldPage.astro";
 import AirportTransportationPage from "../services/airport-transportation/AirportTransportationPage.astro";
 
 interface Props { routeKey: RouteKey; locale: LocaleCode; content: CollectionEntry<"pages"> }
 const { routeKey, locale, content } = Astro.props;
 ---
 
-{routeKey === "airportTransportation" ? (
+{content.data.pageType === "scaffold" ? (
+  <ScaffoldPage routeKey={routeKey} locale={locale} content={content} />
+) : routeKey === "airportTransportation" ? (
   <AirportTransportationPage routeKey="airportTransportation" locale={locale} content={content} />
 ) : (
   <LeafPage routeKey={routeKey} locale={locale} content={content} />

@@ -14,6 +14,23 @@
  * by `foundation.config.ts` (`locales[].label`), not duplicated here.
  */
 import type { LocaleCode } from "@astro-foundation/core";
+import { config } from "../../foundation.config.ts";
+
+export const localeCodes = config.locales.locales.map((locale) => locale.code as LocaleCode);
+
+const configuredDefaultLocale = config.locales.locales.find((locale) => locale.isDefault);
+if (!configuredDefaultLocale) {
+  throw new Error("foundation.config.ts must declare exactly one default locale");
+}
+
+export const defaultLocale = configuredDefaultLocale.code as LocaleCode;
+export const nonDefaultLocales = localeCodes.filter((locale) => locale !== defaultLocale);
+
+export function getLocaleConfig(locale: LocaleCode) {
+  const localeConfig = config.locales.locales.find((candidate) => candidate.code === locale);
+  if (!localeConfig) throw new Error(`Locale not configured: ${locale}`);
+  return localeConfig;
+}
 
 /** Factual country name paired with each locale's flag (not a theme value). */
 export const localeCountryNames: Record<LocaleCode, string> = {
@@ -21,3 +38,9 @@ export const localeCountryNames: Record<LocaleCode, string> = {
   en: "United Kingdom",
   ru: "Россия",
 };
+
+for (const locale of localeCodes) {
+  if (!localeCountryNames[locale]) {
+    throw new Error(`Missing country display metadata for locale: ${locale}`);
+  }
+}

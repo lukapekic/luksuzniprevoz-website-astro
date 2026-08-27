@@ -53,7 +53,8 @@ export async function buildLeafStaticPaths(
     // FND-LIFE-02: production builds emit only `published`. In dev/preview,
     // draft and in-review pages ARE emitted (so reviewers can see them) but
     // are marked noindex so they never reach a search index.
-    if (import.meta.env.PROD && status !== "published") continue;
+    const isScaffold = page.data.pageType === "scaffold" && page.data.scaffold === true;
+    if (import.meta.env.PROD && status !== "published" && !isScaffold) continue;
 
     const route = routes.find((r) => r.key === routeKey);
     if (!route) continue;

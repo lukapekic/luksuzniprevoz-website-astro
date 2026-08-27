@@ -1,0 +1,50 @@
+---
+/**
+ * Minimal renderer for explicitly unavailable route scaffolds.
+ *
+ * It uses only approved localized navigation/UI strings, emits no canonical,
+ * hreflang, structured data, or sitemap signal, and remains noindex until the
+ * scaffold is replaced by complete reviewed content in every locale.
+ */
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import type { SeoData } from "@astro-foundation/core/seo";
+import { config } from "../../../foundation.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import { getLocaleConfig } from "../../data/locales.ts";
+import { getNavLabel } from "../../data/navigation.ts";
+import { t } from "../../lib/i18n.ts";
+
+interface Props {
+  routeKey: RouteKey;
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+const { routeKey, locale, content } = Astro.props;
+if (content.data.pageType !== "scaffold" || content.data.scaffold !== true) {
+  throw new Error(`ScaffoldPage received authored content for ${routeKey}/${locale}`);
+}
+
+const localeConfig = getLocaleConfig(locale);
+const pageTitle = getNavLabel(routeKey, locale);
+const seo: SeoData = {
+  title: pageTitle,
+  description: t("error.404.message", locale),
+  noindex: true,
+  locale: { htmlLang: localeConfig.htmlLang, dir: localeConfig.dir },
+  brand: config.brand,
+};
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale}>
+  <Section spacing="feature">
+    <PageContainer>
+      <h1 class="font-heading text-[length:var(--text-h1)] font-bold text-[var(--color-text-primary)]">
+        {pageTitle}
+      </h1>
+    </PageContainer>
+  </Section>
+</BaseLayout>

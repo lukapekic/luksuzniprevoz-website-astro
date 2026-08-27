@@ -26,15 +26,12 @@ interface Props {
   /** Layout-only class on <body> (FND-UI-06) */
   class?: string;
   /** Current locale — localizes the SkipLink label (FND-ARCH-03). */
-  locale?: LocaleCode;
+  locale: LocaleCode;
 }
 
 const { seo, titleTemplate, class: className, locale } = Astro.props;
 
-// SkipLink label from the UI dictionary (FND-ARCH-03); English fallback only if
-// a page renders Page without a locale (defensive — every production route
-// passes one via BaseLayout / HomePage).
-const skipText = locale ? t("a11y.skipToContent", locale) : "Skip to main content";
+const skipText = t("a11y.skipToContent", locale);
 
 const pageTitle = composeTitle(seo.title, seo.brand, titleTemplate);
 const ogType = seo.ogType ?? "website";

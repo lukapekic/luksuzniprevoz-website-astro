@@ -56,7 +56,6 @@
  *   reading order (brand → services → company → contact → bottom row).
  */
 import { getPath } from "@astro-foundation/core/i18n";
-import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
 import { navigation, getNavLabel, type NavLeaf } from "../../data/navigation.ts";
 import { business } from "../../data/business.ts";
@@ -64,6 +63,7 @@ import { contact, isVerified } from "../../data/contact.ts";
 import { t } from "../../lib/i18n.ts";
 import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { defaultLocale } from "../../data/locales.ts";
 
 interface Props {
   currentRouteKey: RouteKey;
@@ -71,8 +71,6 @@ interface Props {
 }
 
 const { currentRouteKey, currentLocale } = Astro.props;
-
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
 /** Resolve a route href for the current locale (FND-I18N-03). */
 const href = (key: RouteKey): string => getPath(key, currentLocale, routes, defaultLocale);

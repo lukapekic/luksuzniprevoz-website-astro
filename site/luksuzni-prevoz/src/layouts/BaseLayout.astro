@@ -22,12 +22,13 @@ import SiteFooter from "../components/site/SiteFooter.astro";
 import type { SeoData } from "@astro-foundation/core/seo";
 import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 import { config } from "../../foundation.config.ts";
+import { getLocaleConfig } from "../data/locales.ts";
 
 interface Props {
   seo: SeoData;
   titleTemplate?: string;
-  currentRouteKey?: RouteKey;
-  currentLocale?: LocaleCode;
+  currentRouteKey: RouteKey;
+  currentLocale: LocaleCode;
   /**
    * Whether the header sits over a full-bleed hero at page top, allowing the
    * transparent-over-hero state. Defaults `false` (leaf routes have no hero).
@@ -38,15 +39,15 @@ interface Props {
 const {
   seo,
   titleTemplate,
-  currentRouteKey = "home",
-  currentLocale = "sr",
+  currentRouteKey,
+  currentLocale,
   overHero = false,
 } = Astro.props;
 
-const localeConfig = config.locales.locales.find((l) => l.code === currentLocale);
+const localeConfig = getLocaleConfig(currentLocale);
 const localeInfo = {
-  htmlLang: localeConfig?.htmlLang ?? "sr",
-  dir: localeConfig?.dir ?? "ltr",
+  htmlLang: localeConfig.htmlLang,
+  dir: localeConfig.dir,
 };
 
 const fullSeo: SeoData = {

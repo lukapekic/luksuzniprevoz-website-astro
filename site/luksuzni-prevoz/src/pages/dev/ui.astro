@@ -74,9 +74,9 @@ import type { ServiceCardProps } from "../../components/shared/ServiceCard.types
 import heroImg from "../../assets/hero.webp";
 import finalCtaBg from "../../assets/final-cta-bg.webp";
 import { contact, isVerified } from "../../data/contact.ts";
+import { defaultLocale, getLocaleConfig } from "../../data/locales.ts";
 
-const defaultLocale =
-  config.locales.locales.find((l) => l.isDefault) ?? config.locales.locales[0];
+const defaultLocaleConfig = getLocaleConfig(defaultLocale);
 
 // SeoData is built inline (not via buildPageSeo) because "dev" is not a
 // routeKey in the route map. noindex keeps it out of search indices.
@@ -86,7 +86,7 @@ const seo: SeoData = {
     "Internal UI/component preview surface for the Luxury Transportation project. Not indexed.",
   canonical: `${config.site}/dev/ui/`,
   noindex: true,
-  locale: { htmlLang: defaultLocale.htmlLang, dir: defaultLocale.dir },
+  locale: { htmlLang: defaultLocaleConfig.htmlLang, dir: defaultLocaleConfig.dir },
   brand: config.brand,
 };
 
@@ -559,6 +559,7 @@ const reviewFixtureItems: ReviewFixture[] = [
 
 <Page
   seo={seo}
+  locale={defaultLocale}
   class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]"
 >
   <header class="border-block-end border-solid border-[var(--color-border-subtle)]">

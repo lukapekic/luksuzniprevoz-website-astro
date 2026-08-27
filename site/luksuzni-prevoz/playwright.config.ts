@@ -39,7 +39,7 @@ export default defineConfig({
   webServer: {
     // Build first, then preview the static output. The default locale is
     // intentionally unprefixed, so the health check targets the canonical
-    // root rather than the non-existent /sr/ path.
+    // root because the configured default locale is unprefixed.
     command: "pnpm exec astro build && pnpm exec astro preview --port 4321",
     url: "http://localhost:4321/",
     reuseExistingServer: !process.env.CI,
