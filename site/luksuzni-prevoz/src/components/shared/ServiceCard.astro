@@ -121,7 +121,7 @@ const isDecorative = imageAlt === "";
     <p class="service-card__desc">{description}</p>
     <div class="service-card__action">
       <Link variant="default" to={action.to} href={action.href} locale={locale}>
-        {action.label}
+        {action.label}<span class="service-card__action-purpose"> {title}</span>
       </Link>
     </div>
   </div>
@@ -255,6 +255,22 @@ const isDecorative = imageAlt === "";
     line-height: var(--line-height-ui);
     letter-spacing: var(--letter-spacing-normal);
     color: var(--color-text-primary);
+  }
+
+  /* Keep the approved concise visible CTA while making repeated labels such as
+     “Learn more” programmatically descriptive with the already-localized card
+     title. This also gives crawlers meaningful internal-link text without
+     introducing a second copy source. */
+  .service-card__action-purpose {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
 
   /* Description: Manrope, small, muted-light secondary text. One concise

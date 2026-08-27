@@ -129,6 +129,9 @@ const isDecorative = imageAlt === "";
     role={isDecorative ? "presentation" : undefined}
     loading="eager"
     fetchpriority="high"
+    decoding="sync"
+    format="avif"
+    quality={40}
     widths={[640, 768, 1024, 1536, 1920]}
     sizes="100vw"
   />

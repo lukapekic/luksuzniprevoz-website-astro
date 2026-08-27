@@ -1,397 +1,238 @@
 [
   {
-    "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.54,
-    "values": [
-      0.54,
-      0.54,
-      0.54
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "seo",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/"
-  },
-  {
-    "name": "minScore",
-    "expected": 0.9,
-    "actual": 0.59,
-    "values": [
-      0.59,
-      0.56,
-      0.56
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "performance",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/"
-  },
-  {
     "name": "maxNumericValue",
     "expected": 2500,
-    "actual": 8887.216400000001,
+    "actual": 3024.058475,
     "values": [
-      9933.2028,
-      8887.216400000001,
-      11612.680649999995
+      3107.756675,
+      3024.058475,
+      3088.988975
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "largest-contentful-paint",
     "level": "error",
-    "url": "http://localhost:4321/",
+    "url": "http://127.0.0.1:4328/",
     "auditTitle": "Largest Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
   },
   {
     "name": "maxNumericValue",
     "expected": 1800,
-    "actual": 5468.601399999999,
+    "actual": 2561.99055,
     "values": [
-      5468.601399999999,
-      6821.6082000000015,
-      6829.7658999999985
+      2578.07715,
+      2570.62155,
+      2561.99055
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "first-contentful-paint",
     "level": "warn",
-    "url": "http://localhost:4321/",
+    "url": "http://127.0.0.1:4328/",
+    "auditTitle": "First Contentful Paint",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
+  },
+  {
+    "name": "maxNumericValue",
+    "expected": 2500,
+    "actual": 3013.4325,
+    "values": [
+      3013.4325,
+      3019.5085500000005,
+      3162.1476000000002
+    ],
+    "operator": "<=",
+    "passed": false,
+    "auditId": "largest-contentful-paint",
+    "level": "error",
+    "url": "http://127.0.0.1:4328/en/",
+    "auditTitle": "Largest Contentful Paint",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
+  },
+  {
+    "name": "maxNumericValue",
+    "expected": 1800,
+    "actual": 2562.1476000000002,
+    "values": [
+      2563.4325,
+      2569.50855,
+      2562.1476000000002
+    ],
+    "operator": "<=",
+    "passed": false,
+    "auditId": "first-contentful-paint",
+    "level": "warn",
+    "url": "http://127.0.0.1:4328/en/",
     "auditTitle": "First Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
   },
   {
     "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.54,
-    "values": [
-      0.54,
-      0.54,
-      0.54
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "seo",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/en/"
-  },
-  {
-    "name": "minScore",
     "expected": 0.9,
-    "actual": 0.59,
+    "actual": 0.89,
     "values": [
-      0.59,
-      0.58,
-      0.59
+      0.89,
+      0.89,
+      0.89
     ],
     "operator": ">=",
     "passed": false,
     "auditProperty": "performance",
     "auditId": "categories",
     "level": "error",
-    "url": "http://localhost:4321/en/"
+    "url": "http://127.0.0.1:4328/ru/"
   },
   {
     "name": "maxNumericValue",
     "expected": 2500,
-    "actual": 9625.391800000001,
+    "actual": 3163.13445,
     "values": [
-      9937.602599999997,
-      11605.198000000004,
-      9625.391800000001
+      3163.13445,
+      3167.536575,
+      3163.3014
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "largest-contentful-paint",
     "level": "error",
-    "url": "http://localhost:4321/en/",
+    "url": "http://127.0.0.1:4328/ru/",
     "auditTitle": "Largest Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
   },
   {
     "name": "maxNumericValue",
     "expected": 1800,
-    "actual": 5617.695899999999,
+    "actual": 2559.9760499999998,
     "values": [
-      5638.8013,
-      6069.627999999999,
-      5617.695899999999
+      2711.2581,
+      2715.03135,
+      2559.9760499999998
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "first-contentful-paint",
     "level": "warn",
-    "url": "http://localhost:4321/en/",
+    "url": "http://127.0.0.1:4328/ru/",
     "auditTitle": "First Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
   },
   {
-    "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.54,
-    "values": [
-      0.54,
-      0.54,
-      0.54
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "seo",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/ru/"
-  },
-  {
-    "name": "minScore",
-    "expected": 0.9,
-    "actual": 0.58,
-    "values": [
-      0.58,
-      0.58,
-      0.58
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "performance",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/ru/"
-  },
-  {
     "name": "maxNumericValue",
     "expected": 2500,
-    "actual": 9629.542599999997,
+    "actual": 3084.1509,
     "values": [
-      9629.542599999997,
-      10378.9994,
-      10226.1266
+      3092.5491,
+      3234.4539,
+      3084.1509
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "largest-contentful-paint",
     "level": "error",
-    "url": "http://localhost:4321/ru/",
+    "url": "http://127.0.0.1:4328/aerodromski-prevoz/",
     "auditTitle": "Largest Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
   },
   {
     "name": "maxNumericValue",
     "expected": 1800,
-    "actual": 5917.771300000001,
+    "actual": 2709.1509,
     "values": [
-      5917.771300000001,
-      6225.499700000001,
-      6380.063299999998
+      2717.5491,
+      2709.4539,
+      2709.1509
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "first-contentful-paint",
     "level": "warn",
-    "url": "http://localhost:4321/ru/",
+    "url": "http://127.0.0.1:4328/aerodromski-prevoz/",
     "auditTitle": "First Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
   },
   {
-    "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.54,
-    "values": [
-      0.54,
-      0.54,
-      0.54
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "seo",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/aerodromski-prevoz/"
-  },
-  {
-    "name": "minScore",
-    "expected": 0.9,
-    "actual": 0.6,
-    "values": [
-      0.6,
-      0.59,
-      0.59
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "performance",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/aerodromski-prevoz/"
-  },
-  {
     "name": "maxNumericValue",
     "expected": 2500,
-    "actual": 9932.676,
+    "actual": 2628.8079000000002,
     "values": [
-      9943.7716,
-      9932.676,
-      11527.2775
+      2785.7881,
+      2632.0368,
+      2628.8079000000002
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "largest-contentful-paint",
     "level": "error",
-    "url": "http://localhost:4321/aerodromski-prevoz/",
+    "url": "http://127.0.0.1:4328/en/airport-transportation/",
     "auditTitle": "Largest Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
   },
   {
     "name": "maxNumericValue",
-    "expected": 1800,
-    "actual": 5176.8858,
+    "expected": 0.1,
+    "actual": 0.101889446235683,
     "values": [
-      5176.8858,
-      5918.338,
-      5478.092500000001
+      0.101889446235683,
+      0.101889446235683,
+      0.101889446235683
+    ],
+    "operator": "<=",
+    "passed": false,
+    "auditId": "cumulative-layout-shift",
+    "level": "error",
+    "url": "http://127.0.0.1:4328/en/airport-transportation/",
+    "auditTitle": "Cumulative Layout Shift",
+    "auditDocumentationLink": "https://web.dev/articles/cls"
+  },
+  {
+    "name": "maxNumericValue",
+    "expected": 1800,
+    "actual": 1960.5552,
+    "values": [
+      2116.18215,
+      1960.5552,
+      2105.71185
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "first-contentful-paint",
     "level": "warn",
-    "url": "http://localhost:4321/aerodromski-prevoz/",
+    "url": "http://127.0.0.1:4328/en/airport-transportation/",
     "auditTitle": "First Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
   },
   {
-    "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.54,
-    "values": [
-      0.54,
-      0.54,
-      0.54
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "seo",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/en/airport-transportation/"
-  },
-  {
-    "name": "minScore",
-    "expected": 0.9,
-    "actual": 0.61,
-    "values": [
-      0.61,
-      0.58,
-      0.6
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "performance",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/en/airport-transportation/"
-  },
-  {
     "name": "maxNumericValue",
     "expected": 2500,
-    "actual": 8735.650399999999,
+    "actual": 3079.8045,
     "values": [
-      9400.706400000001,
-      8735.650399999999,
-      9402.106
+      3082.5492000000004,
+      3079.8045,
+      3083.4087
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "largest-contentful-paint",
     "level": "error",
-    "url": "http://localhost:4321/en/airport-transportation/",
+    "url": "http://127.0.0.1:4328/ru/transfer-iz-aeroporta/",
     "auditTitle": "Largest Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
   },
   {
     "name": "maxNumericValue",
     "expected": 1800,
-    "actual": 5160.8532,
+    "actual": 2407.20675,
     "values": [
-      5160.8532,
-      6007.281499999999,
-      5162.553
+      2411.3238,
+      2407.20675,
+      2412.61305
     ],
     "operator": "<=",
     "passed": false,
     "auditId": "first-contentful-paint",
     "level": "warn",
-    "url": "http://localhost:4321/en/airport-transportation/",
-    "auditTitle": "First Contentful Paint",
-    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
-  },
-  {
-    "name": "minScore",
-    "expected": 0.95,
-    "actual": 0.54,
-    "values": [
-      0.54,
-      0.54,
-      0.54
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "seo",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/ru/transfer-iz-aeroporta/"
-  },
-  {
-    "name": "minScore",
-    "expected": 0.9,
-    "actual": 0.56,
-    "values": [
-      0.53,
-      0.54,
-      0.56
-    ],
-    "operator": ">=",
-    "passed": false,
-    "auditProperty": "performance",
-    "auditId": "categories",
-    "level": "error",
-    "url": "http://localhost:4321/ru/transfer-iz-aeroporta/"
-  },
-  {
-    "name": "maxNumericValue",
-    "expected": 2500,
-    "actual": 9702.662400000001,
-    "values": [
-      9702.662400000001,
-      9710.4228,
-      9850.701399999998
-    ],
-    "operator": "<=",
-    "passed": false,
-    "auditId": "largest-contentful-paint",
-    "level": "error",
-    "url": "http://localhost:4321/ru/transfer-iz-aeroporta/",
-    "auditTitle": "Largest Contentful Paint",
-    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
-  },
-  {
-    "name": "maxNumericValue",
-    "expected": 1800,
-    "actual": 5481.8507,
-    "values": [
-      6068.8312000000005,
-      6166.13925,
-      5481.8507
-    ],
-    "operator": "<=",
-    "passed": false,
-    "auditId": "first-contentful-paint",
-    "level": "warn",
-    "url": "http://localhost:4321/ru/transfer-iz-aeroporta/",
+    "url": "http://127.0.0.1:4328/ru/transfer-iz-aeroporta/",
     "auditTitle": "First Contentful Paint",
     "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
   }

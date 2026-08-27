@@ -40,12 +40,12 @@ export function buildPageSeo(opts: PageSeoOptions): SeoData {
   const path = getPath(routeKey, locale, typedRoutes, defaultLocale);
   const canonical = noindex ? undefined : `${config.site}${path}`;
 
-  // Build hreflang links (relative paths for use in <head>)
+  // Search engines require fully qualified alternate URLs in document head.
   const hreflang = noindex
     ? []
     : buildHreflangSet(routeKey, locale, typedRoutes, typedLocales, defaultLocale).map((link) => ({
         hreflang: link.hreflang,
-        href: link.href,
+        href: `${config.site}${link.href}`,
       }));
 
   return {

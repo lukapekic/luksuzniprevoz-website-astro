@@ -41,7 +41,10 @@ const {
           role={imageAlt === "" ? "presentation" : undefined}
           loading="eager"
           fetchpriority="high"
-          widths={[640, 960, 1280, 1600]}
+          decoding="sync"
+          format="avif"
+          quality={40}
+          widths={[640, 768, 960, 1280, 1600]}
           sizes="(min-width: 80rem) 80rem, calc(100vw - 2rem)"
         />
       ) : <div class="service-hero__media service-hero__placeholder" aria-hidden="true" />}

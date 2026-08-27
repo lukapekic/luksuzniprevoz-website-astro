@@ -95,7 +95,7 @@ the source-of-truth file wins and the stale skill should be corrected.
 This is a pnpm workspace monorepo.
 
 - Package manager: `pnpm@10.14.0`.
-- Node: `>=20`.
+- Node: `>=22.19` (required by the Chrome-aligned Lighthouse toolchain).
 - Current product site: `site/luksuzni-prevoz/`.
 - Core library: `packages/astro-foundation/`.
 - ESLint plugin: `packages/eslint-plugin-astro-foundation/`.

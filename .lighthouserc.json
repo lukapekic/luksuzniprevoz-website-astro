@@ -1,15 +1,16 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "pnpm --filter @luksuzni-prevoz/site build && pnpm --filter @luksuzni-prevoz/site preview --port 4321",
-      "startServerReadyPattern": "ready",
+      "startServerCommand": "PROD_ROBOTS=1 pnpm --filter @luksuzni-prevoz/site build && pnpm --filter @luksuzni-prevoz/site preview --host 127.0.0.1 --port 4328",
+      "startServerReadyPattern": "http://127.0.0.1:4328/",
+      "startServerReadyTimeout": 60000,
       "url": [
-        "http://localhost:4321/",
-        "http://localhost:4321/en/",
-        "http://localhost:4321/ru/",
-        "http://localhost:4321/aerodromski-prevoz/",
-        "http://localhost:4321/en/airport-transportation/",
-        "http://localhost:4321/ru/transfer-iz-aeroporta/"
+        "http://127.0.0.1:4328/",
+        "http://127.0.0.1:4328/en/",
+        "http://127.0.0.1:4328/ru/",
+        "http://127.0.0.1:4328/aerodromski-prevoz/",
+        "http://127.0.0.1:4328/en/airport-transportation/",
+        "http://127.0.0.1:4328/ru/transfer-iz-aeroporta/"
       ],
       "numberOfRuns": 3,
       "settings": {

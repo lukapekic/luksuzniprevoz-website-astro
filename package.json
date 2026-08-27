@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.14.0",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.19.0"
   },
   "scripts": {
     "dev": "pnpm --filter @luksuzni-prevoz/site dev",
@@ -57,7 +57,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
     "@eslint/js": "^9.39.5",
-    "@lhci/cli": "^0.14.0",
+    "@lhci/cli": "^0.15.1",
     "@types/node": "^22.15.0",
     "astro-eslint-parser": "^1.4.0",
     "eslint": "^9.28.0",
@@ -69,6 +69,10 @@
     "typescript-eslint": "^8.67.0"
   },
   "pnpm": {
+    "overrides": {
+      "lighthouse": "13.4.1",
+      "proxy-agent": "8.0.2"
+    },
     "onlyBuiltDependencies": [
       "esbuild",
       "sharp"
