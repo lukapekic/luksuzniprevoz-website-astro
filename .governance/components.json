@@ -54,7 +54,6 @@
         "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
         "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
-        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/shared/ServiceHero.astro",
         "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
         "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",

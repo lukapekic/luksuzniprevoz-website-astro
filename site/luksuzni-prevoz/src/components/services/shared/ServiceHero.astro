@@ -29,6 +29,11 @@ const {
   imageAlt = "",
   supportText,
 } = Astro.props;
+
+const isFullBleed = variant === "full-bleed";
+const imageSizes = isFullBleed
+  ? "100vw"
+  : "(min-width: 80rem) 80rem, calc(100vw - 2rem)";
 ---
 
 <section class="service-hero" data-variant={variant} aria-labelledby="service-hero-title">
@@ -44,22 +49,30 @@ const {
           decoding="async"
           format="avif"
           quality={40}
-          widths={[640, 768, 960, 1280, 1600]}
-          sizes="(min-width: 80rem) 80rem, calc(100vw - 2rem)"
+          widths={[640, 768, 1024, 1536, 1920]}
+          sizes={imageSizes}
         />
       ) : <div class="service-hero__media service-hero__placeholder" aria-hidden="true" />}
       <div class="service-hero__scrim" aria-hidden="true"></div>
-      <PageContainer class="service-hero__inner">
-      <div class="service-hero__content">
-        <h1 id="service-hero-title">{title}</h1>
-        {description && <p>{description}</p>}
-        <div class="service-hero__actions">
-          <Link variant="cta" href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>
-          {secondaryAction && <Link variant="button" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
-        </div>
-        {supportText && <p class="service-hero__support">{supportText}</p>}
+      <div class="service-hero__inner">
+        <PageContainer>
+          <div class:list={["service-hero__composition", supportText && "service-hero__composition--split"]}>
+            <div class="service-hero__content">
+              <h1 id="service-hero-title">{title}</h1>
+              {description && <p class="service-hero__description">{description}</p>}
+              <div class="service-hero__actions">
+                <Link variant="cta" href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>
+                {secondaryAction && <Link variant="button" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+              </div>
+            </div>
+            {supportText && (
+              <aside class="service-hero__support">
+                <p>{supportText}</p>
+              </aside>
+            )}
+          </div>
+        </PageContainer>
       </div>
-      </PageContainer>
   </div>
 </section>
 
@@ -67,15 +80,81 @@ const {
   .service-hero { padding-block: var(--space-section-compact); }
   .service-hero[data-variant="full-bleed"] { padding-block: 0; }
   .service-hero__panel { position: relative; isolation: isolate; min-block-size: clamp(29rem, 66svh, 43rem); overflow: hidden; border-radius: var(--radius-section); background: var(--color-surface); }
-  .service-hero[data-variant="full-bleed"] .service-hero__panel { min-block-size: max(42rem, 92svh); border-radius: 0; }
+  .service-hero[data-variant="full-bleed"] .service-hero__panel { display: grid; align-items: end; min-block-size: 78vh; min-block-size: 78svh; border-radius: 0; }
   .service-hero__media { position: absolute; inset: 0; z-index: -3; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; }
   .service-hero__placeholder { background: linear-gradient(145deg, var(--color-surface-elevated), var(--color-background)); }
   .service-hero__scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, color-mix(in oklab, var(--color-background), transparent 4%) 0%, color-mix(in oklab, var(--color-background), transparent 28%) 55%, color-mix(in oklab, var(--color-background), transparent 70%) 100%); }
-  .service-hero__inner { min-block-size: inherit; }
-  .service-hero__content { display: flex; min-block-size: inherit; max-inline-size: 48rem; flex-direction: column; justify-content: flex-end; padding-block: clamp(var(--space-12), 8vw, var(--space-20)); }
-  h1 { max-inline-size: 13ch; font-family: var(--font-heading); font-size: var(--text-h1); font-weight: var(--font-weight-bold); line-height: var(--line-height-heading); letter-spacing: var(--letter-spacing-heading); }
-  p { max-inline-size: var(--measure-narrow); margin-block-start: var(--space-5); font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  .service-hero__inner { position: relative; z-index: 1; min-block-size: inherit; padding-block: clamp(var(--space-12), 8vw, var(--space-20)); }
+  .service-hero__composition { display: grid; min-block-size: inherit; gap: var(--space-8); align-content: end; align-items: end; }
+  .service-hero__content { display: grid; max-inline-size: 48rem; gap: var(--space-5); }
+  h1 { max-inline-size: 16ch; margin: 0; font-family: var(--font-heading); font-size: var(--text-h1); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); letter-spacing: var(--letter-spacing-heading); }
+  .service-hero__description { max-inline-size: var(--measure-narrow); margin: 0; font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--line-height-body); color: var(--color-text-muted); }
   .service-hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-block-start: var(--space-6); }
-  .service-hero__support { max-inline-size: 42rem; margin-block-start: var(--space-6); padding-block-start: var(--space-4); border-block-start: 1px solid color-mix(in oklab, var(--color-text-primary), transparent 75%); font-size: var(--text-sm); }
+  .service-hero__support { max-inline-size: 28rem; padding-block-start: var(--space-5); border-block-start: 1px solid color-mix(in oklab, var(--color-text-primary), transparent 75%); }
+  .service-hero__support p { margin: 0; font-family: var(--font-body); font-size: var(--text-base); line-height: var(--line-height-body); color: var(--color-text-muted); }
+
+  .service-hero[data-variant="full-bleed"] .service-hero__media {
+    z-index: 0;
+    object-position: 66% center;
+    filter: brightness(0.7) contrast(1.06) saturate(0.76);
+    transform-origin: center;
+    animation: service-hero-image-settle calc(var(--duration-cinematic) + var(--duration-cinematic)) var(--ease-entrance) both;
+  }
+  .service-hero[data-variant="full-bleed"] .service-hero__scrim {
+    z-index: 1;
+    background:
+      radial-gradient(
+        ellipse 76% 74% at 68% 58%,
+        transparent 0%,
+        transparent 32%,
+        color-mix(in oklab, var(--color-background), transparent 58%) 72%,
+        color-mix(in oklab, var(--color-background), transparent 24%) 100%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--color-background), transparent 8%) 0%,
+        transparent 30%,
+        transparent 58%,
+        color-mix(in oklab, var(--color-background), transparent 10%) 100%
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--color-background), transparent 3%) 0%,
+        color-mix(in oklab, var(--color-background), transparent 28%) 42%,
+        color-mix(in oklab, var(--color-background), transparent 82%) 70%,
+        color-mix(in oklab, var(--color-background), transparent 64%) 100%
+      );
+  }
+  .service-hero[data-variant="full-bleed"] .service-hero__inner {
+    z-index: 2;
+    min-block-size: auto;
+    padding-block-start: calc(var(--site-header-height) + var(--space-8));
+    padding-block-end: clamp(var(--space-8), 6vw, var(--space-20));
+  }
+  .service-hero[data-variant="full-bleed"] .service-hero__composition { min-block-size: auto; }
+  .service-hero[data-variant="full-bleed"] .service-hero__content { max-inline-size: 38rem; animation: service-hero-content-in var(--duration-cinematic) var(--ease-entrance) both; }
+  .service-hero[data-variant="full-bleed"] h1 { max-inline-size: 18ch; font-size: clamp(var(--text-h2), 5vw, var(--text-h1)); font-weight: var(--font-weight-regular); line-height: var(--line-height-tight); letter-spacing: var(--letter-spacing-tight); }
+  .service-hero[data-variant="full-bleed"] .service-hero__description { max-inline-size: 34rem; color: var(--color-text-primary); }
+  .service-hero[data-variant="full-bleed"] .service-hero__support { animation: service-hero-content-in var(--duration-cinematic) var(--ease-entrance) both; animation-delay: var(--duration-fast); }
+
+  @media (min-width: 48rem) {
+    .service-hero[data-variant="full-bleed"] .service-hero__media { object-position: 58% center; }
+  }
+  @media (min-width: 64rem) {
+    .service-hero[data-variant="full-bleed"] .service-hero__panel { min-block-size: 84vh; min-block-size: 84svh; }
+    .service-hero[data-variant="full-bleed"] .service-hero__media { object-position: center; }
+  }
+  @media (min-width: 80rem) {
+    .service-hero[data-variant="full-bleed"] .service-hero__composition--split { grid-template-columns: 7fr 5fr; gap: clamp(var(--space-8), 5vw, var(--space-20)); }
+    .service-hero[data-variant="full-bleed"] .service-hero__support { padding-block-start: 0; padding-inline-start: var(--space-5); border-block-start: 0; border-inline-start: 1px solid color-mix(in oklab, var(--color-text-primary), transparent 75%); }
+  }
   @media (max-width: 30rem) { .service-hero__actions { flex-direction: column; } .service-hero__actions > :global(a) { inline-size: 100%; justify-content: center; } }
+
+  @keyframes service-hero-image-settle { from { transform: scale(1.025); } to { transform: scale(1); } }
+  @keyframes service-hero-content-in { from { opacity: 0; transform: translateY(var(--space-3)); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .service-hero[data-variant="full-bleed"] .service-hero__media,
+    .service-hero[data-variant="full-bleed"] .service-hero__content,
+    .service-hero[data-variant="full-bleed"] .service-hero__support { animation: none; }
+  }
 </style>

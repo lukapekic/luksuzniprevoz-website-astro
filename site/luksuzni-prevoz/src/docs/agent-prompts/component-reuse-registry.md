@@ -357,6 +357,8 @@ Owns only:
 - visual direction `content-image | image-content`;
 - mobile stacking contract;
 - contextual media frame.
+- optional `mediaHeight="match-content"` desktop behavior for a content-defined
+  equal-height split; the default remains the reserved 4:3 media frame.
 
 Does not own:
 
@@ -429,6 +431,7 @@ Owns:
 - scroll snapping;
 - prev/next controls;
 - responsive item sizing;
+- optional current/total position counter when a locked consumer contract requires it;
 - instance isolation;
 - progressive enhancement;
 - reduced motion.
@@ -441,6 +444,10 @@ Known consumers/patterns:
 
 - fleet carousel mechanics;
 - review carousel mechanics.
+
+`showCounter` is opt-in and requires the consumer to provide the rendered
+`itemCount`; consumers that do not request it retain the existing controls-only
+presentation.
 
 Do not:
 
@@ -647,6 +654,11 @@ open dark
 5 / 7 desktop relationship
 heading + statement | divider-led standards rows/grid
 ```
+
+Airport uses the compatible `divided-panel` API as one contiguous outlined
+matrix: a complete perimeter plus responsive internal rules. This corrects the
+previous under-defined first group without changing the default service-page
+variant.
 
 Data:
 

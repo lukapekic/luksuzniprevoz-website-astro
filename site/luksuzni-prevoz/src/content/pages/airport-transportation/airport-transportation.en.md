@@ -12,7 +12,7 @@ seoTitle: "Belgrade Airport Transfer | Luxury Transportation"
 seoDescription: "Private Belgrade airport transportation with a professional chauffeur, coordinated arrival handling, flight tracking and manual booking confirmation."
 
 hero:
-  title: "Belgrade airport transportation with a professional chauffeur"
+  title: "Belgrade airport transportation"
   description: "Private transportation between the airport and your destination, with a professional chauffeur, carefully coordinated arrival handling and a vehicle suited to your journey."
   primaryCta:
     label: "Book airport transportation"

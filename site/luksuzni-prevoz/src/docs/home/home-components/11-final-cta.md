@@ -34,7 +34,7 @@ Image:
 - preferred front-facing S-Class;
 - blended/no hard edge;
 - not a separate bordered card.
-- the optional `integrated` media treatment fills the complete media region, adds a restrained light-neutral veil, and fades the media into the panel at its inline start.
+- the optional `integrated` media treatment fills the complete media region, adds a restrained light-neutral veil, and fades the media itself from transparent to opaque at its inline start so the panel's exact background shows through without a color seam.
 - the `integrated` treatment is opt-in so existing consumers remain unchanged.
 
 ## Tablet

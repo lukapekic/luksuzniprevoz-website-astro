@@ -48,6 +48,11 @@ contained image-backed Hero
 Used by Airport Transportation where its locked blueprint selects the cinematic
 full-viewport entrance and over-Hero header integration.
 
+The content grid is grounded in the lower optical region using the same
+composition principle as Homepage Hero. The scrim remains strongest behind
+copy and header chrome while preserving a visibly brighter central service
+subject.
+
 ## Shared content limits
 
 - exactly one H1;

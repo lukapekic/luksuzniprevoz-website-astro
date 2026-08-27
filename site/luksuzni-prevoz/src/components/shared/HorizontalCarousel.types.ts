@@ -49,6 +49,12 @@ export interface HorizontalCarouselProps {
    */
   itemSize?: CarouselItemSize;
 
+  /** Show a restrained current/total position counter beside the controls. */
+  showCounter?: boolean;
+
+  /** Total rendered items. Required by consumers that enable showCounter. */
+  itemCount?: number;
+
   /** Layout-only class passthrough (FND-UI-06). */
   class?: string;
 }

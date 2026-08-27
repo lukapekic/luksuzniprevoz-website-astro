@@ -81,6 +81,13 @@ export type OpenSplitRatio = "5-7" | "6-6" | "7-5";
  */
 export type OpenSplitMobileOrder = "content-first" | "image-first";
 
+/**
+ * Media block behavior. `ratio` keeps the default reserved 4:3 frame.
+ * `match-content` is an explicit desktop editorial variant: below desktop it
+ * remains 4:3, while at desktop the media stretches to the content-defined row.
+ */
+export type OpenSplitMediaHeight = "ratio" | "match-content";
+
 export interface OpenSplitSectionProps {
   /** Image — an imported ImageMetadata asset, rendered via astro:assets <Image>. */
   image: OpenSplitImage;
@@ -92,6 +99,8 @@ export interface OpenSplitSectionProps {
   ratio?: OpenSplitRatio;
   /** Mobile stacking order (default content-first). */
   mobileOrder?: OpenSplitMobileOrder;
+  /** Desktop media height behavior (default ratio). */
+  mediaHeight?: OpenSplitMediaHeight;
   /** Extend the media to the containing panel's block-end and inline-end edges. */
   mediaBleed?: boolean;
   /** Add the standard bottom-weighted dark media overlay. */

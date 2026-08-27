@@ -264,26 +264,38 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     object-position: 75% center;
   }
 
-  /* Homepage's opt-in integrated treatment. The first layer is a restrained
-     platinum veil; the second softens the block-start join on stacked layouts.
-     Media remains full-bleed inside its allocated region. */
-  .fcta-media--integrated::before,
+  /* Homepage's opt-in integrated treatment. Fade the complete media layer
+     from transparent to opaque so the panel's actual graphite gradient shows
+     through at the join. This avoids painting a flat surface color over the
+     photo, which cannot match the panel's diagonal gradient along the seam.
+     The intermediate alpha stops keep the transition broad and gradual. */
+  .fcta-media--integrated {
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in oklab, var(--color-background), transparent 78%) 18%,
+      color-mix(in oklab, var(--color-background), transparent 42%) 40%,
+      color-mix(in oklab, var(--color-background), transparent 12%) 58%,
+      var(--color-background) 72%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in oklab, var(--color-background), transparent 78%) 18%,
+      color-mix(in oklab, var(--color-background), transparent 42%) 40%,
+      color-mix(in oklab, var(--color-background), transparent 12%) 58%,
+      var(--color-background) 72%
+    );
+  }
+
+  /* Restrained platinum veil remains inside the same mask, so it also fades
+     away completely at the panel-to-media join instead of forming a stripe. */
   .fcta-media--integrated::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
     pointer-events: none;
-  }
-  .fcta-media--integrated::before {
-    background: linear-gradient(
-      180deg,
-      var(--color-surface-elevated) 0%,
-      color-mix(in oklab, var(--color-surface-elevated), transparent 45%) 24%,
-      transparent 58%
-    );
-  }
-  .fcta-media--integrated::after {
     background: color-mix(in oklab, var(--color-accent), transparent 90%);
   }
 
@@ -313,12 +325,22 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     .fcta-media {
       min-block-size: 0;
     }
-    .fcta-media--integrated::before {
-      background: linear-gradient(
+    .fcta-media--integrated {
+      -webkit-mask-image: linear-gradient(
         90deg,
-        var(--color-surface-elevated) 0%,
-        color-mix(in oklab, var(--color-surface-elevated), transparent 36%) 30%,
-        transparent 68%
+        transparent 0%,
+        color-mix(in oklab, var(--color-background), transparent 82%) 16%,
+        color-mix(in oklab, var(--color-background), transparent 52%) 36%,
+        color-mix(in oklab, var(--color-background), transparent 16%) 56%,
+        var(--color-background) 72%
+      );
+      mask-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in oklab, var(--color-background), transparent 82%) 16%,
+        color-mix(in oklab, var(--color-background), transparent 52%) 36%,
+        color-mix(in oklab, var(--color-background), transparent 16%) 56%,
+        var(--color-background) 72%
       );
     }
   }

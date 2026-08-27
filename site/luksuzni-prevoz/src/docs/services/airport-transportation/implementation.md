@@ -1,6 +1,6 @@
 # Airport Transportation — Implementation Contract v3
 
-Status: **Implementation-ready page packet — v3.2 wireframe-aligned**
+Status: **Implementation-ready page packet — v3.3 refinement-aligned**
 Route key: `airportTransportation`
 Page type: `service`
 Blueprint: `src/docs/services/airport-transportation/blueprint.md`
@@ -285,7 +285,7 @@ Do not import/copy `HomepageHero.astro` as the service Hero implementation.
 
 ---
 
-# 8A. Repo surface contract — v3.2
+# 8A. Repo surface contract — v3.3
 
 Use semantic roles from the configured active theme rather than version names
 or duplicated raw values.
@@ -300,8 +300,9 @@ Overview
 
 Arrival
   open-dark outer rhythm
-  → contained-dark architectural panel
-  → OpenSplit-like 7/5 composition
+  → no enclosing architectural panel
+  → OpenSplit-like image 5 / content 7 composition
+  → desktop media height matches the content row
   → contextual image uses card/media radius
 
 Booking
@@ -323,8 +324,9 @@ VehicleRecommendations
 
 ServiceStandards
   open-dark outer rhythm
-  → one contained-dark divided panel
-  → four groups separated by rules, not cards
+  → one contained-dark outlined matrix
+  → complete perimeter plus responsive internal rules
+  → four groups remain one architectural unit, not floating cards
   → do not render the entire operations.ts truth set
 
 FAQ
@@ -586,7 +588,9 @@ Use:
 AirportArrivalTimeline
 ```
 
-inside the 7/5 Arrival split.
+inside the open image 5 / content 7 Arrival split. On desktop, the media frame
+stretches to the content-defined row height; below desktop it returns to its
+reserved contextual-image ratio.
 
 Timeline steps are assembled from canonical capability state plus localized wording.
 
@@ -679,7 +683,9 @@ ServiceStandards
 variant="divided-panel"
 ```
 
-The Airport page must show four visible groups maximum inside one divided panel.
+The Airport page must show four visible groups maximum inside one outlined
+matrix. The matrix must include a complete perimeter so the first group is not
+visually under-defined.
 
 Recommended deterministic groups:
 
@@ -845,7 +851,7 @@ labels, 44px targets, logical reading order, and no horizontal overflow.
 
 ## Arrival
 
-Desktop media 7 / timeline 5.
+Desktop media 5 / timeline 7 with equal content-defined column heights.
 Mobile timeline first, media second.
 
 ## FBO
@@ -860,8 +866,8 @@ Carousel must not create page overflow.
 
 ## Standards
 
-4-across only if readable; otherwise 2×2 / 1-column, with dividers adapting to
-the row/column topology.
+4-across only if readable; otherwise 2×2 / 1-column, with a complete matrix
+perimeter and dividers adapting to the row/column topology.
 
 ---
 
@@ -975,7 +981,7 @@ Airport v3 is complete only when:
 - Private Aviation media fills its column with no padded image card;
 - Private Aviation copy/presentation reads as a premium VIP capability without security claims;
 - VehicleRecommendations is an accessible Homepage-mechanics carousel with full-image cards;
-- ServiceStandards shows four concise groups in one divided panel;
+- ServiceStandards shows four concise groups in one outlined matrix;
 - every section has a heading and no visible section-number eyebrows;
 - localized UI/content is complete in SR/EN/RU;
 - data/content separation remains intact;

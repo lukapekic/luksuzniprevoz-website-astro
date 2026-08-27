@@ -67,7 +67,7 @@ test.describe("Accessibility (axe-core)", () => {
 
   test("html has correct lang and dir attributes (sr)", async ({ page }) => {
     await page.goto(routePath("home", defaultLocale));
-    await expect(page.locator("html")).toHaveAttribute("lang", "sr");
+    await expect(page.locator("html")).toHaveAttribute("lang", "sr-Latn");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   });
 });

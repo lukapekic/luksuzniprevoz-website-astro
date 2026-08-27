@@ -19,12 +19,13 @@ heading + short statement | divider-led standard rows/grid
 
 Tablet/mobile stack naturally.
 
-## Airport divided-panel variant
+## Airport outlined-matrix variant
 
 Airport Transportation uses one contained panel with four concise standard
-groups separated by responsive dividers. It is visually related to the
-Homepage standards/trust treatment: one architectural unit, no floating card
-grid. Tablet uses a deliberate 2×2 topology; mobile uses one column.
+groups in a contiguous outlined matrix. A complete subtle perimeter and
+responsive internal dividers define every group, including the first, while
+preserving one architectural unit rather than four floating cards. Tablet uses
+a deliberate 2×2 topology; mobile uses one column.
 
 ## Content sources
 

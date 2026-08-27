@@ -1,6 +1,6 @@
 # Airport Transportation — Acceptance Contract v3
 
-Status: **Required completion gate — v3.2 wireframe-aligned**
+Status: **Required completion gate — v3.3 refinement-aligned**
 Route key: `airportTransportation`
 Page type: `service`
 
@@ -31,7 +31,7 @@ Exact visible order:
 - [ ] AirportBookingBlock mini form
 - [ ] Private Aviation / FBO
 - [ ] Homepage-mechanics VehicleRecommendations carousel
-- [ ] divided-panel ServiceStandards
+- [ ] outlined-matrix ServiceStandards
 - [ ] FAQ
 - [ ] FinalCTA
 
@@ -39,7 +39,7 @@ No unrelated sections were inserted.
 
 ## 2A. Repo surface / density gate
 
-- [ ] Hero is the only full-bleed content region.
+- [ ] Hero is the only viewport-edge media region.
 - [ ] Main regions use the semantic main-container role.
 - [ ] Major contained sections use the semantic section-radius role.
 - [ ] Media/cards use the semantic card-radius role where applicable.
@@ -47,11 +47,12 @@ No unrelated sections were inserted.
 - [ ] Overview is an open-dark standard section.
 - [ ] Booking is a compact contained light panel, not a full-width light band.
 - [ ] Booking controls are not nested inside an unnecessary second white card.
-- [ ] Arrival is a compact contained-dark panel.
+- [ ] Arrival is an open dark image 5 / content 7 split.
+- [ ] Arrival desktop media height follows and matches its content row.
 - [ ] FBO is an open feature split with portrait media.
 - [ ] FBO uses the local `private-flight.jpg` asset.
 - [ ] Vehicles are an open-dark carousel with full-image cards.
-- [ ] Standards use one contained divided panel and four groups only.
+- [ ] Standards use one contained outlined matrix and four groups only.
 - [ ] FAQ is a contained light reading panel.
 - [ ] FinalCTA remains the existing medium-height contained closer.
 - [ ] No giant empty sections.
@@ -72,6 +73,7 @@ No unrelated sections were inserted.
 - [ ] H1/CTA contrast passes WCAG AA.
 - [ ] no form, price, ratings, fleet specs, trust chips or logos inside Hero.
 - [ ] focal point reviewed at all target widths.
+- [ ] content is grounded in the lower optical region like the Homepage Hero.
 
 ## 4. Section heading system
 
@@ -146,6 +148,7 @@ No unrelated sections were inserted.
 - [ ] timeline meaning works without motion.
 - [ ] reduced motion honored.
 - [ ] mobile order is timeline/copy before media.
+- [ ] desktop image uses the smaller 5-column side and matches the content height.
 
 ## 9. Private Aviation / FBO
 
@@ -197,6 +200,7 @@ No unrelated sections were inserted.
 - [ ] no security/bodyguard claim.
 - [ ] no duplicated Arrival workflow.
 - [ ] responsive layout becomes 2×2 / single column when needed.
+- [ ] matrix perimeter defines the first group as clearly as the others.
 
 ## 12. FAQ
 
