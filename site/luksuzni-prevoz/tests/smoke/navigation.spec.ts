@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { defaultLocale, locales, routePath } from "../support/contracts";
 
 /**
  * Navigation smoke tests.
@@ -8,50 +9,48 @@ import { test, expect } from "@playwright/test";
  * Runs across all three engines (Chromium/Firefox/WebKit) via playwright.config.
  */
 test.describe("Navigation", () => {
-  test("home page loads for default locale (sr)", async ({ page }) => {
-    const response = await page.goto("/sr/");
-    expect(response?.status()).toBe(200);
-    await expect(page).toHaveTitle(/Reference Site/i);
+  for (const locale of locales) {
+    test(`home page loads for ${locale}`, async ({ page }) => {
+      const response = await page.goto(routePath("home", locale));
+      expect(response?.status()).toBe(200);
+      await expect(page).toHaveTitle(/\S+/);
+      await expect(page.locator("html")).toHaveAttribute("lang", locale);
+      await expect(page.locator("main h1")).toBeVisible();
+    });
+  }
+
+  test("FND-I18N-03: can navigate to airport page from route-map URL", async ({ page }) => {
+    await page.goto(routePath("home", defaultLocale));
+    const destination = routePath("airportTransportation", defaultLocale);
+    await page.locator("[data-site-header] [data-dropdown-trigger]").first().click();
+    await page
+      .locator(`[data-site-header] [data-dropdown-panel] a[href="${destination}"]:visible`)
+      .click();
+    await expect(page).toHaveURL(destination);
   });
 
-  test("home page loads for English locale", async ({ page }) => {
-    const response = await page.goto("/en/");
-    expect(response?.status()).toBe(200);
-    await expect(page).toHaveTitle(/Reference Site/i);
-  });
-
-  test("home page loads for Russian locale", async ({ page }) => {
-    const response = await page.goto("/ru/");
-    expect(response?.status()).toBe(200);
-    await expect(page).toHaveTitle(/Reference Site/i);
-  });
-
-  test("can navigate to airport page from home (sr)", async ({ page }) => {
-    await page.goto("/sr/");
-    // FND-I18N-03: internal link is resolved from the route map (/aerodrom/)
-    await page.click('a[href="/aerodrom/"]');
-    await expect(page).toHaveURL("/aerodrom/");
-  });
-
-  test("can navigate to about page from home (sr)", async ({ page }) => {
-    await page.goto("/sr/");
-    await page.click('a[href="/o-nama/"]');
-    await expect(page).toHaveURL("/o-nama/");
+  test("FND-I18N-03: can navigate to about page from route-map URL", async ({ page }) => {
+    await page.goto(routePath("home", defaultLocale));
+    const destination = routePath("about", defaultLocale);
+    await page.locator(`a[href="${destination}"]:visible`).first().click();
+    await expect(page).toHaveURL(destination);
   });
 
   test("language switcher changes locale", async ({ page }) => {
-    await page.goto("/sr/");
-    // The language switcher renders alternate-locale links with hreflang.
-    const enLink = page.locator('a[hreflang="en"]').first();
+    await page.goto(routePath("home", defaultLocale));
+    const desktopSwitcher = page.locator("[data-site-header] + noscript ~ [data-mobile-panel]");
+    await expect(desktopSwitcher).toBeHidden();
+    await page.locator("[data-site-header] .lang-switcher [data-dropdown-trigger]").click();
+    const enLink = page.locator('[data-site-header] a[hreflang="en"]:visible');
     await enLink.click();
     await expect(page).toHaveURL(/\/en\//);
   });
 
   test("404 page renders for unknown route", async ({ page }) => {
-    const response = await page.goto("/sr/nonexistent-page/");
+    const response = await page.goto("/nonexistent-page/");
     // Astro static output returns 404 for missing pages.
     expect(response?.status()).toBe(404);
-    await expect(page.locator("h1")).toContainText("404");
+    await expect(page.locator("main h1")).toContainText("404");
   });
 
   test("root serves the default-locale home page", async ({ page }) => {
@@ -66,9 +65,9 @@ test.describe("Navigation", () => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/sr/");
+    await page.goto(routePath("home", defaultLocale));
 
-    const mobileNav = page.locator("[data-nav-panel]");
+    const mobileNav = page.locator("[data-mobile-panel]");
     // Without JS, the panel is NOT hidden — its links are in the DOM and visible.
     await expect(mobileNav).toBeVisible();
     const navLinks = mobileNav.locator("a[href]");

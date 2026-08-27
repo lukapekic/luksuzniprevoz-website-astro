@@ -51,7 +51,7 @@ Before editing:
 7. Run:
 
 ```bash
-pnpm design:context site/luksuzni-prevoz
+pnpm design:context --target <exact-section-file> --surface <surface-id>
 ```
 
 Build from the blueprint, not from a screenshot or rejected implementation.
@@ -287,7 +287,7 @@ Affected consumers:
 Run:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
+pnpm verify:ui --target <exact-section-file> --surface <surface-id> --change page
 pnpm --filter @luksuzni-prevoz/site check
 ```
 

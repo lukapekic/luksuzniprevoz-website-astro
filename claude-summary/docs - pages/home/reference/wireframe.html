@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luxury Transportation — Homepage Wireframe v1.1</title>
+
+  <!--
+    Tailwind CSS v4 Play CDN — WIREFRAME/DEVELOPMENT ONLY.
+    Production uses the repository Vite + @tailwindcss/vite pipeline.
+    This file intentionally uses Tailwind v4 CSS-first syntax and static class strings.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-wf-page: #202224;
+      --color-wf-surface: #2b2e31;
+      --color-wf-elevated: #383c40;
+      --color-wf-light: #d9dad8;
+      --color-wf-line: #5d6267;
+      --color-wf-line-light: #a6a9ac;
+      --color-wf-text: #eeeeec;
+      --color-wf-muted: #aeb2b5;
+      --color-wf-dark-text: #26282a;
+      --color-wf-block: #777c81;
+      --color-wf-block-dark: #555a5f;
+
+      --radius-wf-control: 0.375rem;
+      --radius-wf-card: 0.75rem;
+      --radius-wf-section: 1rem;
+    }
+
+    @utility wf-shell {
+      width: min(calc(100% - (2 * clamp(1rem, 3vw, 2rem))), 80rem);
+      margin-inline: auto;
+    }
+
+    @utility wf-feature-space {
+      padding-block: clamp(5rem, 9vw, 8rem);
+    }
+
+    @utility wf-standard-space {
+      padding-block: clamp(4rem, 7vw, 6rem);
+    }
+
+    @utility wf-label {
+      margin: 0;
+      color: var(--color-wf-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @utility wf-line {
+      height: 0.75rem;
+      border-radius: 999px;
+      background: var(--color-wf-block-dark);
+    }
+
+    @utility wf-title-block {
+      height: 2.2rem;
+      border-radius: 0.35rem;
+      background: var(--color-wf-block);
+    }
+
+    @utility wf-button {
+      min-height: 2.75rem;
+      min-width: 9.5rem;
+      border: 1px solid var(--color-wf-line);
+      border-radius: var(--radius-wf-control);
+      background: var(--color-wf-block);
+    }
+
+    @utility wf-button-secondary {
+      min-height: 2.75rem;
+      min-width: 9.5rem;
+      border: 1px solid var(--color-wf-line);
+      border-radius: var(--radius-wf-control);
+      background: transparent;
+    }
+  </style>
+</head>
+
+<body class="m-0 overflow-x-hidden bg-wf-page text-wf-text antialiased">
+  <!--
+    HEADER OVER HERO:
+    sticky header remains in document flow, while -mb-20 lets the Hero begin at page top.
+    This is wireframe geometry only; production SiteHeader keeps its own verified implementation.
+  -->
+  <header class="sticky top-0 z-50 -mb-20 h-20 bg-transparent" aria-label="Wireframe header">
+    <div class="wf-shell grid h-full grid-cols-[auto_1fr_auto] items-center gap-4">
+      <div class="h-8 w-40 rounded bg-wf-block md:w-52" aria-label="Brand lockup placeholder"></div>
+
+      <div class="mx-auto hidden h-4 w-full max-w-md rounded-full bg-wf-block-dark lg:block" aria-label="Navigation placeholder"></div>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden h-8 w-16 rounded-wf-control border border-wf-line md:block" aria-label="Language switcher placeholder"></div>
+        <div class="h-10 w-24 rounded-wf-control bg-wf-block" aria-label="Book CTA placeholder"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO: FULL-BLEED MEDIA + CONTAINED 7/5 CONTENT -->
+    <section
+      class="relative min-h-[clamp(42rem,90svh,60rem)] overflow-hidden bg-wf-surface"
+      aria-label="Full-bleed Hero wireframe"
+    >
+      <div class="absolute inset-0 bg-[linear-gradient(110deg,#25282b_0%,#35393d_45%,#4a4f54_100%)]" aria-hidden="true"></div>
+      <div class="absolute inset-0 grid place-items-center border-y border-dashed border-wf-line/70 text-xs font-bold tracking-[0.08em] text-wf-muted" aria-hidden="true">
+        FULL-BLEED S-CLASS HERO IMAGE / MEDIA LAYER
+      </div>
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,22,24,.78)_0%,rgba(20,22,24,.46)_48%,rgba(20,22,24,.28)_100%)]" aria-hidden="true"></div>
+
+      <div class="wf-shell relative z-20 grid min-h-[clamp(42rem,90svh,60rem)] grid-cols-1 gap-10 pb-12 pt-32 md:pb-16 md:pt-36 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end lg:gap-[clamp(2rem,5vw,5rem)] lg:pb-[clamp(3rem,7vw,6rem)]">
+        <div class="grid max-w-[38rem] content-end gap-5 lg:self-center">
+          <p class="wf-label">Hero / H1 + support + 2 CTAs</p>
+          <div class="h-20 w-[92%] rounded-md bg-wf-block md:h-24 lg:h-28 lg:w-[88%]"></div>
+
+          <div class="grid max-w-[31rem] gap-2">
+            <div class="wf-line w-[85%]"></div>
+            <div class="wf-line w-[66%]"></div>
+          </div>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div class="wf-button w-full sm:w-auto" aria-label="Primary CTA placeholder"></div>
+            <div class="wf-button-secondary w-full sm:w-auto" aria-label="Secondary CTA placeholder"></div>
+          </div>
+        </div>
+
+        <div class="grid gap-2 border-t border-wf-line pt-5 lg:mb-4 lg:border-t-0 lg:border-s lg:ps-6">
+          <p class="wf-label">Short right-side support statement</p>
+          <div class="wf-line w-full"></div>
+          <div class="wf-line w-[75%]"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="wf-shell wf-feature-space" aria-label="Services wireframe">
+      <div class="mb-8 grid max-w-2xl gap-3">
+        <p class="wf-label">Main services</p>
+        <div class="wf-title-block w-[72%] max-w-md"></div>
+        <div class="wf-line w-[65%]"></div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:h-[clamp(28rem,40vw,34rem)] lg:grid-cols-[35fr_30fr_35fr]">
+        <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+          <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+            PRIVATE CHAUFFEUR IMAGE
+          </div>
+          <div class="absolute inset-x-5 bottom-5 grid gap-3">
+            <div class="h-7 w-[65%] rounded bg-wf-block"></div>
+            <div class="h-9 w-28 rounded-wf-control border border-wf-line"></div>
+          </div>
+        </article>
+
+        <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+          <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+            AIRPORT IMAGE
+          </div>
+          <div class="absolute inset-x-5 bottom-5 grid gap-3">
+            <div class="h-7 w-[65%] rounded bg-wf-block"></div>
+            <div class="h-9 w-28 rounded-wf-control border border-wf-line"></div>
+          </div>
+        </article>
+
+        <div class="grid gap-4 md:contents lg:grid lg:grid-rows-2">
+          <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+            <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+              BUSINESS IMAGE
+            </div>
+            <div class="absolute inset-x-5 bottom-5 grid gap-3">
+              <div class="h-6 w-[62%] rounded bg-wf-block"></div>
+              <div class="h-8 w-24 rounded-wf-control border border-wf-line"></div>
+            </div>
+          </article>
+
+          <article class="relative min-h-80 overflow-hidden rounded-wf-card bg-wf-surface lg:min-h-0">
+            <div class="absolute inset-0 grid place-items-start justify-center border border-dashed border-wf-line p-4 text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">
+              SPECIAL EVENTS IMAGE
+            </div>
+            <div class="absolute inset-x-5 bottom-5 grid gap-3">
+              <div class="h-6 w-[62%] rounded bg-wf-block"></div>
+              <div class="h-8 w-24 rounded-wf-control border border-wf-line"></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVATE CHAUFFEUR FEATURE -->
+    <section class="wf-shell wf-feature-space grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr] lg:gap-[clamp(2rem,5vw,5rem)]" aria-label="Private Chauffeur feature wireframe">
+      <div class="grid gap-4">
+        <p class="wf-label">Private Chauffeur / open split 5:7</p>
+        <div class="h-[3px] w-14 bg-wf-block"></div>
+        <div class="h-14 w-[82%] rounded bg-wf-block"></div>
+
+        <div class="grid gap-2">
+          <div class="wf-line w-full"></div>
+          <div class="wf-line w-[85%]"></div>
+          <div class="wf-line w-[66%]"></div>
+        </div>
+
+        <div class="mt-3 grid grid-cols-1 border-y border-wf-line sm:grid-cols-3">
+          <div class="grid gap-2 border-b border-wf-line py-4 sm:border-b-0 sm:border-e sm:pe-4">
+            <div class="h-3 w-[75%] rounded-full bg-wf-block"></div>
+            <div class="h-2 w-[55%] rounded-full bg-wf-block-dark"></div>
+          </div>
+          <div class="grid gap-2 border-b border-wf-line py-4 sm:border-b-0 sm:border-e sm:px-4">
+            <div class="h-3 w-[75%] rounded-full bg-wf-block"></div>
+            <div class="h-2 w-[55%] rounded-full bg-wf-block-dark"></div>
+          </div>
+          <div class="grid gap-2 py-4 sm:ps-4">
+            <div class="h-3 w-[75%] rounded-full bg-wf-block"></div>
+            <div class="h-2 w-[55%] rounded-full bg-wf-block-dark"></div>
+          </div>
+        </div>
+
+        <div class="wf-button-secondary mt-2 w-40"></div>
+      </div>
+
+      <div class="aspect-[4/3] w-full rounded-wf-card border border-dashed border-wf-line bg-wf-surface grid place-items-center text-xs font-bold tracking-[0.08em] text-wf-muted">
+        CONTEXT IMAGE 4:3
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="wf-shell wf-standard-space" aria-label="Trust wireframe">
+      <div class="mb-6 grid max-w-2xl gap-3">
+        <p class="wf-label">Why choose us</p>
+        <div class="wf-title-block w-[72%] max-w-md"></div>
+        <div class="wf-line w-[55%]"></div>
+      </div>
+
+      <div class="grid grid-cols-1 rounded-wf-section bg-wf-elevated p-5 md:grid-cols-2 lg:grid-cols-4 lg:p-8">
+        <div class="grid min-h-32 content-center gap-3 border-b border-wf-line py-5 md:border-e md:pe-6 lg:border-b-0">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
+        </div>
+        <div class="grid min-h-32 content-center gap-3 border-b border-wf-line py-5 md:ps-6 lg:border-b-0 lg:border-e lg:pe-6">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
+        </div>
+        <div class="grid min-h-32 content-center gap-3 border-b border-wf-line py-5 md:border-b-0 md:border-e md:pe-6 lg:ps-6">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
+        </div>
+        <div class="grid min-h-32 content-center gap-3 py-5 md:ps-6">
+          <div class="size-8 rounded-full border border-wf-line"></div>
+          <div class="h-4 w-[70%] rounded bg-wf-block"></div>
+          <div class="wf-line w-[85%]"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEET -->
+    <section class="wf-shell wf-feature-space" aria-label="Fleet wireframe">
+      <div class="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
+        <div class="grid max-w-2xl flex-1 gap-3">
+          <p class="wf-label">Fleet showcase</p>
+          <div class="wf-title-block w-[72%] max-w-md"></div>
+          <div class="wf-line w-[65%]"></div>
+        </div>
+        <div class="h-10 w-36 rounded-wf-control border border-wf-line"></div>
+      </div>
+
+      <div class="overflow-hidden">
+        <div class="flex w-max gap-4">
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+          <article class="w-[82vw] max-w-80 overflow-hidden rounded-wf-card bg-wf-surface md:w-[45vw] md:max-w-96 lg:w-[29vw]">
+            <div class="m-4 aspect-video rounded-lg border border-dashed border-wf-line grid place-items-center text-[0.68rem] font-bold tracking-[0.08em] text-wf-muted">VEHICLE PNG</div>
+            <div class="grid gap-3 px-4 pb-5"><div class="h-5 w-[68%] rounded bg-wf-block"></div><div class="h-3 w-[42%] rounded-full bg-wf-block-dark"></div><div class="flex gap-2"><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div><div class="h-7 w-16 rounded-wf-control border border-wf-line"></div></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="wf-shell wf-standard-space" aria-label="How It Works wireframe">
+      <div class="rounded-wf-section bg-wf-light p-6 text-wf-dark-text md:p-10 lg:p-16">
+        <div class="mb-10 grid max-w-2xl gap-3">
+          <p class="text-xs font-bold uppercase tracking-[0.08em] text-neutral-600">How it works / light contained</p>
+          <div class="h-9 w-[72%] max-w-md rounded bg-neutral-500"></div>
+          <div class="h-3 w-[55%] rounded-full bg-neutral-400"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3">
+          <div class="grid gap-3 border-b border-wf-line-light py-5 md:border-b-0 md:border-e md:pe-8">
+            <div class="text-3xl font-bold text-neutral-500">01</div>
+            <div class="h-5 w-[72%] rounded bg-neutral-500"></div>
+            <div class="h-3 w-full rounded-full bg-neutral-400"></div>
+            <div class="h-3 w-[75%] rounded-full bg-neutral-400"></div>
+          </div>
+          <div class="grid gap-3 border-b border-wf-line-light py-5 md:border-b-0 md:border-e md:px-8">
+            <div class="text-3xl font-bold text-neutral-500">02</div>
+            <div class="h-5 w-[72%] rounded bg-neutral-500"></div>
+            <div class="h-3 w-full rounded-full bg-neutral-400"></div>
+            <div class="h-3 w-[75%] rounded-full bg-neutral-400"></div>
+          </div>
+          <div class="grid gap-3 py-5 md:ps-8">
+            <div class="text-3xl font-bold text-neutral-500">03</div>
+            <div class="h-5 w-[72%] rounded bg-neutral-500"></div>
+            <div class="h-3 w-full rounded-full bg-neutral-400"></div>
+            <div class="h-3 w-[75%] rounded-full bg-neutral-400"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="wf-shell wf-standard-space" aria-label="Google Reviews wireframe">
+      <div class="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
+        <div class="grid max-w-2xl flex-1 gap-3">
+          <p class="wf-label">Google reviews</p>
+          <div class="wf-title-block w-[72%] max-w-md"></div>
+          <div class="wf-line w-[65%]"></div>
+        </div>
+        <div class="h-10 w-36 rounded-wf-control border border-wf-line"></div>
+      </div>
+
+      <div class="grid grid-flow-col auto-cols-[82%] gap-4 overflow-hidden md:auto-cols-[48%] lg:grid-flow-row lg:grid-cols-3 lg:auto-cols-auto">
+        <article class="grid min-h-56 content-start gap-4 rounded-wf-card bg-wf-elevated p-6"><div class="h-4 w-28 rounded-full border border-wf-line"></div><div class="grid gap-2"><div class="wf-line w-full"></div><div class="wf-line w-full"></div><div class="wf-line w-[85%]"></div></div><div class="mt-auto h-3 w-[42%] rounded-full bg-wf-block"></div></article>
+        <article class="grid min-h-56 content-start gap-4 rounded-wf-card bg-wf-elevated p-6"><div class="h-4 w-28 rounded-full border border-wf-line"></div><div class="grid gap-2"><div class="wf-line w-full"></div><div class="wf-line w-[90%]"></div><div class="wf-line w-[70%]"></div></div><div class="mt-auto h-3 w-[42%] rounded-full bg-wf-block"></div></article>
+        <article class="grid min-h-56 content-start gap-4 rounded-wf-card bg-wf-elevated p-6"><div class="h-4 w-28 rounded-full border border-wf-line"></div><div class="grid gap-2"><div class="wf-line w-full"></div><div class="wf-line w-[85%]"></div><div class="wf-line w-[60%]"></div></div><div class="mt-auto h-3 w-[42%] rounded-full bg-wf-block"></div></article>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="wf-shell wf-feature-space" aria-label="Final CTA wireframe">
+      <div class="grid overflow-hidden rounded-wf-section bg-[linear-gradient(110deg,#303336_0%,#383c40_60%,#41464b_100%)] lg:min-h-[22rem] lg:grid-cols-[62fr_38fr]">
+        <div class="grid content-center gap-5 p-6 md:p-10 lg:p-16">
+          <p class="wf-label">Final CTA / 60–65% content</p>
+          <div class="h-16 w-[82%] rounded bg-wf-block"></div>
+          <div class="grid gap-2"><div class="wf-line w-[85%]"></div><div class="wf-line w-[65%]"></div></div>
+
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <div class="wf-button w-full sm:w-auto"></div>
+            <div class="wf-button-secondary w-full sm:w-auto"></div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <div class="h-8 w-28 rounded-wf-control border border-wf-line"></div>
+            <div class="h-8 w-28 rounded-wf-control border border-wf-line"></div>
+          </div>
+        </div>
+
+        <div class="min-h-52 border-t border-dashed border-wf-line lg:m-6 lg:ms-0 lg:min-h-0 lg:rounded-wf-card lg:border" aria-label="Final CTA vehicle media placeholder">
+          <div class="grid h-full place-items-center text-xs font-bold tracking-[0.08em] text-wf-muted">FRONT S-CLASS / 35–40%</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-16 border-t border-wf-line/50 bg-[#191b1d]" aria-label="Footer wireframe">
+    <div class="wf-shell grid grid-cols-1 gap-8 py-12 md:grid-cols-[1.2fr_1fr_1fr] md:gap-10">
+      <div class="grid content-start gap-3"><p class="wf-label">Brand</p><div class="wf-line w-[75%]"></div><div class="wf-line w-full"></div><div class="wf-line w-[65%]"></div></div>
+      <div class="grid content-start gap-3"><p class="wf-label">Services / Company</p><div class="wf-line w-[65%]"></div><div class="wf-line w-[55%]"></div><div class="wf-line w-[75%]"></div></div>
+      <div class="grid content-start gap-3"><p class="wf-label">Contact / Hours</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[85%]"></div><div class="wf-line w-[65%]"></div></div>
+    </div>
+    <div class="wf-shell flex flex-col gap-3 border-t border-wf-line/50 py-5 md:flex-row md:justify-between">
+      <div class="wf-line w-48"></div>
+      <div class="wf-line w-48"></div>
+    </div>
+  </footer>
+</body>
+</html>

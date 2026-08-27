@@ -1,5 +1,6 @@
 ---
 name: design-critique
+source-of-truth: DESIGN.md
 description: Visual and UX judgment pass for hierarchy, composition, luxury positioning, clarity, rhythm, imagery, repetition, and conversion. Does not automatically fix code.
 ---
 

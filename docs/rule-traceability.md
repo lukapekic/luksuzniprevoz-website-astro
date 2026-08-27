@@ -5,97 +5,98 @@
 
 Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 
-| Rule | Enforcer | Source |
-|------|----------|--------|
-| FND-A11Y-01 | auto:script | docs, script, validator |
-| FND-A11Y-03 | auto:script | script |
-| FND-A11Y-04 | auto:script | script, validator |
-| FND-A11Y-05 | auto:script | docs, script |
-| FND-A11Y-08 | auto:script | script |
-| FND-A11Y-09 | review/guidance | docs |
-| FND-A11Y-10 | auto:script | docs, script |
-| FND-ARCH-01 | auto:lint | docs, eslint |
-| FND-ARCH-03 | auto:lint | docs, eslint, script |
-| FND-ARCH-06 | auto:script | script |
-| FND-CAP-01 | auto:script | validator |
-| FND-CAP-04 | auto:script | validator |
-| FND-CAP-05 | auto:script | script |
-| FND-COMPAT-03 | auto:script | docs, script |
-| FND-CSS-04 | auto:script | docs, script |
-| FND-DATA-03 | auto:script | validator |
-| FND-DATA-04 | auto:script | script, validator |
-| FND-DATA-05 | auto:script | script, validator |
-| FND-DATA-06 | auto:lint | docs, eslint |
-| FND-DATA-07 | auto:script | script, validator |
-| FND-DATA-08 | auto:script | docs, script, validator |
-| FND-DATA-09 | auto:script | docs, script, validator |
-| FND-DX-02 | auto:script | script |
-| FND-ENV-01 | review/guidance | docs |
-| FND-ENV-02 | auto:script | script |
-| FND-ENV-06 | auto:script | docs, script |
-| FND-ENV-07 | review/guidance | docs |
-| FND-ENV-08 | review/guidance | docs |
-| FND-ENV-09 | review/guidance | docs |
-| FND-ENV-10 | auto:script | docs, script |
-| FND-I18N-03 | auto:lint | docs, eslint, script |
-| FND-I18N-04 | auto:script | docs, script, validator |
-| FND-I18N-05 | auto:script | script, validator |
-| FND-I18N-06 | auto:script | script, validator |
-| FND-I18N-07 | auto:script | script, validator |
-| FND-I18N-08 | auto:lint | docs, eslint, script, validator |
-| FND-I18N-09 | auto:script | script, validator |
-| FND-I18N-10 | auto:script | script, validator |
-| FND-I18N-11 | auto:script | script, validator |
-| FND-I18N-12 | auto:script | script |
-| FND-I18N-13 | auto:lint | docs, eslint, script |
-| FND-IMG-01 | auto:lint | docs, eslint |
-| FND-IMG-08 | auto:lint | docs, eslint, script |
-| FND-LIFE-01 | auto:script | script, validator |
-| FND-LIFE-02 | auto:script | script, validator |
-| FND-LIFE-05 | review/guidance | docs |
-| FND-LIFE-06 | auto:script | validator |
-| FND-LIFE-07 | auto:script | script, validator |
-| FND-LIFE-08 | auto:script | validator |
-| FND-LIFE-09 | auto:script | script, validator |
-| FND-META-03 | auto:script | validator |
-| FND-META-07 | review/guidance | docs |
-| FND-META-08 | review/guidance | docs |
-| FND-META-09 | auto:script | docs, script |
-| FND-META-10 | auto:script | docs, script, validator |
-| FND-PERF-03 | review/guidance | docs |
-| FND-RESP-03 | auto:script | docs, script |
-| FND-RESP-06 | review/guidance | docs |
-| FND-SCALE-01 | auto:script | docs, script, validator |
-| FND-SCALE-02 | review/guidance | docs |
-| FND-SEO-01 | auto:script | script, validator |
-| FND-SEO-02 | auto:script | validator |
-| FND-SEO-03 | auto:script | script, validator |
-| FND-SEO-04 | auto:script | script, validator |
-| FND-SEO-05 | auto:script | script, validator |
-| FND-SEO-06 | auto:script | script |
-| FND-SEO-07 | auto:script | docs, script |
-| FND-SEO-08 | auto:script | docs, script, validator |
-| FND-SEO-09 | auto:script | script, validator |
-| FND-SEO-10 | auto:script | script, validator |
-| FND-SEO-11 | auto:script | docs, script, validator |
-| FND-SEO-12 | auto:script | script, validator |
-| FND-SEO-13 | auto:script | docs, script, validator |
-| FND-SEO-14 | auto:script | docs, script, validator |
-| FND-THEME-03 | auto:script | script, validator |
-| FND-THEME-06 | auto:script | script, validator |
-| FND-THEME-07 | auto:script | script |
-| FND-THEME-09 | auto:lint | docs, eslint |
-| FND-THEME-10 | review/guidance | docs |
-| FND-THEME-11 | auto:script | script |
-| FND-TYPE-01 | auto:script | script, validator |
-| FND-TYPE-02 | auto:script | docs, script |
-| FND-TYPE-03 | auto:script | script |
-| FND-TYPE-04 | auto:script | script |
-| FND-UI-03 | auto:script | script |
-| FND-UI-05 | auto:lint | docs, eslint |
-| FND-UI-06 | auto:lint | docs, eslint, script |
-| FND-UI-07 | auto:lint | docs, eslint |
-| FND-UI-08 | review/guidance | docs |
-| FND-UI-13 | auto:script | script |
+| Rule | Severity | Owner | Enforcer | Source |
+|------|----------|-------|----------|--------|
+| FND-A11Y-01 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-A11Y-03 | P1 | AGENTS.md | auto:test | docs, test |
+| FND-A11Y-04 | P1 | AGENTS.md | auto:script | docs, validator |
+| FND-A11Y-05 | P1 | AGENTS.md | auto:test | docs, test |
+| FND-A11Y-08 | P1 | AGENTS.md | review/guidance | docs |
+| FND-A11Y-09 | P1 | AGENTS.md | review/guidance | docs |
+| FND-A11Y-10 | P1 | AGENTS.md | review/guidance | docs |
+| FND-ARCH-01 | P0 | AGENTS.md | auto:lint | docs, eslint |
+| FND-ARCH-03 | P0 | AGENTS.md | auto:lint | docs, eslint |
+| FND-ARCH-06 | P0 | AGENTS.md | auto:test | docs, test |
+| FND-CAP-01 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-CAP-04 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-CAP-05 | P0 | AGENTS.md | review/guidance | docs |
+| FND-COMPAT-03 | P1 | AGENTS.md | review/guidance | docs |
+| FND-CSS-04 | P1 | AGENTS.md | auto:test | docs, test |
+| FND-DATA-03 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-DATA-04 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-DATA-05 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-DATA-06 | P0 | AGENTS.md | auto:lint | docs, eslint |
+| FND-DATA-07 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-DATA-08 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-DATA-09 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-DX-02 | P2 | AGENTS.md | review/guidance | docs |
+| FND-ENV-01 | P0 | AGENTS.md | review/guidance | docs |
+| FND-ENV-02 | P0 | AGENTS.md | review/guidance | docs |
+| FND-ENV-06 | P0 | AGENTS.md | review/guidance | docs |
+| FND-ENV-07 | P0 | AGENTS.md | review/guidance | docs |
+| FND-ENV-08 | P0 | AGENTS.md | review/guidance | docs |
+| FND-ENV-09 | P0 | AGENTS.md | review/guidance | docs |
+| FND-ENV-10 | P0 | AGENTS.md | review/guidance | docs |
+| FND-I18N-03 | P1 | AGENTS.md | auto:lint | docs, eslint, test |
+| FND-I18N-04 | P1 | AGENTS.md | auto:script | docs, validator |
+| FND-I18N-05 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-I18N-06 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-I18N-07 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-I18N-08 | P1 | AGENTS.md | auto:lint | docs, eslint, validator |
+| FND-I18N-09 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-I18N-10 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-I18N-11 | P1 | AGENTS.md | auto:script | docs, validator |
+| FND-I18N-12 | P1 | AGENTS.md | review/guidance | docs |
+| FND-I18N-13 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-IMG-01 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-IMG-08 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-LIFE-01 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-LIFE-02 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-LIFE-05 | P0 | AGENTS.md | review/guidance | docs |
+| FND-LIFE-06 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-LIFE-07 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-LIFE-08 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-LIFE-09 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-META-03 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-META-07 | P0 | AGENTS.md | review/guidance | docs |
+| FND-META-08 | P0 | AGENTS.md | review/guidance | docs |
+| FND-META-09 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-META-10 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-PERF-03 | P1 | AGENTS.md | review/guidance | docs |
+| FND-RESP-03 | P1 | AGENTS.md | auto:test | docs, test |
+| FND-RESP-06 | P1 | AGENTS.md | review/guidance | docs |
+| FND-SCALE-01 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-SCALE-02 | P0 | AGENTS.md | review/guidance | docs |
+| FND-SEO-01 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-SEO-02 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-03 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-04 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-SEO-05 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-06 | P0 | AGENTS.md | review/guidance | docs |
+| FND-SEO-07 | P0 | AGENTS.md | review/guidance | docs |
+| FND-SEO-08 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-09 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-10 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-11 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-12 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-13 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-SEO-14 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-THEME-03 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-THEME-06 | P1 | AGENTS.md | auto:script | docs, validator |
+| FND-THEME-07 | P1 | AGENTS.md | auto:test | docs, test |
+| FND-THEME-08 | P1 | AGENTS.md | auto:test | test |
+| FND-THEME-09 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-THEME-10 | P1 | AGENTS.md | review/guidance | docs |
+| FND-THEME-11 | P1 | AGENTS.md | review/guidance | docs |
+| FND-TYPE-01 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-TYPE-02 | P0 | AGENTS.md | review/guidance | docs |
+| FND-TYPE-03 | P0 | AGENTS.md | review/guidance | docs |
+| FND-TYPE-04 | P0 | AGENTS.md | review/guidance | docs |
+| FND-UI-03 | P1 | AGENTS.md | review/guidance | docs |
+| FND-UI-05 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-UI-06 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-UI-07 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-UI-08 | P1 | AGENTS.md | review/guidance | docs |
+| FND-UI-13 | P1 | AGENTS.md | review/guidance | docs |
 
-**90 rules** cited across the codebase.
+**91 rules** cited across the codebase.

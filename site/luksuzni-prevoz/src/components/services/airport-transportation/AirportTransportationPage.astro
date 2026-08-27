@@ -1,0 +1,74 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import ServiceOverview from "../shared/ServiceOverview.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import ServiceStandards from "../shared/ServiceStandards.astro";
+import AirportBookingBlock from "./AirportBookingBlock.astro";
+import AirportArrivalTimeline from "./AirportArrivalTimeline.astro";
+import OpenSplitSection from "../../shared/OpenSplitSection.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import { getService } from "../../../data/services.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { getPricing } from "../../../data/pricing.ts";
+import { operations } from "../../../data/operations.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref } from "../../../lib/cta.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/hero.webp";
+import arrivalImage from "../../../assets/rear-seat.webp";
+import aviationImage from "../../../assets/private-flight.jpg";
+import finalCtaImage from "../../../assets/final-cta-bg.webp";
+
+interface Props { routeKey:"airportTransportation"; locale:LocaleCode; content:CollectionEntry<"pages"> }
+const { routeKey,locale,content }=Astro.props;
+if(routeKey!=="airportTransportation"||content.data.pageType!=="service"||content.data.routeKey!==routeKey)throw new Error("AirportTransportationPage received incompatible data.");
+const data=content.data;if(!data.hero||!data.vehicleRecommendations||!data.faq)throw new Error(`Airport content incomplete for ${locale}.`);
+const service=getService(routeKey);const section=(key:string)=>{const value=data.sections.find(item=>item.key===key);if(!value)throw new Error(`Missing Airport section ${key}.`);return value};
+const booking=section("booking"),arrival=section("arrivalHandling"),aviation=section("privateAviationFbo");
+const ui=(key:string)=>t(key as UiStringKey,locale);const fill=(value:string,token:string,n:number)=>value.replace(`{${token}}`,String(n));
+const overviewGroups=[
+  service.standardStops==="point-to-point"&&service.oneWay&&service.return&&{key:"transfer",icon:"transfer" as const,title:ui("airport.overview.transfer.title"),text:ui("airport.overview.transfer.text")},
+  service.flightTracking&&service.meetAndGreet&&service.standardWaitingMinutesAfterLanding!==undefined&&{key:"arrival",icon:"arrival" as const,title:ui("airport.overview.arrival.title"),text:fill(ui("airport.overview.arrival.text"),"minutes",service.standardWaitingMinutesAfterLanding)},
+  service.luggageAssistance&&service.nameSign&&{key:"assistance",icon:"assistance" as const,title:ui("airport.overview.assistance.title"),text:ui("airport.overview.assistance.text")},
+  service.commercialAviation&&service.privateAviation&&service.fboCoordination&&{key:"aviation",icon:"aviation" as const,title:ui("airport.overview.aviation.title"),text:ui("airport.overview.aviation.text")},
+].filter((item):item is Exclude<typeof item,false|undefined>=>Boolean(item));
+const timelineSteps=[service.flightTracking&&{title:ui("airport.timeline.flight.title"),text:ui("airport.timeline.flight.text")},service.meetAndGreet&&{title:ui("airport.timeline.meeting.title"),text:ui("airport.timeline.meeting.text")},service.luggageAssistance&&{title:ui("airport.timeline.luggage.title"),text:ui("airport.timeline.luggage.text")},service.standardStops==="point-to-point"&&{title:ui("airport.timeline.destination.title"),text:ui("airport.timeline.destination.text")}].filter((item):item is Exclude<typeof item,false|undefined>=>Boolean(item));
+const standardGroups=[
+ {title:ui("serviceStandards.group.chauffeur"),items:[ui("operations.chauffeur.professionalDress"),ui("operations.chauffeur.englishSpeaking"),fill(ui("operations.chauffeur.minimumLicenseYears"),"years",operations.chauffeurs.minimumLicenseYears)]},
+ {title:ui("serviceStandards.group.vehicle"),items:[ui("operations.vehicle.cleanliness"),ui("operations.vehicle.maintenance"),ui("operations.vehicle.preTripInspection")]},
+ {title:ui("serviceStandards.group.care"),items:[ui("operations.service.doorOpening"),ui("operations.service.luggageAssistance"),ui("operations.service.passengerInsurance")]},
+ {title:ui("serviceStandards.group.comfort"),items:[ui("operations.service.climateControl"),ui("operations.service.bottledWater"),`${ui("operations.service.wifi")} · ${ui("operations.service.chargers")}`]},
+];
+const primaryAction={label:data.hero.primaryCta.label,href:resolveCtaHref(data.hero.primaryCta,locale)};const secondaryAction=data.hero.secondaryCta?{label:data.hero.secondaryCta.label,href:resolveCtaHref(data.hero.secondaryCta,locale)}:undefined;
+const finalPrimary={label:data.finalCta.primaryCta.label,href:resolveCtaHref(data.finalCta.primaryCta,locale)};const finalSecondary=data.finalCta.secondaryCta?{label:data.finalCta.secondaryCta.label,href:resolveCtaHref(data.finalCta.secondaryCta,locale)}:undefined;
+const contacts={phone:isVerified(contact.phone)?contact.phone.value??undefined:undefined,email:isVerified(contact.email)?contact.email.value??undefined:undefined};
+const seo=buildPageSeo({routeKey,locale,title:data.seoTitle,description:data.seoDescription,noindex:data.noindex??false,structuredData:[buildFaqPage(data.faq.items)]});
+const classes={sedan:ui("fleet.class.sedan"),van:ui("fleet.class.van"),minivan:ui("fleet.class.minivan"),bus:ui("fleet.class.bus")};
+const vehicleRecommendations=data.vehicleRecommendations.vehicleIds.map((id)=>{const vehicle=getVehicle(id);return{vehicle,pricing:getPricing(vehicle.id)}});
+---
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero>
+  <ServiceHero title={data.hero.title} description={data.hero.description} supportText={data.hero.supportText} primaryAction={primaryAction} secondaryAction={secondaryAction} locale={locale} variant="full-bleed" image={heroImage} imageAlt="" />
+  <ServiceOverview heading={data.overview.heading.title} intro={data.overview.heading.intro} body={data.overview.body} groups={overviewGroups} index="01" label={ui("airport.section.overview")} variant="grouped-icons" surface="open-dark" />
+  <Section spacing="compact" surface="contained-dark" aria-labelledby="arrival-heading"><PageContainer><OpenSplitSection image={arrivalImage} imageAlt="" layout="image-content" ratio="7-5" mobileOrder="content-first"><div slot="content" class="split-copy"><p class="section-index"><b>02</b><span aria-hidden="true"></span>{ui("airport.section.arrival")}</p><SectionHeading id="arrival-heading" heading={arrival.heading.title} description={arrival.heading.intro} />{arrival.body&&<p class="body-copy">{arrival.body}</p>}<AirportArrivalTimeline steps={timelineSteps} /></div></OpenSplitSection></PageContainer></Section>
+  <AirportBookingBlock heading={booking.heading.title} intro={booking.heading.intro} body={booking.body} index="03" label={ui("airport.section.booking")} flightLabel={ui("airport.booking.form.flightNumberOptional")} dateLabel={ui("airport.booking.form.date")} timeLabel={ui("airport.booking.form.time")} continueLabel={ui("airport.booking.form.continue")} handoffNote={ui("airport.booking.form.handoffNote")} confirmationNote={ui("airport.booking.form.pendingConfirmation")} action={primaryAction.href} secondaryAction={secondaryAction} locale={locale} />
+  {service.privateAviation&&service.commercialAviation&&service.fboCoordination&&<Section spacing="feature" surface="open-dark" aria-labelledby="aviation-heading"><PageContainer><div class="fbo-feature md:landscape:grid-cols-[7fr_5fr] md:landscape:gap-[var(--column-gap-tablet)] lg:grid-cols-[7fr_5fr] lg:gap-[var(--column-gap-desktop)]"><div class="fbo-copy"><p class="section-index"><b>04</b><span aria-hidden="true"></span>{ui("airport.section.privateAviation")}</p><SectionHeading id="aviation-heading" heading={aviation.heading.title} description={aviation.heading.intro} />{aviation.body&&<p class="body-copy">{aviation.body}</p>}<div class="vip-list">{aviation.items?.map(item=><div><strong>{item.title}</strong><span>{item.text}</span></div>)}</div>{aviation.relatedRouteKeys?.includes("vipTransportation")&&<Link to={"vipTransportation" as RouteKey} locale={locale}>{aviation.items?.at(-1)?.title}</Link>}</div><Image class="fbo-media" src={aviationImage} alt="" role="presentation" loading="lazy" /></div></PageContainer></Section>}
+  <VehicleRecommendations heading={data.vehicleRecommendations.heading.title} intro={data.vehicleRecommendations.heading.intro} recommendations={vehicleRecommendations} cta={{label:data.vehicleRecommendations.cta.label,to:data.vehicleRecommendations.cta.target.type==="route"?data.vehicleRecommendations.cta.target.routeKey as RouteKey:"fleet"}} locale={locale} passengerLabel={ui("fleet.passengers")} classLabels={classes} fareLabel={ui("airport.fare.label")} farePendingLabel={ui("airport.fare.pending")} ariaLabel={ui("fleet.carousel.ariaLabel")} previousLabel={ui("fleet.carousel.previous")} nextLabel={ui("fleet.carousel.next")} index="05" label={ui("airport.section.vehicles")} />
+  <ServiceStandards groups={standardGroups} label={ui("airport.section.standards")} variant="divided-panel" />
+  <Section spacing="compact" surface="light" aria-labelledby="faq-heading"><ReadingContainer><p class="section-index section-index--light"><b>07</b><span aria-hidden="true"></span>{ui("airport.section.faq")}</p><SectionHeading id="faq-heading" heading={data.faq.heading} on="light" /><FAQ items={data.faq.items} on="light" class="faq-spacing" /></ReadingContainer></Section>
+  <FinalCTA heading={data.finalCta.heading} description={data.finalCta.text} primaryAction={finalPrimary} secondaryAction={finalSecondary} contacts={contacts} image={finalCtaImage} imageAlt="" imageFit="cover" locale={locale} />
+</BaseLayout>
+<style>
+  .section-index{display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);color:var(--color-text-muted)}.section-index b{color:var(--color-accent)}.section-index>span{inline-size:var(--space-10);block-size:1px;background:var(--color-accent)}.section-index--light{color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%)}.section-index--light b{color:var(--color-focus-light)}.section-index--light>span{background:var(--color-focus-light)}.body-copy{max-inline-size:var(--measure-body);margin-block-start:var(--space-5);font-family:var(--font-body);line-height:var(--line-height-body);color:var(--color-text-muted)}.fbo-feature{display:grid;gap:var(--space-8);align-items:center}.fbo-media{inline-size:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-card)}.vip-list{margin-block:var(--space-6);border-block-start:1px solid var(--color-divider)}.vip-list>div{display:grid;gap:var(--space-2);padding-block:var(--space-4);border-block-end:1px solid var(--color-divider)}.vip-list strong{font-family:var(--font-body)}.vip-list span{font-family:var(--font-body);font-size:var(--text-sm);line-height:var(--line-height-body);color:var(--color-text-muted)}.faq-spacing{margin-block-start:var(--space-8)}
+</style>

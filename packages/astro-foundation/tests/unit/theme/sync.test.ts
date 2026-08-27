@@ -52,7 +52,7 @@ const minimalTokens: ThemeTokens = {
 };
 
 describe("generateThemeCss", () => {
-  it("generates valid CSS starting with @layer theme", () => {
+  it("FND-CSS-04/FND-THEME-07: generates deterministic CSS starting with @layer theme", () => {
     const css = generateThemeCss(minimalTokens);
     expect(css).toContain("@layer theme");
   });

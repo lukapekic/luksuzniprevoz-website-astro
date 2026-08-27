@@ -41,7 +41,7 @@ export interface TrustStripProps {
    *  already agree on 4. */
   items: TrustItem[];
   /** Surface the panel sits on — drives panel bg, text, and divider color
-   *  (default "dark" → elevated dark panel; "light" → warm cream panel with
+   *  (default "dark" → elevated dark panel; "light" → light-neutral panel with
    *  on-light text + color-mix divider, mirroring <FAQ>/<SectionHeading>). */
   on?: "dark" | "light";
   /** Layout-only class passthrough (FND-UI-06). */

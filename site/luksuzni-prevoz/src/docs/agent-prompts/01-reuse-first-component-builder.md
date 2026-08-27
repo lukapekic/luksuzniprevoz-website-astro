@@ -64,7 +64,7 @@ Before writing component code:
 8. Run:
 
 ```bash
-pnpm design:context site/luksuzni-prevoz
+pnpm design:context --target <exact-component-file> --surface <surface-id>
 ```
 
 Do not infer component behavior from a filename or screenshot.
@@ -312,7 +312,7 @@ If a shared component truly blocks the task, report the blocker rather than sile
 Run the smallest relevant set, including at minimum:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
+pnpm verify:ui --target <exact-component-file> --surface <surface-id> --change component
 pnpm --filter @luksuzni-prevoz/site check
 ```
 

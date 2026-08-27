@@ -1,5 +1,6 @@
 ---
 name: design-audit
+source-of-truth: AGENTS.md
 description: Technical, measurable UI audit for theming, accessibility, responsive behavior, implementation integrity, and performance. Reports issues; does not redesign.
 ---
 

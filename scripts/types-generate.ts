@@ -16,7 +16,9 @@ import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
 
-const targetArg = process.argv[2];
+const cliArgs = process.argv.slice(2);
+const check = cliArgs.includes("--check");
+const targetArg = cliArgs.find((arg) => !arg.startsWith("--"));
 const resolvedTarget = targetArg
   ? resolve(MONO_ROOT, targetArg)
   : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
@@ -131,13 +133,12 @@ if (uiKeys.size === 0) {
 // surface-elevated), and characters illegal in a CSS ident (e.g. "." in "0.5")
 // become "_" (→ "0_5"). Must stay in lockstep with sync.ts.
 const toKebab = (key: string): string =>
-  key.replace(/([a-z0-9])([A-Z])/g, "$1-$2").replace(/[^a-zA-Z0-9_-]/g, "_").toLowerCase();
+  key
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/[^a-zA-Z0-9_-]/g, "_")
+    .toLowerCase();
 const tokenNames = new Set<string>();
-const themeDir = resolve(
-  resolvedTarget,
-  "src/theme/versions",
-  config.activeThemeVersion,
-);
+const themeDir = resolve(resolvedTarget, "src/theme/versions", config.activeThemeVersion);
 if (!existsSync(themeDir)) {
   issues.push({
     ruleId: "FND-TYPE-01",
@@ -346,10 +347,22 @@ export type RouteLocales = ${routeLocales};
 export type TokenName = ${tokenNameUnion || "never"};
 `;
 
-// Write to the package's generated directory
 const outDir = resolve(MONO_ROOT, "packages", "astro-foundation", "src", "generated");
-mkdirSync(outDir, { recursive: true });
 const outFile = join(outDir, "types.ts");
+if (check) {
+  const current = existsSync(outFile) ? readFileSync(outFile, "utf-8") : null;
+  if (current !== output) {
+    console.error(
+      `✖ Generated types are missing or stale: ${outFile}\n  Run: pnpm types:generate${targetArg ? ` ${targetArg}` : ""}`,
+    );
+    process.exit(1);
+  }
+  console.log(`✓ types:generate --check — ${outFile} is current`);
+  process.exit(0);
+}
+
+// Write to the package's generated directory
+mkdirSync(outDir, { recursive: true });
 writeFileSync(outFile, output, "utf-8");
 
 if (issues.length > 0) {

@@ -1,5 +1,6 @@
 ---
 name: design-polish
+source-of-truth: DESIGN.md
 description: Final bounded visual refinement pass after implementation, audit, and critique. Preserves the approved design world.
 ---
 

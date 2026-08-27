@@ -84,7 +84,7 @@ Inspect the final implementation and actual component APIs.
 Run:
 
 ```bash
-pnpm design:context site/luksuzni-prevoz
+pnpm design:context --target <exact-reviewed-file> --surface <surface-id>
 ```
 
 ---
@@ -166,7 +166,7 @@ Verify:
 - site theme selection still comes only from `foundation.config.ts`;
 - no manual generated-theme edits;
 - no raw palette/radius/breakpoint system introduced;
-- no Theme V1/Fraunces/gold-first drift;
+- no legacy Theme V1/Fraunces/gold-first drift;
 - Inter Tight/Manrope semantic roles remain intact;
 - premium effect comes from hierarchy/composition/imagery rather than effects;
 - no cardification/SaaS dashboard drift;
@@ -246,8 +246,7 @@ For a major completed service page, run:
 ```bash
 pnpm design:sync:check
 pnpm design:doctor
-pnpm design:detect site/luksuzni-prevoz
-pnpm check
+pnpm verify:ui --target <exact-reviewed-file> --surface <surface-id> --change page
 pnpm --filter @luksuzni-prevoz/site build
 ```
 

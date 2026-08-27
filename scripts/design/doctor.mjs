@@ -21,12 +21,6 @@ const argv = process.argv.slice(2);
 const jsonMode = argv.includes("--json");
 const soft = argv.includes("--soft");
 
-function findDirectThemeLiteral(text) {
-  const match = text.match(/\bactiveThemeVersion\s*:\s*["'](version-\d+)["']/);
-
-  return match?.[1] ?? null;
-}
-
 function scanLegacyDocs(root, config) {
   const findings = [];
   const markers = [
@@ -132,31 +126,15 @@ try {
   }
 
   if (active) {
-    for (const sourceRel of config.theme.activeThemeSources || []) {
-      const source = path.join(root, sourceRel);
-      if (!fs.existsSync(source)) {
-        findings.push(makeFinding({
-          ruleId: "doctor/theme-selector-missing",
-          severity: "P1",
-          file: sourceRel,
-          line: 1,
-          message: "Configured active-theme source is missing.",
-          recommendation: "Update .design/config.json or restore the selector."
-        }));
-        continue;
-      }
-      const text = readText(source);
-      const literal = findDirectThemeLiteral(text);
-      if (literal && literal !== active.directory) {
-        findings.push(makeFinding({
-          ruleId: "doctor/theme-selector-mismatch",
-          severity: "P0",
-          file: sourceRel,
-          line: lineNumber(text, text.indexOf(literal)),
-          message: `Selector hard-codes ${literal}, but the active manifest is ${active.directory}.`,
-          recommendation: `Set the selector to ${active.directory} or make it resolve from the active manifest without a legacy fallback.`
-        }));
-      }
+    if (config.theme.activeManifestStatus && active.manifest.status !== config.theme.activeManifestStatus) {
+      findings.push(makeFinding({
+        ruleId: "doctor/active-theme-status",
+        severity: "P1",
+        file: rel(root, active.manifestPath),
+        line: 1,
+        message: `The configured theme manifest status is "${active.manifest.status}", expected "${config.theme.activeManifestStatus}".`,
+        recommendation: "Correct the configured theme manifest status; do not select another theme as a fallback."
+      }));
     }
 
     const generatedCss = path.join(root, config.theme.generatedCss);

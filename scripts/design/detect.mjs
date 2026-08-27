@@ -6,8 +6,10 @@ import {
   formatFinding,
   loadConfig,
   loadSystem,
+  parseDesignArgs,
+  resolveSurface,
   sortFindings,
-  targetFiles
+  targetFiles,
 } from "./lib.mjs";
 
 const ruleFiles = [
@@ -17,7 +19,8 @@ const ruleFiles = [
   "typography.mjs",
   "components.mjs",
   "routing.mjs",
-  "accessibility.mjs"
+  "accessibility.mjs",
+  "layout.mjs",
 ];
 
 export async function runDetector({ root, config, files, system }) {
@@ -36,21 +39,33 @@ async function main() {
   const jsonMode = argv.includes("--json");
   const strict = argv.includes("--strict");
   const soft = argv.includes("--soft");
-  const targetArg = argv.find((arg) => !arg.startsWith("--")) ?? null;
 
   try {
+    const parsed = parseDesignArgs(argv);
     const root = findRepoRoot();
     const config = loadConfig(root);
-    const files = targetFiles(root, config, targetArg);
+    if (parsed.target)
+      resolveSurface(root, config, {
+        target: parsed.target,
+        surface: parsed.surface,
+        required: true,
+      });
+    const files = targetFiles(root, config, parsed.target);
     const system = loadSystem(root);
     const findings = await runDetector({ root, config, files, system });
 
     if (jsonMode) {
-      process.stdout.write(JSON.stringify({ filesScanned: files.length, findings }, null, 2) + "\n");
+      process.stdout.write(
+        JSON.stringify({ filesScanned: files.length, findings }, null, 2) + "\n",
+      );
     } else if (!findings.length) {
-      console.log(`Design detector: clean (${files.length} file${files.length === 1 ? "" : "s"} scanned).`);
+      console.log(
+        `Design detector: clean (${files.length} file${files.length === 1 ? "" : "s"} scanned).`,
+      );
     } else {
-      console.log(`Design detector: ${findings.length} finding${findings.length === 1 ? "" : "s"} in ${files.length} file${files.length === 1 ? "" : "s"}.\n`);
+      console.log(
+        `Design detector: ${findings.length} finding${findings.length === 1 ? "" : "s"} in ${files.length} file${files.length === 1 ? "" : "s"}.\n`,
+      );
       findings.forEach((finding, index) => {
         if (index) console.log("");
         console.log(formatFinding(finding));
@@ -58,7 +73,9 @@ async function main() {
     }
 
     if (soft) process.exit(0);
-    const fails = strict ? findings.length > 0 : findings.some((f) => f.severity === "P0" || f.severity === "P1");
+    const fails = strict
+      ? findings.length > 0
+      : findings.some((f) => f.severity === "P0" || f.severity === "P1");
     process.exit(fails ? 1 : 0);
   } catch (error) {
     console.error(`[design:detect] ${error.message}`);
@@ -66,5 +83,6 @@ async function main() {
   }
 }
 
-const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+const isMain =
+  process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (isMain) await main();

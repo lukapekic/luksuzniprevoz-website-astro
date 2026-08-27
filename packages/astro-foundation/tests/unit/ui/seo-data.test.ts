@@ -24,7 +24,7 @@ describe("composeTitle", () => {
   });
 
   it("handles empty brand", () => {
-    expect(composeTitle("Home", "")).toBe("Home | ");
+    expect(composeTitle("Home", "")).toBe("Home");
   });
 
   it("handles title with special characters", () => {

@@ -1,0 +1,42 @@
+{
+  "container": {
+    "main": "80rem",
+    "reading": "57.5rem",
+    "narrow": "46rem"
+  },
+
+  "gutters": {
+    "page": "clamp(1rem, 3vw, 2rem)",
+    "section": "clamp(1rem, 3vw, 2rem)"
+  },
+
+  "grid": {
+    "mobile": 4,
+    "tablet": 8,
+    "desktop": 12
+  },
+
+  "columnGap": {
+    "mobile": "1rem",
+    "tablet": "1.5rem",
+    "desktop": "2rem"
+  },
+
+  "breakpoints": {
+    "sm": "40rem",
+    "md": "48rem",
+    "lg": "64rem",
+    "xl": "80rem",
+    "2xl": "96rem"
+  },
+
+  "approvedDesktopCompositions": [
+    "12",
+    "6/6",
+    "5/7",
+    "7/5",
+    "4/4/4",
+    "8/4",
+    "3/3/3/3"
+  ]
+}

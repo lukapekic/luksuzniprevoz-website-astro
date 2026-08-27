@@ -7,7 +7,7 @@ export const rule = {
   severity: "P2",
   scan({ root, files }) {
     const findings = [];
-    const rawFont = /font-family\s*:\s*([^;]+);/gi;
+    const rawFont = /font-family\s*:\s*([^;{}]+);/gi;
     const badArbitrary = /font-\[([^\]]+)\]/g;
 
     for (const file of files) {

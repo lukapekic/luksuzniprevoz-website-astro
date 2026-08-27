@@ -322,7 +322,7 @@ pnpm --filter @luksuzni-prevoz/site build
 Also run design detection when UI integration changed:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
+pnpm verify:ui --target <exact-affected-ui-file> --surface <surface-id> --change routing-content
 ```
 
 Do not modify generated files manually; regenerate through the repository command when required.

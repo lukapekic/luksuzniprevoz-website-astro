@@ -18,7 +18,7 @@
  *   contained-dark  architectural panel on --color-surface, capped to
  *                   --container-main, centered, --radius-section (16px).
  *   elevated        same panel shape on --color-surface-elevated.
- *   light           warm cream panel on --color-surface-light; flips the
+ *   light           light-neutral panel on --color-surface-light; flips the
  *                   inherited text color to --color-text-on-light so children
  *                   (headings, body) render legibly without per-element work.
  *

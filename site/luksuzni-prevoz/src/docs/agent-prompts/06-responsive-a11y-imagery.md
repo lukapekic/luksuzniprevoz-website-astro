@@ -293,7 +293,7 @@ If a shared component is the root cause, report cross-page impact before changin
 Run at minimum:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
+pnpm verify:ui --target <exact-ui-file> --surface <surface-id> --change page
 pnpm --filter @luksuzni-prevoz/site check
 pnpm --filter @luksuzni-prevoz/site build
 ```

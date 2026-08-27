@@ -23,7 +23,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       # Install Playwright browsers + OS deps so the e2e/a11y tiers run.
-      - run: pnpm --filter @luksuzni-prevoz/site exec playwright install --with-deps chromium
+      - run: pnpm --filter @luksuzni-prevoz/site exec playwright install --with-deps chromium firefox webkit
 
       # Full release gate: quality:fast → build → drift checks → traceability
       # → waivers → secret scan → dep audit → e2e → a11y → Lighthouse.

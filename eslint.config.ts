@@ -20,6 +20,7 @@ export default tseslint.config(
       "**/coverage/**",
       "**/playwright-report/**",
       "**/test-results/**",
+      "claude-summary/**",
       "**/*.variants.ts",
     ],
   },
@@ -63,6 +64,30 @@ export default tseslint.config(
     files: ["**/*.tsx"],
     languageOptions: {
       parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+  },
+
+  // Repository automation runs in Node rather than the browser.
+  {
+    files: ["scripts/**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        Buffer: "readonly",
+        console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+
+  // Standalone wireframe behavior is browser-executed documentation support.
+  {
+    files: ["site/luksuzni-prevoz/src/docs/**/*.js"],
+    languageOptions: {
+      globals: {
+        document: "readonly",
+        getComputedStyle: "readonly",
+        window: "readonly",
+      },
     },
   },
 );

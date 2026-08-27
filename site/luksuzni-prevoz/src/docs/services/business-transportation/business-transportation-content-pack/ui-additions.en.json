@@ -1,0 +1,21 @@
+{
+  "business.coverage.primary": "Primary business transportation area",
+  "business.coverage.outsideQuote": "Routes outside the standard area are reviewed through a quote",
+  "business.commercial.oneOff": "One-off request",
+  "business.commercial.recurring": "Recurring arrangement",
+  "business.commercial.estimateRequest": "Estimate request",
+  "business.commercial.quoteRequest": "Individual quote",
+  "business.capability.recurringContracts": "Recurring contractual arrangements",
+  "business.capability.invoicing": "Business-client invoicing",
+  "business.capability.negotiatedPricing": "Negotiated commercial terms",
+  "business.capability.dedicatedChauffeurAcrossStops": "The same chauffeur across connected schedule points",
+  "business.coordination.multipleVehicles": "Multiple vehicles",
+  "business.coordination.mixedVehicleClasses": "Mixed vehicle classes",
+  "business.coordination.dedicatedCoordinator": "Dedicated coordination",
+  "business.coordination.airportArrivals": "Airport arrivals",
+  "business.coordination.hotelTransfers": "Hotel transfers",
+  "business.coordination.venueShuttles": "Venue shuttles",
+  "business.coordination.multiVehicleSchedules": "Multi-vehicle schedules",
+  "business.coordination.executiveTransfers": "Individual executive transfers",
+  "business.coordination.groupTransport": "Group transportation"
+}

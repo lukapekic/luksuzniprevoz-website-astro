@@ -1,5 +1,6 @@
 ---
 name: design-harden
+source-of-truth: AGENTS.md
 description: Production hardening for multilingual text, missing/conditional data, image failures, interaction states, keyboard behavior, and edge cases.
 ---
 

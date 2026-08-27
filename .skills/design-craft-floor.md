@@ -1,5 +1,6 @@
 ---
 name: design-craft-floor
+source-of-truth: DESIGN.md
 description: Final project-specific quality floor to load immediately before production UI editing.
 ---
 

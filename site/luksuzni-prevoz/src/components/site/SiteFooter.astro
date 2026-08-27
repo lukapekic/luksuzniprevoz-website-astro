@@ -264,7 +264,7 @@ const year = new Date().getFullYear();
     margin-inline: auto;
     /* Generous but restrained top rhythm; compact bottom so the closing row
        reads as the end of the composition, not a second sub-footer band. */
-    padding-block: clamp(2.25rem, 4vw, 3.25rem) clamp(1.25rem, 2vw, 1.75rem);
+    padding-block: clamp(var(--space-9), 4vw, var(--space-13)) clamp(var(--space-5), 2vw, var(--space-7));
   }
 
   /* --- Grid: mobile = single stack; tablet = brand|nav row + contact row;
@@ -274,7 +274,7 @@ const year = new Date().getFullYear();
      (just the GS mark), so it gets the narrowest track on desktop. ---------- */
   .site-footer__grid {
     display: grid;
-    gap: clamp(2rem, 5vw, 3rem);
+    gap: clamp(var(--space-8), 5vw, var(--space-12));
   }
   @media (min-width: 48rem) {
     .site-footer__grid {
@@ -291,12 +291,12 @@ const year = new Date().getFullYear();
     .site-footer__grid {
       /* Three zones: brand lockup / coherent nav group / contact destination.
          The brand column carries the BrandLockup (logo + wordmark), so it gets
-         a wider floor than the old small-mark anchor; the nav zone keeps its
-         floor so Services + Company stay usable at lg. */
+         a proportional track without rigid floors that can overflow the exact
+         tablet-landscape boundary. */
       grid-template-columns:
-        minmax(13rem, 1fr)
-        minmax(26rem, 1.5fr)
-        minmax(18rem, 1fr);
+        minmax(0, 0.9fr)
+        minmax(0, 1.4fr)
+        minmax(0, 1.2fr);
     }
     .site-footer__col--contact {
       grid-column: auto;
@@ -307,6 +307,7 @@ const year = new Date().getFullYear();
   .site-footer__col--brand {
     margin-block-end: var(--space-2);
   }
+  .site-footer__col { min-inline-size: 0; }
   /* BrandLockup owns its logo + wordmark rendering and its own focus-visible
      ring. The footer only enforces the 44×44 touch target (FND-A11Y-05) at
      touch widths so the lockup is an easy tap target on mobile/tablet; the
@@ -328,7 +329,7 @@ const year = new Date().getFullYear();
   /* --- Navigation zone: Services + Company side-by-side on tablet+ ------ */
   .site-footer__nav-cols {
     display: grid;
-    gap: clamp(1.5rem, 3vw, 2.5rem);
+    gap: clamp(var(--space-6), 3vw, var(--space-10));
   }
   @media (min-width: 48rem) {
     .site-footer__nav-cols {
@@ -355,12 +356,9 @@ const year = new Date().getFullYear();
   }
   .site-footer__list:last-child { margin-block-end: 0; }
   /* Full-width links. The hit area is larger than the visible text: at touch
-     widths each row meets the 44×44 project bar (FND-A11Y-05) via min-block-size
-     — matching the SiteHeader mobile-link convention — while the visible text
-     stays compact (no pill/background/border). At lg+ (pointer) the row returns
-     to a compact desktop height (still above the WCAG 2.5.8 AA 24px floor),
-     matching the approved SiteHeader desktop-nav pattern, so the Footer stays
-     compact without bulky rows (§compact). */
+     widths each row meets the repository's always-on 44×44 project bar
+     (FND-A11Y-05) via min-block-size while the visible treatment remains
+     compact (no pill/background/border). */
   .site-footer__link {
     display: flex;
     align-items: center;
@@ -372,9 +370,6 @@ const year = new Date().getFullYear();
     line-height: var(--line-height-body);
     text-decoration: none;
     transition: color var(--duration-fast) var(--ease-standard);
-  }
-  @media (min-width: 64rem) {
-    .site-footer__link { min-block-size: auto; } /* compact desktop pointer row */
   }
   .site-footer__link:hover { color: var(--color-accent-hover); }
   .site-footer__link[aria-current="page"] { color: var(--color-accent); }
@@ -392,6 +387,7 @@ const year = new Date().getFullYear();
   .site-footer__link--channel {
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
+    overflow-wrap: anywhere;
   }
   .site-footer__fact {
     margin: 0;

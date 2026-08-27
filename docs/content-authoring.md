@@ -55,26 +55,26 @@ seoDescription: "Privatni prevoz sa profesionalnim vozačem u Beogradu..."
 
 ### Identity/lifecycle fields
 
-| Field | Requirement | Notes |
-|---|---|---|
-| `routeKey` | required | Must resolve to `src/data/routes.ts`. CamelCase route keys are valid. |
-| `locale` | required | Must be one of the configured site locales. |
-| `pageType` | required by site page schema | One of the seven page archetypes below. |
-| `status` | defaults to `draft` | `draft`, `in-review`, `published`. |
-| `translationState` | defaults to `missing` | `missing`, `draft`, `reviewed`. |
-| `sourceLocale` | translation-only when applicable | Source language for lifecycle tracking. |
-| `sourceDigest` | managed lifecycle metadata | Do not invent; keep in sync via content digest tooling. |
-| `reviewedOn` | optional | ISO date / parsed date used for staleness checks. |
+| Field              | Requirement                      | Notes                                                                 |
+| ------------------ | -------------------------------- | --------------------------------------------------------------------- |
+| `routeKey`         | required                         | Must resolve to `src/data/routes.ts`. CamelCase route keys are valid. |
+| `locale`           | required                         | Must be one of the configured site locales.                           |
+| `pageType`         | required by site page schema     | One of the seven page archetypes below.                               |
+| `status`           | defaults to `draft`              | `draft`, `in-review`, `published`.                                    |
+| `translationState` | defaults to `missing`            | `missing`, `draft`, `reviewed`.                                       |
+| `sourceLocale`     | translation-only when applicable | Source language for lifecycle tracking.                               |
+| `sourceDigest`     | managed lifecycle metadata       | Do not invent; keep in sync via content digest tooling.               |
+| `reviewedOn`       | optional                         | ISO date / parsed date used for staleness checks.                     |
 
 ### SEO fields
 
-| Field | Requirement | Notes |
-|---|---|---|
-| `seoTitle` | required | Page-specific title. Do not manually append the brand if the template composes it. Validator warns when the composed title exceeds 60 characters. |
-| `seoDescription` | required | Schema maximum 300; production SEO validator warns when description exceeds 160 characters. |
-| `ogImage` | optional | OG asset path/URL according to the active OG strategy. |
-| `ogImageAlt` | optional | Localized alt text where the OG image needs it. |
-| `noindex` | defaults to `false` | Use deliberately for pages that should not be indexed. |
+| Field            | Requirement         | Notes                                                                                                                                             |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `seoTitle`       | required            | Page-specific title. Do not manually append the brand if the template composes it. Validator warns when the composed title exceeds 60 characters. |
+| `seoDescription` | required            | Schema maximum 300; production SEO validator warns when description exceeds 160 characters.                                                       |
+| `ogImage`        | optional            | OG asset path/URL according to the active OG strategy.                                                                                            |
+| `ogImageAlt`     | optional            | Localized alt text where the OG image needs it.                                                                                                   |
+| `noindex`        | defaults to `false` | Use deliberately for pages that should not be indexed.                                                                                            |
 
 Do not invent artificial minimum SEO lengths. Prefer accurate, useful copy that stays within the validator's production limits.
 
@@ -82,15 +82,15 @@ Do not invent artificial minimum SEO lengths. Prefer accurate, useful copy that 
 
 `site/luksuzni-prevoz/src/content/schemas/pages.ts` defines seven explicit archetypes:
 
-| `pageType` | Required route kind | Purpose |
-|---|---|---|
-| `home` | `page` | Homepage |
-| `service` | `service` | Leaf service page |
-| `hub` | `hub` | Service-family hub |
-| `fleet` | `page` | Fleet page |
-| `pricing` | `page` | Pricing page |
-| `about` | `page` | About page |
-| `contact` | `page` | Contact page |
+| `pageType` | Required route kind | Purpose            |
+| ---------- | ------------------- | ------------------ |
+| `home`     | `page`              | Homepage           |
+| `service`  | `service`           | Leaf service page  |
+| `hub`      | `hub`               | Service-family hub |
+| `fleet`    | `page`              | Fleet page         |
+| `pricing`  | `page`              | Pricing page       |
+| `about`    | `page`              | About page         |
+| `contact`  | `page`              | Contact page       |
 
 `content:validate` verifies the page type matches the structural route kind.
 
@@ -268,7 +268,7 @@ pnpm check
 For production UI implementation of the page, separately follow the relevant blueprint and design-governance workflow:
 
 ```bash
-pnpm design:context <target>
+pnpm design:context --target <exact-file> --surface <surface-id>
 ```
 
 Content authoring is not authorization to redesign a page.

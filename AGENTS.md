@@ -342,6 +342,14 @@ All skills live directly in `.skills/`.
 
 ## Design / UI
 
+- `design-governance.md` — deterministic production-UI entry/exit workflow.
+- `design-shape.md` — new-page and major-section planning.
+- `design-audit.md` — measurable technical design audit.
+- `design-critique.md` — visual and UX critique.
+- `design-polish.md` — final visual refinement.
+- `design-harden.md` — edge cases, localization, and failure-state hardening.
+- `design-adapt.md` — focused responsive adaptation.
+- `design-craft-floor.md` — minimum craft gate before production UI editing.
 - `design-foundation-governance.md` — active theme governance and design-token discipline.
 - `blueprint-to-ui.md` — mandatory for blueprint/wireframe implementation.
 - `component-architecture.md` — components, variants, shared/page-local composition.
@@ -675,9 +683,7 @@ Before reporting a task complete:
 
 Never hide known deviations behind “done”, “finished”, or “production-ready”.
 
-# AGENTS.md additions
-
-Add this as a concise section near the existing agent procedure / quality workflow. Do not duplicate the full skill contents in `AGENTS.md`.
+# 20. Deterministic governance and completion
 
 ## Deterministic design-governance workflow
 
@@ -686,7 +692,7 @@ For production UI work, agents MUST use the repository design-governance layer.
 Before editing:
 
 ```bash
-pnpm design:context <target>
+pnpm design:context --target <exact-file> --surface <surface-id>
 ```
 
 If the context command reports a missing/stale machine-readable snapshot:
@@ -698,8 +704,7 @@ pnpm design:sync
 Before declaring UI work complete:
 
 ```bash
-pnpm design:detect <target>
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>
 ```
 
 Major page work also runs the page-specific and release gates already required elsewhere in this file.
@@ -795,22 +800,12 @@ sequence.
 
    `pnpm design:sync`
 
-9. Run:
+9. Run the `theme` profile with an exact target and surface.
 
-   `pnpm design:doctor`
-
-10. Run:
-
-    `pnpm design:detect`
-
-11. Run:
-
-    `pnpm check`
-
-12. Verify that the configured version, generated theme output, and
+10. Verify that the configured version, generated theme output, and
     `.design/system.json` all report the same active version.
 
-13. Search the repository for stale references to the previous theme in:
+11. Search the repository for stale references to the previous theme in:
     - production UI;
     - generated configuration;
     - governance files;
@@ -819,7 +814,7 @@ sequence.
     - comments;
     - test fixtures.
 
-14. Classify every remaining previous-theme reference before removing it.
+12. Classify every remaining previous-theme reference before removing it.
     Historical theme implementations, archived documentation, and another
     site's legitimate theme selection are not automatically stale.
 
@@ -835,11 +830,12 @@ Prefer concepts such as:
 - `surface`
 - `surfaceElevated`
 - `surfaceLight`
-- `text`
-- `textSecondary`
+- `textPrimary`
 - `textMuted`
-- `border`
-- `borderStrong`
+- `textOnLight`
+- `borderSubtle`
+- `inputBorder`
+- `divider`
 - `accent`
 - semantic spacing roles
 - semantic radius roles
@@ -904,9 +900,8 @@ MUST NOT declare the task complete until the applicable checks have passed:
 pnpm theme:sync
 pnpm theme:validate
 pnpm design:sync
-pnpm design:doctor
-pnpm design:detect
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change theme
+```
 
 ## Universal UI completion protocol
 
@@ -915,12 +910,55 @@ for correctness.
 
 Any agent modifying production UI MUST:
 
-1. Run `pnpm design:context <target>` before implementation.
+1. Run `pnpm design:context --target <exact-file> --surface <surface-id>` before implementation.
 2. Follow the authorities returned by that command.
-3. Run `pnpm design:detect <target>` after implementation.
-4. Run `pnpm check`.
-5. Report any unresolved governance failure explicitly.
+3. Run `pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>` after implementation.
+4. Report any unresolved governance failure explicitly.
 
 An agent MUST NOT declare production UI work complete while a P0/P1
 design-governance finding remains unresolved unless the task explicitly
 documents an approved exception.
+
+## Strict responsive contract
+
+Every page or component with responsive behavior MUST document and verify
+mobile, tablet portrait, tablet landscape, desktop, and wide-desktop states.
+The contract MUST specify topology, content order, width constraints, image
+behavior, CTA placement, overflow behavior, and keyboard/focus order. The
+reference widths are 320, 768, 1024, 1440, and 1920 CSS px. Ambiguous
+language such as “when space allows” is not acceptable in a locked contract.
+Production MUST preserve logical reading order, 44×44 targets, and zero
+accidental horizontal overflow at every state.
+
+## Universal typography contract
+
+Production text MUST use the active semantic roles: `font-heading` (Inter
+Tight), `font-body` (Manrope), and `font-brand` (Cormorant Garamond Italic,
+BrandLockup only). Page contracts MUST declare heading hierarchy and text
+roles. Raw font families, arbitrary type scales, and fallback-oriented layout
+tuning are prohibited. Review computed styles for H1, H2, body/UI, controls,
+and localized Serbian Latin, English, and Russian Cyrillic content.
+
+## Shared-component cross-consumer impact
+
+Before changing an approved shared component, run `pnpm components:check` and
+the `component` verification profile, document the expected impact, update the component contract and tests,
+and verify each affected page/package. Shared API changes MUST include a
+migration note or explicit compatibility decision. A page task does not allow
+silent visual or behavioral changes to unrelated consumers.
+
+## Ordered page quality workflow
+
+For production UI or page-contract work, use the machine-readable change
+profile. It runs the applicable commands in the required order and writes
+structured evidence:
+
+```bash
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <small-ui|page|component|theme|routing-content|foundation>
+```
+
+Run `pnpm design:sync` only when the preflight reports a stale snapshot. The
+verification command uses check-only generators and never repairs drift.
+
+Responsive, accessibility, and Playwright review are additional required
+evidence when the environment provides those capabilities.

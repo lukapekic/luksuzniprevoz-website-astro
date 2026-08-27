@@ -1,5 +1,6 @@
 ---
 name: design-adapt
+source-of-truth: DESIGN.md
 description: Responsive adaptation workflow using the project's tokenized breakpoints and explicit device-state acceptance model.
 ---
 

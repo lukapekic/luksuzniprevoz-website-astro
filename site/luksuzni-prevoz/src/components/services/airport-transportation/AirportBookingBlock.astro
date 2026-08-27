@@ -1,0 +1,65 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+import Field from "../../../foundation/ui/Field.astro";
+import Input from "../../../foundation/ui/Input.astro";
+import Button from "../../../foundation/ui/Button.astro";
+
+interface Props {
+  heading: string; intro?: string; body?: string; index: string; label: string;
+  flightLabel: string; dateLabel: string; timeLabel: string; continueLabel: string;
+  handoffNote: string; confirmationNote: string; action: string;
+  secondaryAction?: { label: string; href: string }; locale: LocaleCode;
+}
+
+const { heading, intro, body, index, label, flightLabel, dateLabel, timeLabel,
+  continueLabel, handoffNote, confirmationNote, action, secondaryAction, locale } = Astro.props;
+---
+
+<Section id="airport-booking" spacing="compact" surface="light" aria-labelledby="airport-booking-heading">
+  <PageContainer>
+    <div class="booking-grid lg:grid-cols-[5fr_7fr] lg:items-start lg:gap-[var(--column-gap-desktop)]">
+      <div>
+        <p class="section-index"><b>{index}</b><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading id="airport-booking-heading" heading={heading} description={intro} on="light" />
+        {body && <p class="booking-body">{body}</p>}
+      </div>
+      <form class="booking-form md:grid-cols-2" action={action} method="get" accept-charset="UTF-8" autocomplete="on"
+        aria-labelledby="airport-booking-heading"
+        aria-describedby="airport-booking-handoff airport-booking-confirmation">
+        <input type="hidden" name="service" value="airportTransportation" />
+        <Field label={flightLabel} htmlFor="airport-flight-number" class="md:col-span-full">
+          <Input slot="control" id="airport-flight-number" name="flightNumber" type="text" autocomplete="off" />
+        </Field>
+        <Field label={dateLabel} htmlFor="airport-date" required>
+          <Input slot="control" id="airport-date" name="date" type="date" required />
+        </Field>
+        <Field label={timeLabel} htmlFor="airport-time" required>
+          <Input slot="control" id="airport-time" name="time" type="time" required />
+        </Field>
+        <div class="booking-actions md:col-span-full">
+          <Button type="submit" variant="primary">{continueLabel}</Button>
+          {secondaryAction && <Link variant="on-light" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+        </div>
+        <div class="booking-notes md:col-span-full">
+          <p id="airport-booking-handoff">{handoffNote}</p>
+          <p id="airport-booking-confirmation">{confirmationNote}</p>
+        </div>
+      </form>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .booking-grid { display: grid; gap: var(--space-8); }
+  .section-index { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%); }
+  .section-index b { color: var(--color-focus-light); }
+  .section-index span { inline-size: var(--space-10); block-size: var(--space-1); background: var(--color-focus-light); }
+  .booking-body { max-inline-size: var(--measure-body); margin-block-start: var(--space-5); font-family: var(--font-body); line-height: var(--line-height-body); }
+  .booking-form { display: grid; gap: var(--space-5); }
+  .booking-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4); }
+  .booking-notes { display: grid; gap: var(--space-2); padding-block-start: var(--space-4); border-block-start: var(--space-1) solid var(--color-input-border); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%); }
+</style>

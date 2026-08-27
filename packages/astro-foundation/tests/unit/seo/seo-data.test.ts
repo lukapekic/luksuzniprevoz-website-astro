@@ -13,8 +13,15 @@ describe("composeTitle — FND-SEO-13", () => {
     expect(composeTitle("Home", "Brand", "{brand} — {title}")).toBe("Brand — Home");
   });
 
+  it("FND-SEO-13: does not duplicate a brand already present in an authoritative title", () => {
+    expect(composeTitle("Airport Transfer | Brand", "Brand")).toBe("Airport Transfer | Brand");
+    expect(composeTitle("Airport Transfer | Trading Name", "Configured Legal Brand")).toBe(
+      "Airport Transfer | Trading Name",
+    );
+  });
+
   it("handles missing brand gracefully", () => {
-    expect(composeTitle("Home", "")).toBe("Home | ");
+    expect(composeTitle("Home", "")).toBe("Home");
   });
 
   it("handles title with special chars", () => {

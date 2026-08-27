@@ -49,6 +49,8 @@ export interface SeoPage {
   sitemap?: { include: boolean };
   /** Breadcrumb items */
   breadcrumbs?: Array<{ name: string; url: string; routeKey?: string }>;
+  /** Crawlable internal links emitted by shared chrome and page content. */
+  internalLinks?: string[];
   /** lastmod date, if provided from content */
   lastmod?: string;
   /** Whether lastmod comes from content (vs filesystem) */
@@ -415,53 +417,33 @@ function validateOgImages(pages: SeoPage[], siteData: SeoSiteData, issues: Found
 // --- FND-SEO-09: Internal link graph — no orphans, click depth <= 3 ---
 
 function validateLinkGraph(pages: SeoPage[], issues: FoundationIssue[]) {
-  // Build adjacency: for each page URL, what pages link to it?
-  // We use breadcrumbs to infer parent->child links.
-  const childOf = new Map<string, string>(); // child url -> parent url
   const pageByUrl = new Map<string, SeoPage>();
 
   for (const page of pages) {
     pageByUrl.set(page.url, page);
   }
 
-  for (const page of pages) {
-    if (!page.breadcrumbs) continue;
-    // Each breadcrumb item links to a parent page
-    for (let i = 0; i < page.breadcrumbs.length - 1; i++) {
-      const parent = page.breadcrumbs[i]!;
-      childOf.set(page.url, parent.url);
-    }
-  }
-
-  // Find orphan pages (no incoming links except home)
-  // A page is "linked to" if it appears as a PARENT breadcrumb in another page.
   const linkedTo = new Set<string>();
   for (const page of pages) {
-    linkedTo.add(page.url);
-  }
-
-  const homePage = pages.find((p) => p.routeKey === "home" && !p.noindex && p.published !== false);
-  if (homePage) {
-    linkedTo.delete(homePage.url); // Home is always reachable
-  }
-
-  // Check which pages have children linking to them.
-  // Only count parent breadcrumbs (excluding the last item, which is the current page itself).
-  for (const page of pages) {
-    if (!page.breadcrumbs || page.breadcrumbs.length <= 1) continue;
-    // All parent URLs in breadcrumbs (excluding the last = current page) are reachable
-    for (let i = 0; i < page.breadcrumbs.length - 1; i++) {
-      linkedTo.delete(page.breadcrumbs[i]!.url);
+    for (const href of page.internalLinks ?? []) {
+      if (pageByUrl.has(href)) linkedTo.add(href);
+    }
+    for (const breadcrumb of page.breadcrumbs?.slice(0, -1) ?? []) {
+      if (pageByUrl.has(breadcrumb.url)) linkedTo.add(breadcrumb.url);
     }
   }
 
-  for (const orphanUrl of linkedTo) {
-    const orphanPage = pageByUrl.get(orphanUrl);
-    if (orphanPage && !orphanPage.noindex && orphanPage.published !== false) {
+  for (const page of pages) {
+    if (
+      page.routeKey !== "home" &&
+      !linkedTo.has(page.url) &&
+      !page.noindex &&
+      page.published !== false
+    ) {
       issues.push({
         ruleId: "FND-SEO-09",
         severity: "warning",
-        filePath: `${orphanPage.routeKey}/${orphanPage.locale}`,
+        filePath: `${page.routeKey}/${page.locale}`,
         offendingValue: `Page is an orphan (no internal links pointing to it)`,
         fix: "Add internal links to this page from other pages",
       });

@@ -12,7 +12,6 @@ Provide a cinematic, low-density service entrance with one H1 and clear conversi
 
 Used by:
 
-- Airport Transportation
 - Business Transportation
 
 All responsive states use one contained image-backed Hero panel.
@@ -43,6 +42,11 @@ Tablet/mobile:
 ```text
 contained image-backed Hero
 ```
+
+### `full-bleed`
+
+Used by Airport Transportation where its locked blueprint selects the cinematic
+full-viewport entrance and over-Hero header integration.
 
 ## Shared content limits
 

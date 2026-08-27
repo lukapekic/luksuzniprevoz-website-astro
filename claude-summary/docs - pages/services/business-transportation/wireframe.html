@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Business Transportation — Semantic Wireframe</title>
+  <link rel="stylesheet" href="../shared/wireframe-base.css" />
+  <style>
+    .business-selector .wf-card-media { min-height: calc(var(--space-24) * 4); }
+    .commercial-paths { padding: var(--space-8); }
+    .commercial-path { padding: var(--space-6); }
+    .commercial-path + .commercial-path { border-inline-start: 1px solid var(--color-input-border); }
+    html[data-wf-layout="mobile"] .commercial-path + .commercial-path,
+    html[data-wf-layout="tablet-portrait"] .commercial-path + .commercial-path { border-inline-start: 0; border-top: 1px solid var(--color-input-border); }
+    .client-strip { padding: var(--space-8); }
+    .client-placeholder { min-height: calc(var(--space-16) + var(--space-8)); border: 1px dashed var(--color-border-subtle); border-radius: var(--radius-card); }
+  </style>
+</head>
+<body>
+  <aside class="wf-shell wf-note">Semantic wireframe only. Trusted-client count is data-driven and permission/asset gated.</aside>
+  <header class="wf-shell wf-header" aria-label="SiteHeader placeholder"><div class="wf-brand"></div><div class="wf-nav"></div><div class="wf-actions"><div class="wf-button-secondary wf-button"></div><div class="wf-button"></div></div></header>
+
+  <main>
+    <section class="wf-shell wf-hero-contained" aria-label="Business hero">
+      <span class="wf-hero-media-note">Executive / business transport full-panel media</span>
+      <div class="wf-hero-content wf-stack"><p class="wf-label">ServiceHero / contained</p><div class="wf-title-lg"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:76%"></div></div><div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div></div>
+    </section>
+
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-5-7"><div class="wf-stack"><p class="wf-label">ServiceOverview / open dark</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:75%"></div></div></div><div class="wf-divider-list"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div></div></section>
+
+    <section class="wf-shell wf-section-standard business-selector"><div class="wf-stack"><p class="wf-label">BusinessServiceSelector / child services</p><div class="wf-title"></div></div><div class="wf-grid wf-grid-3" style="margin-top:var(--space-8)"><article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div><div class="wf-button wf-button-secondary"></div></div></article><article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div><div class="wf-button wf-button-secondary"></div></div></article><article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div><div class="wf-button wf-button-secondary"></div></div></article></div></section>
+
+    <section class="wf-shell wf-section-standard"><div class="wf-light commercial-paths"><div class="wf-stack"><p class="wf-label">One-off vs Recurring / functional</p><div class="wf-title"></div></div><div class="wf-grid wf-grid-2" style="margin-top:var(--space-8)"><article class="commercial-path wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div><div class="wf-button"></div></article><article class="commercial-path wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div><div class="wf-line" style="width:78%"></div></div><div class="wf-button wf-button-secondary"></div></article></div></div></section>
+
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-7-5"><div class="wf-media">Delegation / multi-vehicle coordination media</div><div class="wf-stack"><p class="wf-label">Coordination / Multi-Vehicle / open split</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:76%"></div></div><div class="wf-divider-list"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div></div></div></section>
+
+    <section class="wf-shell wf-section-standard"><div class="wf-contained wf-elevated client-strip"><div class="wf-stack"><p class="wf-label">Trusted Clients / data-driven approved count</p><div class="wf-title"></div></div><div class="wf-grid wf-grid-3" style="margin-top:var(--space-8)"><div class="client-placeholder"></div><div class="client-placeholder"></div><div class="client-placeholder"></div></div></div></section>
+
+    <section class="wf-shell wf-section-feature"><div class="wf-stack"><p class="wf-label">VehicleRecommendations / shared</p><div class="wf-title"></div></div><div class="wf-grid wf-grid-3" style="margin-top:var(--space-8)"><article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy"><div class="wf-title-sm"></div></div></article><article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy"><div class="wf-title-sm"></div></div></article><article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy"><div class="wf-title-sm"></div></div></article></div></section>
+
+    <section class="wf-shell wf-section-standard wf-grid wf-grid-5-7"><div class="wf-stack"><p class="wf-label">ServiceStandards / shared</p><div class="wf-title"></div></div><div class="wf-divider-list"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div></div></section>
+
+    <section class="wf-shell wf-section-standard"><div class="wf-light wf-functional"><p class="wf-label">FAQ / verified shared component</p><div class="wf-title"></div><div class="wf-divider-list" style="margin-top:var(--space-8)"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div></div></div></section>
+
+    <section class="wf-shell wf-section-feature"><div class="wf-contained wf-grid wf-grid-7-5" style="padding:var(--space-8)"><div class="wf-stack"><p class="wf-label">FinalCTA / verified shared component</p><div class="wf-title"></div><div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div></div><div class="wf-media">Shared FinalCTA media region</div></div></section>
+  </main>
+
+  <footer class="wf-shell wf-footer"><p class="wf-label">SiteFooter / verified shared component</p></footer>
+  <script src="../shared/wireframe-responsive.js"></script>
+</body>
+</html>

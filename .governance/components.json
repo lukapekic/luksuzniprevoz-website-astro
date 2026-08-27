@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "components": [
+    {
+      "name": "BrandLockup",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/BrandLockup.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/site/SiteFooter.astro",
+        "site/luksuzni-prevoz/src/components/site/SiteHeader.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "Button",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Button.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "FAQ",
+      "path": "site/luksuzni-prevoz/src/components/shared/FAQ.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "FinalCTA",
+      "path": "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "HorizontalCarousel",
+      "path": "site/luksuzni-prevoz/src/components/shared/HorizontalCarousel.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "Link",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Link.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
+        "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
+        "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceHero.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
+        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
+        "site/luksuzni-prevoz/src/components/shared/ServiceCard.astro",
+        "site/luksuzni-prevoz/src/components/site/SiteHeader.astro",
+        "site/luksuzni-prevoz/src/pages/404.astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "OpenSplitSection",
+      "path": "site/luksuzni-prevoz/src/components/shared/OpenSplitSection.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "PageContainer",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/PageContainer.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
+        "site/luksuzni-prevoz/src/components/home/HowItWorks.astro",
+        "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
+        "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/ServiceShowcase.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceHero.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceOverview.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceStandards.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
+        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
+        "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
+        "site/luksuzni-prevoz/src/pages/404.astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "ReadingContainer",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/ReadingContainer.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "Section",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Section.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/components/home/HowItWorks.astro",
+        "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
+        "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/ServiceShowcase.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceOverview.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceStandards.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
+        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
+        "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
+        "site/luksuzni-prevoz/src/pages/404.astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "SectionHeading",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/SectionHeading.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/components/home/HowItWorks.astro",
+        "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
+        "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/ServiceShowcase.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceOverview.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/ServiceStandards.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
+        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "ServiceCard",
+      "path": "site/luksuzni-prevoz/src/components/shared/ServiceCard.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/ServiceShowcase.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "SiteFooter",
+      "path": "site/luksuzni-prevoz/src/components/site/SiteFooter.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/layouts/BaseLayout.astro",
+        "site/luksuzni-prevoz/src/pages/404.astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "SiteHeader",
+      "path": "site/luksuzni-prevoz/src/components/site/SiteHeader.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/layouts/BaseLayout.astro",
+        "site/luksuzni-prevoz/src/pages/404.astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "TrustStrip",
+      "path": "site/luksuzni-prevoz/src/components/shared/TrustStrip.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    }
+  ]
+}

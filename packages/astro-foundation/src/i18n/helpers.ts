@@ -1,4 +1,5 @@
 import type { Route, LocaleCode, Locale } from "./schema.ts";
+import type { RouteKey } from "../generated/types.ts";
 import { getPath } from "./get-path.ts";
 
 /** A single resolved path entry. */
@@ -39,7 +40,7 @@ export function resolveAllPaths(
       // Skip routes that don't have a slug for this locale (omit strategy)
       if (slug === undefined) continue;
 
-      const path = getPath(route.key, locale.code, routes, defaultLocale);
+      const path = getPath(route.key as RouteKey, locale.code, routes, defaultLocale);
       result.set(path, { routeKey: route.key, locale: locale.code, path });
     }
   }
@@ -82,7 +83,7 @@ export function buildHreflangSet(
     if (slug === undefined) continue;
 
     const hreflangValue = locale.hreflang;
-    const path = getPath(routeKey, locale.code, routes, defaultLocale);
+    const path = getPath(route.key as RouteKey, locale.code, routes, defaultLocale);
     links.push({ hreflang: hreflangValue, href: path });
   }
 
@@ -100,7 +101,7 @@ export function buildHreflangSet(
         : defaultLocale;
     // Only emit x-default if the resolved locale actually has this route.
     if (route.slugs[xDefaultLocaleCode] !== undefined) {
-      const xDefaultHref = getPath(routeKey, xDefaultLocaleCode, routes, defaultLocale);
+      const xDefaultHref = getPath(route.key as RouteKey, xDefaultLocaleCode, routes, defaultLocale);
       if (!links.some((l) => l.hreflang === "x-default")) {
         links.push({ hreflang: "x-default", href: xDefaultHref });
       }
@@ -148,7 +149,7 @@ export function getBreadcrumbs(
     const slug = route.slugs[locale];
     if (slug === undefined) break;
 
-    const path = getPath(currentKey, locale, routes, defaultLocale);
+    const path = getPath(route.key as RouteKey, locale, routes, defaultLocale);
     const label = uiStrings.get(currentKey);
     if (label === undefined) break;
 

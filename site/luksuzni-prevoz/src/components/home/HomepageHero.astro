@@ -275,7 +275,7 @@ const isDecorative = imageAlt === "";
   .homepage-hero__inner {
     position: relative;
     z-index: 2;
-    padding-block: clamp(1.5rem, 4vw, 4rem) clamp(2rem, 6vw, 5rem);
+    padding-block: clamp(var(--space-6), 4vw, var(--space-16)) clamp(var(--space-8), 6vw, var(--space-20));
   }
 
   /* Content grid: single column by default; 7fr/5fr split (left copy / right
@@ -380,7 +380,7 @@ const isDecorative = imageAlt === "";
   @media (min-width: 80rem) {
     .homepage-hero__content--split {
       grid-template-columns: 7fr 5fr;
-      gap: clamp(2rem, 5vw, 5rem);
+      gap: clamp(var(--space-8), 5vw, var(--space-20));
     }
     .homepage-hero__support {
       padding-inline-start: var(--space-5);

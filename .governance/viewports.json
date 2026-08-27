@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "viewports": [
+    { "id": "mobile", "width": 320, "height": 568, "state": "mobile" },
+    { "id": "tablet-portrait", "width": 768, "height": 1024, "state": "tablet portrait" },
+    { "id": "tablet-landscape", "width": 1024, "height": 768, "state": "tablet landscape" },
+    { "id": "desktop", "width": 1440, "height": 900, "state": "desktop" },
+    { "id": "wide-desktop", "width": 1920, "height": 1080, "state": "wide desktop" }
+  ],
+  "requiredAssertions": [
+    "topology",
+    "content-order",
+    "width-constraints",
+    "image-behavior",
+    "cta-placement",
+    "horizontal-overflow",
+    "keyboard-focus-order",
+    "minimum-target-size"
+  ]
+}
