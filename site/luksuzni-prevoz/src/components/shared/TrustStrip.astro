@@ -129,7 +129,7 @@ if (items.length !== 4) {
     grid-template-columns: 1fr;
     background: var(--color-surface-elevated);
     border-radius: var(--radius-section);
-    padding: 1rem 1.3rem;
+    padding: var(--space-4) var(--space-5);
   }
 
   /* Item: marker → title → text stack, mobile-first. Mobile uses horizontal
@@ -138,7 +138,7 @@ if (items.length !== 4) {
     display: grid;
     gap: var(--space-2);
     align-content: start;
-    padding-block: 1.3rem;
+    padding-block: var(--space-5);
     border-block-end: 1px solid var(--color-divider);
   }
   .trust-item:last-child {
@@ -191,10 +191,10 @@ if (items.length !== 4) {
   @media (min-width: 48rem) {
     .trust-strip {
       grid-template-columns: repeat(2, 1fr);
-      padding: clamp(1.5rem, 3vw, 2.3rem);
+      padding: clamp(var(--space-6), 3vw, var(--space-10));
     }
     .trust-item {
-      padding: 1.4rem;
+      padding: var(--space-6);
       border-block-end: 1px solid var(--color-divider);
       border-inline-end: 0;
     }
@@ -216,7 +216,7 @@ if (items.length !== 4) {
     .trust-item {
       min-block-size: 8.5rem;
       align-content: center;
-      padding-inline: 1.5rem;
+      padding-inline: var(--space-6);
       padding-block: 0;
       border-block-end: 0;
       border-inline-end: 1px solid var(--color-divider);

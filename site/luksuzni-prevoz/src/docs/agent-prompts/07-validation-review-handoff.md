@@ -84,7 +84,7 @@ Inspect the final implementation and actual component APIs.
 Run:
 
 ```bash
-pnpm design:context site/luksuzni-prevoz
+pnpm design:context --target <exact-reviewed-file> --surface <surface-id>
 ```
 
 ---
@@ -246,8 +246,7 @@ For a major completed service page, run:
 ```bash
 pnpm design:sync:check
 pnpm design:doctor
-pnpm design:detect site/luksuzni-prevoz
-pnpm check
+pnpm verify:ui --target <exact-reviewed-file> --surface <surface-id> --change page
 pnpm --filter @luksuzni-prevoz/site build
 ```
 

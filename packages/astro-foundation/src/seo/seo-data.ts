@@ -27,6 +27,13 @@ export interface SeoData {
  * Supports custom templates with {title} and {brand} placeholders.
  */
 export function composeTitle(title: string, brand: string, template?: string): string {
+  if (
+    !brand ||
+    title.toLocaleLowerCase().includes(brand.toLocaleLowerCase()) ||
+    (!template && /\S\s[|—]\s\S/.test(title))
+  ) {
+    return title;
+  }
   const tpl = template ?? "{title} | {brand}";
   return tpl.replace("{title}", title).replace("{brand}", brand);
 }

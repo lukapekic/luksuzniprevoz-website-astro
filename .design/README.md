@@ -15,9 +15,13 @@ Authority remains:
 ## Files
 
 - `config.json` — stable repository paths and discovery rules.
+- `config.schema.json` — strict schema for `config.json`.
 - `system.json` — generated snapshot of the active theme, token names, components, and document inventory. Do not hand-edit.
 - `system.schema.json` — lightweight schema for `system.json`.
 - `reviews/` — optional persistent design-review records.
+
+Machine-readable severities, change profiles, viewport acceptance, and the
+generated shared-component consumer registry live in `.governance/`.
 
 Generate or refresh the snapshot with:
 

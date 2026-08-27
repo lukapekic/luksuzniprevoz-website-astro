@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+import { defaultLocale, routePath } from "../support/contracts";
+
+const homePath = routePath("home", defaultLocale);
 
 /**
  * SiteHeader dropdown smoke — Step 5B.
@@ -18,11 +21,9 @@ import { test, expect } from "@playwright/test";
 
 const servicesTrigger = '[data-dropdown-trigger][aria-controls="hdr-services"]';
 const servicesPanel = "#hdr-services";
-const businessTrigger =
-  '[data-dropdown-trigger][aria-controls="hdr-sub-businessTransportation"]';
+const businessTrigger = '[data-dropdown-trigger][aria-controls="hdr-sub-businessTransportation"]';
 const businessPanel = "#hdr-sub-businessTransportation";
-const specialEventsTrigger =
-  '[data-dropdown-trigger][aria-controls="hdr-sub-specialEvents"]';
+const specialEventsTrigger = '[data-dropdown-trigger][aria-controls="hdr-sub-specialEvents"]';
 const specialEventsPanel = "#hdr-sub-specialEvents";
 const langTrigger = '[data-dropdown-trigger][aria-controls="hdr-lang-panel"]';
 const langPanel = "#hdr-lang-panel";
@@ -32,7 +33,7 @@ const supportsHover = async (page: import("@playwright/test").Page): Promise<boo
 
 test.describe("SiteHeader dropdowns", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/sr/");
+    await page.goto(homePath);
   });
 
   test("click Services opens the root dropdown and focuses the first item", async ({ page }) => {
@@ -94,7 +95,9 @@ test.describe("SiteHeader dropdowns", () => {
     await expect(page.locator(servicesPanel)).not.toHaveAttribute("hidden");
   });
 
-  test("hovering a branch opens its flyout; moving into the flyout keeps both open", async ({ page }) => {
+  test("hovering a branch opens its flyout; moving into the flyout keeps both open", async ({
+    page,
+  }) => {
     test.skip(!(await supportsHover(page)), "pointer not hover-capable in this environment");
     await page.locator(servicesTrigger).first().hover();
     await page.locator(businessTrigger).first().hover();
@@ -143,18 +146,19 @@ const panelWordmark = ".mobile-panel__header [data-brand-wordmark]";
 test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
   test("desktop: mobile panel is hidden and the bar wordmark is visible", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/sr/");
+    await page.goto(homePath);
     const panel = page.locator("#hdr-mobile");
-    await expect(panel).toHaveAttribute("hidden");
     await expect(panel).not.toBeVisible();
     const box = await page.locator(barWordmark).first().boundingBox();
     expect(box).toBeTruthy();
     expect(box!.width).toBeGreaterThan(1);
   });
 
-  test("mobile viewport: desktop nav hidden, bar wordmark logo-only, menu trigger visible", async ({ page }) => {
+  test("mobile viewport: desktop nav hidden, bar wordmark logo-only, menu trigger visible", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 800 });
-    await page.goto("/sr/");
+    await page.goto(homePath);
     await expect(page.locator(".nav-desktop").first()).not.toBeVisible();
     const box = await page.locator(barWordmark).first().boundingBox();
     expect(box).toBeTruthy();
@@ -162,9 +166,11 @@ test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
     await expect(page.locator("[data-menu-toggle]").first()).toBeVisible();
   });
 
-  test("mobile viewport: opening the menu reveals a full-viewport, logo-only panel", async ({ page }) => {
+  test("mobile viewport: opening the menu reveals a full-viewport, logo-only panel", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 800 });
-    await page.goto("/sr/");
+    await page.goto(homePath);
     await page.locator("[data-menu-toggle]").first().click();
     const panel = page.locator("#hdr-mobile");
     await expect(panel).not.toHaveAttribute("hidden");
@@ -182,16 +188,17 @@ test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
 
   test("mobile viewport: closing the menu hides the panel again", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 800 });
-    await page.goto("/sr/");
-    const toggle = page.locator("[data-menu-toggle]").first();
-    await toggle.click();
+    await page.goto(homePath);
+    await page.locator("[data-menu-toggle]").first().click();
     await expect(page.locator("#hdr-mobile")).toBeVisible();
-    await toggle.click();
+    await page.locator("#hdr-mobile [data-menu-close]").click();
     await expect(page.locator("#hdr-mobile")).not.toBeVisible();
     await expect(page.locator("#hdr-mobile")).toHaveAttribute("hidden");
   });
 
-  test("/dev/ui: only the forced-open instance panel is visible; all others hidden", async ({ page }) => {
+  test("/dev/ui: only the forced-open instance panel is visible; all others hidden", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/dev/ui/");
     // The forced-open preview panel.
@@ -206,7 +213,6 @@ test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
       "hdr-mc-mobile",
     ];
     for (const id of otherPanels) {
-      await expect(page.locator(`#${id}`)).toHaveAttribute("hidden");
       await expect(page.locator(`#${id}`)).not.toBeVisible();
     }
   });

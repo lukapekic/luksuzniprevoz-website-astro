@@ -6,15 +6,17 @@ It does not define the page design or replace the repository's primary authoriti
 
 ## Authority hierarchy
 
-When documents disagree, use this order:
+Use the two authority chains from `AGENTS.md`. Technical/foundation decisions start
+with root `AGENTS.md` and validated configuration. Visible design decisions use:
 
-1. `AGENTS.md` — technical/project authority and mandatory agent workflow.
-2. `DESIGN.md` — visual authority and approved design-system direction.
-3. `site/luksuzni-prevoz/foundation.config.ts` — production-site configuration, including the single active-theme selector (`activeThemeVersion`).
-4. Active theme source and generated theme output — machine implementation of the configured theme.
-5. Locked page blueprints and shared design contracts under `site/luksuzni-prevoz/src/docs/` — page/section structure and responsive intent.
-6. `.skills/` — task-specific procedures for implementation, review, accessibility, responsive work, SEO, and design governance.
-7. This `docs/` directory — operational guidance, checklists, content workflow, scale assumptions, deployment notes, and waiver records.
+1. locked page blueprint;
+2. `DESIGN.md`;
+3. the active theme and generated semantic tokens;
+4. reviewed shared-component contracts;
+5. wireframe geometry.
+
+`.skills/` and this `docs/` directory are procedures and operational references;
+they never override either authority chain.
 
 A root doc must never override a locked blueprint, `DESIGN.md`, the active theme, or `AGENTS.md`.
 
@@ -27,14 +29,14 @@ Do not move page design rules into root operational docs.
 
 ## Active documents
 
-| File | Purpose |
-|---|---|
-| `a11y-manual-checklist.md` | Manual WCAG 2.2 AA release checks not fully covered by automation. |
-| `content-authoring.md` | Editorial content, page-archetype, localization, SEO, image, and data-separation workflow. |
-| `deployment.md` | Static production build/deploy requirements, headers, redirects, cache, forms, and post-deploy checks. |
-| `exceptions.md` | Canonical FND-rule waiver registry parsed by `pnpm parse-waivers`. |
-| `rule-traceability.md` | Generated FND rule-to-enforcer matrix. Never hand-edit. |
-| `scale-envelope.md` | Architectural scale assumptions and signals that require a deliberate architecture change. |
+| File                       | Purpose                                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `a11y-manual-checklist.md` | Manual WCAG 2.2 AA release checks not fully covered by automation.                                     |
+| `content-authoring.md`     | Editorial content, page-archetype, localization, SEO, image, and data-separation workflow.             |
+| `deployment.md`            | Static production build/deploy requirements, headers, redirects, cache, forms, and post-deploy checks. |
+| `exceptions.md`            | Canonical FND-rule waiver registry parsed by `pnpm parse-waivers`.                                     |
+| `rule-traceability.md`     | Generated FND rule-to-enforcer matrix. Never hand-edit.                                                |
+| `scale-envelope.md`        | Architectural scale assumptions and signals that require a deliberate architecture change.             |
 
 ## Generated documentation
 
@@ -74,10 +76,9 @@ For production UI work, follow `AGENTS.md` and `.skills/design-governance.md`.
 Minimum workflow:
 
 ```bash
-pnpm design:context <target>
+pnpm design:context --target <exact-file> --surface <surface-id>
 # implement
-pnpm design:detect <target>
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>
 ```
 
 For completion-sensitive work, use the stricter repository gate when available:

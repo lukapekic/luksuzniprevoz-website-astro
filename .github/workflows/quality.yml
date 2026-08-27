@@ -13,6 +13,12 @@ jobs:
           node-version-file: ".nvmrc"
       - run: pnpm install --frozen-lockfile
       - run: pnpm quality:fast
+      - run: pnpm verify:ui --target site/luksuzni-prevoz/src/components/home/HomePage.astro --surface home --change small-ui --evidence .design/.cache/quality-home.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-governance-evidence
+          path: .design/.cache/quality-home.json
 
   test-unit:
     runs-on: ubuntu-latest
@@ -48,6 +54,5 @@ jobs:
         with:
           node-version-file: ".nvmrc"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm traceability
       - run: pnpm traceability --check
       - run: pnpm parse-waivers

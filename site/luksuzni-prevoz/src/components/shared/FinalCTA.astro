@@ -178,7 +178,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     display: grid;
     gap: var(--space-4);
     align-content: center;
-    padding: 2rem 1.5rem;
+    padding: var(--space-8) var(--space-6);
     min-block-size: 18rem;
     box-sizing: border-box;
   }
@@ -264,7 +264,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
   /* --- Tablet (>=48rem): comfortable padding, taller mobile-style image zone --- */
   @media (min-width: 48rem) {
     .fcta-content {
-      padding: clamp(2rem, 4vw, 3rem);
+      padding: clamp(var(--space-8), 4vw, var(--space-12));
     }
     .fcta-media {
       min-block-size: 17rem;
@@ -281,7 +281,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     }
     .fcta-panel--media .fcta-content {
       min-block-size: 0;
-      padding: clamp(2rem, 5vw, 4rem);
+      padding: clamp(var(--space-8), 5vw, var(--space-16));
       max-inline-size: 40rem;
     }
     .fcta-media {

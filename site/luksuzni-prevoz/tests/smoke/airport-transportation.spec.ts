@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { axeWcag22Tags } from "../support/contracts";
 
 const routes = [
   { locale: "sr", path: "/aerodromski-prevoz/" },
@@ -13,7 +14,7 @@ test.describe("Airport Transportation", () => {
       const response = await page.goto(route.path);
       expect(response?.status()).toBe(200);
       await expect(page.locator("html")).toHaveAttribute("lang", route.locale);
-      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.locator("main h1")).toHaveCount(1);
       await expect(page.locator("main section")).toHaveCount(9);
       await expect(page.locator('input[name="flightNumber"]')).toHaveCount(1);
       await expect(page.locator('input[name="date"][type="date"]')).toHaveCount(1);
@@ -21,7 +22,9 @@ test.describe("Airport Transportation", () => {
     });
   }
 
-  test("booking start is a real accessible handoff and vehicle fares are data-gated", async ({ page }) => {
+  test("booking start is a real accessible handoff and vehicle fares are data-gated", async ({
+    page,
+  }) => {
     await page.goto("/en/airport-transportation/");
     await expect(page.getByText("Flight number (optional)")).toBeVisible();
     await expect(
@@ -37,7 +40,9 @@ test.describe("Airport Transportation", () => {
     await expect(form).toHaveAttribute("action", "/en/contact/");
     await expect(form.locator('button[type="submit"]')).toHaveCount(1);
     await expect(form.locator('input[name="service"]')).toHaveValue("airportTransportation");
-    await expect(page.getByText("Fare coming soon")).toHaveCount(4);
+    await expect(page.getByText("Airport fare")).toHaveCount(4);
+    await expect(page.getByText("Fare coming soon")).toHaveCount(0);
+    await expect(page.locator(".vehicle__meta").getByText(/€/)).toHaveCount(4);
   });
 
   test("has no horizontal overflow at required review widths", async ({ page }) => {
@@ -52,9 +57,9 @@ test.describe("Airport Transportation", () => {
     }
   });
 
-  test("passes the automated WCAG floor", async ({ page }) => {
+  test("FND-A11Y-01: passes the automated WCAG 2.2 floor", async ({ page }) => {
     await page.goto("/aerodromski-prevoz/");
-    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+    const results = await new AxeBuilder({ page }).withTags(axeWcag22Tags).analyze();
     expect(results.violations).toEqual([]);
   });
 });

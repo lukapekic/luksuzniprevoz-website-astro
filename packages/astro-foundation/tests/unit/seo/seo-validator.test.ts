@@ -388,6 +388,29 @@ describe("FND-SEO-08: OG image validation", () => {
 // --- FND-SEO-09: Internal link graph ---
 
 describe("FND-SEO-09: Link graph", () => {
+  it("does not report a page reached by a crawlable internal link", () => {
+    const issues = validateSeo(
+      makeSiteData({
+        pages: [
+          makePage({
+            routeKey: "home",
+            url: "https://example.com/",
+            internalLinks: ["https://example.com/airport/"],
+            breadcrumbs: [{ name: "Home", url: "https://example.com/", routeKey: "home" }],
+          }),
+          makePage({
+            routeKey: "airport",
+            url: "https://example.com/airport/",
+            breadcrumbs: [
+              { name: "Airport", url: "https://example.com/airport/", routeKey: "airport" },
+            ],
+          }),
+        ],
+      }),
+    );
+    expect(issues.some((issue) => issue.ruleId === "FND-SEO-09")).toBe(false);
+  });
+
   it("warns on orphan page", () => {
     const issues = validateSeo(
       makeSiteData({

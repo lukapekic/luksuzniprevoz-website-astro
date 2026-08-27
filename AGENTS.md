@@ -683,9 +683,7 @@ Before reporting a task complete:
 
 Never hide known deviations behind “done”, “finished”, or “production-ready”.
 
-# AGENTS.md additions
-
-Add this as a concise section near the existing agent procedure / quality workflow. Do not duplicate the full skill contents in `AGENTS.md`.
+# 20. Deterministic governance and completion
 
 ## Deterministic design-governance workflow
 
@@ -694,7 +692,7 @@ For production UI work, agents MUST use the repository design-governance layer.
 Before editing:
 
 ```bash
-pnpm design:context <target>
+pnpm design:context --target <exact-file> --surface <surface-id>
 ```
 
 If the context command reports a missing/stale machine-readable snapshot:
@@ -706,8 +704,7 @@ pnpm design:sync
 Before declaring UI work complete:
 
 ```bash
-pnpm design:detect <target>
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>
 ```
 
 Major page work also runs the page-specific and release gates already required elsewhere in this file.
@@ -803,22 +800,12 @@ sequence.
 
    `pnpm design:sync`
 
-9. Run:
+9. Run the `theme` profile with an exact target and surface.
 
-   `pnpm design:doctor`
-
-10. Run:
-
-    `pnpm design:detect`
-
-11. Run:
-
-    `pnpm check`
-
-12. Verify that the configured version, generated theme output, and
+10. Verify that the configured version, generated theme output, and
     `.design/system.json` all report the same active version.
 
-13. Search the repository for stale references to the previous theme in:
+11. Search the repository for stale references to the previous theme in:
     - production UI;
     - generated configuration;
     - governance files;
@@ -827,7 +814,7 @@ sequence.
     - comments;
     - test fixtures.
 
-14. Classify every remaining previous-theme reference before removing it.
+12. Classify every remaining previous-theme reference before removing it.
     Historical theme implementations, archived documentation, and another
     site's legitimate theme selection are not automatically stale.
 
@@ -913,9 +900,7 @@ MUST NOT declare the task complete until the applicable checks have passed:
 pnpm theme:sync
 pnpm theme:validate
 pnpm design:sync
-pnpm design:doctor
-pnpm design:detect
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change theme
 ```
 
 ## Universal UI completion protocol
@@ -925,11 +910,10 @@ for correctness.
 
 Any agent modifying production UI MUST:
 
-1. Run `pnpm design:context <target>` before implementation.
+1. Run `pnpm design:context --target <exact-file> --surface <surface-id>` before implementation.
 2. Follow the authorities returned by that command.
-3. Run `pnpm design:detect <target>` after implementation.
-4. Run `pnpm check`.
-5. Report any unresolved governance failure explicitly.
+3. Run `pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>` after implementation.
+4. Report any unresolved governance failure explicitly.
 
 An agent MUST NOT declare production UI work complete while a P0/P1
 design-governance finding remains unresolved unless the task explicitly
@@ -957,35 +941,24 @@ and localized Serbian Latin, English, and Russian Cyrillic content.
 
 ## Shared-component cross-consumer impact
 
-Before changing an approved shared component, enumerate every consumer with
-`rg`, document the expected impact, update the component contract and tests,
+Before changing an approved shared component, run `pnpm components:check` and
+the `component` verification profile, document the expected impact, update the component contract and tests,
 and verify each affected page/package. Shared API changes MUST include a
 migration note or explicit compatibility decision. A page task does not allow
 silent visual or behavioral changes to unrelated consumers.
 
 ## Ordered page quality workflow
 
-For production UI or page-contract work, run the applicable commands in this
-order and report each result:
+For production UI or page-contract work, use the machine-readable change
+profile. It runs the applicable commands in the required order and writes
+structured evidence:
 
 ```bash
-pnpm design:context <target>
-pnpm design:sync                 # only when the snapshot is stale
-pnpm foundation:doctor
-pnpm theme:sync
-pnpm theme:validate
-pnpm design:doctor
-pnpm design:detect <target> --strict
-pnpm types:generate
-pnpm content:validate site/luksuzni-prevoz
-pnpm routes:validate site/luksuzni-prevoz
-pnpm seo:validate site/luksuzni-prevoz
-pnpm traceability --check
-pnpm check
-pnpm lint
-pnpm test:unit
-pnpm --filter @luksuzni-prevoz/site build
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <small-ui|page|component|theme|routing-content|foundation>
 ```
+
+Run `pnpm design:sync` only when the preflight reports a stale snapshot. The
+verification command uses check-only generators and never repairs drift.
 
 Responsive, accessibility, and Playwright review are additional required
 evidence when the environment provides those capabilities.

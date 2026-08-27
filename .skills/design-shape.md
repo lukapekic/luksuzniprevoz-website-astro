@@ -1,5 +1,6 @@
 ---
 name: design-shape
+source-of-truth: DESIGN.md
 description: Plans a new page or major UI section before implementation. Produces topology, component mapping, data mapping, and responsive behavior; does not write production code.
 ---
 
@@ -9,7 +10,7 @@ Use for a new page or major section before implementation.
 
 ## Inputs
 
-1. `pnpm design:context <target-or-surface>`
+1. `pnpm design:context --target <exact-file> --surface <surface-id>`
 2. locked blueprint
 3. relevant wireframe
 4. relevant shared component contracts

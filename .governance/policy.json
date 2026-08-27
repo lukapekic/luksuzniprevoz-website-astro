@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "blockingSeverities": ["P0", "P1"],
+  "severities": {
+    "P0": "Correctness, security, data, generation, or authority failure. Always blocks.",
+    "P1": "Design, accessibility, responsive, localization, or contract failure. Blocks production UI completion.",
+    "P2": "Significant review finding. Resolve or record an approved exception.",
+    "P3": "Non-blocking improvement."
+  },
+  "changeProfiles": {
+    "small-ui": [
+      "design-context",
+      "design-sync-check",
+      "design-doctor",
+      "design-detect",
+      "types-check",
+      "check",
+      "lint",
+      "site-build"
+    ],
+    "page": [
+      "design-context",
+      "design-sync-check",
+      "foundation-doctor",
+      "theme-sync-check",
+      "theme-validate",
+      "design-doctor",
+      "design-detect",
+      "types-check",
+      "content-validate",
+      "routes-validate",
+      "seo-validate",
+      "traceability-check",
+      "check",
+      "lint",
+      "unit-tests",
+      "site-build"
+    ],
+    "component": [
+      "design-context",
+      "design-sync-check",
+      "component-impact",
+      "design-doctor",
+      "design-detect",
+      "types-check",
+      "check",
+      "lint",
+      "unit-tests",
+      "site-build"
+    ],
+    "theme": [
+      "design-context",
+      "theme-sync-check",
+      "theme-validate",
+      "design-sync-check",
+      "design-doctor",
+      "design-detect",
+      "types-check",
+      "check",
+      "lint",
+      "unit-tests",
+      "site-build"
+    ],
+    "routing-content": [
+      "design-context",
+      "design-sync-check",
+      "content-validate",
+      "routes-validate",
+      "seo-validate",
+      "types-check",
+      "check",
+      "lint",
+      "unit-tests",
+      "site-build"
+    ],
+    "foundation": [
+      "foundation-doctor",
+      "theme-sync-check",
+      "theme-validate",
+      "design-sync-check",
+      "design-doctor",
+      "types-check",
+      "traceability-check",
+      "check",
+      "lint",
+      "unit-tests",
+      "site-build"
+    ]
+  }
+}

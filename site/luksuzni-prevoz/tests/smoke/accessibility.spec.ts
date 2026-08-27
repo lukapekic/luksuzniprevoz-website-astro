@@ -1,5 +1,12 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import {
+  assertMinimumTargetSize,
+  axeWcag22Tags,
+  defaultLocale,
+  locales,
+  routePath,
+} from "../support/contracts";
 
 /**
  * Accessibility tests.
@@ -7,39 +14,37 @@ import AxeBuilder from "@axe-core/playwright";
  * Manual checks live in docs/a11y-manual-checklist.md; these are the automated
  * floor. Runs on every locale's home page plus a content page.
  */
-const locales = ["sr", "en", "ru"] as const;
-
 test.describe("Accessibility (axe-core)", () => {
   for (const locale of locales) {
-    test(`home page (${locale}) has no axe violations`, async ({ page }) => {
-      await page.goto(`/${locale}/`);
+    test(`FND-A11Y-01: home page (${locale}) has no WCAG 2.2 axe violations`, async ({ page }) => {
+      await page.goto(routePath("home", locale));
       const results = await new AxeBuilder({ page })
-        // WCAG 2.1 A/AA + best-practice. Excludes the exhaustive-per-
-        // combination checks that belong to manual visual review (FND-A11Y-09).
-        .withTags(["wcag2a", "wcag2aa", "best-practice"])
+        .withTags(axeWcag22Tags)
+        .options({ rules: { "target-size": { enabled: true } } })
         .analyze();
       expect(results.violations).toEqual([]);
+      await assertMinimumTargetSize(page);
     });
   }
 
-  test("content page (sr /about) has no axe violations", async ({ page }) => {
-    await page.goto("/sr/o-nama/");
+  test("FND-A11Y-01: content page has no WCAG 2.2 axe violations", async ({ page }) => {
+    await page.goto(routePath("airportTransportation", defaultLocale));
     const results = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa"])
+      .withTags(axeWcag22Tags)
+      .options({ rules: { "target-size": { enabled: true } } })
       .analyze();
     expect(results.violations).toEqual([]);
+    await assertMinimumTargetSize(page);
   });
 
   test("404 page has no axe violations", async ({ page }) => {
-    await page.goto("/sr/nonexistent-page/");
-    const results = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa"])
-      .analyze();
+    await page.goto("/nonexistent-page/");
+    const results = await new AxeBuilder({ page }).withTags(axeWcag22Tags).analyze();
     expect(results.violations).toEqual([]);
   });
 
-  test("skip link is present and targets main content", async ({ page }) => {
-    await page.goto("/sr/");
+  test("FND-A11Y-03: skip link is present and targets main content", async ({ page }) => {
+    await page.goto(routePath("home", defaultLocale));
     const skipLink = page.locator('a[href="#main-content"]');
     await expect(skipLink).toBeAttached();
     const mainContent = page.locator("#main-content");
@@ -49,7 +54,7 @@ test.describe("Accessibility (axe-core)", () => {
   });
 
   test("every nav landmark has a localized aria-label", async ({ page }) => {
-    await page.goto("/sr/");
+    await page.goto(routePath("home", defaultLocale));
     // FND-ARCH-03: nav labels come from the UI dictionary, not hardcoded.
     const navs = page.locator("nav");
     const count = await navs.count();
@@ -61,7 +66,7 @@ test.describe("Accessibility (axe-core)", () => {
   });
 
   test("html has correct lang and dir attributes (sr)", async ({ page }) => {
-    await page.goto("/sr/");
+    await page.goto(routePath("home", defaultLocale));
     await expect(page.locator("html")).toHaveAttribute("lang", "sr");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   });

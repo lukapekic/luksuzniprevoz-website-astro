@@ -42,7 +42,7 @@ const { heading, intro, body, index, label, flightLabel, dateLabel, timeLabel,
         </Field>
         <div class="booking-actions md:col-span-full">
           <Button type="submit" variant="primary">{continueLabel}</Button>
-          {secondaryAction && <Link variant="default" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+          {secondaryAction && <Link variant="on-light" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
         </div>
         <div class="booking-notes md:col-span-full">
           <p id="airport-booking-handoff">{handoffNote}</p>

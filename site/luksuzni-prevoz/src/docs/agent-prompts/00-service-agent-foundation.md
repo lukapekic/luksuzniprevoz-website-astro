@@ -47,7 +47,7 @@ A wireframe never overrides production typography, theme tokens, component APIs,
 Before UI work run:
 
 ```bash
-pnpm design:context <target>
+pnpm design:context --target <exact-file> --surface <surface-id>
 ```
 
 If requested by the context command:
@@ -474,8 +474,7 @@ Do not begin by copying wireframe CSS into production.
 Before declaring the page complete, run the relevant repository gates. At minimum for production UI work:
 
 ```bash
-pnpm design:detect <target>
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>
 ```
 
 For Luxury Transportation page work also run:

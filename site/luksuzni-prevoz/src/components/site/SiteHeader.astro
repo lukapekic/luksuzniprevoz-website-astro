@@ -245,8 +245,10 @@ const leafServices = servicesChildren.filter(isLeaf);
   <style>@media (max-width:63.98rem){[data-mobile-panel]{display:block !important}}</style>
 </noscript>
 
-<!-- Mobile full-viewport menu panel (sibling of the header; fixed to viewport) -->
-<div id={mobilePanelId} class="mobile-panel" data-mobile-panel role="dialog" aria-modal="true" aria-label={mainNavLabel} hidden>
+<!-- Mobile full-viewport menu panel (sibling of the header; fixed to viewport).
+     CSS keeps it closed when JS is available; the noscript rule above provides
+     the fail-open state without fighting the browser's [hidden] rule. -->
+<div id={mobilePanelId} class="mobile-panel" data-mobile-panel role="dialog" aria-modal="true" aria-label={mainNavLabel}>
     <div class="mobile-panel__inner">
       <div class="mobile-panel__header">
         <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" />
@@ -405,6 +407,7 @@ const leafServices = servicesChildren.filter(isLeaf);
   .nav-trigger, .nav-link {
     display: inline-flex;
     align-items: center;
+    min-block-size: var(--space-11);
     gap: var(--space-2);
     padding: var(--space-2) var(--space-2);
     background: transparent;
@@ -542,14 +545,13 @@ const leafServices = servicesChildren.filter(isLeaf);
      header (rendered outside <header> in the component) so its position: fixed
      resolves against the viewport, not the header — the header's
      backdrop-filter would otherwise become the containing block and clip the
-     panel to the header box. It ships [hidden] (display: none) so it can never
-     leak into desktop states or flash before hydration; a <noscript> rule in
-     the component reveals it for no-JS fail-open. 100dvh covers the dynamic
+     panel to the header box. CSS keeps it closed before hydration; a
+     <noscript> rule in the component reveals it for no-JS fail-open. 100dvh covers the dynamic
      viewport height (100vh fallback); overflow-y scrolls long menus. The
      [hidden] rule is intentionally separate and sets display: none only — no
      more-specific rule overrides it. */
-  .mobile-panel[hidden] { display: none; }
   .mobile-panel {
+    display: none;
     position: fixed;
     inset-block-start: 0;
     inset-inline: 0;
@@ -559,6 +561,8 @@ const leafServices = servicesChildren.filter(isLeaf);
     overflow-y: auto;
     z-index: 70;
   }
+  .mobile-panel[data-open] { display: block; }
+  .mobile-panel[hidden] { display: none; }
   .mobile-panel__inner {
     display: flex;
     flex-direction: column;
@@ -782,7 +786,10 @@ const leafServices = servicesChildren.filter(isLeaf);
           cancelClose();
           if (isTopLevel(region)) closeOtherTopLevel(region);
           else closeSiblingBranches(region);
-          if (trigger.getAttribute("aria-expanded") !== "true") openPanel(trigger);
+          if (trigger.getAttribute("aria-expanded") !== "true") {
+            openPanel(trigger);
+            trigger.setAttribute("data-opened-by-hover", "");
+          }
         });
         region.addEventListener("pointerleave", (event) => {
           if (event.pointerType !== "mouse" || isStatic(region)) return;
@@ -797,6 +804,15 @@ const leafServices = servicesChildren.filter(isLeaf);
         event.stopPropagation();
         if (isStatic(trigger)) return; // dev-preview pinned state
         const expanded = trigger.getAttribute("aria-expanded") === "true";
+        const openedByHover = trigger.hasAttribute("data-opened-by-hover");
+        trigger.removeAttribute("data-opened-by-hover");
+        // A mouse click first causes pointerenter. Preserve that newly opened
+        // state instead of immediately toggling it closed in the same gesture.
+        if (expanded && openedByHover) {
+          const panel = getPanel(trigger);
+          panel?.querySelector<HTMLElement>("a, button")?.focus();
+          return;
+        }
         if (expanded) {
           closePanel(trigger, true);
           return;

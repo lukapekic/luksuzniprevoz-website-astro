@@ -8,7 +8,7 @@ import { defineConfig, devices } from "@playwright/test";
  * `astro preview` (not the dev server) so they exercise the real artifact.
  *
  * Note: the browser binaries must be installed once via `pnpm exec playwright
- * install --with-deps` (or `npx playwright install`). CI images that lack them
+ * install --with-deps`. CI images that lack them
  * will fail the webServer health check loudly rather than silently passing.
  */
 export default defineConfig({

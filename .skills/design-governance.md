@@ -1,5 +1,6 @@
 ---
 name: design-governance
+source-of-truth: AGENTS.md
 description: Routes UI work through the repository's deterministic context, design detector, doctor, and focused design skills. Use for any production visual/UI task.
 ---
 
@@ -16,7 +17,7 @@ This skill defines how an agent enters and exits UI work without drifting.
 Run:
 
 ```bash
-pnpm design:context <target>
+pnpm design:context --target <exact-file> --surface <surface-id>
 ```
 
 Read the returned authorities. Do not expand scope into unrelated documents.
@@ -43,8 +44,7 @@ Existing specialized skills remain authoritative for their domain, including `bl
 Run at minimum:
 
 ```bash
-pnpm design:detect <target>
-pnpm check
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>
 ```
 
 For major/page work also run the existing required project gates from `AGENTS.md`.

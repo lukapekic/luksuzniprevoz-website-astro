@@ -2,6 +2,34 @@
   "version": "1.1",
   "project": "Luxury Transportation",
   "scope": "Complete metadata index for .skills; authority and required bundles remain in AGENTS.md.",
+  "limits": {
+    "maxLines": 120,
+    "maxWords": 1000,
+    "maxBundleWords": 4500
+  },
+  "bundles": {
+    "major-page": [
+      "design-governance",
+      "design-foundation-governance",
+      "blueprint-to-ui",
+      "component-architecture",
+      "high-value-visual-execution",
+      "typography-system",
+      "responsive-layout",
+      "responsive-ui",
+      "tailwind-v4",
+      "accessibility-wcag"
+    ],
+    "technical-page-review": [
+      "technical-page-review",
+      "accessibility-wcag",
+      "technical-seo",
+      "structured-data",
+      "responsive-ui",
+      "responsive-images-performance",
+      "multilingual-routing"
+    ]
+  },
   "skills": [
     { "name": "astro-architecture", "category": "architecture" },
     { "name": "tailwind-v4", "category": "architecture" },

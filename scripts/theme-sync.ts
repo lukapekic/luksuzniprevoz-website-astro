@@ -8,14 +8,15 @@
  */
 
 import { resolve, join } from "node:path";
-import { writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { loadThemeTokens } from "../packages/astro-foundation/src/theme/loader.ts";
 import { generateThemeCss } from "../packages/astro-foundation/src/theme/sync.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
 import { validateThemeSemantics } from "../packages/astro-foundation/src/theme/validate-theme.ts";
 
 const args = process.argv.slice(2);
-const projectPath = args[0] || "site/luksuzni-prevoz";
+const check = args.includes("--check");
+const projectPath = args.find((arg) => !arg.startsWith("--")) || "site/luksuzni-prevoz";
 const rootDir = resolve(import.meta.dirname ?? ".", "..");
 const absProjectPath = resolve(rootDir, projectPath);
 
@@ -84,8 +85,20 @@ if (semanticIssues.length > 0) {
 
 const css = generateThemeCss(tokens);
 
-// Write to project
 const projectOutput = join(absProjectPath, "src", "theme", "generated", "theme.css");
+if (check) {
+  const current = existsSync(projectOutput) ? readFileSync(projectOutput, "utf-8") : null;
+  if (current !== css) {
+    console.error(
+      `✖ Generated theme CSS is missing or stale: ${projectOutput}\n  Run: pnpm theme:sync ${projectPath}`,
+    );
+    process.exit(1);
+  }
+  console.log(`✓ theme:sync --check — ${projectOutput} is current`);
+  process.exit(0);
+}
+
+// Write to project
 mkdirSync(join(projectOutput, ".."), { recursive: true });
 writeFileSync(projectOutput, css, "utf-8");
 console.log(`✓ Wrote ${projectOutput}`);

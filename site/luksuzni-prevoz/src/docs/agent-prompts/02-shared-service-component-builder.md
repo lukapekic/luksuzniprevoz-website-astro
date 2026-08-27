@@ -78,7 +78,7 @@ Inspect the real APIs of reused primitives/patterns before implementation.
 Run:
 
 ```bash
-pnpm design:context site/luksuzni-prevoz
+pnpm design:context --target <exact-component-file> --surface <surface-id>
 ```
 
 ---
@@ -332,7 +332,7 @@ Do not assemble full service pages under this prompt except for minimal test/dem
 At minimum run:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
+pnpm verify:ui --target <exact-component-file> --surface <surface-id> --change component
 pnpm --filter @luksuzni-prevoz/site check
 pnpm --filter @luksuzni-prevoz/site build
 ```

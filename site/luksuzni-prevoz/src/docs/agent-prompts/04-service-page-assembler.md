@@ -56,7 +56,7 @@ Before editing:
 10. Run:
 
 ```bash
-pnpm design:context site/luksuzni-prevoz
+pnpm design:context --target <exact-page-assembler> --surface <surface-id>
 ```
 
 Do not reuse `LeafPage` as the final renderer for Private Chauffeur, Airport Transportation, or Business Transportation.
@@ -285,7 +285,7 @@ Before completion confirm:
 For a completed dedicated page, run at minimum:
 
 ```bash
-pnpm design:detect site/luksuzni-prevoz
+pnpm verify:ui --target <exact-page-assembler> --surface <surface-id> --change page
 pnpm --filter @luksuzni-prevoz/site check
 pnpm --filter @luksuzni-prevoz/site build
 ```
