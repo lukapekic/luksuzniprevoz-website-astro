@@ -63,6 +63,7 @@ import PageContainer from "../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import Link from "../../foundation/ui/Link.astro";
 import HorizontalCarousel from "../shared/HorizontalCarousel.astro";
+import { Image } from "astro:assets";
 
 type Props = FleetShowcaseProps;
 
@@ -98,10 +99,21 @@ const headingId = "home-fleet-heading";
     >
       {vehicles.map((vehicle) => (
         <li class="fleet-card">
-          {/* Media stage — inset 16:9 graphite placeholder (decorative). A
-              future transparent vehicle cutout sits centered here via
-              object-contain; the stage is never object-cover for cutouts. */}
-          <div class="fleet-card__media" aria-hidden="true"></div>
+          <div class="fleet-card__media" aria-hidden="true">
+            {vehicle.image ? (
+              <Image
+                class="fleet-card__image"
+                src={vehicle.image}
+                alt=""
+                role="presentation"
+                loading="lazy"
+                widths={[400, 640, 800]}
+                sizes="(min-width: 64rem) 24rem, (min-width: 48rem) 45vw, 82vw"
+                format="avif"
+                quality={55}
+              />
+            ) : null}
+          </div>
           <div class="fleet-card__body">
             <h3 class="fleet-card__name">{vehicle.name}</h3>
             <span class="fleet-card__class">{vehicle.classLabel}</span>
@@ -133,12 +145,11 @@ const headingId = "home-fleet-heading";
     background: var(--color-surface);
   }
 
-  /* Media stage — wireframe `m-4 aspect-video rounded-lg`. 16:9 graphite
-     placeholder: a subtle surface-elevated → surface gradient with a quiet
-     hairline so the stage boundary is perceptible without a heavy border or
-     shadow (DESIGN.md §10). No image, no vehicle drawing, no name in the
-     stage. Future-ready for an object-contain transparent cutout. Decorative
-     (aria-hidden in markup). */
+  /* Media stage — wireframe `m-4 aspect-video rounded-lg`. The graphite
+     gradient remains a truthful fallback where no approved fleet photograph
+     exists; supplied vehicle photography fills the same stable 16:9 frame.
+     A quiet hairline keeps the boundary legible without a heavy border or
+     shadow (DESIGN.md §10). */
   .fleet-card__media {
     margin: var(--space-4);
     aspect-ratio: 16 / 9;
@@ -147,6 +158,14 @@ const headingId = "home-fleet-heading";
     background:
       radial-gradient(120% 85% at 50% 16%, var(--color-surface-elevated), transparent 62%),
       linear-gradient(180deg, var(--color-surface-elevated), var(--color-surface));
+    overflow: hidden;
+  }
+
+  .fleet-card__image {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
   }
 
   /* Content block — wireframe `grid gap-3 px-4 pb-5` (no top padding: the

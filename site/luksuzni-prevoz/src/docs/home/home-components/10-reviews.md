@@ -43,7 +43,7 @@ Mobile:
 Target continuation behavior:
 
 ```text
-desktop → approximately 3 reviews visible
+desktop → approximately 2.5–3 reviews visible
 tablet  → approximately 1.5–2 reviews visible, depending available width
 mobile  → swipeable track with a clear partial-next-card cue
 ```
@@ -56,6 +56,8 @@ Exact item width belongs to the carousel/container implementation, not to duplic
 - card radius uses Theme V2 semantic `card` radius;
 - internal spacing uses Theme V2 spacing tokens;
 - maintain a stable readable footprint without forcing a decorative fixed height;
+- quote text receives a stronger readable measure and hierarchy than metadata;
+- reviewer/date resolve into a clear closing row;
 - no heavy shadow or bright border.
 
 ## Content
@@ -68,6 +70,8 @@ Each review may contain only verified/source-backed data:
 - relevant verified metadata.
 
 Do not fabricate review copy or reviewer details.
+
+Development fixtures may exercise the visual contract. Production remains gated until the real Google profile URL and source-backed review data are verified.
 
 ## Typography / color
 

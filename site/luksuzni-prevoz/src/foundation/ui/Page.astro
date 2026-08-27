@@ -15,8 +15,10 @@ import { composeTitle } from "@astro-foundation/core/seo";
 import type { LocaleCode } from "@astro-foundation/core";
 import { t } from "../../lib/i18n.ts";
 import favicon from "../../assets/logo.webp";
-import interTightCyrillicUrl from "@fontsource-variable/inter-tight/files/inter-tight-cyrillic-wght-normal.woff2?url";
-import interTightLatinUrl from "@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2?url";
+import interTightCyrillicRegularUrl from "@fontsource/inter-tight/files/inter-tight-cyrillic-400-normal.woff2?url";
+import interTightCyrillicBoldUrl from "@fontsource/inter-tight/files/inter-tight-cyrillic-700-normal.woff2?url";
+import interTightLatinRegularUrl from "@fontsource/inter-tight/files/inter-tight-latin-400-normal.woff2?url";
+import interTightLatinBoldUrl from "@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url";
 import manropeCyrillicUrl from "@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url";
 import manropeLatinUrl from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import SkipLink from "./SkipLink.astro";
@@ -28,6 +30,8 @@ interface Props {
   seo: SeoData;
   /** Preload primary text faces; pages with an image LCP may opt out. */
   preloadFonts?: boolean;
+  /** Weight used by the above-the-fold H1. */
+  headingFontWeight?: "regular" | "bold";
   /** Title template — default "{title} | {brand}" (FND-SEO-13) */
   titleTemplate?: string;
   /** Layout-only class on <body> (FND-UI-06) */
@@ -39,13 +43,21 @@ interface Props {
 const {
   seo,
   preloadFonts = true,
+  headingFontWeight = "bold",
   titleTemplate,
   class: className,
   locale,
 } = Astro.props;
 
 const skipText = t("a11y.skipToContent", locale);
-const headingFontUrl = locale === "ru" ? interTightCyrillicUrl : interTightLatinUrl;
+const headingFontUrl =
+  locale === "ru"
+    ? headingFontWeight === "regular"
+      ? interTightCyrillicRegularUrl
+      : interTightCyrillicBoldUrl
+    : headingFontWeight === "regular"
+      ? interTightLatinRegularUrl
+      : interTightLatinBoldUrl;
 const bodyFontUrl = locale === "ru" ? manropeCyrillicUrl : manropeLatinUrl;
 
 const pageTitle = composeTitle(seo.title, seo.brand, titleTemplate);

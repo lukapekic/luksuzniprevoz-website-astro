@@ -8,30 +8,25 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | Rule | Severity | Owner | Enforcer | Source |
 |------|----------|-------|----------|--------|
 | FND-A11Y-01 | P1 | AGENTS.md | auto:script | docs, test, validator |
-| FND-A11Y-03 | P1 | AGENTS.md | auto:test | docs, test |
-| FND-A11Y-04 | P1 | AGENTS.md | auto:script | docs, validator |
+| FND-A11Y-03 | P1 | AGENTS.md | auto:test | test |
+| FND-A11Y-04 | P1 | AGENTS.md | auto:script | validator |
 | FND-A11Y-05 | P1 | AGENTS.md | auto:test | docs, test |
-| FND-A11Y-08 | P1 | AGENTS.md | review/guidance | docs |
 | FND-A11Y-09 | P1 | AGENTS.md | review/guidance | docs |
 | FND-A11Y-10 | P1 | AGENTS.md | review/guidance | docs |
-| FND-ARCH-01 | P0 | AGENTS.md | auto:lint | docs, eslint |
+| FND-ARCH-01 | P0 | AGENTS.md | auto:lint | eslint |
 | FND-ARCH-03 | P0 | AGENTS.md | auto:lint | docs, eslint |
-| FND-ARCH-06 | P0 | AGENTS.md | auto:test | docs, test |
-| FND-CAP-01 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-CAP-04 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-CAP-05 | P0 | AGENTS.md | review/guidance | docs |
-| FND-COMPAT-03 | P1 | AGENTS.md | review/guidance | docs |
+| FND-ARCH-06 | P0 | AGENTS.md | auto:test | test |
+| FND-CAP-01 | P0 | AGENTS.md | auto:script | validator |
+| FND-CAP-04 | P0 | AGENTS.md | auto:script | validator |
 | FND-CSS-04 | P1 | AGENTS.md | auto:test | docs, test |
-| FND-DATA-03 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-DATA-04 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-DATA-05 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-DATA-06 | P0 | AGENTS.md | auto:lint | docs, eslint |
-| FND-DATA-07 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-DATA-03 | P0 | AGENTS.md | auto:script | validator |
+| FND-DATA-04 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-DATA-05 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-DATA-06 | P0 | AGENTS.md | auto:lint | eslint |
+| FND-DATA-07 | P0 | AGENTS.md | auto:script | test, validator |
 | FND-DATA-08 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-DATA-09 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-DX-02 | P2 | AGENTS.md | review/guidance | docs |
 | FND-ENV-01 | P0 | AGENTS.md | review/guidance | docs |
-| FND-ENV-02 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-06 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-07 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-08 | P0 | AGENTS.md | review/guidance | docs |
@@ -39,64 +34,53 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-ENV-10 | P0 | AGENTS.md | review/guidance | docs |
 | FND-I18N-03 | P1 | AGENTS.md | auto:lint | docs, eslint, test |
 | FND-I18N-04 | P1 | AGENTS.md | auto:script | docs, validator |
-| FND-I18N-05 | P1 | AGENTS.md | auto:script | docs, test, validator |
-| FND-I18N-06 | P1 | AGENTS.md | auto:script | docs, test, validator |
-| FND-I18N-07 | P1 | AGENTS.md | auto:script | docs, test, validator |
+| FND-I18N-05 | P1 | AGENTS.md | auto:script | test, validator |
+| FND-I18N-06 | P1 | AGENTS.md | auto:script | test, validator |
+| FND-I18N-07 | P1 | AGENTS.md | auto:script | test, validator |
 | FND-I18N-08 | P1 | AGENTS.md | auto:lint | docs, eslint, validator |
-| FND-I18N-09 | P1 | AGENTS.md | auto:script | docs, test, validator |
-| FND-I18N-10 | P1 | AGENTS.md | auto:script | docs, test, validator |
-| FND-I18N-11 | P1 | AGENTS.md | auto:script | docs, validator |
-| FND-I18N-12 | P1 | AGENTS.md | review/guidance | docs |
+| FND-I18N-09 | P1 | AGENTS.md | auto:script | test, validator |
+| FND-I18N-10 | P1 | AGENTS.md | auto:script | test, validator |
+| FND-I18N-11 | P1 | AGENTS.md | auto:script | validator |
 | FND-I18N-13 | P1 | AGENTS.md | auto:lint | docs, eslint |
 | FND-IMG-01 | P1 | AGENTS.md | auto:lint | docs, eslint |
 | FND-IMG-08 | P1 | AGENTS.md | auto:lint | docs, eslint |
-| FND-LIFE-01 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-LIFE-02 | P0 | AGENTS.md | auto:script | docs, test, validator |
+| FND-LIFE-01 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-LIFE-02 | P0 | AGENTS.md | auto:script | test, validator |
 | FND-LIFE-05 | P0 | AGENTS.md | review/guidance | docs |
-| FND-LIFE-06 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-LIFE-07 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-LIFE-08 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-LIFE-09 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-META-03 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-LIFE-06 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-LIFE-07 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-LIFE-08 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-LIFE-09 | P0 | AGENTS.md | auto:script | validator |
+| FND-META-03 | P0 | AGENTS.md | auto:script | validator |
 | FND-META-07 | P0 | AGENTS.md | review/guidance | docs |
-| FND-META-08 | P0 | AGENTS.md | review/guidance | docs |
 | FND-META-09 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-META-10 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-PERF-03 | P1 | AGENTS.md | review/guidance | docs |
 | FND-RESP-03 | P1 | AGENTS.md | auto:test | docs, test |
-| FND-RESP-06 | P1 | AGENTS.md | review/guidance | docs |
 | FND-SCALE-01 | P0 | AGENTS.md | auto:script | docs, test, validator |
 | FND-SCALE-02 | P0 | AGENTS.md | review/guidance | docs |
-| FND-SEO-01 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-SEO-02 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-03 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-04 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-SEO-05 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-06 | P0 | AGENTS.md | review/guidance | docs |
-| FND-SEO-07 | P0 | AGENTS.md | review/guidance | docs |
-| FND-SEO-08 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-09 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-10 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-11 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-12 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-13 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-SEO-14 | P0 | AGENTS.md | auto:script | docs, test, validator |
-| FND-THEME-03 | P1 | AGENTS.md | auto:script | docs, test, validator |
-| FND-THEME-06 | P1 | AGENTS.md | auto:script | docs, validator |
-| FND-THEME-07 | P1 | AGENTS.md | auto:test | docs, test |
+| FND-SEO-01 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-SEO-02 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-03 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-04 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-SEO-05 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-08 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-09 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-10 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-11 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-12 | P0 | AGENTS.md | auto:script | validator |
+| FND-SEO-13 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-SEO-14 | P0 | AGENTS.md | auto:script | test, validator |
+| FND-THEME-03 | P1 | AGENTS.md | auto:script | test, validator |
+| FND-THEME-06 | P1 | AGENTS.md | auto:script | validator |
+| FND-THEME-07 | P1 | AGENTS.md | auto:test | test |
 | FND-THEME-08 | P1 | AGENTS.md | auto:test | test |
-| FND-THEME-09 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-THEME-09 | P1 | AGENTS.md | auto:lint | eslint |
 | FND-THEME-10 | P1 | AGENTS.md | review/guidance | docs |
-| FND-THEME-11 | P1 | AGENTS.md | review/guidance | docs |
-| FND-TYPE-01 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-TYPE-02 | P0 | AGENTS.md | review/guidance | docs |
-| FND-TYPE-03 | P0 | AGENTS.md | review/guidance | docs |
-| FND-TYPE-04 | P0 | AGENTS.md | review/guidance | docs |
-| FND-UI-03 | P1 | AGENTS.md | review/guidance | docs |
-| FND-UI-05 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-TYPE-01 | P0 | AGENTS.md | auto:script | validator |
+| FND-UI-05 | P1 | AGENTS.md | auto:lint | eslint |
 | FND-UI-06 | P1 | AGENTS.md | auto:lint | docs, eslint |
-| FND-UI-07 | P1 | AGENTS.md | auto:lint | docs, eslint |
+| FND-UI-07 | P1 | AGENTS.md | auto:lint | eslint |
 | FND-UI-08 | P1 | AGENTS.md | review/guidance | docs |
-| FND-UI-13 | P1 | AGENTS.md | review/guidance | docs |
 
-**91 rules** cited across the codebase.
+**75 rules** cited across the codebase.

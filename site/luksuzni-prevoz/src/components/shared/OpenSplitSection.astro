@@ -128,6 +128,8 @@ const {
   layout = "content-image",
   ratio = "6-6",
   mobileOrder = "content-first",
+  mediaBleed = false,
+  mediaOverlay = false,
   class: className,
 } = Astro.props;
 
@@ -195,7 +197,7 @@ const mobileOrderClass =
 const isDecorative = imageAlt === "";
 ---
 
-<div class:list={["open-split", className]}>
+<div class:list={["open-split", mediaBleed && "open-split--media-bleed", className]}>
   <div class:list={["open-split__content", placement.content, mobileOrderClass.content]}>
     <slot name="content" />
   </div>
@@ -210,6 +212,7 @@ const isDecorative = imageAlt === "";
       widths={[400, 640, 800, 1000]}
       sizes="(min-width: 64rem) 42rem, (min-width: 48rem) 38rem, calc(100vw - 3rem)"
     />
+    {mediaOverlay && <div class="open-split__overlay" aria-hidden="true" />}
   </figure>
 </div>
 
@@ -283,6 +286,38 @@ const isDecorative = imageAlt === "";
     object-fit: cover;
     object-position: center;
     z-index: 0;
+  }
+
+  /* Full-height panel-side media is opt-in. The negative edges consume the
+     active feature rhythm and page gutter so the image reaches the containing
+     panel's top, bottom, and inline-end edge. */
+  @media (min-width: 64rem) {
+    .open-split--media-bleed {
+      margin-block: calc(-1 * var(--space-section-feature));
+      margin-inline-end: calc(-1 * var(--gutter-page));
+    }
+
+    .open-split--media-bleed .open-split__media {
+      align-self: stretch;
+      block-size: 100%;
+      aspect-ratio: auto;
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+  }
+
+  /* Same bottom-weighted semantic scrim used by ServiceCard. */
+  .open-split__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      var(--color-background) 0%,
+      color-mix(in oklab, var(--color-background), transparent 30%) 45%,
+      color-mix(in oklab, var(--color-background), transparent 70%) 72%,
+      transparent 100%
+    );
   }
 
   /* --- Reduced motion: nothing to disable — there is no motion. The rule is

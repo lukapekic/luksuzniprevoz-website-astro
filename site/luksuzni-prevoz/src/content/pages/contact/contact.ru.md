@@ -1,6 +1,8 @@
 ---
 routeKey: contact
 locale: ru
+sourceDigest: 684433234ff3ded7
+sourceLocale: sr
 pageType: scaffold
 targetPageType: contact
 scaffold: true

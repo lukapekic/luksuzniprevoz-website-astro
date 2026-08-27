@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T09:28:59.122Z",
-  "sourceHash": "bb080deb68db38d4d76b834a89195be3f2c157dab659c127e05ceda7597a8dae",
+  "generatedAt": "2026-08-27T15:15:05.163Z",
+  "sourceHash": "efda1ee3fc368ee2db510aa0d69692b5c61ee9699897e7f0870b3af0818c53ef",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -335,6 +335,7 @@
       "site/luksuzni-prevoz/src/foundation/ui/Disclosure.astro",
       "site/luksuzni-prevoz/src/foundation/ui/Field.astro",
       "site/luksuzni-prevoz/src/foundation/ui/FormStatus.astro",
+      "site/luksuzni-prevoz/src/foundation/ui/GsMark.astro",
       "site/luksuzni-prevoz/src/foundation/ui/Image.astro",
       "site/luksuzni-prevoz/src/foundation/ui/Input.astro",
       "site/luksuzni-prevoz/src/foundation/ui/LanguageSwitcher.astro",
@@ -408,6 +409,7 @@
       "site/luksuzni-prevoz/src/data/clients.ts",
       "site/luksuzni-prevoz/src/data/contact.ts",
       "site/luksuzni-prevoz/src/data/fixtures/google-place-reviews.mock.json",
+      "site/luksuzni-prevoz/src/data/fleet-media.ts",
       "site/luksuzni-prevoz/src/data/fleet.ts",
       "site/luksuzni-prevoz/src/data/locales.ts",
       "site/luksuzni-prevoz/src/data/navigation-labels.json",

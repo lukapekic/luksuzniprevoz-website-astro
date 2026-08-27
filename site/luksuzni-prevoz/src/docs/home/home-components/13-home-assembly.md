@@ -42,7 +42,7 @@ Hero media is full viewport width; Hero content is aligned to the main inner con
 ```text
 full-bleed cinematic Hero
 → open image mosaic
-→ open editorial split
+→ open editorial split with one compact graphite package inset
 → elevated contained Trust
 → open Fleet
 → light contained How It Works
@@ -69,3 +69,4 @@ At all widths:
 - no copy clipped to preserve fixed heights;
 - Hero media remains full bleed;
 - Header/Hero contrast remains valid.
+- Hero, sections and CTA motion reduce to static presentation under `prefers-reduced-motion`.

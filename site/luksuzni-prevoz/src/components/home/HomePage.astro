@@ -58,10 +58,12 @@ import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
 import { t } from "../../lib/i18n.ts";
 import { contact, isVerified } from "../../data/contact.ts";
 import { getService } from "../../data/services.ts";
-import { vehicles, type VehicleClass } from "../../data/fleet.ts";
+import { getVehicle, type VehicleClass } from "../../data/fleet.ts";
+import { homepageFleetMedia, homepageFleetOrder } from "../../data/fleet-media.ts";
 import { getReviewsSummary } from "../../data/reviews.ts";
-import heroImg from "../../assets/hero.webp";
+import heroImg from "../../assets/hero-example-2.jpg";
 import finalCtaImg from "../../assets/final-cta-bg.webp";
+import privateChauffeurSectionImg from "../../assets/sections/home/private-chauffeur.webp";
 import type { LocaleCode } from "@astro-foundation/core";
 
 interface Props {
@@ -216,12 +218,9 @@ const flagshipPackages = [
     detail: `${bookingOpts.fullDay.hours} ${hoursLbl} · ${upToLbl} ${bookingOpts.fullDay.includedKm} ${kmLbl}`,
   },
 ];
-// The split image: a dedicated chauffeur/S-Class contextual photograph is not
-// yet produced, so the approved final-cta-bg S-Class asset is wired as an
-// interim stand-in (decorative, alt="") until that asset lands (DESIGN.md §14
-// — missing assets do not authorize redesign). Flagged for the content/asset
-// owner; OpenSplitSection requires an image so omitting it is not an option.
-const flagshipImage = finalCtaImg;
+// Dedicated contextual image for the Private Chauffeur feature. It is
+// decorative because the authored heading and body carry the service meaning.
+const flagshipImage = privateChauffeurSectionImg;
 
 // --- Fleet showcase (blueprint §11 / 08-fleet-showcase) ---------------------
 // Three concerns kept separate (08 §Content/data boundaries), mirroring the
@@ -239,9 +238,8 @@ const flagshipImage = finalCtaImg;
 // ONLY where `vehicle.passengers !== null` (the 6/7/8 V-Class/Vito facts);
 // null capacities are omitted, never fabricated as 0/N/A/unknown (08 §Forbidden;
 // task §11). No pricing, no luggage/year/engine facts (task §13). All seven
-// canonical vehicles render in declaration order — the home content models no
-// `fleet.vehicleIds` subset, so the homepage does not silently override the
-// roster. NEW fleet.* UI keys (class labels, passenger word, carousel control
+// canonical vehicles render in the approved homepage presentation order,
+// led by the S-Class. NEW fleet.* UI keys (class labels, passenger word, carousel control
 // labels) are flagged for loc-owner review, same as the booking.* keys.
 const fleetCta = {
   label: fleet.cta.label,
@@ -259,51 +257,49 @@ const fleetCarouselLabels = {
   previous: t("fleet.carousel.previous", currentLocale),
   next: t("fleet.carousel.next", currentLocale),
 };
-const fleetVehicles = vehicles.map((vehicle) => ({
-  id: vehicle.id,
-  name: vehicle.displayName,
-  classLabel: fleetClassLabels[vehicle.vehicleClass],
-  passengerText:
-    vehicle.passengers !== null
-      ? `${vehicle.passengers} ${fleetPassengersWord}`
-      : undefined,
-}));
+const fleetVehicles = homepageFleetOrder.map((vehicleId) => {
+  const vehicle = getVehicle(vehicleId);
+  return {
+    id: vehicle.id,
+    name: vehicle.displayName,
+    classLabel: fleetClassLabels[vehicle.vehicleClass],
+    passengerText:
+      vehicle.passengers !== null
+        ? `${vehicle.passengers} ${fleetPassengersWord}`
+        : undefined,
+    image: homepageFleetMedia[vehicle.id] ?? undefined,
+  };
+});
 
-// --- Google Reviews (blueprint §13 / 10-reviews) — MOCK DATA MODE --------------
-// The review dataset comes from the local mocked Places fixture via
-// data/reviews.ts getReviewsSummary() (the single swap point for the future
-// real Google Reviews package). The UI consumes only the normalized
-// ReviewViewModel[] — never the raw Google shape. Review text is NOT localized
-// per page locale (an external Google review keeps its own language — task
-// §28); only the UI chrome (heading, CTA, carousel labels, rating unit) is
-// localized, inside ReviewsShowcase via t().
-//
-// External-link safety (task §22 / 10-reviews.md "do not invent a verified
-// URL"): the section-level "View Google reviews" CTA is GATED on a non-null
-// URL. The verified production destination is contact.office.googleMapsUrl
-// (currently null / owner-confirmation-required); it takes precedence when
-// verified. Until then, in MOCK DATA MODE, the mock place-level googleMapsUri
-// from the fixture is used for STRUCTURAL TESTING only — it is an obviously-
-// fake path (mock-luxury-transportation) on a .mock.json fixture with a MOCK
-// import comment, so it can never be mistaken for a verified production Google
-// destination. When both are null the CTA is hidden (no invented link).
+// --- Google Reviews (blueprint §13 / 10-reviews) -----------------------------
+// The local Places fixture is development-only. Production gates the whole
+// region on the verified Google profile/data boundary so fabricated review
+// text and cross-locale fixture copy can never ship.
 const reviewsSummary = getReviewsSummary();
-const reviewsProfileUrl =
+const verifiedReviewsProfileUrl =
   contact.office.verificationStatus === "verified" &&
   contact.office.googleMapsUrl
     ? contact.office.googleMapsUrl
-    : reviewsSummary.googleMapsUrl;
+    : null;
+// Synthetic reviews are a development fixture, never production content. This
+// also prevents Serbian fixture copy from leaking onto English/Russian pages.
+// Production enables the section only after the verified Google profile/data
+// boundary is available; development retains the fixture for component work.
+const showReviews = import.meta.env.DEV || Boolean(verifiedReviewsProfileUrl);
+const reviewsProfileUrl = import.meta.env.DEV
+  ? verifiedReviewsProfileUrl ?? reviewsSummary.googleMapsUrl
+  : verifiedReviewsProfileUrl;
 ---
 
 <Page
   seo={seo}
-  preloadFonts={false}
+  headingFontWeight="regular"
   locale={currentLocale}
   class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]"
 >
   <SiteHeader currentRouteKey="home" currentLocale={currentLocale} overHero={true} />
 
-  <main id="main-content" class="flex-1">
+  <main id="main-content" class="flex-1" data-home-motion-root>
     {/* The full-bleed Hero is the first element under the sticky SiteHeader.
         The hero media must start at the page top BEHIND the overlaid header
         (transparent over-hero state at page top, solid on scroll). The header
@@ -335,17 +331,15 @@ const reviewsProfileUrl =
         mosaic, blueprint §8 / 04-service-showcase). Consumes canonical
         `services` (entry.data.services) — heading + exactly 4 routeCard items
         in canonical order. ServiceShowcase owns the mosaic topology + section
-        heading; the reused generic ServiceCard owns each tile. INTERIM imagery
-        until per-service photography is produced (see ServiceShowcase JSDoc).
+        heading; the reused generic ServiceCard owns each image-backed tile.
 
       §4 Private Chauffeur feature — MOUNTED below as <PrivateChauffeurFeature>
         (blueprint §9 / 06-private-chauffeur-feature): editorial
         `flagshipFeature` (heading/body/cta) + canonical package facts from
         services.ts (bookingOptions) + localized labels from the UI dictionary,
         composed on the shared OpenSplitSection (locked 5/7, content left /
-        image right). Image: interim approved S-Class asset (final-cta-bg)
-        stands in until a dedicated chauffeur/S-Class split photograph is
-        produced.
+        image right). Image: approved dedicated chauffeur/S-Class split
+        photograph.
 
       §5 TrustStrip — MOUNTED below (canonical 4-item content is authored).
     */}
@@ -388,12 +382,12 @@ const reviewsProfileUrl =
         an open dark feature section with the heading row (editorial
         `fleet.heading` + the resolved "View fleet" section action) and the
         reused shared HorizontalCarousel (itemSize "compact") carrying all
-        seven canonical vehicles in declaration order. Each card is a
+        seven canonical vehicles in the approved homepage order. Each card is a
         presentation-only projection of fleet.ts (display name verbatim,
         localized vehicle-class label, passenger-capacity chip only where
-        non-null) on a neutral graphite placeholder media stage — final
-        transparent vehicle cutouts are not produced yet (DESIGN.md §14 —
-        missing assets do not authorize redesign). No pricing, no fabricated
+        non-null) over the matching approved fleet photograph when available;
+        the Vito keeps the truthful graphite fallback because no matching asset
+        exists. No pricing, no fabricated
         facts. The carousel mechanics are reused unchanged (task §8/§17/§27).
     */}
     <FleetShowcase
@@ -414,23 +408,19 @@ const reviewsProfileUrl =
     <HowItWorks heading={process.heading} steps={process.steps} />
 
     {/*
-      §8 Google Reviews — MOUNTED below (blueprint §13 / 10-reviews): an open
-        dark standard section with the heading row (editorial `reviews.heading`
-        + the gated external "View Google reviews" action) and the reused shared
-        HorizontalCarousel (itemSize "standard") carrying the five synthetic mock
-        reviews. MOCK DATA MODE — data/reviews.ts (local Places fixture) is the
-        single swap point for the future real Google Reviews package; the section
-        CTA is gated so a mock URL can never be mistaken for a verified
-        production Google destination. The carousel mechanics are reused
-        unchanged (no Reviews-only carousel behavior).
+      §8 Google Reviews — development fixture only until the production Google
+        profile and review data are verified. The section is omitted from
+        production rather than shipping fabricated or cross-locale review copy.
     */}
-    <ReviewsShowcase
-      heading={reviews.heading}
-      profileLabel={reviews.externalProfileLabel}
-      profileUrl={reviewsProfileUrl}
-      reviews={reviewsSummary.reviews}
-      locale={currentLocale}
-    />
+    {showReviews ? (
+      <ReviewsShowcase
+        heading={reviews.heading}
+        profileLabel={reviews.externalProfileLabel}
+        profileUrl={reviewsProfileUrl}
+        reviews={reviewsSummary.reviews}
+        locale={currentLocale}
+      />
+    ) : null}
 
     <FinalCTA
       heading={finalCta.heading}
@@ -440,6 +430,7 @@ const reviewsProfileUrl =
       contacts={finalCtaContacts}
       image={finalCtaImg}
       imageFit="cover"
+      mediaTreatment="integrated"
       imageAlt=""
       locale={currentLocale}
     />
@@ -459,3 +450,61 @@ const reviewsProfileUrl =
     margin-block-start: calc(-1 * var(--site-header-height));
   }
 </style>
+
+<style is:global>
+  /* Progressive enhancement: content remains fully visible until the script
+     has identified and registered each section. Sections reveal once, with a
+     small vertical settle; reduced-motion users always receive the static page. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-home-motion-root][data-home-motion-ready] > [data-home-reveal] {
+      opacity: 0;
+      transform: translateY(var(--space-4));
+      transition:
+        opacity var(--duration-cinematic) var(--ease-entrance),
+        transform var(--duration-cinematic) var(--ease-entrance);
+    }
+
+    [data-home-motion-root][data-home-motion-ready] > [data-home-reveal][data-home-revealed] {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // island: homepage section reveals — progressive, one-shot and motion-safe.
+  const motionRoot = document.querySelector<HTMLElement>("[data-home-motion-root]");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (motionRoot && !reducedMotion && "IntersectionObserver" in window) {
+    const sections = Array.from(
+      motionRoot.querySelectorAll<HTMLElement>(":scope > section"),
+    );
+
+    for (const section of sections) {
+      section.setAttribute("data-home-reveal", "");
+      if (section.getBoundingClientRect().top < window.innerHeight * 0.9) {
+        section.setAttribute("data-home-revealed", "");
+      }
+    }
+
+    motionRoot.setAttribute("data-home-motion-ready", "");
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-home-revealed", "");
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+    );
+
+    for (const section of sections) {
+      if (!section.hasAttribute("data-home-revealed")) {
+        revealObserver.observe(section);
+      }
+    }
+  }
+</script>

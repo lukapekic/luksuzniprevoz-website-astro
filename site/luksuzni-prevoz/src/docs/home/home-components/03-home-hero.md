@@ -1,4 +1,4 @@
-# HomepageHero — Exact V1.1 Contract
+# HomepageHero — Exact V1.2 Contract
 
 ## Outer shell
 
@@ -82,9 +82,12 @@ Top content spacing must account for the overlaid Header without creating a sepa
 
 ## Surface / image
 
-- Full-width S-Class contextual image.
+- Full-width approved `hero-example-2.jpg` S-Class contextual image.
 - Cover behavior with explicit focal point.
+- Mobile crop favors the vehicle's front; tablet and desktop receive separately reviewed crops.
+- Moderate exposure/saturation reduction establishes a credible low-key dusk character without pretending the daylight scene is literal night.
 - Stronger restrained scrim behind left copy.
+- Top/bottom settle plus restrained radial vignette protect Header and content while preserving chrome highlights.
 - Controlled treatment behind right statement.
 - No glow.
 - No gold/platinum tint over the whole image.
@@ -116,8 +119,8 @@ Do not replace Request a Quote with Fleet or an unrelated action.
 
 ## Motion
 
-- One-time content entrance only.
-- Subtle image zoom/pan allowed.
+- One-time staggered content entrance.
+- Subtle image zoom/pan enabled.
 - Reduced-motion behavior required.
 
 ## Forbidden

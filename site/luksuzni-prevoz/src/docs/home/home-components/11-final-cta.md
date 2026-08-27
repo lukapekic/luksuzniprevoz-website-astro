@@ -1,4 +1,4 @@
-# FinalCTA — Exact V1.1 Contract
+# FinalCTA — Exact V1.2 Contract
 
 ## Section wrapper
 
@@ -34,6 +34,8 @@ Image:
 - preferred front-facing S-Class;
 - blended/no hard edge;
 - not a separate bordered card.
+- the optional `integrated` media treatment fills the complete media region, adds a restrained light-neutral veil, and fades the media into the panel at its inline start.
+- the `integrated` treatment is opt-in so existing consumers remain unchanged.
 
 ## Tablet
 
@@ -49,6 +51,7 @@ Do not force desktop geometry when the available width is too small.
 - Request Quote CTA full width.
 - Verified phone/email contacts presented compactly.
 - Dedicated media area below content.
+- Integrated media switches to a block-start fade on mobile.
 - No image-behind-copy treatment if it harms legibility.
 
 ## CTA group

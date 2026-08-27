@@ -80,9 +80,11 @@ The rule is a small visual accent only:
 - do not use raw accent hex values;
 - do not turn it into a decorative gold motif.
 
-## Package summary
+## Package summary inset
 
 Purpose: communicate the three service modes without creating a pricing UI.
+
+The three modes sit inside one compact `surfaceElevated` container. This is the only contained element on the text side; it is not a card collection or light pricing surface.
 
 Desktop:
 
@@ -90,14 +92,14 @@ Desktop:
 Hourly | Half Day | Full Day
 ```
 
-- three equal informational columns;
+- three equal informational columns inside one shared inset;
 - structural separators use the semantic `divider` role;
 - spacing comes from Theme V2;
 - no individual cards, pills or boxes.
 
 Mobile:
 
-- one column;
+- one shared inset with one column;
 - horizontal dividers between items;
 - no card boxes.
 
@@ -138,6 +140,7 @@ body/UI → Manrope through font-body
 ## Forbidden
 
 - three pricing cards;
+- white/light package-summary surface;
 - duplicated pricing table;
 - enclosing text-side card;
 - raw theme values;

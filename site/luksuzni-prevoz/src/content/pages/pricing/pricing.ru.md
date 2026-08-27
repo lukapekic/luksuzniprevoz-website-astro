@@ -1,6 +1,8 @@
 ---
 routeKey: pricing
 locale: ru
+sourceDigest: b4d640622454dae0
+sourceLocale: sr
 pageType: scaffold
 targetPageType: pricing
 scaffold: true

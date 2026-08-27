@@ -6,7 +6,7 @@ status: published
 translationState: reviewed
 reviewedOn: 2026-08-17
 
-seoTitle: "Luxury Transportation | Privatni i poslovni prevoz sa vozačem"
+seoTitle: "Luxury Transportation | Privatni i poslovni prevoz"
 seoDescription: "Privatni prevoz sa profesionalnim vozačem u Beogradu za poslovne obaveze, aerodrom, događaje i svakodnevne potrebe. Vozilo i vozač, uz potvrdu rezervacije."
 
 hero:
@@ -48,7 +48,7 @@ services:
 
 flagshipFeature:
   heading:
-    title: "Privatni vozač kada vam je potreban ceo raspored, ne samo jedna vožnja"
+    title: "Privatni vozač po vašem rasporedu"
   body: "Rezervišite vozilo i profesionalnog vozača za obaveze tokom dana, više stanica ili sastanke po gradu. Usluga se prilagođava vašem planu u okviru izabranog perioda najma."
   points:
     - "Najam od jednog sata"

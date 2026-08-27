@@ -55,17 +55,10 @@
  * Routing: each card's CTA is `{ to: routeKey }` → <Link> resolves via getPath
  * (FND-I18N-03). No hardcoded locale prefixes, no manual URL building.
  *
- * PLACEHOLDER IMAGERY PHASE (reported, not silently worked around): real
- * per-service photography is not yet produced (routeCard.image is optional +
- * unauthored for every locale). Per the task's approved placeholder strategy,
- * NO photographic asset is wired — each card renders a neutral Black & Platinum
- * placeholder media layer (ServiceCard `placeholder` prop, semantic-surface
- * gradients), distinguished by subtle tone variation only. The media-layer
- * architecture (media → scrim → content) is identical to the real-image path,
- * so swapping in photography later is just authoring routeCard.image + passing
- * ServiceCard `image` — no component rewrite. Placeholder media is decorative
- * (aria-hidden) — the service title carries the meaning (imagery-art-direction
- * §19; mirrors Hero/FinalCTA imageAlt="" on this page).
+ * Service imagery is mapped here, at the Homepage composition boundary, rather
+ * than added to editorial content. The imported card assets are decorative
+ * atmospheric media; each localized service title carries the meaning
+ * (imagery-art-direction §19; mirrors Hero/FinalCTA imageAlt="" on this page).
  *
  * Accessibility: section <h2> (SectionHeading) + per-card <h3> (ServiceCard
  * headingLevel=3) → logical H1→H2→H3 hierarchy (single page H1 stays in Hero).
@@ -77,8 +70,11 @@ import Section from "../../foundation/ui/Section.astro";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import ServiceCard from "../shared/ServiceCard.astro";
-import type { ServiceCardPlaceholder } from "../shared/ServiceCard.types.ts";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import privateChauffeurCard from "../../assets/services/private-chauffeur-card.webp";
+import airportTransportationCard from "../../assets/services/airport-transfer-card.webp";
+import businessTransportationCard from "../../assets/services/business-transport-card.webp";
+import specialEventsCard from "../../assets/services/special-events-card.png";
 
 /** Canonical Homepage service item (routeCardSchema shape — editorial copy only). */
 interface HomeServiceItem {
@@ -106,22 +102,11 @@ const { heading, items, locale } = Astro.props;
 
 const headingId = "home-services-heading";
 
-// PLACEHOLDER IMAGERY PHASE: real per-service photography is not yet produced
-// (routeCard.image is optional + unauthored for every locale). Per the task's
-// approved placeholder strategy, NO photographic asset is wired here — each
-// card renders a neutral Black & Platinum placeholder media layer instead
-// (ServiceCard `placeholder` prop, semantic-surface gradients). The four cards
-// are distinguished by subtle tone variation only. This is an INTERIM: once
-// per-service photography exists it should be authored as routeCard.image in
-// home.{sr,en,ru}.md and passed as ServiceCard `image` here (the media-layer
-// architecture is identical — no rewrite). See ServiceCard.types.ts
-// ServiceCardPlaceholder. (DESIGN.md §14: missing assets do not authorize
-// redesign; no external/invented media.)
-const placeholderFor: Record<string, ServiceCardPlaceholder> = {
-  privateChauffeur: "graphite",
-  airportTransportation: "graphite-light",
-  businessTransportation: "near-black-graphite",
-  specialEvents: "graphite-near-black",
+const imageFor: Record<string, typeof privateChauffeurCard> = {
+  privateChauffeur: privateChauffeurCard,
+  airportTransportation: airportTransportationCard,
+  businessTransportation: businessTransportationCard,
+  specialEvents: specialEventsCard,
 };
 
 // Canonical-order guard — the schema enforces length 4, but the array type does
@@ -135,13 +120,13 @@ const [privateChauffeur, airport, business, specialEvents] = items;
 
 // Map a canonical service item to ServiceCard's presentation-only props. The CTA
 // target IS the item's routeKey (routeCard has no separate target — the card
-// links to the service route itself); label is the authored ctaLabel. No `image`
-// is passed → ServiceCard renders the neutral placeholder media layer.
+// links to the service route itself); label is the authored ctaLabel. Each
+// canonical service key has a matching imported card asset.
 const card = (item: HomeServiceItem, className: string) => ({
   title: item.title,
   description: item.text ?? "",
+  image: imageFor[item.routeKey],
   imageAlt: "",
-  placeholder: placeholderFor[item.routeKey] ?? "graphite",
   action: { label: item.ctaLabel, to: item.routeKey as RouteKey },
   locale,
   headingLevel: 3 as const,

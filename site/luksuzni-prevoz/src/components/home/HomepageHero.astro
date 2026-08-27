@@ -64,11 +64,9 @@
  * decorative atmosphere behind the H1/copy (alt="" + role="presentation") — the
  * title carries the meaning, never copied into alt (imagery-art-direction §19).
  *
- * Motion (task §24): STATIC. No entrance animation, no background zoom/pan,
- * no parallax, no IntersectionObserver. The hero is a still composition; the
- * only transitions are the <Link> hover/focus color shifts already owned by the
- * primitive. (Task §24 is stricter than 03 §Motion's permissive language; the
- * stricter, explicit instruction wins.)
+ * Motion: a restrained one-time content sequence and image settle use the
+ * active motion tokens. There is no parallax, loop or observer dependency;
+ * prefers-reduced-motion restores the static composition.
  *
  * Breakpoints (task §21 / task 1D): the 7/5 desktop split activates at xl
  * (80rem / 1280px), NOT lg — at 1024–1279px the copy would be too cramped for
@@ -119,8 +117,8 @@ const isDecorative = imageAlt === "";
       canvas — no contained panel, no radius, full page width behind the
       overlaid sticky SiteHeader. Decorative atmosphere behind the H1/copy but
       the page LCP — so eager + fetchpriority="high" + responsive widths at
-      100vw. object-cover; object-position biases the subject right so the left
-      copy keeps negative space (asset-specific crop, reviewed per breakpoint
+      100vw. object-cover; object-position follows the vehicle's inline-start
+      focal point on narrow crops and recenters progressively (reviewed per breakpoint
       — task §13). */}
   <Image
     class="homepage-hero__image"
@@ -129,7 +127,7 @@ const isDecorative = imageAlt === "";
     role={isDecorative ? "presentation" : undefined}
     loading="eager"
     fetchpriority="high"
-    decoding="sync"
+    decoding="async"
     format="avif"
     quality={40}
     widths={[640, 768, 1024, 1536, 1920]}
@@ -229,45 +227,51 @@ const isDecorative = imageAlt === "";
     }
   }
 
-  /* Full-bleed image: fills the entire section surface, edge to edge. object-
-     cover preserves the crop without distortion. The subject is biased toward
-     the right so the left copy keeps negative space (blueprint §7 — preserve
-     the car as focal subject). z-index:0 anchors it beneath the overlay +
-     content. */
+  /* Full-bleed image: approved side-profile S-Class. The daylight source is
+     treated as low-key dusk rather than fake night; moderate exposure and
+     saturation reduction preserve chrome/wheel highlights. Focal position is
+     art-directed below for each responsive state. */
   .homepage-hero__image {
     position: absolute;
     inset: 0;
     inline-size: 100%;
     block-size: 100%;
     object-fit: cover;
-    object-position: 70% center;
+    object-position: 28% 55%;
+    filter: brightness(0.68) contrast(1.08) saturate(0.72);
     z-index: 0;
+    transform-origin: center;
+    animation: homepage-hero-image-settle calc(var(--duration-cinematic) + var(--duration-cinematic)) var(--ease-entrance) both;
   }
 
-  /* Controlled directional overlay, rebuilt for the full-width canvas. Derived
-     ONLY from --color-background via color-mix (the repo scrim convention —
-     ServiceCard / SiteHeader) — no raw rgba, no gold, no raw hex. Three passes:
-     a left→right fade (strong behind the left copy, clears toward the right so
-     the vehicle stays the focal subject), a top darken (overlaid Header chrome
-     keeps AA contrast over the photograph), and a bottom settle (CTAs + support
-     stay legible). Decorative (aria-hidden). */
+  /* Low-key art direction: radial edge vignette preserves the vehicle center;
+     vertical settle protects Header/foreground; directional layer protects
+     the primary copy. Semantic graphite only—no fake blue night tint. */
   .homepage-hero__scrim {
     position: absolute;
     inset: 0;
     z-index: 1;
     background:
-      linear-gradient(
-        90deg,
-        color-mix(in oklab, var(--color-background), transparent 6%) 0%,
-        color-mix(in oklab, var(--color-background), transparent 30%) 45%,
-        color-mix(in oklab, var(--color-background), transparent 58%) 100%
+      radial-gradient(
+        ellipse 78% 70% at 62% 72%,
+        transparent 0%,
+        transparent 36%,
+        color-mix(in oklab, var(--color-background), transparent 56%) 76%,
+        color-mix(in oklab, var(--color-background), transparent 28%) 100%
       ),
       linear-gradient(
         180deg,
         color-mix(in oklab, var(--color-background), transparent 12%) 0%,
-        transparent 24%,
-        transparent 68%,
-        color-mix(in oklab, var(--color-background), transparent 14%) 100%
+        transparent 30%,
+        transparent 64%,
+        color-mix(in oklab, var(--color-background), transparent 18%) 100%
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--color-background), transparent 5%) 0%,
+        color-mix(in oklab, var(--color-background), transparent 20%) 43%,
+        color-mix(in oklab, var(--color-background), transparent 62%) 76%,
+        color-mix(in oklab, var(--color-background), transparent 52%) 100%
       );
   }
 
@@ -295,6 +299,7 @@ const isDecorative = imageAlt === "";
     display: grid;
     gap: var(--space-5);
     max-inline-size: 38rem;
+    animation: homepage-hero-content-in var(--duration-cinematic) var(--ease-entrance) both;
   }
 
   /* H1: semantic h1 role, active Theme V2 heading font (--font-heading —
@@ -354,6 +359,8 @@ const isDecorative = imageAlt === "";
   .homepage-hero__support {
     align-self: end;
     max-inline-size: 28rem;
+    animation: homepage-hero-content-in var(--duration-cinematic) var(--ease-entrance) both;
+    animation-delay: var(--duration-fast);
   }
   .homepage-hero__support-text {
     margin: 0;
@@ -374,6 +381,12 @@ const isDecorative = imageAlt === "";
     }
   }
 
+  @media (min-width: 48rem) {
+    .homepage-hero__image {
+      object-position: 38% 55%;
+    }
+  }
+
   /* ── xl (>=80rem): 7/5 content split. The split activates at xl (1280px)
      rather than lg so laptop (1024–1279px) stays a comfortable full-width
      single column instead of cramped two-column text (task 1D). Panel height
@@ -381,6 +394,9 @@ const isDecorative = imageAlt === "";
      max-block-size / aspect-ratio — when the H1 wraps to more lines the hero
      GROWS to fit content instead of clipping the CTA row (task 1B). */
   @media (min-width: 80rem) {
+    .homepage-hero__image {
+      object-position: center 55%;
+    }
     .homepage-hero__content--split {
       grid-template-columns: 7fr 5fr;
       gap: clamp(var(--space-8), 5vw, var(--space-20));
@@ -388,6 +404,40 @@ const isDecorative = imageAlt === "";
     .homepage-hero__support {
       padding-inline-start: var(--space-5);
       border-inline-start: 1px solid var(--color-divider);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .homepage-hero__actions {
+      flex-direction: column;
+    }
+    .homepage-hero__actions > :global(a) {
+      inline-size: 100%;
+      justify-content: center;
+    }
+  }
+
+  @keyframes homepage-hero-image-settle {
+    from { transform: scale(1.025); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes homepage-hero-content-in {
+    from {
+      opacity: 0;
+      transform: translateY(var(--space-3));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .homepage-hero__image,
+    .homepage-hero__copy,
+    .homepage-hero__support {
+      animation: none;
     }
   }
 </style>

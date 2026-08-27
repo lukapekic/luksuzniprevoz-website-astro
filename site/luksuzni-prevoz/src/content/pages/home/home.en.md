@@ -6,9 +6,9 @@ status: published
 translationState: reviewed
 reviewedOn: 2026-08-17
 sourceLocale: sr
-sourceDigest: a999727aa81a3038
+sourceDigest: 5ca775bb9ee0aa07
 
-seoTitle: "Luxury Transportation | Private chauffeur service in Belgrade"
+seoTitle: "Luxury Transportation | Chauffeur service in Belgrade"
 seoDescription: "Private chauffeur-driven transportation in Belgrade for business, airport transfers, events and personal travel, with manual booking confirmation."
 
 hero:
@@ -50,7 +50,7 @@ services:
 
 flagshipFeature:
   heading:
-    title: "A private chauffeur for your schedule, not only a single transfer"
+    title: "Private chauffeur, on your schedule"
   body: "Book a vehicle and professional chauffeur for appointments, multiple stops or meetings throughout the day. The service follows your itinerary within the selected hire period."
   points:
     - "Hire from one hour"

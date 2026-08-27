@@ -76,6 +76,9 @@ Exact width values belong to implementation/container logic, not to a duplicated
 - preserve full vehicle silhouette;
 - use a standardized neutral/dark semantic presentation surface;
 - responsive image delivery follows the repository image-performance skill.
+- existing 16:9 studio photographs may use cover within the matching 16:9 stage; transparent cutouts continue to use contain.
+- Homepage display order may lead with the S-Class through an explicit canonical presentation relationship without changing the master fleet roster.
+- missing vehicle-specific imagery retains the neutral placeholder; unrelated assets must not be substituted.
 
 The presentation region may retain the blueprint's approximate wide/landscape footprint, but the implementation must not hardcode image behavior that clips the vehicle.
 

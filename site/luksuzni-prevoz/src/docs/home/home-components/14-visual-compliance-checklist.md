@@ -7,6 +7,8 @@ Use after implementation and before final technical review.
 - [ ] top state visually overlays/integrates with Hero
 - [ ] no opaque strip above Hero
 - [ ] sticky scrolled state is compact/stable
+- [ ] no decorative Header bottom border or shadow
+- [ ] Header uses the GS vector mark without a visible wordmark
 - [ ] Book CTA visible desktop/mobile
 - [ ] mobile menu accessible
 - [ ] Header remains above Hero layers
@@ -22,6 +24,8 @@ Use after implementation and before final technical review.
 - [ ] left H1/support/CTAs visible above scrim
 - [ ] right support statement present when data/copy supplied
 - [ ] mobile/tablet/desktop crops reviewed
+- [ ] mobile crop preserves the vehicle front rather than the rear quarter
+- [ ] low-key treatment preserves vehicle highlights without pretending to be literal night
 - [ ] exactly 2 prominent CTAs: Book + Request Quote
 - [ ] no badges/forms/stats
 - [ ] computed H1 font is Inter Tight
@@ -41,6 +45,7 @@ Use after implementation and before final technical review.
 - [ ] no text card/panel
 - [ ] contextual 4:3-ish image
 - [ ] package summary is informational, not pricing cards
+- [ ] package summary is one compact elevated-graphite inset, never a white pricing panel
 - [ ] mobile content first
 
 ## Trust
@@ -53,6 +58,8 @@ Use after implementation and before final technical review.
 
 - [ ] horizontal continuation visible
 - [ ] vehicle PNGs use contain
+- [ ] 16:9 studio photographs fill the stage without distortion
+- [ ] unresolved vehicle imagery retains a truthful placeholder
 - [ ] no autoplay
 - [ ] no unverified facts/prices
 
@@ -69,6 +76,7 @@ Use after implementation and before final technical review.
 - [ ] open dark section
 - [ ] elevated review cards
 - [ ] responsive continuation/swipe
+- [ ] quote copy is materially more readable than rating/meta chrome
 - [ ] verified external Google URL
 - [ ] no invented ratings/reviews
 
@@ -80,6 +88,7 @@ Use after implementation and before final technical review.
 - [ ] neutral graphite gradient only
 - [ ] not second-Hero sized
 - [ ] no glow/hard media edge
+- [ ] integrated Homepage media uses a restrained veil and responsive edge fade
 - [ ] mobile Book full width
 - [ ] mobile Request Quote full width
 - [ ] contacts shown only when canonical data is verified
