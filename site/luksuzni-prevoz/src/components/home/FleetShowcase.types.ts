@@ -21,6 +21,7 @@
  * HowItWorks.types.ts / PrivateChauffeurFeature.types.ts use for resolved props.
  */
 import type { LocaleCode } from "@astro-foundation/core";
+import type { ImageMetadata } from "astro";
 
 /**
  * The editorial heading block: a title + an optional short intro. Structurally
@@ -70,6 +71,8 @@ export interface FleetVehicle {
    * null-capacity vehicles — the chip is simply not rendered.
    */
   passengerText?: string;
+  /** Optional verified local presentation image; missing media keeps the neutral stage. */
+  image?: ImageMetadata;
 }
 
 /** Localized carousel control/grouping labels (UI dictionary `fleet.carousel.*`). */

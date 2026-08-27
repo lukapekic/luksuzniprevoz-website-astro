@@ -8,15 +8,13 @@
  */
 import { getPath } from "@astro-foundation/core/i18n";
 import { routes } from "../data/routes.ts";
-import { config } from "../../foundation.config.ts";
 import { ctaSchema } from "../content/schemas/shared.ts";
+import { defaultLocale } from "../data/locales.ts";
 import type { z } from "astro:content";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 
 /** CTA shape as authored in editorial content (z.infer of ctaSchema). */
 export type Cta = z.infer<typeof ctaSchema>;
-
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
 /**
  * Resolve a CTA's href for the current locale.

@@ -1,0 +1,48 @@
+---
+/**
+ * GsMark — canonical code-native GS brand symbol.
+ *
+ * The mark is decorative inside BrandLockup, whose link owns the accessible
+ * product name. `title` remains available for legitimate standalone use.
+ */
+interface Props {
+  class?: string;
+  title?: string;
+  color?: string;
+  strokeWidth?: number;
+}
+
+const {
+  class: className = "",
+  title,
+  color = "currentColor",
+  strokeWidth = 2.2,
+} = Astro.props;
+---
+
+<svg
+  viewBox="0 0 70 50"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  class={className}
+  role={title ? "img" : undefined}
+  aria-hidden={title ? undefined : "true"}
+  aria-label={title ?? undefined}
+  data-brand-mark
+>
+  {title && <title>{title}</title>}
+
+  <g
+    stroke={color}
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  >
+    <path d="M31 9H19C11.8 9 7 13.8 7 21V30C7 37.2 11.8 42 19 42H47" />
+    <path d="M18 24H33" />
+    <path d="M18 29H34V37" />
+    <path d="M56 9H45C39.5 9 35.5 12.8 35.5 18C35.5 23.3 40 25.2 47.3 25.2C54.7 25.2 58 27.6 58 33.1C58 38.5 53.8 42 46.7 42H18" />
+    <path d="M66 24.5H69" />
+  </g>
+</svg>

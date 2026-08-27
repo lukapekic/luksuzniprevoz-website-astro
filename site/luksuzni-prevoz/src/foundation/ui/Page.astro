@@ -14,6 +14,13 @@ import type { SeoData } from "@astro-foundation/core/seo";
 import { composeTitle } from "@astro-foundation/core/seo";
 import type { LocaleCode } from "@astro-foundation/core";
 import { t } from "../../lib/i18n.ts";
+import favicon from "../../assets/logo.webp";
+import interTightCyrillicRegularUrl from "@fontsource/inter-tight/files/inter-tight-cyrillic-400-normal.woff2?url";
+import interTightCyrillicBoldUrl from "@fontsource/inter-tight/files/inter-tight-cyrillic-700-normal.woff2?url";
+import interTightLatinRegularUrl from "@fontsource/inter-tight/files/inter-tight-latin-400-normal.woff2?url";
+import interTightLatinBoldUrl from "@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url";
+import manropeCyrillicUrl from "@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url";
+import manropeLatinUrl from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import SkipLink from "./SkipLink.astro";
 // Global CSS entry (Tailwind v4 + Foundation theme). Imported here because
 // Page owns <html>/<head>; every page uses Page directly or via BaseLayout.
@@ -21,20 +28,37 @@ import "../../styles/global.css";
 
 interface Props {
   seo: SeoData;
+  /** Preload primary text faces; pages with an image LCP may opt out. */
+  preloadFonts?: boolean;
+  /** Weight used by the above-the-fold H1. */
+  headingFontWeight?: "regular" | "bold";
   /** Title template — default "{title} | {brand}" (FND-SEO-13) */
   titleTemplate?: string;
   /** Layout-only class on <body> (FND-UI-06) */
   class?: string;
   /** Current locale — localizes the SkipLink label (FND-ARCH-03). */
-  locale?: LocaleCode;
+  locale: LocaleCode;
 }
 
-const { seo, titleTemplate, class: className, locale } = Astro.props;
+const {
+  seo,
+  preloadFonts = true,
+  headingFontWeight = "bold",
+  titleTemplate,
+  class: className,
+  locale,
+} = Astro.props;
 
-// SkipLink label from the UI dictionary (FND-ARCH-03); English fallback only if
-// a page renders Page without a locale (defensive — every production route
-// passes one via BaseLayout / HomePage).
-const skipText = locale ? t("a11y.skipToContent", locale) : "Skip to main content";
+const skipText = t("a11y.skipToContent", locale);
+const headingFontUrl =
+  locale === "ru"
+    ? headingFontWeight === "regular"
+      ? interTightCyrillicRegularUrl
+      : interTightCyrillicBoldUrl
+    : headingFontWeight === "regular"
+      ? interTightLatinRegularUrl
+      : interTightLatinBoldUrl;
+const bodyFontUrl = locale === "ru" ? manropeCyrillicUrl : manropeLatinUrl;
 
 const pageTitle = composeTitle(seo.title, seo.brand, titleTemplate);
 const ogType = seo.ogType ?? "website";
@@ -45,6 +69,27 @@ const ogType = seo.ogType ?? "website";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/webp" href={favicon.src} />
+    {preloadFonts && (
+      <link
+        rel="preload"
+        href={headingFontUrl}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
+        fetchpriority="low"
+      />
+    )}
+    {preloadFonts && (
+      <link
+        rel="preload"
+        href={bodyFontUrl}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
+        fetchpriority="low"
+      />
+    )}
     <meta name="description" content={seo.description} />
     <title>{pageTitle}</title>
 

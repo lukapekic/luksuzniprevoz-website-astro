@@ -72,6 +72,7 @@ const {
   image,
   imageAlt = "",
   imageFit = "contain",
+  mediaTreatment = "default",
   locale,
   class: className,
 } = Astro.props;
@@ -142,7 +143,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
       </div>
 
       {image && (
-        <div class="fcta-media">
+        <div class:list={["fcta-media", mediaTreatment === "integrated" && "fcta-media--integrated"]}>
           <Image
             class={imgClass}
             src={image}
@@ -247,7 +248,9 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
      not a tiny thumbnail) that connects to the rounded panel via overflow:
      hidden. At desktop it becomes the right-zone column. */
   .fcta-media {
+    position: relative;
     min-block-size: 15rem;
+    isolation: isolate;
   }
   .fcta-img {
     inline-size: 100%;
@@ -259,6 +262,29 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     object-fit: cover;
     /* Bias the subject toward the right zone so the left copy keeps negative space. */
     object-position: 75% center;
+  }
+
+  /* Homepage's opt-in integrated treatment. The first layer is a restrained
+     platinum veil; the second softens the block-start join on stacked layouts.
+     Media remains full-bleed inside its allocated region. */
+  .fcta-media--integrated::before,
+  .fcta-media--integrated::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .fcta-media--integrated::before {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-elevated) 0%,
+      color-mix(in oklab, var(--color-surface-elevated), transparent 45%) 24%,
+      transparent 58%
+    );
+  }
+  .fcta-media--integrated::after {
+    background: color-mix(in oklab, var(--color-accent), transparent 90%);
   }
 
   /* --- Tablet (>=48rem): comfortable padding, taller mobile-style image zone --- */
@@ -286,6 +312,14 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     }
     .fcta-media {
       min-block-size: 0;
+    }
+    .fcta-media--integrated::before {
+      background: linear-gradient(
+        90deg,
+        var(--color-surface-elevated) 0%,
+        color-mix(in oklab, var(--color-surface-elevated), transparent 36%) 30%,
+        transparent 68%
+      );
     }
   }
 

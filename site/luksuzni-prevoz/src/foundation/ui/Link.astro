@@ -14,8 +14,8 @@
  */
 import { getPath, type LocaleCode } from "@astro-foundation/core/i18n";
 import type { RouteKey } from "@astro-foundation/core";
-import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
+import { defaultLocale, getLocaleConfig } from "../../data/locales.ts";
 
 import { linkVariants } from "./Link.variants.ts";
 
@@ -67,32 +67,19 @@ let isCrossLocale = false;
 let hreflangValue = hreflang;
 let langValue = lang;
 
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
-// Default to the site's default locale when the consumer doesn't pass one —
-// never hardcode a locale code.
 const effectiveLocale = (targetLocale ?? defaultLocale) as LocaleCode;
 
 if (to) {
   const isDifferentLocale = effectiveLocale !== defaultLocale;
 
-  try {
-    const path = getPath(to, effectiveLocale, routes, defaultLocale);
-    resolvedHref = hash ? `${path}${hash}` : path;
+  const path = getPath(to, effectiveLocale, routes, defaultLocale);
+  resolvedHref = hash ? `${path}${hash}` : path;
 
-    if (isDifferentLocale) {
-      isCrossLocale = true;
-      // If the caller (e.g. LanguageSwitcher) didn't pass explicit hreflang/lang,
-      // derive them from the target locale config.
-      const targetLocaleConfig = config.locales.locales.find(
-        (l) => l.code === effectiveLocale,
-      );
-      if (targetLocaleConfig) {
-        hreflangValue ??= targetLocaleConfig.hreflang;
-        langValue ??= targetLocaleConfig.htmlLang;
-      }
-    }
-  } catch {
-    resolvedHref = "#";
+  if (isDifferentLocale) {
+    isCrossLocale = true;
+    const targetLocaleConfig = getLocaleConfig(effectiveLocale);
+    hreflangValue ??= targetLocaleConfig.hreflang;
+    langValue ??= targetLocaleConfig.htmlLang;
   }
 } else if (href) {
   isExternal = href.startsWith("http://") || href.startsWith("https://");

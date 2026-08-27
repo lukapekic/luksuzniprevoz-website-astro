@@ -1,4 +1,4 @@
-# Luxury Transportation — Homepage Blueprint v1.1
+# Luxury Transportation — Homepage Blueprint v1.2
 
 Status: **Locked structural blueprint**  
 Route: Serbian `/` · English `/en/` · Russian `/ru/`  
@@ -7,7 +7,7 @@ Purpose: Source of truth for Homepage structure, component selection, surface rh
 
 > This blueprint defines structure and behavior. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content remain subject to their verified data/content sources.
 >
-> **Current revision:** the Homepage Hero is full-bleed and near-viewport-height. Its inner content preserves the approved two-column wireframe relationship.
+> **Current revision:** the Homepage Hero uses the approved full-resolution S-Class photograph with a low-key dusk treatment, the chauffeur feature returns to an open split, fleet cards use canonical vehicle imagery where available, and the shared Header/FinalCTA gain bounded Homepage treatments.
 
 ---
 
@@ -69,7 +69,7 @@ Do not introduce competing primary Homepage CTAs.
 9. FinalCTA
 10. SiteFooter
 
-This order is locked for v1.1 unless this blueprint is explicitly revised.
+This order is locked for v1.2 unless this blueprint is explicitly revised.
 
 ---
 
@@ -80,7 +80,7 @@ Component: verified production `SiteHeader`.
 ## Desktop
 
 - Compact single row.
-- Left: GS mark + coded `Luxury Transportation` wordmark.
+- Left: GS vector mark. The public brand name remains the accessible home-link name; no visible wordmark appears in the compact Header.
 - Main navigation.
 - `SR / EN / RU` language switcher.
 - Visible Book CTA.
@@ -98,13 +98,14 @@ Component: verified production `SiteHeader`.
 At page top:
 
 - Header visually integrates **over the Hero**.
-- Transparent/near-transparent surface.
+- Fully transparent surface with contrast supplied by the Hero's top scrim.
 - It must not render as a separate opaque strip above the Hero.
 - Text/actions require sufficient contrast over the Hero image/scrim.
 
 After scroll:
 
-- Sticky compact graphite/dark semantic surface.
+- Sticky compact translucent graphite/dark semantic surface.
+- No decorative bottom border or shadow; surface contrast and restrained blur provide separation.
 - Transition must not cause layout jump.
 - Use current Theme V2 semantic tokens.
 
@@ -202,12 +203,13 @@ before changing copy or component structure.
 
 ## Image treatment
 
-- Preferred subject: Mercedes S-Class contextual photography.
+- Approved subject: the full-resolution side-profile Mercedes S-Class photograph (`hero-example-2.jpg`).
 - Image fills the entire full-bleed Hero.
-- Use restrained cinematic darkening/scrim.
+- Use a restrained low-key dusk treatment: moderate exposure/saturation reduction plus directional, top/bottom and radial semantic scrims.
 - Stronger contrast treatment behind left copy.
 - Controlled treatment behind right statement.
 - Preserve the vehicle as focal subject.
+- Art-direct focal position independently for mobile, tablet and desktop; mobile favors the vehicle's front rather than the rear quarter.
 - No artificial glow.
 - No metallic/platinum tint over the whole image.
 - No excessive blur/filter treatment.
@@ -221,8 +223,8 @@ before changing copy or component structure.
 
 ## Motion
 
-- Gentle one-time text/CTA entrance.
-- Extremely subtle slow background zoom/pan allowed.
+- Gentle one-time staggered text/CTA entrance.
+- Extremely subtle slow background zoom/pan is enabled.
 - Respect `prefers-reduced-motion`.
 
 ## Responsive
@@ -233,7 +235,7 @@ before changing copy or component structure.
 - Clear single-column content order.
 - H1/support/CTAs remain immediately discoverable.
 - Right support statement moves below the primary CTA group.
-- Keep both CTAs easy to reach.
+- Stack both CTAs full width at narrow mobile and return them to inline actions once the tokenized layout permits.
 - Explicitly review mobile focal point and text contrast.
 - Do not force desktop masonry/ratio geometry.
 
@@ -347,15 +349,15 @@ Give the flagship service a second, deeper Homepage moment after all primary ser
   - Full Day
 - One clear service-level CTA.
 
-The package summary is informational.
+The package summary is informational and sits inside one compact elevated-graphite inset with internal dividers.
 
-Do not turn it into three pricing cards or a pricing table.
+Do not turn it into three pricing cards, a light pricing panel, or a pricing table. Current values describe duration/km booking options, not monetary prices.
 
 ## Surface
 
 Open section directly on the main page background.
 
-The text side has no enclosing card/panel.
+The text side has no enclosing card/panel; only the compact package-summary inset is contained.
 
 ## Image
 
@@ -453,6 +455,14 @@ Each item contains:
 - vehicle class;
 - 2–3 compact verified facts/placeholders;
 - no pricing.
+
+The Homepage presents vehicle families, not pricing configurations:
+
+- render one generic **Mercedes V klasa** card;
+- do not repeat V-Class `6+1` and `7+1` as separate fleet cards;
+- omit Mercedes Vito while no matching approved vehicle image exists;
+- keep configuration-specific capacity and fare records in canonical data for
+  future Pricing-page rows.
 
 ## Vehicle image rules
 
@@ -575,7 +585,7 @@ Individual review cards use restrained elevated surface contrast.
 
 ## Responsive
 
-- Desktop: around 3 review cards.
+- Desktop: around 2.5–3 review cards with a readable quote measure.
 - Tablet: around 1.5–2.
 - Mobile: swipeable with clear continuation.
 
@@ -626,6 +636,8 @@ Missing verified contacts must follow canonical contact gating; do not invent th
 ## Image
 
 Preferred treatment: front-facing Mercedes S-Class blended into the right media region.
+
+On Homepage, the media fills its complete allocated region and uses the approved integrated treatment: a restrained light-neutral veil plus a soft fade into the panel. This does not change other `FinalCTA` consumers unless they opt into the same semantic treatment.
 
 ## Visual treatment
 

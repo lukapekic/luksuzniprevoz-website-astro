@@ -79,6 +79,8 @@ Prefer one clear navigational target.
 
 If the whole card is a link, do not nest another interactive CTA inside it. Preserve semantic service headings and meaningful localized image alternatives where the image is not decorative.
 
+When multiple cards share a concise visible CTA label, include the localized service title in visually hidden link text so every destination has a descriptive programmatic and crawler-readable name.
+
 ## Forbidden
 
 - local gold/platinum hex values;

@@ -2,15 +2,14 @@
 /**
  * BrandLockup — canonical production brand lockup (FND-UI-13, Document group).
  *
- * Renders the real logo asset (src/assets/logo.webp) + the literal public brand
+ * Renders the canonical code-native GS mark + the literal public brand
  * wordmark "Luxury Transportation". Reusable independently of the SiteHeader
  * (Header, Footer, off-canvas contexts).
  *
  * Requirements (Step 5A):
- * - Uses src/assets/logo.webp via Astro's Image primitive.
- * - Transparent background, no colored square, no border/background behind logo.
- * - Preserves intrinsic aspect ratio.
- * - Logo image is aria-hidden decoration when rendered next to the wordmark.
+ * - Uses the supplied GS vector through GsMark.
+ * - Transparent background, no colored square, no border/background behind it.
+ * - Mark is aria-hidden decoration; the wordmark provides the accessible name.
  * - Accessible name for the link comes from the visible "Luxury Transportation" text.
  * - Wordmark font: Cormorant Garamond Italic via font-brand token (--font-brand).
  * - Wordmark color: approved accent token (var(--color-accent)).
@@ -37,8 +36,7 @@
  * frames can force the mark-only visual without a second component (the hook is
  * a stable semantic attribute, not a generated Astro ID).
  */
-import { Image } from "astro:assets";
-import logoImg from "../../assets/logo.webp";
+import GsMark from "./GsMark.astro";
 import type { LocaleCode } from "@astro-foundation/core";
 
 interface Props {
@@ -70,15 +68,7 @@ const wordmarkDisplay =
   href={href}
   class={`inline-flex min-h-11 items-center no-underline gap-[var(--space-3)] rounded-[var(--radius-control)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] group ${className ?? ""}`}
 >
-  <Image
-    src={logoImg}
-    alt=""
-    aria-hidden="true"
-    width={70}
-    height={52}
-    class="h-8 w-auto object-contain shrink-0"
-    loading="eager"
-  />
+  <GsMark class="h-8 w-auto shrink-0 text-[var(--color-accent)]" />
   <span
     data-foundation-allow-string
     data-brand-wordmark

@@ -13,36 +13,44 @@ export const rule = {
     for (const file of files) {
       if (!/\.(astro|css|ts|tsx|js|jsx)$/i.test(file)) continue;
       const original = fs.readFileSync(file, "utf8");
-      const text = maskCommentsPreserveLines(original);
+      const text = maskCommentsPreserveLines(original).replace(
+        /@font-face\s*\{[^}]*\}/gi,
+        (block) => block.replace(/[^\n]/g, " "),
+      );
 
       let match;
       while ((match = rawFont.exec(text))) {
         const value = match[1].trim();
         if (/^var\(--font-(?:heading|body|brand)\)$/i.test(value)) continue;
         if (/^(?:inherit|initial|unset)$/i.test(value)) continue;
-        findings.push(makeFinding({
-          ruleId: rule.id,
-          severity: "P2",
-          file: rel(root, file),
-          line: lineNumber(text, match.index),
-          message: `Raw font-family declaration "${value}" bypasses semantic font roles.`,
-          recommendation: "Use var(--font-heading), var(--font-body), var(--font-brand), or the canonical Tailwind utilities."
-        }));
+        findings.push(
+          makeFinding({
+            ruleId: rule.id,
+            severity: "P2",
+            file: rel(root, file),
+            line: lineNumber(text, match.index),
+            message: `Raw font-family declaration "${value}" bypasses semantic font roles.`,
+            recommendation:
+              "Use var(--font-heading), var(--font-body), var(--font-brand), or the canonical Tailwind utilities.",
+          }),
+        );
       }
 
       while ((match = badArbitrary.exec(text))) {
         const value = match[1];
         if (/var\(--font-(?:heading|body|brand)\)/i.test(value)) continue;
-        findings.push(makeFinding({
-          ruleId: rule.id,
-          severity: "P2",
-          file: rel(root, file),
-          line: lineNumber(text, match.index),
-          message: `Arbitrary font utility "${match[0]}" is not one of the approved font roles.`,
-          recommendation: "Use font-heading, font-body, or font-brand."
-        }));
+        findings.push(
+          makeFinding({
+            ruleId: rule.id,
+            severity: "P2",
+            file: rel(root, file),
+            line: lineNumber(text, match.index),
+            message: `Arbitrary font utility "${match[0]}" is not one of the approved font roles.`,
+            recommendation: "Use font-heading, font-body, or font-brand.",
+          }),
+        );
       }
     }
     return findings;
-  }
+  },
 };

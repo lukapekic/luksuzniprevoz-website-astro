@@ -92,6 +92,10 @@ export interface OpenSplitSectionProps {
   ratio?: OpenSplitRatio;
   /** Mobile stacking order (default content-first). */
   mobileOrder?: OpenSplitMobileOrder;
+  /** Extend the media to the containing panel's block-end and inline-end edges. */
+  mediaBleed?: boolean;
+  /** Add the standard bottom-weighted dark media overlay. */
+  mediaOverlay?: boolean;
   /** Layout-only class passthrough on the composition root (FND-UI-06). */
   class?: string;
 }

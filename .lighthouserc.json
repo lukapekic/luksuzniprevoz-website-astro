@@ -1,19 +1,19 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "cd site/luksuzni-prevoz && npx astro build && npx astro preview --port 4321",
-      "startServerReadyPattern": "ready",
+      "startServerCommand": "PROD_ROBOTS=1 pnpm --filter @luksuzni-prevoz/site build && pnpm --filter @luksuzni-prevoz/site preview --host 127.0.0.1 --port 4328",
+      "startServerReadyPattern": "http://127.0.0.1:4328/",
+      "startServerReadyTimeout": 60000,
       "url": [
-        "http://localhost:4321/sr/",
-        "http://localhost:4321/en/",
-        "http://localhost:4321/ru/",
-        "http://localhost:4321/sr/aerodrom/",
-        "http://localhost:4321/en/about/",
-        "http://localhost:4321/sr/o-nama/"
+        "http://127.0.0.1:4328/",
+        "http://127.0.0.1:4328/en/",
+        "http://127.0.0.1:4328/ru/",
+        "http://127.0.0.1:4328/aerodromski-prevoz/",
+        "http://127.0.0.1:4328/en/airport-transportation/",
+        "http://127.0.0.1:4328/ru/transfer-iz-aeroporta/"
       ],
       "numberOfRuns": 3,
       "settings": {
-        "preset": "mobile",
         "throttling": {
           "rttMs": 150,
           "throughputKbps": 1638.4,

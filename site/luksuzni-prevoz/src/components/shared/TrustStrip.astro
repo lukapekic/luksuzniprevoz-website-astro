@@ -24,8 +24,8 @@
  *     border — the grid reads as one shared surface.
  *   - Mobile (<48rem): single column, horizontal hairline dividers only, compact
  *     panel padding ~1rem 1.3rem, items padding-block ~1.3rem.
- *   - Marker: one restrained ~1.5rem platinum accent check per item, decorative
- *     (aria-hidden) — no information conveyed by icon alone.
+ *   - Marker: one restrained item-specific platinum outline symbol per item,
+ *     decorative (aria-hidden) — no information conveyed by icon alone.
  *   - Text: title <h3> (Manrope, --text-lg, semibold, primary) + one concise
  *     supporting line (Manrope, --text-sm, muted). No heading font, no h2 scale.
  *
@@ -94,20 +94,29 @@ if (items.length !== 4) {
 <div data-on={on} class={className}>
   <ul class="trust-strip">
     {
-      items.map((item) => (
+      items.map((item, index) => (
         <li class="trust-item">
           <span class="trust-mark" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="M20 6 9 17l-5-5" />
-            </svg>
+            {index === 0 ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="7" r="3" />
+                <path d="M6.5 20v-3.5a5.5 5.5 0 0 1 11 0V20M10 12l2 3 2-3" />
+              </svg>
+            ) : index === 1 ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="m4 15 1.8-5.2A2.7 2.7 0 0 1 8.4 8h7.2a2.7 2.7 0 0 1 2.6 1.8L20 15M5 15h14v4H5z" />
+                <circle cx="8" cy="16.5" r="1" /><circle cx="16" cy="16.5" r="1" />
+              </svg>
+            ) : index === 2 ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M5 5h14v10H9l-4 4z" /><path d="m9 10 2 2 4-4" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M12 3 5 6v5c0 4.5 2.8 8 7 10 4.2-2 7-5.5 7-10V6z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            )}
           </span>
           <h3 class="trust-title">{item.title}</h3>
           <p class="trust-text">{item.text}</p>
@@ -145,14 +154,11 @@ if (items.length !== 4) {
     border-block-end: 0;
   }
 
-  /* Restrained platinum accent marker — decorative (aria-hidden). Sized to the
-     space scale; currentColor + --color-accent keeps the accent restrained
-     (a restrained number of icons/details is an approved accent use,
-     design-foundation-governance.md §5). Inline 24-viewBox stroke SVG = the
-     project icon convention (no icon system / dependency exists). */
+  /* Item-specific platinum outline symbols. They clarify the four operational
+     themes without becoming badges or separate icon cards. */
   .trust-mark {
-    inline-size: var(--space-6);
-    block-size: var(--space-6);
+    inline-size: var(--space-8);
+    block-size: var(--space-8);
     color: var(--color-accent);
   }
   .trust-mark svg {
@@ -167,7 +173,7 @@ if (items.length !== 4) {
   .trust-title {
     margin: 0;
     font-family: var(--font-body);
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-ui);
     letter-spacing: var(--letter-spacing-normal);
@@ -214,7 +220,7 @@ if (items.length !== 4) {
       grid-template-columns: repeat(4, 1fr);
     }
     .trust-item {
-      min-block-size: 8.5rem;
+      min-block-size: 9rem;
       align-content: center;
       padding-inline: var(--space-6);
       padding-block: 0;

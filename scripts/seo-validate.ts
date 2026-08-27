@@ -214,6 +214,14 @@ for (const filePath of contentFiles) {
     }
     discoveredPairs.add(pair);
 
+    // Empty route scaffolds are deliberately unavailable: they carry no SEO
+    // copy and render no canonical/hreflang/structured data. Structural locale
+    // parity is enforced by content:validate instead.
+    if (frontmatter.scaffold === true) {
+      skippedFiles++;
+      continue;
+    }
+
     const routePath = getPath(
       routeKey as never,
       locale as never,
@@ -280,42 +288,44 @@ for (const filePath of contentFiles) {
       title: composeTitle(String(frontmatter.seoTitle ?? route.key), config.brand),
       description: (frontmatter.seoDescription as string) ?? "",
       h1: (frontmatter.h1 as string) ?? undefined,
-      canonical: url,
+      canonical: isNoindex || !isPublished ? undefined : url,
       htmlLang: localeConfig?.htmlLang,
-      hreflang: route.noindex
-        ? []
-        : config.locales.locales
-            .filter((candidate) => route.slugs[candidate.code] !== undefined)
-            .map((candidate) => ({
-              hreflang: candidate.hreflang,
-              href: new URL(
-                getPath(
-                  routeKey as never,
-                  candidate.code as never,
-                  routes,
-                  defaultLocale.code as never,
-                ),
-                config.site,
-              ).href,
-            }))
-            .concat(
-              config.locales.locales
-                .filter(
-                  (candidate) => candidate.isXDefault && route.slugs[candidate.code] !== undefined,
-                )
-                .map((candidate) => ({
-                  hreflang: "x-default",
-                  href: new URL(
-                    getPath(
-                      routeKey as never,
-                      candidate.code as never,
-                      routes,
-                      defaultLocale.code as never,
-                    ),
-                    config.site,
-                  ).href,
-                })),
-            ),
+      hreflang:
+        isNoindex || !isPublished
+          ? []
+          : config.locales.locales
+              .filter((candidate) => route.slugs[candidate.code] !== undefined)
+              .map((candidate) => ({
+                hreflang: candidate.hreflang,
+                href: new URL(
+                  getPath(
+                    routeKey as never,
+                    candidate.code as never,
+                    routes,
+                    defaultLocale.code as never,
+                  ),
+                  config.site,
+                ).href,
+              }))
+              .concat(
+                config.locales.locales
+                  .filter(
+                    (candidate) =>
+                      candidate.isXDefault && route.slugs[candidate.code] !== undefined,
+                  )
+                  .map((candidate) => ({
+                    hreflang: "x-default",
+                    href: new URL(
+                      getPath(
+                        routeKey as never,
+                        candidate.code as never,
+                        routes,
+                        defaultLocale.code as never,
+                      ),
+                      config.site,
+                    ).href,
+                  })),
+              ),
       og: {
         title: composeTitle(String(frontmatter.seoTitle ?? route.key), config.brand),
         description: (frontmatter.seoDescription as string) ?? "",

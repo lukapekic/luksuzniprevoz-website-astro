@@ -6,28 +6,40 @@
  * typo like `t("home.tite", locale)` is a compile error.
  */
 
-import srStrings from "../content/ui/sr.json";
-import enStrings from "../content/ui/en.json";
-import ruStrings from "../content/ui/ru.json";
 import type { UiStringKey, LocaleCode } from "@astro-foundation/core";
+import { localeCodes } from "../data/locales.ts";
 
-const uiStrings: Record<string, Record<string, string>> = {
-  sr: srStrings as unknown as Record<string, string>,
-  en: enStrings as unknown as Record<string, string>,
-  ru: ruStrings as unknown as Record<string, string>,
-};
+const dictionaryModules = import.meta.glob<Record<string, string>>("../content/ui/*.json", {
+  eager: true,
+  import: "default",
+});
+
+const uiStrings = Object.fromEntries(
+  localeCodes.map((locale) => {
+    const dictionary = dictionaryModules[`../content/ui/${locale}.json`];
+    if (!dictionary) throw new Error(`Missing UI dictionary for locale: ${locale}`);
+    return [locale, dictionary];
+  }),
+) as Record<LocaleCode, Record<string, string>>;
 
 /**
  * Get a UI string by key for a given locale.
- * Falls back to the default locale (sr) if the key is missing.
+ * Missing locale dictionaries or keys are configuration errors. Localized UI
+ * never falls back to another language.
  */
 export function t(key: UiStringKey, locale: LocaleCode): string {
-  return uiStrings[locale]?.[key] ?? uiStrings["sr"]?.[key] ?? key;
+  const dictionary = uiStrings[locale];
+  if (!dictionary) throw new Error(`Missing UI dictionary for locale: ${locale}`);
+  const value = dictionary[key];
+  if (value === undefined) throw new Error(`Missing UI string "${key}" for locale "${locale}"`);
+  return value;
 }
 
 /**
  * Get the full UI strings dictionary for a given locale.
  */
 export function getUiStrings(locale: LocaleCode): Record<string, string> {
-  return uiStrings[locale] ?? uiStrings["sr"] ?? {};
+  const dictionary = uiStrings[locale];
+  if (!dictionary) throw new Error(`Missing UI dictionary for locale: ${locale}`);
+  return dictionary;
 }

@@ -1,4 +1,4 @@
-# SiteHeader — Exact V1 Contract
+# SiteHeader — Exact V1.2 Contract
 
 ## Geometry
 Desktop:
@@ -15,17 +15,21 @@ Mobile:
 
 ## Surface states
 Top:
-- transparent/near-transparent over Hero only if contrast is valid
+- fully transparent over Hero only if contrast is valid through the Hero top scrim
+- no bottom border or shadow
 
 Sticky:
-- background: Theme V2 background/surface
+- visually compact translucent Theme V2 background/surface
 - text: primary
-- muted separators only if needed
+- restrained backdrop blur
+- no bottom border or shadow
 - no outer radius
+- preserve outer geometry while compacting the visual inner bar so the transition causes no layout jump
 
 ## Content
 Left:
-- GS mark + coded wordmark
+- GS vector mark only
+- the home link keeps the public brand name as its accessible name
 
 Center desktop:
 - main nav
@@ -35,7 +39,7 @@ Right:
 - Book CTA
 
 Mobile:
-- wordmark/mark
+- GS vector mark
 - Book CTA
 - menu trigger
 - language selector may move into menu

@@ -1,7 +1,8 @@
 /**
  * Page archetype schemas — the editorial content model contract (FND-DATA-07).
  *
- * Seven explicit archetypes, composed as a discriminated union on `pageType`
+ * Seven explicit authored archetypes plus a strict empty scaffold shape,
+ * composed as a discriminated union on `pageType`
  * rather than one giant schema with dozens of optional fields. Each archetype
  * extends the foundation's BaseContentSchema (identity + lifecycle) merged with
  * BaseSeoSchema (SEO) and a shared `h1` + `intro` (the generic renderer's
@@ -44,6 +45,21 @@ import {
 const pageBase = BaseContentSchema.merge(BaseSeoSchema).extend({
   h1: z.string().min(1).optional(),
   intro: z.string().optional(),
+});
+
+/**
+ * Empty, non-indexable editorial placeholder. Scaffolds reserve every required
+ * route/locale identity without fabricating copy. They render through the
+ * dedicated ScaffoldPage and must be replaced by a full archetype entry before
+ * publication.
+ */
+export const pageScaffoldSchema = BaseContentSchema.extend({
+  pageType: z.literal("scaffold"),
+  targetPageType: z.enum(["service", "hub", "fleet", "pricing", "about", "contact"]),
+  scaffold: z.literal(true),
+  status: z.literal("draft"),
+  translationState: z.literal("missing"),
+  noindex: z.literal(true),
 });
 
 /**
@@ -179,7 +195,7 @@ export const contactPageSchema = pageBase.extend({
   }),
 });
 
-export const pageSchema = z.discriminatedUnion("pageType", [
+const authoredPageSchema = z.discriminatedUnion("pageType", [
   homePageSchema,
   servicePageSchema,
   hubPageSchema,
@@ -188,3 +204,5 @@ export const pageSchema = z.discriminatedUnion("pageType", [
   aboutPageSchema,
   contactPageSchema,
 ]);
+
+export const pageSchema = z.union([pageScaffoldSchema, authoredPageSchema]);

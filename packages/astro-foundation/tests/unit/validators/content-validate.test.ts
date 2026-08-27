@@ -62,15 +62,45 @@ describe("validateContent", () => {
       contentFiles: [
         {
           filePath: "home-en.md",
-          raw: "---\nrouteKey: home\nlocale: en\nstatus: published\nseoTitle: 'Home'\nseoDescription: 'Welcome'\n---\n",
+          raw: "---\nrouteKey: home\nlocale: en\nstatus: published\ntranslationState: reviewed\nreviewedOn: 2026-01-15\nseoTitle: 'Home'\nseoDescription: 'Welcome'\n---\n",
           frontmatter: parseFrontmatter(
-            "---\nrouteKey: home\nlocale: en\nstatus: published\nseoTitle: 'Home'\nseoDescription: 'Welcome'\n---\n",
+            "---\nrouteKey: home\nlocale: en\nstatus: published\ntranslationState: reviewed\nreviewedOn: 2026-01-15\nseoTitle: 'Home'\nseoDescription: 'Welcome'\n---\n",
           ),
         },
+        {
+          filePath: "home-fr.md",
+          raw: "---\nrouteKey: home\nlocale: fr\nstatus: published\ntranslationState: reviewed\nreviewedOn: 2026-01-15\nseoTitle: 'Accueil'\nseoDescription: 'Bienvenue'\n---\n",
+          frontmatter: parseFrontmatter(
+            "---\nrouteKey: home\nlocale: fr\nstatus: published\ntranslationState: reviewed\nreviewedOn: 2026-01-15\nseoTitle: 'Accueil'\nseoDescription: 'Bienvenue'\n---\n",
+          ),
+        },
+        ...["en", "fr"].map((locale) => {
+          const raw = `---\nrouteKey: airport\nlocale: ${locale}\npageType: scaffold\ntargetPageType: service\nscaffold: true\nstatus: draft\ntranslationState: missing\nnoindex: true\n---\n`;
+          return { filePath: `airport-${locale}.md`, raw, frontmatter: parseFrontmatter(raw) };
+        }),
       ],
     });
     const errors = issues.filter((i) => i.severity === "error");
     expect(errors).toEqual([]);
+  });
+
+  it("requires a content identity for every configured route and locale", () => {
+    const raw =
+      "---\nrouteKey: home\nlocale: en\nstatus: published\ntranslationState: reviewed\nreviewedOn: 2026-01-15\nseoTitle: 'Home'\nseoDescription: 'Welcome'\n---\n";
+    const issues = validateContent({
+      config: makeConfig(),
+      routes: [{ key: "home", slugs: { en: "", fr: "" } }],
+      contentFiles: [{ filePath: "home-en.md", raw, frontmatter: parseFrontmatter(raw) }],
+    });
+
+    expect(
+      issues.some(
+        (issue) =>
+          issue.ruleId === "FND-I18N-10" &&
+          issue.severity === "error" &&
+          issue.offendingValue?.includes('missing its "fr" content file'),
+      ),
+    ).toBe(true);
   });
 
   it("detects missing routeKey (FND-DATA-05)", () => {
@@ -505,7 +535,9 @@ describe("body linting (FND-LIFE-06 / FND-LIFE-08)", () => {
 
   it("warns on a heading-level skip (FND-LIFE-06)", () => {
     const issues = lint("## Section\n\n#### Jump\n\nText.");
-    const skip = issues.filter((i) => i.ruleId === "FND-LIFE-06" && i.offendingValue?.includes("skips"));
+    const skip = issues.filter(
+      (i) => i.ruleId === "FND-LIFE-06" && i.offendingValue?.includes("skips"),
+    );
     expect(skip.length).toBe(1);
   });
 
@@ -537,9 +569,8 @@ describe("body linting (FND-LIFE-06 / FND-LIFE-08)", () => {
 
   it("a clean body produces no body-lint issues", () => {
     const issues = lint("## Section\n\nA [contact page](/contact/) link.");
-    expect(
-      issues.filter((i) => i.ruleId === "FND-LIFE-06" || i.ruleId === "FND-LIFE-08"),
-    ).toEqual([]);
+    expect(issues.filter((i) => i.ruleId === "FND-LIFE-06" || i.ruleId === "FND-LIFE-08")).toEqual(
+      [],
+    );
   });
 });
-

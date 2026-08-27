@@ -21,6 +21,7 @@
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { routeMap } from "./routes.ts";
 import navLabelsJson from "./navigation-labels.json";
+import { defaultLocale, localeCodes } from "./locales.ts";
 
 // --- Types -----------------------------------------------------------------
 
@@ -129,24 +130,29 @@ export const navigation: NavStructure = {
 
 // --- Labels (JSON — translator-edited i18n content) -----------------------
 
-const navLabels = navLabelsJson as unknown as Record<LocaleCode, Record<NavLabelKey, string>>;
+const navLabels = navLabelsJson as unknown as Record<string, Record<NavLabelKey, string>>;
 
 // --- Label access ---------------------------------------------------------
 
 /** All declared label keys, in declaration order (drives parity checks). */
-const DECLARED_LABEL_KEYS: NavLabelKey[] = Object.keys(navLabels.sr) as NavLabelKey[];
+const referenceLabels = navLabels[defaultLocale];
+if (!referenceLabels) {
+  throw new Error(`navigation-labels.json is missing the default locale "${defaultLocale}"`);
+}
+const DECLARED_LABEL_KEYS: NavLabelKey[] = Object.keys(referenceLabels) as NavLabelKey[];
 
 /**
- * Resolves a nav label for a locale. Falls back to the default locale (sr),
- * then to the key itself, so a missing translation never throws (FND-I18N-09
- * graceful degradation; parity is enforced separately by assertNavConsistency).
+ * Resolves a nav label for a locale. Missing translations fail closed; the
+ * navigation layer never substitutes another language.
  */
 export function getNavLabel(key: NavLabelKey, locale: LocaleCode): string {
   const forLocale = navLabels[locale];
-  if (forLocale && key in forLocale) return forLocale[key];
-  const fallback = navLabels.sr;
-  if (fallback && key in fallback) return fallback[key];
-  return String(key);
+  if (!forLocale) throw new Error(`navigation-labels.json is missing locale "${locale}"`);
+  const label = forLocale[key];
+  if (label === undefined) {
+    throw new Error(`navigation-labels.json is missing label "${key}" for locale "${locale}"`);
+  }
+  return label;
 }
 
 /** Map<routeKey, label> for the breadcrumb helper (helpers.buildBreadcrumbs). */
@@ -223,8 +229,20 @@ export function assertNavConsistency(): void {
   }
 
   // (2) + (3) label key validity + cross-locale parity
-  const referenceLocale: LocaleCode = "sr";
+  const referenceLocale = defaultLocale;
   const referenceKeys = new Set<string>(Object.keys(navLabels[referenceLocale]));
+
+  const configuredLocaleSet = new Set(localeCodes);
+  const declaredLocaleSet = new Set(Object.keys(navLabels));
+  const missingLocales = localeCodes.filter((locale) => !declaredLocaleSet.has(locale));
+  const extraLocales = [...declaredLocaleSet].filter(
+    (locale) => !configuredLocaleSet.has(locale as LocaleCode),
+  );
+  if (missingLocales.length > 0 || extraLocales.length > 0) {
+    throw new Error(
+      `navigation-labels.json locale set differs from foundation.config.ts: missing ${JSON.stringify(missingLocales)}, extra ${JSON.stringify(extraLocales)}.`,
+    );
+  }
 
   // (2) reference-locale keys are all valid label keys
   for (const key of referenceKeys) {
@@ -236,7 +254,7 @@ export function assertNavConsistency(): void {
   }
 
   // (3) every other locale matches the reference key set exactly
-  for (const locale of Object.keys(navLabels) as LocaleCode[]) {
+  for (const locale of localeCodes) {
     if (locale === referenceLocale) continue;
     const localeKeys = new Set(Object.keys(navLabels[locale]));
     const missing = [...referenceKeys].filter((k) => !localeKeys.has(k));

@@ -1,4 +1,4 @@
-# TrustStrip — Exact V1 Contract
+# TrustStrip — Exact V1.2 Contract
 
 ## Section
 - open wrapper with standard vertical spacing
@@ -30,13 +30,15 @@
 
 ## Icon
 - restrained ~`2rem` footprint
-- restrained platinum/accent line treatment only if needed
+- four item-specific outline symbols keyed to driver, vehicle care, coordination and contingency
+- restrained platinum/accent line treatment only
 - decorative icon hidden from AT if title already conveys meaning
 
 ## Text
 - title H3/small heading
 - support 1 concise line target
 - primary + muted text colors
+- hierarchy and breathing room should read as operational assurance, not a software feature checklist
 
 ## Forbidden
 individual cards, counters, statistics, shadows

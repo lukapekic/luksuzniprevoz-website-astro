@@ -18,10 +18,11 @@
  */
 import ContentPageRenderer from "../components/site/ContentPageRenderer.astro";
 import { buildLeafStaticPaths } from "../lib/pages.ts";
+import { defaultLocale } from "../data/locales.ts";
 
 export async function getStaticPaths() {
   // Default locale (sr) only, unprefixed param shape ({ slug }).
-  return buildLeafStaticPaths(["sr"], { prefixed: false });
+  return buildLeafStaticPaths([defaultLocale], { prefixed: false });
 }
 
 const { routeKey, locale, content } = Astro.props;

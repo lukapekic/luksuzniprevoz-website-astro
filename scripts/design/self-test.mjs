@@ -86,6 +86,21 @@ try {
       if (!fixtureFindings.some((finding) => finding.ruleId === ruleId))
         throw new Error(`Adversarial fixture did not trigger ${ruleId}.`);
     }
+
+    const fontFaceFixture = path.join(fixtureDir, "FontFaces.css");
+    fs.writeFileSync(
+      fontFaceFixture,
+      `@font-face { font-family: "Project Font"; src: url("project.woff2") format("woff2"); }`,
+    );
+    const fontFaceFindings = await runDetector({
+      root,
+      config,
+      files: [fontFaceFixture],
+      system: loadSystem(root),
+    });
+    if (fontFaceFindings.some((finding) => finding.ruleId === "typography/non-semantic-font")) {
+      throw new Error("Font source registration must not be treated as production role usage.");
+    }
   } finally {
     fs.rmSync(fixtureDir, { recursive: true, force: true });
   }

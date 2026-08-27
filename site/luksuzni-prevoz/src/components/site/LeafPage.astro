@@ -23,7 +23,8 @@ import Section from "../../foundation/ui/Section.astro";
 import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
 import { buildPageSeo } from "../../lib/seo.ts";
 import { t } from "../../lib/i18n.ts";
-import type { RouteKey, LocaleCode, UiStringKey } from "@astro-foundation/core";
+import { getNavLabel } from "../../data/navigation.ts";
+import type { RouteKey, LocaleCode } from "@astro-foundation/core";
 import { render, type CollectionEntry } from "astro:content";
 
 interface Props {
@@ -33,21 +34,25 @@ interface Props {
 }
 
 const { routeKey, locale: currentLocale, content } = Astro.props;
+if (content.data.pageType === "scaffold") {
+  throw new Error(`LeafPage cannot render scaffold content for ${routeKey}/${currentLocale}`);
+}
+const data = content.data;
 
 // All text from UI strings dictionary (FND-ARCH-03)
-const pageTitle = t(`${routeKey}.title` as UiStringKey, currentLocale);
+const pageTitle = getNavLabel(routeKey, currentLocale);
 const breadcrumbHome = t("home.title", currentLocale);
 
 // FND-LIFE-02: non-published pages in a dev/preview build are noindex.
-const isUnpublishedPreview = content.data.status !== "published" && !import.meta.env.PROD;
+const isUnpublishedPreview = data.status !== "published" && !import.meta.env.PROD;
 
 // Build SEO data
 const seo = buildPageSeo({
   routeKey,
   locale: currentLocale,
-  title: content.data.seoTitle ?? pageTitle,
-  description: content.data.seoDescription ?? "",
-  noindex: (content.data.noindex ?? false) || isUnpublishedPreview,
+  title: data.seoTitle ?? pageTitle,
+  description: data.seoDescription ?? "",
+  noindex: (data.noindex ?? false) || isUnpublishedPreview,
 });
 
 // Build breadcrumbs
@@ -72,11 +77,11 @@ const { Content } = await render(content);
   <Section id="content" spacing="standard">
     <PageContainer>
       <h1 class="font-heading text-[length:var(--text-h1)] font-bold">
-        {content.data.h1}
+        {data.h1}
       </h1>
-      {content.data.intro && (
+      {data.intro && (
         <p class="mt-[var(--space-4)] font-body text-[length:var(--text-xl)] text-[var(--color-text-muted)]">
-          {content.data.intro}
+          {data.intro}
         </p>
       )}
 

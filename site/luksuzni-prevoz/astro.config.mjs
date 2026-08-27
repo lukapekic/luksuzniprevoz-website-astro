@@ -10,6 +10,10 @@ export default defineConfig({
   build: {
     format: "directory",
     assets: "_assets",
+    // The complete route CSS is small enough to stay inside the configured
+    // budget. Inlining removes three render-blocking request round trips on
+    // the static pages and materially improves FCP/LCP under mobile latency.
+    inlineStylesheets: "always",
   },
   output: "static",
   // FND-ENV-06: server-side env schema. Secrets are declared here and accessed

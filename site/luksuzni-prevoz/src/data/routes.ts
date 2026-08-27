@@ -18,11 +18,14 @@ import type { LocaleCode } from "@astro-foundation/core/i18n";
  */
 
 export type RouteKind = "page" | "service" | "hub";
+export type RouteAvailability = "published" | "scaffold";
 
 export interface RouteEntry {
   kind: RouteKind;
+  availability: RouteAvailability;
   parent: string | null;
   slugs: Record<LocaleCode, string>;
+  previousSlugs?: Record<LocaleCode, string[]>;
 }
 
 /**
@@ -33,6 +36,7 @@ export interface RouteEntry {
 export interface RouteDef {
   key: string;
   kind: RouteKind;
+  availability: RouteAvailability;
   slugs: Record<LocaleCode, string>;
   parent?: string;
   noindex?: boolean;
@@ -41,7 +45,12 @@ export interface RouteDef {
 }
 
 /** Sitemap priority by route kind (home overrides to 1.0). */
-function sitemapFor(key: string, kind: RouteKind): { include: boolean; priority: number } {
+function sitemapFor(
+  key: string,
+  kind: RouteKind,
+  availability: RouteAvailability,
+): { include: boolean; priority: number } {
+  if (availability === "scaffold") return { include: false, priority: 0 };
   if (key === "home") return { include: true, priority: 1.0 };
   switch (kind) {
     case "hub":
@@ -61,36 +70,47 @@ function sitemapFor(key: string, kind: RouteKind): { include: boolean; priority:
 export const routeMap: Record<string, RouteEntry> = {
   home: {
     kind: "page",
+    availability: "published",
     parent: null,
     slugs: { sr: "", en: "", ru: "" },
   },
   privateChauffeur: {
     kind: "service",
+    availability: "scaffold",
     parent: null,
     slugs: { sr: "privatni-vozac", en: "private-chauffeur", ru: "lichnyy-voditel" },
   },
   airportTransportation: {
     kind: "service",
+    availability: "published",
     parent: null,
     slugs: { sr: "aerodromski-prevoz", en: "airport-transportation", ru: "transfer-iz-aeroporta" },
   },
   businessTransportation: {
     kind: "hub",
+    availability: "published",
     parent: null,
     slugs: { sr: "poslovni-prevoz", en: "business-transportation", ru: "biznes-transfer" },
   },
   corporateTransportation: {
     kind: "service",
+    availability: "scaffold",
     parent: "businessTransportation",
-    slugs: { sr: "korporativni-prevoz", en: "corporate-transportation", ru: "korporativnyy-transfer" },
+    slugs: {
+      sr: "korporativni-prevoz",
+      en: "corporate-transportation",
+      ru: "korporativnyy-transfer",
+    },
   },
   delegationTransportation: {
     kind: "service",
+    availability: "scaffold",
     parent: "businessTransportation",
     slugs: { sr: "prevoz-delegacija", en: "delegation-transportation", ru: "transfer-delegatsiy" },
   },
   conferenceCongressTransportation: {
     kind: "service",
+    availability: "scaffold",
     parent: "businessTransportation",
     slugs: {
       sr: "prevoz-za-konferencije-i-kongrese",
@@ -100,41 +120,53 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   specialEvents: {
     kind: "hub",
+    availability: "scaffold",
     parent: null,
-    slugs: { sr: "prevoz-za-specijalne-dogadjaje", en: "special-events", ru: "transport-dlya-osobykh-meropriyatiy" },
+    slugs: {
+      sr: "prevoz-za-specijalne-dogadjaje",
+      en: "special-events",
+      ru: "transport-dlya-osobykh-meropriyatiy",
+    },
   },
   weddingTransportation: {
     kind: "service",
+    availability: "scaffold",
     parent: "specialEvents",
     slugs: { sr: "prevoz-za-vencanja", en: "wedding-transportation", ru: "svadebnyy-transfer" },
   },
   promTransportation: {
     kind: "service",
+    availability: "scaffold",
     parent: "specialEvents",
     slugs: { sr: "prevoz-za-maturu", en: "prom-transportation", ru: "transfer-na-vypusknoy" },
   },
   vipTransportation: {
     kind: "service",
+    availability: "scaffold",
     parent: "specialEvents",
     slugs: { sr: "vip-prevoz", en: "vip-transportation", ru: "vip-transfer" },
   },
   fleet: {
     kind: "page",
+    availability: "scaffold",
     parent: null,
     slugs: { sr: "vozila", en: "fleet", ru: "avtopark" },
   },
   pricing: {
     kind: "page",
+    availability: "scaffold",
     parent: null,
     slugs: { sr: "cene", en: "pricing", ru: "tseny" },
   },
   about: {
     kind: "page",
+    availability: "scaffold",
     parent: null,
     slugs: { sr: "o-nama", en: "about-us", ru: "o-nas" },
   },
   contact: {
     kind: "page",
+    availability: "scaffold",
     parent: null,
     slugs: { sr: "kontakt", en: "contact", ru: "kontakty" },
   },
@@ -144,9 +176,11 @@ export const routeMap: Record<string, RouteEntry> = {
 export const routes: RouteDef[] = Object.entries(routeMap).map(([key, entry]) => ({
   key,
   kind: entry.kind,
+  availability: entry.availability,
   slugs: entry.slugs,
   ...(entry.parent !== null ? { parent: entry.parent } : {}),
-  sitemap: sitemapFor(key, entry.kind),
+  sitemap: sitemapFor(key, entry.kind, entry.availability),
+  ...(entry.previousSlugs ? { previousSlugs: entry.previousSlugs } : {}),
 }));
 
 /** Lookup helper for components/pages. */

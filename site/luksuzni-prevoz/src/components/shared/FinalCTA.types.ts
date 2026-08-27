@@ -83,6 +83,8 @@ export interface FinalCTAProps {
   imageAlt?: string;
   /** object-fit: "contain" (default — locked S-Class cutout intent) | "cover" (contextual photo). */
   imageFit?: "contain" | "cover";
+  /** Optional semantic media treatment; integrated blends full-bleed media into the panel. */
+  mediaTreatment?: "default" | "integrated";
   /** Current locale — passed to <Link> for localized route resolution. */
   locale?: LocaleCode;
   /** Layout-only class passthrough (FND-UI-06). */

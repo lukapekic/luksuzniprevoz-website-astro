@@ -5,11 +5,8 @@
  * The Homepage's second, deeper moment for the Private Chauffeur service
  * (blueprint §9 / 06-private-chauffeur-feature). It composes the shared
  * `OpenSplitSection` primitive (content | image, locked 5/7 desktop) inside a
- * page-owned `<Section surface="open-dark" spacing="feature">` + `<PageContainer>`,
- * so section rhythm and horizontal gutter stay with the caller's blueprint
- * composition, exactly as OpenSplitSection's ownership contract requires
- * (OpenSplitSection owns COMPOSITION ONLY — it deliberately renders no
- * <Section>/<PageContainer>).
+ * page-owned open `<Section>` + `<PageContainer>`. OpenSplitSection owns
+ * COMPOSITION ONLY — it deliberately renders no <Section>/<PageContainer>.
  *
  * Content stack (06 §Content stack): restrained platinum accent rule → H2 →
  * concise body → package summary → one service-level CTA. The accent rule and
@@ -30,10 +27,7 @@
  *
  * Image role (06 §Image / blueprint §21): one contextual chauffeur/S-Class
  * split photo, decorative (alt=""), 4:3 object-cover with `--radius-card` — all
- * owned by OpenSplitSection. The caller passes an approved asset; a dedicated
- * chauffeur/S-Class photograph is not yet produced, so the caller wires an
- * interim approved S-Class asset (flagged in the page) until that asset lands
- * (DESIGN.md §14 — missing assets do not authorize redesign).
+ * owned by OpenSplitSection. The caller passes the approved dedicated asset.
  *
  * Ownership/data: presentation-only. The editorial heading/body, the resolved
  * package facts, and the CTA href arrive as props (task §15 — three concerns
@@ -64,13 +58,17 @@ const headingId = "home-private-chauffeur-heading";
 // padding so the `divider`-role line sits centered in the gutter. No cards,
 // pills, or boxes (06 §Package summary / DESIGN.md §17 "No cardification").
 const SUMMARY_CELL_CLASSES = [
-  "grid gap-[var(--space-1)] border-b border-[var(--color-divider)] py-[var(--space-4)] sm:border-b-0 sm:border-e sm:pe-[var(--space-4)]",
-  "grid gap-[var(--space-1)] border-b border-[var(--color-divider)] py-[var(--space-4)] sm:border-b-0 sm:border-e sm:px-[var(--space-4)]",
-  "grid gap-[var(--space-1)] py-[var(--space-4)] sm:ps-[var(--space-4)]",
+  "grid gap-[var(--space-2)] border-b border-[var(--color-divider)] px-[var(--space-5)] py-[var(--space-5)] sm:border-b-0 sm:border-e",
+  "grid gap-[var(--space-2)] border-b border-[var(--color-divider)] px-[var(--space-5)] py-[var(--space-5)] sm:border-b-0 sm:border-e",
+  "grid gap-[var(--space-2)] px-[var(--space-5)] py-[var(--space-5)]",
 ];
 ---
 
-<Section spacing="feature" surface="open-dark" aria-labelledby={headingId}>
+<Section
+  spacing="feature"
+  surface="open-dark"
+  aria-labelledby={headingId}
+>
   <PageContainer>
     <OpenSplitSection
       image={image}
@@ -78,7 +76,10 @@ const SUMMARY_CELL_CLASSES = [
       layout="content-image"
       ratio="5-7"
     >
-      <div slot="content" class="flex flex-col gap-[var(--space-6)]">
+      <div
+        slot="content"
+        class="flex flex-col gap-[var(--space-8)]"
+      >
         <SectionHeading
           id={headingId}
           heading={heading}
@@ -88,7 +89,7 @@ const SUMMARY_CELL_CLASSES = [
           accent={true}
         />
 
-        <dl class="grid grid-cols-1 border-y border-[var(--color-divider)] sm:grid-cols-3">
+        <dl class="grid grid-cols-1 overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-surface-elevated)] sm:grid-cols-3">
           {packages.map((pkg, i) => (
             <div class:list={[SUMMARY_CELL_CLASSES[i]]}>
               <dt class="font-body text-[length:var(--text-ui)] font-semibold leading-[var(--line-height-ui)] tracking-[var(--letter-spacing-ui)] text-[var(--color-text-primary)]">

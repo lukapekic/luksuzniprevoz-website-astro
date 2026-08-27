@@ -13,8 +13,8 @@ export const config = defineFoundationConfig({
     locales: [
       {
         code: "sr",
-        htmlLang: "sr",
-        hreflang: "sr",
+        htmlLang: "sr-Latn",
+        hreflang: "sr-Latn",
         label: "Srpski",
         dir: "ltr",
         isDefault: true,
@@ -33,8 +33,8 @@ export const config = defineFoundationConfig({
         isDefault: false,
         isXDefault: false,
         intl: {
-          dateTimeLocale: "en-US",
-          numberLocale: "en-US",
+          dateTimeLocale: "en-GB",
+          numberLocale: "en-GB",
         },
       },
       {

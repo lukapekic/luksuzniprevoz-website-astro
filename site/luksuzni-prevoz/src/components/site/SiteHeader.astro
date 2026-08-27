@@ -6,8 +6,8 @@
  * Blueprint: docs/home/reference/blueprint.md §6 (Header)
  * Tokens: active Theme V2 semantic color/space/radius roles
  *
- *   - Real logo.webp asset + Cormorant Garamond italic wordmark via BrandLockup
- *   - Translucent near-black graphite overlay at page top; solid graphite on scroll
+ *   - Supplied GS mark with an accessible product name via BrandLockup
+ *   - Transparent over the hero; compact translucent graphite surface on scroll
  *   - Clean PageContainer-spanning geometry without large card shell
  *   - Compact globe + locale dropdown for language switcher
  *   - Restrained Manrope navigation with quiet active states
@@ -18,7 +18,6 @@
  * is owned by `Page` (FND-A11Y-08); SiteHeader renders no skip link of its own.
  */
 import { getPath } from "@astro-foundation/core/i18n";
-import { config } from "../../../foundation.config.ts";
 import { routes } from "../../data/routes.ts";
 import {
   navigation,
@@ -32,6 +31,7 @@ import LanguageSwitcher from "../../foundation/ui/LanguageSwitcher.astro";
 import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import Link from "../../foundation/ui/Link.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import { defaultLocale } from "../../data/locales.ts";
 
 interface Props {
   currentRouteKey: RouteKey;
@@ -53,8 +53,6 @@ const {
   overHero = true,
   idPrefix = "hdr",
 } = Astro.props;
-
-const defaultLocale = (config.locales.locales.find((l) => l.isDefault)?.code ?? "sr") as LocaleCode;
 
 /** Resolve a route href for the current locale (FND-I18N-03). */
 const href = (key: RouteKey): string => getPath(key, currentLocale, routes, defaultLocale);
@@ -107,8 +105,8 @@ const leafServices = servicesChildren.filter(isLeaf);
 >
   <div class="site-header__shell">
     <div class="site-header__row">
-      <!-- Brand: real logo + Cormorant Garamond wordmark (wordmark hidden on compact header) -->
-      <BrandLockup locale={currentLocale} href={homeHref} variant="responsive" />
+      <!-- Brand: supplied GS mark; the hidden wordmark preserves the link name. -->
+      <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" />
 
       <!-- Desktop navigation (lg+): Services▾ + top leaves -->
       <nav class="nav-desktop" aria-label={mainNavLabel}>
@@ -345,31 +343,46 @@ const leafServices = servicesChildren.filter(isLeaf);
     position: sticky;
     top: 0;
     z-index: 50;
-    /* Default = solid (no-JS safe). Scrolled is near-black graphite with high
-       opacity + a subtle divider. The restrained backdrop blur keeps the
-       translucent over-hero state legible against photographic media; it is the
-       only effect here — no heavy shadow (DESIGN.md §7/§10). */
+    min-block-size: var(--site-header-height);
+    isolation: isolate;
+  }
+
+  /* The visual surface is separated from the layout box so its scrolled state
+     can become visibly compact without shifting the document or hero offset. */
+  .site-header::before {
+    position: absolute;
+    z-index: -1;
+    inset-block-start: 0;
+    inset-inline: 0;
+    block-size: 100%;
     background: color-mix(in oklab, var(--color-background) 92%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-block-end: 1px solid var(--color-border-subtle);
-    transition: background var(--duration-normal) var(--ease-standard),
-                border-color var(--duration-normal) var(--ease-standard);
+    content: "";
+    transition:
+      block-size var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
+      backdrop-filter var(--duration-normal) var(--ease-standard);
   }
 
-  /* Top / overlay state: translucent near-black graphite over hero */
-  .site-header[data-over-hero="true"][data-state="top"] {
-    background: color-mix(in oklab, var(--color-background) 45%, transparent);
-    border-block-end-color: color-mix(in oklab, var(--color-border-subtle) 30%, transparent);
+  /* At the top of the homepage, the photograph is the header surface. */
+  .site-header[data-over-hero="true"][data-state="top"]::before {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
-  /* Scrolled state: increased opacity near-black graphite */
-  .site-header[data-state="scrolled"] {
-    background: color-mix(in oklab, var(--color-background) 96%, transparent);
-    border-block-end-color: var(--color-border-subtle);
+  /* Compact floating graphite plane on scroll. No divider or drop shadow. */
+  .site-header[data-state="scrolled"]::before {
+    block-size: calc(var(--space-11) + var(--space-3));
+    background: color-mix(in oklab, var(--color-background) 88%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .site-header__shell {
+    position: relative;
+    z-index: 1;
     width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
     margin-inline: auto;
   }
@@ -378,11 +391,17 @@ const leafServices = servicesChildren.filter(isLeaf);
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: var(--space-4);
-    /* Tracks --site-header-height (minus the 1px header border) so the header's
-       own min-height and the page-level hero-under-header offset share ONE
-       source of truth. */
-    min-height: calc(var(--site-header-height) - 1px);
+    /* Tracks --site-header-height so the page-level hero-under-header offset
+       and the unscrolled header share one source of truth. */
+    min-height: var(--site-header-height);
     padding-block: var(--space-2);
+    transition:
+      min-height var(--duration-normal) var(--ease-standard),
+      padding var(--duration-normal) var(--ease-standard);
+  }
+  .site-header[data-state="scrolled"] .site-header__row {
+    min-height: calc(var(--space-11) + var(--space-3));
+    padding-block: 0;
   }
   @media (min-width: 64rem) {
     .site-header__row {
@@ -654,18 +673,18 @@ const leafServices = servicesChildren.filter(isLeaf);
 
 <style is:global>
   /* --site-header-height: the single source of truth for the header's total
-     height (row min-height + the 1px header border). The homepage uses it to
+     unscrolled height. The homepage uses it to
      pull its full-bleed hero up under the overlaid sticky header so the hero
      media starts at the page top behind the header chrome (the header's
      z-index keeps it above the media). Defined globally because the hero is a
      later sibling, not a descendant of the header. Mirrors the
-     .site-header__row min-heights (4rem mobile / 4.5rem desktop) + 1px. */
+     .site-header__row min-heights (4rem mobile / 4.5rem desktop). */
   :root {
-    --site-header-height: calc(4rem + 1px);
+    --site-header-height: 4rem;
   }
   @media (min-width: 64rem) {
     :root {
-      --site-header-height: calc(4.5rem + 1px);
+      --site-header-height: 4.5rem;
     }
   }
 </style>
