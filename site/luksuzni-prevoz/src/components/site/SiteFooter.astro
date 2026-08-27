@@ -8,9 +8,9 @@
  * no newsletter, no sitemap, no second CTA, no oversized brand billboard
  * (DESIGN.md §6 content-density, §8 rejected-footer lessons).
  *
- *   Zone 1  Brand      — the approved BrandLockup (logo + "Luxury Transportation"
- *                        wordmark via font-brand). The lockup's accessible name
- *                        is the visible wordmark; it links home. The parent-
+ *   Zone 1  Brand      — the approved BrandLockup in its mark-only visual
+ *                        variant. The hidden wordmark preserves the accessible
+ *                        name; the GS mark links home. The parent-
  *                        company relationship ("GrandSolution") is referenced
  *                        quietly in the bottom-row copyright.
  *   Zone 2  Navigation — route-derived Services + Company link groups
@@ -18,11 +18,10 @@
  *                        places the two groups side-by-side inside the central
  *                        nav zone so the middle stays balanced rather than one
  *                        tall stack.
- *   Zone 3  Contact    — verified-only channels (contact.ts gating) at the
- *                        highest emphasis, then office hours and the verified
+ *   Zone 3  Contact    — verified-only channels, office hours, and the verified
  *                        office address (contact.office, street / postal+city /
- *                        country) as secondary muted facts, then the response
- *                        note as the smallest, most muted line.
+ *                        country) share one coherent body-text treatment. The
+ *                        response note remains the smallest, most muted line.
  *
  *   Bottom row          — a single restrained line, split left/right on
  *                        desktop: "© {year} GrandSolution · {rights}" (legal/
@@ -40,8 +39,9 @@
  *   manually concatenated. Works for sr/en/ru via the locale routing helpers.
  * - FND-ARCH-03: every user-visible string via t() / getNavLabel; facts via
  *   business.ts / contact.ts. No invented contact/legal/office data.
- * - Brand: the approved BrandLockup (no direct logo render, no recreated/text
- *   logo, no new logo). The lockup's accessible name is "Luxury Transportation".
+ * - Brand: the approved BrandLockup mark-only visual variant (no direct logo
+ *   render, no recreated/text logo, no new logo). Its hidden wordmark keeps the
+ *   accessible name "Luxury Transportation".
  * - Verified-only contact: a null/unverified phone/email/whatsapp never ships
  *   as a clickable tel:/mailto:/wa.me (contact.ts gating contract). While all
  *   channels are unverified, the contact column shows office hours + response
@@ -141,16 +141,16 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="site-footer__shell">
     <div class="site-footer__grid">
-      {/* 1. Brand — the approved BrandLockup (logo + "Luxury Transportation"
-            wordmark via font-brand). The lockup's accessible name is the visible
-            wordmark; it links home. The parent-company relationship ("GrandSolution")
+      {/* 1. Brand — the approved BrandLockup mark-only visual variant. Its
+            hidden wordmark preserves the accessible home-link name while only
+            the GS mark is shown. The parent-company relationship ("GrandSolution")
             is referenced quietly in the bottom-row copyright, per the locked
             footer contract. */}
       <div class="site-footer__col site-footer__col--brand">
         <BrandLockup
           locale={currentLocale}
           href={homeHref}
-          variant="full"
+          variant="mark-only"
           class="site-footer__brand"
         />
       </div>
@@ -198,11 +198,10 @@ const year = new Date().getFullYear();
         </div>
       </nav>
 
-      {/* 3. Contact — the strongest informational block (P9.1 hierarchy):
-            verified channels first (highest emphasis), then hours + full
-            verified office address as secondary muted facts, then the response
-            note as the smallest, most muted line. Compact location stays in the
-            bottom row — the street address is not duplicated there. */}
+      {/* 3. Contact — verified channels, hours, and the full verified office
+            address use one coherent body-text treatment. The response note
+            remains subordinate. Compact location stays in the bottom row —
+            the street address is not duplicated there. */}
       <div class="site-footer__col site-footer__col--contact">
         <p class="site-footer__group-label">{contactLabel}</p>
         {phoneHref || emailHref || whatsappHref ? (
@@ -373,23 +372,20 @@ const year = new Date().getFullYear();
   .site-footer__link[aria-current="page"] { color: var(--color-accent); }
   .site-footer__link:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
 
-  /* --- Contact column (P9.1 hierarchy): channels carry the highest emphasis
-     in the footer body — base size + medium weight in primary text color —
-     so phone/email clearly outrank the sm nav links; hours and the verified
-     office address are secondary muted compact facts; the response note is
-     the smallest, most muted line (dimmed muted still ≥ 4.5:1 against the
-     near-black lower footer, WCAG 2.2 AA). */
+  /* --- Contact column: channels, hours, and the verified office address use
+     the same body/UI typography and primary text color so the contact block
+     reads as one system. Link hit areas remain 44px; the response note is the
+     only intentionally subordinate line (dimmed muted still ≥ 4.5:1 against
+     the near-black lower footer, WCAG 2.2 AA). */
   .site-footer__channels {
     margin-block-end: var(--space-3);
   }
   .site-footer__link--channel {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
     overflow-wrap: anywhere;
   }
   .site-footer__fact {
     margin: 0;
-    color: var(--color-text-muted);
+    color: var(--color-text-primary);
     font-family: var(--font-body);
     font-size: var(--text-sm);
     line-height: var(--line-height-body);
@@ -400,7 +396,7 @@ const year = new Date().getFullYear();
     font-size: var(--text-sm);
     line-height: var(--line-height-body);
     font-style: normal;
-    color: var(--color-text-muted);
+    color: var(--color-text-primary);
   }
   .site-footer__address-line {
     display: block;

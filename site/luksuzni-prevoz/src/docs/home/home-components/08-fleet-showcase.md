@@ -79,6 +79,12 @@ Exact width values belong to implementation/container logic, not to a duplicated
 - existing 16:9 studio photographs may use cover within the matching 16:9 stage; transparent cutouts continue to use contain.
 - Homepage display order may lead with the S-Class through an explicit canonical presentation relationship without changing the master fleet roster.
 - missing vehicle-specific imagery retains the neutral placeholder; unrelated assets must not be substituted.
+- Homepage cards represent photographed model families rather than pricing
+  configurations. Mercedes V-Class renders once with the generic model name
+  and without a capacity chip; its `6+1` and `7+1` records remain available to
+  Pricing as configuration rows.
+- Mercedes Vito is omitted from the Homepage showcase while no matching
+  approved image exists. This does not remove its verified pricing record.
 
 The presentation region may retain the blueprint's approximate wide/landscape footprint, but the implementation must not hardcode image behavior that clips the vehicle.
 
@@ -93,6 +99,10 @@ Order:
 Spacing/padding use Theme V2 semantic spacing roles.
 
 Fleet facts come from canonical fleet data. Where source data is silent, omit the fact rather than fabricate it.
+
+Homepage presentation metadata may intentionally suppress a configuration
+fact when several canonical pricing records roll up to one photographed model
+family. It must never manufacture a replacement capacity.
 
 ## Controls
 

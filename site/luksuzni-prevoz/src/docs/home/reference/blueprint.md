@@ -456,6 +456,14 @@ Each item contains:
 - 2–3 compact verified facts/placeholders;
 - no pricing.
 
+The Homepage presents vehicle families, not pricing configurations:
+
+- render one generic **Mercedes V klasa** card;
+- do not repeat V-Class `6+1` and `7+1` as separate fleet cards;
+- omit Mercedes Vito while no matching approved vehicle image exists;
+- keep configuration-specific capacity and fare records in canonical data for
+  future Pricing-page rows.
+
 ## Vehicle image rules
 
 - Transparent vehicle PNGs use `object-contain`.

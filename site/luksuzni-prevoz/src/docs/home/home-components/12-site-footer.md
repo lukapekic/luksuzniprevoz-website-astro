@@ -50,7 +50,8 @@ The first column may carry slightly more visual weight, while all gaps/padding u
 
 ### 1. Brand
 
-- approved BrandLockup;
+- approved BrandLockup using its mark-only visual variant; the hidden wordmark
+  continues to provide the accessible home-link name;
 - concise brand line where canonical localized content exists;
 - parent-company relationship may be referenced quietly when appropriate.
 
@@ -112,8 +113,11 @@ Use Theme V2 semantic roles and project typography:
 ```text
 headings / strong labels → Inter Tight or approved semantic heading role
 body / links / UI        → Manrope
-brand wordmark           → Cormorant Garamond Italic through BrandLockup only
+brand wordmark           → visually hidden in the Footer's mark-only BrandLockup
 ```
+
+Phone, email, office hours, and the verified address use one consistent
+body/UI text treatment. The response-time note remains subordinate.
 
 Do not introduce local font-family or palette declarations.
 

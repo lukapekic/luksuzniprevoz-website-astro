@@ -6,27 +6,42 @@
  * vehicle ids and locally verified media assets.
  */
 import type { ImageMetadata } from "astro";
-import type { VehicleId } from "./fleet.ts";
+import { fleetModelDisplayNames, type VehicleId } from "./fleet.ts";
 import skodaSuperb from "../assets/fleet/skoda-superb.webp";
 import mercedesEClass from "../assets/fleet/mercedes-e.webp";
 import mercedesSClass from "../assets/fleet/mercedes-s.webp";
 import mercedesVClass from "../assets/fleet/mercedes-v.webp";
 import mercedesSprinter from "../assets/fleet/mercedes-sprinter.webp";
 
-/** Luxury-first Homepage sequence; it does not change the canonical roster. */
-export const homepageFleetOrder: VehicleId[] = [
-  "mercedes-s-class",
-  "mercedes-e-class",
-  "mercedes-v-class-6-plus-1-extra-long",
-  "mercedes-v-class-7-plus-1-extra-long",
-  "skoda-superb",
-  "mercedes-vito-tourer-8-plus-1",
-  "mercedes-sprinter",
-];
+export interface HomepageFleetEntry {
+  /** Representative canonical record supplying vehicle class and media lookup. */
+  vehicleId: VehicleId;
+  /** Canonical model-family name when configuration suffixes are suppressed. */
+  displayName?: string;
+  /** Defaults true; false rolls capacity variants into Pricing instead. */
+  showPassengerCapacity?: boolean;
+}
 
 /**
- * The two V-Class configurations share the same exterior-model photograph.
- * Vito remains null until a matching asset is supplied. The unrelated Kodiaq
+ * Luxury-first Homepage sequence. The Homepage shows photographed model
+ * families, while configuration-specific records remain in fleet/pricing data.
+ */
+export const homepageFleetEntries = [
+  { vehicleId: "mercedes-s-class" },
+  { vehicleId: "mercedes-e-class" },
+  {
+    vehicleId: "mercedes-v-class-6-plus-1-extra-long",
+    displayName: fleetModelDisplayNames.mercedesVClass,
+    showPassengerCapacity: false,
+  },
+  { vehicleId: "skoda-superb" },
+  { vehicleId: "mercedes-sprinter" },
+] satisfies readonly HomepageFleetEntry[];
+
+/**
+ * Both canonical V-Class configurations relate to the same exterior-model
+ * photograph, although only one generic V-Class card renders on the Homepage.
+ * Vito remains null and is omitted from that showcase. The unrelated Kodiaq
  * asset is intentionally not mapped to a canonical vehicle.
  */
 export const homepageFleetMedia: Record<VehicleId, ImageMetadata | null> = {
@@ -38,4 +53,3 @@ export const homepageFleetMedia: Record<VehicleId, ImageMetadata | null> = {
   "mercedes-s-class": mercedesSClass,
   "mercedes-sprinter": mercedesSprinter,
 };
-

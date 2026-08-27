@@ -97,7 +97,9 @@ Use after implementation and before final technical review.
 ## Footer
 
 - [ ] verified production SiteFooter reused
+- [ ] GS mark is visible without the public wordmark; accessible home-link name remains intact
 - [ ] compact desktop layout
+- [ ] phone, email, office hours, and address share one coherent body/UI text treatment
 - [ ] stacked mobile
 - [ ] no newsletter/social bloat
 - [ ] canonical contact data only

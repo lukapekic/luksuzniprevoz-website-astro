@@ -239,17 +239,17 @@ const samples = {
   navHeaderDesc: "The production SiteHeader (BrandLockup + primary nav + SR/EN/RU + Book CTA). Real states are rendered below in bounded frames: desktop overlay, desktop solid, desktop Services + Business flyout, desktop Special Events flyout, desktop language dropdown, mobile closed, and mobile open. The Header is the real component; dev-only wrappers only provide contrast and force the mobile layout / open panel — no second fake Header.",
   overlayLabel: "Desktop · overlay / top-of-page",
   overlayNote: "over the hero · transparent surface · legible navigation · no glass card.",
-  solidLabel: "Desktop · scrolled / solid",
-  solidNote: "compact near-black graphite surface · sticky · subtle hairline divider · no glow.",
+  solidLabel: "Desktop · scrolled / compact",
+  solidNote: "compact translucent graphite surface · sticky · no divider, shadow, or glow.",
   mobileClosedLabel: "Mobile · closed",
-  mobileClosedNote: "logo-only BrandLockup + menu trigger + Book discoverable (the wordmark is forced mark-only in this narrow preview frame). Toggle and Book keep 44px targets.",
+  mobileClosedNote: "GS mark + menu trigger + Book discoverable. Toggle and Book keep 44px targets.",
   mobileOpenLabel: "Mobile · open navigation",
   mobileOpenNote: "full-viewport dark panel · logo-only panel header · services + Business/Special Events children indented · SR/EN/RU · Book. Esc / toggle closes. The panel is contained inside this simulated phone frame in the preview (production is viewport-fixed).",
   heroHeadline: "Chauffeured transit, by appointment",
   heroSub: "Belgrade · airport · business · special events",
   solidBody: "Below the header, page content scrolls under the sticky solid bar.",
   brandLockupLabel: "BrandLockup",
-  brandLockupNote: "Real logo.webp + literal “Luxury Transportation” wordmark (Cormorant Garamond italic). Reusable on dark/light surfaces. Variants: full (always visible), responsive (wordmark hidden below lg via the real viewport — the shared Header bar), mark-only (logo only, for the semantically mobile-only panel header). The accessible name stays “Luxury Transportation” in every variant via sr-only.",
+  brandLockupNote: "Canonical GS vector mark + literal “Luxury Transportation” wordmark (Cormorant Garamond italic). Reusable on dark/light surfaces. Variants: full (always visible), responsive (wordmark hidden below lg), mark-only (GS mark only). The accessible name stays “Luxury Transportation” in every variant via sr-only.",
   servicesBusinessLabel: "Desktop · Services + Business flyout",
   servicesBusinessNote: "root Services dropdown open · Business Transportation nested submenu open. Hover/pointer moves trigger→panel→child links without closing; pointer leaving the whole region closes.",
   specialEventsFlyoutLabel: "Desktop · Special Events flyout",
@@ -1977,24 +1977,6 @@ const reviewFixtureItems: ReviewFixture[] = [
   .force-mobile :global(.nav-desktop) { display: none !important; }
   .force-mobile :global(.menu-toggle) { display: inline-flex !important; }
   .force-mobile :global(.lang-switcher) { display: none !important; }
-  /* Force the bar BrandLockup to its mark-only visual inside a mobile preview.
-     The bar uses variant="responsive" (max-lg:sr-only), which keys off the real
-     browser viewport — not this 28rem frame — so the wordmark would otherwise
-     stay visible in the simulated-mobile preview. This replicates the Tailwind
-     sr-only utility against the semantic data-brand-wordmark hook (not a
-     generated Astro ID). Dev-only. */
-  .force-mobile :global([data-brand-wordmark]) {
-    position: absolute !important;
-    inline-size: 1px !important;
-    block-size: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip-path: inset(50%) !important;
-    white-space: nowrap !important;
-    border-width: 0 !important;
-  }
-
   /* Simulated phone frame for the open-mobile preview: tall enough to review
      the panel header, service + branch child links, page links, language
      switcher and Book CTA; content beyond it scrolls inside the panel. The

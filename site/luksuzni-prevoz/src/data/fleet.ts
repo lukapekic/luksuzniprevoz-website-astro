@@ -62,6 +62,15 @@ export interface Vehicle {
   passengers: number | null;
 }
 
+/**
+ * Model-family names used when a presentation intentionally rolls several
+ * priced configurations into one vehicle card. They remain canonical fleet
+ * vocabulary rather than page-component copy.
+ */
+export const fleetModelDisplayNames = {
+  mercedesVClass: "Mercedes V klasa",
+} as const;
+
 // --- Authoritative fleet facts --------------------------------------------
 // Sourced from "Cene Limo servis usluga.xlsx" (table "LIMO SERVIS USLUGE").
 // Display names are the source's `sourceName` verbatim.
