@@ -79,7 +79,7 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-SEO-10 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-SEO-11 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-SEO-12 | P0 | AGENTS.md | auto:script | docs, validator |
-| FND-SEO-13 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-SEO-13 | P0 | AGENTS.md | auto:script | docs, test, validator |
 | FND-SEO-14 | P0 | AGENTS.md | auto:script | docs, test, validator |
 | FND-THEME-03 | P1 | AGENTS.md | auto:script | docs, test, validator |
 | FND-THEME-06 | P1 | AGENTS.md | auto:script | docs, validator |

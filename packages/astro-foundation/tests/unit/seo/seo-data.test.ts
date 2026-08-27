@@ -21,7 +21,7 @@ describe("composeTitle — FND-SEO-13", () => {
   });
 
   it("handles missing brand gracefully", () => {
-    expect(composeTitle("Home", "")).toBe("Home | ");
+    expect(composeTitle("Home", "")).toBe("Home");
   });
 
   it("handles title with special chars", () => {

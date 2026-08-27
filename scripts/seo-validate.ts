@@ -330,11 +330,17 @@ for (const filePath of contentFiles) {
       internalLinks: [...navigationRouteKeys]
         .map((key) => routes.find((candidate) => candidate.key === key))
         .filter((candidate) => candidate?.slugs[locale] !== undefined)
-        .map((candidate) =>
-          new URL(
-            getPath(candidate!.key as never, locale as never, routes, defaultLocale.code as never),
-            config.site,
-          ).href,
+        .map(
+          (candidate) =>
+            new URL(
+              getPath(
+                candidate!.key as never,
+                locale as never,
+                routes,
+                defaultLocale.code as never,
+              ),
+              config.site,
+            ).href,
         ),
       lastmod: (frontmatter.reviewedOn as string) ?? undefined,
       lastmodFromContent: !!(frontmatter.reviewedOn as string),

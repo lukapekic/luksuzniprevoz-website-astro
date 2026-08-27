@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:29:13.313Z",
-  "sourceHash": "148c5491ba26944cdec1734fe9a546e57425628cccd3b22e07e56a4a64bc83aa",
+  "generatedAt": "2026-08-27T01:02:46.326Z",
+  "sourceHash": "e38bc3ae261c8c34e19fdb9ab36422fc75baf75abb8f642cddc2615e24b2fba8",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -94,6 +94,7 @@
         "8": "2rem",
         "9": "2.25rem",
         "10": "2.5rem",
+        "11": "2.75rem",
         "12": "3rem",
         "13": "3.25rem",
         "16": "4rem",
@@ -236,6 +237,7 @@
     "--space-8": "2rem",
     "--space-9": "2.25rem",
     "--space-10": "2.5rem",
+    "--space-11": "2.75rem",
     "--space-12": "3rem",
     "--space-13": "3.25rem",
     "--space-16": "4rem",

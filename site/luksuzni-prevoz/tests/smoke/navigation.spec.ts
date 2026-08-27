@@ -23,7 +23,9 @@ test.describe("Navigation", () => {
     await page.goto(routePath("home", defaultLocale));
     const destination = routePath("airportTransportation", defaultLocale);
     await page.locator("[data-site-header] [data-dropdown-trigger]").first().click();
-    await page.locator(`[data-site-header] [data-dropdown-panel] a[href="${destination}"]:visible`).click();
+    await page
+      .locator(`[data-site-header] [data-dropdown-panel] a[href="${destination}"]:visible`)
+      .click();
     await expect(page).toHaveURL(destination);
   });
 

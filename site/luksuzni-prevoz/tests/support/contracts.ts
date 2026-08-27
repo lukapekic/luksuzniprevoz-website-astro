@@ -32,12 +32,17 @@ export async function assertNoHorizontalOverflow(page: Page): Promise<void> {
           if (["auto", "scroll", "hidden", "clip"].includes(overflow)) return [];
           ancestor = ancestor.parentElement;
         }
-        return [{
-          element: `${element.tagName.toLowerCase()}#${element.id}.${element.className}`.slice(0, 180),
-          left: Math.round(rect.left * 100) / 100,
-          right: Math.round(rect.right * 100) / 100,
-          width: Math.round(rect.width * 100) / 100,
-        }];
+        return [
+          {
+            element: `${element.tagName.toLowerCase()}#${element.id}.${element.className}`.slice(
+              0,
+              180,
+            ),
+            left: Math.round(rect.left * 100) / 100,
+            right: Math.round(rect.right * 100) / 100,
+            width: Math.round(rect.width * 100) / 100,
+          },
+        ];
       })
       .slice(0, 10);
     return { scrollWidth: document.documentElement.scrollWidth, clientWidth, offenders };
@@ -63,7 +68,9 @@ export async function assertMinimumTargetSize(page: Page): Promise<void> {
         const visuallyClipped =
           rect.width <= 1 &&
           rect.height <= 1 &&
-          (style.clip !== "auto" || style.clipPath !== "none" || style.overflow === "hidden");
+          (node.className.includes("sr-only") ||
+            style.clipPath !== "none" ||
+            style.overflow === "hidden");
         if (visuallyClipped) return [];
         if (rect.width >= 44 && rect.height >= 44) return [];
         return [

@@ -34,8 +34,7 @@ export const linkVariants = variants({
       "on-light":
         "text-[length:var(--text-ui)] font-medium text-[var(--color-text-on-light)] underline underline-offset-4 decoration-1 hover:no-underline focus-visible:outline-[var(--color-focus-light)]",
       nav: "text-[length:var(--text-ui)] font-medium text-[var(--color-text-primary)] px-[var(--space-3)] py-[var(--space-2)] rounded-[var(--radius-control)] min-h-11 hover:bg-[var(--color-surface-elevated)] hover:text-[var(--color-accent)]",
-      cta:
-        "min-h-11 px-[var(--space-4)] py-[var(--space-3)] rounded-[var(--radius-control)] font-semibold text-[length:var(--text-ui)] tracking-[var(--letter-spacing-ui)] leading-none bg-[var(--color-accent)] text-[var(--color-text-on-light)] hover:bg-[var(--color-accent-hover)]",
+      cta: "min-h-11 px-[var(--space-4)] py-[var(--space-3)] rounded-[var(--radius-control)] font-semibold text-[length:var(--text-ui)] tracking-[var(--letter-spacing-ui)] leading-none bg-[var(--color-accent)] text-[var(--color-text-on-light)] hover:bg-[var(--color-accent-hover)]",
       button:
         "min-h-11 px-[var(--space-4)] py-[var(--space-3)] rounded-[var(--radius-control)] font-semibold text-[length:var(--text-ui)] tracking-[var(--letter-spacing-ui)] leading-none border border-solid border-[var(--color-border-subtle)] text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] hover:border-[var(--color-input-border)]",
     },
