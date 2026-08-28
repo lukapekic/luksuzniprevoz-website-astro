@@ -3,7 +3,6 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import type { Vehicle } from "../../../data/fleet.ts";
-import type { VehiclePricing } from "../../../data/pricing.ts";
 import Section from "../../../foundation/ui/Section.astro";
 import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
@@ -12,32 +11,29 @@ import HorizontalCarousel from "../../shared/HorizontalCarousel.astro";
 
 interface VehicleRecommendation {
   vehicle: Vehicle;
-  pricing: VehiclePricing;
   image?: ImageMetadata | null;
   displayName?: string;
   showPassengerCapacity?: boolean;
+  suitability?: string;
+  meta?: { label: string; value: string };
 }
 interface Props {
   heading: string; intro?: string; recommendations: VehicleRecommendation[];
   cta: { label: string; to: RouteKey }; locale: LocaleCode;
   passengerLabel: string; classLabels: Record<string,string>;
-  fareLabel: string; farePendingLabel: string;
   ariaLabel:string; previousLabel:string; nextLabel:string; label:string;
+  carouselId: string;
 }
 const { heading, intro, recommendations, cta, locale, passengerLabel, classLabels,
-  fareLabel, farePendingLabel, ariaLabel, previousLabel, nextLabel, label } = Astro.props;
-
-const formatFare = (pricing: VehiclePricing) => pricing.airportTransfer
-  ? new Intl.NumberFormat(locale, { style: "currency", currency: pricing.airportTransfer.currency }).format(pricing.airportTransfer.amount)
-  : farePendingLabel;
+  ariaLabel, previousLabel, nextLabel, label, carouselId } = Astro.props;
 ---
 
 <Section spacing="standard" surface="open-dark" aria-labelledby="vehicle-recommendations-heading">
   <PageContainer>
     <p class="section-label"><span aria-hidden="true"></span>{label}</p>
     <SectionHeading id="vehicle-recommendations-heading" heading={heading} description={intro} />
-    <HorizontalCarousel id="airport-vehicles" {ariaLabel} {previousLabel} {nextLabel} itemSize="compact" itemCount={recommendations.length} class="vehicles" showCounter>
-      {recommendations.map(({ vehicle, pricing, image, displayName, showPassengerCapacity = true }) => (
+    <HorizontalCarousel id={carouselId} {ariaLabel} {previousLabel} {nextLabel} itemSize="compact" itemCount={recommendations.length} class="vehicles" showCounter>
+      {recommendations.map(({ vehicle, image, displayName, showPassengerCapacity = true, suitability, meta }) => (
         <li><article class="vehicle">
           <div class="vehicle__media" aria-hidden="true">
             {image ? (
@@ -56,10 +52,11 @@ const formatFare = (pricing: VehiclePricing) => pricing.airportTransfer
           <div class="vehicle__copy">
             <h3>{displayName ?? vehicle.displayName}</h3>
             <p>{classLabels[vehicle.vehicleClass]}</p>
-            <div class="vehicle__meta">
+            {suitability && <p class="vehicle__suitability">{suitability}</p>}
+            {(showPassengerCapacity && vehicle.passengers !== null || meta) && <div class="vehicle__meta">
               {showPassengerCapacity && vehicle.passengers !== null && <span>{vehicle.passengers} {passengerLabel}</span>}
-              <span><small>{fareLabel}</small>{formatFare(pricing)}</span>
-            </div>
+              {meta && <span><small>{meta.label}</small>{meta.value}</span>}
+            </div>}
           </div>
         </article></li>
       ))}
@@ -81,6 +78,7 @@ const formatFare = (pricing: VehiclePricing) => pricing.airportTransfer
   .vehicle__copy { position:relative;z-index:2;display: grid; gap: var(--space-2); padding: var(--space-6); }
   h3 { font-family: var(--font-heading); font-size: var(--text-h3); font-weight: var(--font-weight-semibold); }
   p { font-family: var(--font-body); color: var(--color-text-muted); }
+  .vehicle__suitability { max-inline-size: var(--measure-narrow); font-size: var(--text-sm); line-height: var(--line-height-body); }
   .vehicle__meta { display: flex; align-items: end; justify-content: space-between; gap: var(--space-3); padding-block-start: var(--space-3); border-block-start: 1px solid var(--color-divider); font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-primary); }
   .vehicle__meta small { display: block; color: var(--color-text-muted); }
   .vehicle-cta { margin-block-start: var(--space-8); }

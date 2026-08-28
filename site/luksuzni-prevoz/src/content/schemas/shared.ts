@@ -51,6 +51,10 @@ const clientIdEnum = z.enum(clients.map((c) => c.id) as [string, ...string[]]);
 export const actionTargetSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("route"), routeKey: routeKeyEnum }),
   z.object({ type: z.literal("flow"), flowKey: z.string().min(1) }),
+  z.object({
+    type: z.literal("anchor"),
+    anchorId: z.string().regex(/^[a-z][a-z0-9-]*$/),
+  }),
 ]);
 
 export const ctaSchema = z.object({
@@ -124,6 +128,7 @@ export const editorialSectionSchema = z.object({
   items: z.array(textItemSchema).optional(),
   image: imageReferenceSchema.optional(),
   relatedRouteKeys: z.array(routeKeyEnum).optional(),
+  cta: ctaSchema.optional(),
 });
 
 // --- FAQ -------------------------------------------------------------------

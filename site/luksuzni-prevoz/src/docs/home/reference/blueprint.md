@@ -629,7 +629,6 @@ Desktop:
 - Compact tertiary contacts when canonical verified data exists:
   - phone
   - email
-  - WhatsApp
 
 Missing verified contacts must follow canonical contact gating; do not invent them to fill the design.
 

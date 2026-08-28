@@ -7,24 +7,18 @@
  * as business.ts — facts are one-source/all-locales, text is per-locale and
  * parity-checked by content:validate.
  *
- * STATUS: phone/email/whatsapp/office address are `null` +
- * "owner-confirmation-required". The owner provides real values later; until
- * then the site must NOT present them as live contact points. Components gate
- * rendering on `verificationStatus === "verified"` (or non-null) so a null
- * never ships as a clickable tel:/mailto:. JSON-LD telephone/email are sourced
- * from here once verified (see business.ts businessData).
+ * Phone, email, and office address are verified operational facts. Components
+ * still gate channels on `verificationStatus === "verified"` so future pending
+ * facts cannot ship as live contact points. JSON-LD telephone/email are sourced
+ * from here (see business.ts businessData).
  */
 import type { UiStringKey } from "@astro-foundation/core";
 import type { VerificationStatus } from "./business.ts";
 
 export type DayOfWeek =
-  | "monday"
-  | "tuesday"
-  | "wednesday"
-  | "thursday"
-  | "friday"
-  | "saturday"
-  | "sunday";
+  "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
+
+export type ConfirmationMode = "manual";
 
 export interface ContactChannel<T> {
   value: T | null;
@@ -54,13 +48,13 @@ export interface BookingLeadTime {
   lastMinuteMarketingAllowed: boolean;
   /** UiStringKey into content/ui/*.json for the translated exception policy. */
   exceptionPolicyKey: UiStringKey;
+  confirmationMode: ConfirmationMode;
 }
 
 export interface Contact {
   office: OfficeLocation;
   phone: ContactChannel<string>;
   email: ContactChannel<string>;
-  whatsapp: ContactChannel<string>;
   officeHours: OfficeHours;
   bookingLeadTime: BookingLeadTime;
 }
@@ -82,21 +76,9 @@ export const contact: Contact = {
     value: "office@luksuzniprevoz.rs",
     verificationStatus: "verified",
   },
-  whatsapp: {
-    value: null,
-    verificationStatus: "verified",
-  },
   officeHours: {
     timezone: "Europe/Belgrade",
-    days: [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ],
+    days: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
     opens: "08:00",
     closes: "18:00",
     publicNoteKey: "contact.officeNote",
@@ -105,8 +87,17 @@ export const contact: Contact = {
     publicMinimumHours: 24,
     lastMinuteMarketingAllowed: false,
     exceptionPolicyKey: "contact.bookingExceptionPolicy",
+    confirmationMode: "manual",
   },
 };
+
+export function assertContactConsistency(): void {
+  if (contact.bookingLeadTime.confirmationMode !== "manual") {
+    throw new Error("contact.ts booking confirmation mode must be explicitly manual.");
+  }
+}
+
+assertContactConsistency();
 
 /** True only when a channel carries a verified, non-null value. Components
  *  use this to decide whether to render a live tel:/mailto: link. */

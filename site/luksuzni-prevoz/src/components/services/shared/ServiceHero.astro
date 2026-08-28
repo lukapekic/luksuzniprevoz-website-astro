@@ -9,8 +9,10 @@ interface Action { label: string; href: string }
 interface Props {
   title: string;
   description?: string;
-  primaryAction: Action;
-  secondaryAction?: Action;
+  eyebrow?: string;
+  trustMarkers?: readonly [string, string, string];
+  primaryAction?: Action | null;
+  secondaryAction?: Action | null;
   locale: LocaleCode;
   variant?: "contained" | "responsive-split" | "full-bleed";
   image?: ImageMetadata;
@@ -21,6 +23,8 @@ interface Props {
 const {
   title,
   description,
+  eyebrow,
+  trustMarkers,
   primaryAction,
   secondaryAction,
   locale,
@@ -31,13 +35,44 @@ const {
 } = Astro.props;
 
 const isFullBleed = variant === "full-bleed";
+const isResponsiveSplit = variant === "responsive-split";
 const imageSizes = isFullBleed
   ? "100vw"
+  : isResponsiveSplit
+    ? "(min-width: 80rem) 58vw, calc(100vw - 2rem)"
   : "(min-width: 80rem) 80rem, calc(100vw - 2rem)";
+const hasActions = Boolean(primaryAction || secondaryAction);
 ---
 
 <section class="service-hero" data-variant={variant} aria-labelledby="service-hero-title">
   <div class="service-hero__panel">
+      <div class="service-hero__inner">
+        <PageContainer>
+          <div class:list={["service-hero__composition", supportText && "service-hero__composition--split"]}>
+            <div class="service-hero__content">
+              {eyebrow && <p class="service-hero__eyebrow">{eyebrow}</p>}
+              <h1 id="service-hero-title">{title}</h1>
+              {description && <p class="service-hero__description">{description}</p>}
+              {hasActions && (
+                <div class="service-hero__actions">
+                  {primaryAction && <Link variant="cta" href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>}
+                  {secondaryAction && <Link variant="button" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+                </div>
+              )}
+              {trustMarkers && (
+                <ul class="service-hero__trust" aria-label={eyebrow}>
+                  {trustMarkers.map((marker) => <li>{marker}</li>)}
+                </ul>
+              )}
+            </div>
+            {supportText && (
+              <aside class="service-hero__support">
+                <p>{supportText}</p>
+              </aside>
+            )}
+          </div>
+        </PageContainer>
+      </div>
       {image ? (
         <Image
           class="service-hero__media"
@@ -54,25 +89,6 @@ const imageSizes = isFullBleed
         />
       ) : <div class="service-hero__media service-hero__placeholder" aria-hidden="true" />}
       <div class="service-hero__scrim" aria-hidden="true"></div>
-      <div class="service-hero__inner">
-        <PageContainer>
-          <div class:list={["service-hero__composition", supportText && "service-hero__composition--split"]}>
-            <div class="service-hero__content">
-              <h1 id="service-hero-title">{title}</h1>
-              {description && <p class="service-hero__description">{description}</p>}
-              <div class="service-hero__actions">
-                <Link variant="cta" href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>
-                {secondaryAction && <Link variant="button" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
-              </div>
-            </div>
-            {supportText && (
-              <aside class="service-hero__support">
-                <p>{supportText}</p>
-              </aside>
-            )}
-          </div>
-        </PageContainer>
-      </div>
   </div>
 </section>
 
@@ -87,9 +103,14 @@ const imageSizes = isFullBleed
   .service-hero__inner { position: relative; z-index: 1; min-block-size: inherit; padding-block: clamp(var(--space-12), 8vw, var(--space-20)); }
   .service-hero__composition { display: grid; min-block-size: inherit; gap: var(--space-8); align-content: end; align-items: end; }
   .service-hero__content { display: grid; max-inline-size: 48rem; gap: var(--space-5); }
+  .service-hero__eyebrow { margin: 0; font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-semibold); line-height: var(--line-height-body); letter-spacing: var(--letter-spacing-ui); color: var(--color-accent); }
   h1 { max-inline-size: 16ch; margin: 0; font-family: var(--font-heading); font-size: var(--text-h1); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); letter-spacing: var(--letter-spacing-heading); }
   .service-hero__description { max-inline-size: var(--measure-narrow); margin: 0; font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--line-height-body); color: var(--color-text-muted); }
   .service-hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-block-start: var(--space-6); }
+  .service-hero__trust { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: var(--space-2) 0 0; padding: var(--space-4) 0 0; border-block-start: 1px solid color-mix(in oklab, var(--color-text-primary), transparent 78%); list-style: none; font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  .service-hero__trust li { display: flex; align-items: center; gap: var(--space-2); }
+  .service-hero__trust li::before { inline-size: var(--space-1); block-size: var(--space-1); border-radius: var(--radius-full); background: var(--color-accent); content: ""; }
+  .service-hero[data-variant="responsive-split"] .service-hero__actions { flex-direction: column; align-items: flex-start; }
   .service-hero__support { max-inline-size: 28rem; padding-block-start: var(--space-5); border-block-start: 1px solid color-mix(in oklab, var(--color-text-primary), transparent 75%); }
   .service-hero__support p { margin: 0; font-family: var(--font-body); font-size: var(--text-base); line-height: var(--line-height-body); color: var(--color-text-muted); }
 
@@ -145,6 +166,33 @@ const imageSizes = isFullBleed
     .service-hero[data-variant="full-bleed"] .service-hero__media { object-position: center; }
   }
   @media (min-width: 80rem) {
+    .service-hero[data-variant="responsive-split"] .service-hero__panel {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      min-block-size: clamp(29rem, 66svh, 43rem);
+    }
+    .service-hero[data-variant="responsive-split"] .service-hero__inner {
+      display: grid;
+      grid-column: 1;
+      grid-row: 1;
+      align-items: end;
+      min-inline-size: 0;
+      min-block-size: inherit;
+      background: var(--color-surface);
+    }
+    .service-hero[data-variant="responsive-split"] .service-hero__media {
+      position: relative;
+      grid-column: 2;
+      grid-row: 1;
+      z-index: 0;
+      min-inline-size: 0;
+    }
+    .service-hero[data-variant="responsive-split"] .service-hero__scrim {
+      display: none;
+    }
+    .service-hero[data-variant="responsive-split"] .service-hero__actions {
+      flex-direction: row;
+    }
     .service-hero[data-variant="full-bleed"] .service-hero__composition--split { grid-template-columns: 7fr 5fr; gap: clamp(var(--space-8), 5vw, var(--space-20)); }
     .service-hero[data-variant="full-bleed"] .service-hero__support { padding-block-start: 0; padding-inline-start: var(--space-5); border-block-start: 0; border-inline-start: 1px solid color-mix(in oklab, var(--color-text-primary), transparent 75%); }
   }

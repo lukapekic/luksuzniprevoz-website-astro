@@ -3,47 +3,50 @@ import Section from "../../../foundation/ui/Section.astro";
 import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
 
-interface Group { key: string; icon: "transfer" | "arrival" | "assistance" | "aviation"; title: string; text: string }
-interface Props { heading: string; intro?: string; body: string; groups: Group[]; label: string; variant?: "divider-facts" | "grouped-icons"; surface?: "open-dark" | "contained-dark" }
+interface Group { key: string; icon?: "transfer" | "arrival" | "assistance" | "aviation"; marker?: string; title: string; text: string }
+interface Props { heading: string; intro?: string; body: string; groups: Group[]; label: string; variant?: "divider-facts" | "grouped-icons" | "numbered-divider-facts"; surface?: "open-dark" | "contained-dark" }
 const { heading, intro, body, groups, label, variant = "grouped-icons", surface = "contained-dark" } = Astro.props;
 ---
 
 <Section spacing={surface === "open-dark" ? "standard" : "compact"} surface={surface} aria-labelledby="service-overview-heading">
-  <PageContainer class="overview-grid">
-    <div>
-      <p class="section-label"><span aria-hidden="true"></span>{label}</p>
-      <SectionHeading id="service-overview-heading" heading={heading} description={intro} />
-      <p class="overview-body">{body}</p>
+  <PageContainer>
+    <div class="overview-grid">
+      <div>
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading id="service-overview-heading" heading={heading} description={intro} />
+        <p class="overview-body">{body}</p>
+      </div>
+      <ul class="fact-list" role="list" data-variant={variant}>
+        {groups.map((group) => <li>
+          {variant === "numbered-divider-facts" && group.marker && <span class="fact-marker" aria-hidden="true">{group.marker}</span>}
+          {variant === "grouped-icons" && group.icon && <span class="fact-icon" aria-hidden="true">
+            {group.icon === "transfer" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 7h12m0 0-3-3m3 3-3 3M19 17H7m0 0 3 3m-3-3 3-3" />
+              </svg>
+            )}
+            {group.icon === "arrival" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v9m0 0 3-3m-3 3L9 9M5 16h14M7 20h10" />
+              </svg>
+            )}
+            {group.icon === "assistance" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 8h10a2 2 0 0 1 2 2v8H5v-8a2 2 0 0 1 2-2Z" />
+                <path d="M9 8V6a3 3 0 0 1 6 0v2M8 21h.01M16 21h.01" />
+              </svg>
+            )}
+            {group.icon === "aviation" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 11 18-7-7 18-2.5-7.5L3 11Z" />
+                <path d="m11.5 14.5 4-4" />
+              </svg>
+            )}
+          </span>}
+          <span><strong>{group.title}</strong><small>{group.text}</small></span>
+        </li>)}
+      </ul>
     </div>
-    <ul class="fact-list" role="list" data-variant={variant}>
-      {groups.map((group) => <li>
-        <span class="fact-icon" aria-hidden="true">
-          {group.icon === "transfer" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 7h12m0 0-3-3m3 3-3 3M19 17H7m0 0 3 3m-3-3 3-3" />
-            </svg>
-          )}
-          {group.icon === "arrival" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v9m0 0 3-3m-3 3L9 9M5 16h14M7 20h10" />
-            </svg>
-          )}
-          {group.icon === "assistance" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 8h10a2 2 0 0 1 2 2v8H5v-8a2 2 0 0 1 2-2Z" />
-              <path d="M9 8V6a3 3 0 0 1 6 0v2M8 21h.01M16 21h.01" />
-            </svg>
-          )}
-          {group.icon === "aviation" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 11 18-7-7 18-2.5-7.5L3 11Z" />
-              <path d="m11.5 14.5 4-4" />
-            </svg>
-          )}
-        </span>
-        <span><strong>{group.title}</strong><small>{group.text}</small></span>
-      </li>)}
-    </ul>
   </PageContainer>
 </Section>
 
@@ -53,10 +56,13 @@ const { heading, intro, body, groups, label, variant = "grouped-icons", surface 
   .section-label > span { inline-size:var(--space-8); block-size:1px; background:var(--color-accent); }
   .overview-body { max-inline-size: var(--measure-body); margin-block-start: var(--space-5); font-family: var(--font-body); line-height: var(--line-height-body); color: var(--color-text-muted); }
   .fact-list { display:grid; margin: 0; padding: 0; list-style: none; border-block-start: 1px solid var(--color-divider); }
-  .fact-list li { display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); padding-block: var(--space-5); border-block-end: 1px solid var(--color-divider); font-family: var(--font-body); }
+  .fact-list li { display:grid; gap:var(--space-4); padding-block: var(--space-5); border-block-end: 1px solid var(--color-divider); font-family: var(--font-body); }
+  .fact-list[data-variant="grouped-icons"] li { grid-template-columns:auto 1fr; }
+  .fact-list[data-variant="numbered-divider-facts"] li { grid-template-columns:auto minmax(0,1fr); align-items:start; }
   .fact-list strong,.fact-list small { display:block; } .fact-list strong { font-weight:var(--font-weight-semibold); } .fact-list small { margin-block-start:var(--space-2); font-size:var(--text-sm); line-height:var(--line-height-body); color:var(--color-text-muted); }
   .fact-icon { display:grid; place-items:center; inline-size:var(--space-8); block-size:var(--space-8); color:var(--color-accent); }
   .fact-icon svg { inline-size:var(--space-6); block-size:var(--space-6); }
-  @media (min-width:48rem) { .fact-list { grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:var(--space-6); } }
+  .fact-marker { min-inline-size:var(--space-8);font-family:var(--font-body);font-size:var(--text-caption);font-weight:var(--font-weight-semibold);color:var(--color-accent); }
+  @media (min-width:48rem) { .fact-list:not([data-variant="numbered-divider-facts"]) { grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:var(--space-6); } }
   @media (min-width: 64rem) { .overview-grid { grid-template-columns: 5fr 7fr; gap: var(--column-gap-desktop); align-items: start; } }
 </style>

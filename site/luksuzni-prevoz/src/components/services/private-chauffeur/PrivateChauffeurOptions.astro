@@ -1,0 +1,184 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface HireOption {
+  title: string;
+  fact: string;
+  supportingTitle: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  intro?: string;
+  body: string;
+  options: readonly [HireOption, HireOption, HireOption];
+  primaryAction?: Action | null;
+  secondaryAction?: Action | null;
+  locale: LocaleCode;
+}
+
+const {
+  heading,
+  intro,
+  body,
+  options,
+  primaryAction,
+  secondaryAction,
+  locale,
+} = Astro.props;
+
+if (options.length !== 3) {
+  throw new Error("PrivateChauffeurOptions requires exactly three hire options.");
+}
+
+const hasActions = Boolean(primaryAction || secondaryAction);
+---
+
+<Section spacing="compact" surface="light" aria-labelledby="private-chauffeur-options-heading">
+  <PageContainer>
+    <div class="options-intro">
+      <SectionHeading
+        id="private-chauffeur-options-heading"
+        heading={heading}
+        description={intro}
+        on="light"
+      />
+      <p>{body}</p>
+    </div>
+
+    <ol class="options" role="list">
+      {options.map((option, index) => (
+        <li>
+          <span class="option-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <h3>{option.title}</h3>
+            <p class="option-fact">{option.fact}</p>
+            <p class="option-text"><strong>{option.supportingTitle}</strong><span>{option.text}</span></p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    {hasActions && (
+      <div class="options-actions">
+        {primaryAction && <Link variant="cta" href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>}
+        {secondaryAction && <Link variant="on-light" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+      </div>
+    )}
+  </PageContainer>
+</Section>
+
+<style>
+  .options-intro {
+    display: grid;
+    gap: var(--space-5);
+    max-inline-size: var(--measure-body);
+  }
+
+  .options-intro > p,
+  .option-text {
+    margin: 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%);
+  }
+
+  .options {
+    display: grid;
+    margin: var(--space-10) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-input-border);
+    list-style: none;
+  }
+
+  .options li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+    border-block-end: 1px solid var(--color-input-border);
+  }
+
+  .option-number {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-focus-light);
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+  }
+
+  .option-fact {
+    margin-block: var(--space-3) 0;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-on-light);
+  }
+
+  .option-text {
+    margin-block-start: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .option-text strong,
+  .option-text span {
+    display: block;
+  }
+
+  .option-text strong {
+    margin-block-end: var(--space-2);
+    color: var(--color-text-on-light);
+  }
+
+  .options-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-block-start: var(--space-8);
+  }
+
+  @media (min-width: 64rem) {
+    .options {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-block-end: 1px solid var(--color-input-border);
+    }
+
+    .options li {
+      display: block;
+      padding: var(--space-7);
+      border-block-end: 0;
+    }
+
+    .options li + li {
+      border-inline-start: 1px solid var(--color-input-border);
+    }
+
+    .option-number {
+      display: block;
+      margin-block-end: var(--space-5);
+    }
+
+    .options-actions {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+</style>

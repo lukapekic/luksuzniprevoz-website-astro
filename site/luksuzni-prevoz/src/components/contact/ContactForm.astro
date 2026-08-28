@@ -1,0 +1,160 @@
+---
+import Button from "../../foundation/ui/Button.astro";
+import Field from "../../foundation/ui/Field.astro";
+import FormStatus from "../../foundation/ui/FormStatus.astro";
+import Input from "../../foundation/ui/Input.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import Textarea from "../../foundation/ui/Textarea.astro";
+import { CONTACT_FORM_LIMITS } from "./contact-form-validation.ts";
+import type { ContactFormCopy } from "./contact-form.types.ts";
+
+interface Props {
+  heading: string;
+  intro?: string;
+  copy: ContactFormCopy;
+  formId?: string;
+}
+
+const {
+  heading,
+  intro,
+  copy,
+  formId = "contact-question-form",
+} = Astro.props;
+const fullNameId = `${formId}-full-name`;
+const emailId = `${formId}-email`;
+const phoneId = `${formId}-phone`;
+const messageId = `${formId}-message`;
+const statusId = `${formId}-status`;
+
+/**
+ * TODO(contact-cloudflare): Do not enable submission by adding only an action.
+ * The production phase must add an isolated same-origin POST endpoint, Managed
+ * Turnstile, mandatory server-side Siteverify with hostname/action checks,
+ * server-side validation using the shared schema, body-size limits, rate
+ * limiting, secret bindings, CSP review, and an approved delivery/retention
+ * policy. Only then replace the unavailable state with pending/error/success
+ * states. Cloudflare owns bot verification; do not add a local honeypot or
+ * timestamp heuristic here.
+ */
+---
+
+<section
+  class="h-full rounded-[var(--radius-section)] bg-[var(--color-surface-light)] p-[var(--space-6)] md:p-[var(--space-8)] lg:p-[var(--space-10)]"
+  aria-labelledby={`${formId}-heading`}
+>
+  <SectionHeading
+    id={`${formId}-heading`}
+    heading={heading}
+    description={intro}
+    on="light"
+  />
+
+  <form
+    id={formId}
+    class="mt-[var(--space-8)] grid gap-[var(--space-5)]"
+    novalidate
+    aria-describedby={statusId}
+    data-contact-question-form
+    data-mode="validation-only"
+    data-error-required={copy.errors.required}
+    data-error-full-name-format={copy.errors.fullNameFormat}
+    data-error-email-format={copy.errors.emailFormat}
+    data-error-phone-format={copy.errors.phoneFormat}
+    data-error-message-length={copy.errors.messageLength}
+  >
+    <Field
+      label={copy.fullNameLabel}
+      htmlFor={fullNameId}
+      required
+      hint={copy.fullNameHint}
+    >
+      <Input
+        slot="control"
+        id={fullNameId}
+        name="fullName"
+        type="text"
+        autocomplete="name"
+        inputmode="text"
+        autocapitalize="words"
+        spellcheck={false}
+        minlength={CONTACT_FORM_LIMITS.fullName.min}
+        maxlength={CONTACT_FORM_LIMITS.fullName.max}
+        required
+        hint={Boolean(copy.fullNameHint)}
+      />
+    </Field>
+
+    <Field
+      label={copy.emailLabel}
+      htmlFor={emailId}
+      required
+      hint={copy.emailHint}
+    >
+      <Input
+        slot="control"
+        id={emailId}
+        name="email"
+        type="email"
+        autocomplete="email"
+        inputmode="email"
+        autocapitalize="none"
+        spellcheck={false}
+        maxlength={CONTACT_FORM_LIMITS.email.max}
+        required
+        hint={Boolean(copy.emailHint)}
+      />
+    </Field>
+
+    <Field label={copy.phoneLabel} htmlFor={phoneId} hint={copy.phoneHint}>
+      <Input
+        slot="control"
+        id={phoneId}
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        inputmode="tel"
+        spellcheck={false}
+        maxlength={CONTACT_FORM_LIMITS.phone.max}
+        hint={Boolean(copy.phoneHint)}
+      />
+    </Field>
+
+    <Field
+      label={copy.messageLabel}
+      htmlFor={messageId}
+      required
+      hint={copy.messageHint}
+    >
+      <Textarea
+        slot="control"
+        id={messageId}
+        name="message"
+        autocomplete="off"
+        autocapitalize="sentences"
+        spellcheck
+        rows={6}
+        minlength={CONTACT_FORM_LIMITS.message.min}
+        maxlength={CONTACT_FORM_LIMITS.message.max}
+        required
+        hint={Boolean(copy.messageHint)}
+      />
+    </Field>
+
+    <div class="grid gap-[var(--space-3)]">
+      <Button type="button" disabled class="justify-self-start">
+        {copy.unavailableAction}
+      </Button>
+      <FormStatus id={statusId} type="info" on="light" message={copy.unavailableStatus} />
+    </div>
+  </form>
+</section>
+
+<script>
+  // Client-script justification: field-level validation needs touched/dirty
+  // state and custom localized errors. This script performs no submission,
+  // storage, analytics, network request, or bot-verification work.
+  import { mountContactForms } from "./contact-form-controller.ts";
+
+  mountContactForms();
+</script>

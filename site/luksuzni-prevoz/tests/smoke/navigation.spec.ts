@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { defaultLocale, locales, routePath } from "../support/contracts";
+import config from "../../foundation.config";
 
 /**
  * Navigation smoke tests.
@@ -14,7 +15,8 @@ test.describe("Navigation", () => {
       const response = await page.goto(routePath("home", locale));
       expect(response?.status()).toBe(200);
       await expect(page).toHaveTitle(/\S+/);
-      await expect(page.locator("html")).toHaveAttribute("lang", locale);
+      const htmlLang = config.locales.locales.find((item) => item.code === locale)!.htmlLang;
+      await expect(page.locator("html")).toHaveAttribute("lang", htmlLang);
       await expect(page.locator("main h1")).toBeVisible();
     });
   }

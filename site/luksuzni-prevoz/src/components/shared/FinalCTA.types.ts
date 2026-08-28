@@ -12,8 +12,7 @@
  *   - restrained graphite gradient (Final-CTA-only exception);
  *   - CTA hierarchy: primary Book (platinum accent cta link) > secondary Request a Quote
  *     (outlined button link) > tertiary phone/email (muted text links — ONE
- *     phone + ONE email only; WhatsApp is intentionally not rendered here,
- *     task 2D);
+ *     phone + ONE email only);
  *   - right-zone vehicle blended on the panel, no hard edge, not a bordered
  *     card; object-contain for transparent cutouts, object-cover for
  *     contextual photos;
@@ -25,7 +24,7 @@
  * is intentionally NOT coupled to the content-model `Cta` union so it stays
  * reusable on pages that don't use the editorial content model.
  *
- * Contact hrefs (tel:/mailto:/wa.me) are external contact points, not internal
+ * Contact hrefs (tel:/mailto:) are external contact points, not internal
  * routes — FND-I18N-03 scope is internal-route URLs. They are built from prop
  * values (identifier bindings) in the component frontmatter, not inline JSX.
  */
@@ -57,10 +56,8 @@ export interface FinalCtaAction {
 }
 
 /** Tertiary contact paths for the FinalCTA visual-contact row. The component
- *  renders ONE phone + ONE email only (task 2D) — WhatsApp is intentionally
- *  not rendered here (it stays available in the SiteFooter contact column and
- *  the home FinalCTA adapter, gated via contact.ts). Absent channels are
- *  omitted; the caller passes only verified channels. */
+ *  renders one verified phone and one verified email. Absent channels are
+ *  omitted. */
 export interface FinalCtaContacts {
   phone?: string;
   email?: string;
@@ -71,10 +68,10 @@ export interface FinalCTAProps {
   heading: string;
   /** Short supporting paragraph (localized, from caller). */
   description?: string;
-  /** Primary conversion action — Book (platinum accent <Link variant="cta">). Required. */
-  primaryAction: FinalCtaAction;
+  /** Primary conversion action — Book (platinum accent <Link variant="cta">). Omit when its canonical destination is unresolved. */
+  primaryAction?: FinalCtaAction | null;
   /** Secondary conversion action — Request a Quote (<Link variant="button">). */
-  secondaryAction?: FinalCtaAction;
+  secondaryAction?: FinalCtaAction | null;
   /** Tertiary contact paths — restrained muted text links, subordinate to the CTAs. */
   contacts?: FinalCtaContacts;
   /** Right-zone vehicle image. Transparent cutout → contain; contextual photo → cover. */

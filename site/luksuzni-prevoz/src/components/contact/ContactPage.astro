@@ -1,0 +1,120 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode } from "@astro-foundation/core";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../foundation/ui/Breadcrumbs.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import Section from "../../foundation/ui/Section.astro";
+import { getNavLabel } from "../../data/navigation.ts";
+import { t } from "../../lib/i18n.ts";
+import { buildPageSeo } from "../../lib/seo.ts";
+import ContactDetails from "./ContactDetails.astro";
+import ContactForm from "./ContactForm.astro";
+import type { ContactPageCopy } from "./contact-form.types.ts";
+
+interface Props {
+  routeKey: "contact";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+const { routeKey, locale, content } = Astro.props;
+if (content.data.pageType !== "contact" || content.data.routeKey !== routeKey) {
+  throw new Error("ContactPage received incompatible content.");
+}
+if (!content.data.h1) {
+  throw new Error(`ContactPage requires a non-hero h1 for ${locale}.`);
+}
+
+const data = content.data;
+const pageTitle = getNavLabel(routeKey, locale);
+const isUnpublishedPreview = data.status !== "published" && !import.meta.env.PROD;
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle ?? pageTitle,
+  description: data.seoDescription ?? "",
+  noindex: (data.noindex ?? false) || isUnpublishedPreview,
+});
+const breadcrumbs = [
+  { routeKey: "home" as const, label: t("home.title", locale) },
+  { routeKey, label: pageTitle },
+];
+const copy: ContactPageCopy = {
+  details: {
+    phoneLabel: t("contact.details.phone", locale),
+    emailLabel: t("contact.details.email", locale),
+    addressLabel: t("contact.details.address", locale),
+    officeHoursLabel: t("contact.details.officeHours", locale),
+    everyDayLabel: t("contact.details.everyDay", locale),
+    officeNote: t("contact.officeNote", locale),
+  },
+  form: {
+    fullNameLabel: t("contact.form.fullName", locale),
+    fullNameHint: t("contact.form.fullNameHint", locale),
+    emailLabel: t("contact.form.email", locale),
+    emailHint: t("contact.form.emailHint", locale),
+    phoneLabel: t("contact.form.phone", locale),
+    phoneHint: t("contact.form.phoneHint", locale),
+    messageLabel: t("contact.form.message", locale),
+    messageHint: t("contact.form.messageHint", locale),
+    unavailableAction: t("contact.form.unavailableAction", locale),
+    unavailableStatus: t("contact.form.unavailableStatus", locale),
+    errors: {
+      required: t("form.error.required", locale),
+      fullNameFormat: t("contact.form.error.fullName", locale),
+      emailFormat: t("form.error.email", locale),
+      phoneFormat: t("contact.form.error.phone", locale),
+      messageLength: t("contact.form.error.messageLength", locale),
+    },
+  },
+};
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale}>
+  <Section spacing="compact">
+    <PageContainer>
+      <Breadcrumbs items={breadcrumbs} ariaLabel={t("nav.breadcrumb", locale)} />
+    </PageContainer>
+  </Section>
+
+  <Section spacing="compact" aria-labelledby="contact-page-heading">
+    <PageContainer>
+      <h1
+        id="contact-page-heading"
+        class="max-w-[var(--measure-heading)] font-heading text-[length:var(--text-h1)] font-bold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)]"
+      >
+        {data.h1}
+      </h1>
+      {data.intro && (
+        <p class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-[length:var(--text-xl)] leading-[var(--line-height-body)] text-[var(--color-text-muted)]">
+          {data.intro}
+        </p>
+      )}
+    </PageContainer>
+  </Section>
+
+  <Section as="div" spacing="feature">
+    <PageContainer>
+      <div
+        class="grid items-stretch gap-[var(--space-10)] lg:grid-cols-12 lg:gap-[var(--space-12)]"
+        data-contact-layout
+      >
+        <div class="lg:col-span-5">
+          <ContactDetails
+            heading={data.introSection.heading.title}
+            intro={data.introSection.body}
+            copy={copy.details}
+          />
+        </div>
+        <div class="lg:col-span-7">
+          <ContactForm
+            heading={data.contact.formHeading}
+            intro={data.contact.formIntro}
+            copy={copy.form}
+          />
+        </div>
+      </div>
+    </PageContainer>
+  </Section>
+</BaseLayout>

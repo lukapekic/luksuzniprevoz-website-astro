@@ -1,0 +1,137 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface CustomFact {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  intro: string;
+  facts: readonly [CustomFact, CustomFact, CustomFact];
+  primaryAction?: Action | null;
+  secondaryAction?: Action | null;
+  locale: LocaleCode;
+}
+
+const { heading, intro, facts, primaryAction, secondaryAction, locale } = Astro.props;
+
+if (facts.length !== 3 || facts.some(({ title, text }) => !title || !text)) {
+  throw new Error("PrivateChauffeurCustomPanel requires three complete facts.");
+}
+
+const hasActions = Boolean(primaryAction || secondaryAction);
+---
+
+<Section spacing="compact" surface="elevated" aria-labelledby="private-chauffeur-custom-heading">
+  <PageContainer>
+    <div class="custom-layout">
+      <div class="custom-intro">
+        <SectionHeading id="private-chauffeur-custom-heading" heading={heading} description={intro} />
+      </div>
+
+      <div class="custom-detail">
+        <ol class="custom-facts" role="list">
+          {facts.map((fact, index) => (
+            <li>
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{fact.title}</h3>
+                <p>{fact.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        {hasActions && (
+          <div class="custom-actions">
+            {primaryAction && <Link variant="cta" href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>}
+            {secondaryAction && <Link href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+          </div>
+        )}
+      </div>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .custom-layout {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  .custom-intro {
+    max-inline-size: var(--measure-body);
+  }
+
+  .custom-facts {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .custom-facts li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .custom-facts li > span {
+    min-inline-size: var(--space-8);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+  }
+
+  .custom-facts p {
+    margin-block: var(--space-2) 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .custom-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-block-start: var(--space-7);
+  }
+
+  @media (min-width: 64rem) {
+    .custom-layout {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--column-gap-desktop);
+      align-items: start;
+    }
+
+    .custom-actions {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+</style>

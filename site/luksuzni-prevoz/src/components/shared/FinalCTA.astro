@@ -41,13 +41,12 @@
  *   secondary = Request a Quote   → <Link variant="button"> (outlined, dark/transparent)
  *   tertiary  = phone/email       → muted <a> text links, subordinate (not pill-heavy,
  *                                       no equal weight with the CTAs). FinalCTA
- *                                       renders ONE phone + ONE email only (task 2D) —
- *                                       WhatsApp is intentionally not rendered here.
+ *                                       renders ONE phone + ONE email only.
  *
  * Routing: internal CTAs pass `to: RouteKey` → <Link> → getPath (FND-I18N-03);
  * flow/external CTAs pass a pre-resolved `href` (caller runs resolveCtaHref).
  * Contact hrefs are built in the frontmatter as identifier bindings (tel: /
- * mailto: / wa.me are external contact points, not internal routes) so the
+ * mailto: are external contact points, not internal routes) so the
  * no-manual-internal-url lint sees plain identifiers, mirroring the proven
  * home-FinalCTA integration.
  *
@@ -83,17 +82,14 @@ const headingId = "final-cta-heading";
 // no-manual-internal-url check sees plain identifiers; tel:/mailto: are
 // external contact points, not internal routes (FND-I18N-03 scope).
 //
-// FinalCTA visual-contact contract (task 2D): exactly ONE phone + ONE email —
-// no WhatsApp rendered here. WhatsApp stays available globally (the SiteFooter
-// contact column + the home adapter gate it via contact.ts); FinalCTA is a
-// visual-contact simplification, so a phone-numbered WhatsApp line is never
-// rendered as a second phone-looking line next to the real phone. The caller
+// FinalCTA visual-contact contract: exactly ONE phone + ONE email. The caller
 // passes only verified channels (see /dev/ui + home/FinalCTA gating).
 const phone = contacts?.phone;
 const email = contacts?.email;
 const phoneHref = phone ? `tel:${phone}` : null;
 const emailHref = email ? `mailto:${email}` : null;
 const hasContacts = Boolean(phone || email);
+const hasActions = Boolean(primaryAction || secondaryAction);
 
 const isDecorative = imageAlt === "";
 const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
@@ -105,16 +101,17 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
       <div class="fcta-content">
         <SectionHeading id={headingId} heading={heading} description={description} />
 
-        <div class="fcta-actions">
-          <Link
-            variant="cta"
-            to={primaryAction.to}
-            href={primaryAction.href}
-            locale={locale}
-          >
-            {primaryAction.label}
-          </Link>
-          {secondaryAction && (
+        {hasActions && (
+          <div class="fcta-actions">
+            {primaryAction && <Link
+              variant="cta"
+              to={primaryAction.to}
+              href={primaryAction.href}
+              locale={locale}
+            >
+              {primaryAction.label}
+            </Link>}
+            {secondaryAction && (
             <Link
               variant="button"
               to={secondaryAction.to}
@@ -123,8 +120,9 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
             >
               {secondaryAction.label}
             </Link>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         {hasContacts && (
           <ul class="fcta-contacts" role="list">

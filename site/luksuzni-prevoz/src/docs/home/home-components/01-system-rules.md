@@ -113,7 +113,7 @@ Homepage CTA hierarchy:
 Primary    → Book a Chauffeur
 Secondary  → Request a Quote
 Section    → contextual section action
-Tertiary   → verified phone/email/WhatsApp
+Tertiary   → verified phone/email
 ```
 
 Do not hardcode old accent colors/radius values in Homepage files.

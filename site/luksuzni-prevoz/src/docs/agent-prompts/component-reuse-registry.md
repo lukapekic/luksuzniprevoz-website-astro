@@ -306,7 +306,7 @@ Do not:
 
 - wrap it in a competing closing panel;
 - create page-local gradients/radii/layout variants;
-- add WhatsApp into this component contrary to its contract;
+- add another messaging channel into this component contrary to its contract;
 - turn it into Hero #2.
 
 Page-specific work supplies content/data, not visual redesign.

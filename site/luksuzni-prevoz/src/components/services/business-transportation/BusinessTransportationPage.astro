@@ -1,0 +1,366 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import ServiceOverview from "../shared/ServiceOverview.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import BusinessServiceGrid from "./BusinessServiceGrid.astro";
+import BusinessEngagementModel from "./BusinessEngagementModel.astro";
+import BusinessCoordinationStory from "./BusinessCoordinationStory.astro";
+import BusinessClientProof from "./BusinessClientProof.astro";
+import BusinessStandards from "./BusinessStandards.astro";
+import BusinessProcessSteps from "./BusinessProcessSteps.astro";
+import { getService } from "../../../data/services.ts";
+import { getApprovedClientsFor } from "../../../data/clients.ts";
+import { clientLogoMedia } from "../../../data/client-media.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { operations } from "../../../data/operations.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { resolveHubChildItems } from "../../../lib/hubs.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/services/business-transport-card.webp";
+import finalCtaImage from "../../../assets/final-cta-bg.webp";
+
+interface Props {
+  routeKey: "businessTransportation";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction { label: string; href: string }
+interface StandardItem { title: string; text: string }
+interface BusinessServiceItem {
+  index: string;
+  routeKey: RouteKey;
+  title: string;
+  text: string;
+  ctaLabel: string;
+  capabilities: string[];
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "businessTransportation" ||
+  content.data.pageType !== "hub" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("BusinessTransportationPage received incompatible data.");
+}
+
+const data = content.data;
+if (!data.hero || !data.vehicleRecommendations || !data.faq) {
+  throw new Error(`Business Transportation content is incomplete for ${locale}.`);
+}
+if (!data.overview.items || data.overview.items.length !== 3) {
+  throw new Error("Business Transportation proposition requires exactly three localized items.");
+}
+if (data.faq.items.length !== 6) {
+  throw new Error("Business Transportation requires exactly six localized FAQ items.");
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Business Transportation section "${key}" for ${locale}.`);
+  return value;
+};
+
+const engagement = section("engagementModel");
+const coordination = section("coordination");
+const trustedClients = section("trustedClients");
+const standardsSection = section("standards");
+const process = section("process");
+
+if (!engagement.items || engagement.items.length !== 2 || !engagement.cta) {
+  throw new Error("Business engagement model requires exactly two items and one CTA.");
+}
+if (engagement.cta.target.type !== "route" || engagement.cta.target.routeKey !== "corporateTransportation") {
+  throw new Error("Business engagement CTA must route to Corporate Transportation.");
+}
+if (!coordination.items || coordination.items.length !== 5) {
+  throw new Error("Business coordination story requires exactly five schedule entries.");
+}
+if (!process.items || process.items.length !== 3) {
+  throw new Error("Business process requires exactly three steps.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = data.hero.secondaryCta ? resolveAction(data.hero.secondaryCta) : null;
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = data.finalCta.secondaryCta
+  ? resolveAction(data.finalCta.secondaryCta)
+  : null;
+
+const overviewGroups = data.overview.items.map((item, index) => ({
+  key: `business-principle-${index + 1}`,
+  marker: String(index + 1).padStart(2, "0"),
+  title: item.title,
+  text: item.text,
+}));
+
+const corporate = getService("corporateTransportation");
+const delegation = getService("delegationTransportation");
+const conference = getService("conferenceCongressTransportation");
+
+const capabilityMap: Record<
+  "corporateTransportation" | "delegationTransportation" | "conferenceCongressTransportation",
+  string[]
+> = {
+  corporateTransportation: [
+    corporate.supportsOneOff && ui("business.commercial.oneOff"),
+    corporate.supportsRecurringContracts && ui("business.commercial.recurring"),
+    corporate.supportsInvoicing && ui("business.capability.invoicing"),
+    corporate.supportsNegotiatedPricing && ui("business.capability.negotiatedPricing"),
+  ].filter((item): item is string => Boolean(item)),
+  delegationTransportation: [
+    delegation.multipleVehicles && ui("business.coordination.multipleVehicles"),
+    delegation.mixedVehicleClasses && ui("business.coordination.mixedVehicleClasses"),
+    delegation.dedicatedCoordinator && ui("business.coordination.dedicatedCoordinator"),
+  ].filter((item): item is string => Boolean(item)),
+  conferenceCongressTransportation: [
+    conference.airportArrivals && ui("business.coordination.airportArrivals"),
+    conference.hotelTransfers && ui("business.coordination.hotelTransfers"),
+    conference.venueShuttles && ui("business.coordination.venueShuttles"),
+    conference.multiVehicleSchedules && ui("business.coordination.multiVehicleSchedules"),
+  ].filter((item): item is string => Boolean(item)),
+};
+
+const children = resolveHubChildItems(routeKey, data.childServices.items);
+const expectedChildOrder = [
+  "corporateTransportation",
+  "delegationTransportation",
+  "conferenceCongressTransportation",
+] as const;
+if (
+  children.length !== expectedChildOrder.length ||
+  children.some((item, index) => item.routeKey !== expectedChildOrder[index])
+) {
+  throw new Error("Business child services must remain in Corporate, Delegation, Conference order.");
+}
+
+const serviceItems = expectedChildOrder.map((expectedRouteKey, index) => {
+  const item = children[index];
+  if (!item || item.routeKey !== expectedRouteKey || !item.text) {
+    throw new Error(`Missing Business child service ${expectedRouteKey}.`);
+  }
+  return {
+    index: String(index + 1).padStart(2, "0"),
+    routeKey: expectedRouteKey,
+    title: item.title,
+    text: item.text,
+    ctaLabel: item.ctaLabel,
+    capabilities: capabilityMap[expectedRouteKey],
+  };
+}) as [BusinessServiceItem, BusinessServiceItem, BusinessServiceItem];
+
+const approvedClients = getApprovedClientsFor(routeKey).flatMap((client) =>
+  client.logoAsset
+    ? [{ ...client, logoAsset: clientLogoMedia[client.logoAsset] }]
+    : [],
+);
+
+const vehicleRoleKeys = {
+  "mercedes-s-class": "business.vehicleRole.mercedesSClass",
+  "mercedes-e-class": "business.vehicleRole.mercedesEClass",
+  "mercedes-v-class-7-plus-1-extra-long": "business.vehicleRole.mercedesVClassExtraLong",
+  "mercedes-sprinter": "business.vehicleRole.mercedesSprinter",
+} as const satisfies Record<string, UiStringKey>;
+
+const recommendations = data.vehicleRecommendations.vehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  const roleKey = vehicleRoleKeys[id as keyof typeof vehicleRoleKeys];
+  if (!roleKey) throw new Error(`Missing Business role label for vehicle ${id}.`);
+  return {
+    vehicle,
+    image: homepageFleetMedia[vehicle.id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(roleKey),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const standards = [
+  operations.chauffeurs.dressCode === "suit-and-tie" && {
+    title: ui("business.standard.professionalChauffeur.title"),
+    text: ui("business.standard.professionalChauffeur.text"),
+  },
+  operations.chauffeurs.internalTraining.includes("discretion") && {
+    title: ui("business.standard.discretion.title"),
+    text: ui("business.standard.discretion.text"),
+  },
+  (delegation.multipleVehicles || conference.multiVehicleSchedules) && {
+    title: ui("business.standard.multiVehicle.title"),
+    text: ui("business.standard.multiVehicle.text"),
+  },
+  delegation.mixedVehicleClasses && {
+    title: ui("business.standard.mixedVehicleClasses.title"),
+    text: ui("business.standard.mixedVehicleClasses.text"),
+  },
+  corporate.dedicatedChauffeurAcrossStops && {
+    title: ui("business.standard.scheduleContinuity.title"),
+    text: ui("business.standard.scheduleContinuity.text"),
+  },
+  contact.bookingLeadTime.confirmationMode === "manual" && {
+    title: ui("business.standard.manualConfirmation.title"),
+    text: ui("business.standard.manualConfirmation.text"),
+  },
+].filter((item): item is StandardItem => Boolean(item));
+
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(data.faq.items)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("business.hero.eyebrow")}
+    trustMarkers={[
+      ui("business.hero.trust.professionalChauffeur"),
+      ui("business.hero.trust.manualConfirmation"),
+      ui("business.hero.trust.discretion"),
+    ]}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <ServiceOverview
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    groups={overviewGroups}
+    label={ui("business.section.overview")}
+    variant="numbered-divider-facts"
+    surface="open-dark"
+  />
+
+  <BusinessServiceGrid
+    heading={data.childServices.heading.title}
+    intro={data.childServices.heading.intro}
+    label={ui("business.section.services")}
+    items={serviceItems}
+    {locale}
+  />
+
+  <BusinessEngagementModel
+    heading={engagement.heading.title}
+    intro={engagement.heading.intro}
+    body={engagement.body}
+    label={ui("business.section.engagement")}
+    items={[engagement.items[0], engagement.items[1]]}
+    cta={{ label: engagement.cta.label, to: engagement.cta.target.routeKey }}
+    {locale}
+  />
+
+  <BusinessCoordinationStory
+    heading={coordination.heading.title}
+    intro={coordination.heading.intro}
+    body={coordination.body}
+    label={ui("business.section.coordination")}
+    items={coordination.items}
+  />
+
+  <BusinessClientProof
+    heading={trustedClients.heading.title}
+    intro={trustedClients.heading.intro}
+    label={ui("business.section.clients")}
+    clients={approvedClients}
+  />
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    classLabels={classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("business.section.vehicles")}
+    carouselId="business-vehicles"
+  />
+
+  <BusinessStandards
+    heading={standardsSection.heading.title}
+    intro={standardsSection.heading.intro}
+    body={standardsSection.body}
+    label={ui("business.section.standards")}
+    items={standards}
+  />
+
+  <BusinessProcessSteps
+    heading={process.heading.title}
+    intro={process.heading.intro}
+    label={ui("business.section.process")}
+    steps={[process.items[0], process.items[1], process.items[2]]}
+  />
+
+  <Section spacing="compact" surface="light" aria-labelledby="business-faq-heading" class="mt-[var(--space-8)]">
+    <ReadingContainer>
+      <p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("business.section.faq")}</p>
+      <SectionHeading id="business-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={data.faq.items} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .section-label { display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);font-weight:var(--font-weight-medium);color:var(--color-text-muted) }
+  .section-label > span { inline-size:var(--space-8);block-size:1px;background:var(--color-accent) }
+  .section-label--light { color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%) }
+  .section-label--light > span { background:var(--color-focus-light) }
+</style>

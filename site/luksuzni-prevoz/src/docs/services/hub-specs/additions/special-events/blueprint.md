@@ -1,6 +1,6 @@
 # Luxury Transportation — Special Events Hub Blueprint v1
 
-Status: **Proposed locked structural blueprint**  
+Status: **Locked structural blueprint**
 Route key: `specialEvents`  
 Page kind: hub  
 Theme binding: **semantic; active Theme V2 only**

@@ -68,7 +68,6 @@ Render only canonical business/contact data allowed by verification status:
 - address;
 - phone;
 - email;
-- WhatsApp where approved;
 - office hours.
 
 Absence of an unverified contact method is not a visual bug.
@@ -101,7 +100,6 @@ Do not hardcode:
 
 - phone;
 - email;
-- WhatsApp;
 - address;
 - office hours;
 - locale paths.

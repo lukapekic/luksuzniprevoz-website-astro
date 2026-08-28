@@ -10,8 +10,12 @@
  * - CSS logical properties only (FND-I18N-13)
  */
 interface Props {
+  /** Element id for controller/status associations */
+  id?: string;
   /** Status type */
   type?: "success" | "error" | "info";
+  /** Surface used for the informational text treatment */
+  on?: "dark" | "light";
   /** Status message */
   message?: string;
   /** Layout-only class (FND-UI-06) */
@@ -19,7 +23,9 @@ interface Props {
 }
 
 const {
+  id,
   type = "info",
+  on = "dark",
   message,
   class: className,
 } = Astro.props;
@@ -27,11 +33,15 @@ const {
 const colorMap = {
   success: "text-[var(--color-success)]",
   error: "text-[var(--color-error)]",
-  info: "text-[var(--color-text-muted)]",
+  info:
+    on === "light"
+      ? "text-[color-mix(in_oklab,var(--color-text-on-light),var(--color-surface-light)_30%)]"
+      : "text-[var(--color-text-muted)]",
 };
 ---
 
 <div
+  id={id}
   role="status"
   aria-live="polite"
   aria-atomic="true"

@@ -61,8 +61,31 @@ export function computeSourceDigest(frontmatter: Record<string, unknown>, body: 
     translatable[key] = value;
   }
   translatable["body"] = body.trim();
-  const canonical = JSON.stringify(translatable, Object.keys(translatable).sort());
+  const canonical = JSON.stringify(canonicalizeDigestValue(translatable));
   return createHash("sha256").update(canonical, "utf8").digest("hex").slice(0, 16);
+}
+
+/**
+ * Recursively canonicalize digest input. A JSON.stringify property-list
+ * replacer only retains keys present in that one list at every nesting level,
+ * which can silently omit editorial fields inside Hero/sections/FAQ objects.
+ * Sorting object keys recursively makes YAML mapping order irrelevant while
+ * preserving array order because editorial list order is meaningful.
+ */
+function canonicalizeDigestValue(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(canonicalizeDigestValue);
+  }
+
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, nestedValue]) => [key, canonicalizeDigestValue(nestedValue)]),
+    );
+  }
+
+  return value;
 }
 
 export interface ValidateContentOptions {

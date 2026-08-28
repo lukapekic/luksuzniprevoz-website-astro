@@ -126,7 +126,11 @@ export const servicePageSchema = pageBase.extend({
 export const hubPageSchema = pageBase.extend({
   pageType: z.literal("hub"),
   hero: heroSchema.optional(),
-  overview: z.object({ heading: sectionHeadingSchema, body: z.string().min(1) }),
+  overview: z.object({
+    heading: sectionHeadingSchema,
+    body: z.string().min(1),
+    items: z.array(textItemSchema).min(1).max(4).optional(),
+  }),
   childServices: z.object({
     heading: sectionHeadingSchema,
     items: z.array(routeCardSchema).min(2),

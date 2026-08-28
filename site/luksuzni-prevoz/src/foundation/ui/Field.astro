@@ -10,8 +10,10 @@
  * - Help/error text ids are `${htmlFor}-hint` / `${htmlFor}-error`. The control
  *   links them via aria-describedby when the caller passes the same `hint` /
  *   `error` (and a matching `id`) to the control — see Input.astro.
- * - Error is not color-only: a text explanation with role="alert" is always
- *   rendered alongside the --color-error token (functional-ui.md §17).
+ * - The error target is always present so validation controllers can update it
+ *   without replacing DOM. It is revealed only when a message exists.
+ * - Error is not color-only: a text explanation with role="alert" is rendered
+ *   alongside the --color-error token (functional-ui.md §17).
  * - Light-surface form primitive: labels/hints/errors use the on-light token
  *   family (functional-ui.md §10).
  * - class passthrough is layout-only (FND-UI-06).
@@ -68,13 +70,13 @@ const classNames = fieldVariants({ size: size ?? "md" }, className);
       {hint}
     </p>
   )}
-  {error && (
-    <p
-      id={`${htmlFor}-error`}
-      class="font-body text-[length:var(--text-sm)] font-medium leading-[var(--line-height-body)] text-[var(--color-error)]"
-      role="alert"
-    >
-      {error}
-    </p>
-  )}
+  <p
+    id={`${htmlFor}-error`}
+    class="font-body text-[length:var(--text-sm)] font-medium leading-[var(--line-height-body)] text-[var(--color-error)]"
+    role="alert"
+    hidden={!error}
+    data-field-error
+  >
+    {error}
+  </p>
 </div>

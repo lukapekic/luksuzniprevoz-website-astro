@@ -59,6 +59,10 @@ Do not force desktop geometry when the available width is too small.
 - Primary: Book a Chauffeur.
 - Secondary: Request a Quote.
 - Use approved shared Button contracts.
+- Actions are independently optional after canonical destination resolution.
+- If no action has a destination, omit the action region; never render an
+  empty, placeholder, disabled-link, current-page, or substituted-contact CTA.
+- Existing callers that provide both actions retain this hierarchy unchanged.
 
 ## Contact row
 
@@ -68,7 +72,6 @@ Potential methods:
 
 - phone;
 - email;
-- WhatsApp.
 
 Do not invent missing values for visual completeness.
 

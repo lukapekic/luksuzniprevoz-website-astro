@@ -28,3 +28,16 @@ Diagnose the actual overflowing node and ownership chain before editing CSS.
 ## Verification
 
 Use browser tests for overflow and targets at all five states. Manually verify topology, content order, image behavior, CTA placement, keyboard order, zoom, and long localized strings. Complete with the applicable `verify:ui` profile.
+
+At minimum, responsive browser evidence records for each required width:
+
+- `document.documentElement.scrollWidth <= document.documentElement.clientWidth`;
+- one logical heading/landmark order with no duplicated responsive DOM;
+- computed grid/flex topology for every breakpoint-changing component;
+- loaded image dimensions and reserved media geometry;
+- rendered CTA destinations, including the absence of empty or unresolved links;
+- keyboard focus order and 44×44 target measurements for visible controls.
+
+Run long reviewed locale content at the narrowest state and at every topology
+transition. A short default-locale screenshot alone does not prove responsive
+correctness.
