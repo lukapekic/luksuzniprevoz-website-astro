@@ -31,7 +31,16 @@ Build the production site explicitly when needed:
 pnpm --filter @luksuzni-prevoz/site build
 ```
 
-Before production deployment, run the repository's canonical release/quality gates defined in `package.json` and `AGENTS.md`.
+Before committing, refresh the generated contracts and run the same static page gate used by
+GitHub:
+
+```bash
+pnpm quality:prepare
+pnpm quality:page
+```
+
+GitHub runs `quality:page` without writing files. A stale generated contract therefore fails rather
+than being silently repaired in CI.
 
 For design-sensitive changes, the governance layer must also be green:
 
@@ -46,6 +55,10 @@ or the repository's combined gate when available:
 ```bash
 pnpm design:guard
 ```
+
+Automated browser testing is optional for focused investigations. Responsive layout, image crops,
+keyboard behavior, and rendered visual quality remain part of the required manual review described
+by the applicable page contract.
 
 Never deploy from an obsolete example/reference application. Production commands and CI must target `@luksuzni-prevoz/site`.
 

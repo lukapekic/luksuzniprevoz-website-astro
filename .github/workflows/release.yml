@@ -3,15 +3,20 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v5
@@ -20,13 +25,12 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
+          cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      # Install Playwright browsers + OS deps so the e2e/a11y tiers run.
-      - run: pnpm --filter @luksuzni-prevoz/site exec playwright install --with-deps chromium firefox webkit
-
-      # Full release gate: quality:fast → build → drift checks → traceability
-      # → waivers → secret scan → dep audit → e2e → a11y → Lighthouse.
+      # Static release gate: generated-artifact drift, design governance,
+      # content/SEO, typing, lint, unit tests, build, secret scan, and dep audit.
+      # Browser-based visual/responsive review remains a deliberate manual gate.
       - run: pnpm quality:release
         env:
           ASTRO_TELEMETRY_DISABLED: "1"
