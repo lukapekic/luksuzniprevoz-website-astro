@@ -23,6 +23,7 @@
  * Typing is the validation; the module-load guard is the structural check.
  */
 import type { RouteKey } from "@astro-foundation/core";
+import type { VehicleId } from "./fleet.ts";
 import { type RouteKind, getRoute, childrenOf, routeMap } from "./routes.ts";
 
 // --- Enum vocabularies (typed unions) --------------------------------------
@@ -147,6 +148,25 @@ export interface PrivateChauffeurServiceDef extends ServiceDef {
   customerVehicleChauffeurOnly: false;
 }
 
+export interface ConferenceCongressVehicleRoles {
+  individualExecutive: readonly [VehicleId, VehicleId];
+  smallerGroup: readonly [VehicleId];
+  largerGroup: readonly [VehicleId];
+}
+
+export interface ConferenceCongressServiceDef extends ServiceDef {
+  routeKey: "conferenceCongressTransportation";
+  kind: "service";
+  pricingMode: ["quote"];
+  airportArrivals: true;
+  hotelTransfers: true;
+  venueShuttles: true;
+  multiVehicleSchedules: true;
+  individualExecutiveTransfers: true;
+  groupTransport: true;
+  vehicleRoles: ConferenceCongressVehicleRoles;
+}
+
 // --- Authoritative service facts ------------------------------------------
 
 export const privateChauffeurService: PrivateChauffeurServiceDef = {
@@ -166,6 +186,25 @@ export const privateChauffeurService: PrivateChauffeurServiceDef = {
   international: "quote",
   customerVehicleChauffeurOnly: false,
   relatedRoutes: ["airportTransportation", "businessTransportation", "vipTransportation"],
+};
+
+export const conferenceCongressVehicleRoles = {
+  individualExecutive: ["mercedes-s-class", "mercedes-e-class"],
+  smallerGroup: ["mercedes-v-class-7-plus-1-extra-long"],
+  largerGroup: ["mercedes-sprinter"],
+} as const satisfies ConferenceCongressVehicleRoles;
+
+export const conferenceCongressService: ConferenceCongressServiceDef = {
+  routeKey: "conferenceCongressTransportation",
+  kind: "service",
+  pricingMode: ["quote"],
+  airportArrivals: true,
+  hotelTransfers: true,
+  venueShuttles: true,
+  multiVehicleSchedules: true,
+  individualExecutiveTransfers: true,
+  groupTransport: true,
+  vehicleRoles: conferenceCongressVehicleRoles,
 };
 
 export const services: Record<string, ServiceDef> = {
@@ -219,17 +258,7 @@ export const services: Record<string, ServiceDef> = {
     dedicatedCoordinator: true,
     securityService: false,
   },
-  conferenceCongressTransportation: {
-    routeKey: "conferenceCongressTransportation",
-    kind: "service",
-    pricingMode: ["quote"],
-    airportArrivals: true,
-    hotelTransfers: true,
-    venueShuttles: true,
-    multiVehicleSchedules: true,
-    individualExecutiveTransfers: true,
-    groupTransport: true,
-  },
+  conferenceCongressTransportation: conferenceCongressService,
   specialEvents: {
     routeKey: "specialEvents",
     kind: "hub",
@@ -279,6 +308,9 @@ export const services: Record<string, ServiceDef> = {
 // --- Lookup helpers --------------------------------------------------------
 
 export function getService(key: "privateChauffeur"): PrivateChauffeurServiceDef;
+export function getService(
+  key: "conferenceCongressTransportation",
+): ConferenceCongressServiceDef;
 export function getService(key: string): ServiceDef;
 export function getService(key: string): ServiceDef {
   const svc = services[key];

@@ -12,7 +12,7 @@ Every item below is mandatory unless explicitly marked as a publication-only che
 
 - [ ] Root `AGENTS.md` was read and followed.
 - [ ] `DESIGN.md` was read and followed.
-- [ ] The current Theme V2 design context was regenerated/checked through the repository workflow required by `AGENTS.md`.
+- [ ] The `conference-congress-transportation` surface resolves through `design:context` and the configured active-theme design snapshot is current.
 - [ ] `compliance-matrix.md` exists and maps every blueprint section to source data, component and validation evidence.
 - [ ] No production decision contradicts current canonical data.
 
@@ -40,6 +40,10 @@ The page renderer fails loud unless all are true:
 - [ ] `multiVehicleSchedules === true`.
 - [ ] `individualExecutiveTransfers === true`.
 - [ ] `groupTransport === true`.
+- [ ] `vehicleRoles.individualExecutive` is exactly S-Class then E-Class.
+- [ ] `vehicleRoles.smallerGroup` is exactly V-Class 7+1 Extra Long.
+- [ ] `vehicleRoles.largerGroup` is exactly Sprinter.
+- [ ] Page components obtain these relationships from `services.ts`, not Markdown, UI JSON or page-local constants.
 - [ ] manual confirmation is asserted from canonical contact data.
 - [ ] specific confirmed-model wording is backed by canonical operations data.
 
@@ -183,6 +187,9 @@ Absent:
 - [ ] Delegation uses it after migration.
 - [ ] Obsolete `DelegationMovementSequence.astro` is removed when no references remain.
 - [ ] Delegation regression check passes visually, semantically and responsively.
+- [ ] `components:check` ran before the shared edit and all reported consumers were reviewed.
+- [ ] The new shared component has a reviewed contract/registry entry and generated component metadata is synchronized.
+- [ ] Exact-target `verify:ui --change component` passes for the shared component.
 
 ---
 
@@ -210,6 +217,7 @@ Absent:
 - [ ] Shared event-schedule relationship label is visible.
 - [ ] Executive vehicle-role label is S-Class · E-Class.
 - [ ] Group vehicle-role label is V-Class · Sprinter.
+- [ ] Both labels are checked against `conference.vehicleRoles` before render.
 - [ ] No prices appear.
 - [ ] No capacity value is hardcoded in Markdown/UI/component CSS/markup.
 - [ ] If capacities render, they come from `fleet.ts`.
@@ -225,6 +233,7 @@ Absent:
 - [ ] It uses the elevated graphite treatment.
 - [ ] Desktop is 5 / 7.
 - [ ] Exactly three movement-role nodes render.
+- [ ] The three nodes bind in order to `individualExecutive`, `smallerGroup` and `largerGroup` from `conference.vehicleRoles`.
 - [ ] One event-schedule outcome renders.
 - [ ] Quiet CTA resolves to booking flow.
 - [ ] Connectors are static CSS only.
@@ -300,7 +309,8 @@ Manual review completed at:
 - [ ] 768px portrait.
 - [ ] 1024px landscape.
 - [ ] 1440px desktop.
-- [ ] wide desktop / `2xl` sanity check.
+- [ ] 1920px wide desktop.
+- [ ] Both sides of every applicable `md`, `lg`, `xl` and `2xl` topology transition.
 
 At every state:
 
@@ -311,6 +321,11 @@ At every state:
 - [ ] No excessive empty gap caused by fixed height.
 - [ ] No tiny forced columns.
 - [ ] Logical DOM/focus order is preserved.
+- [ ] Audience topology matches Corporate: 1 default, 2 at `md`, 3 at `xl`, 5 at `2xl`.
+- [ ] `document.documentElement.scrollWidth <= document.documentElement.clientWidth`.
+- [ ] CTA destination and placement remain correct.
+- [ ] Images have reserved geometry and their intended crop/loading behavior.
+- [ ] Long Russian content was checked at 320px and every topology transition.
 
 ---
 
@@ -331,9 +346,10 @@ At every state:
 
 # T. Visual/design acceptance
 
-- [ ] Page is unmistakably Theme V2 Black & Platinum.
+- [ ] Page is unmistakably part of the configured Black & Platinum design system.
 - [ ] No arbitrary palette colours were introduced.
 - [ ] No new fonts were introduced.
+- [ ] Computed H1/H2 use `font-heading`, body/UI/controls use `font-body`, and only `BrandLockup` uses `font-brand` in SR/EN/RU.
 - [ ] No card-wall/dashboard aesthetic appears.
 - [ ] No glow, glassmorphism or metallic-gradient effect appears.
 - [ ] Photography has explicit semantic roles.
@@ -342,6 +358,9 @@ At every state:
 - [ ] Event Journey, passenger comparison and multi-vehicle schedule create the page's signature identity.
 - [ ] Hero remains the strongest visual moment.
 - [ ] Final CTA does not compete with Hero.
+- [ ] Hero retains the shared likely-LCP eager/high-priority path; non-Hero editorial media is lazy.
+- [ ] Generated image sources and intrinsic dimensions are present, with no avoidable CLS.
+- [ ] No page client island was introduced and configured route/image/font/CSS/JS budgets remain satisfied.
 
 ---
 

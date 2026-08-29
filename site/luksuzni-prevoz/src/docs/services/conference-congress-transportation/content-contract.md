@@ -29,6 +29,7 @@ vehicle capacity
 contact data
 route paths
 service capability booleans
+service-to-vehicle role relationships
 confirmation mechanics
 operational standards
 ```
@@ -121,7 +122,7 @@ individual / executive movement
 group movement
 ```
 
-Do not author passenger capacities here. Components resolve fleet facts from `fleet.ts`.
+Do not author passenger capacities or vehicle IDs here. The page resolves the three Conference role mappings from `services.ts`, then resolves vehicle facts from `fleet.ts`.
 
 ### `multiVehicle`
 

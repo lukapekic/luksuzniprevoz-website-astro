@@ -37,7 +37,7 @@ Required review:
 768px tablet portrait
 1024px tablet landscape
 1440px desktop
-wide desktop sanity check
+1920px wide desktop
 ```
 
 The crop MUST retain the hotel/venue arrival context and keep the vehicle visible without reducing H1/CTA contrast.
@@ -54,6 +54,8 @@ Reason: communicates movement between programme points while avoiding reuse of D
 
 Decorative alt: `""`.
 
+At mobile/tablet the image follows the shared stacked sequence footprint; from the shared desktop threshold it occupies the 5-track media side. Preserve source aspect-ratio reservation, center the moving vehicle in the usable crop and do not upscale beyond the component's generated source set.
+
 ## 3. Individual / executive movement
 
 ```text
@@ -64,6 +66,8 @@ Role: executive side of the Conference passenger-movement comparison.
 
 The copy communicates the role; image remains decorative.
 
+Use the same reserved media geometry as the group side. Keep dashboard/cabin context visible at all five reference widths; do not crop solely around trim detail.
+
 ## 4. Group movement
 
 ```text
@@ -73,6 +77,8 @@ src/assets/shared/other/v-class-interior.webp
 Role: group side of the Conference passenger-movement comparison.
 
 The copy communicates the role; image remains decorative.
+
+Use the same reserved media geometry as the executive side. Keep the passenger cabin legible at all five reference widths.
 
 ## 5. Multi-vehicle schedule
 
@@ -115,6 +121,8 @@ mediaTreatment="integrated"
 
 Final CTA must remain a medium-height closer and MUST NOT become Hero #2.
 
+Use the shared integrated-media crop and reserved geometry. Keep the vehicle readable without increasing the CTA's height to Hero scale.
+
 ## 9. Explicitly not assigned to Conference
 
 These sibling-signature assets remain out of the Conference page unless the asset contract is revised:
@@ -137,6 +145,9 @@ This prevents the three Business child pages from becoming visually interchangea
 - Use `astro:assets` through the existing shared component APIs or page-local components.
 - Hero loads eagerly through `ServiceHero`; non-Hero editorial images load lazily.
 - Preserve intrinsic geometry and responsive image generation.
+- Verify generated `srcset`/`sizes`, decoded dimensions, crop and loading behavior at 320, 768, 1024, 1440 and 1920 CSS px.
+- Preserve the configured image/route performance budgets and verify that images do not cause avoidable CLS.
+- If an asset fails to load, preserve the section geometry and readable adjacent content; never substitute a misleading image at runtime.
 - No CSS background image when the existing image component path can serve the role.
 - No text baked into images.
 - No fake venue logos, conference branding or event names.

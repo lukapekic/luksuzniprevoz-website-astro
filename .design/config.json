@@ -112,6 +112,21 @@
         "site/luksuzni-prevoz/src/docs/services/delegation-transportation"
       ]
     },
+    "conference-congress-transportation": {
+      "match": [
+        "conference-congress-transportation",
+        "conferenceCongressTransportation",
+        "prevoz-za-konferencije-i-kongrese",
+        "transfer-dlya-konferentsiy-i-kongressov"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/services/conference-congress-transportation/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/conference-congress-transportation"
+      ]
+    },
     "special-events": {
       "match": ["special-events", "specialEvents", "specijalne-dogadjaje", "osobykh-meropriyatiy"],
       "blueprints": ["site/luksuzni-prevoz/src/docs/services/special-events/blueprint.md"],

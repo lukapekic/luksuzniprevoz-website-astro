@@ -21,14 +21,20 @@ wireframe.html
 content-contract.md
 asset-contract.md
 agent-handoff.md
-content/
-  conference-congress-transportation.sr.md
-  conference-congress-transportation.en.md
-  conference-congress-transportation.ru.md
+remediation-plan.md
 ui-additions/
   sr.json
   en.json
   ru.json
+```
+
+Installed canonical content:
+
+```text
+src/content/pages/conference-congress-transportation/
+  conference-congress-transportation.sr.md
+  conference-congress-transportation.en.md
+  conference-congress-transportation.ru.md
 ```
 
 The implementation agent MUST create `compliance-matrix.md` after reading the current repository state and before production edits. The matrix is implementation output, not planning input.
@@ -48,7 +54,7 @@ The implementation agent MUST create `compliance-matrix.md` after reading the cu
 ```text
 1. Read authorities and this packet.
 2. Create compliance-matrix.md.
-3. Install localized content and UI additions.
+3. Verify installed localized content and merged UI additions.
 4. Extract DelegationMovementSequence into shared BusinessMovementSequence without regression.
 5. Build Conference page-local components and page renderer.
 6. Add ContentPageRenderer mapping.
