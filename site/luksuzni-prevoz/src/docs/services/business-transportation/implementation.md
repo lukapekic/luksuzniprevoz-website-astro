@@ -56,6 +56,7 @@ BusinessTransportationPage.astro
 ├─ BusinessProposition.astro
 ├─ BusinessServiceGrid.astro
 │  └─ BusinessServiceCard.astro
+├─ BusinessDividedPanel.astro
 ├─ BusinessEngagementModel.astro
 ├─ BusinessCoordinationStory.astro
 │  └─ BusinessScheduleTimeline.astro
@@ -143,13 +144,24 @@ All capability labels are data-driven.
 
 Lookup `sections[key=engagementModel]`.
 
-Render two items and the section CTA. CTA routes to `corporateTransportation`.
+Render a mobile-first stack. The explanatory region owns the label, heading,
+intro/body, and CTA; the CTA routes to `corporateTransportation`. Render the two
+items in one shared light `BusinessDividedPanel` below it.
+
+At the active `lg` threshold, switch to a 5/7 split with explanatory content on
+the left and the two-row light panel on the right. The panel retains one
+internal horizontal divider at every width.
 
 ## 9. Coordination
 
 Lookup `sections[key=coordination]`.
 
 Render five items as a semantic schedule. Use a page-local timeline component for chronology only.
+
+Import `src/assets/hero-example.jpg` and render it through `astro:assets` as a
+lazy, responsive, decorative image. It fills the existing media geometry using
+`object-fit: cover`, the semantic section radius, and no text overlay or outer
+card.
 
 Mobile DOM order:
 
@@ -211,7 +223,13 @@ Do not add flight tracking.
 
 ## 13. Process
 
-Lookup `sections[key=process]`. Render exactly three steps with compact divider-led treatment.
+Lookup `sections[key=process]`. Keep the heading on the open dark background.
+Render exactly three steps in the same page-local `BusinessDividedPanel` used
+by Engagement.
+
+Below `lg`, use one column with horizontal internal dividers. At `lg` and above,
+use three equal columns with vertical internal dividers. The light strip is one
+contained surface; steps do not receive individual cards or outer borders.
 
 ## 14. FAQ
 
@@ -237,15 +255,18 @@ Use governed states:
 - 1440×900
 - 1920×1080
 
-Mobile: one-column service cards; two-column client-logo proof; coordination
-copy/timeline before media; standards one column; process stacked.
+Mobile: one-column service cards; engagement copy/CTA before its two-row light
+panel; two-column client-logo proof; coordination copy/timeline before media;
+standards one column; process a stacked light strip.
 
 Tablet portrait at 768 px: first service card full width with the remaining two
-side by side; standards and client proof two columns; engagement two columns;
-process stacked.
+side by side; standards and client proof two columns; engagement remains
+stacked with its panel below the copy/CTA; process remains a stacked light
+strip.
 
 At 1024 px and above: three service columns; split coordination; standards
-3×2; client proof four columns; process one row.
+3×2; client proof four columns; engagement 5/7 split; process one light
+three-column row.
 
 Wide desktop: active container and reading measures cap expansion.
 

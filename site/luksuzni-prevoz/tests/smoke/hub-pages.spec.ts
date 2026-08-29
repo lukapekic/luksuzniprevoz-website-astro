@@ -4,6 +4,7 @@ import {
   axeWcag22Tags,
   assertMinimumTargetSize,
   assertNoHorizontalOverflow,
+  reviewViewports,
   routePath,
 } from "../support/contracts";
 
@@ -102,20 +103,81 @@ test.describe("Business and Special Events hubs", () => {
     }
     await expect(page.locator('.client-grid img[alt*="Embassy"]')).toHaveCount(0);
     await expect(page.locator(".standards-grid > li")).toHaveCount(6);
-    await expect(page.locator(".process-grid > li")).toHaveCount(3);
+    await expect(
+      page.locator(
+        'section[aria-labelledby="business-process-heading"] .business-divided-panel > li',
+      ),
+    ).toHaveCount(3);
     await expect(page.locator(".faq-list > details")).toHaveCount(6);
+  });
+
+  test("Business uses divided light panels and the approved coordination image", async ({
+    page,
+  }) => {
+    await page.goto(routePath("businessTransportation", "en"));
+
+    const engagement = page.locator('section[aria-labelledby="business-engagement-heading"]');
+    const process = page.locator('section[aria-labelledby="business-process-heading"]');
+    const engagementPanel = engagement.locator('.business-divided-panel[data-layout="stacked"]');
+    const processPanel = process.locator('.business-divided-panel[data-layout="three-columns"]');
+
+    await expect(engagementPanel.locator(":scope > li")).toHaveCount(2);
+    await expect(processPanel.locator(":scope > li")).toHaveCount(3);
+    await expect(engagement.locator(".engagement-copy a")).toHaveCount(1);
+    await expect(engagementPanel.locator("a")).toHaveCount(0);
+
+    const panelTokens = await engagementPanel.evaluate((panel) => {
+      const probe = document.createElement("div");
+      probe.style.cssText = [
+        "position:fixed",
+        "visibility:hidden",
+        "background:var(--color-surface-light)",
+        "color:var(--color-text-on-light)",
+        "border-radius:var(--radius-section)",
+      ].join(";");
+      document.body.append(probe);
+      const actual = getComputedStyle(panel);
+      const expected = getComputedStyle(probe);
+      const result = {
+        background: actual.backgroundColor === expected.backgroundColor,
+        color: actual.color === expected.color,
+        radius: actual.borderRadius === expected.borderRadius,
+        boxShadow: actual.boxShadow,
+      };
+      probe.remove();
+      return result;
+    });
+    expect(panelTokens).toEqual({
+      background: true,
+      color: true,
+      radius: true,
+      boxShadow: "none",
+    });
+
+    const coordinationImage = page.locator(".coordination-media img");
+    await expect(coordinationImage).toHaveCount(1);
+    await expect(coordinationImage).toHaveAttribute("alt", "");
+    await expect(coordinationImage).toHaveAttribute("src", /hero-example/);
+    await expect
+      .poll(() => coordinationImage.evaluate((image: HTMLImageElement) => image.naturalWidth))
+      .toBeGreaterThan(0);
+    expect(await coordinationImage.evaluate((image) => getComputedStyle(image).objectFit)).toBe(
+      "cover",
+    );
   });
 
   test("required responsive states have no accidental horizontal overflow", async ({ page }) => {
     for (const route of [
       routePath("businessTransportation", "sr"),
+      routePath("businessTransportation", "en"),
+      routePath("businessTransportation", "ru"),
       routePath("specialEvents", "ru"),
     ]) {
-      await page.goto(route);
-      for (const width of [320, 768, 1024, 1440, 1920]) {
-        await page.setViewportSize({ width, height: width < 1024 ? 1024 : 900 });
+      for (const viewport of reviewViewports) {
+        await page.setViewportSize(viewport);
+        await page.goto(route);
         await assertNoHorizontalOverflow(page);
-        if (route === routePath("businessTransportation", "sr")) {
+        if (route !== routePath("specialEvents", "ru")) {
           await assertMinimumTargetSize(page);
         }
       }
@@ -136,6 +198,34 @@ test.describe("Business and Special Events hubs", () => {
     expect(Math.abs(tabletCards[1].y - tabletCards[2].y)).toBeLessThan(2);
     expect(tabletCards[0].y).toBeLessThan(tabletCards[1].y);
 
+    const tabletEngagement = await page.locator(".engagement-layout").evaluate((layout) => {
+      const copy = layout.querySelector<HTMLElement>(".engagement-copy")!.getBoundingClientRect();
+      const panel = layout.querySelector<HTMLElement>(".engagement-panel")!.getBoundingClientRect();
+      const rows = Array.from(
+        layout.querySelectorAll<HTMLElement>(".business-divided-panel > li"),
+      ).map((item) => item.getBoundingClientRect());
+      return {
+        panelAfterCopy: panel.top >= copy.bottom,
+        rowsStacked: rows[1].top > rows[0].top && Math.abs(rows[0].left - rows[1].left) < 2,
+      };
+    });
+    expect(tabletEngagement).toEqual({ panelAfterCopy: true, rowsStacked: true });
+
+    const tabletProcess = await page
+      .locator('section[aria-labelledby="business-process-heading"] .business-divided-panel > li')
+      .evaluateAll((items) =>
+        items.map((item) => {
+          const rect = item.getBoundingClientRect();
+          return { x: rect.x, y: rect.y };
+        }),
+      );
+    expect(tabletProcess[1].y).toBeGreaterThan(tabletProcess[0].y);
+    expect(tabletProcess[2].y).toBeGreaterThan(tabletProcess[1].y);
+    expect(
+      Math.max(...tabletProcess.map((item) => item.x)) -
+        Math.min(...tabletProcess.map((item) => item.x)),
+    ).toBeLessThan(2);
+
     await page.setViewportSize({ width: 1024, height: 768 });
     const desktopCards = await page
       .locator(".service-grid > li")
@@ -146,6 +236,77 @@ test.describe("Business and Special Events hubs", () => {
       .locator(".client-grid > li")
       .evaluateAll((items) => items.map((item) => item.getBoundingClientRect().y));
     expect(Math.max(...desktopLogos) - Math.min(...desktopLogos)).toBeLessThan(2);
+
+    const desktopEngagement = await page.locator(".engagement-layout").evaluate((layout) => {
+      const copy = layout.querySelector<HTMLElement>(".engagement-copy")!.getBoundingClientRect();
+      const panel = layout.querySelector<HTMLElement>(".engagement-panel")!.getBoundingClientRect();
+      const rows = Array.from(
+        layout.querySelectorAll<HTMLElement>(".business-divided-panel > li"),
+      ).map((item) => item.getBoundingClientRect());
+      return {
+        split: panel.left > copy.left && Math.abs(panel.top - copy.top) < 2,
+        rowsStacked: rows[1].top > rows[0].top && Math.abs(rows[0].left - rows[1].left) < 2,
+      };
+    });
+    expect(desktopEngagement).toEqual({ split: true, rowsStacked: true });
+
+    const desktopProcess = await page
+      .locator('section[aria-labelledby="business-process-heading"] .business-divided-panel > li')
+      .evaluateAll((items) =>
+        items.map((item) => {
+          const rect = item.getBoundingClientRect();
+          return { x: rect.x, y: rect.y };
+        }),
+      );
+    expect(
+      Math.max(...desktopProcess.map((item) => item.y)) -
+        Math.min(...desktopProcess.map((item) => item.y)),
+    ).toBeLessThan(2);
+    expect(desktopProcess[1].x).toBeGreaterThan(desktopProcess[0].x);
+    expect(desktopProcess[2].x).toBeGreaterThan(desktopProcess[1].x);
+  });
+
+  test("Business preserves logical focus order and reduced-motion behavior", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto(routePath("businessTransportation", "en"));
+
+    const focusContract = await page.evaluate(() => {
+      const focusable = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          'a[href], button, input:not([type="hidden"]), select, textarea, [tabindex]',
+        ),
+      ).filter((element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          rect.width > 0 &&
+          rect.height > 0
+        );
+      });
+      const positiveTabindex = focusable.filter((element) => Number(element.tabIndex) > 0);
+      const engagementCta = document.querySelector<HTMLElement>(".engagement-copy a");
+      const finalCta = document.querySelector<HTMLElement>(".fcta-panel a");
+      return {
+        positiveTabindex: positiveTabindex.length,
+        engagementBeforeFinal:
+          Boolean(engagementCta && finalCta) &&
+          Boolean(
+            engagementCta!.compareDocumentPosition(finalCta!) & Node.DOCUMENT_POSITION_FOLLOWING,
+          ),
+      };
+    });
+    expect(focusContract).toEqual({ positiveTabindex: 0, engagementBeforeFinal: true });
+
+    await expect(
+      page.locator('.service-hero[data-variant="full-bleed"] .service-hero__media'),
+    ).toHaveCSS("animation-name", "none");
+    const reducedTransitionDuration = await page
+      .locator(".vehicle__image")
+      .first()
+      .evaluate((image) => Number.parseFloat(getComputedStyle(image).transitionDuration));
+    expect(reducedTransitionDuration).toBeLessThanOrEqual(0.001);
   });
 
   for (const key of ["businessTransportation", "specialEvents"] as const) {

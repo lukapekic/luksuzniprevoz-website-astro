@@ -172,7 +172,17 @@ Recurring-contract, invoicing, and negotiated-commercial-term claims remain tied
 
 The contextual CTA routes to `corporateTransportation`.
 
-The section remains dark.
+The section remains a contained dark elevated region. At the active `lg`
+threshold it uses a 5/7 split: eyebrow, heading, intro/body, and the contextual
+CTA remain in the left explanatory column; the two engagement items occupy one
+shared light panel in the right column. Below `lg`, the explanatory content and
+CTA precede the panel.
+
+The light panel uses the shared TrustStrip visual language without reusing or
+modifying the fixed four-item TrustStrip component. It contains two stacked
+rows, restrained `01` / `02` markers, and one internal horizontal divider. It
+MUST NOT render two detached cards, outer item borders, or a shadow-heavy
+treatment.
 
 ## 9. Coordination Story
 
@@ -181,6 +191,12 @@ Source: `sections[key=coordination]`
 Heading: `Kada jedan automobil više nije dovoljan`
 
 Use an editorial split with contextual media.
+
+The contextual media is the repository asset `src/assets/hero-example.jpg`,
+rendered through Astro's asset pipeline with an `object-cover` crop, the normal
+semantic section radius, no text overlay, and no additional surrounding card.
+The image is decorative because the adjacent localized copy carries the full
+meaning.
 
 Render all five `items` as a semantic schedule timeline.
 
@@ -259,7 +275,17 @@ Use open grouping or one contained surface with separators. Six detached dashboa
 
 ## 13. How It Works
 
-Source: `sections[key=process]`
+Source: `sections[key=process]`.
+
+The heading remains on the open dark page background. All three authored items
+render inside one shared light elevated strip with restrained `01`, `02`, `03`
+markers. At `lg` and above, the strip uses three equal columns with internal
+vertical dividers only. Below `lg`, it uses one column with internal horizontal
+dividers only. Individual process cards and outer item borders are PROHIBITED.
+
+Engagement and How It Works share one page-local low-level
+`BusinessDividedPanel` visual primitive. The fixed four-item global TrustStrip
+contract remains unchanged.
 
 Exactly three steps render:
 

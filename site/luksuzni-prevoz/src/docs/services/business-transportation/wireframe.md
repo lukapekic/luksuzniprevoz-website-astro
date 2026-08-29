@@ -42,14 +42,17 @@ BUSINESS SERVICES — #business-services
 └──────────────────────┘ └──────────────────────┘ └──────────────────────┘
 ↓
 ENGAGEMENT — DARK
-┌──────────────────────────────────┬──────────────────────────────────────┐
-│ One-off request                  │ Recurring Corporate Transportation   │
-│ body                             │ body + Corporate CTA →               │
-└──────────────────────────────────┴──────────────────────────────────────┘
+┌────────────────────────────┬────────────────────────────────────────────┐
+│ eyebrow                    │ ┌────────────────────────────────────────┐ │
+│ H2 + intro/body            │ │ 01 One-off request + body              │ │
+│ Corporate CTA →            │ │ ────────────────────────────────────── │ │
+│                            │ │ 02 Recurring Corporate + body          │ │
+│                            │ └────────────────────────────────────────┘ │
+└────────────────────────────┴────────────────────────────────────────────┘
 ↓
 COORDINATION
 ┌──────────────────────────────────┬──────────────────────────────────────┐
-│ H2 + body                        │ contextual business media            │
+│ H2 + body                        │ hero-example.jpg                     │
 │ 08:30 Hotel pickup               │                                      │
 │ 09:00 Business meeting           │                                      │
 │ 12:30 Partner lunch              │                                      │
@@ -70,7 +73,12 @@ BUSINESS STANDARDS
 04 Mixed vehicle classes  | 05 Schedule continuity | 06 Manual confirmation
 ↓
 HOW IT WORKS
-01 Send schedule ── 02 Receive organisation ── 03 Receive confirmation
+heading on dark background
+┌──────────────────────┬──────────────────────┬──────────────────────┐
+│ 01 Send schedule     │ 02 Receive org.      │ 03 Receive confirm.  │
+│ text                 │ text                 │ text                 │
+└──────────────────────┴──────────────────────┴──────────────────────┘
+one contained light strip; internal vertical dividers only
 ↓
 FAQ — ONLY LARGE LIGHT REGION
 Q1 + / Q2 + / Q3 + / Q4 + / Q5 + / Q6 +
@@ -103,8 +111,11 @@ SERVICES
 02 + 03 side by side
 ↓
 ENGAGEMENT
-one-off
-recurring + Corporate CTA
+eyebrow + H2 + intro/body + Corporate CTA
+light panel below:
+01 one-off
+────────────────
+02 recurring
 ↓
 COORDINATION
 copy
@@ -121,8 +132,11 @@ STANDARDS
 05 06
 ↓
 PROCESS
+one light panel below heading
 01
+────────────────
 02
+────────────────
 03
 ↓
 LIGHT FAQ
@@ -143,7 +157,7 @@ PROPOSITION split
 ↓
 SERVICES: three columns only when readable
 ↓
-ENGAGEMENT: two columns
+ENGAGEMENT: 5/7 split; explanatory copy/CTA | light two-row panel
 ↓
 COORDINATION split
 ↓
@@ -153,7 +167,7 @@ FLEET
 ↓
 STANDARDS 3×2
 ↓
-PROCESS three columns
+PROCESS: one light three-column strip with internal vertical dividers
 ↓
 LIGHT FAQ
 ↓
@@ -189,9 +203,12 @@ SERVICES
 [03 Conference image/body/chips/CTA]
 ↓
 ENGAGEMENT
-one-off
-recurring
+eyebrow + H2 + intro/body
 Corporate CTA
+[one light panel]
+01 one-off
+────────────────
+02 recurring
 ↓
 COORDINATION
 H2 + copy
@@ -215,8 +232,11 @@ STANDARDS
 06
 ↓
 PROCESS
+[one light panel]
 01
+────────────────
 02
+────────────────
 03
 ↓
 FAQ — LIGHT

@@ -77,7 +77,11 @@ Every applicable item MUST pass.
 - [ ] One-off and recurring paths both render.
 - [ ] Recurring/invoicing/negotiated-term claims identify Corporate Transportation.
 - [ ] Contextual CTA routes to `corporateTransportation`.
-- [ ] Section remains dark.
+- [ ] Section remains a contained dark elevated region.
+- [ ] Explanatory content owns the contextual CTA.
+- [ ] Two items render as stacked rows inside one shared light panel with one internal horizontal divider.
+- [ ] At 320 and 768 px, explanatory content precedes the panel.
+- [ ] At 1024 px and above, the section uses a 5/7 explanatory-content/panel split.
 
 ## G. Coordination
 
@@ -85,6 +89,8 @@ Every applicable item MUST pass.
 - [ ] Exactly five timeline entries render in authored order.
 - [ ] Timeline remains semantic text.
 - [ ] Mobile narrative/timeline precede media.
+- [ ] `hero-example.jpg` renders through Astro's asset pipeline with an `object-cover` crop.
+- [ ] Coordination media has no text overlay, surrounding card, or raw public asset path.
 - [ ] Same-chauffeur wording is gated by Corporate capability.
 - [ ] Generic Business flight tracking does not render.
 
@@ -124,6 +130,10 @@ Every applicable item MUST pass.
 - [ ] Source is `sections[key=process]`.
 - [ ] Exactly three steps render in authored order.
 - [ ] Section remains dark and compact.
+- [ ] Heading remains on the open dark background.
+- [ ] Steps render inside one shared light panel, not individual cards.
+- [ ] At 320 and 768 px, the panel uses one column and horizontal internal dividers.
+- [ ] At 1024 px and above, the panel uses three equal columns and vertical internal dividers.
 
 ## L. FAQ
 
@@ -157,8 +167,10 @@ Every applicable item MUST pass.
 - [ ] 320×568 passes topology, content order, image behavior, CTA placement, overflow, focus order, and target size.
 - [ ] 768×1024 passes the same assertions.
 - [ ] At 768 px, service card 01 spans the row and 02/03 share the second row.
+- [ ] At 768 px, Engagement and Process retain their single-column panel topology.
 - [ ] 1024×768 passes the same assertions.
 - [ ] At 1024 px and above, services/process use three columns, standards use 3×2, and client proof uses four columns.
+- [ ] At 1024 px and above, Engagement uses the 5/7 split while its panel items remain stacked.
 - [ ] 1440×900 passes the same assertions.
 - [ ] 1920×1080 passes the same assertions.
 - [ ] No accidental page-level horizontal overflow exists.
@@ -179,6 +191,8 @@ Every applicable item MUST pass.
 
 - [ ] Dedicated Business renderer is wired through `ContentPageRenderer`.
 - [ ] Shared primitives are reused when their contracts fit.
+- [ ] Engagement and Process reuse one page-local `BusinessDividedPanel` primitive.
+- [ ] Global `TrustStrip` and its fixed four-item contract remain unchanged.
 - [ ] No generic `HubPage` abstraction is introduced.
 - [ ] `actionTargetSchema` supports validated anchor targets.
 - [ ] CTA resolver supports anchor targets.

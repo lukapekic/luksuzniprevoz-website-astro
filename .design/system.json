@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-08-29T00:01:52.929Z",
-  "sourceHash": "e148b8199c1e6df7e71b98878e940dd2970436b4e6de722f4c21d746d993eb54",
+  "generatedAt": "2026-08-29T00:19:43.123Z",
+  "sourceHash": "c58efbe65a535e666850ba2ed025c500dfc8228016749d0aafc707635deda21c",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -317,6 +317,7 @@
       "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
       "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessClientProof.astro",
       "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessCoordinationStory.astro",
+      "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessDividedPanel.astro",
       "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessEngagementModel.astro",
       "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessProcessSteps.astro",
       "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessServiceGrid.astro",
