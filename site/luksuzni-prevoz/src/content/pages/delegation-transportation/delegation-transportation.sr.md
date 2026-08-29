@@ -131,8 +131,8 @@ faq:
       }
 
 finalCta:
-  heading: "Pošaljite program delegacije. Mi ćemo povezati kretanja u jedan plan."
-  text: "Pošaljite termine, lokacije, broj putnika, strukturu grupa i posebne zahteve. Nakon provere detalja pripremamo individualnu ponudu i potvrđujemo organizaciju."
+  heading: "Organizujte prevoz delegacije sa nama."
+  text: "Pošaljite program, broj putnika, lokacije i posebne zahteve. Proverićemo detalje i pripremiti individualnu ponudu za ceo transportni plan."
   primaryCta:
     label: "Pošaljite zahtev za delegaciju"
     target: { type: flow, flowKey: booking }

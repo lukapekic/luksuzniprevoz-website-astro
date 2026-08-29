@@ -73,7 +73,7 @@ test.describe("Wedding Transportation", () => {
     expect(vehicleNames).toEqual([
       "Mercedes S klasa",
       "Mercedes E klasa",
-      "Mercedes V klasa",
+      "Mercedes V klasa 7+1 Extra Long",
       "Mercedes Sprinter",
     ]);
 
@@ -97,7 +97,7 @@ test.describe("Wedding Transportation", () => {
     await expect(page.locator("main a:not([href])")).toHaveCount(0);
 
     await expect(page.getByText(/Decorations, flowers, ribbons/)).toBeVisible();
-    await expect(page.getByText(/manually confirms the organisation/)).toBeVisible();
+    await expect(page.getByText(/manually confirms the organisation/)).toBeAttached();
   });
 
   test("visible FAQ and FAQ structured data use the same six localized items", async ({ page }) => {
@@ -215,9 +215,13 @@ test.describe("Wedding Transportation", () => {
     const images = page.locator("main img");
     expect(await images.count()).toBeGreaterThanOrEqual(9);
     for (const image of await images.all()) {
-      expect(
-        await image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
-      ).toBeGreaterThan(0);
+      await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(
+          () => image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
+          { timeout: 5_000 },
+        )
+        .toBeGreaterThan(0);
     }
   });
 

@@ -33,8 +33,7 @@ import heroImage from "../../../assets/shared/other/v-class-embassy-entrance.web
 import audienceImage from "../../../assets/shared/other/s-class-hotel-entrance-vertical.webp";
 import movementImage from "../../../assets/shared/other/emplyoee-group-outside.webp";
 import mixedFleetImage from "../../../assets/shared/other/v-class-on-the-move-veertical.webp";
-import discretionImage from "../../../assets/shared/other/s-class-interior-1.webp";
-import finalCtaImage from "../../../assets/shared/other/s-class-hotel-entrance-night.webp";
+import finalCtaImage from "../../../assets/shared/other/s-class-interior-1.webp";
 
 interface Props {
   routeKey: "delegationTransportation";
@@ -376,7 +375,7 @@ const seo = buildPageSeo({
         image={audienceImage}
         imageAlt=""
         layout="image-content"
-        ratio="7-5"
+        ratio="5-7"
         mobileOrder="content-first"
       >
         <div slot="content" class="section-copy">
@@ -404,7 +403,6 @@ const seo = buildPageSeo({
     label={ui("delegationTransportation.section.movement")}
     exampleLabel={ui("delegationTransportation.movement.exampleLabel")}
     stages={movementStages}
-    closing={ui("delegationTransportation.movement.closing")}
     image={movementImage}
   />
 
@@ -435,16 +433,10 @@ const seo = buildPageSeo({
     </PageContainer>
   </Section>
 
-  <Section spacing="standard" surface="elevated" aria-labelledby="delegation-discretion-heading">
+  <Section spacing="standard" surface="contained-dark" aria-labelledby="delegation-discretion-heading">
     <PageContainer>
-      <OpenSplitSection
-        image={discretionImage}
-        imageAlt=""
-        layout="image-content"
-        ratio="5-7"
-        mobileOrder="content-first"
-      >
-        <div slot="content" class="section-copy">
+      <div class="discretion-layout">
+        <div class="section-copy">
           <p class="section-label"><span aria-hidden="true"></span>{ui("delegationTransportation.section.discretion")}</p>
           <SectionHeading
             id="delegation-discretion-heading"
@@ -452,13 +444,13 @@ const seo = buildPageSeo({
             description={discretionSection.heading.intro}
           />
           <p class="body-copy">{discretionSection.body}</p>
-          <ol class="editorial-list">
-            {discretionItems.map((item, index) => (
-              <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
-            ))}
-          </ol>
         </div>
-      </OpenSplitSection>
+        <ol class="editorial-list discretion-list">
+          {discretionItems.map((item, index) => (
+            <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
+          ))}
+        </ol>
+      </div>
     </PageContainer>
   </Section>
 
@@ -644,6 +636,11 @@ const seo = buildPageSeo({
     gap: var(--space-8);
   }
 
+  .discretion-layout {
+    display: grid;
+    gap: var(--space-8);
+  }
+
   .section-copy :global(a) {
     margin-block-start: var(--space-6);
   }
@@ -660,6 +657,16 @@ const seo = buildPageSeo({
   }
 
   @media (min-width: 64rem) {
+    .discretion-layout {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--column-gap-desktop);
+      align-items: start;
+    }
+
+    .discretion-list {
+      margin-block-start: 0;
+    }
+
     .briefing-layout {
       grid-template-columns: 5fr 7fr;
       gap: var(--column-gap-desktop);

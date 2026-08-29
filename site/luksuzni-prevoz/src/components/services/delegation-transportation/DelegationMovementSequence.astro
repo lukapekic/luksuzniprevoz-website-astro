@@ -17,11 +17,10 @@ interface Props {
   label: string;
   exampleLabel: string;
   stages: readonly [Stage, Stage, Stage, Stage, Stage, Stage];
-  closing: string;
   image: ImageMetadata;
 }
 
-const { heading, intro, body, label, exampleLabel, stages, closing, image } = Astro.props;
+const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props;
 ---
 
 <Section spacing="feature" surface="elevated" aria-labelledby="delegation-movement-heading">
@@ -62,13 +61,11 @@ const { heading, intro, body, label, exampleLabel, stages, closing, image } = As
       </figure>
     </div>
 
-    <p class="closing-line">{closing}</p>
   </PageContainer>
 </Section>
 
 <style>
   .movement-intro {
-    max-inline-size: var(--measure-body);
     min-inline-size: 0;
     overflow-wrap: anywhere;
   }
@@ -91,6 +88,7 @@ const { heading, intro, body, label, exampleLabel, stages, closing, image } = As
   }
 
   .body-copy {
+    max-inline-size: var(--measure-body);
     margin-block: var(--space-5) 0;
     font-family: var(--font-body);
     line-height: var(--line-height-body);
@@ -101,7 +99,11 @@ const { heading, intro, body, label, exampleLabel, stages, closing, image } = As
     display: grid;
     gap: var(--space-8);
     margin-block-start: var(--space-10);
-    align-items: center;
+    align-items: stretch;
+  }
+
+  .movement-layout > * {
+    min-inline-size: 0;
   }
 
   .example-label {
@@ -186,24 +188,18 @@ const { heading, intro, body, label, exampleLabel, stages, closing, image } = As
     inline-size: 100%;
     block-size: 100%;
     object-fit: cover;
-    object-position: center;
-  }
-
-  .closing-line {
-    max-inline-size: var(--measure-narrow);
-    margin: var(--space-8) 0 0;
-    padding-block-start: var(--space-5);
-    border-block-start: 1px solid var(--color-divider);
-    font-family: var(--font-heading);
-    font-size: var(--text-xl);
-    line-height: var(--line-height-heading);
-    color: var(--color-text-primary);
+    object-position: 55% center;
   }
 
   @media (min-width: 64rem) {
     .movement-layout {
       grid-template-columns: 7fr 5fr;
       gap: var(--column-gap-desktop);
+    }
+
+    .movement-media {
+      min-block-size: 0;
+      aspect-ratio: auto;
     }
   }
 </style>

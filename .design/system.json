@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-08-29T17:57:45.466Z",
-  "sourceHash": "044f8fbb02286c4f04d99387d507dc96c446b21028715c9550d3a395ce2bd6d8",
+  "generatedAt": "2026-08-29T18:25:45.790Z",
+  "sourceHash": "bce0415511bdc9e8bdf5138cc3c61738a07cc1ec0b2a7c679debe9057ec170ef",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -493,6 +493,7 @@
       "site/luksuzni-prevoz/src/docs/services/wedding-transportation/README.md",
       "site/luksuzni-prevoz/src/docs/services/wedding-transportation/acceptance.md",
       "site/luksuzni-prevoz/src/docs/services/wedding-transportation/blueprint.md",
+      "site/luksuzni-prevoz/src/docs/services/wedding-transportation/compliance-matrix.md",
       "site/luksuzni-prevoz/src/docs/services/wedding-transportation/implementation.md",
       "site/luksuzni-prevoz/src/docs/services/wedding-transportation/redesign-content-pack/schema-changes.md",
       "site/luksuzni-prevoz/src/docs/services/wedding-transportation/redesign-content-pack/wedding-transportation.en.md",

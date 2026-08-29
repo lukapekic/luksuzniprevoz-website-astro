@@ -26,11 +26,14 @@ Status: **COMPLETED — 2026-08-29**
 | FAQ | `FAQ.astro` | `src/components/site/FAQ.astro` | ✅ |
 | Final CTA | `FinalCTA.astro` | `src/components/site/FinalCTA.astro` | ✅ |
 | Hero image | `shared/other/v-class-embassy-entrance.webp` | asset resolved and rendered by `DelegationTransportationPage.astro` | ✅ |
+| Audience composition | content-first DOM; image 5 / content 7 from `lg` | `DelegationTransportationPage.astro` using shared `OpenSplitSection` | ✅ |
 | Audience image | `shared/other/s-class-hotel-entrance-vertical.webp` | asset resolved and rendered by `DelegationTransportationPage.astro` | ✅ |
+| Movement composition | full-width intro; sequence 7 / same-track image 5 from `lg`; no closing slogan | `DelegationMovementSequence.astro` | ✅ |
 | Movement image | `shared/other/emplyoee-group-outside.webp` | asset resolved and rendered by `DelegationMovementSequence.astro` | ✅ |
 | Mixed-fleet image | `shared/other/v-class-on-the-move-veertical.webp` | asset resolved and rendered by `DelegationTransportationPage.astro` | ✅ |
-| Discretion image | `shared/other/s-class-interior-1.webp` | asset resolved and rendered by `DelegationTransportationPage.astro` | ✅ |
-| FinalCTA image | `shared/other/s-class-hotel-entrance-night.webp` | asset resolved and rendered by `DelegationTransportationPage.astro` | ✅ |
+| Discretion composition | contained dark, heading/copy 5 / four principles 7, no media | `DelegationTransportationPage.astro` | ✅ |
+| Institutional proof surface | dark section with three individual light logo boxes | `DelegationInstitutionalProof.astro` | ✅ |
+| FinalCTA image | `shared/other/s-class-interior-1.webp` | asset resolved and rendered by `DelegationTransportationPage.astro` | ✅ |
 | Chinese Embassy mark | `clients.ts` id `chinese-embassy` → `client-media.ts` → `clients/chinesee-embassy.png` | approved record and exact logo resolver verified | ✅ |
 | OSCE mark | `clients.ts` id `osce-mission-to-serbia` → `client-media.ts` → `clients/osce.png` | approved record and exact logo resolver verified | ✅ |
 | Serbian Swimming mark | `clients.ts` id `serbian-swimming-federation` → `client-media.ts` → `clients/serbian-swimming-association.png` | approved record and exact logo resolver verified | ✅ |

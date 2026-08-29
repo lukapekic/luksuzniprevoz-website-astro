@@ -28,14 +28,14 @@ Then:
 8. Create DelegationInstitutionalProof.
 9. Reuse ServiceHero full-bleed with v-class-embassy-entrance.webp.
 10. Reuse ServiceOverview numbered-divider-facts.
-11. Compose Audience, Mixed Fleet, Discretion and Briefing from shared primitives.
-12. Read the exact three approved institutional clients through `getApprovedClientsFor("delegationTransportation")`, resolve their media through `clientLogoMedia`, assert locked order, and render with no filter/recolour.
+11. Compose Audience, Mixed Fleet, image-free contained Discretion and Briefing from shared primitives.
+12. Read the exact three approved institutional clients through `getApprovedClientsFor("delegationTransportation")`, resolve their media through `clientLogoMedia`, assert locked order, and render unfiltered marks in individual light boxes on a dark section.
 13. Reuse VehicleRecommendations with exact S/E/V order.
 14. Reuse ServiceStandards numbered-matrix.
 15. Resolve FAQ operational tokens after canonical assertions.
 16. Keep securityService=false explicit in FAQ.
 17. Keep NDA wording request-based and written-agreement-only.
-18. Reuse FinalCTA with s-class-hotel-entrance-night.webp.
+18. Reuse FinalCTA with s-class-interior-1.webp.
 19. Add one Delegation mapping to existing ContentPageRenderer.
 20. Run responsive, accessibility, design and technical review.
 21. Run every repository gate.

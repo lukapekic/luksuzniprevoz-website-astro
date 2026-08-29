@@ -38,6 +38,10 @@
     "ServiceOverview",
     "ServiceStandards",
     "VehicleRecommendations",
+    "OccasionServiceDefinition",
+    "OccasionScope",
+    "OccasionStandards",
+    "OccasionProcessSteps",
     "Button",
     "Link",
     "BrandLockup"

@@ -82,7 +82,7 @@ Every applicable blocking item MUST pass before publication.
 - [ ] exactly five items
 - [ ] `s-class-hotel-entrance-vertical.webp`
 - [ ] mobile content before media
-- [ ] desktop image 7/content 5
+- [ ] desktop image 5/content 7
 - [ ] all five locked audience categories present
 - [ ] no political-affiliation claim
 
@@ -93,9 +93,12 @@ Every applicable blocking item MUST pass before publication.
 - [ ] illustrative-example label
 - [ ] semantic ordered list
 - [ ] static connector
-- [ ] closing statement
+- [ ] no closing slogan rendered
 - [ ] `emplyoee-group-outside.webp`
+- [ ] label/heading/description span the full content width above the lower row
 - [ ] desktop sequence 7/image 5
+- [ ] timeline and image share the same desktop grid-track height
+- [ ] image uses cover with intentional focal position and no arbitrary fixed height
 - [ ] mobile intro → sequence → image
 - [ ] no map/JS/status chips/hardcoded times
 - [ ] examples not promoted to canonical service flags
@@ -111,8 +114,9 @@ Every applicable blocking item MUST pass before publication.
 
 ## J. Discretion
 - [ ] key `discretion`
-- [ ] `s-class-interior-1.webp`
-- [ ] desktop image 5/content 7
+- [ ] no image, placeholder or empty media column
+- [ ] contained dark editorial trust composition
+- [ ] desktop heading/intro 5 and trust principles 7
 - [ ] exactly four trust principles
 - [ ] discretion canonical-gated
 - [ ] manual confirmation canonical-gated
@@ -137,7 +141,10 @@ Every applicable blocking item MUST pass before publication.
 - [ ] no outgoing logo links
 - [ ] framing = selected institutional clients of Luxury Transportation
 - [ ] no claim every client used identical Delegation configuration
-- [ ] light surface
+- [ ] dark surrounding section
+- [ ] heading/description remain on the dark background
+- [ ] clear semantic spacing after Discretion
+- [ ] three individual light semantic logo boxes
 
 ## L. Briefing
 - [ ] key `briefing`
@@ -178,7 +185,7 @@ Every applicable blocking item MUST pass before publication.
 
 ## P. Final CTA
 - [ ] shared FinalCTA
-- [ ] `s-class-hotel-entrance-night.webp`
+- [ ] `s-class-interior-1.webp`
 - [ ] decorative integrated media
 - [ ] booking + quote buttons
 - [ ] resolveCtaHref used

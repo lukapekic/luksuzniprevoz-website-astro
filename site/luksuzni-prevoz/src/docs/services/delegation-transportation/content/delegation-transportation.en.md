@@ -91,8 +91,8 @@ faq:
     - { question: "Does Delegation Transportation include security or protection services?", answer: "{securityAnswer}" }
 
 finalCta:
-  heading: "Send the delegation programme. We connect the movements into one plan."
-  text: "Send the times, locations, passenger count, group structure and special requirements. After reviewing the details, we prepare an individual quote and confirm the organisation."
+  heading: "Organise your delegation transportation with us."
+  text: "Send the programme, passenger count, locations and special requirements. We will review the details and prepare an individual quote for the complete transport plan."
   primaryCta:
     label: "Send a Delegation Request"
     target: { type: flow, flowKey: booking }

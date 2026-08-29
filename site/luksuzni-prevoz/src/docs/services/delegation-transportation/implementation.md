@@ -223,17 +223,21 @@ Read `audience`, require body + exactly five items.
 
 Use `OpenSplitSection` with `s-class-hotel-entrance-vertical.webp`.
 
-Desktop image 7/content 5. Below `lg`, content then image.
+Desktop image 5/content 7. Below `lg`, content then image.
 
 Items use a restrained divider list.
 
 # 15. DelegationMovementSequence
 
-Component owns Section, container, label, heading/intro/body, illustrative-example label, six-stage semantic ordered list, static connector CSS, closing line, supporting image and responsive composition.
+Component owns Section, container, full-width label/heading/intro/body, illustrative-example label, six-stage semantic ordered list, static connector CSS, supporting image and responsive composition.
 
 Use `emplyoee-group-outside.webp`.
 
-Desktop sequence 7/image 5. Mobile intro → sequence → image.
+Desktop full-width intro followed by sequence 7/image 5. The sequence determines
+the lower-row height and the cover image stretches to the same grid track with
+an intentional focal position. Mobile intro → sequence → image.
+
+Do not render a closing slogan.
 
 No JS/map/times/status badges.
 
@@ -251,9 +255,9 @@ No technical fleet duplication. No price.
 
 Read `discretion`.
 
-Use `s-class-interior-1.webp`.
-
-Desktop image 5/content 7.
+Use a contained dark editorial composition with no image, placeholder or empty
+media column. Below `lg`, render heading/intro then the trust list. From `lg`,
+use heading/intro 5 and trust list 7.
 
 Render exactly four UI-driven trust rows.
 
@@ -283,7 +287,14 @@ serbian-swimming-federation
 
 The canonical helper gates per-route placement, approved status and asset presence. Do not import logo files directly into the page component and do not reconstruct client names from UI strings.
 
-`DelegationInstitutionalProof` uses a light surface, `astro:assets Image`, no filter/recolour, no external links.
+`DelegationInstitutionalProof` uses an open dark surrounding section with its
+label, heading and intro above three individual light semantic logo boxes. Use
+`astro:assets Image`, no filter/recolour, and no external links. Preserve one
+column on narrow mobile, an intentional tablet transition and three equal boxes
+from tablet portrait through wide desktop.
+
+Use semantic feature spacing so the proof section has clear dark breathing room
+after the contained Discretion section.
 
 Do not add generic Business Hub clients.
 
@@ -377,7 +388,7 @@ Do not create another dispatcher.
 
 # 25. Final CTA
 
-Import `s-class-hotel-entrance-night.webp`.
+Import `s-class-interior-1.webp`.
 
 Pass `imageAlt=""`, `imageFit="cover"`, `mediaTreatment="integrated"`.
 

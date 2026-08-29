@@ -21,7 +21,7 @@ interface Props {
 const { heading, intro, label, clients } = Astro.props;
 ---
 
-<Section spacing="standard" surface="light" aria-labelledby="delegation-clients-heading">
+<Section spacing="feature" surface="open-dark" aria-labelledby="delegation-clients-heading">
   <PageContainer>
     <div class="proof-layout">
       <div class="proof-intro">
@@ -30,7 +30,6 @@ const { heading, intro, label, clients } = Astro.props;
           id="delegation-clients-heading"
           heading={heading}
           description={intro}
-          on="light"
         />
       </div>
 
@@ -41,8 +40,9 @@ const { heading, intro, label, clients } = Astro.props;
               src={client.logo}
               alt={client.displayName}
               loading="lazy"
+              decoding="async"
               widths={[240, 360, 480]}
-              sizes="(min-width: 64rem) 18rem, (min-width: 48rem) 30vw, calc(100vw - 5rem)"
+              sizes="(min-width: 48rem) 30vw, (min-width: 40rem) 45vw, calc(100vw - 5rem)"
             />
           </li>
         ))}
@@ -54,7 +54,6 @@ const { heading, intro, label, clients } = Astro.props;
 <style>
   .proof-layout {
     display: grid;
-    gap: var(--space-8);
   }
 
   .proof-intro {
@@ -71,20 +70,20 @@ const { heading, intro, label, clients } = Astro.props;
     font-family: var(--font-body);
     font-size: var(--text-ui);
     font-weight: var(--font-weight-medium);
-    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+    color: var(--color-text-muted);
   }
 
   .section-label span {
     inline-size: var(--space-8);
     block-size: 1px;
-    background: var(--color-focus-light);
+    background: var(--color-accent);
   }
 
   ul {
     display: grid;
-    margin: 0;
+    gap: var(--space-3);
+    margin: var(--space-10) 0 0;
     padding: 0;
-    border-block-start: 1px solid var(--color-input-border);
     list-style: none;
   }
 
@@ -93,8 +92,10 @@ const { heading, intro, label, clients } = Astro.props;
     min-inline-size: 0;
     min-block-size: calc(var(--space-24) * 2);
     place-items: center;
-    padding: var(--space-6);
-    border-block-end: 1px solid var(--color-input-border);
+    overflow: hidden;
+    padding: var(--space-8);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-light);
   }
 
   li :global(img) {
@@ -104,25 +105,15 @@ const { heading, intro, label, clients } = Astro.props;
     object-fit: contain;
   }
 
-  @media (min-width: 48rem) {
+  @media (min-width: 40rem) {
     ul {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    li {
-      border-block-end: 0;
-    }
-
-    li + li {
-      border-inline-start: 1px solid var(--color-input-border);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (min-width: 64rem) {
-    .proof-layout {
-      grid-template-columns: 4fr 8fr;
-      gap: var(--column-gap-desktop);
-      align-items: start;
+  @media (min-width: 48rem) {
+    ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 </style>

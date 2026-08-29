@@ -40,7 +40,11 @@ src/assets/shared/other/emplyoee-group-outside.webp
 
 Decorative alt. Secondary to the semantic movement sequence. Do not identify photographed people or vehicles as company staff/fleet.
 
-Use a page-local 4:3 cover frame with a centered crop at every responsive state. The semantic sequence remains the primary information source.
+Use a page-local 4:3 cover frame below `lg`. From `lg`, the timeline determines
+the shared grid-track height and the image stretches to fill that height without
+an arbitrary fixed pixel value. Use an intentional focal position that keeps
+people and vehicles visible. The semantic sequence remains the primary
+information source.
 
 ## Mixed-fleet section
 
@@ -54,13 +58,8 @@ Use the shared 4:3 cover frame with a centered crop at every responsive state. C
 
 ## Discretion section
 
-```text
-src/assets/shared/other/s-class-interior-1.webp
-```
-
-Decorative alt. Do not infer exact vehicle specifications from the photo.
-
-Use the shared 4:3 cover frame with a centered crop at every responsive state.
+No image, placeholder or empty media slot. The previously assigned interior
+asset is reassigned to the Final CTA below.
 
 ## Institutional client proof
 
@@ -88,7 +87,7 @@ no outgoing links
 no additional client mark
 ```
 
-Use a light proof surface.
+Use individual light semantic logo boxes inside an open dark proof section.
 
 Resolve these files only through `clientLogoMedia` after `getApprovedClientsFor("delegationTransportation")` has returned the approved canonical client records. Page components do not import the files directly.
 
@@ -101,8 +100,10 @@ Use canonical repository fleet media for S-Class, E-Class and V-Class.
 ## Final CTA
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-night.webp
+src/assets/shared/other/s-class-interior-1.webp
 ```
+
+Decorative alt. Do not infer exact vehicle specifications from the photo.
 
 Pass:
 
@@ -117,6 +118,7 @@ mediaTreatment="integrated"
 ```text
 embasy-flags.webp
 s-class-hotel-front-winter.webp
+s-class-hotel-entrance-night.webp
 s-class-interior-2.webp
 v-class-interior-1.webp
 ```

@@ -214,7 +214,7 @@ Use `Section`, `PageContainer`, `OpenSplitSection`, `SectionHeading`.
 Desktop from `lg`:
 
 ```text
-image 7 | content 5
+image 5 | content 7
 ```
 
 Mobile/tablet DOM:
@@ -281,12 +281,6 @@ Illustrative locations can include an arrival point/airport, hotel, meeting/busi
 
 These examples MUST NOT be converted into new canonical Delegation capability flags.
 
-Closing line:
-
-```text
-Vehicles differ. The schedule remains one.
-```
-
 Locked supporting image:
 
 ```text
@@ -297,11 +291,12 @@ Visual contract:
 
 ```text
 dark open/elevated surface
-heading/explanation first
+full-width label, heading and explanation above the lower composition
 vertical semantic ordered list
 restrained accent connector
 typographic stages
 supporting image secondary to sequence
+no closing slogan
 no cards
 no map
 no status chips
@@ -312,8 +307,14 @@ no JS
 Desktop from `lg`:
 
 ```text
+full-width intro
 sequence 7 | supporting image 5
 ```
+
+The sequence determines the desktop lower-row height. The image stretches to
+the same grid-track height, uses `object-fit: cover`, and preserves people and
+vehicle context through an intentional focal position. Do not set an arbitrary
+fixed pixel height. Both grid children use `min-inline-size: 0`.
 
 Mobile/tablet:
 
@@ -373,25 +374,16 @@ Content section key:
 discretion
 ```
 
-Use `Section`, `PageContainer`, `OpenSplitSection`, `SectionHeading`.
+Use `Section`, `PageContainer`, `SectionHeading` and a semantic numbered list.
 
-Desktop from `lg`:
+The section is a contained dark editorial trust statement with no image,
+placeholder or empty media column.
 
-```text
-image 5 | content 7
-```
-
-Mobile/tablet DOM:
+Responsive composition:
 
 ```text
-content first
-image second
-```
-
-Locked image:
-
-```text
-src/assets/shared/other/s-class-interior-1.webp
+below lg: heading / intro, then four trust principles
+from lg: heading / intro 5 | trust principles 7
 ```
 
 Exactly four trust principles:
@@ -465,8 +457,12 @@ Do not say every listed organisation purchased the identical Delegation Transpor
 Surface:
 
 ```text
-light
+open dark
 ```
+
+The label, heading and description remain on the dark page background. Clear
+semantic feature spacing separates this proof region from the preceding
+contained Discretion section.
 
 Logo rules:
 
@@ -484,9 +480,15 @@ no outgoing links
 Layout:
 
 ```text
-mobile: vertical proof list
-tablet+: three equal logo regions with restrained dividers
+narrow mobile: one logo box per row
+intermediate tablet: responsive two-column transition where available
+tablet portrait+: three equal logo boxes
+desktop/wide: three equal logo boxes
 ```
+
+Each client mark sits in its own `surfaceLight` box with the approved card
+radius, generous internal padding and centred `object-fit: contain` media. The
+entire proof section never becomes one light container.
 
 No additional client appears in v1.
 
@@ -611,7 +613,7 @@ Reuse `FinalCTA`.
 Locked image:
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-night.webp
+src/assets/shared/other/s-class-interior-1.webp
 ```
 
 Pass:
@@ -678,7 +680,7 @@ Overview vertical
 Audience copy then image
 Movement intro → vertical sequence → image
 Mixed fleet copy → image
-Discretion copy/trust rows → image
+Discretion copy → trust rows; no image
 Institutional proof three marks vertically
 Briefing copy → inputs → quiet CTA
 Vehicles shared narrow carousel
@@ -695,7 +697,7 @@ Overview vertical
 Audience copy then image
 Movement vertical sequence + image
 Mixed fleet copy then image
-Discretion copy then image
+Discretion copy then trust rows; no image
 Institutional proof exactly three equal regions
 Briefing stacked
 Vehicles/Standards shared tablet topology
@@ -705,11 +707,11 @@ Vehicles/Standards shared tablet topology
 
 ```text
 Overview 5 / 7
-Audience image 7 / copy 5
-Movement sequence 7 / image 5
+Audience image 5 / copy 7
+Movement full-width intro, then sequence 7 / same-height image 5
 Mixed fleet copy 7 / image 5
-Discretion image 5 / copy 7
-Institutional proof intro 4 / proof zone 8
+Discretion contained heading/copy 5 / four trust principles 7; no image
+Institutional proof dark heading/description above three light logo boxes
 Briefing intro 5 / inputs 7
 Standards 4 / 8
 Vehicles shared three-item wide topology
@@ -772,8 +774,8 @@ Hero              → V-Class at formal international entrance
 Audience          → arrival / hotel context
 Movement          → people + multiple transport context
 Mixed fleet       → V-Class movement
-Discretion        → quiet premium interior
+Discretion        → contained typographic trust statement
 Institution proof → approved real client marks
 Vehicles          → canonical fleet
-Final CTA          → vehicle waiting at premium entrance
+Final CTA          → quiet premium interior
 ```
