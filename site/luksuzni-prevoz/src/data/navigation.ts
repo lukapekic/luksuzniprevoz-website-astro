@@ -22,6 +22,7 @@ import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { routeMap } from "./routes.ts";
 import navLabelsJson from "./navigation-labels.json";
 import { defaultLocale, localeCodes } from "./locales.ts";
+import type { FlowKey } from "./flows.ts";
 
 // --- Types -----------------------------------------------------------------
 
@@ -32,7 +33,7 @@ export type NavLabelKey = RouteKey | "services" | "book";
  *  booking wizard); external links open outbound. */
 export type NavTarget =
   | { type: "route"; routeKey: RouteKey }
-  | { type: "flow"; flowKey: string }
+  | { type: "flow"; flowKey: FlowKey }
   | { type: "external"; href: string };
 
 /** Leaf nav node — links to a route, no children. */

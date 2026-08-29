@@ -41,7 +41,7 @@ The Business files in this bundle are:
 - the current semantic wireframe,
 - and a concise current-state implementation plan showing what remains to be wired in production.
 
-The repository currently has **no equivalent Special Events documentation packet**. `specialEvents` is still a scaffold route/content family. This bundle therefore provides the missing blueprint, wireframe, implementation plan, and acceptance contract for that hub.
+The original Special Events draft from this packet has been superseded and removed. The locked production contract now lives under `src/docs/services/special-events/`; use that directory for all Special Events work.
 
 ## Key architecture decision
 
@@ -95,12 +95,6 @@ business-transportation/
   blueprint.md
   wireframe.html
   implementation-plan.md
-
-special-events/
-  blueprint.md
-  wireframe.html
-  implementation-plan.md
-  acceptance.md
 
 codex-handoff.md
 ```

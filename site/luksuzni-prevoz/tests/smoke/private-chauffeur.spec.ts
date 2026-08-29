@@ -4,6 +4,7 @@ import {
   assertMinimumTargetSize,
   assertNoHorizontalOverflow,
   axeWcag22Tags,
+  flowPath,
   reviewViewports,
   routePath,
 } from "../support/contracts";
@@ -29,7 +30,7 @@ test.describe("Private Chauffeur", () => {
     });
   }
 
-  test("resolves canonical facts and flow fallbacks while preserving the fleet route", async ({
+  test("resolves canonical facts and distinct request intents while preserving the fleet route", async ({
     page,
   }) => {
     await page.goto(routePath("privateChauffeur", "en"));
@@ -43,24 +44,24 @@ test.describe("Private Chauffeur", () => {
     await expect(page.getByText("In-vehicle Wi-Fi · Climate control")).toBeVisible();
 
     const mainLinks = page.locator("main a");
-    const contactHref = routePath("contact", "en");
+    const bookingHref = flowPath("booking", "en");
+    const quoteHref = flowPath("quote", "en");
     await expect(page.locator("[data-site-header]")).toHaveAttribute("data-over-hero", "true");
     await expect(page.locator(".service-hero__actions a")).toHaveCount(2);
     await expect(page.locator(".fcta-actions a")).toHaveCount(2);
-    for (const action of await page.locator(".fcta-actions a").all()) {
-      await expect(action).toHaveAttribute("href", contactHref);
-    }
+    await expect(page.locator(".fcta-actions a").nth(0)).toHaveAttribute("href", bookingHref);
+    await expect(page.locator(".fcta-actions a").nth(1)).toHaveAttribute("href", quoteHref);
     await expect(mainLinks.filter({ hasText: "Book Private Chauffeur" }).first()).toHaveAttribute(
       "href",
-      contactHref,
+      bookingHref,
     );
     await expect(mainLinks.filter({ hasText: "Request a Quote" }).first()).toHaveAttribute(
       "href",
-      contactHref,
+      quoteHref,
     );
     await expect(mainLinks.filter({ hasText: "Send us your schedule" })).toHaveAttribute(
       "href",
-      contactHref,
+      bookingHref,
     );
     await expect(page.locator("main a:not([href])")).toHaveCount(0);
     await expect(mainLinks.filter({ hasText: "View Full Fleet" })).toHaveAttribute(

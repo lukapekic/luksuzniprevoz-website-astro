@@ -7,15 +7,15 @@
  * Link) and the locked Final-CTA contract
  * (docs/home/home-components/11-final-cta.md, DESIGN.md §7/§8):
  *
- *   - contained architectural panel, content left, vehicle image right;
+ *   - contained architectural panel, content left, optional image right;
  *   - desktop 62/38 content/image, 22–26rem panel;
  *   - restrained graphite gradient (Final-CTA-only exception);
  *   - CTA hierarchy: primary Book (platinum accent cta link) > secondary Request a Quote
  *     (outlined button link) > tertiary phone/email (muted text links — ONE
  *     phone + ONE email only);
- *   - right-zone vehicle blended on the panel, no hard edge, not a bordered
- *     card; object-contain for transparent cutouts, object-cover for
- *     contextual photos;
+ *   - right-zone contextual or vehicle image blended on the panel, no hard
+ *     edge, not a bordered card; object-contain for transparent/cutout imagery,
+ *     object-cover for contextual photography;
  *   - <h2> (the page's single <h1> lives in the hero) — no second-hero scale.
  *
  * Reuses foundation routing types: internal CTAs pass `to: RouteKey` so <Link>
@@ -74,11 +74,11 @@ export interface FinalCTAProps {
   secondaryAction?: FinalCtaAction | null;
   /** Tertiary contact paths — restrained muted text links, subordinate to the CTAs. */
   contacts?: FinalCtaContacts;
-  /** Right-zone vehicle image. Transparent cutout → contain; contextual photo → cover. */
+  /** Optional right-zone contextual or vehicle image, selected by the caller. */
   image?: FinalCtaImage;
   /** Alt text; empty string (default) = decorative marketing imagery. */
   imageAlt?: string;
-  /** object-fit: "contain" (default — locked S-Class cutout intent) | "cover" (contextual photo). */
+  /** object-fit: "contain" (default, transparent/cutout imagery) | "cover" (contextual photography). */
   imageFit?: "contain" | "cover";
   /** Optional semantic media treatment; integrated blends full-bleed media into the panel. */
   mediaTreatment?: "default" | "integrated";

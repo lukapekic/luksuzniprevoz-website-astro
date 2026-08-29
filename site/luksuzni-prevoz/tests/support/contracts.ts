@@ -2,6 +2,8 @@ import { expect, type Page } from "@playwright/test";
 import { getPath } from "@astro-foundation/core/i18n";
 import config from "../../foundation.config";
 import { routes } from "../../src/data/routes";
+import { resolveFlowHref } from "../../src/lib/cta";
+import type { FlowKey } from "../../src/data/flows";
 import viewportContract from "../../../../.governance/viewports.json" with { type: "json" };
 
 export const locales = config.locales.locales.map((locale) => locale.code);
@@ -9,6 +11,10 @@ export const defaultLocale = config.locales.locales.find((locale) => locale.isDe
 
 export function routePath(routeKey: string, locale: string): string {
   return getPath(routeKey as never, locale as never, routes, defaultLocale);
+}
+
+export function flowPath(flowKey: FlowKey, locale: string): string {
+  return resolveFlowHref(flowKey, locale as never);
 }
 
 export const reviewViewports = viewportContract.viewports.map((viewport) => ({

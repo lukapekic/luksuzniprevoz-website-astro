@@ -26,7 +26,9 @@ test.describe("Business and Special Events hubs", () => {
       await expect(page.locator("main h1")).toHaveCount(1);
       await expect(page.locator("main h2")).not.toHaveCount(0);
       const cardSelector =
-        route.key === "businessTransportation" ? ".service-grid > li" : ".selector-grid > article";
+        route.key === "businessTransportation"
+          ? ".service-grid > li"
+          : ".special-event-service-grid > li";
       await expect(page.locator(cardSelector)).toHaveCount(3);
     });
   }
@@ -47,7 +49,9 @@ test.describe("Business and Special Events hubs", () => {
       "promTransportation",
       "vipTransportation",
     ] as const) {
-      await expect(page.locator(`.selector-grid a[href="${routePath(key, "en")}"]`)).toHaveCount(1);
+      await expect(
+        page.locator(`.special-event-service-grid a[href="${routePath(key, "en")}"]`),
+      ).toHaveCount(1);
     }
   });
 
@@ -67,11 +71,14 @@ test.describe("Business and Special Events hubs", () => {
     }
   });
 
-  test("Special Events placeholder content remains non-indexable", async ({ page }) => {
+  test("Special Events is indexable with localized SEO alternates", async ({ page }) => {
     await page.goto(routePath("specialEvents", "en"));
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-    await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
-    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      new RegExp(`${routePath("specialEvents", "en")}$`),
+    );
+    expect(await page.locator('link[rel="alternate"][hreflang]').count()).toBeGreaterThanOrEqual(3);
   });
 
   test("Business remains indexable with localized SEO alternates", async ({ page }) => {
@@ -158,12 +165,57 @@ test.describe("Business and Special Events hubs", () => {
     await expect(coordinationImage).toHaveCount(1);
     await expect(coordinationImage).toHaveAttribute("alt", "");
     await expect(coordinationImage).toHaveAttribute("src", /hero-example/);
+    await coordinationImage.scrollIntoViewIfNeeded();
     await expect
       .poll(() => coordinationImage.evaluate((image: HTMLImageElement) => image.naturalWidth))
       .toBeGreaterThan(0);
     expect(await coordinationImage.evaluate((image) => getComputedStyle(image).objectFit)).toBe(
       "cover",
     );
+  });
+
+  test("Special Events renders the locked commercial and operational contract", async ({
+    page,
+  }) => {
+    await page.goto(routePath("specialEvents", "en"));
+
+    await expect(page.locator('.service-hero[data-variant="full-bleed"]')).toHaveCount(1);
+    await expect(page.locator('.service-hero a[href="#event-services"]')).toHaveCount(1);
+    await expect(page.locator(".service-hero__trust > li")).toHaveCount(3);
+    await expect(page.locator(".special-event-service-grid > li")).toHaveCount(3);
+    await expect(page.locator(".special-event-service-grid .service-card__media img")).toHaveCount(
+      3,
+    );
+    await expect(page.locator(".special-event-service-grid .capabilities")).toHaveCount(3);
+    for (const capabilities of await page
+      .locator(".special-event-service-grid .capabilities")
+      .all()) {
+      await expect(capabilities.locator(":scope > li")).toHaveCount(3);
+    }
+    await expect(page.locator(".special-event-service-grid")).not.toContainText(
+      /security|bodyguard|close protection|escort service/i,
+    );
+    await expect(page.locator(".occasion-list > li")).toHaveCount(4);
+    await expect(page.locator(".scope-list > li")).toHaveCount(2);
+    await expect(page.locator(".coordination-flow > li")).toHaveCount(5);
+    await expect(page.locator(".standards-list > li")).toHaveCount(5);
+    await expect(page.locator(".process-panel > li")).toHaveCount(3);
+    await expect(page.locator(".faq-list > details")).toHaveCount(6);
+
+    const coordinationMedia = page.locator(
+      'section[aria-labelledby="special-event-coordination-heading"] .open-split__media img',
+    );
+    await expect(coordinationMedia).toHaveCount(1);
+    await expect(coordinationMedia).toHaveAttribute("alt", "");
+    await expect(coordinationMedia).toHaveAttribute("src", /v-class-outisde-weeding-day/);
+    expect(await coordinationMedia.evaluate((image) => getComputedStyle(image).objectFit)).toBe(
+      "cover",
+    );
+
+    const structuredData = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    expect(structuredData.join(" ")).not.toContain('"@type":"Event"');
   });
 
   test("required responsive states have no accidental horizontal overflow", async ({ page }) => {
@@ -177,9 +229,7 @@ test.describe("Business and Special Events hubs", () => {
         await page.setViewportSize(viewport);
         await page.goto(route);
         await assertNoHorizontalOverflow(page);
-        if (route !== routePath("specialEvents", "ru")) {
-          await assertMinimumTargetSize(page);
-        }
+        await assertMinimumTargetSize(page);
       }
     }
   });
@@ -264,6 +314,70 @@ test.describe("Business and Special Events hubs", () => {
     ).toBeLessThan(2);
     expect(desktopProcess[1].x).toBeGreaterThan(desktopProcess[0].x);
     expect(desktopProcess[2].x).toBeGreaterThan(desktopProcess[1].x);
+  });
+
+  test("Special Events uses the locked tablet and desktop topology", async ({ page }) => {
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await page.goto(routePath("specialEvents", "en"));
+
+    const tabletCards = await page
+      .locator(".special-event-service-grid > li")
+      .evaluateAll((items) =>
+        items.map((item) => {
+          const rect = item.getBoundingClientRect();
+          return { x: rect.x, y: rect.y, width: rect.width };
+        }),
+      );
+    expect(tabletCards[0].width).toBeGreaterThan(tabletCards[1].width * 1.8);
+    expect(Math.abs(tabletCards[1].y - tabletCards[2].y)).toBeLessThan(2);
+    expect(tabletCards[0].y).toBeLessThan(tabletCards[1].y);
+
+    for (const selector of [".scope-layout", ".standards-layout"] as const) {
+      const stacked = await page.locator(selector).evaluate((layout) => {
+        const first = layout.children[0]!.getBoundingClientRect();
+        const second = layout.children[1]!.getBoundingClientRect();
+        return second.top >= first.bottom && Math.abs(first.left - second.left) < 2;
+      });
+      expect(stacked).toBe(true);
+    }
+    const tabletSplit = await page.locator(".open-split").evaluate((layout) => {
+      const content = layout.children[0]!.getBoundingClientRect();
+      const media = layout.children[1]!.getBoundingClientRect();
+      return media.top >= content.bottom && Math.abs(content.left - media.left) < 2;
+    });
+    expect(tabletSplit).toBe(true);
+
+    const tabletProcess = await page
+      .locator(".process-panel > li")
+      .evaluateAll((items) => items.map((item) => item.getBoundingClientRect()));
+    expect(tabletProcess[1].top).toBeGreaterThan(tabletProcess[0].top);
+    expect(tabletProcess[2].top).toBeGreaterThan(tabletProcess[1].top);
+
+    await page.setViewportSize({ width: 1024, height: 768 });
+
+    const desktopCards = await page
+      .locator(".special-event-service-grid > li")
+      .evaluateAll((items) => items.map((item) => item.getBoundingClientRect().top));
+    expect(Math.max(...desktopCards) - Math.min(...desktopCards)).toBeLessThan(2);
+
+    for (const selector of [".scope-layout", ".standards-layout", ".open-split"] as const) {
+      const split = await page.locator(selector).evaluate((layout) => {
+        const first = layout.children[0]!.getBoundingClientRect();
+        const second = layout.children[1]!.getBoundingClientRect();
+        return second.left > first.left && Math.abs(first.top - second.top) < 2;
+      });
+      expect(split).toBe(true);
+    }
+
+    const desktopProcess = await page
+      .locator(".process-panel > li")
+      .evaluateAll((items) => items.map((item) => item.getBoundingClientRect()));
+    expect(
+      Math.max(...desktopProcess.map((item) => item.top)) -
+        Math.min(...desktopProcess.map((item) => item.top)),
+    ).toBeLessThan(2);
+    expect(desktopProcess[1].left).toBeGreaterThan(desktopProcess[0].left);
+    expect(desktopProcess[2].left).toBeGreaterThan(desktopProcess[1].left);
   });
 
   test("Business preserves logical focus order and reduced-motion behavior", async ({ page }) => {

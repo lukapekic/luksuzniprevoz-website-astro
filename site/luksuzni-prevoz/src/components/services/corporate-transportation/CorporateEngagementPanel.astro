@@ -1,0 +1,232 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+
+interface Item {
+  title: string;
+  text: string;
+}
+
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  heading: string;
+  intro: string;
+  body: string;
+  label: string;
+  items: readonly [Item, Item];
+  recurringFacts: readonly [string, string, string];
+  oneOffAction: Action;
+  recurringAction: Action;
+  locale: LocaleCode;
+}
+
+const {
+  heading,
+  intro,
+  body,
+  label,
+  items,
+  recurringFacts,
+  oneOffAction,
+  recurringAction,
+  locale,
+} = Astro.props;
+---
+
+<Section spacing="compact" surface="light" aria-labelledby="corporate-engagement-heading">
+  <PageContainer>
+    <div class="engagement-layout">
+      <div class="engagement-intro">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading
+          id="corporate-engagement-heading"
+          {heading}
+          description={intro}
+          on="light"
+        />
+        <p class="body-copy">{body}</p>
+      </div>
+
+      <div class="engagement-pathways">
+        <article class="pathway">
+          <span class="pathway-marker" aria-hidden="true">01</span>
+          <div class="pathway-content">
+            <h3>{items[0].title}</h3>
+            <p>{items[0].text}</p>
+            <Link variant="cta" href={oneOffAction.href} {locale}>{oneOffAction.label}</Link>
+          </div>
+        </article>
+
+        <article class="pathway pathway--recurring">
+          <span class="pathway-marker" aria-hidden="true">02</span>
+          <div class="pathway-content">
+            <h3>{items[1].title}</h3>
+            <p>{items[1].text}</p>
+            <ul class="recurring-facts" role="list">
+              {recurringFacts.map((fact, index) => (
+                <li>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{fact}</strong>
+                </li>
+              ))}
+            </ul>
+            <Link variant="on-light" href={recurringAction.href} {locale}>
+              {recurringAction.label}
+            </Link>
+          </div>
+        </article>
+      </div>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .engagement-layout {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  .engagement-layout > *,
+  .pathway > *,
+  .pathway-content > *,
+  .recurring-facts > * {
+    min-inline-size: 0;
+  }
+
+  .engagement-intro {
+    max-inline-size: var(--measure-body);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label span {
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-focus-light);
+  }
+
+  .body-copy {
+    margin-block-start: var(--space-5);
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%);
+  }
+
+  .engagement-pathways {
+    min-inline-size: 0;
+    border-block-start: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 72%);
+  }
+
+  .pathway {
+    display: grid;
+    grid-template-columns: var(--space-8) minmax(0, 1fr);
+    min-inline-size: 0;
+    align-content: start;
+    gap: var(--space-5);
+    padding-block: var(--space-7);
+    border-block-end: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 72%);
+  }
+
+  .pathway-marker {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-focus-light);
+  }
+
+  .pathway-content {
+    display: grid;
+    min-inline-size: 0;
+    align-content: start;
+    gap: var(--space-4);
+  }
+
+  h3 {
+    max-inline-size: 22ch;
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-text-on-light);
+    text-wrap: balance;
+  }
+
+  .pathway-content > p {
+    max-inline-size: var(--measure-body);
+    margin: 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%);
+  }
+
+  .recurring-facts {
+    display: grid;
+    min-inline-size: 0;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    border-block: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 72%);
+    list-style: none;
+  }
+
+  .recurring-facts li {
+    display: grid;
+    grid-template-columns: var(--space-8) minmax(0, 1fr);
+    min-inline-size: 0;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-block-end: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 72%);
+    font-family: var(--font-body);
+  }
+
+  .recurring-facts span {
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-focus-light);
+  }
+
+  .recurring-facts strong {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-body);
+    color: var(--color-text-on-light);
+    overflow-wrap: anywhere;
+  }
+
+  .pathway-content :global(a) {
+    justify-self: start;
+    margin-block-start: var(--space-3);
+  }
+
+  @media (min-width: 64rem) {
+    .engagement-layout {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--column-gap-desktop);
+      align-items: start;
+    }
+
+    .engagement-intro {
+      max-inline-size: var(--measure-narrow);
+    }
+  }
+</style>

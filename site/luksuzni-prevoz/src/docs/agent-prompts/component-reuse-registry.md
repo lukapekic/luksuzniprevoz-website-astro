@@ -295,10 +295,12 @@ Owns the entire reviewed closing conversion composition:
 - content/media relationship;
 - primary/secondary CTA hierarchy;
 - restrained tertiary phone/email row;
-- right-zone vehicle/contextual image behavior;
+- optional right-zone contextual or vehicle image behavior;
 - responsive identity.
 
-Inputs include localized heading/description, actions, verified contacts, image, locale.
+Inputs include localized heading/description, actions, verified contacts, optional
+caller-provided image/alt/fit/media treatment, and locale. The component never
+selects or imports a page-specific image.
 
 Reuse on service pages as the final conversion section.
 

@@ -31,11 +31,16 @@ Content:
 Image:
 
 - visually constrained to about 35–40%;
-- preferred front-facing S-Class;
+- optional right-zone contextual or vehicle image supplied by the caller;
+- `contain` for transparent/cutout imagery; `cover` for contextual photography;
 - blended/no hard edge;
 - not a separate bordered card.
 - the optional `integrated` media treatment fills the complete media region, adds a restrained light-neutral veil, and fades the media itself from transparent to opaque at its inline start so the panel's exact background shows through without a color seam.
 - the `integrated` treatment is opt-in so existing consumers remain unchanged.
+
+The shared component never selects or imports a page-specific image. Callers
+own image selection, alt intent, fit, and media treatment. Without an image,
+the component remains a valid gradient-only conversion panel.
 
 ## Tablet
 

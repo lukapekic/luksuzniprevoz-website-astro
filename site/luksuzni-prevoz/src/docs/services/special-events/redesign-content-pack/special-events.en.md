@@ -8,7 +8,7 @@ status: published
 translationState: reviewed
 reviewedOn: 2026-08-29
 
-seoTitle: "Special Event Transportation Belgrade | Luxury Transportation"
+seoTitle: "Special Event Transportation Belgrade"
 seoDescription: "Chauffeur-driven transportation for weddings, proms, VIP guests and special events in Belgrade, with guest and multi-vehicle coordination where arranged."
 
 hero:

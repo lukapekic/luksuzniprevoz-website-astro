@@ -6,7 +6,7 @@ status: published
 translationState: reviewed
 reviewedOn: 2026-08-29
 
-seoTitle: "Prevoz za posebne događaje Beograd | Luxury Transportation"
+seoTitle: "Prevoz za posebne događaje Beograd"
 seoDescription: "Prevoz sa profesionalnim vozačem za venčanja, mature, VIP goste i posebne događaje u Beogradu, uz koordinaciju gostiju i više vozila po dogovoru."
 
 hero:

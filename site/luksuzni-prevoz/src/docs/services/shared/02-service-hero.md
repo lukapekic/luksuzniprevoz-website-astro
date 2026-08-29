@@ -12,7 +12,7 @@ Provide a cinematic, low-density service entrance with one H1 and clear conversi
 
 Used by:
 
-- Special Events
+- pages whose locked blueprint explicitly selects a contained service entrance
 
 All responsive states use one contained image-backed Hero panel.
 
@@ -45,7 +45,7 @@ contained image-backed Hero
 
 ### `full-bleed`
 
-Used by Airport Transportation, Private Chauffeur, and Business Transportation
+Used by Airport Transportation, Private Chauffeur, Business Transportation, Corporate Transportation, and Special Events
 where their locked blueprints select the cinematic full-viewport entrance and
 over-Hero header integration.
 
@@ -53,6 +53,10 @@ The content grid is grounded in the lower optical region using the same
 composition principle as Homepage Hero. The scrim remains strongest behind
 copy and header chrome while preserving a visibly brighter central service
 subject.
+
+Full-bleed Hero actions use the next semantic spacing step above the universal
+44px floor so localized labels remain reliably compliant under browser
+subpixel layout.
 
 ## Shared content limits
 

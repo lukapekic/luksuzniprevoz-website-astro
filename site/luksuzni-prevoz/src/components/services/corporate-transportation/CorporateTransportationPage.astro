@@ -1,0 +1,626 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import ServiceOverview from "../shared/ServiceOverview.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import ServiceStandards from "../shared/ServiceStandards.astro";
+import OpenSplitSection from "../../shared/OpenSplitSection.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import CorporateEngagementPanel from "./CorporateEngagementPanel.astro";
+import CorporateCoordinationPanel from "./CorporateCoordinationPanel.astro";
+import { getService } from "../../../data/services.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { operations } from "../../../data/operations.ts";
+import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { interpolateTokens } from "../../../lib/interpolate.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import corporateHeroImage from "../../../assets/shared/other/chauffeur-inside-grayedout.webp";
+import corporateWorkingDayImage from "../../../assets/shared/other/s-class-driving-forest-intheback.webp";
+import corporateFinalCtaImage from "../../../assets/shared/other/s-class-interior-driver-side.webp";
+
+interface Props {
+  routeKey: "corporateTransportation";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "corporateTransportation" ||
+  content.data.pageType !== "service" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("CorporateTransportationPage received incompatible data.");
+}
+
+const data = content.data;
+if (
+  !data.hero ||
+  !data.hero.secondaryCta ||
+  !data.vehicleRecommendations ||
+  !data.faq ||
+  !data.finalCta.secondaryCta
+) {
+  throw new Error(`Corporate Transportation content is incomplete for ${locale}.`);
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Corporate Transportation section "${key}" for ${locale}.`);
+  return value;
+};
+
+const audienceSection = section("audience");
+const engagementSection = section("engagementModel");
+const workingDaySection = section("workingDay");
+const coordinationSection = section("coordination");
+
+if (!audienceSection.body || !audienceSection.items || audienceSection.items.length !== 5) {
+  throw new Error("Corporate audience requires localized body copy and exactly five items.");
+}
+if (
+  !engagementSection.heading.intro ||
+  !engagementSection.body ||
+  !engagementSection.items ||
+  engagementSection.items.length !== 2
+) {
+  throw new Error("Corporate engagement requires localized intro/body and exactly two pathways.");
+}
+if (
+  !workingDaySection.heading.intro ||
+  !workingDaySection.body ||
+  !workingDaySection.items ||
+  workingDaySection.items.length !== 3
+) {
+  throw new Error("Corporate Working Day requires localized intro/body and exactly three benefits.");
+}
+if (!coordinationSection.heading.intro || !coordinationSection.body) {
+  throw new Error("Corporate coordination requires localized intro and body copy.");
+}
+if (data.faq.items.length !== 9) {
+  throw new Error("Corporate Transportation requires exactly nine FAQ items.");
+}
+
+const corporate = getService(routeKey);
+const businessHub = getService("businessTransportation");
+if (
+  corporate.supportsOneOff !== true ||
+  corporate.supportsRecurringContracts !== true ||
+  corporate.supportsInvoicing !== true ||
+  corporate.supportsNegotiatedPricing !== true ||
+  corporate.dedicatedChauffeurAcrossStops !== true ||
+  !corporate.pricingMode.includes("estimated-when-simple") ||
+  !corporate.pricingMode.includes("quote") ||
+  businessHub.outsideBelgrade !== "quote"
+) {
+  throw new Error("Corporate canonical service facts do not satisfy the locked page contract.");
+}
+
+if (
+  operations.chauffeurs.dressCode !== "suit-and-tie" ||
+  operations.chauffeurs.englishSpeakingStandard !== true ||
+  operations.chauffeurs.minimumLicenseYears < 1 ||
+  operations.vehicles.cleanlinessStandard !== "highest-standard" ||
+  operations.vehicles.maintenance !== "authorized-or-official-service-representatives" ||
+  operations.vehicles.preTripInspectionForImportantTrips !== true ||
+  operations.vehicles.requestedConfirmedModelGuaranteed !== true ||
+  operations.service.doorOpening !== true ||
+  operations.service.luggageAssistance !== true ||
+  operations.service.passengerInsurance !== true ||
+  operations.service.bottledWater !== true ||
+  operations.service.wifi !== true ||
+  operations.service.chargers !== true ||
+  operations.service.climateControl !== true ||
+  contact.bookingLeadTime.confirmationMode !== "manual"
+) {
+  throw new Error("Corporate operations/contact facts do not satisfy the locked page contract.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+if (
+  data.hero.primaryCta.target.type !== "flow" ||
+  data.hero.primaryCta.target.flowKey !== "booking" ||
+  data.hero.secondaryCta.target.type !== "flow" ||
+  data.hero.secondaryCta.target.flowKey !== "quote" ||
+  data.finalCta.primaryCta.target.type !== "flow" ||
+  data.finalCta.primaryCta.target.flowKey !== "booking" ||
+  data.finalCta.secondaryCta.target.type !== "flow" ||
+  data.finalCta.secondaryCta.target.flowKey !== "quote"
+) {
+  throw new Error("Corporate primary/secondary CTA flow roles do not match the locked contract.");
+}
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = resolveAction(data.hero.secondaryCta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const heroSupport = [
+  ui("business.commercial.oneOff"),
+  ui("business.commercial.recurring"),
+  ui("business.capability.invoicing"),
+  ui("business.capability.dedicatedChauffeurAcrossStops"),
+  ui("business.hero.trust.manualConfirmation"),
+].join(" · ");
+
+const overviewGroups = [
+  {
+    key: "one-off",
+    marker: "01",
+    title: ui("business.commercial.oneOff"),
+    text: ui("corporateTransportation.overview.oneOff.text"),
+  },
+  {
+    key: "recurring",
+    marker: "02",
+    title: ui("business.commercial.recurring"),
+    text: ui("corporateTransportation.overview.recurring.text"),
+  },
+  {
+    key: "invoicing",
+    marker: "03",
+    title: ui("business.capability.invoicing"),
+    text: ui("corporateTransportation.overview.invoicing.text"),
+  },
+  {
+    key: "dedicated",
+    marker: "04",
+    title: ui("business.capability.dedicatedChauffeurAcrossStops"),
+    text: ui("corporateTransportation.overview.dedicated.text"),
+  },
+];
+
+const engagementItems = [engagementSection.items[0], engagementSection.items[1]] as const;
+const recurringFacts = [
+  ui("business.capability.recurringContracts"),
+  ui("business.capability.invoicing"),
+  ui("business.capability.negotiatedPricing"),
+] as const;
+const oneOffAction = {
+  label: ui("corporateTransportation.cta.oneOff"),
+  href: primaryAction.href,
+};
+const recurringAction = {
+  label: ui("corporateTransportation.cta.recurring"),
+  href: secondaryAction.href,
+};
+
+const itinerary = [
+  ui("corporateTransportation.itinerary.hotel"),
+  ui("corporateTransportation.itinerary.office"),
+  ui("corporateTransportation.itinerary.meeting"),
+  ui("corporateTransportation.itinerary.lunch"),
+  ui("corporateTransportation.itinerary.client"),
+  ui("corporateTransportation.itinerary.dinner"),
+] as const;
+
+const coordinationNodes = [
+  {
+    title: ui("corporateTransportation.coordination.chauffeur.title"),
+    text: ui("corporateTransportation.coordination.chauffeur.text"),
+  },
+  {
+    title: ui("corporateTransportation.coordination.companyContact.title"),
+    text: ui("corporateTransportation.coordination.companyContact.text"),
+  },
+  {
+    title: ui("corporateTransportation.coordination.itinerary.title"),
+    text: ui("corporateTransportation.coordination.itinerary.text"),
+  },
+] as const;
+
+const lockedVehicleIds = [
+  "mercedes-s-class",
+  "mercedes-e-class",
+  "mercedes-v-class-7-plus-1-extra-long",
+] as const;
+if (
+  data.vehicleRecommendations.vehicleIds.length !== lockedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== lockedVehicleIds[index]) ||
+  data.vehicleRecommendations.cta.target.type !== "route" ||
+  data.vehicleRecommendations.cta.target.routeKey !== "fleet"
+) {
+  throw new Error("Corporate vehicle recommendations do not match the locked fleet contract.");
+}
+
+const vehicleRoleKeys = {
+  "mercedes-s-class": "business.vehicleRole.mercedesSClass",
+  "mercedes-e-class": "business.vehicleRole.mercedesEClass",
+  "mercedes-v-class-7-plus-1-extra-long": "business.vehicleRole.mercedesVClassExtraLong",
+} as const satisfies Record<(typeof lockedVehicleIds)[number], UiStringKey>;
+
+const recommendations = lockedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(vehicleRoleKeys[id]),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const standards = buildServiceStandardGroups(locale).map((group, index) => ({
+  ...group,
+  marker: String(index + 1).padStart(2, "0"),
+}));
+if (standards.length !== 4 || standards.some((group) => group.items.length !== 3)) {
+  throw new Error("Corporate standards require exactly four groups with three facts each.");
+}
+
+const faqTokens = {
+  oneOffAnswer: ui("corporateTransportation.faq.oneOffAnswer"),
+  recurringAnswer: ui("corporateTransportation.faq.recurringAnswer"),
+  commercialAnswer: ui("corporateTransportation.faq.commercialAnswer"),
+  dedicatedAnswer: ui("corporateTransportation.faq.dedicatedAnswer"),
+  outsideAreaAnswer: ui("corporateTransportation.faq.outsideAreaAnswer"),
+  vehicleAnswer: ui("corporateTransportation.faq.vehicleAnswer"),
+  confirmationAnswer: ui("corporateTransportation.faq.confirmationAnswer"),
+} as const;
+const faqItems = data.faq.items.map((item, index) => ({
+  question: interpolateTokens(item.question, faqTokens, `Corporate FAQ question ${index + 1}`),
+  answer: interpolateTokens(item.answer, faqTokens, `Corporate FAQ answer ${index + 1}`),
+}));
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(faqItems)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("corporateTransportation.hero.eyebrow")}
+    supportText={heroSupport}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    locale={locale}
+    variant="full-bleed"
+    image={corporateHeroImage}
+    imageAlt=""
+  />
+
+  <ServiceOverview
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    groups={overviewGroups}
+    label={ui("corporateTransportation.section.overview")}
+    variant="numbered-divider-facts"
+    surface="open-dark"
+  />
+
+  <Section spacing="standard" surface="open-dark" aria-labelledby="corporate-audience-heading">
+    <PageContainer>
+      <div class="audience-intro">
+        <p class="section-label"><span aria-hidden="true"></span>{ui("corporateTransportation.section.audience")}</p>
+        <SectionHeading
+          id="corporate-audience-heading"
+          heading={audienceSection.heading.title}
+          description={audienceSection.heading.intro}
+        />
+        <p class="body-copy">{audienceSection.body}</p>
+      </div>
+      <ol class="audience-rail grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
+        {audienceSection.items.map((item, index) => (
+          <li class="md:last:col-span-2 xl:last:col-span-1">
+            <span class="audience-marker" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </PageContainer>
+  </Section>
+
+  <CorporateEngagementPanel
+    heading={engagementSection.heading.title}
+    intro={engagementSection.heading.intro}
+    body={engagementSection.body}
+    label={ui("corporateTransportation.section.engagement")}
+    items={engagementItems}
+    {recurringFacts}
+    {oneOffAction}
+    {recurringAction}
+    {locale}
+  />
+
+  <Section spacing="feature" surface="open-dark" aria-labelledby="corporate-working-day-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={corporateWorkingDayImage}
+        imageAlt=""
+        layout="image-content"
+        ratio="7-5"
+        mobileOrder="content-first"
+      >
+        <div slot="content" class="working-day-copy">
+          <p class="section-label"><span aria-hidden="true"></span>{ui("corporateTransportation.section.workingDay")}</p>
+          <SectionHeading
+            id="corporate-working-day-heading"
+            heading={workingDaySection.heading.title}
+            description={workingDaySection.heading.intro}
+          />
+          <p class="body-copy">{workingDaySection.body}</p>
+          <ul class="working-day-benefits" role="list">
+            {workingDaySection.items.map((item) => (
+              <li><h3>{item.title}</h3><p>{item.text}</p></li>
+            ))}
+          </ul>
+        </div>
+      </OpenSplitSection>
+
+      <ol class="itinerary" aria-label={workingDaySection.heading.title}>
+        {itinerary.map((stop) => <li>{stop}</li>)}
+      </ol>
+    </PageContainer>
+  </Section>
+
+  <CorporateCoordinationPanel
+    heading={coordinationSection.heading.title}
+    intro={coordinationSection.heading.intro}
+    body={coordinationSection.body}
+    label={ui("corporateTransportation.section.coordination")}
+    nodes={coordinationNodes}
+    destination={ui("corporateTransportation.coordination.planLabel")}
+    action={{
+      label: ui("corporateTransportation.cta.sendScheduleQuiet"),
+      href: primaryAction.href,
+    }}
+    {locale}
+  />
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" as RouteKey }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    {classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("corporateTransportation.section.vehicles")}
+    carouselId="corporate-transportation-vehicles"
+  />
+
+  <ServiceStandards
+    heading={ui("corporateTransportation.standards.heading")}
+    intro={ui("corporateTransportation.standards.intro")}
+    groups={standards}
+    label={ui("corporateTransportation.section.standards")}
+    variant="numbered-matrix"
+    surface="contained-dark"
+  />
+
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="corporate-faq-heading"
+    class="mt-[var(--space-section-standard)]"
+  >
+    <ReadingContainer>
+      <p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("corporateTransportation.section.faq")}</p>
+      <SectionHeading id="corporate-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={faqItems} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={corporateFinalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .audience-intro {
+    max-inline-size: var(--measure-body);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label > span {
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .section-label--light {
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label--light > span {
+    background: var(--color-focus-light);
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .audience-rail {
+    margin: var(--space-10) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .audience-rail li {
+    min-inline-size: 0;
+    padding: var(--space-6) var(--space-5);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .audience-marker {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .audience-rail h3,
+  .working-day-benefits h3 {
+    margin-block: var(--space-4) 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    text-wrap: balance;
+  }
+
+  .audience-rail p,
+  .working-day-benefits p {
+    margin-block: var(--space-3) 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .working-day-copy {
+    min-inline-size: 0;
+  }
+
+  .working-day-benefits {
+    display: grid;
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .working-day-benefits li {
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .working-day-benefits h3 {
+    margin-block-start: 0;
+  }
+
+  .itinerary {
+    display: grid;
+    margin: var(--space-8) 0 0;
+    padding: var(--space-2) 0;
+    border-block: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .itinerary li {
+    position: relative;
+    min-inline-size: 0;
+    padding: var(--space-4) var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-primary);
+    overflow-wrap: anywhere;
+  }
+
+  .itinerary li:not(:last-child) {
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .itinerary li:not(:last-child)::after {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    z-index: 1;
+    padding-inline: var(--space-2);
+    background: var(--color-background);
+    color: var(--color-accent);
+    line-height: 1;
+    transform: translate(-50%, 50%);
+    content: "↓";
+  }
+
+  @media (min-width: 64rem) {
+    .itinerary {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .itinerary li {
+      padding-block: var(--space-5);
+      text-align: center;
+    }
+
+    .itinerary li:not(:last-child) {
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--color-divider);
+    }
+
+    .itinerary li:not(:last-child)::after {
+      inset-block-end: auto;
+      inset-block-start: 50%;
+      inset-inline-start: auto;
+      inset-inline-end: 0;
+      padding-block: var(--space-2);
+      padding-inline: 0;
+      transform: translate(50%, -50%);
+      content: "→";
+    }
+  }
+</style>

@@ -13,7 +13,6 @@ I am providing a repo-grounded packet under:
 ```text
 shared/
 business-transportation/
-special-events/
 ```
 
 Important context:
@@ -22,7 +21,7 @@ Important context:
 
 2. `ContentPageRenderer.astro` currently has a dedicated renderer for Airport Transportation but Business still falls through to generic `LeafPage`. Implement the Business dedicated renderer according to the locked repo packet.
 
-3. Special Events is currently a scaffold route/content family. The supplied Special Events blueprint/wireframe/implementation/acceptance packet is the proposed new page contract. Do not invent production SR/EN/RU copy. If approved localized hub content is still absent, implement via the safe dev/fixture path and keep production scaffold/noindex until content is approved.
+3. This archived handoff no longer owns Special Events. Its locked page contract and approved localized content now live under `src/docs/services/special-events/`.
 
 4. Reuse existing shared components:
    `ServiceHero`, `ServiceOverview`, `ServiceCard`, `OpenSplitSection`,
@@ -61,19 +60,7 @@ Implementation order:
 - responsive/design review
 - technical review + checks
 
-### Phase 2 — Special Events
-
-- add/lock supplied Special Events docs in the corresponding repo docs folder
-- confirm content lifecycle
-- if full localized content is approved, author/validate hub entries and publish route according to repo rules
-- otherwise keep production scaffold and use safe dev preview for UI implementation
-- create `SpecialEventsPage` + `SpecialEventServiceSelector`
-- wire renderer only for real hub content
-- implement locked page order
-- responsive/design review
-- technical review + checks
-
-### Phase 3 — Shared-selector evaluation
+### Phase 2 — Shared-selector evaluation
 
 - compare both selectors
 - run `pnpm components:check`

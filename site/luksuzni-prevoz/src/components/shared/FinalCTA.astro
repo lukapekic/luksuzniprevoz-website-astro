@@ -26,9 +26,10 @@
  * glow, no gradient text, no glass. Built from --color-background →
  * --color-surface-elevated only — no raw rgba, so it survives `no-raw-design-value`.
  *
- * Image (11 §Image): right-zone vehicle, object-contain for transparent
- * cutouts (locked intent) / object-cover for contextual photos, blended on the
- * gradient (no hard edge, not a bordered card). Decorative by default (empty
+ * Image (11 §Image): optional right-zone contextual or vehicle image;
+ * object-contain for transparent/cutout imagery or object-cover for contextual
+ * photography, blended on the gradient (no hard edge, not a bordered card).
+ * Decorative by default (empty
  * alt + role="presentation") and lazy — the hero owns the LCP, not this. Uses
  * astro:assets <Image> directly because the foundation Image primitive types
  * `src: string` and cannot accept an imported ImageMetadata (FND-IMG-08 only
@@ -251,6 +252,9 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     isolation: isolate;
   }
   .fcta-img {
+    position: absolute;
+    inset: 0;
+    display: block;
     inline-size: 100%;
     block-size: 100%;
     object-fit: contain;
@@ -262,7 +266,7 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     object-position: 75% center;
   }
 
-  /* Homepage's opt-in integrated treatment. Fade the complete media layer
+  /* Caller's opt-in integrated treatment. Fade the complete media layer
      from transparent to opaque so the panel's actual graphite gradient shows
      through at the join. This avoids painting a flat surface color over the
      photo, which cannot match the panel's diagonal gradient along the seam.
@@ -322,6 +326,9 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     }
     .fcta-media {
       min-block-size: 0;
+    }
+    .fcta-img {
+      position: static;
     }
     .fcta-media--integrated {
       -webkit-mask-image: linear-gradient(

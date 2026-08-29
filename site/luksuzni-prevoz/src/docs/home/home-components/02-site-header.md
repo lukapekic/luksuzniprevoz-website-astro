@@ -46,7 +46,7 @@ Center desktop:
 Right:
 
 - SR / EN / RU
-- Book CTA
+- Book CTA resolved through the canonical `booking` flow intent
 
 Mobile:
 
@@ -54,6 +54,9 @@ Mobile:
 - Book CTA
 - menu trigger
 - language selector may move into menu
+
+The Book CTA uses the localized Contact route with `intent=booking`; the Header
+must not hardcode the Contact route or ignore `navigation.headerPrimaryAction`.
 
 ## Dropdowns
 
