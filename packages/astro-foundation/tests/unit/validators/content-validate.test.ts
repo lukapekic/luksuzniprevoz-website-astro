@@ -404,9 +404,69 @@ describe("content lifecycle (FND-LIFE-01 / FND-LIFE-07 / FND-I18N-10)", () => {
   it("computeSourceDigest excludes lifecycle metadata (a status change does not change the digest)", () => {
     const src = sourceFile("Body.");
     const d1 = computeSourceDigest(src.frontmatter, extractBody(src.raw));
-    const fm2 = { ...src.frontmatter, status: "draft", reviewedOn: "2026-01-01" };
+    const fm2 = {
+      ...src.frontmatter,
+      status: "draft",
+      translationState: "draft",
+      sourceLocale: "sr",
+      sourceDigest: "replaced",
+      reviewedOn: "2026-01-01",
+      noindex: true,
+      ogImage: "/changed.webp",
+      pageType: "service",
+    };
     const d2 = computeSourceDigest(fm2, extractBody(src.raw));
     expect(d1).toBe(d2);
+  });
+
+  it("computeSourceDigest includes changes to nested translatable fields", () => {
+    const base = {
+      routeKey: "home",
+      locale: "en",
+      status: "published",
+      hero: { title: "Original", description: "Nested copy" },
+      sections: [{ key: "intro", heading: { title: "Heading" } }],
+    };
+    const changed = {
+      ...base,
+      sections: [{ key: "intro", heading: { title: "Changed heading" } }],
+    };
+
+    expect(computeSourceDigest(base, "Body")).not.toBe(computeSourceDigest(changed, "Body"));
+  });
+
+  it("computeSourceDigest ignores object key order recursively", () => {
+    const first = {
+      routeKey: "home",
+      locale: "en",
+      hero: { title: "Title", description: "Description" },
+      section: { heading: { title: "Nested", intro: "Intro" }, body: "Body" },
+    };
+    const reordered = {
+      section: { body: "Body", heading: { intro: "Intro", title: "Nested" } },
+      hero: { description: "Description", title: "Title" },
+      locale: "en",
+      routeKey: "home",
+    };
+
+    expect(computeSourceDigest(first, "Markdown")).toBe(computeSourceDigest(reordered, "Markdown"));
+  });
+
+  it("computeSourceDigest preserves meaningful array ordering", () => {
+    const first = {
+      routeKey: "home",
+      locale: "en",
+      sections: [
+        { key: "first", body: "One" },
+        { key: "second", body: "Two" },
+      ],
+    };
+    const reordered = {
+      ...first,
+      sections: [...first.sections].reverse(),
+    };
+
+    expect(computeSourceDigest(first, "Body")).not.toBe(computeSourceDigest(reordered, "Body"));
   });
 });
 

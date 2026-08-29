@@ -42,10 +42,8 @@
  * - Brand: the approved BrandLockup mark-only visual variant (no direct logo
  *   render, no recreated/text logo, no new logo). Its hidden wordmark keeps the
  *   accessible name "Luxury Transportation".
- * - Verified-only contact: a null/unverified phone/email/whatsapp never ships
- *   as a clickable tel:/mailto:/wa.me (contact.ts gating contract). While all
- *   channels are unverified, the contact column shows office hours + response
- *   note only — no fabricated channels.
+ * - Verified-only contact: a null/unverified phone/email never ships as a
+ *   clickable tel:/mailto: channel (contact.ts gating contract).
  * - Office hours are a structural fact (business.supportModel.officeHours);
  *   no 24/7 / instant-booking / last-minute claim is made.
  * - Location is the verified headquarters fact (business.headquarters city/
@@ -95,16 +93,12 @@ const officeNote = t(contact.officeHours.publicNoteKey as UiStringKey, currentLo
 // --- Contact channels — verified only (contact.ts gating contract) -------
 // Contact URLs are constructed here in the data layer (not inline in JSX) so
 // FND-I18N-03's no-manual-internal-url check sees simple identifier bindings;
-// tel:/mailto:/wa.me are external contact points, not internal routes, and are
-// therefore not prefetchable.
+// tel:/mailto: are external contact points, not internal routes, and are not
+// prefetchable.
 const phone = isVerified(contact.phone) ? contact.phone.value : null;
 const email = isVerified(contact.email) ? contact.email.value : null;
-const whatsapp = isVerified(contact.whatsapp) ? contact.whatsapp.value : null;
 const phoneHref = phone ? `tel:${phone}` : null;
 const emailHref = email ? `mailto:${email}` : null;
-const whatsappHref = whatsapp
-  ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`
-  : null;
 
 // Structural facts (one source, all locales) — not prose, not invented.
 const officeHoursFact = business.supportModel.officeHours; // e.g. "08:00-18:00"
@@ -204,7 +198,7 @@ const year = new Date().getFullYear();
             the street address is not duplicated there. */}
       <div class="site-footer__col site-footer__col--contact">
         <p class="site-footer__group-label">{contactLabel}</p>
-        {phoneHref || emailHref || whatsappHref ? (
+        {phoneHref || emailHref ? (
           <ul class="site-footer__list site-footer__channels" role="list">
             {phone && phoneHref ? (
               <li>
@@ -214,11 +208,6 @@ const year = new Date().getFullYear();
             {email && emailHref ? (
               <li>
                 <a class="site-footer__link site-footer__link--channel" href={emailHref}>{email}</a>
-              </li>
-            ) : null}
-            {whatsapp && whatsappHref ? (
-              <li>
-                <a class="site-footer__link site-footer__link--channel" href={whatsappHref} rel="noopener noreferrer">{whatsapp}</a>
               </li>
             ) : null}
           </ul>

@@ -28,25 +28,19 @@ import { type RouteKind, getRoute, childrenOf, routeMap } from "./routes.ts";
 // --- Enum vocabularies (typed unions) --------------------------------------
 
 export type PricingMode =
-  | "calculable"
-  | "fixed-when-calculable"
-  | "estimated-when-simple"
-  | "from"
-  | "quote";
+  "calculable" | "fixed-when-calculable" | "estimated-when-simple" | "from" | "quote";
 
 export type Coverage = "primarily-belgrade";
 export type OutsideAreaHandling = "quote";
 export type MultiDayHandling = "quote";
 /** Service-level international handling (distinct from business.serviceArea.internationalHandling). */
 export type ServiceInternationalHandling = "quote";
+export type ScheduleChangeHandling = "subject-to-availability-within-reserved-period";
 export type WaitingPossible = "custom-quote";
 export type StandardStops = "point-to-point";
 export type Airport = "belgrade-nikola-tesla";
 export type SpecialEventUseCase =
-  | "birthdays"
-  | "private-parties"
-  | "galas"
-  | "other-special-events";
+  "birthdays" | "private-parties" | "galas" | "other-special-events";
 
 // --- Booking options -------------------------------------------------------
 
@@ -62,6 +56,12 @@ export interface BookingOptions {
   hourly?: BookingHourly;
   halfDay?: BookingBlock;
   fullDay?: BookingBlock;
+}
+
+export interface PrivateChauffeurBookingOptions extends BookingOptions {
+  hourly: BookingHourly;
+  halfDay: BookingBlock;
+  fullDay: BookingBlock;
 }
 
 // --- Service definition (flat; `kind` discriminates hub vs direct service) --
@@ -81,6 +81,8 @@ export interface ServiceDef {
   flagship?: boolean;
   bookingOptions?: BookingOptions;
   chauffeurRemainsAvailable?: boolean;
+  multiplePlannedStops?: boolean;
+  scheduleChangeHandling?: ScheduleChangeHandling;
   multiDay?: MultiDayHandling;
   international?: ServiceInternationalHandling;
   customerVehicleChauffeurOnly?: boolean;
@@ -133,25 +135,41 @@ export interface ServiceDef {
   customDecorationPositioning?: boolean;
 }
 
+export interface PrivateChauffeurServiceDef extends ServiceDef {
+  routeKey: "privateChauffeur";
+  kind: "service";
+  bookingOptions: PrivateChauffeurBookingOptions;
+  chauffeurRemainsAvailable: true;
+  multiplePlannedStops: true;
+  scheduleChangeHandling: ScheduleChangeHandling;
+  multiDay: "quote";
+  international: "quote";
+  customerVehicleChauffeurOnly: false;
+}
+
 // --- Authoritative service facts ------------------------------------------
 
-export const services: Record<string, ServiceDef> = {
-  privateChauffeur: {
-    routeKey: "privateChauffeur",
-    kind: "service",
-    pricingMode: ["calculable", "quote"],
-    coverage: "primarily-belgrade",
-    bookingOptions: {
-      hourly: { minimumHours: 1, publishedKmLimit: null },
-      halfDay: { hours: 5, includedKm: 100 },
-      fullDay: { hours: 10, includedKm: 200 },
-    },
-    chauffeurRemainsAvailable: true,
-    multiDay: "quote",
-    international: "quote",
-    customerVehicleChauffeurOnly: false,
-    relatedRoutes: ["airportTransportation", "businessTransportation", "vipTransportation"],
+export const privateChauffeurService: PrivateChauffeurServiceDef = {
+  routeKey: "privateChauffeur",
+  kind: "service",
+  pricingMode: ["calculable", "quote"],
+  coverage: "primarily-belgrade",
+  bookingOptions: {
+    hourly: { minimumHours: 1, publishedKmLimit: null },
+    halfDay: { hours: 5, includedKm: 100 },
+    fullDay: { hours: 10, includedKm: 200 },
   },
+  chauffeurRemainsAvailable: true,
+  multiplePlannedStops: true,
+  scheduleChangeHandling: "subject-to-availability-within-reserved-period",
+  multiDay: "quote",
+  international: "quote",
+  customerVehicleChauffeurOnly: false,
+  relatedRoutes: ["airportTransportation", "businessTransportation", "vipTransportation"],
+};
+
+export const services: Record<string, ServiceDef> = {
+  privateChauffeur: privateChauffeurService,
   airportTransportation: {
     routeKey: "airportTransportation",
     kind: "service",
@@ -174,7 +192,11 @@ export const services: Record<string, ServiceDef> = {
     routeKey: "businessTransportation",
     kind: "hub",
     pricingMode: ["estimated-when-simple", "quote"],
-    children: ["corporateTransportation", "delegationTransportation", "conferenceCongressTransportation"],
+    children: [
+      "corporateTransportation",
+      "delegationTransportation",
+      "conferenceCongressTransportation",
+    ],
     coverage: "primarily-belgrade",
     outsideBelgrade: "quote",
   },
@@ -256,6 +278,8 @@ export const services: Record<string, ServiceDef> = {
 
 // --- Lookup helpers --------------------------------------------------------
 
+export function getService(key: "privateChauffeur"): PrivateChauffeurServiceDef;
+export function getService(key: string): ServiceDef;
 export function getService(key: string): ServiceDef {
   const svc = services[key];
   if (!svc) throw new Error(`Service not found: ${key}`);
@@ -332,7 +356,9 @@ export function assertServicesConsistency(): void {
           throw new Error(`services.ts hub "${key}" lists unknown child "${child}".`);
         }
       }
-      const routesChildren = childrenOf(key).map((r) => r.key).sort();
+      const routesChildren = childrenOf(key)
+        .map((r) => r.key)
+        .sort();
       const declaredSorted = [...declared].sort();
       const same =
         routesChildren.length === declaredSorted.length &&
@@ -359,6 +385,34 @@ export function assertServicesConsistency(): void {
         }
       }
     }
+  }
+
+  // (5) flagship Private Chauffeur contract is complete and internally valid.
+  const privateChauffeur = services.privateChauffeur;
+  if (
+    privateChauffeur !== privateChauffeurService ||
+    privateChauffeur.chauffeurRemainsAvailable !== true ||
+    privateChauffeur.multiplePlannedStops !== true ||
+    privateChauffeur.scheduleChangeHandling !== "subject-to-availability-within-reserved-period" ||
+    privateChauffeur.multiDay !== "quote" ||
+    privateChauffeur.international !== "quote" ||
+    privateChauffeur.customerVehicleChauffeurOnly !== false
+  ) {
+    throw new Error(
+      "services.ts Private Chauffeur capability contract is incomplete or contradictory.",
+    );
+  }
+
+  const { hourly, halfDay, fullDay } = privateChauffeurService.bookingOptions;
+  if (
+    hourly.minimumHours <= 0 ||
+    hourly.publishedKmLimit !== null ||
+    halfDay.hours <= 0 ||
+    halfDay.includedKm <= 0 ||
+    fullDay.hours <= 0 ||
+    fullDay.includedKm <= 0
+  ) {
+    throw new Error("services.ts Private Chauffeur booking options must be positive and complete.");
   }
 }
 

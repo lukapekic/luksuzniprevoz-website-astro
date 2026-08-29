@@ -4,6 +4,10 @@ import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import LeafPage from "./LeafPage.astro";
 import ScaffoldPage from "./ScaffoldPage.astro";
 import AirportTransportationPage from "../services/airport-transportation/AirportTransportationPage.astro";
+import BusinessTransportationPage from "../services/business-transportation/BusinessTransportationPage.astro";
+import SpecialEventsPage from "../services/special-events/SpecialEventsPage.astro";
+import PrivateChauffeurPage from "../services/private-chauffeur/PrivateChauffeurPage.astro";
+import ContactPage from "../contact/ContactPage.astro";
 
 interface Props { routeKey: RouteKey; locale: LocaleCode; content: CollectionEntry<"pages"> }
 const { routeKey, locale, content } = Astro.props;
@@ -13,6 +17,14 @@ const { routeKey, locale, content } = Astro.props;
   <ScaffoldPage routeKey={routeKey} locale={locale} content={content} />
 ) : routeKey === "airportTransportation" ? (
   <AirportTransportationPage routeKey="airportTransportation" locale={locale} content={content} />
+) : routeKey === "businessTransportation" ? (
+  <BusinessTransportationPage routeKey="businessTransportation" locale={locale} content={content} />
+) : routeKey === "specialEvents" ? (
+  <SpecialEventsPage routeKey="specialEvents" locale={locale} content={content} />
+) : routeKey === "privateChauffeur" ? (
+  <PrivateChauffeurPage routeKey="privateChauffeur" locale={locale} content={content} />
+) : routeKey === "contact" ? (
+  <ContactPage routeKey="contact" locale={locale} content={content} />
 ) : (
   <LeafPage routeKey={routeKey} locale={locale} content={content} />
 )}

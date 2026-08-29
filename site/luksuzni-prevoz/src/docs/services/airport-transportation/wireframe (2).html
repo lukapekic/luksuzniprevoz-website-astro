@@ -9,11 +9,11 @@
        Surface rhythm (deliberate alternation, not mechanical):
          Hero              full-bleed media
          Overview          open dark      — page canvas, no panel
-         Arrival           contained dark
+         Arrival           open dark      — image 5 / content 7, matched height
          Booking           contained light
          Private aviation  open dark      — cinematic, portrait media
          Vehicles          open dark      — media cards carry the containment
-         Standards         contained dark — one panel, four divided columns
+         Standards         contained dark — one outlined matrix, four columns
          FAQ               contained light reading panel
          FinalCTA          shared contained closer                              */
 
@@ -248,6 +248,9 @@
       .ap-standards-grid {
         display: grid;
         grid-template-columns: 1fr;
+        border: 1px solid var(--color-divider);
+        border-radius: var(--radius-card);
+        overflow: hidden;
       }
       .ap-standard-col {
         display: grid;
@@ -348,6 +351,7 @@
       html[data-wf-layout="desktop"] .ap-arrival-copy,
       html[data-wf-layout="wide"] .ap-arrival-copy {
         order: 0;
+        align-self: stretch;
       }
     </style>
   </head>
@@ -461,15 +465,15 @@
       </section>
       <section
         class="wf-shell wf-section-compact"
-        aria-label="AirportArrivalTimeline / contained dark panel"
+        aria-label="AirportArrivalTimeline / open dark split"
       >
-        <div class="wf-contained ap-pad wf-grid wf-grid-7-5">
+        <div class="ap-arrival-grid wf-grid wf-grid-5-7">
           <div class="ap-arrival-media wf-media">
             Arrival / meet-and-greet / rear-cabin context media
           </div>
           <div class="ap-arrival-copy wf-stack">
             <p class="wf-label">
-              Arrival handling · CONTAINED DARK · the page&#x27;s semantic ordered timeline
+              Arrival handling · OPEN DARK · smaller matched-height media · semantic ordered timeline
             </p>
             <div class="ap-section-label">
               <div class="wf-marker"></div>
@@ -681,8 +685,19 @@
           <div class="wf-line" style="width: var(--space-24)"></div>
         </div>
       </section>
-      <section class="wf-shell wf-section-compact" aria-label="ServiceStandards / divided-panel">
-        <div class="wf-contained">
+      <section class="wf-shell wf-section-compact" aria-label="ServiceStandards / outlined matrix">
+        <div class="wf-contained ap-pad">
+          <div class="wf-stack" style="max-width: var(--measure-body); margin-block-end: var(--space-8)">
+            <div class="ap-section-label">
+              <div class="wf-marker"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-title"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width: 72%"></div>
+            </div>
+          </div>
           <div class="ap-standards-grid">
             <div class="ap-standard-col">
               <div class="ap-check"></div>
@@ -723,8 +738,8 @@
           </div>
         </div>
         <p class="wf-label" style="margin-block-start: var(--space-4)">
-          ServiceStandards · CONTAINED DARK · one panel, four columns divided by rules — no section
-          heading, no separate cards
+          ServiceStandards · CONTAINED DARK · one outlined matrix with a complete perimeter and
+          responsive internal rules — no separate cards
         </p>
       </section>
       <section

@@ -134,24 +134,24 @@ test.describe("SiteHeader dropdowns", () => {
  *  - on /dev/ui only the forced-open instance's panel is visible; every other
  *    instance's mobile panel stays hidden (multi-instance isolation).
  *
- * The homepage SiteHeader uses idPrefix "hdr" (panel #hdr-mobile). The bar
- * wordmark lives in .site-header__row; the panel header wordmark is mark-only.
- * sr-only wordmarks render as a 1px clipped box, so wordmark visibility is
- * asserted via bounding-box width (<=1 == sr-only), not toBeVisible (a 1px box
- * is technically "visible" to Playwright).
+ * The homepage SiteHeader uses idPrefix "hdr" (panel #hdr-mobile). The locked
+ * header contract is mark-only in both the bar and panel. The accessible
+ * wordmark remains a 1px clipped box, so its visual state is asserted through
+ * bounding-box width rather than toBeVisible (a 1px box is technically
+ * "visible" to Playwright).
  */
 const barWordmark = ".site-header__row [data-brand-wordmark]";
 const panelWordmark = ".mobile-panel__header [data-brand-wordmark]";
 
 test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
-  test("desktop: mobile panel is hidden and the bar wordmark is visible", async ({ page }) => {
+  test("desktop: mobile panel is hidden and the bar remains mark-only", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(homePath);
     const panel = page.locator("#hdr-mobile");
     await expect(panel).not.toBeVisible();
     const box = await page.locator(barWordmark).first().boundingBox();
     expect(box).toBeTruthy();
-    expect(box!.width).toBeGreaterThan(1);
+    expect(box!.width).toBeLessThanOrEqual(1);
   });
 
   test("mobile viewport: desktop nav hidden, bar wordmark logo-only, menu trigger visible", async ({

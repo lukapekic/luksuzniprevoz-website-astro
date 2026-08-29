@@ -12,7 +12,7 @@ Provide a cinematic, low-density service entrance with one H1 and clear conversi
 
 Used by:
 
-- Business Transportation
+- Special Events
 
 All responsive states use one contained image-backed Hero panel.
 
@@ -29,7 +29,7 @@ SiteHeader integration where approved
 
 Used by:
 
-- Private Chauffeur
+- pages whose locked blueprint explicitly selects a split service entrance
 
 Desktop:
 
@@ -45,8 +45,14 @@ contained image-backed Hero
 
 ### `full-bleed`
 
-Used by Airport Transportation where its locked blueprint selects the cinematic
-full-viewport entrance and over-Hero header integration.
+Used by Airport Transportation, Private Chauffeur, and Business Transportation
+where their locked blueprints select the cinematic full-viewport entrance and
+over-Hero header integration.
+
+The content grid is grounded in the lower optical region using the same
+composition principle as Homepage Hero. The scrim remains strongest behind
+copy and header chrome while preserving a visibly brighter central service
+subject.
 
 ## Shared content limits
 
@@ -55,8 +61,20 @@ full-viewport entrance and over-Hero header integration.
 - primary action;
 - secondary action where blueprint requires it;
 - at most one quiet contextual line.
+- optional localized eyebrow where the page blueprint requires one;
+- optional tuple of exactly three passive trust markers where the page
+  blueprint and canonical data support them.
 
-Do not add pricing, fleet specs, trust-chip rows, ratings, or booking forms to ServiceHero.
+Trust markers render as quiet semantic text with separators; they are never
+chips, badges, ratings, or interactive controls. Do not add pricing, fleet
+specs, ratings, or booking forms to ServiceHero.
+
+## Action-resolution contract
+
+`primaryAction` and `secondaryAction` are independently optional resolved
+actions. A caller omits an action when its canonical flow destination is not
+available. The component then renders no anchor and no empty action wrapper.
+Existing callers that supply actions retain the established CTA hierarchy.
 
 ## Token mapping
 

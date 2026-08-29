@@ -1,0 +1,117 @@
+---
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import { contact, isVerified } from "../../data/contact.ts";
+import type { ContactDetailsCopy } from "./contact-form.types.ts";
+
+interface Props {
+  heading: string;
+  intro?: string;
+  copy: ContactDetailsCopy;
+}
+
+const { heading, intro, copy } = Astro.props;
+const phone = isVerified(contact.phone) ? contact.phone.value : null;
+const email = isVerified(contact.email) ? contact.email.value : null;
+const office =
+  contact.office.verificationStatus === "verified" && contact.office.address
+    ? contact.office
+    : null;
+const phoneHref = phone ? `tel:${phone.replace(/[^\d+]/gu, "")}` : null;
+const emailHref = email ? `mailto:${email}` : null;
+---
+
+<section aria-labelledby="contact-details-heading">
+  <SectionHeading
+    id="contact-details-heading"
+    heading={heading}
+    description={intro}
+    accent
+  />
+
+  <dl class="mt-[var(--space-8)] grid gap-[var(--space-6)] md:grid-cols-2 lg:grid-cols-1">
+    {phone && phoneHref && (
+      <div class="border-block-start border-[var(--color-divider)] pt-[var(--space-4)]">
+        <dt class="contact-label">{copy.phoneLabel}</dt>
+        <dd class="mt-[var(--space-2)]">
+          <a class="contact-value" href={phoneHref}>{phone}</a>
+        </dd>
+      </div>
+    )}
+
+    {email && emailHref && (
+      <div class="border-block-start border-[var(--color-divider)] pt-[var(--space-4)]">
+        <dt class="contact-label">{copy.emailLabel}</dt>
+        <dd class="mt-[var(--space-2)]">
+          <a class="contact-value break-all" href={emailHref}>{email}</a>
+        </dd>
+      </div>
+    )}
+
+    {office && (
+      <div class="border-block-start border-[var(--color-divider)] pt-[var(--space-4)]">
+        <dt class="contact-label">{copy.addressLabel}</dt>
+        <dd class="mt-[var(--space-2)] font-body leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+          <address class="not-italic">
+            {office.googleMapsUrl ? (
+              <a class="contact-value" href={office.googleMapsUrl}>
+                {office.address}, {office.postalCode} {office.city}, {office.country}
+              </a>
+            ) : (
+              <span>{office.address}, {office.postalCode} {office.city}, {office.country}</span>
+            )}
+          </address>
+        </dd>
+      </div>
+    )}
+
+    <div class="border-block-start border-[var(--color-divider)] pt-[var(--space-4)]">
+      <dt class="contact-label">{copy.officeHoursLabel}</dt>
+      <dd class="mt-[var(--space-2)] font-body leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+        <span>{copy.everyDayLabel}, </span>
+        <time datetime={contact.officeHours.opens}>{contact.officeHours.opens}</time>
+        <span> – </span>
+        <time datetime={contact.officeHours.closes}>{contact.officeHours.closes}</time>
+        <p class="mt-[var(--space-2)] text-[length:var(--text-sm)] text-[var(--color-text-muted)]">
+          {copy.officeNote}
+        </p>
+      </dd>
+    </div>
+  </dl>
+</section>
+
+<style>
+  .contact-label {
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-ui);
+    letter-spacing: var(--letter-spacing-ui);
+    color: var(--color-text-muted);
+  }
+
+  .contact-value {
+    display: inline-flex;
+    min-block-size: 44px;
+    align-items: center;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--color-divider);
+    text-underline-offset: 0.25em;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      text-decoration-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .contact-value:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+
+  .contact-value:focus-visible {
+    border-radius: var(--radius-control);
+    outline: 2px solid var(--color-focus-dark);
+    outline-offset: 3px;
+  }
+</style>

@@ -9,21 +9,23 @@ import Input from "../../../foundation/ui/Input.astro";
 import Button from "../../../foundation/ui/Button.astro";
 
 interface Props {
-  heading: string; intro?: string; body?: string; index: string; label: string;
+  heading: string; intro?: string; body?: string; label: string;
   flightLabel: string; dateLabel: string; timeLabel: string; continueLabel: string;
   handoffNote: string; confirmationNote: string; action: string;
   secondaryAction?: { label: string; href: string }; locale: LocaleCode;
+  class?: string;
 }
 
-const { heading, intro, body, index, label, flightLabel, dateLabel, timeLabel,
-  continueLabel, handoffNote, confirmationNote, action, secondaryAction, locale } = Astro.props;
+const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
+  continueLabel, handoffNote, confirmationNote, action, secondaryAction, locale,
+  class: className } = Astro.props;
 ---
 
-<Section id="airport-booking" spacing="compact" surface="light" aria-labelledby="airport-booking-heading">
+<Section id="airport-booking" spacing="compact" surface="light" aria-labelledby="airport-booking-heading" class={className}>
   <PageContainer>
     <div class="booking-grid lg:grid-cols-[5fr_7fr] lg:items-start lg:gap-[var(--column-gap-desktop)]">
       <div>
-        <p class="section-index"><b>{index}</b><span aria-hidden="true"></span>{label}</p>
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
         <SectionHeading id="airport-booking-heading" heading={heading} description={intro} on="light" />
         {body && <p class="booking-body">{body}</p>}
       </div>
@@ -41,7 +43,12 @@ const { heading, intro, body, index, label, flightLabel, dateLabel, timeLabel,
           <Input slot="control" id="airport-time" name="time" type="time" required />
         </Field>
         <div class="booking-actions md:col-span-full">
-          <Button type="submit" variant="primary">{continueLabel}</Button>
+          <Button type="submit" variant="primary" size="lg">
+            {continueLabel}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14m-5-5 5 5-5 5" />
+            </svg>
+          </Button>
           {secondaryAction && <Link variant="on-light" href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
         </div>
         <div class="booking-notes md:col-span-full">
@@ -55,11 +62,11 @@ const { heading, intro, body, index, label, flightLabel, dateLabel, timeLabel,
 
 <style>
   .booking-grid { display: grid; gap: var(--space-8); }
-  .section-index { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%); }
-  .section-index b { color: var(--color-focus-light); }
-  .section-index span { inline-size: var(--space-10); block-size: var(--space-1); background: var(--color-focus-light); }
+  .section-label { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-medium); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%); }
+  .section-label span { inline-size: var(--space-8); block-size: 1px; background: var(--color-focus-light); }
   .booking-body { max-inline-size: var(--measure-body); margin-block-start: var(--space-5); font-family: var(--font-body); line-height: var(--line-height-body); }
   .booking-form { display: grid; gap: var(--space-5); }
   .booking-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4); }
-  .booking-notes { display: grid; gap: var(--space-2); padding-block-start: var(--space-4); border-block-start: var(--space-1) solid var(--color-input-border); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%); }
+  .booking-actions svg { inline-size: var(--space-5); block-size: var(--space-5); }
+  .booking-notes { display: grid; gap: var(--space-2); padding-block-start: var(--space-4); border-block-start: 1px solid var(--color-input-border); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%); }
 </style>

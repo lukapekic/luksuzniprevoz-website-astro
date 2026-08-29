@@ -26,6 +26,8 @@ export interface RouteEntry {
   parent: string | null;
   slugs: Record<LocaleCode, string>;
   previousSlugs?: Record<LocaleCode, string[]>;
+  noindex?: boolean;
+  sitemap?: { include: boolean; priority: number };
 }
 
 /**
@@ -76,7 +78,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   privateChauffeur: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: null,
     slugs: { sr: "privatni-vozac", en: "private-chauffeur", ru: "lichnyy-voditel" },
   },
@@ -120,8 +122,10 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   specialEvents: {
     kind: "hub",
-    availability: "scaffold",
+    availability: "published",
     parent: null,
+    noindex: true,
+    sitemap: { include: false, priority: 0 },
     slugs: {
       sr: "prevoz-za-specijalne-dogadjaje",
       en: "special-events",
@@ -166,7 +170,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   contact: {
     kind: "page",
-    availability: "scaffold",
+    availability: "published",
     parent: null,
     slugs: { sr: "kontakt", en: "contact", ru: "kontakty" },
   },
@@ -179,7 +183,8 @@ export const routes: RouteDef[] = Object.entries(routeMap).map(([key, entry]) =>
   availability: entry.availability,
   slugs: entry.slugs,
   ...(entry.parent !== null ? { parent: entry.parent } : {}),
-  sitemap: sitemapFor(key, entry.kind, entry.availability),
+  ...(entry.noindex ? { noindex: true } : {}),
+  sitemap: entry.sitemap ?? sitemapFor(key, entry.kind, entry.availability),
   ...(entry.previousSlugs ? { previousSlugs: entry.previousSlugs } : {}),
 }));
 

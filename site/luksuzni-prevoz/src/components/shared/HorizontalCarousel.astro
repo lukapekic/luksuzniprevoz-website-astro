@@ -79,10 +79,13 @@ const {
   previousLabel,
   nextLabel,
   itemSize = "standard",
+  showCounter = false,
+  itemCount,
   class: className,
 } = Astro.props;
 
 const viewportId = `${id}-viewport`;
+const totalLabel = String(itemCount ?? 0).padStart(2, "0");
 
 // Control appearance lives in utility classes (matches the Header hamburger /
 // Button.variants treatment). No scale hover; enabled:hover color shift only;
@@ -105,53 +108,63 @@ const buttonClass = [
   class:list={["carousel", className]}
   data-horizontal-carousel
   data-item-size={itemSize}
+  data-show-counter={showCounter ? "true" : "false"}
   data-overflow="false"
 >
   <div class="carousel__controls">
-    <button
-      type="button"
-      class={buttonClass}
-      data-carousel-prev
-      aria-label={previousLabel}
-      aria-controls={viewportId}
-      hidden
-    >
-      <svg
-        class="h-5 w-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        focusable="false"
+    {showCounter && (
+      <span class="carousel__counter" aria-hidden="true">
+        <span data-carousel-current>01</span>
+        <span>/</span>
+        <span>{totalLabel}</span>
+      </span>
+    )}
+    <div class="carousel__buttons">
+      <button
+        type="button"
+        class={buttonClass}
+        data-carousel-prev
+        aria-label={previousLabel}
+        aria-controls={viewportId}
+        hidden
       >
-        <path d="M15 18l-6-6 6-6"></path>
-      </svg>
-    </button>
-    <button
-      type="button"
-      class={buttonClass}
-      data-carousel-next
-      aria-label={nextLabel}
-      aria-controls={viewportId}
-      hidden
-    >
-      <svg
-        class="h-5 w-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        focusable="false"
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class={buttonClass}
+        data-carousel-next
+        aria-label={nextLabel}
+        aria-controls={viewportId}
+        hidden
       >
-        <path d="M9 18l6-6-6-6"></path>
-      </svg>
-    </button>
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M9 18l6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="carousel__viewport" id={viewportId} data-carousel-viewport tabindex="0">
@@ -193,11 +206,29 @@ const buttonClass = [
   .carousel__controls {
     display: none;
   }
-  .carousel[data-overflow="true"] .carousel__controls {
+  .carousel[data-overflow="true"] .carousel__controls,
+  .carousel[data-show-counter="true"] .carousel__controls {
     display: flex;
-    justify-content: flex-end;
-    gap: var(--space-2);
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
     margin-block-end: var(--space-4);
+  }
+  .carousel__counter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+  .carousel__counter [data-carousel-current] {
+    color: var(--color-text-primary);
+  }
+  .carousel__buttons {
+    display: flex;
+    gap: var(--space-2);
+    margin-inline-start: auto;
   }
 
   /* Viewport: the only element on the page that may intentionally overflow
@@ -272,6 +303,7 @@ const buttonClass = [
       const track = root.querySelector<HTMLElement>("[data-carousel-track]");
       const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
       const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+      const current = root.querySelector<HTMLElement>("[data-carousel-current]");
       if (!viewport || !track || !prev || !next) return;
 
       const items = Array.from(track.children) as HTMLElement[];
@@ -299,8 +331,13 @@ const buttonClass = [
         const maxScroll = viewport.scrollWidth - viewport.clientWidth;
         const atStart = viewport.scrollLeft <= TOL;
         const atEnd = viewport.scrollLeft >= maxScroll - TOL;
+        const activeIndex = currentIndex();
+        items.forEach((item, index) => {
+          item.toggleAttribute("data-carousel-active", index === activeIndex);
+        });
         prev.disabled = atStart;
         next.disabled = atEnd;
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
       };
 
       /** Start position of `el` in the viewport's OWN scroll coordinate — the
@@ -321,15 +358,20 @@ const buttonClass = [
         viewport.getBoundingClientRect().left +
         viewport.scrollLeft;
 
-      /** Index of the leading item — the rightmost item whose start is at/before
-       *  the current scroll position (the item anchored at the start edge). Used
-       *  for one-item step movement (task §10). */
+      /** Index of the item nearest the viewport's leading edge. The final item
+       *  cannot always align exactly when several cards remain visible, so a
+       *  strict "start is at/before scrollLeft" check would leave the counter
+       *  stuck on the previous item at the scroll boundary. */
       const currentIndex = (): number => {
         const sl = viewport.scrollLeft;
         let idx = 0;
+        let nearestDistance = Number.POSITIVE_INFINITY;
         for (let i = 0; i < items.length; i++) {
-          if (itemStart(items[i]) <= sl + TOL) idx = i;
-          else break;
+          const distance = Math.abs(itemStart(items[i]) - sl);
+          if (distance + TOL < nearestDistance) {
+            nearestDistance = distance;
+            idx = i;
+          }
         }
         return idx;
       };

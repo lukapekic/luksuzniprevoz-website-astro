@@ -158,6 +158,17 @@ const leafServices = servicesChildren.filter(isLeaf);
                     </button>
                     <div id={subPanelId(branch.routeKey)} class="dropdown dropdown--sub" data-dropdown-panel role="menu" hidden>
                       <ul class="dropdown__list" role="list">
+                        <li role="none">
+                          <a
+                            role="menuitem"
+                            class="dropdown-link"
+                            href={href(branch.routeKey)}
+                            aria-current={isCurrent(branch.routeKey) ? "page" : undefined}
+                            data-astro-prefetch
+                          >
+                            {getNavLabel(branch.routeKey, currentLocale)}
+                          </a>
+                        </li>
                         {branch.children.map((child) => (
                           <li role="none">
                             <a

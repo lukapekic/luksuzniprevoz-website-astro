@@ -31,6 +31,20 @@ interface Props {
   required?: boolean;
   /** Disabled state */
   disabled?: boolean;
+  /** Read-only state */
+  readonly?: boolean;
+  /** Native minimum character count */
+  minlength?: number;
+  /** Native maximum character count */
+  maxlength?: number;
+  /** Native validation pattern (custom messages remain caller-owned) */
+  pattern?: string;
+  /** Mobile keyboard hint */
+  inputmode?: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
+  /** Browser capitalization hint */
+  autocapitalize?: "none" | "off" | "sentences" | "on" | "words" | "characters";
+  /** Browser spelling assistance */
+  spellcheck?: boolean;
   /** Error state — triggers aria-invalid + links `${id}-error` */
   error?: string;
   /** Hint id link — when set, `${id}-hint` is added to aria-describedby */
@@ -53,6 +67,13 @@ const {
   autocomplete,
   required = false,
   disabled = false,
+  readonly: isReadonly = false,
+  minlength,
+  maxlength,
+  pattern,
+  inputmode,
+  autocapitalize,
+  spellcheck,
   error,
   hint,
   value,
@@ -80,6 +101,13 @@ const describedBy =
   autocomplete={autocomplete}
   required={required}
   disabled={disabled}
+  readonly={isReadonly}
+  minlength={minlength}
+  maxlength={maxlength}
+  pattern={pattern}
+  inputmode={inputmode}
+  autocapitalize={autocapitalize}
+  spellcheck={spellcheck}
   aria-invalid={error ? "true" : undefined}
   aria-describedby={describedBy}
   value={value}

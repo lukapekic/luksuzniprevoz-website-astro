@@ -10,9 +10,8 @@
  *
  * `displayName` values are brand/proper names and are NOT translated (same as
  * business.publicBrand) — one source, all locales. `context` is a
- * relationship code, not prose. `logoAsset` is null pending logo images; the
- * translation/asset work wires real paths later. `logoStatus` tracks asset
- * state so the UI can render a placeholder vs a logo correctly.
+ * relationship code, not prose. `logoAsset` is an imported local asset or
+ * null. `logoStatus` records whether that asset is approved for public use.
  *
  * `logoPermissionShouldBeVerified`: logos must not be shown publicly until
  * usage rights are confirmed — consuming components gate public logo display
@@ -28,7 +27,14 @@ export type ClientCategory = "hotel" | "aviation" | "diplomatic";
 /** Relationship context for a client (code, not prose). Extend as more arise. */
 export type ClientContext = "private-flight-related-transport";
 
+export type ClientLogoId =
+  | "hyatt-regency"
+  | "president-palace-hotel"
+  | "qatar-airways"
+  | "square-nine-hotels";
+
 export type LogoStatus =
+  | "approved-for-public-display"
   | "asset-required"
   | "transparent-asset-available-or-planned"
   | "asset-and-public-usage-check-required";
@@ -41,8 +47,8 @@ export interface Client {
   displayName: string;
   category: ClientCategory;
   context?: ClientContext;
-  /** Logo asset path/identifier; null until assets are provided. */
-  logoAsset: string | null;
+  /** Stable identifier into client-media.ts; null until an asset is provided. */
+  logoAsset: ClientLogoId | null;
   logoStatus: LogoStatus;
 }
 
@@ -69,23 +75,23 @@ export const clients: Client[] = [
     id: "president-palace-belgrade",
     displayName: "President Palace Belgrade",
     category: "hotel",
-    logoAsset: null,
-    logoStatus: "asset-required",
+    logoAsset: "president-palace-hotel",
+    logoStatus: "approved-for-public-display",
   },
   {
     id: "hyatt-regency-belgrade",
     displayName: "Hyatt Regency Belgrade",
     category: "hotel",
-    logoAsset: null,
-    logoStatus: "transparent-asset-available-or-planned",
+    logoAsset: "hyatt-regency",
+    logoStatus: "approved-for-public-display",
   },
   {
     id: "qatar-airways",
     displayName: "Qatar Airways",
     category: "aviation",
     context: "private-flight-related-transport",
-    logoAsset: null,
-    logoStatus: "asset-and-public-usage-check-required",
+    logoAsset: "qatar-airways",
+    logoStatus: "approved-for-public-display",
   },
   {
     id: "chinese-embassy",
@@ -98,8 +104,8 @@ export const clients: Client[] = [
     id: "square-nine-belgrade",
     displayName: "Square Nine Hotel Belgrade",
     category: "hotel",
-    logoAsset: null,
-    logoStatus: "asset-required",
+    logoAsset: "square-nine-hotels",
+    logoStatus: "approved-for-public-display",
   },
 ];
 
@@ -108,6 +114,15 @@ export const clients: Client[] = [
 /** True if the client roster should be displayed on a given route. */
 export function shouldDisplayClientsOn(routeKey: RouteKey): boolean {
   return clientDisplayPolicy.placements[routeKey] ?? false;
+}
+
+/** Clients with both a real asset and confirmed public-display permission. */
+export function getApprovedClientsFor(routeKey: RouteKey): Client[] {
+  if (!shouldDisplayClientsOn(routeKey)) return [];
+  return clients.filter(
+    (client) =>
+      client.logoAsset !== null && client.logoStatus === "approved-for-public-display",
+  );
 }
 
 /** Routes where the client roster is shown, in declaration order. */

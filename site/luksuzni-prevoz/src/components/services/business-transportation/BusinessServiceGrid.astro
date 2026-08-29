@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+
+interface ServiceItem {
+  index: string;
+  routeKey: RouteKey;
+  title: string;
+  text: string;
+  ctaLabel: string;
+  capabilities: readonly string[];
+  image: ImageMetadata;
+}
+
+interface Props {
+  heading: string;
+  intro?: string;
+  label: string;
+  items: readonly [ServiceItem, ServiceItem, ServiceItem];
+  locale: LocaleCode;
+}
+
+const { heading, intro, label, items, locale } = Astro.props;
+---
+
+<Section
+  id="business-services"
+  spacing="standard"
+  surface="open-dark"
+  aria-labelledby="business-services-heading"
+  class="scroll-mt-[calc(var(--site-header-height)+var(--space-4))]"
+>
+  <PageContainer>
+    <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+    <SectionHeading id="business-services-heading" {heading} description={intro} />
+
+    <ol class="service-grid grid gap-[var(--space-5)] md:grid-cols-2 lg:grid-cols-3">
+      {items.map((item) => (
+        <li class="md:first:col-span-2 lg:first:col-span-1">
+          <article class="service-card">
+            <div class="service-card__media" aria-hidden="true">
+              <Image
+                src={item.image}
+                alt=""
+                role="presentation"
+                loading="lazy"
+                decoding="async"
+                widths={[480, 720, 960]}
+                sizes="(min-width: 64rem) 26rem, (min-width: 48rem) 44vw, 92vw"
+                format="avif"
+                quality={55}
+              />
+              <span>{item.index}</span>
+            </div>
+            <div class="service-card__body">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <ul class="capabilities" role="list">
+                {item.capabilities.map((capability) => <li>{capability}</li>)}
+              </ul>
+              <Link variant="default" to={item.routeKey} {locale}>{item.ctaLabel}<span aria-hidden="true">→</span></Link>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </PageContainer>
+</Section>
+
+<style>
+  .section-label { display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);font-weight:var(--font-weight-medium);color:var(--color-text-muted) }
+  .section-label span { inline-size:var(--space-8);block-size:1px;background:var(--color-accent) }
+  .service-grid { margin-block-start:var(--space-10);padding:0;list-style:none }
+  .service-grid > li { min-inline-size:0 }
+  .service-card { display:flex;min-block-size:100%;flex-direction:column;overflow:hidden;border:1px solid var(--color-border-subtle);border-radius:var(--radius-card);background:var(--color-surface) }
+  .service-card__media { position:relative;display:grid;min-block-size:calc(var(--space-24) * 2);align-items:end;overflow:hidden;padding:var(--space-5);background:var(--color-surface-elevated);isolation:isolate }
+  .service-card__media::after { position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 36%,color-mix(in oklab,var(--color-background),transparent 20%) 100%);content:"" }
+  .service-card__media :global(img) { position:absolute;inset:0;inline-size:100%;block-size:100%;object-fit:cover;filter:brightness(.72) contrast(1.05) saturate(.7) }
+  .service-card__media span { position:relative;z-index:1;font-family:var(--font-body);font-size:var(--text-sm);font-weight:var(--font-weight-semibold);color:var(--color-accent) }
+  .service-card__body { display:flex;min-block-size:0;flex:1;flex-direction:column;align-items:flex-start;padding:var(--space-6) }
+  h3 { font-family:var(--font-heading);font-size:var(--text-h3);font-weight:var(--font-weight-semibold);line-height:var(--line-height-heading);letter-spacing:var(--letter-spacing-heading) }
+  .service-card__body > p { margin-block-start:var(--space-4);font-family:var(--font-body);line-height:var(--line-height-body);color:var(--color-text-muted) }
+  .capabilities { display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-6) 0;padding:0;list-style:none }
+  .capabilities li { padding:var(--space-2) var(--space-3);border:1px solid var(--color-border-subtle);border-radius:var(--radius-full);font-family:var(--font-body);font-size:var(--text-caption);line-height:var(--line-height-body);color:var(--color-text-primary) }
+  .service-card__body > :global(a) { margin-block-start:auto }
+</style>

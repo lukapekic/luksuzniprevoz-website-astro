@@ -50,6 +50,14 @@ Canonical data still controls truth. UI/content controls presentation wording.
 
 Do not duplicate a single business fact into several visible rows merely because the data model stores separate booleans.
 
+### `numbered-divider-facts`
+
+Approved for Private Chauffeur when a short definition is supported by one
+ordered vertical fact sequence. Each item receives an explicit presentational
+marker plus one localized title and supporting line. The list remains a single
+column at every viewport, uses dividers instead of cards, and renders no icons.
+Existing `divider-facts` and `grouped-icons` consumers are unchanged.
+
 ## Visual behavior
 
 The shared overview composition does **not** own the outer page surface. The consuming page blueprint chooses `open-dark`, contained, elevated, or another approved semantic Section composition.

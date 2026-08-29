@@ -3,99 +3,433 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Private Chauffeur — Semantic Wireframe</title>
+  <title>Private Chauffeur v3 — Locked Semantic Wireframe</title>
   <link rel="stylesheet" href="../shared/wireframe-base.css" />
   <style>
-    .pc-hero-split { display: none; padding-block: var(--space-section-feature); }
-    .pc-hero-contained { display: grid; margin-top: var(--space-4); }
-    html[data-wf-layout="desktop"] .pc-hero-split,
-    html[data-wf-layout="wide"] .pc-hero-split { display: grid; }
-    html[data-wf-layout="desktop"] .pc-hero-contained,
-    html[data-wf-layout="wide"] .pc-hero-contained { display: none; }
-    .pc-options { padding: var(--space-8); }
-    .pc-option-grid { margin-top: var(--space-8); }
-    .pc-option { padding: var(--space-6); border-top: 1px solid var(--color-input-border); }
-    .pc-option + .pc-option { border-inline-start: 1px solid var(--color-input-border); }
-    html[data-wf-layout="mobile"] .pc-option + .pc-option,
-    html[data-wf-layout="tablet-portrait"] .pc-option + .pc-option { border-inline-start: 0; }
-    .pc-standards { padding-block: var(--space-section-standard); }
+    /*
+      WIREFRAME-ONLY GEOMETRY.
+      Production code MUST NOT copy this CSS.
+      Active Theme V2 and production primitives own final styling.
+    */
+
+    .wf-pc-hero {
+      display: grid;
+      grid-template-areas: "hero";
+      gap: var(--space-8);
+      min-block-size: 78vh;
+    }
+
+    .wf-pc-hero > * {
+      grid-area: hero;
+    }
+
+    .wf-pc-hero > .wf-stack {
+      z-index: 1;
+      align-self: end;
+      max-inline-size: var(--container-main);
+      padding: var(--space-8);
+    }
+
+    .wf-pc-facts {
+      display: grid;
+      gap: 0;
+    }
+
+    .wf-pc-fact {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--space-4);
+      align-items: center;
+      padding-block: var(--space-5);
+      border-block-end: 1px solid var(--color-border-subtle);
+    }
+
+    .wf-pc-options {
+      padding: var(--space-8);
+    }
+
+    .wf-pc-option {
+      padding: var(--space-6);
+      border-block-start: 1px solid var(--color-input-border);
+    }
+
+    .wf-pc-option + .wf-pc-option {
+      border-inline-start: 1px solid var(--color-input-border);
+    }
+
+    .wf-pc-itinerary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+    }
+
+    .wf-pc-itinerary-stop {
+      min-inline-size: 6rem;
+      padding: var(--space-3);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-control);
+    }
+
+    .wf-pc-editorial {
+      display: grid;
+      gap: var(--space-8);
+      align-items: stretch;
+    }
+
+    .wf-pc-editorial-media {
+      min-block-size: calc(var(--space-24) * 5);
+    }
+
+    .wf-pc-statement {
+      padding: var(--space-5);
+      border-block-end: 1px solid var(--color-border-subtle);
+    }
+
+    .wf-pc-standards {
+      padding: var(--space-8);
+    }
+
+    .wf-pc-custom {
+      padding: var(--space-8);
+    }
+
+    html[data-wf-layout="mobile"] .wf-pc-option + .wf-pc-option,
+    html[data-wf-layout="tablet-portrait"] .wf-pc-option + .wf-pc-option {
+      border-inline-start: 0;
+    }
+
+    html[data-wf-layout="mobile"] .wf-pc-itinerary,
+    html[data-wf-layout="tablet-portrait"] .wf-pc-itinerary {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    html[data-wf-layout="desktop"] .wf-pc-editorial,
+    html[data-wf-layout="wide"] .wf-pc-editorial {
+      grid-template-columns: 8fr 4fr;
+    }
+
+    html[data-wf-layout="tablet-landscape"] .wf-pc-statement-grid,
+    html[data-wf-layout="desktop"] .wf-pc-statement-grid,
+    html[data-wf-layout="wide"] .wf-pc-statement-grid,
+    html[data-wf-layout="tablet-landscape"] .wf-pc-standard-grid,
+    html[data-wf-layout="desktop"] .wf-pc-standard-grid,
+    html[data-wf-layout="wide"] .wf-pc-standard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   </style>
 </head>
+
 <body>
-  <aside class="wf-shell wf-note">Semantic wireframe only. Theme values come from the active generated theme. Do not copy this CSS/placeholder markup into production.</aside>
+  <aside class="wf-shell wf-note">
+    LOCKED semantic wireframe. Production implementation follows blueprint.md. Do not copy wireframe CSS into production.
+  </aside>
 
   <header class="wf-shell wf-header" aria-label="SiteHeader placeholder">
-    <div class="wf-brand"></div><div class="wf-nav"></div><div class="wf-actions"><div class="wf-button-secondary wf-button"></div><div class="wf-button"></div></div>
+    <div class="wf-brand"></div>
+    <div class="wf-nav"></div>
+    <div class="wf-actions">
+      <div class="wf-button-secondary wf-button"></div>
+      <div class="wf-button"></div>
+    </div>
   </header>
 
   <main>
-    <section class="wf-shell pc-hero-split wf-grid wf-grid-5-7" aria-label="Private Chauffeur desktop hero">
+
+    <!-- 01 FLAGSHIP HERO -->
+    <section class="wf-section-compact wf-pc-hero" aria-label="Private Chauffeur flagship hero">
       <div class="wf-stack">
-        <p class="wf-label">ServiceHero / responsive-split</p>
+        <p class="wf-label">01 / ServiceHero / full-bleed / over-Hero Header</p>
         <div class="wf-title-lg"></div>
-        <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:82%"></div></div>
-        <div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div>
-      </div>
-      <div class="wf-media">Contextual chauffeur / vehicle media</div>
-    </section>
-
-    <section class="wf-shell wf-hero-contained pc-hero-contained" aria-label="Private Chauffeur tablet/mobile hero">
-      <span class="wf-hero-media-note">Contextual full-panel media</span>
-      <div class="wf-hero-content wf-stack">
-        <p class="wf-label">ServiceHero / transformed contained state</p>
-        <div class="wf-title-lg"></div>
-        <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:78%"></div></div>
-        <div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div>
-      </div>
-    </section>
-
-    <section class="wf-shell wf-section-feature wf-grid wf-grid-5-7" aria-label="Service overview">
-      <div class="wf-stack"><p class="wf-label">ServiceOverview / open dark</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:76%"></div></div></div>
-      <div class="wf-divider-list">
-        <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
-        <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line" style="width:85%"></div></div>
-        <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line" style="width:72%"></div></div>
-        <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line" style="width:80%"></div></div>
-      </div>
-    </section>
-
-    <section class="wf-shell wf-section-standard">
-      <div class="wf-light pc-options">
-        <div class="wf-stack wf-narrow"><p class="wf-label">PrivateChauffeurOptions / functional</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:70%"></div></div></div>
-        <div class="wf-grid wf-grid-3 pc-option-grid">
-          <article class="pc-option wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div></article>
-          <article class="pc-option wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:78%"></div></div></article>
-          <article class="pc-option wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:66%"></div></div></article>
+        <div class="wf-lines">
+          <div class="wf-line"></div>
+          <div class="wf-line" style="width:82%"></div>
         </div>
-        <div class="wf-row" style="margin-top:var(--space-8)"><div class="wf-button"></div></div>
+        <div class="wf-row">
+          <div class="wf-button"></div>
+          <div class="wf-button wf-button-secondary"></div>
+        </div>
+        <div class="wf-divider-list">
+          <div class="wf-divider-row"><div class="wf-line"></div></div>
+        </div>
+      </div>
+      <div class="wf-media">
+        LOCKED IMAGE: chauffeur hand on wheel
       </div>
     </section>
 
-    <section class="wf-shell wf-section-feature wf-grid wf-grid-7-5" aria-label="Availability and flexibility">
-      <div class="wf-media">Contextual chauffeur-in-use media</div>
-      <div class="wf-stack"><p class="wf-label">Availability & Flexibility / open split</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:78%"></div></div><div class="wf-divider-list"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line" style="width:80%"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line" style="width:70%"></div></div></div></div>
+    <!-- 02 SERVICE DEFINITION -->
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-5-7">
+      <div class="wf-stack">
+        <p class="wf-label">02 / ServiceOverview / definition</p>
+        <div class="wf-title"></div>
+        <div class="wf-lines">
+          <div class="wf-line"></div>
+          <div class="wf-line" style="width:76%"></div>
+        </div>
+      </div>
+
+      <div class="wf-pc-facts">
+        <div class="wf-pc-fact"><div class="wf-marker">01</div><div class="wf-line"></div></div>
+        <div class="wf-pc-fact"><div class="wf-marker">02</div><div class="wf-line"></div></div>
+        <div class="wf-pc-fact"><div class="wf-marker">03</div><div class="wf-line"></div></div>
+        <div class="wf-pc-fact"><div class="wf-marker">04</div><div class="wf-line"></div></div>
+      </div>
     </section>
 
-    <section class="wf-shell wf-section-standard" aria-label="Vehicle recommendations">
-      <div class="wf-stack"><p class="wf-label">VehicleRecommendations / shared</p><div class="wf-title"></div></div>
+    <!-- 03 HIRE OPTIONS -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-light wf-pc-options">
+        <div class="wf-stack wf-narrow">
+          <p class="wf-label">03 / PrivateChauffeurOptions / functional</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width:72%"></div>
+          </div>
+        </div>
+
+        <div class="wf-grid wf-grid-3" style="margin-top:var(--space-8)">
+          <article class="wf-pc-option wf-stack-sm">
+            <div class="wf-title-sm">Hourly</div>
+            <div class="wf-line"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width:78%"></div>
+            </div>
+          </article>
+
+          <article class="wf-pc-option wf-stack-sm">
+            <div class="wf-title-sm">Half Day</div>
+            <div class="wf-line"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width:75%"></div>
+            </div>
+          </article>
+
+          <article class="wf-pc-option wf-stack-sm">
+            <div class="wf-title-sm">Full Day</div>
+            <div class="wf-line"></div>
+            <div class="wf-lines">
+              <div class="wf-line"></div>
+              <div class="wf-line" style="width:70%"></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="wf-row" style="margin-top:var(--space-8)">
+          <div class="wf-button"></div>
+          <div class="wf-line" style="width:18rem"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 YOUR TIME -->
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-7-5">
+      <div class="wf-media">
+        LOCKED IMAGE: passenger working in rear cabin
+      </div>
+
+      <div class="wf-stack">
+        <p class="wf-label">04 / Your Time Remains Yours</p>
+        <div class="wf-title"></div>
+        <div class="wf-lines">
+          <div class="wf-line"></div>
+          <div class="wf-line" style="width:80%"></div>
+        </div>
+
+        <div class="wf-divider-list">
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:74%"></div></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:68%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 ONE CHAUFFEUR ONE SCHEDULE -->
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-5-7">
+      <div class="wf-stack">
+        <p class="wf-label">05 / One Chauffeur. One Schedule.</p>
+        <div class="wf-title"></div>
+        <div class="wf-lines">
+          <div class="wf-line"></div>
+          <div class="wf-line" style="width:76%"></div>
+        </div>
+
+        <div class="wf-pc-itinerary">
+          <div class="wf-pc-itinerary-stop">Hotel</div>
+          <span>→</span>
+          <div class="wf-pc-itinerary-stop">Meeting</div>
+          <span>→</span>
+          <div class="wf-pc-itinerary-stop">Lunch</div>
+          <span>→</span>
+          <div class="wf-pc-itinerary-stop">Appointment</div>
+          <span>→</span>
+          <div class="wf-pc-itinerary-stop">Dinner</div>
+          <span>→</span>
+          <div class="wf-pc-itinerary-stop">Hotel</div>
+        </div>
+
+        <div class="wf-divider-list">
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+        </div>
+
+        <div class="wf-line" style="width:16rem"></div>
+      </div>
+
+      <div class="wf-media">
+        LOCKED IMAGE: passenger-view city / S-Class interior
+      </div>
+    </section>
+
+    <!-- 06 EDITORIAL STATEMENT -->
+    <section class="wf-shell wf-section-feature wf-pc-editorial">
+      <div class="wf-stack">
+        <p class="wf-label">06 / Editorial Statement / 8 columns</p>
+        <div class="wf-title"></div>
+        <div class="wf-line" style="width:65%"></div>
+
+        <div class="wf-contained wf-pc-statement-grid">
+          <div class="wf-pc-statement"><div class="wf-marker">01</div><div class="wf-title-sm"></div></div>
+          <div class="wf-pc-statement"><div class="wf-marker">02</div><div class="wf-title-sm"></div></div>
+          <div class="wf-pc-statement"><div class="wf-marker">03</div><div class="wf-title-sm"></div></div>
+          <div class="wf-pc-statement"><div class="wf-marker">04</div><div class="wf-title-sm"></div></div>
+        </div>
+      </div>
+
+      <div class="wf-media wf-pc-editorial-media">
+        LOCKED IMAGE: vertical rear-cabin workspace
+      </div>
+    </section>
+
+    <!-- 07 STANDARDS -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-contained wf-pc-standards wf-grid wf-grid-4-8">
+        <div class="wf-stack">
+          <p class="wf-label">07 / What Comes With Every Hire / 4 columns</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width:72%"></div>
+          </div>
+        </div>
+
+        <div class="wf-pc-standard-grid">
+          <div class="wf-divider-row"><div class="wf-marker">01</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+          <div class="wf-divider-row"><div class="wf-marker">02</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+          <div class="wf-divider-row"><div class="wf-marker">03</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+          <div class="wf-divider-row"><div class="wf-marker">04</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 PASSENGER EXPERIENCE -->
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-7-5">
+      <div class="wf-media">
+        LOCKED IMAGE: passenger reading in rear cabin
+      </div>
+
+      <div class="wf-stack">
+        <p class="wf-label">08 / Passenger Experience</p>
+        <div class="wf-title"></div>
+        <div class="wf-lines">
+          <div class="wf-line"></div>
+          <div class="wf-line" style="width:74%"></div>
+        </div>
+        <div class="wf-divider-list">
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 SEDAN RECOMMENDATIONS -->
+    <section class="wf-shell wf-section-feature">
+      <div class="wf-stack">
+        <p class="wf-label">09 / VehicleRecommendations / Sedans only</p>
+        <div class="wf-title"></div>
+        <div class="wf-line" style="width:62%"></div>
+      </div>
+
       <div class="wf-grid wf-grid-3" style="margin-top:var(--space-8)">
-        <article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div></div></article>
-        <article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div></div></article>
-        <article class="wf-card"><div class="wf-card-media"></div><div class="wf-card-copy wf-stack-sm"><div class="wf-title-sm"></div><div class="wf-line"></div></div></article>
+        <article class="wf-card"><div class="wf-card-media">S-Class</div><div class="wf-card-copy"><div class="wf-title-sm"></div></div></article>
+        <article class="wf-card"><div class="wf-card-media">E-Class</div><div class="wf-card-copy"><div class="wf-title-sm"></div></div></article>
+        <article class="wf-card"><div class="wf-card-media">Škoda Superb</div><div class="wf-card-copy"><div class="wf-title-sm"></div></div></article>
       </div>
     </section>
 
-    <section class="wf-shell pc-standards wf-grid wf-grid-5-7" aria-label="Service standards">
-      <div class="wf-stack"><p class="wf-label">ServiceStandards / shared</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:70%"></div></div></div>
-      <div class="wf-divider-list"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div></div>
+    <!-- 10 CUSTOM PANEL -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-contained wf-elevated wf-pc-custom wf-grid wf-grid-7-5">
+        <div class="wf-stack">
+          <p class="wf-label">10 / Custom Engagement / 7 columns</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width:72%"></div>
+          </div>
+        </div>
+
+        <div class="wf-stack">
+          <div class="wf-divider-list">
+            <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+            <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+            <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+          </div>
+          <div class="wf-button"></div>
+          <div class="wf-line" style="width:12rem"></div>
+        </div>
+      </div>
     </section>
 
-    <section class="wf-shell wf-section-standard"><div class="wf-light wf-functional"><p class="wf-label">FAQ / verified shared component</p><div class="wf-title"></div><div class="wf-divider-list" style="margin-top:var(--space-8)"><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div><div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div></div></div></section>
+    <!-- 11 FAQ -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-light wf-functional">
+        <p class="wf-label">11 / FAQ / shared</p>
+        <div class="wf-title"></div>
 
-    <section class="wf-shell wf-section-feature"><div class="wf-contained wf-grid wf-grid-7-5" style="padding:var(--space-8)"><div class="wf-stack"><p class="wf-label">FinalCTA / verified shared component</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div><div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div></div><div class="wf-media">Shared FinalCTA media region</div></div></section>
+        <div class="wf-divider-list" style="margin-top:var(--space-8)">
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 FINAL CTA -->
+    <section class="wf-shell wf-section-feature">
+      <div class="wf-contained wf-grid wf-grid-7-5" style="padding:var(--space-8)">
+        <div class="wf-stack">
+          <p class="wf-label">12 / FinalCTA / shared</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width:72%"></div>
+          </div>
+          <div class="wf-row">
+            <div class="wf-button"></div>
+            <div class="wf-button wf-button-secondary"></div>
+          </div>
+        </div>
+
+        <div class="wf-media">
+          Shared FinalCTA media region
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="wf-shell wf-footer"><p class="wf-label">SiteFooter / verified shared component</p></footer>
+  <footer class="wf-shell wf-footer">
+    <p class="wf-label">SiteFooter / shared</p>
+  </footer>
+
   <script src="../shared/wireframe-responsive.js"></script>
 </body>
 </html>

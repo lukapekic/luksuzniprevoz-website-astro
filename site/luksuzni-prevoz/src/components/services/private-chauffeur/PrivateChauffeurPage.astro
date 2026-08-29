@@ -1,0 +1,614 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import ServiceOverview from "../shared/ServiceOverview.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import ServiceStandards from "../shared/ServiceStandards.astro";
+import OpenSplitSection from "../../shared/OpenSplitSection.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import PrivateChauffeurOptions from "./PrivateChauffeurOptions.astro";
+import PrivateChauffeurEditorialStatement from "./PrivateChauffeurEditorialStatement.astro";
+import PrivateChauffeurCustomPanel from "./PrivateChauffeurCustomPanel.astro";
+import { getService } from "../../../data/services.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/shared/chauffeur-service/hero-chauffeur-wheel.jpg";
+import productivityImage from "../../../assets/shared/chauffeur-service/productivity-backseat.jpg";
+import scheduleImage from "../../../assets/shared/chauffeur-service/schedule-backseat-view.jpg";
+import editorialImage from "../../../assets/shared/chauffeur-service/editorial-workspace-vertical.jpg";
+import passengerImage from "../../../assets/shared/chauffeur-service/passenger-experience-reading.jpg";
+import finalCtaImage from "../../../assets/final-cta-bg.webp";
+
+interface Props {
+  routeKey: "privateChauffeur";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "privateChauffeur" ||
+  content.data.pageType !== "service" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("PrivateChauffeurPage received incompatible data.");
+}
+
+const data = content.data;
+if (
+  !data.hero ||
+  !data.hero.secondaryCta ||
+  !data.vehicleRecommendations ||
+  !data.faq ||
+  !data.finalCta.secondaryCta
+) {
+  throw new Error(`Private Chauffeur content is incomplete for ${locale}.`);
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Private Chauffeur section "${key}" for ${locale}.`);
+  return value;
+};
+
+const hireOptionsSection = section("hireOptions");
+const timeSection = section("timeRemainsYours");
+const scheduleSection = section("oneChauffeurOneSchedule");
+const editorialSection = section("travelWithoutLosingDay");
+const passengerSection = section("passengerExperience");
+const customSection = section("customEngagement");
+
+if (!hireOptionsSection.items || hireOptionsSection.items.length !== 3) {
+  throw new Error("Private Chauffeur hire options require exactly three localized items.");
+}
+if (!hireOptionsSection.body) {
+  throw new Error("Private Chauffeur hire options require localized explanatory body copy.");
+}
+if (!timeSection.items || timeSection.items.length !== 3) {
+  throw new Error("Private Chauffeur time-benefit section requires exactly three localized items.");
+}
+if (
+  editorialSection.heading.intro !== undefined ||
+  !editorialSection.body ||
+  !editorialSection.items ||
+  editorialSection.items.length !== 4
+) {
+  throw new Error(
+    "Private Chauffeur editorial statement requires one body intro and exactly four localized statements.",
+  );
+}
+if (!passengerSection.items || passengerSection.items.length !== 2) {
+  throw new Error("Private Chauffeur passenger experience requires exactly two localized facts.");
+}
+if (!customSection.heading.intro || !customSection.body) {
+  throw new Error("Private Chauffeur custom engagement requires localized intro and body copy.");
+}
+
+const service = getService(routeKey);
+const booking = service.bookingOptions;
+if (
+  service.customerVehicleChauffeurOnly !== false ||
+  service.chauffeurRemainsAvailable !== true ||
+  service.multiplePlannedStops !== true ||
+  service.scheduleChangeHandling !== "subject-to-availability-within-reserved-period" ||
+  service.multiDay !== "quote" ||
+  service.international !== "quote" ||
+  booking.hourly.publishedKmLimit !== null
+) {
+  throw new Error("Private Chauffeur canonical service facts do not satisfy the locked page contract.");
+}
+
+const canonicalTokens = {
+  minimumHours: booking.hourly.minimumHours,
+  halfDayHours: booking.halfDay.hours,
+  halfDayKm: booking.halfDay.includedKm,
+  fullDayHours: booking.fullDay.hours,
+  fullDayKm: booking.fullDay.includedKm,
+} as const;
+
+const tokenPattern = /\{([a-zA-Z][a-zA-Z0-9]*)\}/g;
+const interpolate = (
+  template: string,
+  values: Readonly<Record<string, string | number>>,
+  context: string,
+): string => {
+  const rendered = template.replace(tokenPattern, (token, key: string) => {
+    if (!(key in values)) {
+      throw new Error(`Unknown interpolation token "${token}" in ${context}.`);
+    }
+    return String(values[key]);
+  });
+  if (tokenPattern.test(rendered)) {
+    throw new Error(`Unresolved interpolation token remains in ${context}.`);
+  }
+  tokenPattern.lastIndex = 0;
+  return rendered;
+};
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = resolveAction(data.hero.secondaryCta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+
+const heroSupport = interpolate(
+  ui("privateChauffeur.hero.supportTemplate"),
+  canonicalTokens,
+  "Private Chauffeur hero support",
+);
+const hireQuoteAction = secondaryAction
+  ? { ...secondaryAction, label: ui("privateChauffeur.cta.customQuoteQuiet") }
+  : null;
+const scheduleQuoteAction = secondaryAction
+  ? { ...secondaryAction, label: ui("privateChauffeur.cta.complexItineraryQuiet") }
+  : null;
+const customScheduleAction = primaryAction
+  ? { ...primaryAction, label: ui("privateChauffeur.cta.sendScheduleQuiet") }
+  : null;
+
+const overviewGroups = [
+  {
+    key: "vehicle-chauffeur",
+    marker: "01",
+    title: ui("privateChauffeur.overview.vehicleAndChauffeur.title"),
+    text: ui("privateChauffeur.overview.vehicleAndChauffeur.text"),
+  },
+  {
+    key: "minimum-hire",
+    marker: "02",
+    title: interpolate(
+      ui("privateChauffeur.overview.minimumHire.title"),
+      { hours: booking.hourly.minimumHours },
+      "Private Chauffeur minimum-hire title",
+    ),
+    text: ui("privateChauffeur.overview.minimumHire.text"),
+  },
+  {
+    key: "multiple-stops",
+    marker: "03",
+    title: ui("privateChauffeur.overview.multipleStops.title"),
+    text: ui("privateChauffeur.overview.multipleStops.text"),
+  },
+  {
+    key: "chauffeur-available",
+    marker: "04",
+    title: ui("privateChauffeur.overview.chauffeurAvailable.title"),
+    text: ui("service.privateChauffeur.chauffeurAvailable"),
+  },
+];
+
+const [hourlyContent, halfDayContent, fullDayContent] = hireOptionsSection.items;
+const hireOptions = [
+  {
+    title: ui("booking.mode.hourly"),
+    fact: interpolate(
+      ui("privateChauffeur.options.hourlyFact"),
+      { hours: booking.hourly.minimumHours },
+      "Private Chauffeur hourly fact",
+    ),
+    supportingTitle: hourlyContent.title,
+    text: hourlyContent.text,
+  },
+  {
+    title: ui("booking.mode.halfDay"),
+    fact: interpolate(
+      ui("privateChauffeur.options.halfDayFact"),
+      { hours: booking.halfDay.hours, km: booking.halfDay.includedKm },
+      "Private Chauffeur half-day fact",
+    ),
+    supportingTitle: halfDayContent.title,
+    text: halfDayContent.text,
+  },
+  {
+    title: ui("booking.mode.fullDay"),
+    fact: interpolate(
+      ui("privateChauffeur.options.fullDayFact"),
+      { hours: booking.fullDay.hours, km: booking.fullDay.includedKm },
+      "Private Chauffeur full-day fact",
+    ),
+    supportingTitle: fullDayContent.title,
+    text: fullDayContent.text,
+  },
+] as const;
+
+const scheduleFacts = [
+  {
+    title: ui("privateChauffeur.schedule.multipleStops.title"),
+    texts: [ui("privateChauffeur.overview.multipleStops.text")],
+  },
+  {
+    title: ui("privateChauffeur.schedule.chauffeurAvailable.title"),
+    texts: [ui("service.privateChauffeur.chauffeurAvailable")],
+  },
+  {
+    title: ui("privateChauffeur.schedule.beyondOneDay.title"),
+    texts: [
+      ui("service.privateChauffeur.multiDayQuote"),
+      ui("service.privateChauffeur.internationalQuote"),
+    ],
+  },
+] as const;
+
+const itinerary = [
+  ui("privateChauffeur.itinerary.hotel"),
+  ui("privateChauffeur.itinerary.meeting"),
+  ui("privateChauffeur.itinerary.lunch"),
+  ui("privateChauffeur.itinerary.appointment"),
+  ui("privateChauffeur.itinerary.dinner"),
+  ui("privateChauffeur.itinerary.hotel"),
+];
+
+const [statementOne, statementTwo, statementThree, statementFour] = editorialSection.items;
+const editorialStatements = [statementOne, statementTwo, statementThree, statementFour] as const;
+
+const standards = buildServiceStandardGroups(locale, { profile: "private-chauffeur" });
+if (standards.length !== 4) {
+  throw new Error("Private Chauffeur standards profile requires exactly four groups.");
+}
+
+const lockedVehicleIds = ["mercedes-s-class", "mercedes-e-class", "skoda-superb"] as const;
+if (
+  data.vehicleRecommendations.vehicleIds.length !== lockedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== lockedVehicleIds[index])
+) {
+  throw new Error("Private Chauffeur vehicle recommendations do not match the locked sedan order.");
+}
+if (
+  data.vehicleRecommendations.cta.target.type !== "route" ||
+  data.vehicleRecommendations.cta.target.routeKey !== "fleet"
+) {
+  throw new Error("Private Chauffeur vehicle CTA must target the canonical fleet route.");
+}
+
+const recommendations = lockedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const customFacts = [
+  {
+    title: ui("privateChauffeur.custom.multiDay.title"),
+    text: ui("service.privateChauffeur.multiDayQuote"),
+  },
+  {
+    title: ui("privateChauffeur.custom.international.title"),
+    text: ui("service.privateChauffeur.internationalQuote"),
+  },
+  {
+    title: ui("privateChauffeur.custom.complex.title"),
+    text: ui("service.privateChauffeur.complexQuote"),
+  },
+] as const;
+
+if (data.faq.items.length !== 10) {
+  throw new Error("Private Chauffeur requires exactly ten FAQ items.");
+}
+const faqItems = data.faq.items.map((item, index) => ({
+  question: interpolate(item.question, canonicalTokens, `Private Chauffeur FAQ question ${index + 1}`),
+  answer: interpolate(item.answer, canonicalTokens, `Private Chauffeur FAQ answer ${index + 1}`),
+}));
+
+if (contact.bookingLeadTime.confirmationMode !== "manual") {
+  throw new Error("Private Chauffeur requires manual booking confirmation.");
+}
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(faqItems)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    supportText={heroSupport}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    locale={locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <ServiceOverview
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    groups={overviewGroups}
+    label={ui("privateChauffeur.section.overview")}
+    variant="numbered-divider-facts"
+    surface="open-dark"
+  />
+
+  <PrivateChauffeurOptions
+    heading={hireOptionsSection.heading.title}
+    intro={hireOptionsSection.heading.intro}
+    body={hireOptionsSection.body}
+    options={hireOptions}
+    primaryAction={primaryAction}
+    secondaryAction={hireQuoteAction}
+    locale={locale}
+  />
+
+  <Section spacing="feature" surface="open-dark" aria-labelledby="private-chauffeur-time-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={productivityImage}
+        imageAlt=""
+        layout="image-content"
+        ratio="7-5"
+        mobileOrder="content-first"
+        mediaHeight="match-content"
+        mediaOverlay
+      >
+        <div slot="content" class="split-copy">
+          <SectionHeading
+            id="private-chauffeur-time-heading"
+            heading={timeSection.heading.title}
+            description={timeSection.heading.intro}
+          />
+          {timeSection.body && <p class="body-copy">{timeSection.body}</p>}
+          <ul class="quiet-facts" role="list">
+            {timeSection.items.map((item) => (
+              <li><h3>{item.title}</h3><p>{item.text}</p></li>
+            ))}
+          </ul>
+          {scheduleQuoteAction && (
+            <Link class="mt-[var(--space-5)]" href={scheduleQuoteAction.href} locale={locale}>
+              {scheduleQuoteAction.label}
+            </Link>
+          )}
+        </div>
+      </OpenSplitSection>
+    </PageContainer>
+  </Section>
+
+  <Section spacing="feature" surface="open-dark" aria-labelledby="private-chauffeur-schedule-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={scheduleImage}
+        imageAlt=""
+        layout="content-image"
+        ratio="5-7"
+        mobileOrder="content-first"
+        mediaHeight="match-content"
+        mediaOverlay
+      >
+        <div slot="content" class="split-copy">
+          <SectionHeading
+            id="private-chauffeur-schedule-heading"
+            heading={scheduleSection.heading.title}
+            description={scheduleSection.heading.intro}
+          />
+          {scheduleSection.body && <p class="body-copy">{scheduleSection.body}</p>}
+          <ol class="itinerary" aria-label={scheduleSection.heading.title}>
+            {itinerary.map((stop) => <li>{stop}</li>)}
+          </ol>
+          <ul class="quiet-facts" role="list">
+            {scheduleFacts.map((fact) => (
+              <li>
+                <h3>{fact.title}</h3>
+                {fact.texts.map((text) => <p>{text}</p>)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </OpenSplitSection>
+    </PageContainer>
+  </Section>
+
+  <PrivateChauffeurEditorialStatement
+    heading={editorialSection.heading.title}
+    intro={editorialSection.body}
+    statements={editorialStatements}
+    image={editorialImage}
+    imageAlt=""
+  />
+
+  <ServiceStandards
+    heading={ui("privateChauffeur.standards.heading")}
+    intro={ui("privateChauffeur.standards.intro")}
+    groups={standards}
+    label={ui("privateChauffeur.section.standards")}
+    variant="numbered-matrix"
+    surface="contained-dark"
+  />
+
+  <Section spacing="feature" surface="open-dark" aria-labelledby="private-chauffeur-passenger-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={passengerImage}
+        imageAlt=""
+        layout="image-content"
+        ratio="7-5"
+        mobileOrder="content-first"
+        mediaHeight="match-content"
+        mediaOverlay
+      >
+        <div slot="content" class="split-copy">
+          <SectionHeading
+            id="private-chauffeur-passenger-heading"
+            heading={passengerSection.heading.title}
+            description={passengerSection.heading.intro}
+          />
+          {passengerSection.body && <p class="body-copy">{passengerSection.body}</p>}
+          <ul class="quiet-facts" role="list">
+            {passengerSection.items.map((item) => (
+              <li><h3>{item.title}</h3><p>{item.text}</p></li>
+            ))}
+          </ul>
+        </div>
+      </OpenSplitSection>
+    </PageContainer>
+  </Section>
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" as RouteKey }}
+    locale={locale}
+    passengerLabel={ui("fleet.passengers")}
+    classLabels={classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("privateChauffeur.section.vehicles")}
+    carouselId="private-chauffeur-vehicles"
+  />
+
+  <PrivateChauffeurCustomPanel
+    heading={customSection.heading.title}
+    intro={`${customSection.heading.intro} ${customSection.body}`}
+    facts={customFacts}
+    primaryAction={secondaryAction}
+    secondaryAction={customScheduleAction}
+    locale={locale}
+  />
+
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="private-chauffeur-faq-heading"
+    class="mt-[var(--space-section-standard)]"
+  >
+    <ReadingContainer>
+      <SectionHeading
+        id="private-chauffeur-faq-heading"
+        heading={data.faq.heading}
+        on="light"
+      />
+      <FAQ items={faqItems} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    contacts={contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    locale={locale}
+  />
+</BaseLayout>
+
+<style>
+  .split-copy {
+    min-inline-size: 0;
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .quiet-facts {
+    display: grid;
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .quiet-facts li {
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .quiet-facts h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+  }
+
+  .quiet-facts p {
+    margin-block: var(--space-2) 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .itinerary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    margin: var(--space-7) 0 0;
+    padding: var(--space-4) 0;
+    border-block: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .itinerary li {
+    position: relative;
+    padding-inline-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .itinerary li:not(:last-child)::after {
+    position: absolute;
+    inset-inline-end: 0;
+    color: var(--color-accent);
+    content: "→";
+  }
+
+</style>

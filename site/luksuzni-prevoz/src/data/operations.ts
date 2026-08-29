@@ -24,15 +24,10 @@ export type DressCode = "suit-and-tie";
 
 export type CleanlinessStandard = "highest-standard";
 
-export type MaintenanceStandard =
-  | "authorized-or-official-service-representatives";
+export type MaintenanceStandard = "authorized-or-official-service-representatives";
 
 export type InternalTrainingArea =
-  | "customer-service"
-  | "discretion"
-  | "route-knowledge"
-  | "airport-procedures"
-  | "vip-procedures";
+  "customer-service" | "discretion" | "route-knowledge" | "airport-procedures" | "vip-procedures";
 
 // --- Structural types ------------------------------------------------------
 
@@ -62,6 +57,7 @@ export interface ServiceStandards {
   climateControl: boolean;
   childSeatOnRequest: boolean;
   massageSeatsWhereVehicleSupports: boolean;
+  parkingLogisticsHandledByChauffeur: boolean;
 }
 
 export interface OperationalStandards {
@@ -103,5 +99,16 @@ export const operations: OperationalStandards = {
     climateControl: true,
     childSeatOnRequest: true,
     massageSeatsWhereVehicleSupports: true,
+    parkingLogisticsHandledByChauffeur: true,
   },
 };
+
+export function assertOperationsConsistency(): void {
+  if (operations.service.parkingLogisticsHandledByChauffeur !== true) {
+    throw new Error(
+      "operations.ts must confirm chauffeur-handled parking/logistics before rendering service standards.",
+    );
+  }
+}
+
+assertOperationsConsistency();

@@ -67,6 +67,7 @@ import TrustStrip from "../../components/shared/TrustStrip.astro";
 import ServiceCard from "../../components/shared/ServiceCard.astro";
 import OpenSplitSection from "../../components/shared/OpenSplitSection.astro";
 import HorizontalCarousel from "../../components/shared/HorizontalCarousel.astro";
+import HubServiceSelector from "../../components/services/shared/HubServiceSelector.astro";
 import SiteFooter from "../../components/site/SiteFooter.astro";
 import type { FaqItem } from "../../content/schemas/shared.ts";
 import type { TrustItem } from "../../components/shared/TrustStrip.types.ts";
@@ -109,6 +110,7 @@ const groups = [
   { id: "faq", href: "#faq", heading: "FAQ", description: "Production FAQ: dark + light surfaces, long question/answer wrapping, open/close indicator, and focus." },
   { id: "trust-strip", href: "#trust-strip", heading: "Trust Strip", description: "Production TrustStrip: four items — desktop 4 columns, tablet 2×2, mobile stack, one shared surface." },
   { id: "service-card", href: "#service-card", heading: "Service Card", description: "Production ServiceCard: 3-card dark grid (incl. long-copy stress) + a light-surface row. Image-led 3:2, visible CTA, no whole-card link." },
+  { id: "hub-service-selector", href: "#hub-service-selector", heading: "Hub Service Selector", description: "Shared three-child service discovery composition using the approved ServiceCard identity." },
   { id: "open-split-section", href: "#open-split-section", heading: "Open Split Section", description: "Production OpenSplitSection: open content|image composition — canonical 5/7, reverse 5/7, balanced 6/6, wider-content 7/5. DOM always content-first; desktop reversal is grid-based." },
   { id: "horizontal-carousel", href: "#horizontal-carousel", heading: "Horizontal Carousel", description: "Production HorizontalCarousel: two independent instances — Fleet-like visual carousel (compact preset) and Review-like content carousel (standard preset). Instance isolation, scroll snapping, controls, responsive item sizing, progressive enhancement." },
   { id: "homepage-hero", href: "#homepage-hero", heading: "Homepage Hero", description: "Production HomepageHero: one contained cinematic feature panel — full-bleed S-Class image, directional color-mix overlay, left H1 + Book/Request-a-quote CTAs, right support statement. Static, not 100vh." },
@@ -283,7 +285,7 @@ const samples = {
   trustDarkLabel: "Dark · canonical",
   trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained platinum accent check marker · one shared surface, not nested cards.",
   // ── Final CTA ──
-  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained graphite gradient panel (Final-CTA-only gradient exception). Primary Book (platinum accent) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only; WhatsApp is not rendered here). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified): while phone/email remain owner-confirmation-required (null/unverified), no contact row renders here — no fake placeholder values. Once verified, exactly one phone + one email appear here and in production. Booking flow routes to the contact page as the interim target.",
+  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained graphite gradient panel (Final-CTA-only gradient exception). Primary Book (platinum accent) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified). Exactly one verified phone + one verified email appear here and in production. Booking flow routes to the contact page as the interim target.",
   finalCtaHeading: "Zakazite sledeći prevoz sa nama",
   finalCtaText: "Izaberite uslugu i pošaljite detalje — jednostavne vožnje mogu imati prikaz cene, a za složenije zahteve pripremamo ponudu.",
   finalCtaPrimaryLabel: "Rezerviši",
@@ -313,7 +315,7 @@ const samples = {
   scAltCorporate: "Mercedes saloon prepared for an executive transfer.",
   scAltWedding: "Premium vehicle presented for a wedding arrival.",
   // ── Site Footer ──
-  footerDesc: "Production SiteFooter — global chrome rendered as the page footer. Three-column desktop (brand · navigation · contact/hours), stacked on mobile. Links resolve via getPath from the route map; contact channels ship only when verified (currently all unverified, so the contact column shows office hours + note only — no fake phone/email/WhatsApp). currentRouteKey and currentLocale are real (home / sr).",
+  footerDesc: "Production SiteFooter — global chrome rendered as the page footer. Three-column desktop (brand · navigation · contact/hours), stacked on mobile. Links resolve via getPath from the route map; verified phone and email come from canonical contact data. currentRouteKey and currentLocale are real (home / sr).",
   // ── Open Split Section ──
   // Dev-only sample strings (not production copy). Passed as expressions
   // (members of `samples`) so no-hardcoded-ui-string (FND-ARCH-03) is not
@@ -396,12 +398,8 @@ const samples = {
 
 // FinalCTA contact channels — verified-only canonical gating, mirroring the
 // production home/FinalCTA adapter + SiteFooter (task 2E/3C). Repository
-// contact.ts currently has phone/email/whatsapp = null +
-// "owner-confirmation-required" → no verified channels → the contact row is
-// absent here (no fake placeholder values). Once the owner supplies +
-// verifies phone/email, exactly one phone + one email render here and in
-// production. BLOCKER: see completion report — real launch phone/email are
-// not yet in the repository.
+// contact.ts owns the verified phone/email facts used here and in production.
+// No additional messaging channel is inferred by the visual preview.
 const fctaPhone = isVerified(contact.phone) ? contact.phone.value : null;
 const fctaEmail = isVerified(contact.email) ? contact.email.value : null;
 const fctaContacts =
@@ -510,6 +508,20 @@ const serviceCardsLight: ServiceCardProps[] = [
     locale: "sr",
   },
 ];
+
+const hubSelectorItems = serviceCardsDark.map((card) => ({
+  routeKey: card.action.to!,
+  title: card.title,
+  text: card.description,
+  ctaLabel: card.action.label,
+  image: card.image,
+  imageAlt: card.imageAlt,
+}));
+const hubSelectorPreview = {
+  heading: "Choose a specialist service",
+  intro: "The selector owns shared discovery topology; copy, routes and imagery remain caller-owned.",
+  label: "Hub services",
+};
 
 // ── HorizontalCarousel dev-only fixture items (not production copy). Two
 //    independent instances review instance isolation + both item-size presets.
@@ -1531,6 +1543,15 @@ const reviewFixtureItems: ReviewFixture[] = [
         </PageContainer>
       </Section>
     </PreviewBlock>
+
+    {/* ── Hub Service Selector ─────────────────────────────────────── */}
+    <section id="hub-service-selector" aria-labelledby="hub-service-selector-preview-heading">
+      <div class="mx-auto w-full max-w-[var(--container-main)] px-[var(--gutter-page)] pt-[var(--space-section-compact)]">
+        <h2 id="hub-service-selector-preview-heading" data-foundation-allow-string class="font-heading text-[length:var(--text-h2)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] text-[var(--color-text-primary)]">Hub Service Selector</h2>
+        <p data-foundation-allow-string class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-lg leading-[var(--line-height-body)] text-[var(--color-text-muted)]">Exactly three child routes, stacked through tablet portrait and composed as 4/4/4 at tablet landscape and desktop. ServiceCard remains the only card identity.</p>
+      </div>
+      <HubServiceSelector heading={hubSelectorPreview.heading} intro={hubSelectorPreview.intro} items={hubSelectorItems} locale="sr" label={hubSelectorPreview.label} />
+    </section>
 
     {/* ── Open Split Section ───────────────────────────────────────── */}
     {/* OpenSplitSection now owns the COMPOSITION ONLY (grid / ratio /

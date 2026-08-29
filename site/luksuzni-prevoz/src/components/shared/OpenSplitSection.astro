@@ -128,6 +128,7 @@ const {
   layout = "content-image",
   ratio = "6-6",
   mobileOrder = "content-first",
+  mediaHeight = "ratio",
   mediaBleed = false,
   mediaOverlay = false,
   class: className,
@@ -197,7 +198,12 @@ const mobileOrderClass =
 const isDecorative = imageAlt === "";
 ---
 
-<div class:list={["open-split", mediaBleed && "open-split--media-bleed", className]}>
+<div class:list={[
+  "open-split",
+  mediaBleed && "open-split--media-bleed",
+  mediaHeight === "match-content" && "open-split--match-content",
+  className,
+]}>
   <div class:list={["open-split__content", placement.content, mobileOrderClass.content]}>
     <slot name="content" />
   </div>
@@ -238,6 +244,21 @@ const isDecorative = imageAlt === "";
       grid-template-columns: repeat(12, 1fr);
       gap: var(--space-8);
       align-items: center;
+    }
+
+    .open-split--match-content {
+      align-items: stretch;
+    }
+
+    .open-split--match-content .open-split__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .open-split--match-content .open-split__media {
+      align-self: stretch;
+      aspect-ratio: auto;
     }
   }
 

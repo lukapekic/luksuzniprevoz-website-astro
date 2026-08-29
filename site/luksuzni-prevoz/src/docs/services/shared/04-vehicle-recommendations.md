@@ -24,6 +24,10 @@ Vehicle-specific Airport fares come only from shared pricing data. Missing
 owner-supplied values render the approved pending state; they are never inferred
 from other pricing units.
 
+Where several priced configurations belong to one fleet model family, the
+showcase uses the canonical family display name from `fleet-media.ts`; capacity
+variants remain available to pricing rather than appearing in the card title.
+
 ## Data rules
 
 - vehicle identity/capacity comes only from `fleet.ts`;

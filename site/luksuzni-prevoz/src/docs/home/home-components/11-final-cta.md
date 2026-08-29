@@ -34,7 +34,7 @@ Image:
 - preferred front-facing S-Class;
 - blended/no hard edge;
 - not a separate bordered card.
-- the optional `integrated` media treatment fills the complete media region, adds a restrained light-neutral veil, and fades the media into the panel at its inline start.
+- the optional `integrated` media treatment fills the complete media region, adds a restrained light-neutral veil, and fades the media itself from transparent to opaque at its inline start so the panel's exact background shows through without a color seam.
 - the `integrated` treatment is opt-in so existing consumers remain unchanged.
 
 ## Tablet
@@ -59,6 +59,10 @@ Do not force desktop geometry when the available width is too small.
 - Primary: Book a Chauffeur.
 - Secondary: Request a Quote.
 - Use approved shared Button contracts.
+- Actions are independently optional after canonical destination resolution.
+- If no action has a destination, omit the action region; never render an
+  empty, placeholder, disabled-link, current-page, or substituted-contact CTA.
+- Existing callers that provide both actions retain this hierarchy unchanged.
 
 ## Contact row
 
@@ -68,7 +72,6 @@ Potential methods:
 
 - phone;
 - email;
-- WhatsApp.
 
 Do not invent missing values for visual completeness.
 

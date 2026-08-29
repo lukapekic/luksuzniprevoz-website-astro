@@ -1,0 +1,104 @@
+---
+interface Item {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: readonly Item[];
+  layout: "stacked" | "three-columns";
+}
+
+const { items, layout } = Astro.props;
+const expectedCount = layout === "stacked" ? 2 : 3;
+
+if (items.length !== expectedCount) {
+  throw new Error(
+    `BusinessDividedPanel layout "${layout}" requires exactly ${expectedCount} items (received ${items.length}).`,
+  );
+}
+---
+
+<ol class="business-divided-panel" data-layout={layout}>
+  {items.map((item, index) => (
+    <li>
+      <span class="panel-marker" aria-hidden="true">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <h3>{item.title}</h3>
+      <p>{item.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .business-divided-panel {
+    display: grid;
+    min-inline-size: 0;
+    margin: 0;
+    padding: var(--space-4) var(--space-5);
+    overflow: hidden;
+    border-radius: var(--radius-section);
+    background: var(--color-surface-light);
+    color: var(--color-text-on-light);
+    list-style: none;
+  }
+
+  li {
+    min-inline-size: 0;
+    padding-block: var(--space-6);
+    border-block-end: 1px solid
+      color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+  }
+
+  li:last-child {
+    border-block-end: 0;
+  }
+
+  .panel-marker {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 42%);
+  }
+
+  h3 {
+    margin-block-start: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-on-light);
+  }
+
+  p {
+    margin-block-start: var(--space-3);
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  @media (min-width: 64rem) {
+    .business-divided-panel[data-layout="three-columns"] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      padding: var(--space-7);
+    }
+
+    .business-divided-panel[data-layout="three-columns"] li {
+      padding-block: 0;
+      padding-inline: var(--space-7);
+      border-block-end: 0;
+      border-inline-end: 1px solid
+        color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+    }
+
+    .business-divided-panel[data-layout="three-columns"] li:first-child {
+      padding-inline-start: 0;
+    }
+
+    .business-divided-panel[data-layout="three-columns"] li:last-child {
+      padding-inline-end: 0;
+      border-inline-end: 0;
+    }
+  }
+</style>

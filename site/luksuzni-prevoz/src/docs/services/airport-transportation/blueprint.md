@@ -1,6 +1,6 @@
 # Luxury Transportation — Airport Transportation Blueprint v3
 
-Status: **Locked structural blueprint — v3.2 wireframe-aligned**
+Status: **Locked structural blueprint — v3.3 refinement-aligned**
 Route key: `airportTransportation`
 Page type: `service`
 Theme binding: **semantic; uses the active theme selected by repository configuration**
@@ -28,7 +28,7 @@ For Airport v3, the following shared variants are explicitly selected:
 ServiceHero                → full-bleed
 ServiceOverview            → grouped-icons
 VehicleRecommendations     → homepage-carousel mechanics + full-image cards
-ServiceStandards           → single divided standards panel
+ServiceStandards           → outlined standards matrix
 ```
 
 ## 1. Goal
@@ -125,11 +125,11 @@ Approved Airport surface map:
 
 ```text
 Overview            open dark standard section
-Arrival             contained-dark compact panel
+Arrival             open dark editorial split; compact media 5 / content 7
 Booking             contained light compact panel
 Private Aviation    open dark feature split; portrait media
 Vehicles            open dark carousel; full-image cards
-Standards           one contained-dark divided panel
+Standards           one contained-dark outlined matrix
 FAQ                 contained light compact reading panel
 Final CTA           existing shared compact contained closer
 ```
@@ -187,6 +187,7 @@ Behavior:
 - no page-container wrapper around the media surface;
 - media is the section background/full panel;
 - content remains constrained to the normal inner page grid;
+- content is grounded in the lower optical region, matching the Homepage Hero composition;
 - SiteHeader overlays the Hero using the verified over-Hero header behavior;
 - strong scrim/contrast treatment must be responsive to image crop;
 - one H1;
@@ -315,12 +316,13 @@ This is not permission to ship dead inputs.
 
 ## 10. Arrival Handling & Flight Tracking — vertical timeline
 
-Use a large media / content split.
+Use an open media / content split on the page canvas. Do not place the split
+inside a contained dark panel.
 
 Desktop:
 
 ```text
-media 7 | content 5
+media 5 | content 7
 ```
 
 Content side contains a vertical timeline rather than a generic divider list.
@@ -338,6 +340,8 @@ The exact visible steps must respect canonical capability state.
 
 Visual rules:
 
+- media and content share one desktop row and equal block height;
+- image height follows the content rather than imposing an oversized aspect-ratio panel;
 - one continuous vertical rule;
 - restrained numbered/icon nodes;
 - active/accent treatment limited to nodes/eyebrow;
@@ -414,7 +418,7 @@ No hardcoded or inferred Airport fare.
 No invented luggage capacity.
 No copied Homepage `FleetShowcase` identity.
 
-## 13. Service Standards — one divided panel
+## 13. Service Standards — one outlined matrix
 
 Use shared:
 
@@ -423,9 +427,10 @@ ServiceStandards
 variant = divided-panel
 ```
 
-Show **four strong standard groups** in the same restrained divided-panel
-language used by the Homepage standards/trust treatment, not as four floating
-cards or a long operational notebook list.
+Show **four strong standard groups** as one contiguous outlined matrix. The
+matrix has a complete subtle perimeter and internal rules, so the first group
+is as clearly defined as every following group. It must not read as four
+floating cards or a long operational notebook list.
 
 Preferred grouping:
 
