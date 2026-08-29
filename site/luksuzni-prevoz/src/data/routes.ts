@@ -138,7 +138,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   promTransportation: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: "specialEvents",
     slugs: { sr: "prevoz-za-maturu", en: "prom-transportation", ru: "transfer-na-vypusknoy" },
   },

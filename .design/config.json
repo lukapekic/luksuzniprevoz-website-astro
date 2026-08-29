@@ -133,6 +133,19 @@
         "site/luksuzni-prevoz/src/docs/services/wedding-transportation"
       ]
     },
+    "prom-transportation": {
+      "match": [
+        "prom-transportation",
+        "promTransportation",
+        "prevoz-za-maturu",
+        "transfer-na-vypusknoy"
+      ],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/services/prom-transportation/blueprint.md"],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/prom-transportation"
+      ]
+    },
     "contact": {
       "match": [
         "src/components/contact/",

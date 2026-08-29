@@ -1,0 +1,395 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import OccasionServiceDefinition from "../occasion-transportation/OccasionServiceDefinition.astro";
+import OccasionScope from "../occasion-transportation/OccasionScope.astro";
+import OccasionStandards from "../occasion-transportation/OccasionStandards.astro";
+import OccasionProcessSteps from "../occasion-transportation/OccasionProcessSteps.astro";
+import PromArrivalStory from "./PromArrivalStory.astro";
+import PromGroupArrival from "./PromGroupArrival.astro";
+import PromPresentation from "./PromPresentation.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import { getService } from "../../../data/services.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { operations } from "../../../data/operations.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/shared/other/prom-holding-flowers-mercedes-bg.webp";
+import arrivalImage from "../../../assets/shared/other/prom-closeup-mercedes-background.webp";
+import groupImage from "../../../assets/shared/other/v-class-interior.webp";
+import presentationImage from "../../../assets/shared/other/flowers-on-console.webp";
+import finalCtaImage from "../../../assets/final-cta-bg.webp";
+
+interface Props {
+  routeKey: "promTransportation";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+interface StandardItem {
+  title: string;
+  text: string;
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "promTransportation" ||
+  content.data.pageType !== "service" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("PromTransportationPage received incompatible data.");
+}
+
+const data = content.data;
+if (!data.hero || !data.vehicleRecommendations || !data.faq) {
+  throw new Error(`Prom Transportation content is incomplete for ${locale}.`);
+}
+if (!data.overview.items || data.overview.items.length !== 3) {
+  throw new Error("Prom service definition requires exactly three principles.");
+}
+if (data.faq.items.length !== 6) {
+  throw new Error("Prom Transportation requires exactly six FAQ items.");
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Prom Transportation section "${key}" for ${locale}.`);
+  return value;
+};
+
+const serviceScope = section("serviceScope");
+const arrivalStory = section("arrivalStory");
+const groupArrival = section("groupArrival");
+const presentation = section("presentation");
+const standardsSection = section("standards");
+const process = section("process");
+
+if (!serviceScope.body || !serviceScope.items || serviceScope.items.length !== 3) {
+  throw new Error("Prom service scope requires body copy and exactly three items.");
+}
+if (!arrivalStory.body || !arrivalStory.items || arrivalStory.items.length !== 4) {
+  throw new Error("Prom arrival story requires body copy and exactly four stages.");
+}
+if (!groupArrival.body || !groupArrival.items || groupArrival.items.length !== 3) {
+  throw new Error("Prom group arrival requires body copy and exactly three groups.");
+}
+if (!presentation.body || !presentation.cta) {
+  throw new Error("Prom presentation requires body copy and one CTA.");
+}
+if (!standardsSection.body) {
+  throw new Error("Prom standards require explanatory body copy.");
+}
+if (!process.items || process.items.length !== 3) {
+  throw new Error("Prom booking process requires exactly three steps.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = data.hero.secondaryCta ? resolveAction(data.hero.secondaryCta) : null;
+const presentationAction = resolveAction(presentation.cta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = data.finalCta.secondaryCta
+  ? resolveAction(data.finalCta.secondaryCta)
+  : null;
+
+const service = getService(routeKey);
+if (!service.pricingMode.includes("quote")) {
+  throw new Error("Prom Transportation must retain individual quote pricing.");
+}
+if (
+  !service.individualAndGroup ||
+  !service.multipleVehicles ||
+  !service.mixedVehicleClasses ||
+  !service.returnPossible ||
+  service.waitingPossible !== "custom-quote" ||
+  !service.customPresentationRequest
+) {
+  throw new Error("Prom Transportation canonical capabilities are incomplete.");
+}
+
+const scopeCapabilities = [
+  service.individualAndGroup && ui("occasion.capability.individualAndGroup"),
+  service.multipleVehicles && ui("occasion.capability.multipleVehicles"),
+  service.mixedVehicleClasses && ui("occasion.capability.mixedVehicleClasses"),
+  service.returnPossible && ui("occasion.capability.returnPossible"),
+  service.waitingPossible === "custom-quote" && ui("occasion.capability.waitingByAgreement"),
+  service.pricingMode.includes("quote") && ui("occasion.capability.individualQuote"),
+].filter((item): item is string => Boolean(item));
+
+if (scopeCapabilities.length !== 6) {
+  throw new Error("Prom Transportation planning scope requires all six canonical gates.");
+}
+
+const expectedVehicleIds = [
+  "mercedes-s-class",
+  "mercedes-e-class",
+  "mercedes-v-class-7-plus-1-extra-long",
+  "mercedes-sprinter",
+] as const;
+
+if (
+  data.vehicleRecommendations.vehicleIds.length !== expectedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== expectedVehicleIds[index])
+) {
+  throw new Error("Prom vehicle recommendations must retain the locked fleet order.");
+}
+
+const vehicleRoleKeys = {
+  "mercedes-s-class": "prom.vehicleRole.mercedesSClass",
+  "mercedes-e-class": "prom.vehicleRole.mercedesEClass",
+  "mercedes-v-class-7-plus-1-extra-long": "prom.vehicleRole.mercedesVClassExtraLong",
+  "mercedes-sprinter": "prom.vehicleRole.mercedesSprinter",
+} as const satisfies Record<(typeof expectedVehicleIds)[number], UiStringKey>;
+
+const recommendations = expectedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[vehicle.id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(vehicleRoleKeys[id]),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const standards = [
+  operations.chauffeurs.dressCode === "suit-and-tie" && {
+    title: ui("occasion.standard.professionalChauffeur.title"),
+    text: ui("occasion.standard.professionalChauffeur.text"),
+  },
+  operations.vehicles.cleanlinessStandard === "highest-standard" &&
+    operations.vehicles.preTripInspectionForImportantTrips && {
+      title: ui("occasion.standard.preparedVehicle.title"),
+      text: ui("occasion.standard.preparedVehicle.text"),
+    },
+  service.individualAndGroup && {
+    title: ui("prom.standard.individualGroup.title"),
+    text: ui("prom.standard.individualGroup.text"),
+  },
+  service.multipleVehicles && {
+    title: ui("occasion.standard.multiVehicle.title"),
+    text: ui("occasion.standard.multiVehicle.text"),
+  },
+  (service.returnPossible || service.waitingPossible === "custom-quote") && {
+    title: ui("occasion.standard.waitingReturn.title"),
+    text: ui("occasion.standard.waitingReturn.text"),
+  },
+  contact.bookingLeadTime.confirmationMode === "manual" && {
+    title: ui("occasion.standard.manualConfirmation.title"),
+    text: ui("occasion.standard.manualConfirmation.text"),
+  },
+].filter((item): item is StandardItem => Boolean(item));
+
+if (standards.length !== 6) {
+  throw new Error("Prom Transportation standards require all six canonical gates.");
+}
+
+const standardsTuple = standards as [
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+];
+
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(data.faq.items)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("prom.hero.eyebrow")}
+    trustMarkers={[
+      ui("prom.hero.trust.professionalChauffeur"),
+      ui("prom.hero.trust.manualConfirmation"),
+      ui("prom.hero.trust.plannedPickup"),
+    ]}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <OccasionServiceDefinition
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    label={ui("prom.section.overview")}
+    principles={[data.overview.items[0], data.overview.items[1], data.overview.items[2]]}
+  />
+
+  <OccasionScope
+    heading={serviceScope.heading.title}
+    intro={serviceScope.heading.intro}
+    body={serviceScope.body}
+    label={ui("prom.section.scope")}
+    items={[serviceScope.items[0], serviceScope.items[1], serviceScope.items[2]]}
+    capabilities={scopeCapabilities}
+  />
+
+  <PromArrivalStory
+    heading={arrivalStory.heading.title}
+    intro={arrivalStory.heading.intro}
+    body={arrivalStory.body}
+    label={ui("prom.section.arrival")}
+    stages={[
+      arrivalStory.items[0],
+      arrivalStory.items[1],
+      arrivalStory.items[2],
+      arrivalStory.items[3],
+    ]}
+    image={arrivalImage}
+  />
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    classLabels={classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("prom.section.vehicles")}
+    carouselId="prom-vehicles"
+  />
+
+  <PromGroupArrival
+    heading={groupArrival.heading.title}
+    intro={groupArrival.heading.intro}
+    body={groupArrival.body}
+    label={ui("prom.section.group")}
+    groups={[groupArrival.items[0], groupArrival.items[1], groupArrival.items[2]]}
+    image={groupImage}
+  />
+
+  {service.customPresentationRequest && (
+    <PromPresentation
+      heading={presentation.heading.title}
+      intro={presentation.heading.intro}
+      body={presentation.body}
+      label={ui("prom.section.presentation")}
+      action={presentationAction}
+      {locale}
+      image={presentationImage}
+    />
+  )}
+
+  <OccasionStandards
+    heading={standardsSection.heading.title}
+    intro={standardsSection.heading.intro}
+    body={standardsSection.body}
+    label={ui("prom.section.standards")}
+    items={standardsTuple}
+  />
+
+  <OccasionProcessSteps
+    heading={process.heading.title}
+    intro={process.heading.intro}
+    label={ui("prom.section.process")}
+    steps={[process.items[0], process.items[1], process.items[2]]}
+  />
+
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="prom-faq-heading"
+    class="mt-[var(--space-8)]"
+  >
+    <ReadingContainer>
+      <p class="section-label section-label--light">
+        <span aria-hidden="true"></span>{ui("prom.section.faq")}
+      </p>
+      <SectionHeading id="prom-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={data.faq.items} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label > span {
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .section-label--light {
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label--light > span {
+    background: var(--color-focus-light);
+  }
+</style>
