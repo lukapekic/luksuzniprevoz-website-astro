@@ -1,9 +1,24 @@
 name: Quality Gates
-on: [push, pull_request]
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   quality-fast:
-    runs-on: ubuntu-latest
+    # Preserve the existing required-check name while consolidating its work.
+    name: quality-fast
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v5
@@ -11,48 +26,8 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
+          cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm quality:fast
-      - run: pnpm verify:ui --target site/luksuzni-prevoz/src/components/home/HomePage.astro --surface home --change small-ui --evidence .design/.cache/quality-home.json
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ui-governance-evidence
-          path: .design/.cache/quality-home.json
-
-  test-unit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: ".nvmrc"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test:unit
-
-  eslint-plugin-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: ".nvmrc"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter eslint-plugin-astro-foundation test:unit
-
-  # FND-META-09: the traceability matrix is drift-checked on every push so a
-  # rule that loses its enforcer (or gains an unverified one) is caught early.
-  # FND-META-10: waivers must parse clean (expired entries block merge).
-  traceability-and-waivers:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: ".nvmrc"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm traceability --check
-      - run: pnpm parse-waivers
+      - run: pnpm quality:page
+        env:
+          ASTRO_TELEMETRY_DISABLED: "1"

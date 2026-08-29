@@ -7,12 +7,14 @@ import {
   collectImplementationFiles,
   findRepoRoot,
   hashFiles,
+  diffSnapshotInventory,
   loadConfig,
   loadSystem,
   parseGeneratedCssVariables,
   readText,
   resolveActiveTheme,
   resolveSurface,
+  snapshotsMatch,
   targetFiles,
   validateDesignConfig,
 } from "./lib.mjs";
@@ -61,6 +63,34 @@ try {
   }
   if (!rejectedDuplicateConfig)
     throw new Error("Duplicate design configuration roots must be rejected.");
+  const snapshotFixture = {
+    generatedAt: "2026-01-01T00:00:00.000Z",
+    sourceHash: "same-hash",
+    inventory: { components: ["ComponentA.astro"], docs: [], dataModules: [] },
+  };
+  if (
+    !snapshotsMatch(snapshotFixture, {
+      ...snapshotFixture,
+      generatedAt: "2026-02-01T00:00:00.000Z",
+    })
+  ) {
+    throw new Error("Design snapshot timestamps must not create generated-file drift.");
+  }
+  const inventoryChanges = diffSnapshotInventory(snapshotFixture, {
+    ...snapshotFixture,
+    inventory: {
+      components: ["ComponentB.astro"],
+      docs: ["Blueprint.md"],
+      dataModules: [],
+    },
+  });
+  if (
+    inventoryChanges.components?.added[0] !== "ComponentB.astro" ||
+    inventoryChanges.components?.removed[0] !== "ComponentA.astro" ||
+    inventoryChanges.docs?.added[0] !== "Blueprint.md"
+  ) {
+    throw new Error("Design snapshot inventory drift must identify added and removed paths.");
+  }
   const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "design-governance-"));
   try {
     const firstRoot = path.join(fixtureDir, "first-root");

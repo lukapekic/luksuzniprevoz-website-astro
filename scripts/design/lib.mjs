@@ -567,7 +567,37 @@ export function validateSystemSnapshot(system) {
 export function snapshotIsCurrent(root, config, system = loadSystem(root)) {
   if (!system) return false;
   const fresh = buildSystemSnapshot(root, config);
-  return system.sourceHash === fresh.sourceHash;
+  return snapshotsMatch(system, fresh);
+}
+
+/**
+ * Compare generated snapshots while ignoring the informational timestamp.
+ * This keeps design:sync idempotent without hiding generator-output changes.
+ */
+export function snapshotsMatch(current, fresh) {
+  if (!current || !fresh) return false;
+  const currentStable = { ...current };
+  const freshStable = { ...fresh };
+  delete currentStable.generatedAt;
+  delete freshStable.generatedAt;
+  return JSON.stringify(currentStable) === JSON.stringify(freshStable);
+}
+
+/** Return deterministic added/removed inventory paths for drift diagnostics. */
+export function diffSnapshotInventory(current, fresh) {
+  const changes = {};
+  const keys = new Set([
+    ...Object.keys(current?.inventory ?? {}),
+    ...Object.keys(fresh?.inventory ?? {}),
+  ]);
+  for (const key of [...keys].sort()) {
+    const currentEntries = new Set(current?.inventory?.[key] ?? []);
+    const freshEntries = new Set(fresh?.inventory?.[key] ?? []);
+    const added = [...freshEntries].filter((entry) => !currentEntries.has(entry)).sort();
+    const removed = [...currentEntries].filter((entry) => !freshEntries.has(entry)).sort();
+    if (added.length || removed.length) changes[key] = { added, removed };
+  }
+  return changes;
 }
 
 export function writeJson(filePath, value) {

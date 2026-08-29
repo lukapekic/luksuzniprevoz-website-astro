@@ -49,14 +49,11 @@ See `docs/init-checklist.md` for the complete bootstrap checklist.
 # Start dev server (production site)
 pnpm dev
 
-# Validate everything
-pnpm quality:fast
+# Refresh generated contracts before committing
+pnpm quality:prepare
 
-# Generate theme CSS from tokens
-pnpm theme:sync
-
-# Generate TypeScript types from config
-pnpm types:generate
+# Run the complete static page gate used by GitHub
+pnpm quality:page
 ```
 
 ## Monorepo Structure
@@ -117,20 +114,26 @@ astro-foundation/
 | `pnpm seo:validate`       | Validate SEO data (titles, descriptions, hreflang, structured data) |
 | `pnpm og:generate`        | Generate OG images                                                  |
 | `pnpm generate:redirects` | Generate redirect rules from previousSlugs                          |
-| `pnpm test:unit`          | Run all unit tests (322 tests)                                      |
-| `pnpm quality:fast`       | Doctor + types + theme + routes + content + SEO + lint + tests      |
-| `pnpm quality:page`       | quality:fast + build + artifact drift check                         |
-| `pnpm quality:release`    | quality:page + e2e + a11y + lighthouse                              |
+| `pnpm generated:sync`     | Refresh types, theme, component, traceability, and design contracts |
+| `pnpm generated:check`    | Check generated contracts without writing                           |
+| `pnpm quality:prepare`    | Local alias for generated:sync                                      |
+| `pnpm test:unit`          | Run foundation, ESLint-plugin, and site unit tests                  |
+| `pnpm quality:fast`       | Generated, design, content, SEO, type, lint, and unit checks        |
+| `pnpm quality:page`       | quality:fast plus the production site build                         |
+| `pnpm quality:release`    | quality:page plus dist secret scan and dependency audit             |
 
 ## Quality Gates
 
 The template enforces quality through layered gates:
 
-- **`quality:fast`** — Runs on every push. ~15 seconds.
-- **`quality:page`** — Adds build and artifact drift check.
-- **`quality:release`** — Full validation including e2e, a11y, and Lighthouse.
+- **`quality:prepare`** — Refreshes machine-owned contracts locally before committing.
+- **`quality:fast`** — Read-only static governance, validation, typing, lint, and unit checks.
+- **`quality:page`** — The GitHub pull-request gate; adds the production build.
+- **`quality:release`** — Adds production-output secret scanning and dependency reporting.
 
-All gates must pass (exit code 0) before deployment.
+Browser-based responsive, keyboard, and visual review remains a deliberate manual step. The
+configured Playwright and Lighthouse commands remain available for focused use but are not part of
+the automatic GitHub gate.
 
 ## Out of Scope
 
@@ -182,15 +185,15 @@ is independent of the package semver.
 
 `pnpm quality:release` runs the full chain before a publish:
 
-1. `quality:fast` — doctor, types, theme/routes/content/seo validation, lint, unit tests
-2. `build` — production build + generated-artifact drift checks (theme CSS, types)
-3. `traceability --check` (FND-META-09) — every cited `FND-*` rule has an enforcer; the matrix is drift-checked
-4. `parse-waivers` (FND-META-10) — `docs/exceptions.md` waivers are valid, unexpired, and never waive `FND-A11Y-01`
-5. `secret-scan` (FND-ENV-06) — no secret patterns in `dist/`
-6. `audit:deps` (FND-ENV-07) — `pnpm audit --prod` surfaces advisories
-7. `test:e2e` / `test:a11y` / `test:lighthouse` — real Playwright (3 engines), axe-core, Lighthouse CI
+1. `generated:check` — types, theme CSS, component registry, design snapshot, and traceability are current
+2. Static governance — foundation/theme/design doctor and strict design detection
+3. Content contracts — routes, localized content, SEO, and waiver validation
+4. Code quality — lint, Astro/TypeScript checks, and unit tests
+5. `build` — production static-site build
+6. `secret-scan` (FND-ENV-06) — no secret patterns in `dist/`
+7. `audit:deps` (FND-ENV-07) — `pnpm audit --prod` surfaces advisories
 
-The gate runs in `.github/workflows/release.yml` on every push to `main`.
+The gate runs in `.github/workflows/release.yml` on every push to `master`.
 
 ## Documentation
 
