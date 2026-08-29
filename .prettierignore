@@ -16,3 +16,5 @@ site/luksuzni-prevoz/src/theme/generated/
 
 # Locked/reference wireframes are fragile structural artifacts
 site/luksuzni-prevoz/src/docs/**/wireframe*.html
+
+docs/rule-traceability.md
