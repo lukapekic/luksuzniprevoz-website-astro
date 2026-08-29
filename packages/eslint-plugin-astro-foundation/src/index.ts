@@ -55,18 +55,46 @@ const recommendedConfig: ESLint.ConfigData = {
       {
         // FND-ARCH-05: global state managers — banned by name.
         paths: [
-          { name: "nanostores", message: "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2." },
-          { name: "zustand", message: "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2." },
-          { name: "jotai", message: "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2." },
-          { name: "valtio", message: "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2." },
-          { name: "@nanostores/react", message: "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2." },
-          { name: "@nanostores/preact", message: "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2." },
+          {
+            name: "nanostores",
+            message:
+              "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2.",
+          },
+          {
+            name: "zustand",
+            message:
+              "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2.",
+          },
+          {
+            name: "jotai",
+            message:
+              "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2.",
+          },
+          {
+            name: "valtio",
+            message:
+              "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2.",
+          },
+          {
+            name: "@nanostores/react",
+            message:
+              "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2.",
+          },
+          {
+            name: "@nanostores/preact",
+            message:
+              "FND-ARCH-05: Islands communicate through typed DOM events (CustomEvent), not shared state. See §3.2.",
+          },
         ],
         // FND-META-12: internal package modules must not be imported externally.
         patterns: [
           {
-            group: ["@astro-foundation/core/i18n/internal/*", "@astro-foundation/core/**/internal/*"],
-            message: "FND-META-12: Internal modules must not be imported from outside their package. See §2.3.",
+            group: [
+              "@astro-foundation/core/i18n/internal/*",
+              "@astro-foundation/core/**/internal/*",
+            ],
+            message:
+              "FND-META-12: Internal modules must not be imported from outside their package. See §2.3.",
           },
         ],
       },

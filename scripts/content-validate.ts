@@ -107,7 +107,10 @@ let vehicleIds: string[] | undefined;
 let clientIds: string[] | undefined;
 for (const [rel, setter] of [
   ["src/data/fleet.ts", (m: { vehicleIds?: string[] }) => (vehicleIds = m.vehicleIds)],
-  ["src/data/clients.ts", (m: { clients?: { id: string }[] }) => (clientIds = m.clients?.map((c) => c.id))],
+  [
+    "src/data/clients.ts",
+    (m: { clients?: { id: string }[] }) => (clientIds = m.clients?.map((c) => c.id)),
+  ],
 ] as const) {
   const p = resolve(resolvedTarget, rel);
   if (!existsSync(p)) continue;

@@ -5,3 +5,16 @@ dist
 pnpm-lock.yaml
 changeset/*.md
 !changeset/config.json
+
+# Tool-owned reports and snapshots
+.lighthouseci/
+.design/system.json
+
+# Generated source artifacts; regenerate these through their owning commands
+packages/astro-foundation/src/generated/
+site/luksuzni-prevoz/src/theme/generated/
+
+# Locked/reference wireframes are fragile structural artifacts
+site/luksuzni-prevoz/src/docs/**/wireframe*.html
+
+docs/rule-traceability.md

@@ -118,6 +118,7 @@ Required order:
 ## L. Responsive
 
 Reviewed at:
+
 - [ ] mobile
 - [ ] tablet portrait
 - [ ] tablet landscape
@@ -125,6 +126,7 @@ Reviewed at:
 - [ ] wide desktop
 
 Checks:
+
 - [ ] no horizontal overflow
 - [ ] RU strings do not clip
 - [ ] selector topology is readable

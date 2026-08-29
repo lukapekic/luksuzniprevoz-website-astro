@@ -152,11 +152,13 @@ Use a larger editorial treatment:
 - clear text CTA
 
 Desktop may use:
+
 - 3-column editorial panels, or
 - one large lead + two supporting panels,
-provided all three remain clearly equal navigation choices.
+  provided all three remain clearly equal navigation choices.
 
 Mobile:
+
 - stack vertically
 - preserve full readable copy
 - do not hide descriptions behind hover interactions
@@ -202,6 +204,7 @@ Only use the variant for meaningful layout differences. Do not use it to branch 
 ### Business use
 
 Communicate:
+
 - one executive to coordinated fleets
 - airport → hotel → office → venue → dinner
 - multiple cars and changing schedules
@@ -209,6 +212,7 @@ Communicate:
 ### Events use
 
 Communicate:
+
 - principal guest/couple + guest transport
 - multiple vehicles
 - ceremony/venue/event timing
@@ -293,10 +297,12 @@ Cross-link to relevant services without duplicating the primary three-service se
 Examples:
 
 Business Hub:
+
 - Airport Transfer
 - Private Chauffeur
 
 Special Events Hub:
+
 - Private Chauffeur
 - Airport Transfer where relevant
 

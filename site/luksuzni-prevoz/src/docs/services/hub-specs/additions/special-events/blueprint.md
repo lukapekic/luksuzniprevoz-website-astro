@@ -14,6 +14,7 @@ Theme binding: **semantic; active Theme V2 only**
 ## Shared contracts
 
 Apply:
+
 ```text
 src/docs/services/shared/*
 AGENTS.md
@@ -34,6 +35,7 @@ The page should communicate two things:
 The page must remain unmistakably Black & Platinum Luxury Transportation.
 
 It must **not** become:
+
 - a wedding-planner site
 - a party-limousine page
 - a nightlife landing page
@@ -44,12 +46,14 @@ It must **not** become:
 ## 2. Hub data
 
 Authority:
+
 ```text
 src/data/services.ts
 src/data/routes.ts
 ```
 
 Canonical children:
+
 ```text
 weddingTransportation
 promTransportation
@@ -57,6 +61,7 @@ vipTransportation
 ```
 
 Hub facts:
+
 ```text
 coverage: primarily-belgrade
 outsideBelgrade: quote
@@ -76,6 +81,7 @@ No numeric event pricing unless current verified pricing data/content explicitly
 ## 3. Child capability truth
 
 ### Wedding
+
 - couple transport
 - guest transport
 - multiple vehicles
@@ -85,6 +91,7 @@ No numeric event pricing unless current verified pricing data/content explicitly
 - custom presentation request
 
 ### Prom
+
 - individual and group transport
 - multiple vehicles
 - mixed classes
@@ -93,6 +100,7 @@ No numeric event pricing unless current verified pricing data/content explicitly
 - custom presentation request
 
 ### VIP
+
 - quote only
 - discretion
 - privacy
@@ -102,6 +110,7 @@ No numeric event pricing unless current verified pricing data/content explicitly
 - custom decoration positioning is false
 
 Never imply:
+
 - security
 - bodyguards
 - close protection
@@ -132,6 +141,7 @@ No instant-confirmation promise.
 11. `SiteFooter`
 
 Do not add by default:
+
 - review carousel
 - pricing calculator
 - wedding-only gallery
@@ -143,6 +153,7 @@ Do not add by default:
 ## 6. Hero
 
 Use shared:
+
 ```text
 ServiceHero / contained
 ```
@@ -150,6 +161,7 @@ ServiceHero / contained
 Hero must be **category-neutral**.
 
 Preferred image direction:
+
 - premium arrival/departure at an elegant venue
 - chauffeur opening a rear door
 - vehicle + passenger context
@@ -157,6 +169,7 @@ Preferred image direction:
 - no event type dominates
 
 Avoid:
+
 - bride-only hero
 - prom-only hero
 - red carpet cliché
@@ -166,6 +179,7 @@ Avoid:
 - nightclub lighting
 
 Content requirements:
+
 - one H1
 - concise category proposition
 - primary action
@@ -182,6 +196,7 @@ explain that the hub covers both a principal journey and coordinated event trans
 Use operational, divider-led facts rather than decorative badges.
 
 Suggested content roles:
+
 - chauffeur-driven arrival
 - one or multiple vehicles
 - guest/group coordination
@@ -196,11 +211,13 @@ Initial implementation is page-local.
 Use reviewed `ServiceCard` as the card primitive.
 
 Show exactly:
+
 - Wedding Transportation
 - Prom Transportation
 - VIP Transportation
 
 Rules:
+
 - child list matched against canonical route/service data
 - image-led
 - one concise sentence
@@ -213,6 +230,7 @@ Rules:
 ### Visual personality
 
 Compared with Business:
+
 - allow stronger event-context photography
 - keep metadata lighter
 - preserve same typography/theme
@@ -230,13 +248,16 @@ SectionHeading
 ```
 
 Recommended desktop composition:
+
 ```text
 7/5
 ```
+
 or the opposite only if image focal point/content logic requires it.
 
 Purpose:
 show that an event can involve:
+
 - principal passenger / couple
 - guests/family/group
 - more than one vehicle
@@ -258,17 +279,20 @@ Do not promise unlimited waiting/flexibility.
 This is the hub-level place for use cases that do not justify separate child pages.
 
 Source:
+
 ```text
 services.specialEvents.generalUseCases
 ```
 
 Current types:
+
 - birthdays
 - private parties
 - galas
 - other special events
 
 Design:
+
 - compact or standard section
 - divider/list or restrained light-functional contrast
 - **not** four generic icon cards
@@ -289,6 +313,7 @@ Content owns a small recommended vehicle ID set.
 Operational/fleet data remains canonical.
 
 Event framing may explain roles such as:
+
 - individual/premium passenger
 - couple
 - family/small group
@@ -305,6 +330,7 @@ Use shared `ServiceStandards`.
 Use only verified operational facts from `operations.ts` and relevant service capability data.
 
 Useful themes:
+
 - chauffeur presentation
 - vehicle preparation
 - passenger assistance
@@ -312,6 +338,7 @@ Useful themes:
 - punctuality/coordination
 
 Do not add:
+
 - champagne
 - decorations as standard inclusion
 - bodyguard/security claims
@@ -322,6 +349,7 @@ Do not add:
 Use shared `FAQ`.
 
 Recommended topic families:
+
 - which Special Events service to choose
 - one car vs multiple vehicles
 - guest/group transportation
@@ -338,6 +366,7 @@ Reuse shared `FinalCTA`.
 
 Content intent:
 send:
+
 - event date
 - pickup/venue locations
 - passenger/group counts
@@ -354,6 +383,7 @@ No separate visual variant.
 The hub must link to all three children.
 
 Contextual links may include:
+
 - Private Chauffeur
 - Airport Transportation
 - Fleet
@@ -364,6 +394,7 @@ VIP may be contextually related to Private Chauffeur/Airport through child-page 
 ## 16. Responsive acceptance
 
 ### Mobile
+
 - hero remains contained and proportionate
 - selector stacks
 - event images retain meaningful focal points
@@ -373,16 +404,19 @@ VIP may be contextually related to Private Chauffeur/Airport through child-page 
 - no clipped long RU labels/headings
 
 ### Tablet portrait
+
 - service selector does not become three cramped cards
 - open split may remain stacked if needed
 - Other Occasions remains easy to scan
 
 ### Tablet landscape / desktop
+
 - selector can use approved 4/4/4
 - coordination uses approved split composition
 - page retains controlled whitespace and does not become gallery-like
 
 ### Wide desktop
+
 - respect main container
 - avoid stretched text measures or oversized empty regions
 
@@ -391,6 +425,7 @@ VIP may be contextually related to Private Chauffeur/Airport through child-page 
 Use approved asset pipeline.
 
 Asset roles:
+
 - hero: category-neutral contextual event transport
 - selector: service-specific contextual images
 - coordination: principal/guest or multi-vehicle context
@@ -419,6 +454,7 @@ Do not redesign around missing photography.
 Route remains scaffold/noindex until full content/locales are approved.
 
 When published:
+
 - unique localized SEO title/description
 - canonical/hreflang via existing helpers
 - hub internal links to all children

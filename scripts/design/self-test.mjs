@@ -6,6 +6,7 @@ import { runDetector } from "./detect.mjs";
 import {
   collectImplementationFiles,
   findRepoRoot,
+  hashFiles,
   loadConfig,
   loadSystem,
   parseGeneratedCssVariables,
@@ -62,6 +63,19 @@ try {
     throw new Error("Duplicate design configuration roots must be rejected.");
   const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "design-governance-"));
   try {
+    const firstRoot = path.join(fixtureDir, "first-root");
+    const secondRoot = path.join(fixtureDir, "second-root");
+    const relativeFixture = path.join("nested", "fixture.txt");
+    const firstFile = path.join(firstRoot, relativeFixture);
+    const secondFile = path.join(secondRoot, relativeFixture);
+    fs.mkdirSync(path.dirname(firstFile), { recursive: true });
+    fs.mkdirSync(path.dirname(secondFile), { recursive: true });
+    fs.writeFileSync(firstFile, "identical contents\n");
+    fs.writeFileSync(secondFile, "identical contents\n");
+    if (hashFiles(firstRoot, [firstFile]) !== hashFiles(secondRoot, [secondFile])) {
+      throw new Error("Design snapshot hashes must be independent of repository location.");
+    }
+
     const fixture = path.join(fixtureDir, "BadUi.astro");
     fs.writeFileSync(
       fixture,

@@ -4,10 +4,10 @@ A production-ready, opinionated Astro 5 template implementing a comprehensive we
 
 ## Prerequisites
 
-| Requirement | Version |
--------------|---------|
-| Node.js | ≥ 20 LTS (22 LTS recommended) |
-| pnpm | ≥ 10 |
+| Requirement | Version                       |
+| ----------- | ----------------------------- |
+| Node.js     | ≥ 20 LTS (22 LTS recommended) |
+| pnpm        | ≥ 10                          |
 
 Install the correct Node.js version:
 
@@ -101,26 +101,26 @@ astro-foundation/
 
 ## Scripts Quick Reference
 
-| Script | Description |
-|--------|-------------|
-| `pnpm dev` | Start dev server |
-| `pnpm build` | Production build |
-| `pnpm lint` | ESLint (0 errors target) |
-| `pnpm format` | Prettier formatting |
-| `pnpm format:check` | Check formatting without writing |
-| `pnpm foundation:doctor` | Validate config, dependencies, versions |
-| `pnpm types:generate` | Generate TypeScript types from config |
-| `pnpm theme:sync` | Generate CSS from theme tokens |
-| `pnpm theme:validate` | Validate theme token files |
-| `pnpm routes:validate` | Validate route definitions (slugs, uniqueness, ceiling) |
-| `pnpm content:validate` | Validate content files (frontmatter, route binding, parity) |
-| `pnpm seo:validate` | Validate SEO data (titles, descriptions, hreflang, structured data) |
-| `pnpm og:generate` | Generate OG images |
-| `pnpm generate:redirects` | Generate redirect rules from previousSlugs |
-| `pnpm test:unit` | Run all unit tests (322 tests) |
-| `pnpm quality:fast` | Doctor + types + theme + routes + content + SEO + lint + tests |
-| `pnpm quality:page` | quality:fast + build + artifact drift check |
-| `pnpm quality:release` | quality:page + e2e + a11y + lighthouse |
+| Script                    | Description                                                         |
+| ------------------------- | ------------------------------------------------------------------- |
+| `pnpm dev`                | Start dev server                                                    |
+| `pnpm build`              | Production build                                                    |
+| `pnpm lint`               | ESLint (0 errors target)                                            |
+| `pnpm format`             | Prettier formatting                                                 |
+| `pnpm format:check`       | Check formatting without writing                                    |
+| `pnpm foundation:doctor`  | Validate config, dependencies, versions                             |
+| `pnpm types:generate`     | Generate TypeScript types from config                               |
+| `pnpm theme:sync`         | Generate CSS from theme tokens                                      |
+| `pnpm theme:validate`     | Validate theme token files                                          |
+| `pnpm routes:validate`    | Validate route definitions (slugs, uniqueness, ceiling)             |
+| `pnpm content:validate`   | Validate content files (frontmatter, route binding, parity)         |
+| `pnpm seo:validate`       | Validate SEO data (titles, descriptions, hreflang, structured data) |
+| `pnpm og:generate`        | Generate OG images                                                  |
+| `pnpm generate:redirects` | Generate redirect rules from previousSlugs                          |
+| `pnpm test:unit`          | Run all unit tests (322 tests)                                      |
+| `pnpm quality:fast`       | Doctor + types + theme + routes + content + SEO + lint + tests      |
+| `pnpm quality:page`       | quality:fast + build + artifact drift check                         |
+| `pnpm quality:release`    | quality:page + e2e + a11y + lighthouse                              |
 
 ## Quality Gates
 
@@ -194,18 +194,18 @@ The gate runs in `.github/workflows/release.yml` on every push to `main`.
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| `docs/init-checklist.md` | Bootstrap checklist for new projects (FND-META-07) |
-| `docs/a11y-manual-checklist.md` | Manual accessibility testing guide (FND-A11Y-09) |
-| `docs/deployment.md` | Deployment configuration guide (FND-ENV-01) |
-| `docs/exceptions.md` | Waiver tracking (FND-META-10) |
-| `docs/content-authoring.md` | Content authoring and translation guide |
-| `docs/scale-envelope.md` | Architecture boundaries & in-memory/whole-build rationale (FND-SCALE-02) |
-| `docs/optional-vrt.md` | Optional Visual Regression Testing recipe (FND-UI-08..12) |
-| `docs/rule-traceability.md` | Generated rule → enforcer matrix (FND-META-09, auto-generated) |
-| `docs/spec-amendments.md` | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12) |
-| `AGENTS.md` | AI agent development guidelines |
+| Document                        | Description                                                              |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| `docs/init-checklist.md`        | Bootstrap checklist for new projects (FND-META-07)                       |
+| `docs/a11y-manual-checklist.md` | Manual accessibility testing guide (FND-A11Y-09)                         |
+| `docs/deployment.md`            | Deployment configuration guide (FND-ENV-01)                              |
+| `docs/exceptions.md`            | Waiver tracking (FND-META-10)                                            |
+| `docs/content-authoring.md`     | Content authoring and translation guide                                  |
+| `docs/scale-envelope.md`        | Architecture boundaries & in-memory/whole-build rationale (FND-SCALE-02) |
+| `docs/optional-vrt.md`          | Optional Visual Regression Testing recipe (FND-UI-08..12)                |
+| `docs/rule-traceability.md`     | Generated rule → enforcer matrix (FND-META-09, auto-generated)           |
+| `docs/spec-amendments.md`       | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12)      |
+| `AGENTS.md`                     | AI agent development guidelines                                          |
 
 ## License
 

@@ -151,6 +151,7 @@ ServiceHero / contained
 ```
 
 Reasons:
+
 - consistent service-family identity
 - avoids repeating Homepage/Airport full-bleed authority
 - gives category pages a calmer entrance
@@ -164,17 +165,20 @@ Special Events may feel more visual through image selection and downstream image
 Use `ServiceCard`.
 
 Desktop:
+
 - approved `4/4/4` composition
 - three equal child routes
 - image-led
 - explicit visible CTA
 
 Tablet:
+
 - preserve readable card proportions
 - do not force a cramped 3-column layout if the component/container width does not support it
 - choose a deterministic topology during implementation review
 
 Mobile:
+
 - stack
 - no horizontal clipping
 - CTA remains 44×44 minimum target
@@ -185,6 +189,7 @@ Mobile:
 ### Business
 
 Emphasis:
+
 - operational confidence
 - schedules
 - recurring arrangements
@@ -193,6 +198,7 @@ Emphasis:
 - structured functional contrast
 
 Use:
+
 - restrained executive/corporate transport imagery
 - stronger information density
 - optional approved light functional surface for commercial paths
@@ -201,6 +207,7 @@ Use:
 ### Special Events
 
 Emphasis:
+
 - occasion
 - arrival
 - principal passenger + guests
@@ -209,6 +216,7 @@ Emphasis:
 - flexible group composition
 
 Use:
+
 - more cinematic event-context imagery
 - larger image role in the coordination section
 - warmer copy, not warmer theme
@@ -219,6 +227,7 @@ Do not alter Theme V2.
 ## 10. Common SEO behavior
 
 Both hubs:
+
 - one H1 via `ServiceHero`
 - canonical + hreflang from existing SEO helpers
 - hub-level Service/WebPage semantics per existing repository policy
@@ -245,6 +254,7 @@ Per root `AGENTS.md`, new/major pages must load:
 ```
 
 Also load:
+
 - imagery skill for these image-bearing pages
 - responsive images/performance
 - multilingual routing when route/content/link work is touched

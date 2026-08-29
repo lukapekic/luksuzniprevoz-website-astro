@@ -63,12 +63,17 @@ test.describe("Private Chauffeur", () => {
       contactHref,
     );
     await expect(page.locator("main a:not([href])")).toHaveCount(0);
-    await expect(
-      mainLinks.filter({ hasText: "View Full Fleet" }),
-    ).toHaveAttribute("href", routePath("fleet", "en"));
+    await expect(mainLinks.filter({ hasText: "View Full Fleet" })).toHaveAttribute(
+      "href",
+      routePath("fleet", "en"),
+    );
 
-    await expect(page.getByRole("heading", { name: "Mercedes S klasa", exact: true })).toHaveCount(1);
-    await expect(page.getByRole("heading", { name: "Mercedes E klasa", exact: true })).toHaveCount(1);
+    await expect(page.getByRole("heading", { name: "Mercedes S klasa", exact: true })).toHaveCount(
+      1,
+    );
+    await expect(page.getByRole("heading", { name: "Mercedes E klasa", exact: true })).toHaveCount(
+      1,
+    );
     await expect(page.getByRole("heading", { name: "Škoda Superb", exact: true })).toHaveCount(1);
     await expect(page.getByRole("heading", { name: /Mercedes V klasa/ })).toHaveCount(0);
 
@@ -77,7 +82,9 @@ test.describe("Private Chauffeur", () => {
     );
   });
 
-  test("visible FAQ and FAQ structured data use the same ten interpolated items", async ({ page }) => {
+  test("visible FAQ and FAQ structured data use the same ten interpolated items", async ({
+    page,
+  }) => {
     await page.goto(routePath("privateChauffeur", "en"));
 
     const visible = await page.locator("main details").evaluateAll((items) =>
@@ -88,11 +95,13 @@ test.describe("Private Chauffeur", () => {
     );
     expect(visible).toHaveLength(10);
 
-    const faqSchema = await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) =>
-      scripts
-        .map((script) => JSON.parse(script.textContent ?? "{}"))
-        .find((schema) => schema["@type"] === "FAQPage"),
-    );
+    const faqSchema = await page
+      .locator('script[type="application/ld+json"]')
+      .evaluateAll((scripts) =>
+        scripts
+          .map((script) => JSON.parse(script.textContent ?? "{}"))
+          .find((schema) => schema["@type"] === "FAQPage"),
+      );
     expect(faqSchema.mainEntity).toHaveLength(10);
     expect(
       faqSchema.mainEntity.map((item: { name: string; acceptedAnswer: { text: string } }) => ({
@@ -145,9 +154,7 @@ test.describe("Private Chauffeur", () => {
     const heroBox = await page.locator(".service-hero").boundingBox();
     expect(heroBox?.width).toBeCloseTo(1440, 0);
 
-    const standardGroups = page.locator(
-      '.standards-grid[data-variant="numbered-matrix"] article',
-    );
+    const standardGroups = page.locator('.standards-grid[data-variant="numbered-matrix"] article');
     await expect(standardGroups).toHaveCount(4);
     for (const group of await standardGroups.all()) {
       await expect(group.locator("li")).toHaveCount(3);
@@ -158,9 +165,9 @@ test.describe("Private Chauffeur", () => {
         '.standards-grid[data-variant="numbered-matrix"] .standard-marker:not([aria-hidden="true"])',
       ),
     ).toHaveCount(0);
-    await expect(page.locator('.statements .statement-marker:not([aria-hidden="true"])')).toHaveCount(
-      0,
-    );
+    await expect(
+      page.locator('.statements .statement-marker:not([aria-hidden="true"])'),
+    ).toHaveCount(0);
 
     const fonts = await page.evaluate(() => ({
       h1: getComputedStyle(document.querySelector("h1")!).fontFamily,
@@ -174,7 +181,9 @@ test.describe("Private Chauffeur", () => {
     expect(fonts.control).toContain("Manrope");
   });
 
-  test("has no accidental overflow or undersized targets at all review states", async ({ page }) => {
+  test("has no accidental overflow or undersized targets at all review states", async ({
+    page,
+  }) => {
     await page.goto(routePath("privateChauffeur", "ru"));
     for (const viewport of reviewViewports) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
@@ -207,9 +216,9 @@ test.describe("Private Chauffeur", () => {
     const images = page.locator("main img");
     expect(await images.count()).toBeGreaterThanOrEqual(9);
     for (const image of await images.all()) {
-      expect(await image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(
-        0,
-      );
+      expect(
+        await image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
+      ).toBeGreaterThan(0);
     }
   });
 

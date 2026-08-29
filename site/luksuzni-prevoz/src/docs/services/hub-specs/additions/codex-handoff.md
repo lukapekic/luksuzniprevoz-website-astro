@@ -52,6 +52,7 @@ Important context:
 Implementation order:
 
 ### Phase 1 — Business
+
 - audit current locked Business docs + content
 - build compliance matrix
 - create the page-local Business component folder defined by the existing implementation contract
@@ -61,6 +62,7 @@ Implementation order:
 - technical review + checks
 
 ### Phase 2 — Special Events
+
 - add/lock supplied Special Events docs in the corresponding repo docs folder
 - confirm content lifecycle
 - if full localized content is approved, author/validate hub entries and publish route according to repo rules
@@ -72,12 +74,14 @@ Implementation order:
 - technical review + checks
 
 ### Phase 3 — Shared-selector evaluation
+
 - compare both selectors
 - run `pnpm components:check`
 - extract only if stable shared semantics are proven
 - otherwise retain page-local selectors
 
 At completion report:
+
 - exact files changed
 - new components and why they are justified
 - shared components reused

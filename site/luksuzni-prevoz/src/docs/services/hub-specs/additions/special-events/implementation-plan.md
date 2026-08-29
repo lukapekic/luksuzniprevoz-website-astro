@@ -59,6 +59,7 @@ src/content/pages/special-events/special-events.ru.md
 ```
 
 are scaffold entries with:
+
 - `pageType: scaffold`
 - `targetPageType: hub`
 - `translationState: missing`
@@ -69,9 +70,11 @@ The coding agent must **not invent production translations**.
 Two safe implementation paths:
 
 ### Path A — preferred for publication
+
 Approved content agent/human authors complete SR/EN/RU `hubPageSchema` entries first. Then implement and switch route availability to `published` only after validation/review.
 
 ### Path B — UI work before content
+
 Build the dedicated component against typed fixtures/dev preview while leaving the production route scaffold/noindex. Do not publish the page until approved localized content exists.
 
 Do not silently change scaffold content into invented production copy.
@@ -91,6 +94,7 @@ finalCta
 ```
 
 Use `sections` keys for:
+
 ```text
 eventCoordination
 otherOccasions
@@ -109,6 +113,7 @@ src/components/services/special-events/
 ```
 
 Do not create by default:
+
 ```text
 SpecialEventsHero.astro
 SpecialEventsOverview.astro
@@ -148,6 +153,7 @@ Do not fork shared components for visual convenience.
 ## 6. Dispatcher integration
 
 Use existing:
+
 ```text
 src/components/site/ContentPageRenderer.astro
 ```
@@ -159,6 +165,7 @@ specialEvents → SpecialEventsPage
 ```
 
 Preserve:
+
 ```text
 scaffold → ScaffoldPage
 ```
@@ -170,6 +177,7 @@ No route logic should be duplicated in catch-all route files.
 ## 7. Dedicated renderer contract
 
 Create:
+
 ```text
 SpecialEventsPage.astro
 ```
@@ -185,6 +193,7 @@ interface Props {
 ```
 
 Fail loud unless:
+
 ```text
 routeKey === specialEvents
 content.data.pageType === hub
@@ -192,6 +201,7 @@ content.data.routeKey === specialEvents
 ```
 
 Require:
+
 - hero
 - childServices
 - eventCoordination section
@@ -203,11 +213,13 @@ Require:
 ## 8. Hub + child data resolution
 
 Resolve:
+
 ```ts
 const hub = getService("specialEvents");
 ```
 
 Canonical children:
+
 ```text
 weddingTransportation
 promTransportation
@@ -221,6 +233,7 @@ Authored `childServices.items` must be matched by `routeKey`.
 Do not rely on arbitrary user-authored ordering without checking canonical children.
 
 Guard:
+
 - exact child set
 - duplicates
 - missing children
@@ -230,12 +243,14 @@ Guard:
 ## 9. CTA resolution
 
 Use:
+
 ```text
 resolveCtaHref
 Link / getPath
 ```
 
 Do not concatenate:
+
 ```text
 /en/
 ru/
@@ -253,11 +268,13 @@ VIP remains quote-only at child service level.
 ## 10. Hero
 
 Use:
+
 ```text
 ServiceHero variant="contained"
 ```
 
 `BaseLayout`:
+
 ```text
 overHero = false
 ```
@@ -273,6 +290,7 @@ Hero should not mimic Airport full-bleed.
 Use `ServiceOverview`.
 
 Possible grouped facts should be derived from actual hub/child capabilities and approved UI strings, e.g.:
+
 - principal/individual transport
 - guest/group support
 - multiple vehicles
@@ -285,6 +303,7 @@ Add UI keys through established UI content architecture if needed.
 ## 12. `SpecialEventServiceSelector.astro`
 
 Responsibility:
+
 - render canonical three child services
 - match localized authored card content to canonical routes
 - map approved images/placeholders
@@ -323,11 +342,13 @@ Do not put image filenames in localized Markdown unless the repository's image-r
 ## 13. Event Coordination section
 
 Find:
+
 ```text
 sections[key=eventCoordination]
 ```
 
 Compose with:
+
 ```text
 Section
 PageContainer
@@ -338,6 +359,7 @@ SectionHeading
 Build capability items from verified child data.
 
 Examples of capability checks:
+
 ```text
 wedding.multipleVehicles
 wedding.mixedVehicleClasses
@@ -353,6 +375,7 @@ Do not present every boolean as a UI fact. Aggregate into meaningful human-facin
 ### Waiting/return wording
 
 Wedding/Prom:
+
 - returnPossible true
 - waitingPossible custom-quote
 
@@ -363,11 +386,13 @@ Use quote/arrangement language.
 ## 14. Other Special Occasions
 
 Find:
+
 ```text
 sections[key=otherOccasions]
 ```
 
 Source semantic use cases from:
+
 ```text
 hub.generalUseCases
 ```
@@ -375,6 +400,7 @@ hub.generalUseCases
 Current enum values require localized display strings.
 
 Recommended implementation:
+
 - map enum → UI string key
 - render divider-led list
 - optional quote/enquiry CTA
@@ -386,15 +412,18 @@ Do not make a 4-card icon grid.
 ## 15. Vehicle recommendations
 
 Use:
+
 ```text
 VehicleRecommendations
 ```
 
 Resolve content vehicle IDs via:
+
 ```text
 getVehicle
 getPricing
 ```
+
 only as required by the shared component contract.
 
 No new event-specific vehicle facts.
@@ -406,12 +435,15 @@ If pricing display is not verified/appropriate, follow existing shared component
 Use `ServiceStandards`.
 
 Build groups from:
+
 ```text
 operations.ts
 ```
+
 plus only relevant verified service capabilities.
 
 Recommended content categories:
+
 - chauffeur
 - vehicle
 - passenger care
@@ -424,9 +456,11 @@ VIP privacy/discretion can inform the view model, but do not make the whole Even
 Use shared `FAQ`.
 
 If content provides FAQ:
+
 ```text
 buildFaqPage(data.faq.items)
 ```
+
 through the foundation SEO helper, consistent with Airport.
 
 Use `buildPageSeo`.
@@ -440,6 +474,7 @@ Do not use `Event` schema for this transport service category.
 Reuse shared `FinalCTA`.
 
 Resolve:
+
 - final primary/secondary CTA with `resolveCtaHref`
 - contact data only through verified contact gating
 - existing FinalCTA media behavior
@@ -459,6 +494,7 @@ coordination: multiple passengers/vehicles or guest-transport context
 ```
 
 If unavailable:
+
 - use approved neutral placeholders
 - record asset blocker
 - do not substitute unrelated Homepage/Airport imagery indiscriminately
@@ -468,6 +504,7 @@ Use Astro image pipeline.
 ## 20. Route publication
 
 Only after:
+
 - SR content approved
 - EN translation reviewed
 - RU translation reviewed
@@ -483,20 +520,24 @@ Do not publish only one locale when project parity requires all configured local
 After Business + Special Events pass production review:
 
 Compare:
+
 ```text
 BusinessServiceSelector
 SpecialEventServiceSelector
 ```
 
 If semantic/DOM/responsive API is genuinely identical, extract to:
+
 ```text
 services/shared/HubServiceSelector.astro
 ```
 
 Run:
+
 ```text
 pnpm components:check
 ```
+
 and inspect all consumers.
 
 Do not extract if differences require styling variants tied to page category.
@@ -504,6 +545,7 @@ Do not extract if differences require styling variants tied to page category.
 ## 22. Compliance matrix
 
 Required rows:
+
 - route/content lifecycle
 - hero
 - overview
@@ -532,6 +574,7 @@ Required rows:
 ## 23. Verification
 
 Before editing:
+
 ```bash
 pnpm design:context --target <special events target> --surface <surface-id>
 ```
@@ -551,6 +594,7 @@ pnpm test:unit
 ```
 
 Also run current:
+
 - component impact checks when shared components change
 - UI verification
 - design review
@@ -563,6 +607,7 @@ Never claim a check passed unless it ran.
 ## 24. Completion report
 
 Agent must report:
+
 - files created
 - files modified
 - shared components reused

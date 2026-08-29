@@ -25,7 +25,8 @@
     const landscape = window.innerWidth > window.innerHeight;
 
     let state = "mobile";
-    if (Number.isFinite(md) && width >= md) state = landscape ? "tablet-landscape" : "tablet-portrait";
+    if (Number.isFinite(md) && width >= md)
+      state = landscape ? "tablet-landscape" : "tablet-portrait";
     if (Number.isFinite(lg) && width >= lg) state = "desktop";
     if (Number.isFinite(xl) && width >= xl) state = "wide";
 

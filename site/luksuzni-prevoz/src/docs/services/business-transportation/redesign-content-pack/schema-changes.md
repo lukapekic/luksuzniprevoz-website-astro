@@ -14,7 +14,7 @@ Extend `actionTargetSchema` with:
 z.object({
   type: z.literal("anchor"),
   anchorId: z.string().regex(/^[a-z][a-z0-9-]*$/),
-})
+});
 ```
 
 The target union becomes:

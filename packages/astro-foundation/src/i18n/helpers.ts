@@ -96,12 +96,15 @@ export function buildHreflangSet(
   const xDefaultLocale = locales.find((l) => l.isXDefault);
   if (xDefaultLocale) {
     const xDefaultLocaleCode =
-      route.slugs[xDefaultLocale.code] !== undefined
-        ? xDefaultLocale.code
-        : defaultLocale;
+      route.slugs[xDefaultLocale.code] !== undefined ? xDefaultLocale.code : defaultLocale;
     // Only emit x-default if the resolved locale actually has this route.
     if (route.slugs[xDefaultLocaleCode] !== undefined) {
-      const xDefaultHref = getPath(route.key as RouteKey, xDefaultLocaleCode, routes, defaultLocale);
+      const xDefaultHref = getPath(
+        route.key as RouteKey,
+        xDefaultLocaleCode,
+        routes,
+        defaultLocale,
+      );
       if (!links.some((l) => l.hreflang === "x-default")) {
         links.push({ hreflang: "x-default", href: xDefaultHref });
       }

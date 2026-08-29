@@ -52,9 +52,12 @@ test.describe("Airport Transportation", () => {
     await page.goto("/aerodromski-prevoz/");
     for (const width of [320, 768, 1024, 1440, 1920]) {
       await page.setViewportSize({ width, height: width < 1000 ? 1024 : 900 });
-      await page.evaluate(() => new Promise<void>((resolve) => {
-        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
-      }));
+      await page.evaluate(
+        () =>
+          new Promise<void>((resolve) => {
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+          }),
+      );
       const dimensions = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
@@ -86,7 +89,9 @@ test.describe("Airport Transportation", () => {
     expect(bookingBox).not.toBeNull();
     expect(bookingBox!.y - (mediaBox!.y + mediaBox!.height)).toBeGreaterThan(32);
 
-    await expect(page.getByRole("heading", { name: "Mercedes V klasa", exact: true })).toHaveCount(1);
+    await expect(page.getByRole("heading", { name: "Mercedes V klasa", exact: true })).toHaveCount(
+      1,
+    );
     await expect(page.getByRole("heading", { name: /Mercedes V klasa 6\+1/ })).toHaveCount(0);
   });
 

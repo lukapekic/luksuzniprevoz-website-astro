@@ -114,19 +114,19 @@ Do not add orientation queries unless a proven layout issue requires them.
 
 ## Component matrix
 
-| Component | Surface ownership | Radius role | Section rhythm | Primary layout |
-|---|---|---|---|---|
-| SiteHeader | transparent over Hero → sticky dark surface | control only | n/a | compact row |
-| HomepageHero | **full-bleed** cinematic media; contained inner content | no outer Hero panel radius requirement | feature after | desktop 7/5 content |
-| ServiceShowcase | open background | card/media | standard/feature transition | 35/30/35 mosaic |
-| ServiceCard | image-backed | card | n/a | overlay content |
-| Private Chauffeur | open background | image=card | feature | 5/7 |
-| TrustStrip | elevated contained | section | standard | 4 / 2×2 / 1 |
-| FleetShowcase | open background | card items | feature | horizontal track |
-| HowItWorks | light contained | section | standard | 3 / adaptive / 1 |
-| Reviews | open background | card items | standard | 3 / ~2 / swipe |
-| FinalCTA | contained neutral graphite gradient | section | feature | 62/38 |
-| SiteFooter | dark background | none | compact | 3 cols → stack |
+| Component         | Surface ownership                                       | Radius role                            | Section rhythm              | Primary layout      |
+| ----------------- | ------------------------------------------------------- | -------------------------------------- | --------------------------- | ------------------- |
+| SiteHeader        | transparent over Hero → sticky dark surface             | control only                           | n/a                         | compact row         |
+| HomepageHero      | **full-bleed** cinematic media; contained inner content | no outer Hero panel radius requirement | feature after               | desktop 7/5 content |
+| ServiceShowcase   | open background                                         | card/media                             | standard/feature transition | 35/30/35 mosaic     |
+| ServiceCard       | image-backed                                            | card                                   | n/a                         | overlay content     |
+| Private Chauffeur | open background                                         | image=card                             | feature                     | 5/7                 |
+| TrustStrip        | elevated contained                                      | section                                | standard                    | 4 / 2×2 / 1         |
+| FleetShowcase     | open background                                         | card items                             | feature                     | horizontal track    |
+| HowItWorks        | light contained                                         | section                                | standard                    | 3 / adaptive / 1    |
+| Reviews           | open background                                         | card items                             | standard                    | 3 / ~2 / swipe      |
+| FinalCTA          | contained neutral graphite gradient                     | section                                | feature                     | 62/38               |
+| SiteFooter        | dark background                                         | none                                   | compact                     | 3 cols → stack      |
 
 ## Global forbidden patterns
 

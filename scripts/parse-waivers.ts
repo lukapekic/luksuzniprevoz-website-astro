@@ -31,7 +31,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg ? resolve(ROOT, targetArg) : resolve(ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = targetArg
+  ? resolve(ROOT, targetArg)
+  : resolve(ROOT, "site", "luksuzni-prevoz");
 const exceptionsPath = resolve(resolvedTarget, "docs", "exceptions.md");
 // Fall back to the monorepo-root docs/exceptions.md (the canonical one).
 const rootExceptions = resolve(ROOT, "docs", "exceptions.md");
@@ -47,7 +49,16 @@ if (!existsSync(path)) {
 
 const NON_WAIVABLE = new Set(["FND-A11Y-01"]);
 const MAX_WAIVER_MONTHS = 6;
-const REQUIRED_FIELDS = ["Rule", "Severity", "Component/Area", "Requested by", "Reason", "Proposed Mitigation", "Review Date", "Status"];
+const REQUIRED_FIELDS = [
+  "Rule",
+  "Severity",
+  "Component/Area",
+  "Requested by",
+  "Reason",
+  "Proposed Mitigation",
+  "Review Date",
+  "Status",
+];
 
 const raw = readFileSync(path, "utf-8");
 
@@ -160,7 +171,8 @@ for (let i = 0; i < sections.length; i++) {
         severity: "error",
         filePath: sectionRef,
         offendingValue: `Waiver expired: Review Date ${reviewDateStr} is in the past (Status: "${status}")`,
-        expectedValue: "Move to the Expired Waivers section with Status: expired, or renew the review",
+        expectedValue:
+          "Move to the Expired Waivers section with Status: expired, or renew the review",
         docAnchor: "#FND-META-10",
       });
     }

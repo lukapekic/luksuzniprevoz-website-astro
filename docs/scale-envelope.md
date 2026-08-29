@@ -53,16 +53,16 @@ Authentication, dashboards, user-specific content, and persistent application st
 
 ## Features that require deliberate review
 
-| Change | Why it changes the envelope |
-|---|---|
-| >30 routes per locale | Validator/config limit and larger whole-build cross-locale set. |
-| >6 locales | Exceeds configured locale schema and multiplies editorial/QA workload. |
-| CMS/live database | Introduces external content truth, cache/index lifecycle, and runtime failure modes. |
-| SSR/server rendering | Changes deployment/runtime/security/performance assumptions. |
-| User accounts/auth | Introduces private state, security boundaries, and application workflows. |
-| Large route-level pagination/catalog | Adds a second scale axis to route/parity/SEO handling. |
-| Site-wide search | May justify a generated or external index once content volume makes navigation insufficient. |
-| Multiple deployable brands/sites | Requires an explicit multi-site product/configuration model rather than hidden shared defaults. |
+| Change                               | Why it changes the envelope                                                                     |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| >30 routes per locale                | Validator/config limit and larger whole-build cross-locale set.                                 |
+| >6 locales                           | Exceeds configured locale schema and multiplies editorial/QA workload.                          |
+| CMS/live database                    | Introduces external content truth, cache/index lifecycle, and runtime failure modes.            |
+| SSR/server rendering                 | Changes deployment/runtime/security/performance assumptions.                                    |
+| User accounts/auth                   | Introduces private state, security boundaries, and application workflows.                       |
+| Large route-level pagination/catalog | Adds a second scale axis to route/parity/SEO handling.                                          |
+| Site-wide search                     | May justify a generated or external index once content volume makes navigation insufficient.    |
+| Multiple deployable brands/sites     | Requires an explicit multi-site product/configuration model rather than hidden shared defaults. |
 
 ## Visual QA at this scale
 

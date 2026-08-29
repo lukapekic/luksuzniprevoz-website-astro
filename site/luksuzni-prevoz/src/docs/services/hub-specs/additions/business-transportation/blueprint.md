@@ -62,6 +62,7 @@ Shared `ServiceHero / contained`.
 Image direction: contextual executive/corporate transport, not generic office stock photography.
 
 Content:
+
 - one H1
 - concise business proposition
 - primary action
@@ -82,11 +83,13 @@ Facts remain divider-led and operational rather than marketing badges.
 Page-specific composition built from the approved image-led `ServiceCard` identity.
 
 Show canonical children:
+
 - Corporate Transportation
 - Delegation Transportation
 - Conference & Congress Transportation
 
 Rules:
+
 - contextual image-led discovery
 - title + concise description + explicit CTA
 - do not make entire card an ambiguous click target
@@ -100,9 +103,11 @@ Page-specific functional/light section.
 Desktop: two clear commercial paths separated by structure/divider rather than floating pricing cards.
 
 ### One-off
+
 Explain one-off business transport based on verified Corporate Transportation capability.
 
 ### Recurring
+
 Explain recurring contracts, invoicing, negotiated pricing, and dedicated chauffeur behavior only where current service data confirms them.
 
 CTA behavior can differ by path but must preserve global CTA hierarchy.
@@ -122,6 +127,7 @@ Business-only confidence section.
 Data source: `clients.ts` and its display policy.
 
 Rules:
+
 - render only when route policy allows it
 - logo count is data-driven
 - never lock exact client count
@@ -142,6 +148,7 @@ Use shared `ServiceStandards` with `operations.ts` and verified business/child-s
 Use shared `FAQ`.
 
 Topic families:
+
 - one-off vs recurring
 - invoicing/contracts
 - multiple vehicles / mixed classes
@@ -161,6 +168,7 @@ Do not create a separate visual variant.
 Use route helpers.
 
 The hub must link to its children and may contextually link to:
+
 - Airport Transportation
 - Private Chauffeur
 - Fleet
@@ -169,6 +177,7 @@ The hub must link to its children and may contextually link to:
 ## 16. Responsive acceptance
 
 Particular checks:
+
 - child-service selector remains image-led
 - one-off/recurring comparison remains clear on tablet portrait
 - coordination content/media order remains intentional

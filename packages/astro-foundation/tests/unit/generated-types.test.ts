@@ -17,7 +17,10 @@ describe("generated/types.ts (FND-TYPE-01/03/04)", () => {
   const source = existsSync(generatedPath) ? readFileSync(generatedPath, "utf-8") : "";
 
   it("exists and is marked machine-owned", () => {
-    expect(existsSync(generatedPath), "generated/types.ts must exist — run pnpm types:generate").toBe(true);
+    expect(
+      existsSync(generatedPath),
+      "generated/types.ts must exist — run pnpm types:generate",
+    ).toBe(true);
     expect(source).toContain("DO NOT EDIT");
   });
 

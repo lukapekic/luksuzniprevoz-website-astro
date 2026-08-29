@@ -113,27 +113,21 @@ function normalizeRating(raw: number | undefined | null): number {
 
 /** Derive a safe, stable id for a review (fallback when the raw `name` is bad). */
 function normalizeReviewId(rawName: unknown, fallback: string): string {
-  return typeof rawName === "string" && rawName.trim().length > 0
-    ? rawName.trim()
-    : fallback;
+  return typeof rawName === "string" && rawName.trim().length > 0 ? rawName.trim() : fallback;
 }
 
 /** Normalize one raw Places review into the stable UI view model. Handles
  *  optional fields, author fallback, rating normalization, and text selection
  *  (prefers `text.text` as the displayable text; keeps `originalText` only when
  *  its language differs from `text`). */
-function normalizeReview(
-  raw: GooglePlaceReview,
-  index: number,
-): ReviewViewModel {
+function normalizeReview(raw: GooglePlaceReview, index: number): ReviewViewModel {
   const author = raw.authorAttribution;
   const displayText = raw.text?.text?.trim() ?? "";
   const original = raw.originalText?.text?.trim() ?? "";
   const originalLang = raw.originalText?.languageCode ?? null;
   const textLang = raw.text?.languageCode ?? null;
   // Keep originalText only when it is a genuinely different-language source.
-  const originalText =
-    original.length > 0 && originalLang !== textLang ? original : null;
+  const originalText = original.length > 0 && originalLang !== textLang ? original : null;
 
   return {
     id: normalizeReviewId(raw.name, `mock-review-${index + 1}`),
@@ -153,15 +147,10 @@ function normalizeReview(
 }
 
 /** Normalize the whole Places response into the stable summary view model. */
-function normalizeReviews(
-  raw: GooglePlaceReviewsResponse,
-): ReviewsSummaryViewModel {
+function normalizeReviews(raw: GooglePlaceReviewsResponse): ReviewsSummaryViewModel {
   return {
     placeName: raw.displayName?.text?.trim() || "—",
-    rating:
-      typeof raw.rating === "number" && !Number.isNaN(raw.rating)
-        ? raw.rating
-        : null,
+    rating: typeof raw.rating === "number" && !Number.isNaN(raw.rating) ? raw.rating : null,
     userRatingCount:
       typeof raw.userRatingCount === "number" && !Number.isNaN(raw.userRatingCount)
         ? raw.userRatingCount
@@ -177,9 +166,7 @@ function normalizeReviews(
 // It fails the build loudly if the fixture is malformed — no silent fallback
 // that could mask broken mock data behind an empty carousel. Mirrors the
 // assertXConsistency() pattern in fleet.ts / services.ts.
-function assertReviewsMockConsistency(
-  raw: GooglePlaceReviewsResponse,
-): void {
+function assertReviewsMockConsistency(raw: GooglePlaceReviewsResponse): void {
   if (!raw || typeof raw !== "object") {
     throw new Error(
       "reviews.ts: google-place-reviews.mock.json is not an object — fixture is malformed.",

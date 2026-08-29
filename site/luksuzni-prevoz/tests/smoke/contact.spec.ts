@@ -32,12 +32,10 @@ test.describe("Contact", () => {
   test("shows canonical contact facts and no messaging-app contact", async ({ page }) => {
     await page.goto(routePath("contact", "en"));
 
-    await expect(page.locator('main a[href="tel:+381601119999"]')).toHaveText(
-      "+381 60 111 9999",
+    await expect(page.locator('main a[href="tel:+381601119999"]')).toHaveText("+381 60 111 9999");
+    await expect(page.locator('main a[href="mailto:office@luksuzniprevoz.rs"]')).toHaveText(
+      "office@luksuzniprevoz.rs",
     );
-    await expect(
-      page.locator('main a[href="mailto:office@luksuzniprevoz.rs"]'),
-    ).toHaveText("office@luksuzniprevoz.rs");
     await expect(page.locator("main address")).toContainText("Antifašističke borbe 25");
     await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
   });

@@ -4,15 +4,15 @@ This document records the deployment contract for the production Luxury Transpor
 
 ## Verified production facts
 
-| Item | Current contract |
-|---|---|
-| Production site | `https://luksuzniprevoz.rs` |
-| Application | `site/luksuzni-prevoz` |
-| Site package | `@luksuzni-prevoz/site` |
-| Framework | Astro, static output |
-| Package manager | pnpm |
-| Node | version from `.nvmrc` |
-| CI | GitHub Actions under `.github/workflows/` |
+| Item                  | Current contract                                                  |
+| --------------------- | ----------------------------------------------------------------- |
+| Production site       | `https://luksuzniprevoz.rs`                                       |
+| Application           | `site/luksuzni-prevoz`                                            |
+| Site package          | `@luksuzni-prevoz/site`                                           |
+| Framework             | Astro, static output                                              |
+| Package manager       | pnpm                                                              |
+| Node                  | version from `.nvmrc`                                             |
+| CI                    | GitHub Actions under `.github/workflows/`                         |
 | Active theme selector | `site/luksuzni-prevoz/foundation.config.ts -> activeThemeVersion` |
 
 The final hosting product/account/plan is operational infrastructure and should be recorded here when it is fixed in repository/deployment configuration. Do not invent a provider-specific deployment contract merely because DNS or redirects are managed through that provider.
@@ -141,14 +141,14 @@ Record the final endpoint, spam mitigation, and data-retention/provider decision
 
 Recommended default for a static Astro deployment:
 
-| Resource | Policy |
-|---|---|
-| Hashed CSS/JS/assets | Long-lived immutable cache |
-| Fonts with content-hashed filenames | Long-lived immutable cache |
-| Optimized/hash-addressed images | Long-lived cache appropriate to generated filename strategy |
-| HTML | Short/no-cache policy according to host deploy semantics |
-| Redirect configuration | Must refresh with each deploy |
-| `robots.txt` / sitemap | Short cache; must reflect current release |
+| Resource                            | Policy                                                      |
+| ----------------------------------- | ----------------------------------------------------------- |
+| Hashed CSS/JS/assets                | Long-lived immutable cache                                  |
+| Fonts with content-hashed filenames | Long-lived immutable cache                                  |
+| Optimized/hash-addressed images     | Long-lived cache appropriate to generated filename strategy |
+| HTML                                | Short/no-cache policy according to host deploy semantics    |
+| Redirect configuration              | Must refresh with each deploy                               |
+| `robots.txt` / sitemap              | Short cache; must reflect current release                   |
 
 Do not cache mutable HTML or redirect files for a year simply because static assets use immutable caching.
 
@@ -214,14 +214,14 @@ After a production deploy, verify at minimum:
 
 Keep these fields updated once infrastructure is finalized:
 
-| Decision | Value |
-|---|---|
-| Hosting provider / plan | TBD until encoded/confirmed |
-| Production deploy trigger | TBD until finalized |
-| Preview/staging URL strategy | TBD until finalized |
-| Form submission endpoint | TBD until implemented |
-| Spam mitigation | TBD until implemented |
-| Consent implementation/vendor | TBD if required |
-| CSP reporting endpoint | TBD if used |
+| Decision                      | Value                       |
+| ----------------------------- | --------------------------- |
+| Hosting provider / plan       | TBD until encoded/confirmed |
+| Production deploy trigger     | TBD until finalized         |
+| Preview/staging URL strategy  | TBD until finalized         |
+| Form submission endpoint      | TBD until implemented       |
+| Spam mitigation               | TBD until implemented       |
+| Consent implementation/vendor | TBD if required             |
+| CSP reporting endpoint        | TBD if used                 |
 
 Unknown operational facts are better marked TBD than invented.

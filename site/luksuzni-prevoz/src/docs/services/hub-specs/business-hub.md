@@ -42,6 +42,7 @@ The hub must prominently route to these three child services:
 ## 2.1 Corporate Transportation
 
 Use cases:
+
 - executive travel
 - recurring corporate transport
 - meetings
@@ -60,6 +61,7 @@ Important:
 ## 2.2 Delegation Transportation
 
 Use cases:
+
 - executive delegations
 - corporate groups
 - diplomatic-style delegations
@@ -67,6 +69,7 @@ Use cases:
 - hotel/airport/venue coordination
 
 Positioning:
+
 - coordinated fleet
 - discreet execution
 - clear point of contact
@@ -80,6 +83,7 @@ Do not claim security, guards, close protection, escorts, background checks, or 
 ## 2.3 Conference & Congress Transportation
 
 Use cases:
+
 - conferences
 - congresses
 - business events
@@ -90,6 +94,7 @@ Use cases:
 - airport arrivals/departures
 
 Positioning:
+
 - multi-vehicle scheduling
 - timetable coordination
 - multiple pickup points
@@ -111,6 +116,7 @@ The page should not force visitors through a long generic booking form before th
 Use the project's established CTA labels where possible.
 
 Potential intent:
+
 - Plan Business Transport
 - Request a Quote
 - Contact Our Team
@@ -157,6 +163,7 @@ H1 direction:
 Do not treat this exact English wording as approved production translation; use it as content intent unless approved localized copy already exists.
 
 Supporting message:
+
 - individual executives through multi-vehicle schedules
 - business travel built around timing and coordination
 - Belgrade/Serbia context where appropriate
@@ -172,6 +179,7 @@ jump to services or explore business services
 ### Optional compact proof line
 
 Examples of content categories:
+
 - Executive travel
 - Delegations
 - Conferences
@@ -180,11 +188,13 @@ Examples of content categories:
 ### Visual
 
 Preferred:
+
 - S-Class / E-Class / V-Class at a modern business, hotel, aviation, or architectural environment
 - chauffeur interaction
 - executive arrival/departure
 
 Avoid:
+
 - fake boardroom stock photography
 - posed handshake imagery
 - generic laptop/office photos
@@ -199,6 +209,7 @@ Use the shared 3-service selector.
 ### Items
 
 #### 01 — Corporate Transportation
+
 Short intent:
 Executive and recurring business travel built around the working day.
 
@@ -206,6 +217,7 @@ Potential meta:
 `Executives · Roadshows · Recurring transport`
 
 #### 02 — Delegation Transportation
+
 Short intent:
 Coordinated movement of executives, guests, and multiple vehicles.
 
@@ -213,6 +225,7 @@ Potential meta:
 `Multi-vehicle · Airport · Hotel · Venue`
 
 #### 03 — Conference & Congress
+
 Short intent:
 Transport programs for event schedules, speakers, guests, and multiple locations.
 
@@ -258,6 +271,7 @@ Explain:
 ### Visual treatment
 
 Prefer:
+
 - 50/50 split
 - strong image
 - minimal route/timeline visualization
@@ -291,6 +305,7 @@ Use only facts supported by project/business data:
 ### Design
 
 Could use:
+
 - restrained grid
 - compact numbered facts
 - text + one detail image
@@ -310,6 +325,7 @@ Give roadshows a meaningful presence without creating a separate SEO page.
 Transport should follow the working day, not force the working day to follow transport.
 
 Cover:
+
 - multiple meetings
 - changing times
 - waiting between appointments
@@ -335,6 +351,7 @@ Use canonical fleet data / existing fleet preview.
 Do not hardcode if current data structure already defines them.
 
 Typical relevance:
+
 - S-Class — executive/VIP
 - E-Class — business travel
 - V-Class — executives/groups
@@ -403,6 +420,7 @@ Primary cross-links:
 - Private Chauffeur
 
 Potential contextual relationship:
+
 - airport transfer for individual arrivals
 - private chauffeur for flexible day schedules
 
@@ -415,6 +433,7 @@ Do not repeat the three business child services here unless the current site's r
 Use the existing global FinalCTA.
 
 Content intent:
+
 - discuss itinerary
 - request business transport
 - complex schedules welcome
@@ -510,12 +529,14 @@ Child pages should carry the more specific search intent.
 Follow the project's SEO implementation conventions.
 
 Likely relevant:
+
 - WebPage
 - Service
 - BreadcrumbList
 - Organization references from global schema
 
 Do not add:
+
 - fake prices
 - fake reviews
 - fake aggregate ratings
@@ -575,9 +596,10 @@ Before coding:
 8. If production localized copy is absent, use the repository's approved content workflow or clearly marked non-production placeholders according to existing project rules.
 9. Run the project's required lint/build/test checks.
 10. Report:
-   - files changed
-   - new reusable components
-   - reused components
-   - data/content files touched
-   - SEO/schema additions
-   - unresolved content/data blockers
+
+- files changed
+- new reusable components
+- reused components
+- data/content files touched
+- SEO/schema additions
+- unresolved content/data blockers
