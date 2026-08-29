@@ -17,6 +17,7 @@ If this file conflicts with the repo's locked blueprint or full implementation c
 ## 2. Current gap
 
 `ContentPageRenderer.astro` currently dispatches:
+
 - scaffold → `ScaffoldPage`
 - airportTransportation → `AirportTransportationPage`
 - otherwise → `LeafPage`
@@ -26,6 +27,7 @@ Business Transportation is already authored as `pageType: hub`, but no dedicated
 ### Required integration
 
 Add:
+
 ```text
 businessTransportation → BusinessTransportationPage
 ```
@@ -69,6 +71,7 @@ Link
 ## 5. Data/content sources
 
 ### Editorial
+
 ```text
 src/content/pages/business-transportation/
   business-transportation.sr.md
@@ -79,6 +82,7 @@ src/content/pages/business-transportation/
 Content is already authored/reviewed.
 
 ### Operational/business truth
+
 ```text
 src/data/services.ts
 src/data/business.ts
@@ -129,6 +133,7 @@ conferenceCongressTransportation
 The authored `childServices.items` should be matched by `routeKey`, not array-position assumptions alone.
 
 Guard against:
+
 - unknown authored child
 - missing canonical child
 - duplicate child
@@ -149,6 +154,7 @@ BusinessServiceSelector.astro
 Use three `ServiceCard` instances.
 
 Do not:
+
 - make the whole card clickable
 - invent a new card style
 - create a carousel for three items
@@ -160,12 +166,15 @@ Use approved contextual imagery if available; otherwise use the built-in neutral
 ### Responsive intent
 
 Mobile:
+
 - stacked cards
 
 Tablet:
+
 - deterministic readable topology; do not squeeze text into three narrow columns
 
 Desktop:
+
 - 4/4/4 within the approved 12-column system
 
 ## 9. One-off vs Recurring
@@ -179,9 +188,11 @@ BusinessCommercialPaths.astro
 This is a **commercial path explanation**, not pricing UI.
 
 One-off capability can derive from Corporate:
+
 - supportsOneOff
 
 Recurring path can derive from:
+
 - supportsRecurringContracts
 - supportsInvoicing
 - supportsNegotiatedPricing
@@ -196,6 +207,7 @@ Prefer divider structure over two floating dashboard cards.
 ## 10. Coordination section
 
 Compose directly inside the page using:
+
 - `Section`
 - `PageContainer`
 - `OpenSplitSection`
@@ -203,10 +215,12 @@ Compose directly inside the page using:
 - semantic list/dividers
 
 Data may aggregate verified facts from:
+
 - Delegation
 - Conference/Congress
 
 Must explicitly respect:
+
 ```text
 securityService = false
 ```
@@ -218,6 +232,7 @@ No bodyguard/security wording.
 Evaluate `clients.ts` policy before rendering.
 
 Requirements:
+
 - approved public display only
 - real assets only
 - no fixed count
@@ -260,6 +275,7 @@ No fake ratings/prices.
 Reuse `FinalCTA`.
 
 Resolve:
+
 - booking/quote actions through `resolveCtaHref`
 - verified contact channels through contact gating
 
@@ -272,6 +288,7 @@ Use `BaseLayout` with the contained service-family header behavior.
 Business is **not** a Homepage/Airport full-bleed-over-header hero.
 
 Expected:
+
 ```text
 overHero = false
 ```
@@ -281,6 +298,7 @@ unless the existing full implementation contract says otherwise.
 ## 17. Compliance matrix minimum rows
 
 Before edit, cover:
+
 - hero
 - overview
 - 3 child routes
@@ -320,6 +338,7 @@ Then run page/UI/build review commands required by the current skill context.
 ## 19. Done definition
 
 Business is done only when:
+
 - dedicated renderer is dispatched
 - locked page order is preserved
 - all three child routes work in SR/EN/RU

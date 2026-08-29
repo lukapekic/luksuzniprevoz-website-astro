@@ -15,24 +15,40 @@
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { generateOgImage, validateFontScriptCoverage } from "../packages/astro-foundation/src/seo/og.ts";
+import {
+  generateOgImage,
+  validateFontScriptCoverage,
+} from "../packages/astro-foundation/src/seo/og.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg ? resolve(MONO_ROOT, targetArg) : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = targetArg
+  ? resolve(MONO_ROOT, targetArg)
+  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
 
 // --- Load config ---
 let configFilePath: string | undefined;
-for (const p of [resolve(resolvedTarget, "foundation.config.ts"), resolve(resolvedTarget, "src/foundation.config.ts")]) {
-  if (existsSync(p)) { configFilePath = p; break; }
+for (const p of [
+  resolve(resolvedTarget, "foundation.config.ts"),
+  resolve(resolvedTarget, "src/foundation.config.ts"),
+]) {
+  if (existsSync(p)) {
+    configFilePath = p;
+    break;
+  }
 }
 if (!configFilePath) {
   console.error("✖ No foundation.config.ts found");
   process.exit(1);
 }
-let config: { capabilities: { ogImages: string }; site: string; brand: string; locales: { locales: Array<{ code: string }> } };
+let config: {
+  capabilities: { ogImages: string };
+  site: string;
+  brand: string;
+  locales: { locales: Array<{ code: string }> };
+};
 try {
   const mod = await import(configFilePath);
   config = (mod.default ?? mod["config"]) as typeof config;
@@ -49,7 +65,8 @@ if (config.capabilities.ogImages !== "generated") {
 
 // --- Load routes ---
 const routesPath = resolve(resolvedTarget, "src/data/routes.ts");
-let routes: Array<{ key: string; slugs: Record<string, string | undefined>; noindex?: boolean }> = [];
+let routes: Array<{ key: string; slugs: Record<string, string | undefined>; noindex?: boolean }> =
+  [];
 if (existsSync(routesPath)) {
   const mod = await import(routesPath);
   routes = (mod.routes ?? []) as typeof routes;
@@ -94,8 +111,13 @@ for (const p of [
   try {
     const mod = await import(p);
     const cfg = (mod.default ?? mod["config"]) as { activeThemeVersion?: string };
-    if (cfg?.activeThemeVersion) { activeThemeVersion = cfg.activeThemeVersion; break; }
-  } catch { /* continue to error below */ }
+    if (cfg?.activeThemeVersion) {
+      activeThemeVersion = cfg.activeThemeVersion;
+      break;
+    }
+  } catch {
+    /* continue to error below */
+  }
 }
 if (!activeThemeVersion) {
   console.error(
@@ -110,7 +132,12 @@ if (!activeThemeVersion) {
 //   - Flat semantic tokens (Luxury site V1/V2): { background, textPrimary, accent }
 //   - Nested modes.light (legacy V1): { modes: { light: { surface: { base }, text: { primary }, accent: { primary } } } }
 let theme: { background?: string; foreground?: string; accent?: string } = {};
-const palettePath = resolve(resolvedTarget, "src/theme/versions", activeThemeVersion, "palette.json");
+const palettePath = resolve(
+  resolvedTarget,
+  "src/theme/versions",
+  activeThemeVersion,
+  "palette.json",
+);
 if (existsSync(palettePath)) {
   try {
     const palette = JSON.parse(readFileSync(palettePath, "utf-8"));
@@ -131,7 +158,9 @@ if (existsSync(palettePath)) {
         accent: light.accent?.primary,
       };
     }
-  } catch { /* fall back to defaults */ }
+  } catch {
+    /* fall back to defaults */
+  }
 }
 
 // --- Enumerate pages and generate ---
@@ -141,7 +170,10 @@ let generated = 0;
 let skipped = 0;
 
 for (const route of routes) {
-  if (route.noindex) { skipped++; continue; }
+  if (route.noindex) {
+    skipped++;
+    continue;
+  }
   for (const locale of config.locales.locales) {
     if (route.slugs[locale.code] === undefined) continue;
 
@@ -153,23 +185,25 @@ for (const route of routes) {
       try {
         const dict = JSON.parse(readFileSync(uiFile, "utf-8"));
         if (dict[titleKey]) title = dict[titleKey];
-      } catch { /* keep fallback */ }
+      } catch {
+        /* keep fallback */
+      }
     }
 
     const outPath = join(ogDir, locale.code, `${route.key}.${font ? "png" : "svg"}`);
-    const result = await generateOgImage(
-      {
-        title,
-        brand: config.brand,
-        locale: locale.code,
-        outputPath: outPath,
-        theme,
-        font,
-        fontBold,
-      },
-    );
+    const result = await generateOgImage({
+      title,
+      brand: config.brand,
+      locale: locale.code,
+      outputPath: outPath,
+      theme,
+      font,
+      fontBold,
+    });
     if (result.generated) generated++;
   }
 }
 
-console.log(`✓ og:generate — ${generated} image(s) written to dist/og/ (${font ? "PNG" : "SVG preview"}), ${skipped} noindex route(s) skipped.`);
+console.log(
+  `✓ og:generate — ${generated} image(s) written to dist/og/ (${font ? "PNG" : "SVG preview"}), ${skipped} noindex route(s) skipped.`,
+);

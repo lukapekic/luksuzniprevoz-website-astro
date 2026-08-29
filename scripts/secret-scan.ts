@@ -36,7 +36,10 @@ const PATTERNS: { name: string; re: RegExp }[] = [
   { name: "Google API key", re: /\bAIza[0-9A-Za-z_-]{35}\b/ },
   { name: "Slack token", re: /\bxox[baprs]-[A-Za-z0-9-]{10,}\b/ },
   { name: "Stripe key", re: /\b(sk|pk|rk)_(live|test)_[0-9A-Za-z]{24,}\b/ },
-  { name: "assigned secret/token/password", re: /\b(secret|token|password|passwd|api_key|apikey)\s*[:=]\s*['"][^'"]{8,}['"]/i },
+  {
+    name: "assigned secret/token/password",
+    re: /\b(secret|token|password|passwd|api_key|apikey)\s*[:=]\s*['"][^'"]{8,}['"]/i,
+  },
 ];
 
 function walk(dir: string, acc: string[] = []): string[] {
@@ -74,7 +77,12 @@ function scanFile(file: string) {
       if (m) {
         // Mask the secret in the preview.
         const masked = line.replace(re, (s) => s.slice(0, 6) + "…REDACTED");
-        hits.push({ file: relative(ROOT, file), line: i + 1, name, preview: masked.trim().slice(0, 120) });
+        hits.push({
+          file: relative(ROOT, file),
+          line: i + 1,
+          name,
+          preview: masked.trim().slice(0, 120),
+        });
       }
     }
   }
@@ -99,7 +107,9 @@ if (hits.length > 0) {
   for (const h of hits) {
     console.error(`  ${h.file}:${h.line}  [${h.name}]  ${h.preview}`);
   }
-  console.error("\n  Remove the secret, rotate it if it was ever committed, and use astro:env for runtime secrets.");
+  console.error(
+    "\n  Remove the secret, rotate it if it was ever committed, and use astro:env for runtime secrets.",
+  );
   process.exit(1);
 } else {
   console.log(`✓ secret-scan — no secrets found in dist/${includeSource ? " + source" : ""}.`);

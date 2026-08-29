@@ -44,6 +44,7 @@ Avoid turning the page into:
 ## 2.1 Wedding Transportation
 
 Use cases:
+
 - couple transportation
 - guest transportation
 - multi-car arrangements
@@ -59,6 +60,7 @@ Premium and elegant, but never clichéd.
 ## 2.2 Prom Transportation
 
 Use cases:
+
 - premium arrival
 - vehicle selection
 - passenger capacity
@@ -72,6 +74,7 @@ This child page can eventually be shorter and more conversion-focused than Weddi
 ## 2.3 VIP Transportation
 
 Use cases:
+
 - private/custom itinerary
 - important guests
 - premium event transport
@@ -142,6 +145,7 @@ H1 direction:
 Treat wording as intent unless approved localized copy exists.
 
 Supporting idea:
+
 - chauffeur-driven premium vehicles
 - planned around the occasion
 - individual cars through coordinated guest transport
@@ -157,6 +161,7 @@ contact / quote depending on current CTA conventions
 ### Visual
 
 Preferred:
+
 - evening arrival
 - chauffeur opening rear door
 - premium venue entrance
@@ -164,6 +169,7 @@ Preferred:
 - S-Class/V-Class in refined environment
 
 Avoid:
+
 - bride-only hero
 - balloons
 - neon
@@ -181,6 +187,7 @@ Use the shared 3-service selector.
 ### Items
 
 #### 01 — Wedding Transportation
+
 Intent:
 Transport for the couple, guests, and the timing between each part of the day.
 
@@ -188,6 +195,7 @@ Potential meta:
 `Couple · Guests · Multiple vehicles`
 
 #### 02 — Prom Transportation
+
 Intent:
 A premium chauffeur-driven arrival with clear vehicle and pickup planning.
 
@@ -195,6 +203,7 @@ Potential meta:
 `Arrival · Vehicle choice · Group options`
 
 #### 03 — VIP Transportation
+
 Intent:
 Discreet custom transport for important guests, private schedules, and events.
 
@@ -204,6 +213,7 @@ Potential meta:
 ### Visual emphasis
 
 Compared with Business:
+
 - larger photography
 - slightly less metadata
 - warmer editorial copy
@@ -264,6 +274,7 @@ Differentiate the service from simply renting a car.
 Transport is planned around the event.
 
 Possible scenarios:
+
 - ceremony runs late
 - photography takes longer
 - dinner/event start shifts
@@ -273,6 +284,7 @@ Possible scenarios:
 Do not promise unlimited flexibility.
 
 Use language such as:
+
 - where arranged
 - where feasible
 - according to confirmed itinerary
@@ -288,6 +300,7 @@ Luxury Transportation manages the transport plan so passengers can focus on the 
 Use the canonical/shared Fleet Preview.
 
 Potential event relevance:
+
 - S-Class
 - E-Class
 - V-Class
@@ -300,6 +313,7 @@ Do not duplicate capacities or luggage data here.
 ### Page-specific introduction
 
 Position fleet by purpose:
+
 - principal vehicle
 - couples/individual guests
 - families
@@ -330,6 +344,7 @@ Do not suggest instant confirmation.
 This should be short and relevant.
 
 Possible supported topics:
+
 - professional chauffeurs
 - suits/ties
 - discreet service
@@ -341,6 +356,7 @@ Possible supported topics:
 - signage on request only if contextually relevant and supported
 
 Avoid:
+
 - generic "luxury amenities" lists
 - wedding clichés
 - unsupported gifts/decorations/champagne
@@ -354,12 +370,15 @@ Potential layout:
 ## 5.8 Related Services
 
 Primary:
+
 - Private Chauffeur
 
 Secondary:
+
 - Airport Transfer where guests may be arriving into Belgrade
 
 Potential future:
+
 - Business/VIP relation only where naturally relevant
 
 Do not make the page feel like a link directory.
@@ -371,6 +390,7 @@ Do not make the page feel like a link directory.
 Reuse existing FinalCTA.
 
 Content intent:
+
 - tell us the date, locations, and guest requirements
 - one vehicle or coordinated transport
 - receive a manually confirmed plan/quote
@@ -495,11 +515,13 @@ Each child page should target its own specific intent more strongly.
 Follow existing project SEO rules.
 
 Likely:
+
 - WebPage
 - Service
 - BreadcrumbList
 
 Do not create:
+
 - Event schema for events the company is not organizing
 - fake offers/prices
 - fake reviews
@@ -563,9 +585,10 @@ Before coding:
 8. Use approved placeholder/content workflow if production copy is unavailable.
 9. Run required lint/build/tests.
 10. Report:
-   - files changed
-   - components reused
-   - new components created
-   - content/data changes
-   - SEO/schema changes
-   - unresolved blockers
+
+- files changed
+- components reused
+- new components created
+- content/data changes
+- SEO/schema changes
+- unresolved blockers

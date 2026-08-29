@@ -26,7 +26,8 @@ export function parseAirportBookingIntent(params: URLSearchParams): AirportBooki
   if (params.get(airportBookingFields.service) !== airportBookingService) return null;
   const date = params.get(airportBookingFields.date);
   const time = params.get(airportBookingFields.time);
-  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !time || !/^\d{2}:\d{2}$/.test(time)) return null;
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !time || !/^\d{2}:\d{2}$/.test(time))
+    return null;
 
   const flightNumber = params.get(airportBookingFields.flightNumber)?.trim();
   return {
@@ -43,6 +44,7 @@ export function serializeAirportBookingIntent(intent: AirportBookingIntent): URL
     [airportBookingFields.date]: intent.date,
     [airportBookingFields.time]: intent.time,
   });
-  if (intent.flightNumber?.trim()) params.set(airportBookingFields.flightNumber, intent.flightNumber.trim());
+  if (intent.flightNumber?.trim())
+    params.set(airportBookingFields.flightNumber, intent.flightNumber.trim());
   return params;
 }

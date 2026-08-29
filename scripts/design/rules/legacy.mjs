@@ -5,7 +5,7 @@ const markers = [
   { re: /\bversion-1\b/gi, label: "Theme V1/version-1" },
   { re: /Warm Charcoal/gi, label: "Warm Charcoal" },
   { re: /muted[- ]gold/gi, label: "muted gold" },
-  { re: /\bFraunces(?: Variable)?\b/gi, label: "Fraunces" }
+  { re: /\bFraunces(?: Variable)?\b/gi, label: "Fraunces" },
 ];
 
 export const rule = {
@@ -22,17 +22,20 @@ export const rule = {
         marker.re.lastIndex = 0;
         let match;
         while ((match = marker.re.exec(text))) {
-          findings.push(makeFinding({
-            ruleId: rule.id,
-            severity: marker.label.includes("Fraunces") ? "P2" : "P1",
-            file: rel(root, file),
-            line: lineNumber(text, match.index),
-            message: `${marker.label} reference found in production UI.`,
-            recommendation: "Use the active theme and current component/design terminology. V1 references are allowed only inside the intentional archived theme source."
-          }));
+          findings.push(
+            makeFinding({
+              ruleId: rule.id,
+              severity: marker.label.includes("Fraunces") ? "P2" : "P1",
+              file: rel(root, file),
+              line: lineNumber(text, match.index),
+              message: `${marker.label} reference found in production UI.`,
+              recommendation:
+                "Use the active theme and current component/design terminology. V1 references are allowed only inside the intentional archived theme source.",
+            }),
+          );
         }
       }
     }
     return findings;
-  }
+  },
 };

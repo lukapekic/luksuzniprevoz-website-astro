@@ -14,7 +14,7 @@ import {
   readText,
   rel,
   resolveActiveTheme,
-  sortFindings
+  sortFindings,
 } from "./lib.mjs";
 
 const argv = process.argv.slice(2);
@@ -27,7 +27,7 @@ function scanLegacyDocs(root, config) {
     { re: /Warm Charcoal/gi, label: "Warm Charcoal" },
     { re: /muted[- ]gold/gi, label: "muted gold" },
     { re: /\bFraunces(?: Variable)?\b/gi, label: "Fraunces" },
-    { re: /\bversion-1\b/gi, label: "version-1" }
+    { re: /\bversion-1\b/gi, label: "version-1" },
   ];
   for (const file of collectDocumentationFiles(root, config)) {
     const text = readText(file);
@@ -39,14 +39,16 @@ function scanLegacyDocs(root, config) {
         // Historical "do not use V1" mentions are allowed when explicitly framed as old/rejected.
         const lineText = text.split("\n")[localLine - 1] ?? "";
         if (/\bold\b|\bformer\b|\brejected\b|\blegacy\b/i.test(lineText)) continue;
-        findings.push(makeFinding({
-          ruleId: "doctor/documentation-legacy-drift",
-          severity: "P2",
-          file: rel(root, file),
-          line: localLine,
-          message: `${marker.label} appears in current design documentation without an explicit historical/rejected qualifier.`,
-          recommendation: "Rewrite the guidance using active semantic token/component language."
-        }));
+        findings.push(
+          makeFinding({
+            ruleId: "doctor/documentation-legacy-drift",
+            severity: "P2",
+            file: rel(root, file),
+            line: localLine,
+            message: `${marker.label} appears in current design documentation without an explicit historical/rejected qualifier.`,
+            recommendation: "Rewrite the guidance using active semantic token/component language.",
+          }),
+        );
       }
     }
   }
@@ -63,14 +65,17 @@ function scanDevUi(root, config) {
     re.lastIndex = 0;
     let match;
     while ((match = re.exec(text))) {
-      findings.push(makeFinding({
-        ruleId: "doctor/dev-ui-stale",
-        severity: "P1",
-        file: rel(root, file),
-        line: lineNumber(text, match.index),
-        message: `Dev UI preview still contains legacy design language "${match[0]}".`,
-        recommendation: "Make /dev/ui derive labels/examples from the active Theme V2 tokens and current component contracts."
-      }));
+      findings.push(
+        makeFinding({
+          ruleId: "doctor/dev-ui-stale",
+          severity: "P1",
+          file: rel(root, file),
+          line: lineNumber(text, match.index),
+          message: `Dev UI preview still contains legacy design language "${match[0]}".`,
+          recommendation:
+            "Make /dev/ui derive labels/examples from the active Theme V2 tokens and current component contracts.",
+        }),
+      );
     }
   }
   return findings;
@@ -96,14 +101,18 @@ function scanPackageDependencies(root, config) {
     }
   }
   if (sourceText.some((text) => /@fontsource-variable\/fraunces/.test(text))) return [];
-  return [makeFinding({
-    ruleId: "doctor/dead-v1-font-dependency",
-    severity: "P2",
-    file: rel(root, file),
-    line: 1,
-    message: "@fontsource-variable/fraunces remains installed but is not imported by production source.",
-    recommendation: "Remove the dead V1 font dependency after confirming no migration fixture requires it."
-  })];
+  return [
+    makeFinding({
+      ruleId: "doctor/dead-v1-font-dependency",
+      severity: "P2",
+      file: rel(root, file),
+      line: 1,
+      message:
+        "@fontsource-variable/fraunces remains installed but is not imported by production source.",
+      recommendation:
+        "Remove the dead V1 font dependency after confirming no migration fixture requires it.",
+    }),
+  ];
 }
 
 try {
@@ -115,73 +124,92 @@ try {
   try {
     active = resolveActiveTheme(root, config);
   } catch (error) {
-    findings.push(makeFinding({
-      ruleId: "doctor/active-theme-manifest",
-      severity: "P0",
-      file: config.theme.versionsDir,
-      line: 1,
-      message: error.message,
-      recommendation: `Keep exactly one theme manifest with status "${config.theme.activeManifestStatus}".`
-    }));
+    findings.push(
+      makeFinding({
+        ruleId: "doctor/active-theme-manifest",
+        severity: "P0",
+        file: config.theme.versionsDir,
+        line: 1,
+        message: error.message,
+        recommendation: `Keep exactly one theme manifest with status "${config.theme.activeManifestStatus}".`,
+      }),
+    );
   }
 
   if (active) {
-    if (config.theme.activeManifestStatus && active.manifest.status !== config.theme.activeManifestStatus) {
-      findings.push(makeFinding({
-        ruleId: "doctor/active-theme-status",
-        severity: "P1",
-        file: rel(root, active.manifestPath),
-        line: 1,
-        message: `The configured theme manifest status is "${active.manifest.status}", expected "${config.theme.activeManifestStatus}".`,
-        recommendation: "Correct the configured theme manifest status; do not select another theme as a fallback."
-      }));
+    if (
+      config.theme.activeManifestStatus &&
+      active.manifest.status !== config.theme.activeManifestStatus
+    ) {
+      findings.push(
+        makeFinding({
+          ruleId: "doctor/active-theme-status",
+          severity: "P1",
+          file: rel(root, active.manifestPath),
+          line: 1,
+          message: `The configured theme manifest status is "${active.manifest.status}", expected "${config.theme.activeManifestStatus}".`,
+          recommendation:
+            "Correct the configured theme manifest status; do not select another theme as a fallback.",
+        }),
+      );
     }
 
     const generatedCss = path.join(root, config.theme.generatedCss);
     const css = readText(generatedCss);
     const declaredVersion = css.match(/Theme:.*\bv(\d+)\b/i)?.[1] ?? null;
-    const expectedVersion = String(active.manifest.themeVersion ?? active.directory.replace(/^version-/, ""));
+    const expectedVersion = String(
+      active.manifest.themeVersion ?? active.directory.replace(/^version-/, ""),
+    );
     if (!css) {
-      findings.push(makeFinding({
-        ruleId: "doctor/generated-theme-missing",
-        severity: "P0",
-        file: config.theme.generatedCss,
-        line: 1,
-        message: "Generated theme CSS is missing.",
-        recommendation: "Run pnpm theme:sync."
-      }));
+      findings.push(
+        makeFinding({
+          ruleId: "doctor/generated-theme-missing",
+          severity: "P0",
+          file: config.theme.generatedCss,
+          line: 1,
+          message: "Generated theme CSS is missing.",
+          recommendation: "Run pnpm theme:sync.",
+        }),
+      );
     } else if (declaredVersion && declaredVersion !== expectedVersion) {
-      findings.push(makeFinding({
-        ruleId: "doctor/generated-theme-version",
-        severity: "P0",
-        file: config.theme.generatedCss,
-        line: 1,
-        message: `Generated theme CSS advertises v${declaredVersion}, active manifest is v${expectedVersion}.`,
-        recommendation: "Run pnpm theme:sync and verify active-theme selection."
-      }));
+      findings.push(
+        makeFinding({
+          ruleId: "doctor/generated-theme-version",
+          severity: "P0",
+          file: config.theme.generatedCss,
+          line: 1,
+          message: `Generated theme CSS advertises v${declaredVersion}, active manifest is v${expectedVersion}.`,
+          recommendation: "Run pnpm theme:sync and verify active-theme selection.",
+        }),
+      );
     }
   }
 
   const system = loadSystem(root);
   const fresh = buildSystemSnapshot(root, config);
   if (!system) {
-    findings.push(makeFinding({
-      ruleId: "doctor/design-snapshot-missing",
-      severity: "P1",
-      file: ".design/system.json",
-      line: 1,
-      message: "Machine-readable design snapshot is missing.",
-      recommendation: "Run pnpm design:sync."
-    }));
+    findings.push(
+      makeFinding({
+        ruleId: "doctor/design-snapshot-missing",
+        severity: "P1",
+        file: ".design/system.json",
+        line: 1,
+        message: "Machine-readable design snapshot is missing.",
+        recommendation: "Run pnpm design:sync.",
+      }),
+    );
   } else if (system.sourceHash !== fresh.sourceHash) {
-    findings.push(makeFinding({
-      ruleId: "doctor/design-snapshot-stale",
-      severity: "P1",
-      file: ".design/system.json",
-      line: 1,
-      message: "Machine-readable design snapshot does not match the current active theme/generated CSS.",
-      recommendation: "Run pnpm design:sync and commit the refreshed snapshot."
-    }));
+    findings.push(
+      makeFinding({
+        ruleId: "doctor/design-snapshot-stale",
+        severity: "P1",
+        file: ".design/system.json",
+        line: 1,
+        message:
+          "Machine-readable design snapshot does not match the current active theme/generated CSS.",
+        recommendation: "Run pnpm design:sync and commit the refreshed snapshot.",
+      }),
+    );
   }
 
   findings.push(...scanLegacyDocs(root, config));
@@ -193,26 +221,35 @@ try {
     const text = readText(baseLayout);
     for (const [name, re] of [
       ["Header", /foundation\/ui\/Header\.astro/],
-      ["Footer", /foundation\/ui\/Footer\.astro/]
+      ["Footer", /foundation\/ui\/Footer\.astro/],
     ]) {
       const match = re.exec(text);
-      if (match) findings.push(makeFinding({
-        ruleId: "doctor/site-chrome-split",
-        severity: "P1",
-        file: rel(root, baseLayout),
-        line: lineNumber(text, match.index),
-        message: `BaseLayout still mounts the generic foundation ${name}, while the reviewed site uses Site${name}.`,
-        recommendation: `Unify leaf-page chrome on Site${name} before treating service pages as design-complete.`
-      }));
+      if (match)
+        findings.push(
+          makeFinding({
+            ruleId: "doctor/site-chrome-split",
+            severity: "P1",
+            file: rel(root, baseLayout),
+            line: lineNumber(text, match.index),
+            message: `BaseLayout still mounts the generic foundation ${name}, while the reviewed site uses Site${name}.`,
+            recommendation: `Unify leaf-page chrome on Site${name} before treating service pages as design-complete.`,
+          }),
+        );
     }
   }
 
   const sorted = sortFindings(findings);
   if (jsonMode) {
-    process.stdout.write(JSON.stringify({
-      activeTheme: active ? { directory: active.directory, manifest: active.manifest } : null,
-      findings: sorted
-    }, null, 2) + "\n");
+    process.stdout.write(
+      JSON.stringify(
+        {
+          activeTheme: active ? { directory: active.directory, manifest: active.manifest } : null,
+          findings: sorted,
+        },
+        null,
+        2,
+      ) + "\n",
+    );
   } else if (!sorted.length) {
     console.log("Design doctor: governance is coherent; no drift found.");
   } else {

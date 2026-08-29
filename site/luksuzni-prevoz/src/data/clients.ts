@@ -28,10 +28,7 @@ export type ClientCategory = "hotel" | "aviation" | "diplomatic";
 export type ClientContext = "private-flight-related-transport";
 
 export type ClientLogoId =
-  | "hyatt-regency"
-  | "president-palace-hotel"
-  | "qatar-airways"
-  | "square-nine-hotels";
+  "hyatt-regency" | "president-palace-hotel" | "qatar-airways" | "square-nine-hotels";
 
 export type LogoStatus =
   | "approved-for-public-display"
@@ -120,8 +117,7 @@ export function shouldDisplayClientsOn(routeKey: RouteKey): boolean {
 export function getApprovedClientsFor(routeKey: RouteKey): Client[] {
   if (!shouldDisplayClientsOn(routeKey)) return [];
   return clients.filter(
-    (client) =>
-      client.logoAsset !== null && client.logoStatus === "approved-for-public-display",
+    (client) => client.logoAsset !== null && client.logoStatus === "approved-for-public-display",
   );
 }
 

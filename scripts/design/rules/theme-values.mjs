@@ -1,5 +1,11 @@
 import fs from "node:fs";
-import { insideSvgBlock, lineNumber, makeFinding, maskCommentsPreserveLines, rel } from "../lib.mjs";
+import {
+  insideSvgBlock,
+  lineNumber,
+  makeFinding,
+  maskCommentsPreserveLines,
+  rel,
+} from "../lib.mjs";
 
 export const rule = {
   id: "theme/raw-design-value",
@@ -18,16 +24,19 @@ export const rule = {
         if (insideSvgBlock(text, match.index)) continue;
         const before = text.slice(Math.max(0, match.index - 60), match.index);
         if (/sourceMappingURL|data:image/i.test(before)) continue;
-        findings.push(makeFinding({
-          ruleId: rule.id,
-          severity: "P2",
-          file: rel(root, file),
-          line: lineNumber(text, match.index),
-          message: `Raw color value "${match[0]}" found in production UI.`,
-          recommendation: "Use an existing semantic theme token. If a genuinely new role is required, change the theme source first."
-        }));
+        findings.push(
+          makeFinding({
+            ruleId: rule.id,
+            severity: "P2",
+            file: rel(root, file),
+            line: lineNumber(text, match.index),
+            message: `Raw color value "${match[0]}" found in production UI.`,
+            recommendation:
+              "Use an existing semantic theme token. If a genuinely new role is required, change the theme source first.",
+          }),
+        );
       }
     }
     return findings;
-  }
+  },
 };

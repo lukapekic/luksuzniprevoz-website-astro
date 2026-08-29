@@ -11,12 +11,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import {
-  collectImplementationFiles,
-  findRepoRoot,
-  loadConfig,
-  loadSystem
-} from "./lib.mjs";
+import { collectImplementationFiles, findRepoRoot, loadConfig, loadSystem } from "./lib.mjs";
 import { runDetector } from "./detect.mjs";
 
 async function readStdin() {
@@ -27,7 +22,9 @@ async function readStdin() {
 }
 
 function isStopEvent(event) {
-  const name = String(event?.hook_event_name ?? event?.hookEventName ?? event?.event ?? "").toLowerCase();
+  const name = String(
+    event?.hook_event_name ?? event?.hookEventName ?? event?.event ?? "",
+  ).toLowerCase();
   return name === "stop";
 }
 
@@ -57,10 +54,14 @@ function renderMessage(findings) {
   if (!findings.length) return "";
   const top = findings.slice(0, 12);
   const lines = [
-    `Design governance found ${findings.length} issue${findings.length === 1 ? "" : "s"}:`
+    `Design governance found ${findings.length} issue${findings.length === 1 ? "" : "s"}:`,
   ];
-  for (const f of top) lines.push(`- [${f.severity}] ${f.ruleId} ${f.file}:${f.line} — ${f.message}`);
-  if (findings.length > top.length) lines.push(`- …and ${findings.length - top.length} more. Run pnpm design:detect for the full report.`);
+  for (const f of top)
+    lines.push(`- [${f.severity}] ${f.ruleId} ${f.file}:${f.line} — ${f.message}`);
+  if (findings.length > top.length)
+    lines.push(
+      `- …and ${findings.length - top.length} more. Run pnpm design:detect for the full report.`,
+    );
   lines.push("Resolve P0/P1 findings before declaring UI work complete.");
   return lines.join("\n");
 }
@@ -71,14 +72,18 @@ try {
   const system = loadSystem(root);
   const raw = await readStdin();
   let event = {};
-  try { event = raw ? JSON.parse(raw) : {}; } catch { /* Invalid hook input is treated as an empty event. */ }
+  try {
+    event = raw ? JSON.parse(raw) : {};
+  } catch {
+    /* Invalid hook input is treated as an empty event. */
+  }
 
   let files;
   if (isStopEvent(event)) {
     files = collectImplementationFiles(root, config);
   } else {
     const candidates = findCandidatePaths(event)
-      .map((p) => path.isAbsolute(p) ? p : path.resolve(root, p))
+      .map((p) => (path.isAbsolute(p) ? p : path.resolve(root, p)))
       .filter((p) => fs.existsSync(p));
     files = [...new Set(candidates)];
     if (!files.length) process.exit(0);
@@ -89,13 +94,15 @@ try {
   if (message) {
     // Claude Code consumes hookSpecificOutput.additionalContext.
     // Codex accepts systemMessage-style feedback. Emitting both keeps this adapter portable.
-    process.stdout.write(JSON.stringify({
-      systemMessage: message,
-      hookSpecificOutput: {
-        hookEventName: isStopEvent(event) ? "Stop" : "PostToolUse",
-        additionalContext: message
-      }
-    }));
+    process.stdout.write(
+      JSON.stringify({
+        systemMessage: message,
+        hookSpecificOutput: {
+          hookEventName: isStopEvent(event) ? "Stop" : "PostToolUse",
+          additionalContext: message,
+        },
+      }),
+    );
   }
 } catch (error) {
   if (process.env.DESIGN_HOOK_DEBUG) process.stderr.write(`[design-hook] ${error.message}\n`);

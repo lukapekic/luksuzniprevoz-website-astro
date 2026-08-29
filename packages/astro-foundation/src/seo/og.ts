@@ -272,7 +272,8 @@ export async function generateOgImage(
     const fonts: Array<{ name: string; data: ArrayBuffer; weight: 400 | 700; style: "normal" }> = [
       { name: "sans", data: opts.font!, weight: 400, style: "normal" },
     ];
-    if (opts.fontBold) fonts.push({ name: "sans", data: opts.fontBold, weight: 700, style: "normal" });
+    if (opts.fontBold)
+      fonts.push({ name: "sans", data: opts.fontBold, weight: 700, style: "normal" });
 
     const svg = await satori(
       {

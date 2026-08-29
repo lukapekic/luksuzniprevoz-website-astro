@@ -27,12 +27,14 @@ site/luksuzni-prevoz/
 ```
 
 Framework:
+
 - Astro
 - Tailwind CSS v4
 - pnpm workspace
 - static-first output
 
 Active theme:
+
 ```text
 version-2
 ```
@@ -42,11 +44,13 @@ version-2
 Theme V2 is Black & Platinum.
 
 Locked type roles:
+
 - headings → Inter Tight
 - body/UI → Manrope
 - brand lockup → Cormorant Garamond Italic
 
 Design character:
+
 - near-black / graphite canvas
 - restrained platinum contrast
 - off-white primary text
@@ -56,6 +60,7 @@ Design character:
 - premium without limousine clichés
 
 Explicit anti-patterns include:
+
 - black/gold template styling
 - SaaS/dashboard appearance
 - generic card grids
@@ -129,6 +134,7 @@ Button / form controls
 ### ServiceHero
 
 Current production API supports:
+
 - `contained`
 - `responsive-split`
 - `full-bleed`
@@ -142,6 +148,7 @@ The current Business blueprint already locks `ServiceHero / contained`.
 `ServiceCard` is already the reviewed visual vocabulary for service navigation.
 
 Important contract:
+
 - image-led 3:2 card surface
 - title + concise support + visible CTA
 - only the CTA is interactive
@@ -161,6 +168,7 @@ src/components/site/ContentPageRenderer.astro
 ```
 
 Current dedicated renderer mapping:
+
 - Airport Transportation → `AirportTransportationPage`
 - scaffold content → `ScaffoldPage`
 - other authored content → generic `LeafPage`
@@ -168,6 +176,7 @@ Current dedicated renderer mapping:
 ### Important implementation gap
 
 Business Transportation is already:
+
 - route kind `hub`
 - route availability `published`
 - content `pageType: hub`
@@ -184,6 +193,7 @@ This is the immediate Business implementation task.
 From `src/data/routes.ts`:
 
 ### Business
+
 ```text
 businessTransportation
   sr: /poslovni-prevoz/
@@ -192,11 +202,13 @@ businessTransportation
 ```
 
 Children:
+
 - corporateTransportation
 - delegationTransportation
 - conferenceCongressTransportation
 
 ### Special Events
+
 ```text
 specialEvents
   sr: /prevoz-za-specijalne-dogadjaje/
@@ -205,6 +217,7 @@ specialEvents
 ```
 
 Children:
+
 - weddingTransportation
 - promTransportation
 - vipTransportation
@@ -216,11 +229,13 @@ Special Events is currently `scaffold`, not published.
 `src/data/services.ts` owns service/hub facts.
 
 ### Business hub
+
 - estimated-when-simple + quote
 - primarily Belgrade
 - outside normal area → quote
 
 Corporate:
+
 - one-off supported
 - recurring contracts supported
 - invoicing supported
@@ -228,12 +243,14 @@ Corporate:
 - dedicated chauffeur across stops supported
 
 Delegation:
+
 - multiple vehicles
 - mixed vehicle classes
 - dedicated coordinator
 - `securityService: false`
 
 Conference/Congress:
+
 - airport arrivals
 - hotel transfers
 - venue shuttles
@@ -242,6 +259,7 @@ Conference/Congress:
 - group transport
 
 ### Special Events hub
+
 - pricing modes: from + quote
 - primarily Belgrade
 - outside normal area → quote
@@ -252,6 +270,7 @@ Conference/Congress:
   - other special events
 
 Wedding:
+
 - couple transport
 - guest transport
 - multiple vehicles
@@ -261,6 +280,7 @@ Wedding:
 - custom presentation request
 
 Prom:
+
 - individual + group
 - multiple vehicles
 - mixed classes
@@ -269,6 +289,7 @@ Prom:
 - custom presentation request
 
 VIP:
+
 - quote
 - discretion
 - privacy
@@ -301,6 +322,7 @@ No new hub schema is required for Special Events unless a later product requirem
 All three Special Events entries are currently scaffold/missing translation/noindex.
 
 Therefore:
+
 - design/component implementation may be prepared,
 - but publication must not invent production copy or translations,
 - and the route should remain scaffold/noindex until complete SR/EN/RU content is approved.

@@ -737,16 +737,16 @@ Do not create fake logos when usage permission/assets are unavailable.
 
 ## 9. New-component decision table
 
-| Situation | Default decision |
-|---|---|
-| Existing component solves it unchanged | Reuse it |
-| Existing approved variant solves it | Reuse variant |
-| Same geometry, different page semantics | Compose shared primitive; keep page section semantic/local |
-| Same semantic role across multiple locked service pages | Consider/implement documented shared contract |
-| Looks similar but content structure/interaction/responsive identity differs | Separate component or page-local composition |
-| Appears once and is blueprint-specific | Keep page-local |
-| Needs many visual booleans/style props | Architecture is wrong; stop and redesign boundary |
-| Missing asset/data | Preserve component contract and use approved gating/placeholder; do not redesign |
+| Situation                                                                   | Default decision                                                                 |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Existing component solves it unchanged                                      | Reuse it                                                                         |
+| Existing approved variant solves it                                         | Reuse variant                                                                    |
+| Same geometry, different page semantics                                     | Compose shared primitive; keep page section semantic/local                       |
+| Same semantic role across multiple locked service pages                     | Consider/implement documented shared contract                                    |
+| Looks similar but content structure/interaction/responsive identity differs | Separate component or page-local composition                                     |
+| Appears once and is blueprint-specific                                      | Keep page-local                                                                  |
+| Needs many visual booleans/style props                                      | Architecture is wrong; stop and redesign boundary                                |
+| Missing asset/data                                                          | Preserve component contract and use approved gating/placeholder; do not redesign |
 
 ---
 

@@ -14,16 +14,19 @@ export const rule = {
       const text = maskCommentsPreserveLines(original);
       let match;
       while ((match = re.exec(text))) {
-        findings.push(makeFinding({
-          ruleId: rule.id,
-          severity: "P1",
-          file: rel(root, file),
-          line: lineNumber(text, match.index),
-          message: `Manual localized URL starts with "${match[1]}".`,
-          recommendation: "Use the repository route/i18n helper so locale slugs remain data-driven."
-        }));
+        findings.push(
+          makeFinding({
+            ruleId: rule.id,
+            severity: "P1",
+            file: rel(root, file),
+            line: lineNumber(text, match.index),
+            message: `Manual localized URL starts with "${match[1]}".`,
+            recommendation:
+              "Use the repository route/i18n helper so locale slugs remain data-driven.",
+          }),
+        );
       }
     }
     return findings;
-  }
+  },
 };

@@ -51,31 +51,76 @@ export const ContentImagesSchema = z.array(ContentImageSchema).default([]);
  */
 const AUTOCOMPLETE_TOKENS = [
   // on / off
-  "on", "off",
+  "on",
+  "off",
   // name group
-  "name", "honorific-prefix", "given-name", "additional-name", "family-name",
-  "honorific-suffix", "nickname", "organization-title", "organization",
-  "street-address", "address-line1", "address-line2", "address-line3",
-  "address-level4", "address-level3", "address-level2", "address-level1",
-  "country", "country-name", "postal-code", "cc-name", "cc-given-name",
-  "cc-additional-name", "cc-family-name", "cc-number", "cc-exp",
-  "cc-exp-month", "cc-exp-year", "cc-csc", "cc-type",
+  "name",
+  "honorific-prefix",
+  "given-name",
+  "additional-name",
+  "family-name",
+  "honorific-suffix",
+  "nickname",
+  "organization-title",
+  "organization",
+  "street-address",
+  "address-line1",
+  "address-line2",
+  "address-line3",
+  "address-level4",
+  "address-level3",
+  "address-level2",
+  "address-level1",
+  "country",
+  "country-name",
+  "postal-code",
+  "cc-name",
+  "cc-given-name",
+  "cc-additional-name",
+  "cc-family-name",
+  "cc-number",
+  "cc-exp",
+  "cc-exp-month",
+  "cc-exp-year",
+  "cc-csc",
+  "cc-type",
   // transaction group
-  "transaction-currency", "transaction-amount",
+  "transaction-currency",
+  "transaction-amount",
   // contact group
-  "tel", "tel-country-code", "tel-national", "tel-area-code", "tel-local",
-  "tel-local-prefix", "tel-local-suffix", "tel-extension", "email", "impp",
+  "tel",
+  "tel-country-code",
+  "tel-national",
+  "tel-area-code",
+  "tel-local",
+  "tel-local-prefix",
+  "tel-local-suffix",
+  "tel-extension",
+  "email",
+  "impp",
   // url group
-  "url", "photo", "webauthn",
+  "url",
+  "photo",
+  "webauthn",
   // date-time group
-  "bday", "bday-day", "bday-month", "bday-year",
+  "bday",
+  "bday-day",
+  "bday-month",
+  "bday-year",
   // section / address-mode qualifiers (prefix tokens)
-  "section-main", "section-billing", "section-shipping",
-  "shipping", "billing",
+  "section-main",
+  "section-billing",
+  "section-shipping",
+  "shipping",
+  "billing",
   // username + current-password + new-password + one-time-code
-  "username", "current-password", "new-password", "one-time-code",
+  "username",
+  "current-password",
+  "new-password",
+  "one-time-code",
   // webauthn qualifiers
-  "webauthn-sign", "webauthn-create",
+  "webauthn-sign",
+  "webauthn-create",
 ] as const;
 
 export const AutocompleteTokenSchema = z.enum(AUTOCOMPLETE_TOKENS);
@@ -89,9 +134,16 @@ export const AutocompleteSchema = z
   .string()
   .min(1, "autocomplete must not be empty — omit the attribute instead")
   .refine(
-    (val) => val.split(/\s+/).filter(Boolean).every((tok) => (AUTOCOMPLETE_TOKENS as readonly string[]).includes(tok)),
+    (val) =>
+      val
+        .split(/\s+/)
+        .filter(Boolean)
+        .every((tok) => (AUTOCOMPLETE_TOKENS as readonly string[]).includes(tok)),
     (val) => {
-      const bad = val.split(/\s+/).filter(Boolean).find((tok) => !(AUTOCOMPLETE_TOKENS as readonly string[]).includes(tok));
+      const bad = val
+        .split(/\s+/)
+        .filter(Boolean)
+        .find((tok) => !(AUTOCOMPLETE_TOKENS as readonly string[]).includes(tok));
       return { message: `Invalid autocomplete token: "${bad}". Must be a WHATWG autofill token.` };
     },
   );

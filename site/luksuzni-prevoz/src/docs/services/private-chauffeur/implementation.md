@@ -433,8 +433,7 @@ faq:
   heading: ...
   items: ...
 
-finalCta:
-  ...
+finalCta: ...
 ```
 
 The exact schema-compatible representation MUST use the repository's existing `editorialSectionSchema` fields.
@@ -583,8 +582,7 @@ No factual literals in presentation markup.
 Add controlled vocabulary types rather than free strings:
 
 ```ts
-type ScheduleChangeHandling =
-  | "subject-to-availability-within-reserved-period";
+type ScheduleChangeHandling = "subject-to-availability-within-reserved-period";
 
 type ConfirmationMode = "manual";
 ```
@@ -615,8 +613,8 @@ The existing resolver preserves both its default fallback and opt-in nullable
 mode:
 
 ```ts
-resolveCtaHref(cta, locale) // existing behavior and string return
-resolveCtaHref(cta, locale, { unresolvedFlow: "omit" }) // string | null
+resolveCtaHref(cta, locale); // existing behavior and string return
+resolveCtaHref(cta, locale, { unresolvedFlow: "omit" }); // string | null
 ```
 
 Private Chauffeur uses the default string-returning behavior for booking,
@@ -892,7 +890,7 @@ interface Props {
     { title: string; text: string },
     { title: string; text: string },
     { title: string; text: string },
-    { title: string; text: string }
+    { title: string; text: string },
   ];
   image: ImageMetadata;
   imageAlt: "";

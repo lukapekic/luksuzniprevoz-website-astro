@@ -229,10 +229,13 @@ export function themeSourceFiles(active) {
   return names.map((name) => path.join(active.dir, name)).filter((file) => fs.existsSync(file));
 }
 
-export function hashFiles(files) {
+export function hashFiles(root, files) {
   const hash = crypto.createHash("sha256");
-  for (const file of [...files].sort()) {
-    hash.update(toPosix(file));
+  const entries = files
+    .map((file) => ({ file, key: rel(root, file) }))
+    .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
+  for (const { file, key } of entries) {
+    hash.update(key);
     hash.update("\0");
     hash.update(fs.readFileSync(file));
     hash.update("\0");
@@ -326,7 +329,7 @@ export function buildSystemSnapshot(root, config) {
     ...walkFiles(path.join(root, config.siteRoot, "src/styles"), { extensions: UI_EXTENSIONS }),
   ].filter((file) => fs.existsSync(file));
   sourceFiles.push(...governanceSources);
-  const inventoryHash = hashFiles([...new Set(sourceFiles)]);
+  const inventoryHash = hashFiles(root, [...new Set(sourceFiles)]);
 
   return {
     $schema: "./system.schema.json",

@@ -41,7 +41,7 @@ ruleTester.run("no-appearance-class-passthrough", rule, {
       code: "<Button class={dynamicClass}>Click</Button>",
     },
     {
-      code: '<Field class={className}>Label</Field>',
+      code: "<Field class={className}>Label</Field>",
     },
   ],
   invalid: [

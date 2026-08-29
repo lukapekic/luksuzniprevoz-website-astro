@@ -133,8 +133,7 @@ export const business: Business = {
 
 export const businessData = {
   name: business.publicBrand,
-  description:
-    "Premium chauffeur-driven transportation services based in Belgrade, Serbia.",
+  description: "Premium chauffeur-driven transportation services based in Belgrade, Serbia.",
   telephone: "",
   email: "",
   address: {
