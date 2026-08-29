@@ -17,8 +17,8 @@ The status column records the pre-edit baseline. All listed implementation requi
 | P0 | Overview is the four-fact numbered divider treatment | shared `ServiceOverview` caller | UI verification and visual review | Planned |
 | P0 | Audience follows the verified Corporate business-family rail: 1 column mobile, 2 at `md`, 3 at `xl`, 5 at `2xl`; fifth item spans only the two-column final row | direct page composition | responsive review at 320/768/1024/1440/1920 and threshold edges | Planned |
 | P0 | Event Journey reuses the extracted six-stage business movement sequence and retains authored final-transfer semantics | `BusinessMovementSequence.astro` | shared component verification plus Conference/Delegation consumer checks | Planned |
-| P0 | Passenger Movement is page-local, light, executive then group in DOM order, one column below `md`, balanced 6/6 from `md`; vehicle relationships supplied by canonical data | `ConferencePassengerMovement.astro` | component/page check, responsive and keyboard-order review | Planned |
-| P0 | Multi-Vehicle Schedule is page-local, elevated, copy/model 5/7 from `lg`, three ordered roles feeding one schedule, static connectors and no live-state implication | `ConferenceMultiVehicleSchedule.astro` | component/page check and responsive review | Planned |
+| P0 | Passenger Movement is page-local, light, executive then group in one vertical DOM sequence at every width, with one horizontal divider and canonical vehicle relationships | `ConferencePassengerMovement.astro` | component/page check, responsive and keyboard-order review | Planned |
+| P0 | Multi-Vehicle Schedule is page-local and open-dark, uses a copy/model 5/7 split from `lg`, and presents three ordered editorial lanes feeding one schedule with static connectors and no live-state implication | `ConferenceMultiVehicleSchedule.astro` | component/page check and responsive review | Planned |
 | P0 | Vehicle recommendations use the locked four canonical IDs/order, canonical media/capacity, fleet route CTA, and localized suitability labels | shared `VehicleRecommendations` caller | build-time assertions, route validation, rendered-page review | Planned |
 | P0 | Standards use the canonical 4×3 builder and numbered-matrix shared variant | shared `ServiceStandards` caller | build-time assertions and rendered-page review | Planned |
 | P0 | One interpolated FAQ array feeds both visible FAQ and FAQ schema | page renderer + shared `FAQ` | SEO validation and rendered structured-data check | Planned |
@@ -50,6 +50,20 @@ Corporate Transportation is the matching business-page precedent for the five-it
 - The page profile passed 19 ordered governance, foundation, theme, content, routing, SEO, traceability, type, lint, unit-test and build gates.
 - Browser review passed for Serbian, English and Russian. Russian was checked at 320, 768, 1024, 1440 and 1920 CSS px and on both sides of the `md` and `lg` topology thresholds. No accidental page overflow or sub-44px visible interactive target remained.
 - Automated Axe review reported zero WCAG 2.2/best-practice violations at 320 and 1440 CSS px. Computed typography resolved to Inter Tight for H1/H2 and Manrope for body/UI copy.
-- The hero is the only eager, high-priority image; all eight below-fold images are lazy. Decorative page imagery uses empty alt text.
+- The hero is the only eager, high-priority image; all below-fold images are lazy. Decorative page imagery uses empty alt text.
 - One interpolated FAQ array feeds both visible FAQ rows and `buildFaqPage()`. While the page remains `noindex`, the canonical SEO helper intentionally suppresses JSON-LD output; it will emit when the page is explicitly published and made indexable.
 - Publication was not performed: content remains `in-review` and `noindex`, route availability remains `scaffold`, and the production build correctly omits the route.
+
+## Final cinematic polish result — 2026-08-29
+
+- The locked ten-region order is unchanged. After final review, the Journey uses the contained graphite open-split/default treatment and Passenger Movement uses a contained light comparison; the open coordination diagram, shared Fleet and Standards, light FAQ, and integrated Final CTA remain unchanged.
+- `BusinessMovementSequence` retains its backward-compatible `signature` capability, but Conference now uses the contained default 7/5 movement/image composition, matching the final approved direction. Delegation remains unchanged.
+- `Section` gained additive `elevated-full` and `light-full` semantic surfaces. Existing surface outputs are unchanged, and the shared component profile passed all 13 gates.
+- Passenger Movement uses a contained light surface, two vertically stacked facts, one horizontal middle divider and no role imagery or closing schedule label. Vehicle labels continue to resolve exclusively through `services.ts` role mappings and `fleet.ts` identities.
+- Event Journey constrains desktop media to the rendered height of the adjacent stepped sequence so the portrait asset cannot inflate the row.
+- Multi-Vehicle no longer uses role cards or a destination box. Three semantic ordered lanes converge on one typographic schedule outcome with static CSS connectors and no live-state implication.
+- SR, EN and RU editorial copy was shortened while canonical FAQ, service, operations, fleet, confirmation and CTA facts were preserved. All locales retain nine FAQs and equivalent section/item counts.
+- Browser review covered 320, 768, 1024, 1440 and 1920 CSS px, both sides of the `md`, `lg`, `xl` and `2xl` topology thresholds, and long Russian content. All tested states had zero accidental horizontal overflow and no visible target below 44×44 CSS px.
+- Axe WCAG 2.2/best-practice review returned zero violations for Serbian and Russian at 320 and 1440 CSS px. Heading/body/control computed typography resolved to Inter Tight/Manrope, focus traversal remained visible, and text-spacing stress produced no overflow.
+- The final page verification profile passed all 19 gates. The explicit foundation, route, content, SEO, Theme V2, lint, unit, Astro check and production-build commands also passed.
+- The page remains intentionally unpublished: `in-review`, `noindex` and `scaffold` are unchanged. FAQ JSON-LD is therefore correctly suppressed by the canonical SEO helper while the same `faqItems` array remains wired to both visible FAQ and `buildFaqPage()` for publication.

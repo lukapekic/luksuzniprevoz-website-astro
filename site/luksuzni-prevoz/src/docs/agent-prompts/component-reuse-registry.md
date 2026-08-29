@@ -49,8 +49,12 @@ Current semantic axes:
 
 ```text
 spacing: compact | standard | feature
-surface: open-dark | contained-dark | elevated | light
+surface: open-dark | contained-dark | elevated | light | elevated-full | light-full
 ```
+
+`elevated-full` and `light-full` are full-width semantic bands without the
+cap or radius owned by their panel counterparts. They are reserved for locked
+signature/editorial regions whose surface must own the viewport-wide section.
 
 Does not own:
 

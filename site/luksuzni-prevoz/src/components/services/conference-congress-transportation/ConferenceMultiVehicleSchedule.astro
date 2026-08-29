@@ -18,7 +18,6 @@ interface Role {
 interface Props {
   heading: string;
   intro: string;
-  body: string;
   label: string;
   items: readonly [ScheduleItem, ScheduleItem, ScheduleItem];
   roles: readonly [Role, Role, Role];
@@ -27,10 +26,10 @@ interface Props {
   locale: LocaleCode;
 }
 
-const { heading, intro, body, label, items, roles, outcomeLabel, action, locale } = Astro.props;
+const { heading, intro, label, items, roles, outcomeLabel, action, locale } = Astro.props;
 ---
 
-<Section spacing="feature" surface="elevated" aria-labelledby="conference-multi-vehicle-heading">
+<Section spacing="feature" surface="open-dark" aria-labelledby="conference-multi-vehicle-heading">
   <PageContainer>
     <div class="schedule-layout">
       <div class="section-copy">
@@ -40,7 +39,6 @@ const { heading, intro, body, label, items, roles, outcomeLabel, action, locale 
           heading={heading}
           description={intro}
         />
-        <p class="body-copy">{body}</p>
         <Link href={action.href} {locale}>{action.label}</Link>
       </div>
 
@@ -51,9 +49,11 @@ const { heading, intro, body, label, items, roles, outcomeLabel, action, locale 
               <span class="node-marker" aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h3>{roles[index]?.label ?? item.title}</h3>
-              <strong>{roles[index]?.vehicleLabel}</strong>
-              <p>{item.text}</p>
+              <span class="lane-copy">
+                <h3>{roles[index]?.label ?? item.title}</h3>
+                <strong>{roles[index]?.vehicleLabel}</strong>
+                <p>{item.text}</p>
+              </span>
             </li>
           ))}
         </ol>
@@ -98,48 +98,53 @@ const { heading, intro, body, label, items, roles, outcomeLabel, action, locale 
     background: var(--color-accent);
   }
 
-  .body-copy {
-    max-inline-size: var(--measure-body);
-    margin-block: var(--space-5) 0;
-    font-family: var(--font-body);
-    line-height: var(--line-height-body);
-    color: var(--color-text-muted);
-  }
-
   .section-copy :global(a) {
     margin-block-start: var(--space-6);
   }
 
   .role-nodes {
+    position: relative;
     display: grid;
-    gap: var(--space-5);
+    gap: 0;
     margin: 0;
     padding: 0;
+    border-block-start: 1px solid var(--color-divider);
     list-style: none;
+  }
+
+  .role-nodes::before {
+    position: absolute;
+    inset-block: calc(var(--space-12) + 1px);
+    inset-inline-start: var(--space-8);
+    inline-size: 1px;
+    background: var(--color-accent);
+    content: "";
   }
 
   .role-nodes > li {
     position: relative;
-    padding: var(--space-6);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: var(--radius-card);
-    background: var(--color-surface);
+    display: grid;
+    grid-template-columns: var(--space-10) minmax(0, 1fr);
+    gap: var(--space-5);
+    min-block-size: var(--space-24);
+    align-items: center;
+    padding-block: var(--space-5);
+    border-block-end: 1px solid var(--color-divider);
     overflow-wrap: anywhere;
   }
 
   .role-nodes > li::after {
     position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 50%;
-    inline-size: 1px;
-    block-size: var(--space-5);
-    background: var(--color-border-subtle);
+    inset-block-start: 50%;
+    inset-inline-start: var(--space-8);
+    inline-size: var(--space-7);
+    block-size: 1px;
+    background: var(--color-accent);
     content: "";
   }
 
   .node-marker {
     display: block;
-    margin-block-end: var(--space-5);
     font-family: var(--font-body);
     font-size: var(--text-caption);
     font-weight: var(--font-weight-semibold);
@@ -149,7 +154,7 @@ const { heading, intro, body, label, items, roles, outcomeLabel, action, locale 
   h3 {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: var(--text-xl);
+    font-size: var(--text-h3);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-heading);
     text-wrap: balance;
@@ -176,26 +181,27 @@ const { heading, intro, body, label, items, roles, outcomeLabel, action, locale 
 
   .schedule-outcome {
     position: relative;
-    margin: var(--space-5) 0 0;
-    padding: var(--space-6);
-    border: 1px solid var(--color-accent);
-    border-radius: var(--radius-card);
-    background: var(--color-background);
-    font-family: var(--font-body);
-    font-size: var(--text-ui);
+    display: grid;
+    min-block-size: var(--space-24);
+    place-items: center;
+    margin: var(--space-8) 0 0;
+    padding: var(--space-6) 0;
+    border-block: 1px solid var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--letter-spacing-ui);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
     color: var(--color-text-primary);
     text-align: center;
-    text-transform: uppercase;
   }
 
   .schedule-outcome::before {
     position: absolute;
     inset-block-end: 100%;
-    inset-inline-start: 50%;
+    inset-inline-start: var(--space-8);
     inline-size: 1px;
-    block-size: var(--space-5);
+    block-size: var(--space-8);
     background: var(--color-accent);
     content: "";
   }
@@ -213,11 +219,50 @@ const { heading, intro, body, label, items, roles, outcomeLabel, action, locale 
     }
 
     .role-nodes {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      position: relative;
     }
 
-    .role-nodes > li {
-      block-size: 100%;
+    .role-model {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(var(--space-24), 3fr);
+      gap: var(--space-10);
+      align-items: stretch;
+    }
+
+    .role-nodes::after {
+      position: absolute;
+      inset-block: calc(var(--space-12) + 1px);
+      inset-inline-end: calc(var(--space-5) * -1);
+      inline-size: 1px;
+      background: var(--color-accent);
+      content: "";
+    }
+
+    .role-nodes::before {
+      content: none;
+    }
+
+    .role-nodes > li::after {
+      inset-inline-start: auto;
+      inset-inline-end: calc(var(--space-5) * -1);
+      inline-size: var(--space-5);
+    }
+
+    .schedule-outcome {
+      align-self: stretch;
+      margin: 0;
+      padding-inline: var(--space-5);
+      border-block: 0;
+      border-inline-start: 1px solid var(--color-accent);
+      text-align: start;
+    }
+
+    .schedule-outcome::before {
+      inset-block-start: 50%;
+      inset-block-end: auto;
+      inset-inline-start: calc(var(--space-10) * -1);
+      inline-size: var(--space-10);
+      block-size: 1px;
     }
   }
 </style>

@@ -6,7 +6,7 @@ status: in-review
 translationState: reviewed
 reviewedOn: 2026-08-29
 sourceLocale: sr
-sourceDigest: f9fe8f21e01551a9
+sourceDigest: aa0d9c6ed8a614ce
 noindex: true
 
 seoTitle: "Conference & Congress Transportation Belgrade | Luxury Transportation"
@@ -14,7 +14,7 @@ seoDescription: "Conference and congress transportation in Belgrade: airport arr
 
 hero:
   title: "Conference and congress transportation"
-  description: "Transportation organised around the event schedule — for organisers, speakers, executives, guests and groups, from airport arrival through the hotel to programme locations."
+  description: "Transportation for organisers, speakers, executives, guests and groups — aligned with the event schedule, from airport arrival to hotels and programme venues."
   primaryCta:
     label: "Plan Event Transportation"
     target: { type: flow, flowKey: booking }
@@ -24,62 +24,58 @@ hero:
 
 overview:
   heading:
-    title: "One transport plan around the event schedule"
-    intro: "A conference does not begin at the meeting-room door or end with the last session. Transportation needs to connect the movements around the programme."
-  body: "Conference and Congress Transportation brings airport arrivals, hotels, event locations, individual movements and group transportation into one organised transport structure. When several vehicles are required, their roles are planned around the passenger structure and the confirmed schedule."
+    title: "One transport plan for the entire event schedule"
+    intro: "A conference does not begin at the meeting-room door. Arrivals, hotels, programme venues and different passenger groups need to work as one."
+  body: "We organise individual and group journeys within the same transport plan. When several vehicles are required, each has a clear role based on the passengers and event schedule."
 
 sections:
   - key: audience
     heading:
-      title: "For the people who organise, represent and attend the event"
-      intro: "Different participants do not always share the same schedule, pickup point or way of moving through the event."
-    body: "The service is designed for organisers who need a clearer transport structure and for passengers whose movements need to fit the event programme."
+      title: "For the people who lead, represent and attend the event"
+      intro: "Different roles call for a different pace of travel."
     items:
-      - { title: "Event organisers", text: "For the team connecting arrivals, hotels, programme locations and different passenger groups within one transportation schedule." }
-      - { title: "Speakers", text: "For guests whose arrival and movements need to align with their part of the programme and confirmed locations." }
-      - { title: "Executives and management", text: "For individual business movements when the passenger follows a separate schedule within the wider event organisation." }
-      - { title: "Business and invited guests", text: "For guests for whom the organiser provides professional transportation between confirmed programme points." }
-      - { title: "Participant groups", text: "For participants who need to remain together during one or more confirmed movements between event locations." }
+      - { title: "Event organisers", text: "Arrivals, hotels, programme venues and groups in one schedule." }
+      - { title: "Speakers", text: "Transportation aligned with their arrival and part of the programme." }
+      - { title: "Executives and management", text: "Individual journeys within the wider event schedule." }
+      - { title: "Business and invited guests", text: "Professional transportation between key programme venues." }
+      - { title: "Participant groups", text: "Shared travel between hotels and event venues." }
 
   - key: eventJourney
     heading:
       title: "From arrival to the final transfer"
-      intro: "One event can include several consecutive movements, and each of them needs to remain part of the same transport context."
-    body: "The sequence below illustrates the organisation principle rather than a fixed route. The final schedule is built from the information you provide and the details confirmed for the specific event."
+      intro: "An example of how transportation can be arranged, not a fixed route. The final schedule is shaped by the details of the specific event."
     items:
-      - { title: "Arrival", text: "The start of the transport plan and pickup according to the confirmed arrival." }
-      - { title: "Hotel", text: "Transportation to or from the hotel as one of the programme's key points." }
-      - { title: "Conference venue", text: "Arrival at the confirmed conference, congress or business-programme location." }
-      - { title: "Additional programme location", text: "The next confirmed location when the programme includes another organised or business movement." }
-      - { title: "Return to the hotel", text: "A return movement to the hotel when it forms part of the confirmed schedule." }
-      - { title: "Final transfer", text: "The last confirmed movement that completes the agreed event transportation plan." }
+      - { title: "Arrival", text: "Pickup according to the confirmed arrival." }
+      - { title: "Hotel", text: "Transfer to or from the hotel." }
+      - { title: "Conference venue", text: "Arrival at the main programme venue." }
+      - { title: "Additional location", text: "The next confirmed point in the event." }
+      - { title: "Return to the hotel", text: "When it forms part of the schedule." }
+      - { title: "Final transfer", text: "The final journey in the agreed plan." }
 
   - key: passengerMovement
     heading:
       title: "Different passengers. Different movements."
-      intro: "A speaker or executive does not need to move in the same way as a participant group, but both movements can belong to the same event schedule."
-    body: "Individual and group transportation solve different needs within the same organisation. Vehicle roles are determined by passenger structure and confirmed movement points without splitting the event into a series of disconnected requests."
+      intro: "A speaker or executive does not need to travel like a participant group. Both needs can be part of the same event schedule."
     items:
-      - { title: "Individual and executive movement", text: "For speakers, executives and individual guests who need separate transportation through their part of the confirmed schedule." }
-      - { title: "Group movement", text: "For organisers, teams and participant groups who need to travel together between confirmed programme locations." }
+      - { title: "Individual and executive movement", text: "For speakers, executives and invited guests with their own part of the schedule." }
+      - { title: "Group movement", text: "For organisers, teams and participants travelling together between programme venues." }
 
   - key: multiVehicle
     heading:
       title: "Several vehicles. One event schedule."
-      intro: "When passengers are divided by role, group size or movement time, several vehicles can form part of the same transport structure."
-    body: "Individual vehicles are not treated as separate services. Their roles are connected through the confirmed event schedule so individual and group movements remain part of the same organisation."
+      intro: "When passengers differ by role, group size or travel time, several vehicles can work within the same event schedule."
     items:
-      - { title: "Individual movement", text: "For one passenger or a small number of passengers with a separate movement point or time within the event." }
-      - { title: "Smaller group", text: "For a group that needs to stay together during one or more confirmed transfers." }
-      - { title: "Larger group", text: "For a larger number of participants when travelling together requires a higher-capacity vehicle." }
+      - { title: "Individual movement", text: "For passengers with their own part of the programme." }
+      - { title: "Smaller group", text: "For shared travel between programme venues." }
+      - { title: "Larger group", text: "For participants who need a higher-capacity vehicle." }
     cta:
       label: "Send the Event Schedule"
       target: { type: flow, flowKey: booking }
 
 vehicleRecommendations:
   heading:
-    title: "Choose the vehicle around each passenger's role in the event"
-    intro: "S-Class and E-Class cover individual business movements, while V-Class and Sprinter support smaller and larger groups."
+    title: "The right vehicle for every journey"
+    intro: "S-Class and E-Class for individual passengers. V-Class and Sprinter for groups — within the same transport plan."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long, mercedes-sprinter]
   cta:
     label: "View Full Fleet"
@@ -100,7 +96,7 @@ faq:
 
 finalCta:
   heading: "Send the event schedule. We organise the transportation."
-  text: "Send the date, key locations, passenger count, group structure and basic event schedule. We will check availability and prepare an individual quote for the appropriate transport plan."
+  text: "Send the date, key locations, passenger count and group structure. We will review the request and prepare a transport plan and individual quote."
   primaryCta:
     label: "Plan Event Transportation"
     target: { type: flow, flowKey: booking }

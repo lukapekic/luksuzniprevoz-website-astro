@@ -21,6 +21,8 @@
  *   light           light-neutral panel on --color-surface-light; flips the
  *                   inherited text color to --color-text-on-light so children
  *                   (headings, body) render legibly without per-element work.
+ *   elevated-full   full-width graphite signature band with no radius/cap.
+ *   light-full      full-width light editorial band with no radius/cap.
  *
  * Contained/elevated/light panels are self-capping (max-w + mx-auto) so they
  * read as floating architectural panels on the page canvas; the caller still
@@ -47,6 +49,8 @@ export const sectionVariants = variants({
         "mx-auto max-w-[var(--container-main)] bg-[var(--color-surface-elevated)] rounded-[var(--radius-section)]",
       light:
         "mx-auto max-w-[var(--container-main)] bg-[var(--color-surface-light)] text-[var(--color-text-on-light)] rounded-[var(--radius-section)]",
+      "elevated-full": "bg-[var(--color-surface-elevated)]",
+      "light-full": "bg-[var(--color-surface-light)] text-[var(--color-text-on-light)]",
     },
   },
   defaults: {

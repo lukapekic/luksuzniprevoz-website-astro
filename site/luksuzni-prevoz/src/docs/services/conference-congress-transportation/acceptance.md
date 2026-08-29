@@ -140,7 +140,7 @@ Absent:
 - [ ] No Conference-specific duplicate dark overlay was added.
 - [ ] Eyebrow comes from Conference UI key.
 - [ ] Exactly three trust markers render.
-- [ ] Trust markers correspond to airport arrivals, multi-vehicle schedules and group transport.
+- [ ] Trust markers concisely cover airport/hotel/event locations, individual/group transport and a multi-vehicle schedule, backed by canonical assertions.
 - [ ] Primary CTA resolves through booking flow.
 - [ ] Secondary CTA resolves through quote flow.
 - [ ] Hero contains no price.
@@ -195,12 +195,14 @@ Absent:
 
 # K. Event Journey
 
-- [ ] Uses `eventJourney` localized heading/intro/body.
+- [ ] Uses the localized `eventJourney` heading and concise introduction; optional body copy does not create repetition.
 - [ ] Uses exactly six authored stage items.
 - [ ] Uses Conference section label + example label from UI.
-- [ ] Exact image is `src/assets/shared/other/v-class-on-the-move.webp`.
+- [ ] Exact image is `src/assets/fleet/original/sprinter/interior-entrance.webp`.
 - [ ] Image is decorative.
 - [ ] Desktop remains 7 / 5.
+- [ ] Desktop image height matches the adjacent stepped sequence and is not enlarged by the portrait asset's intrinsic ratio.
+- [ ] Conference uses the contained graphite open-split/default treatment without changing Delegation.
 - [ ] The sequence explicitly reads as an example/organisation principle, not a fixed route.
 - [ ] No time/status/tracking/map UI exists.
 - [ ] Final stage is **Final transfer**, not airport departure.
@@ -212,16 +214,19 @@ Absent:
 - [ ] `ConferencePassengerMovement.astro` exists.
 - [ ] It is page-local.
 - [ ] It renders exactly two roles.
-- [ ] Executive role uses `s-class-interior-2.webp`.
-- [ ] Group role uses `v-class-interior.webp`.
-- [ ] Shared event-schedule relationship label is visible.
+- [ ] It renders no role imagery.
+- [ ] It renders no closing shared event-schedule label or flanking rules.
 - [ ] Executive vehicle-role label is S-Class · E-Class.
 - [ ] Group vehicle-role label is V-Class · Sprinter.
 - [ ] Both labels are checked against `conference.vehicleRoles` before render.
 - [ ] No prices appear.
 - [ ] No capacity value is hardcoded in Markdown/UI/component CSS/markup.
 - [ ] If capacities render, they come from `fleet.ts`.
-- [ ] Desktop comparison is balanced 6 / 6.
+- [ ] Both roles remain vertically stacked at every breakpoint.
+- [ ] The light treatment is a contained editorial section.
+- [ ] Role items have no outer borders; one horizontal divider separates 01 and 02.
+- [ ] Fact spacing remains generous and comfortable without resembling cards.
+- [ ] A standard semantic gap separates the contained Journey and Passenger surfaces.
 - [ ] Mobile DOM order is logical and stacked.
 
 ---
@@ -230,11 +235,11 @@ Absent:
 
 - [ ] `ConferenceMultiVehicleSchedule.astro` exists.
 - [ ] It is page-local.
-- [ ] It uses the elevated graphite treatment.
+- [ ] It uses an open-dark editorial treatment.
 - [ ] Desktop is 5 / 7.
 - [ ] Exactly three movement-role nodes render.
 - [ ] The three nodes bind in order to `individualExecutive`, `smallerGroup` and `largerGroup` from `conference.vehicleRoles`.
-- [ ] One event-schedule outcome renders.
+- [ ] One event-schedule outcome renders as the destination of three divider-led movement lanes, not as a dashboard box.
 - [ ] Quiet CTA resolves to booking flow.
 - [ ] Connectors are static CSS only.
 - [ ] Text remains understandable with connectors removed.

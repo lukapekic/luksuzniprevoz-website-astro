@@ -56,6 +56,8 @@ Use semantic surface roles only:
 open dark      → background
 contained dark → surface / surfaceElevated
 functional     → surfaceLight / inputSurface
+full elevated  → full-width surfaceElevated signature band
+full light     → full-width surfaceLight editorial band
 ```
 
 Surface choice follows purpose and page rhythm. Do not alternate dark/light mechanically.

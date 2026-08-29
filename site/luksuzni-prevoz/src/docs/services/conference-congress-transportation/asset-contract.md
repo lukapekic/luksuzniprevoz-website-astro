@@ -45,48 +45,33 @@ The crop MUST retain the hotel/venue arrival context and keep the vehicle visibl
 ## 2. Event Journey
 
 ```text
-src/assets/shared/other/v-class-on-the-move.webp
+src/assets/fleet/original/sprinter/interior-entrance.webp
 ```
 
-Role: supporting image in the shared six-stage Business movement sequence.
+Role: supporting right-side image in the contained six-stage Business movement sequence.
 
-Reason: communicates movement between programme points while avoiding reuse of Delegation's locked `v-class-on-the-move-veertical.webp` mixed-fleet image.
+Reason: communicates group-passenger access and the practical event-transport role of the Sprinter.
 
 Decorative alt: `""`.
 
-At mobile/tablet the image follows the shared stacked sequence footprint; from the shared desktop threshold it occupies the 5-track media side. Preserve source aspect-ratio reservation, center the moving vehicle in the usable crop and do not upscale beyond the component's generated source set.
+At mobile/tablet the image follows the shared stacked sequence footprint. From
+the shared desktop threshold it occupies the 5-track media side and its height
+matches the adjacent stepped sequence; the portrait asset must not enlarge the
+grid row through intrinsic sizing. Preserve the passenger entrance and visible
+seating in the crop and do not upscale beyond the component's generated source set.
 
-## 3. Individual / executive movement
+## 3. Passenger movement
 
-```text
-src/assets/shared/other/s-class-interior-2.webp
-```
+No editorial image. The two movement types are expressed as a vertical,
+divider-led fact sequence using authored copy and canonical vehicle-role labels.
 
-Role: executive side of the Conference passenger-movement comparison.
-
-The copy communicates the role; image remains decorative.
-
-Use the same reserved media geometry as the group side. Keep dashboard/cabin context visible at all five reference widths; do not crop solely around trim detail.
-
-## 4. Group movement
-
-```text
-src/assets/shared/other/v-class-interior.webp
-```
-
-Role: group side of the Conference passenger-movement comparison.
-
-The copy communicates the role; image remains decorative.
-
-Use the same reserved media geometry as the executive side. Keep the passenger cabin legible at all five reference widths.
-
-## 5. Multi-vehicle schedule
+## 4. Multi-vehicle schedule
 
 No editorial image.
 
 The section is a static scheduling/coordination composition built from typography, dividers and restrained connectors. Adding a decorative photograph weakens the information hierarchy.
 
-## 6. Vehicle Recommendations
+## 5. Vehicle Recommendations
 
 Use canonical fleet media through the existing fleet-media/data path. Do not use `assets/shared/other` as a substitute for vehicle-card media.
 

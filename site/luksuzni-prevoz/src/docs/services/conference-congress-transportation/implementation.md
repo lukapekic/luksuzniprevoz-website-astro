@@ -150,21 +150,23 @@ interface Props {
   headingId: string;
   heading: string;
   intro: string;
-  body: string;
+  body?: string;
   label: string;
   exampleLabel: string;
   stages: readonly [Stage, Stage, Stage, Stage, Stage, Stage];
   image: ImageMetadata;
+  variant?: "default" | "signature";
 }
 ```
 
 Requirements:
 
 ```text
-preserve current section spacing/surface
+preserve current default section spacing/surface
 preserve 7 / 5 desktop layout
 preserve six-stage list and connectors
 preserve lazy responsive image behavior
+add a backward-compatible Conference `signature` variant using the full-width elevated graphite surface
 remove delegation-specific heading id
 no service copy inside shared component
 no route/data imports inside shared component
@@ -243,7 +245,7 @@ sections:
   multiVehicle
 ```
 
-Each required section must also have non-empty localized `heading.title`, `heading.intro` and `body`; every item must have non-empty `title` and `text`. `multiVehicle.cta` must exist and resolve to booking. FAQ items must have non-empty questions and answers after token interpolation.
+Each required section must have a non-empty localized `heading.title` and `heading.intro`; every item must have non-empty `title` and `text`. Editorial `body` is optional after the final copy-density pass. `multiVehicle.cta` must exist and resolve to booking. FAQ items must have non-empty questions and answers after token interpolation.
 
 Required authored counts:
 
@@ -339,9 +341,9 @@ Render:
   ...
   eyebrow={ui("conferenceCongressTransportation.hero.eyebrow")}
   trustMarkers={[
-    ui("business.coordination.airportArrivals"),
-    ui("business.coordination.multiVehicleSchedules"),
-    ui("business.coordination.groupTransport"),
+    ui("conferenceCongressTransportation.hero.trust.route"),
+    ui("conferenceCongressTransportation.hero.trust.passengerTypes"),
+    ui("conferenceCongressTransportation.hero.trust.multiVehicle"),
   ]}
   variant="full-bleed"
   image={heroImage}
@@ -445,11 +447,14 @@ Pass:
 
 ```text
 headingId="conference-event-journey-heading"
-heading/intro/body from eventJourney
+heading/intro/optional body from eventJourney
 label from conferenceCongressTransportation.section.eventJourney
 exampleLabel from conferenceCongressTransportation.eventJourney.exampleLabel
 stages from eventJourney.items
-image from src/assets/shared/other/v-class-on-the-move.webp
+image from src/assets/fleet/original/sprinter/interior-entrance.webp
+default contained open-split treatment
+desktop media height resolved from the adjacent stepped-sequence content, not
+from the portrait asset's intrinsic aspect ratio
 ```
 
 Cast/validate stages only after exact length assertion.
@@ -471,26 +476,15 @@ Props should remain presentation-focused. Recommended inputs:
 ```ts
 heading
 intro
-body
 label
 items: readonly [Item, Item]
-sharedScheduleLabel
 executiveVehicleLabel
 groupVehicleLabel
-executiveImage
-groupImage
 ```
 
 Do not import service copy or locale dictionaries inside the component.
 
 The page resolves UI strings and passes them down. It resolves the underlying IDs from `conference.vehicleRoles`; the component never declares vehicle IDs.
-
-Images:
-
-```text
-executive → s-class-interior-2.webp
-group     → v-class-interior.webp
-```
 
 Surface:
 
@@ -498,7 +492,10 @@ Surface:
 light
 ```
 
-Desktop uses balanced 6 / 6 comparison. Mobile remains one logical sequence.
+All breakpoints use a single vertical two-fact sequence. One quiet horizontal
+divider separates facts 01 and 02; there are no role images, outer fact borders
+or closing shared-schedule label. Use generous vertical fact spacing and the
+standard section gap after Event Journey.
 
 If capacity is displayed, the PAGE resolves it from `getVehicle()` and passes it. The component never hardcodes capacity.
 
@@ -519,7 +516,6 @@ Inputs:
 ```text
 heading
 intro
-body
 label
 three authored items
 three role labels
@@ -533,7 +529,7 @@ The page binds the authored items in order to `conference.vehicleRoles.individua
 Surface:
 
 ```text
-elevated
+open-dark
 ```
 
 Desktop:
@@ -548,11 +544,11 @@ Right-side structure:
 01 Individual movement   S-Class · E-Class
 02 Smaller group         V-Class
 03 Larger group          Sprinter
-              ↓
-One event transportation schedule
+  └────────────→ One event transportation schedule
 ```
 
-Use static CSS connectors only.
+Use static CSS connectors only. Use open movement lanes and rules; do not render
+role cards or a bordered destination box.
 
 No JS, times, live status, vehicle assignment, driver names, tracking, map, availability state or dedicated coordinator wording.
 
@@ -749,9 +745,9 @@ Use section surfaces semantically:
 Hero                 full bleed dark
 Overview             open dark
 Audience             open dark
-Event Journey        elevated dark (shared sequence)
-Passenger Movement   light
-Multi Vehicle        elevated graphite
+Event Journey        contained elevated dark open split
+Passenger Movement   contained light comparison
+Multi Vehicle        open dark
 Vehicles             shared behavior
 Standards            contained dark
 FAQ                  light

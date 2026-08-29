@@ -88,7 +88,7 @@ finalCta
 
 ### `audience`
 
-Requires body copy and exactly five items:
+Requires a concise introduction and exactly five items. A second body paragraph is optional:
 
 ```text
 organisers
@@ -100,13 +100,15 @@ participant groups
 
 ### `eventJourney`
 
-Requires intro/body and exactly six authored stages:
+Requires a concise introduction and exactly six authored stages. The introduction
+frames the sequence as an illustration rather than a fixed route; a second body
+paragraph is optional:
 
 ```text
 Arrival
 Hotel
 Conference venue
-Additional programme location
+Additional location
 Return to hotel
 Final transfer
 ```
@@ -115,7 +117,7 @@ The section MUST explicitly frame the sequence as an illustration of organisatio
 
 ### `passengerMovement`
 
-Requires intro/body and exactly two items:
+Requires a concise introduction and exactly two items. A second body paragraph is optional:
 
 ```text
 individual / executive movement
@@ -126,7 +128,7 @@ Do not author passenger capacities or vehicle IDs here. The page resolves the th
 
 ### `multiVehicle`
 
-Requires intro/body, exactly three movement-role items and one quiet booking CTA.
+Requires one concise introduction, exactly three movement-role items and one quiet booking CTA. A second body paragraph is intentionally omitted.
 
 The content describes movement roles. It MUST NOT claim a dedicated Conference coordinator, live vehicle tracking, driver assignment, guaranteed number of vehicles or real-time dispatch.
 

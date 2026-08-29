@@ -12,7 +12,7 @@ seoDescription: "Prevoz za konferencije i kongrese u Beogradu: dolasci sa aerodr
 
 hero:
   title: "Prevoz za konferencije i kongrese"
-  description: "Prevoz organizovan prema rasporedu događaja — za organizatore, govornike, rukovodioce, goste i grupe, od dolaska na aerodrom preko hotela do lokacija programa."
+  description: "Prevoz za organizatore, govornike, rukovodioce, goste i grupe — usklađen sa rasporedom događaja, od aerodromskog dolaska do hotela i lokacija programa."
   primaryCta:
     label: "Planirajte prevoz za događaj"
     target: { type: flow, flowKey: booking }
@@ -22,62 +22,58 @@ hero:
 
 overview:
   heading:
-    title: "Jedan transportni plan oko rasporeda događaja"
-    intro: "Konferencija ne počinje na vratima sale niti se završava poslednjim predavanjem. Prevoz treba da poveže kretanja koja se dešavaju oko programa."
-  body: "Prevoz za konferencije i kongrese objedinjuje aerodromske dolaske, hotel, lokacije događaja, individualna kretanja i grupni prevoz u jednu organizovanu transportnu celinu. Kada je potrebno više vozila, njihova uloga se planira prema strukturi putnika i potvrđenom rasporedu."
+    title: "Jedan plan prevoza za ceo raspored događaja"
+    intro: "Konferencija ne počinje na vratima sale. Dolasci, hoteli, lokacije programa i različite grupe putnika treba da funkcionišu kao jedna celina."
+  body: "Organizujemo individualna i grupna kretanja u okviru istog transportnog plana. Kada je potrebno više vozila, svako dobija jasnu ulogu prema putnicima i rasporedu događaja."
 
 sections:
   - key: audience
     heading:
-      title: "Za ljude koji događaj organizuju, predstavljaju i posećuju"
-      intro: "Različiti učesnici nemaju uvek isti raspored, istu tačku preuzimanja ni isti način kretanja."
-    body: "Usluga je namenjena organizatorima koji žele jasniju transportnu strukturu, ali i putnicima kojima je važno da njihovo kretanje bude uklopljeno u program događaja."
+      title: "Za ljude koji događaj vode, predstavljaju i posećuju"
+      intro: "Različite uloge traže različit ritam prevoza."
     items:
-      - { title: "Organizatori događaja", text: "Za tim koji povezuje dolaske, hotele, lokacije programa i različite grupe putnika u jedan raspored prevoza." }
-      - { title: "Govornici", text: "Za goste čiji dolazak i kretanje treba uskladiti sa njihovim delom programa i potvrđenim lokacijama." }
-      - { title: "Direktori i rukovodstvo", text: "Za individualna poslovna kretanja kada putnik ima sopstveni raspored unutar šire organizacije događaja." }
-      - { title: "Poslovni i pozvani gosti", text: "Za goste kojima organizator obezbeđuje profesionalan prevoz između potvrđenih tačaka programa." }
-      - { title: "Grupe učesnika", text: "Za učesnike koji treba da ostanu zajedno tokom jednog ili više potvrđenih kretanja između lokacija događaja." }
+      - { title: "Organizatori događaja", text: "Dolasci, hoteli, lokacije programa i grupe u jednom rasporedu." }
+      - { title: "Govornici", text: "Prevoz usklađen sa njihovim dolaskom i delom programa." }
+      - { title: "Direktori i rukovodstvo", text: "Individualna kretanja unutar šireg rasporeda događaja." }
+      - { title: "Poslovni i pozvani gosti", text: "Profesionalan prevoz između ključnih lokacija programa." }
+      - { title: "Grupe učesnika", text: "Zajedničko kretanje između hotela i lokacija događaja." }
 
   - key: eventJourney
     heading:
       title: "Od dolaska do završnog transfera"
-      intro: "Jedan događaj može da obuhvati više uzastopnih kretanja, a svako od njih treba da ostane deo istog transportnog konteksta."
-    body: "Sekvenca ispod prikazuje princip organizacije, a ne fiksnu rutu. Konačan raspored se formira prema informacijama koje pošaljete i detaljima koji su potvrđeni za konkretan događaj."
+      intro: "Primer organizacije, ne fiksna ruta. Konačan raspored nastaje iz podataka za konkretan događaj."
     items:
-      - { title: "Dolazak", text: "Početak transportnog plana i preuzimanje prema potvrđenom dolasku." }
-      - { title: "Hotel", text: "Transfer do ili od hotela kao jedne od ključnih tačaka programa." }
-      - { title: "Lokacija konferencije", text: "Dolazak na potvrđenu lokaciju konferencije, kongresa ili poslovnog programa." }
-      - { title: "Dodatna lokacija programa", text: "Sledeća potvrđena lokacija kada program uključuje dodatno poslovno ili organizovano kretanje." }
-      - { title: "Povratak u hotel", text: "Povratno kretanje prema hotelu kada je ono deo potvrđenog rasporeda." }
-      - { title: "Završni transfer", text: "Poslednje potvrđeno kretanje kojim se završava ugovoreni transportni plan događaja." }
+      - { title: "Dolazak", text: "Preuzimanje prema potvrđenom dolasku." }
+      - { title: "Hotel", text: "Transfer do ili od hotela." }
+      - { title: "Lokacija konferencije", text: "Dolazak na glavnu lokaciju programa." }
+      - { title: "Dodatna lokacija", text: "Sledeća potvrđena tačka događaja." }
+      - { title: "Povratak u hotel", text: "Kada je deo rasporeda." }
+      - { title: "Završni transfer", text: "Poslednje kretanje u dogovorenom planu." }
 
   - key: passengerMovement
     heading:
       title: "Različiti putnici. Različita kretanja."
-      intro: "Govornik ili rukovodilac ne mora da se kreće na isti način kao grupa učesnika, ali oba kretanja mogu da pripadaju istom rasporedu događaja."
-    body: "Individualni i grupni prevoz rešavaju različite potrebe unutar iste organizacije. Uloga vozila se određuje prema strukturi putnika i potvrđenim tačkama kretanja, bez razdvajanja događaja na niz nepovezanih zahteva."
+      intro: "Govornik ili rukovodilac ne mora da se kreće kao grupa učesnika. Obe potrebe mogu da budu deo istog rasporeda događaja."
     items:
-      - { title: "Individualno i izvršno kretanje", text: "Za govornike, rukovodioce i pojedinačne goste kojima je potreban odvojen prevoz kroz njihov deo potvrđenog rasporeda." }
-      - { title: "Grupno kretanje", text: "Za organizatore, timove i grupe učesnika koji treba da putuju zajedno između potvrđenih lokacija programa." }
+      - { title: "Individualno i izvršno kretanje", text: "Za govornike, rukovodioce i pozvane goste sa sopstvenim delom rasporeda." }
+      - { title: "Grupno kretanje", text: "Za organizatore, timove i učesnike koji se kreću zajedno između lokacija programa." }
 
   - key: multiVehicle
     heading:
       title: "Više vozila. Jedan raspored događaja."
-      intro: "Kada se putnici dele prema ulozi, veličini grupe ili vremenu kretanja, više vozila može da bude deo iste transportne strukture."
-    body: "Pojedinačna vozila ne predstavljaju odvojene servise. Njihove uloge se povezuju kroz potvrđeni raspored događaja kako bi individualna i grupna kretanja ostala deo iste organizacije."
+      intro: "Kada se putnici razlikuju po ulozi, veličini grupe ili vremenu kretanja, više vozila može da funkcioniše unutar istog rasporeda događaja."
     items:
-      - { title: "Individualno kretanje", text: "Za putnika ili manji broj putnika koji imaju odvojenu tačku ili vreme kretanja u okviru događaja." }
-      - { title: "Manja grupa", text: "Za grupu koja treba da ostane zajedno tokom jednog ili više potvrđenih transfera." }
-      - { title: "Veća grupa", text: "Za veći broj učesnika kada zajedničko kretanje zahteva vozilo većeg kapaciteta." }
+      - { title: "Individualno kretanje", text: "Za putnike sa sopstvenim delom programa." }
+      - { title: "Manja grupa", text: "Za zajednički prevoz između lokacija programa." }
+      - { title: "Veća grupa", text: "Za učesnike kojima je potrebno vozilo većeg kapaciteta." }
     cta:
       label: "Pošalji raspored događaja"
       target: { type: flow, flowKey: booking }
 
 vehicleRecommendations:
   heading:
-    title: "Vozilo prema ulozi putnika u događaju"
-    intro: "S klasa i E klasa pokrivaju individualna poslovna kretanja, dok V klasa i Sprinter omogućavaju organizaciju manjih i većih grupa."
+    title: "Pravo vozilo za svako kretanje"
+    intro: "S klasa i E klasa za individualne putnike. V klasa i Sprinter za grupe — u okviru istog transportnog plana."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long, mercedes-sprinter]
   cta:
     label: "Pogledaj sva vozila"
@@ -98,7 +94,7 @@ faq:
 
 finalCta:
   heading: "Pošaljite raspored događaja. Mi organizujemo prevoz."
-  text: "Pošaljite datum, ključne lokacije, broj putnika, strukturu grupa i osnovni raspored događaja. Proverićemo raspoloživost i pripremiti individualnu ponudu za odgovarajući transportni plan."
+  text: "Pošaljite datum, ključne lokacije, broj putnika i strukturu grupa. Proverićemo zahtev i pripremiti transportni plan i individualnu ponudu."
   primaryCta:
     label: "Planirajte prevoz za događaj"
     target: { type: flow, flowKey: booking }

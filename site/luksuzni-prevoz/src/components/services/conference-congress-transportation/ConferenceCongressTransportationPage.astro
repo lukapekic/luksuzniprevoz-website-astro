@@ -27,9 +27,7 @@ import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { interpolateTokens } from "../../../lib/interpolate.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
 import heroImage from "../../../assets/shared/other/s-class-hotel-entrance-night.webp";
-import journeyImage from "../../../assets/shared/other/v-class-on-the-move.webp";
-import executiveImage from "../../../assets/shared/other/s-class-interior-2.webp";
-import groupImage from "../../../assets/shared/other/v-class-interior.webp";
+import journeyImage from "../../../assets/fleet/original/sprinter/interior-entrance.webp";
 import finalCtaImage from "../../../assets/shared/other/v-class-parked-outside.webp";
 
 interface Props {
@@ -86,7 +84,6 @@ const assertCompleteSection = (
   if (
     !value.heading.title.trim() ||
     !value.heading.intro?.trim() ||
-    !value.body?.trim() ||
     !value.items ||
     value.items.length !== itemCount ||
     value.items.some((item) => !item.title.trim() || !item.text.trim())
@@ -353,9 +350,9 @@ const seo = buildPageSeo({
     description={data.hero.description}
     eyebrow={ui("conferenceCongressTransportation.hero.eyebrow")}
     trustMarkers={[
-      ui("business.coordination.airportArrivals"),
-      ui("business.coordination.multiVehicleSchedules"),
-      ui("business.coordination.groupTransport"),
+      ui("conferenceCongressTransportation.hero.trust.route"),
+      ui("conferenceCongressTransportation.hero.trust.passengerTypes"),
+      ui("conferenceCongressTransportation.hero.trust.multiVehicle"),
     ]}
     primaryAction={primaryAction}
     secondaryAction={secondaryAction}
@@ -384,7 +381,7 @@ const seo = buildPageSeo({
           heading={audienceSection.heading.title}
           description={audienceSection.heading.intro}
         />
-        <p class="body-copy">{audienceSection.body}</p>
+        {audienceSection.body && <p class="body-copy">{audienceSection.body}</p>}
       </div>
       <ol class="audience-rail grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
         {audienceItems.map((item, index) => (
@@ -404,7 +401,7 @@ const seo = buildPageSeo({
     headingId="conference-event-journey-heading"
     heading={eventJourneySection.heading.title}
     intro={eventJourneySection.heading.intro!}
-    body={eventJourneySection.body!}
+    body={eventJourneySection.body}
     label={ui("conferenceCongressTransportation.section.eventJourney")}
     exampleLabel={ui("conferenceCongressTransportation.eventJourney.exampleLabel")}
     stages={journeyStages}
@@ -414,20 +411,15 @@ const seo = buildPageSeo({
   <ConferencePassengerMovement
     heading={passengerMovementSection.heading.title}
     intro={passengerMovementSection.heading.intro!}
-    body={passengerMovementSection.body!}
     label={ui("conferenceCongressTransportation.section.passengerMovement")}
     items={passengerItems}
-    sharedScheduleLabel={ui("conferenceCongressTransportation.passengerMovement.sharedScheduleLabel")}
-    executiveVehicleLabel={ui("conferenceCongressTransportation.passengerMovement.executiveVehicleLabel")}
-    groupVehicleLabel={ui("conferenceCongressTransportation.passengerMovement.groupVehicleLabel")}
-    {executiveImage}
-    {groupImage}
+    executiveVehicleLabel={roleVehicleLabels.individualExecutive}
+    groupVehicleLabel={[roleVehicleLabels.smallerGroup, roleVehicleLabels.largerGroup].join(" · ")}
   />
 
   <ConferenceMultiVehicleSchedule
     heading={multiVehicleSection.heading.title}
     intro={multiVehicleSection.heading.intro!}
-    body={multiVehicleSection.body!}
     label={ui("conferenceCongressTransportation.section.multiVehicle")}
     items={multiVehicleItems}
     roles={scheduleRoles}
@@ -546,7 +538,7 @@ const seo = buildPageSeo({
 
   .audience-rail li {
     min-inline-size: 0;
-    padding: var(--space-6) var(--space-5);
+    padding: var(--space-8) var(--space-5);
     border-block-end: 1px solid var(--color-divider);
     overflow-wrap: anywhere;
   }
@@ -561,7 +553,7 @@ const seo = buildPageSeo({
   .audience-rail h3 {
     margin-block: var(--space-4) 0;
     font-family: var(--font-heading);
-    font-size: var(--text-xl);
+    font-size: var(--text-h3);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-heading);
     text-wrap: balance;
@@ -573,5 +565,21 @@ const seo = buildPageSeo({
     font-size: var(--text-sm);
     line-height: var(--line-height-body);
     color: var(--color-text-muted);
+  }
+
+  :global(.fact-list[data-variant="numbered-divider-facts"] li) {
+    padding-block: var(--space-7);
+  }
+
+  :global(.fact-list[data-variant="numbered-divider-facts"] .fact-marker) {
+    min-inline-size: var(--space-10);
+    font-size: var(--text-sm);
+  }
+
+  :global(.fact-list[data-variant="numbered-divider-facts"] strong) {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    line-height: var(--line-height-heading);
+    text-wrap: balance;
   }
 </style>

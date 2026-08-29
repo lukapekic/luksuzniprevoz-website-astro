@@ -164,12 +164,13 @@ Secondary CTA resolves through canonical `quote` flow.
 
 ## Hero trust markers
 
-Pass exactly three verified shared Business labels:
+Pass exactly three localized Conference markers, after asserting the corresponding
+canonical capabilities:
 
 ```text
-business.coordination.airportArrivals
-business.coordination.multiVehicleSchedules
-business.coordination.groupTransport
+Airport · hotel · event location
+Individual and group transportation
+Multi-vehicle schedule
 ```
 
 Before rendering them, assert their corresponding Conference capability flags.
@@ -305,7 +306,7 @@ It already expresses the same semantic responsibility required here:
 
 ```text
 a six-stage illustrative movement sequence
-+ heading/intro/body
++ heading/intro/optional body
 + example label
 + supporting image
 + static CSS connections
@@ -342,34 +343,39 @@ Exactly:
 01 Arrival
 02 Hotel
 03 Conference venue
-04 Additional programme location
+04 Additional location
 05 Return to hotel
 06 Final transfer
 ```
 
 Stages come from `eventJourney.items` in localized content.
 
-The body MUST state that the sequence illustrates the organisation principle and is not a fixed route.
+The concise introduction MUST state that the sequence illustrates the organisation principle and is not a fixed route. A second explanatory body paragraph is not required.
 
 The final stage remains **Final transfer**. Do not render Airport departure.
 
 ## Image
 
 ```text
-src/assets/shared/other/v-class-on-the-move.webp
+src/assets/fleet/original/sprinter/interior-entrance.webp
 ```
 
-Decorative. Do not reuse Delegation's `v-class-on-the-move-veertical.webp` mixed-fleet image here.
+Decorative. The right-side image shows the Sprinter passenger entrance and must
+remain subordinate to the six-stage sequence.
 
 ## Desktop topology
 
-Preserve the extracted component's established:
+Use the extracted component's contained open-split/default treatment. Desktop
+preserves:
 
 ```text
 sequence 7 | image 5
 ```
 
-The sequence is editorial, not a tracking/status UI.
+The section is a contained graphite split with the sequence on the left and image
+on the right. At desktop, the image height matches the rendered stepped-sequence
+content and must not enlarge the grid row from its portrait intrinsic ratio. The
+sequence is editorial, not a tracking/status UI.
 
 Forbidden:
 
@@ -439,47 +445,40 @@ Do not hardcode these numbers in Markdown or UI JSON.
 
 ## Visual contract
 
-Use one light functional section as a contrast beat.
+Use one contained light editorial section as a contrast beat.
 
 Desktop:
 
 ```text
 heading/introduction full editorial width
-then 6 / 6 comparison
+then two vertically stacked facts
 ```
 
-Each side contains:
+Each fact contains:
 
 ```text
 number
 title
-body
 quiet canonical vehicle-role label
-image
+concise body
 ```
 
-Images:
+The facts remain in one column at every breakpoint. They have no outer borders;
+one quiet horizontal divider separates 01 and 02. Use generous vertical spacing
+so the composition remains cinematic and comfortable.
 
-```text
-executive → src/assets/shared/other/s-class-interior-2.webp
-group     → src/assets/shared/other/v-class-interior.webp
-```
-
-Between/above the two roles render one restrained shared-context label:
-
-```text
-conferenceCongressTransportation.passengerMovement.sharedScheduleLabel
-```
+Keep the standard semantic section gap between the contained Journey and
+Passenger Movement surfaces; they must not read as one joined two-tone panel.
 
 This is not a vehicle-card section. No prices, badges, feature grids or CTAs inside each side.
 
 Mobile order:
 
 ```text
-heading/body
-shared schedule label
-executive copy + image
-group copy + image
+heading/introduction
+executive fact
+divider
+group fact
 ```
 
 ---
@@ -529,7 +528,7 @@ The renderer gets role relationships from `services.ts` and vehicle facts from `
 Surface:
 
 ```text
-elevated graphite
+open dark
 ```
 
 Desktop:
@@ -541,9 +540,8 @@ section copy 5 | coordination model 7
 Right-side model:
 
 ```text
-three static role nodes
-↓
-one full-width destination/outcome
+three divider-led movement lanes
+→ one event-schedule outcome
 ```
 
 Destination label:
@@ -554,7 +552,8 @@ conferenceCongressTransportation.multiVehicle.scheduleLabel
 
 Quiet CTA comes from `multiVehicle.cta` and resolves to canonical booking flow.
 
-The page-local component owns its connector CSS. It MUST remain editorial and static.
+The page-local component owns its connector CSS. Movement roles are not cards and
+the outcome is not a destination box. It MUST remain editorial and static.
 
 Forbidden:
 
@@ -916,7 +915,7 @@ Hero                     full bleed; wrapping action row above the shared `xs` t
 Overview                 vertical fact sequence
 Audience                 2 columns; fifth item spans final row
 Event Journey            shared stacked layout
-Passenger Movement       2 columns from `md`; executive then group in DOM/focus order
+Passenger Movement       vertical two-fact sequence; executive then group in DOM/focus order
 Multi Vehicle            stacked model
 Vehicles                 shared tablet behavior
 Standards                shared tablet behavior
@@ -930,7 +929,7 @@ Hero                     full bleed
 Overview                 5 / 7
 Audience                 2-column editorial rail
 Event Journey            7 / 5
-Passenger Movement       6 / 6
+Passenger Movement       vertical two-fact sequence
 Multi Vehicle            5 / 7
 Standards                4 / 8 matrix
 ```
@@ -942,7 +941,7 @@ Hero                     cinematic full bleed
 Overview                 5 / 7
 Audience                 3 columns until 2xl
 Event Journey            7 / 5
-Passenger Movement       balanced 6 / 6
+Passenger Movement       vertical two-fact sequence
 Multi Vehicle            5 / 7
 Vehicles                 shared wide behavior
 Standards                4 / 8 matrix
@@ -1018,7 +1017,7 @@ Motion remains limited to existing shared component behavior. Do not add scrolli
 
 Typography uses only semantic roles: `font-heading` for H1–H3, `font-body` for body/UI/actions and `font-brand` only inside `BrandLockup`. Verify computed H1, H2, body/UI, control and brand-lockup fonts with Serbian Latin, English and Russian Cyrillic content, including text zoom.
 
-All images use the repository's reviewed Astro image path with intrinsic geometry reserved. The Hero is the likely LCP image and keeps the shared eager/high-priority behavior; Event Journey, passenger-role and FinalCTA media remain lazy unless their shared component contract says otherwise. Verify generated responsive sources, crop/focal intent, dimensions, loading priority, CLS and the configured route/image/font/JS budgets. The page adds no client island.
+All images use the repository's reviewed Astro image path with intrinsic geometry reserved. The Hero is the likely LCP image and keeps the shared eager/high-priority behavior; Event Journey and FinalCTA media remain lazy unless their shared component contract says otherwise. Verify generated responsive sources, crop/focal intent, dimensions, loading priority, CLS and the configured route/image/font/JS budgets. The page adds no client island.
 
 ---
 
