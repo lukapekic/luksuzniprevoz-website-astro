@@ -11,27 +11,44 @@ interface Stage {
 }
 
 interface Props {
+  headingId: string;
   heading: string;
   intro: string;
-  body: string;
+  body?: string;
   label: string;
   exampleLabel: string;
   stages: readonly [Stage, Stage, Stage, Stage, Stage, Stage];
   image: ImageMetadata;
+  variant?: "default" | "signature";
 }
 
-const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props;
+const {
+  headingId,
+  heading,
+  intro,
+  body,
+  label,
+  exampleLabel,
+  stages,
+  image,
+  variant = "default",
+} = Astro.props;
+const isSignature = variant === "signature";
 ---
 
-<Section spacing="feature" surface="elevated" aria-labelledby="delegation-movement-heading">
+<Section
+  spacing="feature"
+  surface={isSignature ? "elevated-full" : "elevated"}
+  aria-labelledby={headingId}
+>
   <PageContainer>
-    <div class="movement-intro">
+    <div class="movement-intro" data-variant={variant}>
       <p class="section-label"><span aria-hidden="true"></span>{label}</p>
-      <SectionHeading id="delegation-movement-heading" heading={heading} description={intro} />
-      <p class="body-copy">{body}</p>
+      <SectionHeading id={headingId} heading={heading} description={intro} />
+      {body && <p class="body-copy">{body}</p>}
     </div>
 
-    <div class="movement-layout">
+    <div class="movement-layout" data-variant={variant}>
       <div class="movement-sequence">
         <p class="example-label">{exampleLabel}</p>
         <ol aria-label={exampleLabel}>
@@ -60,7 +77,6 @@ const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props
         />
       </figure>
     </div>
-
   </PageContainer>
 </Section>
 
@@ -191,6 +207,23 @@ const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props
     object-position: 55% center;
   }
 
+  .movement-layout[data-variant="signature"] {
+    margin-block-start: var(--space-13);
+  }
+
+  .movement-layout[data-variant="signature"] .movement-media {
+    border-radius: 0;
+    background: var(--color-surface);
+  }
+
+  .movement-layout[data-variant="signature"] li:not(:last-child)::after {
+    background: var(--color-accent);
+  }
+
+  .movement-layout[data-variant="signature"] .stage-copy strong {
+    font-size: var(--text-h3);
+  }
+
   @media (min-width: 64rem) {
     .movement-layout {
       grid-template-columns: 7fr 5fr;
@@ -198,8 +231,18 @@ const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props
     }
 
     .movement-media {
+      position: relative;
       min-block-size: 0;
       aspect-ratio: auto;
+    }
+
+    .movement-media :global(img) {
+      position: absolute;
+      inset: 0;
+    }
+
+    .movement-layout[data-variant="signature"] .movement-media {
+      min-block-size: calc(var(--space-24) * 6);
     }
   }
 </style>

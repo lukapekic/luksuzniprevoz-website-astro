@@ -12,7 +12,7 @@ Every item below is mandatory unless explicitly marked as a publication-only che
 
 - [ ] Root `AGENTS.md` was read and followed.
 - [ ] `DESIGN.md` was read and followed.
-- [ ] The current Theme V2 design context was regenerated/checked through the repository workflow required by `AGENTS.md`.
+- [ ] The `conference-congress-transportation` surface resolves through `design:context` and the configured active-theme design snapshot is current.
 - [ ] `compliance-matrix.md` exists and maps every blueprint section to source data, component and validation evidence.
 - [ ] No production decision contradicts current canonical data.
 
@@ -40,6 +40,10 @@ The page renderer fails loud unless all are true:
 - [ ] `multiVehicleSchedules === true`.
 - [ ] `individualExecutiveTransfers === true`.
 - [ ] `groupTransport === true`.
+- [ ] `vehicleRoles.individualExecutive` is exactly S-Class then E-Class.
+- [ ] `vehicleRoles.smallerGroup` is exactly V-Class 7+1 Extra Long.
+- [ ] `vehicleRoles.largerGroup` is exactly Sprinter.
+- [ ] Page components obtain these relationships from `services.ts`, not Markdown, UI JSON or page-local constants.
 - [ ] manual confirmation is asserted from canonical contact data.
 - [ ] specific confirmed-model wording is backed by canonical operations data.
 
@@ -136,7 +140,7 @@ Absent:
 - [ ] No Conference-specific duplicate dark overlay was added.
 - [ ] Eyebrow comes from Conference UI key.
 - [ ] Exactly three trust markers render.
-- [ ] Trust markers correspond to airport arrivals, multi-vehicle schedules and group transport.
+- [ ] Trust markers concisely cover airport/hotel/event locations, individual/group transport and a multi-vehicle schedule, backed by canonical assertions.
 - [ ] Primary CTA resolves through booking flow.
 - [ ] Secondary CTA resolves through quote flow.
 - [ ] Hero contains no price.
@@ -183,17 +187,22 @@ Absent:
 - [ ] Delegation uses it after migration.
 - [ ] Obsolete `DelegationMovementSequence.astro` is removed when no references remain.
 - [ ] Delegation regression check passes visually, semantically and responsively.
+- [ ] `components:check` ran before the shared edit and all reported consumers were reviewed.
+- [ ] The new shared component has a reviewed contract/registry entry and generated component metadata is synchronized.
+- [ ] Exact-target `verify:ui --change component` passes for the shared component.
 
 ---
 
 # K. Event Journey
 
-- [ ] Uses `eventJourney` localized heading/intro/body.
+- [ ] Uses the localized `eventJourney` heading and concise introduction; optional body copy does not create repetition.
 - [ ] Uses exactly six authored stage items.
 - [ ] Uses Conference section label + example label from UI.
-- [ ] Exact image is `src/assets/shared/other/v-class-on-the-move.webp`.
+- [ ] Exact image is `src/assets/fleet/original/sprinter/interior-entrance.webp`.
 - [ ] Image is decorative.
 - [ ] Desktop remains 7 / 5.
+- [ ] Desktop image height matches the adjacent stepped sequence and is not enlarged by the portrait asset's intrinsic ratio.
+- [ ] Conference uses the contained graphite open-split/default treatment without changing Delegation.
 - [ ] The sequence explicitly reads as an example/organisation principle, not a fixed route.
 - [ ] No time/status/tracking/map UI exists.
 - [ ] Final stage is **Final transfer**, not airport departure.
@@ -205,15 +214,19 @@ Absent:
 - [ ] `ConferencePassengerMovement.astro` exists.
 - [ ] It is page-local.
 - [ ] It renders exactly two roles.
-- [ ] Executive role uses `s-class-interior-2.webp`.
-- [ ] Group role uses `v-class-interior.webp`.
-- [ ] Shared event-schedule relationship label is visible.
+- [ ] It renders no role imagery.
+- [ ] It renders no closing shared event-schedule label or flanking rules.
 - [ ] Executive vehicle-role label is S-Class · E-Class.
 - [ ] Group vehicle-role label is V-Class · Sprinter.
+- [ ] Both labels are checked against `conference.vehicleRoles` before render.
 - [ ] No prices appear.
 - [ ] No capacity value is hardcoded in Markdown/UI/component CSS/markup.
 - [ ] If capacities render, they come from `fleet.ts`.
-- [ ] Desktop comparison is balanced 6 / 6.
+- [ ] Both roles remain vertically stacked at every breakpoint.
+- [ ] The light treatment is a contained editorial section.
+- [ ] Role items have no outer borders; one horizontal divider separates 01 and 02.
+- [ ] Fact spacing remains generous and comfortable without resembling cards.
+- [ ] A standard semantic gap separates the contained Journey and Passenger surfaces.
 - [ ] Mobile DOM order is logical and stacked.
 
 ---
@@ -222,10 +235,11 @@ Absent:
 
 - [ ] `ConferenceMultiVehicleSchedule.astro` exists.
 - [ ] It is page-local.
-- [ ] It uses the elevated graphite treatment.
+- [ ] It uses an open-dark editorial treatment.
 - [ ] Desktop is 5 / 7.
 - [ ] Exactly three movement-role nodes render.
-- [ ] One event-schedule outcome renders.
+- [ ] The three nodes bind in order to `individualExecutive`, `smallerGroup` and `largerGroup` from `conference.vehicleRoles`.
+- [ ] One event-schedule outcome renders as the destination of three divider-led movement lanes, not as a dashboard box.
 - [ ] Quiet CTA resolves to booking flow.
 - [ ] Connectors are static CSS only.
 - [ ] Text remains understandable with connectors removed.
@@ -300,7 +314,8 @@ Manual review completed at:
 - [ ] 768px portrait.
 - [ ] 1024px landscape.
 - [ ] 1440px desktop.
-- [ ] wide desktop / `2xl` sanity check.
+- [ ] 1920px wide desktop.
+- [ ] Both sides of every applicable `md`, `lg`, `xl` and `2xl` topology transition.
 
 At every state:
 
@@ -311,6 +326,11 @@ At every state:
 - [ ] No excessive empty gap caused by fixed height.
 - [ ] No tiny forced columns.
 - [ ] Logical DOM/focus order is preserved.
+- [ ] Audience topology matches Corporate: 1 default, 2 at `md`, 3 at `xl`, 5 at `2xl`.
+- [ ] `document.documentElement.scrollWidth <= document.documentElement.clientWidth`.
+- [ ] CTA destination and placement remain correct.
+- [ ] Images have reserved geometry and their intended crop/loading behavior.
+- [ ] Long Russian content was checked at 320px and every topology transition.
 
 ---
 
@@ -331,9 +351,10 @@ At every state:
 
 # T. Visual/design acceptance
 
-- [ ] Page is unmistakably Theme V2 Black & Platinum.
+- [ ] Page is unmistakably part of the configured Black & Platinum design system.
 - [ ] No arbitrary palette colours were introduced.
 - [ ] No new fonts were introduced.
+- [ ] Computed H1/H2 use `font-heading`, body/UI/controls use `font-body`, and only `BrandLockup` uses `font-brand` in SR/EN/RU.
 - [ ] No card-wall/dashboard aesthetic appears.
 - [ ] No glow, glassmorphism or metallic-gradient effect appears.
 - [ ] Photography has explicit semantic roles.
@@ -342,6 +363,9 @@ At every state:
 - [ ] Event Journey, passenger comparison and multi-vehicle schedule create the page's signature identity.
 - [ ] Hero remains the strongest visual moment.
 - [ ] Final CTA does not compete with Hero.
+- [ ] Hero retains the shared likely-LCP eager/high-priority path; non-Hero editorial media is lazy.
+- [ ] Generated image sources and intrinsic dimensions are present, with no avoidable CLS.
+- [ ] No page client island was introduced and configured route/image/font/CSS/JS budgets remain satisfied.
 
 ---
 

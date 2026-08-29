@@ -37,7 +37,7 @@ Required review:
 768px tablet portrait
 1024px tablet landscape
 1440px desktop
-wide desktop sanity check
+1920px wide desktop
 ```
 
 The crop MUST retain the hotel/venue arrival context and keep the vehicle visible without reducing H1/CTA contrast.
@@ -45,42 +45,33 @@ The crop MUST retain the hotel/venue arrival context and keep the vehicle visibl
 ## 2. Event Journey
 
 ```text
-src/assets/shared/other/v-class-on-the-move.webp
+src/assets/fleet/original/sprinter/interior-entrance.webp
 ```
 
-Role: supporting image in the shared six-stage Business movement sequence.
+Role: supporting right-side image in the contained six-stage Business movement sequence.
 
-Reason: communicates movement between programme points while avoiding reuse of Delegation's locked `v-class-on-the-move-veertical.webp` mixed-fleet image.
+Reason: communicates group-passenger access and the practical event-transport role of the Sprinter.
 
 Decorative alt: `""`.
 
-## 3. Individual / executive movement
+At mobile/tablet the image follows the shared stacked sequence footprint. From
+the shared desktop threshold it occupies the 5-track media side and its height
+matches the adjacent stepped sequence; the portrait asset must not enlarge the
+grid row through intrinsic sizing. Preserve the passenger entrance and visible
+seating in the crop and do not upscale beyond the component's generated source set.
 
-```text
-src/assets/shared/other/s-class-interior-2.webp
-```
+## 3. Passenger movement
 
-Role: executive side of the Conference passenger-movement comparison.
+No editorial image. The two movement types are expressed as a vertical,
+divider-led fact sequence using authored copy and canonical vehicle-role labels.
 
-The copy communicates the role; image remains decorative.
-
-## 4. Group movement
-
-```text
-src/assets/shared/other/v-class-interior.webp
-```
-
-Role: group side of the Conference passenger-movement comparison.
-
-The copy communicates the role; image remains decorative.
-
-## 5. Multi-vehicle schedule
+## 4. Multi-vehicle schedule
 
 No editorial image.
 
 The section is a static scheduling/coordination composition built from typography, dividers and restrained connectors. Adding a decorative photograph weakens the information hierarchy.
 
-## 6. Vehicle Recommendations
+## 5. Vehicle Recommendations
 
 Use canonical fleet media through the existing fleet-media/data path. Do not use `assets/shared/other` as a substitute for vehicle-card media.
 
@@ -115,6 +106,8 @@ mediaTreatment="integrated"
 
 Final CTA must remain a medium-height closer and MUST NOT become Hero #2.
 
+Use the shared integrated-media crop and reserved geometry. Keep the vehicle readable without increasing the CTA's height to Hero scale.
+
 ## 9. Explicitly not assigned to Conference
 
 These sibling-signature assets remain out of the Conference page unless the asset contract is revised:
@@ -137,6 +130,9 @@ This prevents the three Business child pages from becoming visually interchangea
 - Use `astro:assets` through the existing shared component APIs or page-local components.
 - Hero loads eagerly through `ServiceHero`; non-Hero editorial images load lazily.
 - Preserve intrinsic geometry and responsive image generation.
+- Verify generated `srcset`/`sizes`, decoded dimensions, crop and loading behavior at 320, 768, 1024, 1440 and 1920 CSS px.
+- Preserve the configured image/route performance budgets and verify that images do not cause avoidable CLS.
+- If an asset fails to load, preserve the section geometry and readable adjacent content; never substitute a misleading image at runtime.
 - No CSS background image when the existing image component path can serve the role.
 - No text baked into images.
 - No fake venue logos, conference branding or event names.

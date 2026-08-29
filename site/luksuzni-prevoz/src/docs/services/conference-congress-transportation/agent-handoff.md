@@ -18,6 +18,7 @@ src/docs/services/conference-congress-transportation/implementation.md
 src/docs/services/conference-congress-transportation/acceptance.md
 src/docs/services/conference-congress-transportation/content-contract.md
 src/docs/services/conference-congress-transportation/asset-contract.md
+src/docs/services/conference-congress-transportation/remediation-plan.md
 current shared service documentation
 matching .skills required by AGENTS.md
 ```
@@ -52,10 +53,10 @@ Map every blueprint requirement to its source data, production component and acc
 Execute in this order:
 
 ```text
-1. Replace the three Conference scaffold content entries with the supplied reviewed content pack.
-2. Merge the three UI-addition payloads into existing locale dictionaries without deleting existing keys.
-3. Run content digest synchronization and use generated digests.
-4. Extract DelegationMovementSequence into shared BusinessMovementSequence; migrate Delegation with no visible/behavioral regression.
+1. Verify the installed Conference content entries and merged UI dictionaries.
+2. Run `design:context` with the registered `conference-congress-transportation` surface.
+3. Verify generated content digests and generated UI-key types are current.
+4. Run `components:check`, extract DelegationMovementSequence into shared BusinessMovementSequence, register/synchronize its reviewed shared contract, run the component profile, and migrate Delegation with no visible/behavioral regression.
 5. Build ConferenceCongressTransportationPage.
 6. Build ConferencePassengerMovement.
 7. Build ConferenceMultiVehicleSchedule.

@@ -1,0 +1,164 @@
+---
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface MovementItem {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  intro: string;
+  label: string;
+  items: readonly [MovementItem, MovementItem];
+  executiveVehicleLabel: string;
+  groupVehicleLabel: string;
+}
+
+const {
+  heading,
+  intro,
+  label,
+  items,
+  executiveVehicleLabel,
+  groupVehicleLabel,
+} = Astro.props;
+
+const roles = [
+  { item: items[0], vehicleLabel: executiveVehicleLabel },
+  { item: items[1], vehicleLabel: groupVehicleLabel },
+] as const;
+---
+
+<Section
+  spacing="feature"
+  surface="light"
+  aria-labelledby="conference-passenger-movement-heading"
+  class="mt-[var(--space-section-standard)]"
+>
+  <PageContainer>
+    <div class="passenger-intro">
+      <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+      <SectionHeading
+        id="conference-passenger-movement-heading"
+        heading={heading}
+        description={intro}
+        on="light"
+      />
+    </div>
+
+    <ol class="role-grid" aria-label={heading}>
+      {roles.map((role, index) => (
+        <li>
+          <span class="role-marker" aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <div class="role-copy">
+            <h3>{role.item.title}</h3>
+            <strong>{role.vehicleLabel}</strong>
+            <p class="role-description">{role.item.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </PageContainer>
+</Section>
+
+<style>
+  .passenger-intro {
+    max-inline-size: var(--measure-body);
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label span {
+    flex: 0 0 auto;
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-focus-light);
+  }
+
+  .role-grid {
+    display: grid;
+    max-inline-size: var(--measure-wide);
+    margin: var(--space-13) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .role-grid > li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    min-inline-size: 0;
+    padding-block: var(--space-10);
+  }
+
+  .role-grid > li + li {
+    border-block-start: 1px solid
+      color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+  }
+
+  .role-copy {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .role-marker {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-focus-light);
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    color: var(--color-text-on-light);
+    text-wrap: balance;
+  }
+
+  .role-copy strong {
+    display: block;
+    margin-block-start: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: var(--color-text-on-light);
+    text-transform: uppercase;
+  }
+
+  .role-description {
+    max-inline-size: var(--measure-narrow);
+    margin: var(--space-6) 0 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%);
+  }
+
+  @media (min-width: 48rem) {
+    .role-grid > li {
+      grid-template-columns: var(--space-16) minmax(0, 1fr);
+      gap: var(--space-8);
+      padding-block: var(--space-13);
+    }
+  }
+</style>

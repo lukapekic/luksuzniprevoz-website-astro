@@ -25,7 +25,7 @@ current shared service docs
 required .skills
 ```
 
-Run the repository design-context workflow required by `AGENTS.md` before visible UI changes.
+The registered surface ID is `conference-congress-transportation`. Before creating the page renderer, run design context against the existing `ContentPageRenderer.astro` with that explicit surface. After creating the empty target file, run design context again against the exact page target before adding visible UI. Run the matching exact-target `verify:ui` profile after implementation.
 
 Create `compliance-matrix.md` before production edits.
 
@@ -44,7 +44,7 @@ parent: businessTransportation
 
 Canonical slugs remain owned by `routes.ts`.
 
-Current Conference content entries are scaffolds.
+Current Conference content entries contain the reviewed localized page package and remain publication-gated.
 
 `ContentPageRenderer.astro` already dispatches other dedicated service pages including Corporate and Delegation. Conference currently has no dedicated mapping.
 
@@ -56,16 +56,14 @@ Current Delegation production contains `DelegationMovementSequence.astro`, which
 
 # 3. Production content integration
 
-Replace the three current Conference scaffold entries with the supplied content pack:
+Verify the three installed Conference content entries:
 
 ```text
-src/docs/services/conference-congress-transportation/content/
+src/content/pages/conference-congress-transportation/
   conference-congress-transportation.sr.md
   conference-congress-transportation.en.md
   conference-congress-transportation.ru.md
 ```
-
-Target production paths remain the existing Conference content directory under `src/content/pages/`.
 
 Keep:
 
@@ -75,7 +73,7 @@ translationState: reviewed
 noindex: true
 ```
 
-Merge `ui-additions/*.json` into the existing SR/EN/RU UI dictionaries.
+The `ui-additions/*.json` audit fragments have been merged into the existing SR/EN/RU UI dictionaries. Verify parity; do not merge duplicate keys.
 
 Rules:
 
@@ -87,7 +85,7 @@ keep exact key parity across SR/EN/RU
 use existing business.* keys where blueprint says to reuse them
 ```
 
-After content installation, run:
+When localized source content changes, run:
 
 ```bash
 pnpm content:sync-digests site/luksuzni-prevoz
@@ -128,7 +126,9 @@ Do not create local clones of Hero, Overview, Vehicles, Standards, FAQ or FinalC
 
 # 5. Shared movement-sequence extraction
 
-This extraction is part of the locked plan and does not require a blocker report.
+This extraction is part of the locked plan and does not require a product-design blocker report. It still requires the repository shared-component governance workflow.
+
+Before editing, run `pnpm components:check` and record current consumers. After creating the shared component, add its reviewed contract and registry entry, run the component synchronization command, run `verify:ui` with the `component` profile for the exact shared target, and verify every reported consumer. Preserve compatibility or document the migration explicitly.
 
 ## Required transformation
 
@@ -150,21 +150,23 @@ interface Props {
   headingId: string;
   heading: string;
   intro: string;
-  body: string;
+  body?: string;
   label: string;
   exampleLabel: string;
   stages: readonly [Stage, Stage, Stage, Stage, Stage, Stage];
   image: ImageMetadata;
+  variant?: "default" | "signature";
 }
 ```
 
 Requirements:
 
 ```text
-preserve current section spacing/surface
+preserve current default section spacing/surface
 preserve 7 / 5 desktop layout
 preserve six-stage list and connectors
 preserve lazy responsive image behavior
+add a backward-compatible Conference `signature` variant using the full-width elevated graphite surface
 remove delegation-specific heading id
 no service copy inside shared component
 no route/data imports inside shared component
@@ -243,6 +245,8 @@ sections:
   multiVehicle
 ```
 
+Each required section must have a non-empty localized `heading.title` and `heading.intro`; every item must have non-empty `title` and `text`. Editorial `body` is optional after the final copy-density pass. `multiVehicle.cta` must exist and resolve to booking. FAQ items must have non-empty questions and answers after token interpolation.
+
 Required authored counts:
 
 ```text
@@ -276,6 +280,9 @@ venueShuttles === true
 multiVehicleSchedules === true
 individualExecutiveTransfers === true
 groupTransport === true
+vehicleRoles.individualExecutive equals [mercedes-s-class, mercedes-e-class]
+vehicleRoles.smallerGroup equals [mercedes-v-class-7-plus-1-extra-long]
+vehicleRoles.largerGroup equals [mercedes-sprinter]
 ```
 
 Do not infer an airport-departure/return capability from Airport Transportation or another service.
@@ -334,9 +341,9 @@ Render:
   ...
   eyebrow={ui("conferenceCongressTransportation.hero.eyebrow")}
   trustMarkers={[
-    ui("business.coordination.airportArrivals"),
-    ui("business.coordination.multiVehicleSchedules"),
-    ui("business.coordination.groupTransport"),
+    ui("conferenceCongressTransportation.hero.trust.route"),
+    ui("conferenceCongressTransportation.hero.trust.passengerTypes"),
+    ui("conferenceCongressTransportation.hero.trust.multiVehicle"),
   ]}
   variant="full-bleed"
   image={heroImage}
@@ -440,11 +447,14 @@ Pass:
 
 ```text
 headingId="conference-event-journey-heading"
-heading/intro/body from eventJourney
+heading/intro/optional body from eventJourney
 label from conferenceCongressTransportation.section.eventJourney
 exampleLabel from conferenceCongressTransportation.eventJourney.exampleLabel
 stages from eventJourney.items
-image from src/assets/shared/other/v-class-on-the-move.webp
+image from src/assets/fleet/original/sprinter/interior-entrance.webp
+default contained open-split treatment
+desktop media height resolved from the adjacent stepped-sequence content, not
+from the portrait asset's intrinsic aspect ratio
 ```
 
 Cast/validate stages only after exact length assertion.
@@ -466,26 +476,15 @@ Props should remain presentation-focused. Recommended inputs:
 ```ts
 heading
 intro
-body
 label
 items: readonly [Item, Item]
-sharedScheduleLabel
 executiveVehicleLabel
 groupVehicleLabel
-executiveImage
-groupImage
 ```
 
 Do not import service copy or locale dictionaries inside the component.
 
-The page resolves UI strings and passes them down.
-
-Images:
-
-```text
-executive → s-class-interior-2.webp
-group     → v-class-interior.webp
-```
+The page resolves UI strings and passes them down. It resolves the underlying IDs from `conference.vehicleRoles`; the component never declares vehicle IDs.
 
 Surface:
 
@@ -493,7 +492,10 @@ Surface:
 light
 ```
 
-Desktop uses balanced 6 / 6 comparison. Mobile remains one logical sequence.
+All breakpoints use a single vertical two-fact sequence. One quiet horizontal
+divider separates facts 01 and 02; there are no role images, outer fact borders
+or closing shared-schedule label. Use generous vertical fact spacing and the
+standard section gap after Event Journey.
 
 If capacity is displayed, the PAGE resolves it from `getVehicle()` and passes it. The component never hardcodes capacity.
 
@@ -514,7 +516,6 @@ Inputs:
 ```text
 heading
 intro
-body
 label
 three authored items
 three role labels
@@ -523,10 +524,12 @@ resolved quiet action
 locale
 ```
 
+The page binds the authored items in order to `conference.vehicleRoles.individualExecutive`, `conference.vehicleRoles.smallerGroup` and `conference.vehicleRoles.largerGroup`. UI labels describe those roles; they are not a relationship data source.
+
 Surface:
 
 ```text
-elevated
+open-dark
 ```
 
 Desktop:
@@ -541,11 +544,11 @@ Right-side structure:
 01 Individual movement   S-Class · E-Class
 02 Smaller group         V-Class
 03 Larger group          Sprinter
-              ↓
-One event transportation schedule
+  └────────────→ One event transportation schedule
 ```
 
-Use static CSS connectors only.
+Use static CSS connectors only. Use open movement lanes and rules; do not render
+role cards or a bordered destination box.
 
 No JS, times, live status, vehicle assignment, driver names, tracking, map, availability state or dedicated coordinator wording.
 
@@ -721,7 +724,7 @@ Never couple publication to a component refactor commit without review.
 
 # 23. Styling rules
 
-All production CSS uses active Theme V2 tokens.
+All production CSS uses semantic tokens from the configured active theme.
 
 Required:
 
@@ -742,9 +745,9 @@ Use section surfaces semantically:
 Hero                 full bleed dark
 Overview             open dark
 Audience             open dark
-Event Journey        elevated dark (shared sequence)
-Passenger Movement   light
-Multi Vehicle        elevated graphite
+Event Journey        contained elevated dark open split
+Passenger Movement   contained light comparison
+Multi Vehicle        open dark
 Vehicles             shared behavior
 Standards            contained dark
 FAQ                  light
@@ -758,12 +761,14 @@ Final CTA             shared integrated treatment
 Verify at exact reference widths:
 
 ```text
-320
-768
-1024
-1440
->= 1600 sanity check
+320 mobile
+768 tablet portrait
+1024 tablet landscape
+1440 desktop
+1920 wide desktop
 ```
+
+Also verify computed topology on both sides of every Conference-owned `md`, `lg`, `xl` and `2xl` transition. The audience rail must match Corporate Transportation exactly: one column by default, two at `md` with the fifth item spanning, three at `xl`, and five at `2xl`.
 
 Required:
 
@@ -777,6 +782,8 @@ all grid children use min-inline-size: 0 where needed
 ```
 
 Hero asset crop receives special review at every state.
+
+Record DOM/heading order, CTA placement and destination, image dimensions/crop/loading, keyboard/focus order, 44×44 target measurements and `scrollWidth <= clientWidth` at each required width. Exercise the longest reviewed Russian content at 320 and every topology transition.
 
 ---
 
@@ -845,6 +852,10 @@ visible FAQ and JSON-LD use same resolved data
 renderer dispatch
 Hero image asset import
 responsive no-overflow smoke coverage
+canonical Conference vehicle-role mappings from services.ts
+computed H1/H2/body/UI/control/BrandLockup font roles in SR/EN/RU
+Hero LCP priority, lazy non-Hero media, intrinsic dimensions and generated responsive sources
+no new client island and configured JS/CSS/font/image/route budgets
 ```
 
 Cross-page regression is mandatory for Delegation after `BusinessMovementSequence` extraction.

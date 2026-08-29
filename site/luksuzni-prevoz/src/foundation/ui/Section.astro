@@ -4,7 +4,7 @@
  *
  * Owns VERTICAL section rhythm (compact/standard/feature → --space-section-*)
  * and an optional semantic surface treatment (open-dark / contained-dark /
- * elevated / light). It owns NO horizontal gutter, max-width, page-specific
+ * elevated / light plus their approved full-width band variants). It owns NO horizontal gutter, max-width, page-specific
  * copy, or imagery — a container (PageContainer / ReadingContainer) composes
  * inside it for width + gutter (design-foundation-governance.md §6/§11).
  *
@@ -13,6 +13,8 @@
  *   contained-dark  architectural panel (--color-surface, 16px radius, capped).
  *   elevated        panel on --color-surface-elevated.
  *   light           light-neutral panel; flips inherited text to --color-text-on-light.
+ *   elevated-full   full-width graphite signature band; no radius/cap.
+ *   light-full      full-width light editorial band; no radius/cap.
  *
  * Do not turn every section into a card — surface contrast and whitespace do
  * most of the work. Contained/elevated/light panels use --radius-section (16px),
@@ -29,7 +31,13 @@ interface Props {
   /** Vertical section rhythm tier */
   spacing?: "compact" | "standard" | "feature";
   /** Semantic surface treatment */
-  surface?: "open-dark" | "contained-dark" | "elevated" | "light";
+  surface?:
+    | "open-dark"
+    | "contained-dark"
+    | "elevated"
+    | "light"
+    | "elevated-full"
+    | "light-full";
   /** HTML element to render (default <section>) */
   as?: "section" | "div";
   /** Layout-only class (FND-UI-06) */

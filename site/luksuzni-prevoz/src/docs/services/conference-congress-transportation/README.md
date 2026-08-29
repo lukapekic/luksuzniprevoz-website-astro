@@ -26,7 +26,7 @@ Read in this order before production edits:
 10. matching .skills procedures required by AGENTS.md
 ```
 
-The blueprint owns page-specific structure. `DESIGN.md` and the active Theme V2 token source own visual language. The wireframe owns structure only.
+The blueprint owns page-specific structure. `DESIGN.md` and the configured active theme token source own visual language. The wireframe owns structure only.
 
 ## Product boundary
 
@@ -63,8 +63,9 @@ a promise of airport departure/return transport
 - `content-contract.md` — localization/editorial boundaries and required content shape.
 - `asset-contract.md` — exact approved images and image roles.
 - `agent-handoff.md` — execution entrypoint for the coding agent.
-- `content/` — reviewed SR/EN/RU page content.
-- `ui-additions/` — minimal localized interface strings to merge into existing dictionaries.
+- `remediation-plan.md` — ordered audit findings, corrections and verification sequence.
+- `src/content/pages/conference-congress-transportation/` — installed reviewed SR/EN/RU page content.
+- `ui-additions/` — retained audit fragments already merged into canonical UI dictionaries.
 
 ## Publication posture
 
