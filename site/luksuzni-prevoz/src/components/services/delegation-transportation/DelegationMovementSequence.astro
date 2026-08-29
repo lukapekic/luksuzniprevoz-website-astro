@@ -1,0 +1,205 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface Stage {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  intro: string;
+  body: string;
+  label: string;
+  exampleLabel: string;
+  stages: readonly [Stage, Stage, Stage, Stage, Stage, Stage];
+  image: ImageMetadata;
+}
+
+const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props;
+---
+
+<Section spacing="feature" surface="elevated" aria-labelledby="delegation-movement-heading">
+  <PageContainer>
+    <div class="movement-intro">
+      <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+      <SectionHeading id="delegation-movement-heading" heading={heading} description={intro} />
+      <p class="body-copy">{body}</p>
+    </div>
+
+    <div class="movement-layout">
+      <div class="movement-sequence">
+        <p class="example-label">{exampleLabel}</p>
+        <ol aria-label={exampleLabel}>
+          {stages.map((stage, index) => (
+            <li>
+              <span class="stage-marker" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="stage-copy">
+                <strong>{stage.title}</strong>
+                <small>{stage.text}</small>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <figure class="movement-media">
+        <Image
+          src={image}
+          alt=""
+          role="presentation"
+          loading="lazy"
+          widths={[400, 640, 800, 1000]}
+          sizes="(min-width: 64rem) 32rem, (min-width: 48rem) 38rem, calc(100vw - 3rem)"
+        />
+      </figure>
+    </div>
+
+  </PageContainer>
+</Section>
+
+<style>
+  .movement-intro {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label span {
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .movement-layout {
+    display: grid;
+    gap: var(--space-8);
+    margin-block-start: var(--space-10);
+    align-items: stretch;
+  }
+
+  .movement-layout > * {
+    min-inline-size: 0;
+  }
+
+  .example-label {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  ol {
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--space-10) minmax(0, 1fr);
+    gap: var(--space-4);
+    min-block-size: var(--space-20);
+    align-items: center;
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  li:not(:last-child)::after {
+    position: absolute;
+    inset-block-start: calc(50% + var(--space-4));
+    inset-block-end: calc(var(--space-4) * -1);
+    inset-inline-start: calc(var(--space-3) - 1px);
+    inline-size: 1px;
+    background: var(--color-border-subtle);
+    content: "";
+  }
+
+  .stage-marker {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .stage-copy {
+    min-inline-size: 0;
+  }
+
+  .stage-copy strong,
+  .stage-copy small {
+    display: block;
+  }
+
+  .stage-copy strong {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+  }
+
+  .stage-copy small {
+    margin-block-start: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .movement-media {
+    aspect-ratio: 4 / 3;
+    margin: 0;
+    overflow: clip;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+  }
+
+  .movement-media :global(img) {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: 55% center;
+  }
+
+  @media (min-width: 64rem) {
+    .movement-layout {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--column-gap-desktop);
+    }
+
+    .movement-media {
+      min-block-size: 0;
+      aspect-ratio: auto;
+    }
+  }
+</style>

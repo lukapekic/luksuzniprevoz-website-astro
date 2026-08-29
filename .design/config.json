@@ -38,6 +38,10 @@
     "ServiceOverview",
     "ServiceStandards",
     "VehicleRecommendations",
+    "OccasionServiceDefinition",
+    "OccasionScope",
+    "OccasionStandards",
+    "OccasionProcessSteps",
     "Button",
     "Link",
     "BrandLockup"
@@ -93,12 +97,40 @@
         "site/luksuzni-prevoz/src/docs/services/corporate-transportation"
       ]
     },
+    "delegation-transportation": {
+      "match": [
+        "delegation-transportation",
+        "delegationTransportation",
+        "prevoz-delegacija",
+        "transfer-delegatsiy"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/services/delegation-transportation/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/delegation-transportation"
+      ]
+    },
     "special-events": {
       "match": ["special-events", "specialEvents", "specijalne-dogadjaje", "osobykh-meropriyatiy"],
       "blueprints": ["site/luksuzni-prevoz/src/docs/services/special-events/blueprint.md"],
       "contracts": [
         "site/luksuzni-prevoz/src/docs/services/shared",
         "site/luksuzni-prevoz/src/docs/services/special-events"
+      ]
+    },
+    "wedding-transportation": {
+      "match": [
+        "wedding-transportation",
+        "weddingTransportation",
+        "prevoz-za-vencanja",
+        "svadebnyy-transfer"
+      ],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/services/wedding-transportation/blueprint.md"],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/wedding-transportation"
       ]
     },
     "contact": {

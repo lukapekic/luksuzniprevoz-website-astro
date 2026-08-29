@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delegation Transportation v1 — Locked Semantic Wireframe</title>
+  <link rel="stylesheet" href="../shared/wireframe-base.css" />
+  <style>
+    /* WIREFRAME GEOMETRY ONLY. Production must not copy this CSS. */
+    .wf-delegation-hero {
+      min-height: calc(var(--space-24) * 7);
+      display: grid;
+      align-items: end;
+      overflow: clip;
+      background: var(--color-surface);
+    }
+    .wf-delegation-hero-copy {
+      padding-block: calc(var(--space-24) * 2) var(--space-section-compact);
+    }
+    .wf-delegation-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin: 0;
+      padding: var(--space-4) 0 0;
+      border-block-start: 1px solid var(--color-divider);
+      list-style: none;
+    }
+    .wf-delegation-trust li { padding-inline-end: var(--space-4); }
+    .wf-delegation-sequence { margin: 0; padding: 0; list-style: none; }
+    .wf-delegation-sequence li {
+      display: grid;
+      grid-template-columns: var(--space-8) minmax(0, 1fr);
+      gap: var(--space-4);
+      min-height: calc(var(--space-16) + var(--space-2));
+      align-items: center;
+      border-block-end: 1px solid var(--color-divider);
+    }
+    .wf-delegation-proof { display: grid; gap: var(--space-3); }
+    .wf-delegation-logo {
+      min-height: calc(var(--space-24) * 2);
+      display: grid;
+      place-items: center;
+      padding: var(--space-6);
+      text-align: center;
+    }
+    .wf-delegation-brief > div {
+      padding-block: var(--space-5);
+      border-block-end: 1px solid var(--color-divider);
+    }
+    html[data-wf-layout="tablet-portrait"] .wf-delegation-proof,
+    html[data-wf-layout="tablet-landscape"] .wf-delegation-proof,
+    html[data-wf-layout="desktop"] .wf-delegation-proof,
+    html[data-wf-layout="wide"] .wf-delegation-proof { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    html[data-wf-layout="tablet-landscape"] .wf-delegation-audience .wf-media,
+    html[data-wf-layout="desktop"] .wf-delegation-audience .wf-media,
+    html[data-wf-layout="wide"] .wf-delegation-audience .wf-media { grid-column: 1; grid-row: 1; }
+    html[data-wf-layout="tablet-landscape"] .wf-delegation-audience .wf-copy,
+    html[data-wf-layout="desktop"] .wf-delegation-audience .wf-copy,
+    html[data-wf-layout="wide"] .wf-delegation-audience .wf-copy { grid-column: 2; grid-row: 1; }
+  </style>
+</head>
+<body>
+  <aside class="wf-shell wf-note">LOCKED semantic wireframe. Blueprint owns order and behavior. Do not copy wireframe CSS to production.</aside>
+  <header class="wf-shell wf-header" aria-label="Shared SiteHeader"><div class="wf-brand"></div><div class="wf-nav"></div><div class="wf-actions"><div class="wf-button"></div></div></header>
+  <main>
+    <section class="wf-delegation-hero"><div class="wf-shell wf-stack wf-delegation-hero-copy"><p class="wf-label">01 / ServiceHero / full bleed</p><div class="wf-title-lg"></div><div class="wf-lines wf-narrow"><div class="wf-line"></div><div class="wf-line"></div></div><div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div><ul class="wf-delegation-trust"><li>Multiple vehicles</li><li>Mixed classes</li><li>Dedicated coordination</li></ul><p class="wf-label">LOCKED IMAGE: v-class-embassy-entrance.webp</p></div></section>
+
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-5-7"><div class="wf-stack"><p class="wf-label">02 / ServiceOverview</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div></div></div><ol class="wf-divider-list"><li class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></li><li class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></li><li class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></li><li class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></li></ol></section>
+
+    <section class="wf-shell wf-section-standard wf-grid wf-grid-5-7 wf-delegation-audience"><div class="wf-stack wf-copy"><p class="wf-label">03 / Audience / content first in DOM</p><div class="wf-title"></div><div class="wf-divider-list"><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div></div></div><div class="wf-media">LOCKED IMAGE: s-class-hotel-entrance-vertical.webp / 4:3 cover</div></section>
+
+    <section class="wf-section-feature wf-elevated"><div class="wf-shell wf-stack"><p class="wf-label">04 / DelegationMovementSequence / full-width intro</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div></div><div class="wf-grid wf-grid-7-5"><ol class="wf-delegation-sequence"><li><span class="wf-marker"></span><div class="wf-line"></div></li><li><span class="wf-marker"></span><div class="wf-line"></div></li><li><span class="wf-marker"></span><div class="wf-line"></div></li><li><span class="wf-marker"></span><div class="wf-line"></div></li><li><span class="wf-marker"></span><div class="wf-line"></div></li><li><span class="wf-marker"></span><div class="wf-line"></div></li></ol><div class="wf-media">LOCKED IMAGE: emplyoee-group-outside.webp / cover / match timeline height</div></div></div></section>
+
+    <section class="wf-shell wf-section-standard wf-grid wf-grid-7-5"><div class="wf-stack wf-copy"><p class="wf-label">05 / Mixed fleet roles</p><div class="wf-title"></div><div class="wf-divider-list"><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div></div></div><div class="wf-media">LOCKED IMAGE: v-class-on-the-move-veertical.webp / 4:3 cover</div></section>
+
+    <section class="wf-shell wf-section-standard wf-contained"><div class="wf-grid wf-grid-5-7 wf-delegation-discretion"><div class="wf-stack wf-copy"><p class="wf-label">06 / Discretion / no media</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div></div></div><div class="wf-divider-list"><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div></div></div></section>
+
+    <section class="wf-section-feature"><div class="wf-shell wf-stack"><div class="wf-stack"><p class="wf-label">07 / Institutional proof / dark surrounding section</p><div class="wf-title"></div><div class="wf-line"></div></div><div class="wf-delegation-proof"><div class="wf-delegation-logo wf-light">Chinese Embassy mark</div><div class="wf-delegation-logo wf-light">OSCE mark</div><div class="wf-delegation-logo wf-light">Serbian Swimming Federation mark</div></div></div></section>
+
+    <section class="wf-shell wf-section-standard wf-grid wf-grid-5-7"><div class="wf-stack"><p class="wf-label">08 / Organiser briefing</p><div class="wf-title"></div><div class="wf-line"></div><div class="wf-button"></div></div><div class="wf-delegation-brief"><div>01 / Times and locations</div><div>02 / Passengers and groups</div><div>03 / Vehicle structure</div><div>04 / Special or confidentiality requirements</div><div class="wf-note">Manual confirmation note</div></div></section>
+
+    <section class="wf-shell wf-section-feature"><p class="wf-label">09 / VehicleRecommendations</p><div class="wf-title"></div><div class="wf-grid wf-grid-3"><article class="wf-card"><div class="wf-card-media">S-Class</div></article><article class="wf-card"><div class="wf-card-media">E-Class</div></article><article class="wf-card"><div class="wf-card-media">V-Class</div></article></div></section>
+
+    <section class="wf-shell wf-section-standard wf-grid wf-grid-4-8"><div class="wf-stack"><p class="wf-label">10 / ServiceStandards</p><div class="wf-title"></div></div><div class="wf-grid wf-grid-2"><article class="wf-card"><div class="wf-marker"></div><div class="wf-title-sm"></div></article><article class="wf-card"><div class="wf-marker"></div><div class="wf-title-sm"></div></article><article class="wf-card"><div class="wf-marker"></div><div class="wf-title-sm"></div></article><article class="wf-card"><div class="wf-marker"></div><div class="wf-title-sm"></div></article></div></section>
+
+    <section class="wf-shell wf-section-feature"><div class="wf-light wf-functional"><p class="wf-label">11 / FAQ</p><div class="wf-title"></div><div class="wf-divider-list"><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div><div class="wf-divider-row"><span class="wf-marker"></span><div class="wf-line"></div></div></div></div></section>
+
+    <section class="wf-shell wf-section-feature wf-contained wf-grid wf-grid-7-5"><div class="wf-stack"><p class="wf-label">12 / FinalCTA</p><div class="wf-title"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div></div><div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div></div><div class="wf-media">LOCKED IMAGE: s-class-interior-1.webp / integrated cover media</div></section>
+  </main>
+  <footer class="wf-shell wf-footer"><p class="wf-label">Shared SiteFooter</p></footer>
+  <script src="../shared/wireframe-responsive.js"></script>
+</body>
+</html>

@@ -106,7 +106,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   delegationTransportation: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: "businessTransportation",
     slugs: { sr: "prevoz-delegacija", en: "delegation-transportation", ru: "transfer-delegatsiy" },
   },
@@ -132,7 +132,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   weddingTransportation: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: "specialEvents",
     slugs: { sr: "prevoz-za-vencanja", en: "wedding-transportation", ru: "svadebnyy-transfer" },
   },
