@@ -2,27 +2,31 @@
  * CTA resolution — shared helper (FND-ARCH: reuse before duplicating).
  *
  * Route targets resolve to localized URLs via getPath (FND-I18N-03 — never
- * manual slug concatenation). Flow targets (e.g. the booking wizard) are not
- * yet implemented as routes. Existing consumers retain the interim Contact
- * destination; consumers that must not substitute Contact can opt into an
- * explicit nullable result and omit the unresolved action.
+ * manual slug concatenation). Flow targets resolve through the canonical flow
+ * map to the localized Contact route plus a stable request-intent query.
  */
 import { getPath } from "@astro-foundation/core/i18n";
 import { routes } from "../data/routes.ts";
-import { ctaSchema } from "../content/schemas/shared.ts";
+import type { Cta } from "../content/schemas/shared.ts";
 import { defaultLocale } from "../data/locales.ts";
-import type { z } from "astro:content";
+import { getFlowTarget, isFlowKey, type FlowKey } from "../data/flows.ts";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 
-/** CTA shape as authored in editorial content (z.infer of ctaSchema). */
-export type Cta = z.infer<typeof ctaSchema>;
+export type { Cta } from "../content/schemas/shared.ts";
+
+export function resolveFlowHref(flowKey: FlowKey, locale: LocaleCode): string {
+  const target = getFlowTarget(flowKey);
+  const path = getPath(target.routeKey, locale, routes, defaultLocale);
+  const query = new URLSearchParams({ intent: target.intent });
+  return `${path}?${query.toString()}`;
+}
 
 /**
  * Resolve a CTA's href for the current locale.
  * - route target → getPath (localized, never a raw URL).
  * - anchor target → a same-document fragment identifier.
- * - flow target → interim contact route by default (backward compatible).
- * - flow target + `unresolvedFlow:"omit"` → null.
+ * - flow target → canonical localized Contact route + request intent.
+ * - unknown runtime flow + `unresolvedFlow:"omit"` → null.
  */
 export interface ResolveCtaOptions {
   unresolvedFlow?: "contact" | "omit";
@@ -50,7 +54,9 @@ export function resolveCtaHref(
   if (cta.target.type === "anchor") {
     return `#${cta.target.anchorId}`;
   }
-  if (options.unresolvedFlow === "omit") return null;
-  // Backward-compatible flow behavior for existing callers.
-  return getPath("contact", locale, routes, defaultLocale);
+  if (!isFlowKey(cta.target.flowKey)) {
+    if (options.unresolvedFlow === "omit") return null;
+    throw new Error(`Unknown flow key: ${cta.target.flowKey}`);
+  }
+  return resolveFlowHref(cta.target.flowKey, locale);
 }

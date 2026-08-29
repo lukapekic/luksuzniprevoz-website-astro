@@ -71,11 +71,26 @@
       ]
     },
     "business-transportation": {
-      "match": ["business-transportation", "corporate-transportation", "poslovni"],
+      "match": ["business-transportation", "poslovni"],
       "blueprints": ["site/luksuzni-prevoz/src/docs/services/business-transportation/blueprint.md"],
       "contracts": [
         "site/luksuzni-prevoz/src/docs/services/shared",
         "site/luksuzni-prevoz/src/docs/services/business-transportation"
+      ]
+    },
+    "corporate-transportation": {
+      "match": [
+        "corporate-transportation",
+        "corporateTransportation",
+        "korporativni-prevoz",
+        "korporativnyy-transfer"
+      ],
+      "blueprints": [
+        "site/luksuzni-prevoz/src/docs/services/corporate-transportation/blueprint.md"
+      ],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/corporate-transportation"
       ]
     },
     "special-events": {

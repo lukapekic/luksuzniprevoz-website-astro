@@ -26,11 +26,12 @@ import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
 import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import heroImage from "../../../assets/shared/chauffeur-service/hero-chauffeur-wheel.jpg";
-import productivityImage from "../../../assets/shared/chauffeur-service/productivity-backseat.jpg";
-import scheduleImage from "../../../assets/shared/chauffeur-service/schedule-backseat-view.jpg";
-import editorialImage from "../../../assets/shared/chauffeur-service/editorial-workspace-vertical.jpg";
-import passengerImage from "../../../assets/shared/chauffeur-service/passenger-experience-reading.jpg";
+import { interpolateTokens } from "../../../lib/interpolate.ts";
+import heroImage from "../../../assets/shared/chauffeur-service/hero-chauffeur-wheel.webp";
+import productivityImage from "../../../assets/shared/chauffeur-service/productivity-backseat.webp";
+import scheduleImage from "../../../assets/shared/chauffeur-service/schedule-backseat-view.webp";
+import editorialImage from "../../../assets/shared/chauffeur-service/editorial-workspace-vertical.webp";
+import passengerImage from "../../../assets/shared/chauffeur-service/passenger-experience-reading.webp";
 import finalCtaImage from "../../../assets/final-cta-bg.webp";
 
 interface Props {
@@ -126,25 +127,6 @@ const canonicalTokens = {
   fullDayKm: booking.fullDay.includedKm,
 } as const;
 
-const tokenPattern = /\{([a-zA-Z][a-zA-Z0-9]*)\}/g;
-const interpolate = (
-  template: string,
-  values: Readonly<Record<string, string | number>>,
-  context: string,
-): string => {
-  const rendered = template.replace(tokenPattern, (token, key: string) => {
-    if (!(key in values)) {
-      throw new Error(`Unknown interpolation token "${token}" in ${context}.`);
-    }
-    return String(values[key]);
-  });
-  if (tokenPattern.test(rendered)) {
-    throw new Error(`Unresolved interpolation token remains in ${context}.`);
-  }
-  tokenPattern.lastIndex = 0;
-  return rendered;
-};
-
 const ui = (key: UiStringKey) => t(key, locale);
 const resolveAction = (cta: Cta): ResolvedAction => ({
   label: cta.label,
@@ -156,7 +138,7 @@ const secondaryAction = resolveAction(data.hero.secondaryCta);
 const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
 const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
 
-const heroSupport = interpolate(
+const heroSupport = interpolateTokens(
   ui("privateChauffeur.hero.supportTemplate"),
   canonicalTokens,
   "Private Chauffeur hero support",
@@ -181,7 +163,7 @@ const overviewGroups = [
   {
     key: "minimum-hire",
     marker: "02",
-    title: interpolate(
+    title: interpolateTokens(
       ui("privateChauffeur.overview.minimumHire.title"),
       { hours: booking.hourly.minimumHours },
       "Private Chauffeur minimum-hire title",
@@ -206,7 +188,7 @@ const [hourlyContent, halfDayContent, fullDayContent] = hireOptionsSection.items
 const hireOptions = [
   {
     title: ui("booking.mode.hourly"),
-    fact: interpolate(
+    fact: interpolateTokens(
       ui("privateChauffeur.options.hourlyFact"),
       { hours: booking.hourly.minimumHours },
       "Private Chauffeur hourly fact",
@@ -216,7 +198,7 @@ const hireOptions = [
   },
   {
     title: ui("booking.mode.halfDay"),
-    fact: interpolate(
+    fact: interpolateTokens(
       ui("privateChauffeur.options.halfDayFact"),
       { hours: booking.halfDay.hours, km: booking.halfDay.includedKm },
       "Private Chauffeur half-day fact",
@@ -226,7 +208,7 @@ const hireOptions = [
   },
   {
     title: ui("booking.mode.fullDay"),
-    fact: interpolate(
+    fact: interpolateTokens(
       ui("privateChauffeur.options.fullDayFact"),
       { hours: booking.fullDay.hours, km: booking.fullDay.includedKm },
       "Private Chauffeur full-day fact",
@@ -322,8 +304,8 @@ if (data.faq.items.length !== 10) {
   throw new Error("Private Chauffeur requires exactly ten FAQ items.");
 }
 const faqItems = data.faq.items.map((item, index) => ({
-  question: interpolate(item.question, canonicalTokens, `Private Chauffeur FAQ question ${index + 1}`),
-  answer: interpolate(item.answer, canonicalTokens, `Private Chauffeur FAQ answer ${index + 1}`),
+  question: interpolateTokens(item.question, canonicalTokens, `Private Chauffeur FAQ question ${index + 1}`),
+  answer: interpolateTokens(item.answer, canonicalTokens, `Private Chauffeur FAQ answer ${index + 1}`),
 }));
 
 if (contact.bookingLeadTime.confirmationMode !== "manual") {

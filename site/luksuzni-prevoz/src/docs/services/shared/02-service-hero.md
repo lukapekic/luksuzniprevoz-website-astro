@@ -45,7 +45,7 @@ contained image-backed Hero
 
 ### `full-bleed`
 
-Used by Airport Transportation, Private Chauffeur, and Business Transportation
+Used by Airport Transportation, Private Chauffeur, Business Transportation, and Corporate Transportation
 where their locked blueprints select the cinematic full-viewport entrance and
 over-Hero header integration.
 

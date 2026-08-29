@@ -311,15 +311,24 @@ html[data-wf-layout="wide"] .wf-grid-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+html[data-wf-layout="tablet-landscape"] .wf-grid-5-7,
 html[data-wf-layout="desktop"] .wf-grid-5-7,
 html[data-wf-layout="wide"] .wf-grid-5-7 {
   grid-template-columns: 5fr 7fr;
   gap: var(--column-gap-desktop);
 }
 
+html[data-wf-layout="tablet-landscape"] .wf-grid-7-5,
 html[data-wf-layout="desktop"] .wf-grid-7-5,
 html[data-wf-layout="wide"] .wf-grid-7-5 {
   grid-template-columns: 7fr 5fr;
+  gap: var(--column-gap-desktop);
+}
+
+html[data-wf-layout="tablet-landscape"] .wf-grid-4-8,
+html[data-wf-layout="desktop"] .wf-grid-4-8,
+html[data-wf-layout="wide"] .wf-grid-4-8 {
+  grid-template-columns: 4fr 8fr;
   gap: var(--column-gap-desktop);
 }
 

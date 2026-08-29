@@ -77,6 +77,8 @@ try {
       return /(pricing|fleet|services|operations|contact)\.(ts|json)$/.test(file);
     if (surface === "business-transportation")
       return /(clients|business|fleet|services|operations|contact)\.(ts|json)$/.test(file);
+    if (surface === "corporate-transportation")
+      return /(fleet|services|operations|contact|flows)\.(ts|json)$/.test(file);
     return true;
   });
 

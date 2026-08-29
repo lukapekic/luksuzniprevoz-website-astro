@@ -21,14 +21,14 @@
     const md = token("--breakpoint-md");
     const lg = token("--breakpoint-lg");
     const xl = token("--breakpoint-xl");
+    const wide = token("--breakpoint-2xl");
     const width = window.innerWidth;
-    const landscape = window.innerWidth > window.innerHeight;
 
     let state = "mobile";
-    if (Number.isFinite(md) && width >= md)
-      state = landscape ? "tablet-landscape" : "tablet-portrait";
-    if (Number.isFinite(lg) && width >= lg) state = "desktop";
-    if (Number.isFinite(xl) && width >= xl) state = "wide";
+    if (Number.isFinite(md) && width >= md) state = "tablet-portrait";
+    if (Number.isFinite(lg) && width >= lg) state = "tablet-landscape";
+    if (Number.isFinite(xl) && width >= xl) state = "desktop";
+    if (Number.isFinite(wide) && width >= wide) state = "wide";
 
     root.dataset.wfLayout = state;
   }

@@ -32,6 +32,7 @@ import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import Link from "../../foundation/ui/Link.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { defaultLocale } from "../../data/locales.ts";
+import { resolveFlowHref } from "../../lib/cta.ts";
 
 interface Props {
   currentRouteKey: RouteKey;
@@ -71,6 +72,11 @@ const topLeaves = navigation.header.filter(
 
 // --- Book CTA -------------------------------------------------------------
 const bookLabel = getNavLabel("book", currentLocale);
+const bookTarget = navigation.headerPrimaryAction.target;
+if (bookTarget.type !== "flow") {
+  throw new Error("SiteHeader primary action must use a canonical flow target.");
+}
+const bookHref = resolveFlowHref(bookTarget.flowKey, currentLocale);
 
 // --- UI strings (FND-ARCH-03) ---------------------------------------------
 const menuLabel = t("nav.menu", currentLocale);
@@ -221,7 +227,7 @@ const leafServices = servicesChildren.filter(isLeaf);
             idPrefix={`${idPrefix}-lang`}
           />
         </div>
-        <Link to="contact" variant="cta" size="sm" class="book-cta">
+        <Link href={bookHref} variant="cta" size="sm" class="book-cta">
           {bookLabel}
         </Link>
         <button
@@ -341,7 +347,7 @@ const leafServices = servicesChildren.filter(isLeaf);
             idPrefix={`${idPrefix}-m-lang`}
           />
         </div>
-        <Link to="contact" variant="cta" size="sm" class="book-cta w-full">
+        <Link href={bookHref} variant="cta" size="sm" class="book-cta w-full">
           {bookLabel}
         </Link>
       </div>

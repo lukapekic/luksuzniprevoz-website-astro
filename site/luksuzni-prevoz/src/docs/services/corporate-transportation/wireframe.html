@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Corporate Transportation v1 — Locked Semantic Wireframe</title>
+  <link rel="stylesheet" href="../shared/wireframe-base.css" />
+  <style>
+    /* WIREFRAME GEOMETRY ONLY. Production must not copy this CSS. */
+    .wf-corp-audience { display:grid; gap:0; border-block:1px solid var(--color-border-subtle); }
+    .wf-corp-audience > div { padding:var(--space-5); border-block-end:1px solid var(--color-border-subtle); }
+    .wf-corp-engagement { padding:var(--space-8); }
+    .wf-corp-itinerary { display:grid; gap:var(--space-3); padding-block-start:var(--space-8); }
+    .wf-corp-stop { padding:var(--space-3); border-block:1px solid var(--color-border-subtle); }
+    .wf-corp-coordination { padding:var(--space-8); }
+    .wf-corp-node { padding:var(--space-5); border-block-end:1px solid var(--color-border-subtle); }
+    html[data-wf-layout="tablet-portrait"] .wf-corp-audience,
+    html[data-wf-layout="tablet-landscape"] .wf-corp-audience {
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    html[data-wf-layout="tablet-portrait"] .wf-corp-audience > div:last-child,
+    html[data-wf-layout="tablet-landscape"] .wf-corp-audience > div:last-child {
+      grid-column:1 / -1;
+    }
+    html[data-wf-layout="desktop"] .wf-corp-audience {
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    html[data-wf-layout="wide"] .wf-corp-audience {
+      grid-template-columns:repeat(5,minmax(0,1fr));
+    }
+    html[data-wf-layout="wide"] .wf-corp-audience > div {
+      border-block-end:0;
+    }
+    html[data-wf-layout="wide"] .wf-corp-audience > div + div { border-inline-start:1px solid var(--color-border-subtle); }
+    html[data-wf-layout="tablet-landscape"] .wf-corp-itinerary,
+    html[data-wf-layout="desktop"] .wf-corp-itinerary,
+    html[data-wf-layout="wide"] .wf-corp-itinerary {
+      grid-template-columns:repeat(11,auto);
+      align-items:center;
+    }
+  </style>
+</head>
+<body>
+  <aside class="wf-shell wf-note">
+    LOCKED semantic wireframe. Blueprint owns order and behavior. Do not copy wireframe CSS to production.
+  </aside>
+
+  <header class="wf-shell wf-header" aria-label="Shared SiteHeader">
+    <div class="wf-brand"></div>
+    <div class="wf-nav"></div>
+    <div class="wf-actions"><div class="wf-button"></div></div>
+  </header>
+
+  <main>
+    <!-- 01 HERO -->
+    <section class="wf-section-feature">
+      <div class="wf-media" style="min-height:36rem;border-radius:0">
+        <div class="wf-shell wf-stack" style="padding-block:10rem 4rem">
+          <p class="wf-label">01 / ServiceHero / FULL BLEED</p>
+          <div class="wf-title-lg" style="max-width:32rem"></div>
+          <div class="wf-lines" style="max-width:34rem">
+            <div class="wf-line"></div>
+            <div class="wf-line" style="width:78%"></div>
+          </div>
+          <div class="wf-row">
+            <div class="wf-button"></div>
+            <div class="wf-button wf-button-secondary"></div>
+          </div>
+          <div class="wf-line" style="width:30rem"></div>
+        </div>
+        LOCKED SHARED IMAGE: CORPORATE HERO
+      </div>
+    </section>
+
+    <!-- 02 OVERVIEW -->
+    <section class="wf-shell wf-section-feature wf-grid wf-grid-5-7">
+      <div class="wf-stack">
+        <p class="wf-label">02 / ServiceOverview</p>
+        <div class="wf-title"></div>
+        <div class="wf-lines">
+          <div class="wf-line"></div>
+          <div class="wf-line" style="width:74%"></div>
+          <div class="wf-line" style="width:84%"></div>
+        </div>
+      </div>
+      <div class="wf-divider-list">
+        <div class="wf-divider-row"><div class="wf-marker">01</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+        <div class="wf-divider-row"><div class="wf-marker">02</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+        <div class="wf-divider-row"><div class="wf-marker">03</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+        <div class="wf-divider-row"><div class="wf-marker">04</div><div class="wf-lines"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
+      </div>
+    </section>
+
+    <!-- 03 AUDIENCE -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-stack">
+        <p class="wf-label">03 / Who It Is For / editorial rail</p>
+        <div class="wf-title"></div>
+        <div class="wf-line" style="width:60%"></div>
+      </div>
+      <div class="wf-corp-audience" style="margin-top:var(--space-8)">
+        <div class="wf-stack-sm"><div class="wf-marker">01</div><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+        <div class="wf-stack-sm"><div class="wf-marker">02</div><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+        <div class="wf-stack-sm"><div class="wf-marker">03</div><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+        <div class="wf-stack-sm"><div class="wf-marker">04</div><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+        <div class="wf-stack-sm"><div class="wf-marker">05</div><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+      </div>
+    </section>
+
+    <!-- 04 ENGAGEMENT -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-light wf-corp-engagement">
+        <div class="wf-stack wf-narrow">
+          <p class="wf-label">04 / One-Off vs Recurring</p>
+          <div class="wf-title"></div>
+          <div class="wf-line"></div>
+        </div>
+        <div class="wf-grid wf-grid-5-7" style="margin-top:var(--space-8)">
+          <article class="wf-stack">
+            <div class="wf-marker">01</div>
+            <div class="wf-title-sm"></div>
+            <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div>
+            <div class="wf-button"></div>
+          </article>
+          <article class="wf-stack">
+            <div class="wf-marker">02</div>
+            <div class="wf-title-sm"></div>
+            <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:78%"></div></div>
+            <div class="wf-divider-list">
+              <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+              <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+              <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+            </div>
+            <div class="wf-button"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 WORKING DAY -->
+    <section class="wf-shell wf-section-feature">
+      <div class="wf-grid wf-grid-7-5">
+        <div class="wf-media">LOCKED SHARED IMAGE: WORKING DAY</div>
+        <div class="wf-stack">
+          <p class="wf-label">05 / Keep the Working Day Connected</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div>
+          <div class="wf-divider-list">
+            <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+            <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+            <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-corp-itinerary">
+        <div class="wf-corp-stop">Hotel</div><span>→</span>
+        <div class="wf-corp-stop">Office</div><span>→</span>
+        <div class="wf-corp-stop">Meeting</div><span>→</span>
+        <div class="wf-corp-stop">Lunch</div><span>→</span>
+        <div class="wf-corp-stop">Client</div><span>→</span>
+        <div class="wf-corp-stop">Dinner</div>
+      </div>
+    </section>
+
+    <!-- 06 COORDINATION -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-contained wf-elevated wf-corp-coordination wf-grid wf-grid-5-7">
+        <div class="wf-stack">
+          <p class="wf-label">06 / One Plan. One Point of Coordination.</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:75%"></div></div>
+          <div class="wf-line" style="width:14rem"></div>
+        </div>
+        <div class="wf-stack">
+          <div class="wf-corp-node"><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+          <div class="wf-corp-node"><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+          <div class="wf-corp-node"><div class="wf-title-sm"></div><div class="wf-line"></div></div>
+          <div class="wf-contained" style="padding:var(--space-5)"><div class="wf-title-sm"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 VEHICLES -->
+    <section class="wf-shell wf-section-feature">
+      <div class="wf-stack">
+        <p class="wf-label">07 / VehicleRecommendations</p>
+        <div class="wf-title"></div>
+        <div class="wf-line" style="width:62%"></div>
+      </div>
+      <div class="wf-grid wf-grid-3" style="margin-top:var(--space-8)">
+        <article class="wf-card"><div class="wf-card-media">S-Class</div><div class="wf-card-copy"></div></article>
+        <article class="wf-card"><div class="wf-card-media">E-Class</div><div class="wf-card-copy"></div></article>
+        <article class="wf-card"><div class="wf-card-media">V-Class</div><div class="wf-card-copy"></div></article>
+      </div>
+    </section>
+
+    <!-- 08 STANDARDS -->
+    <section class="wf-shell wf-section-standard">
+      <div class="wf-contained wf-grid wf-grid-4-8" style="padding:var(--space-8)">
+        <div class="wf-stack">
+          <p class="wf-label">08 / ServiceStandards / numbered matrix</p>
+          <div class="wf-title"></div>
+          <div class="wf-line"></div>
+        </div>
+        <div class="wf-grid wf-grid-2">
+          <article class="wf-card"><div class="wf-marker">01</div><div class="wf-title-sm"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div><div class="wf-line"></div></div></article>
+          <article class="wf-card"><div class="wf-marker">02</div><div class="wf-title-sm"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div><div class="wf-line"></div></div></article>
+          <article class="wf-card"><div class="wf-marker">03</div><div class="wf-title-sm"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div><div class="wf-line"></div></div></article>
+          <article class="wf-card"><div class="wf-marker">04</div><div class="wf-title-sm"></div><div class="wf-lines"><div class="wf-line"></div><div class="wf-line"></div><div class="wf-line"></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 FAQ -->
+    <section class="wf-shell wf-section-feature">
+      <div class="wf-light wf-functional">
+        <p class="wf-label">09 / FAQ</p>
+        <div class="wf-title"></div>
+        <div class="wf-divider-list" style="margin-top:var(--space-8)">
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+          <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 FINAL CTA -->
+    <section class="wf-shell wf-section-feature">
+      <div class="wf-contained wf-grid wf-grid-7-5" style="padding:var(--space-8)">
+        <div class="wf-stack">
+          <p class="wf-label">10 / FinalCTA</p>
+          <div class="wf-title"></div>
+          <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div>
+          <div class="wf-row"><div class="wf-button"></div><div class="wf-button wf-button-secondary"></div></div>
+        </div>
+        <div class="wf-media">Shared FinalCTA media</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wf-shell wf-footer"><p class="wf-label">Shared SiteFooter</p></footer>
+  <script src="../shared/wireframe-responsive.js"></script>
+</body>
+</html>

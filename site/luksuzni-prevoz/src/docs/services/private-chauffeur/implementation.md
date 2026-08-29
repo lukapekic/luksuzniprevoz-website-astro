@@ -657,12 +657,12 @@ Do not copy them or leave duplicate page/hub-owned files.
 Required destination and normalized filenames:
 
 ```text
-src/assets/shared/chauffeur-service/hero-chauffeur-wheel.jpg
-src/assets/shared/chauffeur-service/productivity-backseat.jpg
-src/assets/shared/chauffeur-service/schedule-backseat-view.jpg
-src/assets/shared/chauffeur-service/editorial-workspace-vertical.jpg
-src/assets/shared/chauffeur-service/passenger-experience-reading.jpg
-src/assets/shared/chauffeur-service/passenger-experience-alternate.jpg
+src/assets/shared/chauffeur-service/hero-chauffeur-wheel.webp
+src/assets/shared/chauffeur-service/productivity-backseat.webp
+src/assets/shared/chauffeur-service/schedule-backseat-view.webp
+src/assets/shared/chauffeur-service/editorial-workspace-vertical.webp
+src/assets/shared/chauffeur-service/passenger-experience-reading.webp
+src/assets/shared/chauffeur-service/passenger-experience-alternate.webp
 ```
 
 Map:

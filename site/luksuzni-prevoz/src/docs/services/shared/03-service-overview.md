@@ -52,7 +52,7 @@ Do not duplicate a single business fact into several visible rows merely because
 
 ### `numbered-divider-facts`
 
-Approved for Private Chauffeur when a short definition is supported by one
+Approved for Private Chauffeur and Corporate Transportation when a short definition is supported by one
 ordered vertical fact sequence. Each item receives an explicit presentational
 marker plus one localized title and supporting line. The list remains a single
 column at every viewport, uses dividers instead of cards, and renders no icons.
@@ -60,7 +60,10 @@ Existing `divider-facts` and `grouped-icons` consumers are unchanged.
 
 ## Visual behavior
 
-The shared overview composition does **not** own the outer page surface. The consuming page blueprint chooses `open-dark`, contained, elevated, or another approved semantic Section composition.
+The shared overview component owns its `Section` wrapper and accepts only its
+reviewed semantic surface variants. The consuming page blueprint selects the
+appropriate supported surface through the component API; callers must not wrap
+it in a second surface section.
 
 For Airport Transportation v3.2 the page blueprint places `grouped-icons` in an
 open-dark standard section.
