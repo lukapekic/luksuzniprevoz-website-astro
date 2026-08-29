@@ -2,12 +2,11 @@
 routeKey: weddingTransportation
 locale: en
 sourceLocale: sr
-sourceDigest: 905612f76caae6e8
+sourceDigest: 0000000000000000
 pageType: service
 status: published
 translationState: reviewed
 reviewedOn: 2026-08-29
-noindex: false
 
 seoTitle: "Wedding Transportation Belgrade | Luxury Transportation"
 seoDescription: "Chauffeur-driven wedding transportation in Belgrade for the couple, family and guests, with multi-vehicle planning, arranged waiting and return transport."

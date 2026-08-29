@@ -5,7 +5,6 @@ pageType: service
 status: published
 translationState: reviewed
 reviewedOn: 2026-08-29
-noindex: false
 
 seoTitle: "Prevoz za venčanje Beograd | Luxury Transportation"
 seoDescription: "Prevoz sa profesionalnim vozačem za venčanja u Beogradu — za mladence, porodicu i goste, uz organizaciju više vozila, čekanja i povratka prema potvrđenom planu."

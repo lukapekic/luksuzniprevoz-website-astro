@@ -1,0 +1,113 @@
+---
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface Props {
+  heading: string;
+  intro?: string;
+  body: string;
+  label: string;
+  principles: readonly [string, string, string];
+}
+
+const { heading, intro, body, label, principles } = Astro.props;
+---
+
+<Section spacing="standard" surface="open-dark" aria-labelledby="occasion-definition-heading">
+  <PageContainer>
+    <div class="definition-layout">
+      <div class="definition-copy">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading id="occasion-definition-heading" {heading} description={intro} />
+        <p class="body-copy">{body}</p>
+      </div>
+
+      <ol class="principle-list">
+        {principles.map((principle, index) => (
+          <li>
+            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <p>{principle}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .definition-layout {
+    display: grid;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  .definition-copy,
+  .principle-list {
+    min-inline-size: 0;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label span {
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .principle-list {
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .principle-list li {
+    display: grid;
+    grid-template-columns: var(--space-10) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+    padding-block: var(--space-6);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .principle-list li > span {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .principle-list p {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    line-height: var(--line-height-heading);
+    color: var(--color-text-primary);
+  }
+
+  @media (min-width: 64rem) {
+    .definition-layout {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--column-gap-desktop);
+    }
+  }
+</style>

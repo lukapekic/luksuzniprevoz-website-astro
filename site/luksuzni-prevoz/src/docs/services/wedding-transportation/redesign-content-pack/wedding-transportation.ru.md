@@ -2,12 +2,11 @@
 routeKey: weddingTransportation
 locale: ru
 sourceLocale: sr
-sourceDigest: 905612f76caae6e8
+sourceDigest: 0000000000000000
 pageType: service
 status: published
 translationState: reviewed
 reviewedOn: 2026-08-29
-noindex: false
 
 seoTitle: "Транспорт на свадьбу в Белграде | Luxury Transportation"
 seoDescription: "Транспорт с профессиональным водителем на свадьбу в Белграде — для пары, семьи и гостей, с организацией нескольких автомобилей, ожидания и обратной поездки."

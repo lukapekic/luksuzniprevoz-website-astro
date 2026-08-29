@@ -8,6 +8,8 @@ import BusinessTransportationPage from "../services/business-transportation/Busi
 import SpecialEventsPage from "../services/special-events/SpecialEventsPage.astro";
 import PrivateChauffeurPage from "../services/private-chauffeur/PrivateChauffeurPage.astro";
 import CorporateTransportationPage from "../services/corporate-transportation/CorporateTransportationPage.astro";
+import DelegationTransportationPage from "../services/delegation-transportation/DelegationTransportationPage.astro";
+import WeddingTransportationPage from "../services/wedding-transportation/WeddingTransportationPage.astro";
 import ContactPage from "../contact/ContactPage.astro";
 
 interface Props { routeKey: RouteKey; locale: LocaleCode; content: CollectionEntry<"pages"> }
@@ -26,6 +28,10 @@ const { routeKey, locale, content } = Astro.props;
   <PrivateChauffeurPage routeKey="privateChauffeur" locale={locale} content={content} />
 ) : routeKey === "corporateTransportation" ? (
   <CorporateTransportationPage routeKey="corporateTransportation" locale={locale} content={content} />
+) : routeKey === "delegationTransportation" ? (
+  <DelegationTransportationPage routeKey="delegationTransportation" locale={locale} content={content} />
+) : routeKey === "weddingTransportation" ? (
+  <WeddingTransportationPage routeKey="weddingTransportation" locale={locale} content={content} />
 ) : routeKey === "contact" ? (
   <ContactPage routeKey="contact" locale={locale} content={content} />
 ) : (

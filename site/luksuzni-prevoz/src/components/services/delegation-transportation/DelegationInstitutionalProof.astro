@@ -1,0 +1,128 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface ApprovedClient {
+  id: string;
+  displayName: string;
+  logo: ImageMetadata;
+}
+
+interface Props {
+  heading: string;
+  intro: string;
+  label: string;
+  clients: readonly [ApprovedClient, ApprovedClient, ApprovedClient];
+}
+
+const { heading, intro, label, clients } = Astro.props;
+---
+
+<Section spacing="standard" surface="light" aria-labelledby="delegation-clients-heading">
+  <PageContainer>
+    <div class="proof-layout">
+      <div class="proof-intro">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading
+          id="delegation-clients-heading"
+          heading={heading}
+          description={intro}
+          on="light"
+        />
+      </div>
+
+      <ul aria-label={heading}>
+        {clients.map((client) => (
+          <li>
+            <Image
+              src={client.logo}
+              alt={client.displayName}
+              loading="lazy"
+              widths={[240, 360, 480]}
+              sizes="(min-width: 64rem) 18rem, (min-width: 48rem) 30vw, calc(100vw - 5rem)"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .proof-layout {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .proof-intro {
+    max-inline-size: var(--measure-body);
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label span {
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-focus-light);
+  }
+
+  ul {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-input-border);
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    min-inline-size: 0;
+    min-block-size: calc(var(--space-24) * 2);
+    place-items: center;
+    padding: var(--space-6);
+    border-block-end: 1px solid var(--color-input-border);
+  }
+
+  li :global(img) {
+    inline-size: 100%;
+    max-inline-size: calc(var(--space-24) * 3);
+    block-size: var(--space-24);
+    object-fit: contain;
+  }
+
+  @media (min-width: 48rem) {
+    ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    li {
+      border-block-end: 0;
+    }
+
+    li + li {
+      border-inline-start: 1px solid var(--color-input-border);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .proof-layout {
+      grid-template-columns: 4fr 8fr;
+      gap: var(--column-gap-desktop);
+      align-items: start;
+    }
+  }
+</style>

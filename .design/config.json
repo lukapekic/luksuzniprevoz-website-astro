@@ -116,6 +116,19 @@
         "site/luksuzni-prevoz/src/docs/services/special-events"
       ]
     },
+    "wedding-transportation": {
+      "match": [
+        "wedding-transportation",
+        "weddingTransportation",
+        "prevoz-za-vencanja",
+        "svadebnyy-transfer"
+      ],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/services/wedding-transportation/blueprint.md"],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/wedding-transportation"
+      ]
+    },
     "contact": {
       "match": [
         "src/components/contact/",

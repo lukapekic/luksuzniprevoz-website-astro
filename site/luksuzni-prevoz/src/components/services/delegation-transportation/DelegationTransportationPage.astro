@@ -1,0 +1,673 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import ServiceOverview from "../shared/ServiceOverview.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import ServiceStandards from "../shared/ServiceStandards.astro";
+import OpenSplitSection from "../../shared/OpenSplitSection.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import DelegationMovementSequence from "./DelegationMovementSequence.astro";
+import DelegationInstitutionalProof from "./DelegationInstitutionalProof.astro";
+import { getService } from "../../../data/services.ts";
+import { getApprovedClientsFor } from "../../../data/clients.ts";
+import { clientLogoMedia } from "../../../data/client-media.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { operations } from "../../../data/operations.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { interpolateTokens } from "../../../lib/interpolate.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/shared/other/v-class-embassy-entrance.webp";
+import audienceImage from "../../../assets/shared/other/s-class-hotel-entrance-vertical.webp";
+import movementImage from "../../../assets/shared/other/emplyoee-group-outside.webp";
+import mixedFleetImage from "../../../assets/shared/other/v-class-on-the-move-veertical.webp";
+import discretionImage from "../../../assets/shared/other/s-class-interior-1.webp";
+import finalCtaImage from "../../../assets/shared/other/s-class-hotel-entrance-night.webp";
+
+interface Props {
+  routeKey: "delegationTransportation";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "delegationTransportation" ||
+  content.data.pageType !== "service" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("DelegationTransportationPage received incompatible data.");
+}
+
+const data = content.data;
+if (
+  !data.hero ||
+  !data.hero.secondaryCta ||
+  !data.vehicleRecommendations ||
+  !data.faq ||
+  !data.finalCta.secondaryCta
+) {
+  throw new Error(`Delegation Transportation content is incomplete for ${locale}.`);
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Delegation Transportation section "${key}" for ${locale}.`);
+  return value;
+};
+
+const audienceSection = section("audience");
+const movementSection = section("movement");
+const mixedFleetSection = section("mixedFleet");
+const discretionSection = section("discretion");
+const briefingSection = section("briefing");
+
+if (
+  !audienceSection.heading.intro ||
+  !audienceSection.body ||
+  !audienceSection.items ||
+  audienceSection.items.length !== 5
+) {
+  throw new Error("Delegation audience requires localized intro/body and exactly five items.");
+}
+if (!movementSection.heading.intro || !movementSection.body) {
+  throw new Error("Delegation movement requires localized intro and body copy.");
+}
+if (
+  !mixedFleetSection.heading.intro ||
+  !mixedFleetSection.body ||
+  !mixedFleetSection.items ||
+  mixedFleetSection.items.length !== 3
+) {
+  throw new Error("Delegation mixed fleet requires localized intro/body and exactly three roles.");
+}
+if (!discretionSection.heading.intro || !discretionSection.body) {
+  throw new Error("Delegation discretion requires localized intro and body copy.");
+}
+if (!briefingSection.heading.intro || !briefingSection.body) {
+  throw new Error("Delegation briefing requires localized intro and body copy.");
+}
+if (data.faq.items.length !== 8) {
+  throw new Error("Delegation Transportation requires exactly eight FAQ items.");
+}
+
+const delegation = getService(routeKey);
+if (
+  delegation.pricingMode.length !== 1 ||
+  delegation.pricingMode[0] !== "quote" ||
+  delegation.multipleVehicles !== true ||
+  delegation.mixedVehicleClasses !== true ||
+  delegation.dedicatedCoordinator !== true ||
+  delegation.securityService !== false
+) {
+  throw new Error("Delegation canonical service facts do not satisfy the locked page contract.");
+}
+
+if (
+  !operations.chauffeurs.internalTraining.includes("discretion") ||
+  operations.chauffeurs.dressCode !== "suit-and-tie" ||
+  operations.chauffeurs.englishSpeakingStandard !== true ||
+  operations.chauffeurs.minimumLicenseYears < 5 ||
+  operations.vehicles.preTripInspectionForImportantTrips !== true ||
+  operations.vehicles.requestedConfirmedModelGuaranteed !== true ||
+  contact.bookingLeadTime.confirmationMode !== "manual"
+) {
+  throw new Error("Delegation operations/contact facts do not satisfy the locked page contract.");
+}
+
+if (
+  data.hero.primaryCta.target.type !== "flow" ||
+  data.hero.primaryCta.target.flowKey !== "booking" ||
+  data.hero.secondaryCta.target.type !== "flow" ||
+  data.hero.secondaryCta.target.flowKey !== "quote" ||
+  data.finalCta.primaryCta.target.type !== "flow" ||
+  data.finalCta.primaryCta.target.flowKey !== "booking" ||
+  data.finalCta.secondaryCta.target.type !== "flow" ||
+  data.finalCta.secondaryCta.target.flowKey !== "quote"
+) {
+  throw new Error("Delegation CTA flow roles do not match the locked contract.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = resolveAction(data.hero.secondaryCta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const overviewGroups = [
+  {
+    key: "multiple-vehicles",
+    marker: "01",
+    title: ui("business.coordination.multipleVehicles"),
+    text: ui("delegationTransportation.overview.multipleVehicles.text"),
+  },
+  {
+    key: "mixed-classes",
+    marker: "02",
+    title: ui("business.coordination.mixedVehicleClasses"),
+    text: ui("delegationTransportation.overview.mixedClasses.text"),
+  },
+  {
+    key: "coordination",
+    marker: "03",
+    title: ui("business.coordination.dedicatedCoordinator"),
+    text: ui("delegationTransportation.overview.coordinator.text"),
+  },
+  {
+    key: "one-plan",
+    marker: "04",
+    title: ui("delegationTransportation.overview.onePlan.title"),
+    text: ui("delegationTransportation.overview.onePlan.text"),
+  },
+];
+
+const movementStages = [
+  {
+    title: ui("delegationTransportation.movement.arrival.title"),
+    text: ui("delegationTransportation.movement.arrival.text"),
+  },
+  {
+    title: ui("delegationTransportation.movement.grouping.title"),
+    text: ui("delegationTransportation.movement.grouping.text"),
+  },
+  {
+    title: ui("delegationTransportation.movement.hotel.title"),
+    text: ui("delegationTransportation.movement.hotel.text"),
+  },
+  {
+    title: ui("delegationTransportation.movement.programme.title"),
+    text: ui("delegationTransportation.movement.programme.text"),
+  },
+  {
+    title: ui("delegationTransportation.movement.evening.title"),
+    text: ui("delegationTransportation.movement.evening.text"),
+  },
+  {
+    title: ui("delegationTransportation.movement.continuation.title"),
+    text: ui("delegationTransportation.movement.continuation.text"),
+  },
+] as const;
+
+const discretionItems = [
+  {
+    title: ui("delegationTransportation.trust.discretion.title"),
+    text: ui("delegationTransportation.trust.discretion.text"),
+  },
+  {
+    title: ui("delegationTransportation.trust.operational.title"),
+    text: ui("delegationTransportation.trust.operational.text"),
+  },
+  {
+    title: ui("delegationTransportation.trust.nda.title"),
+    text: ui("delegationTransportation.trust.nda.text"),
+  },
+  {
+    title: ui("delegationTransportation.trust.confirmation.title"),
+    text: ui("delegationTransportation.trust.confirmation.text"),
+  },
+] as const;
+
+const approvedClientIds = [
+  "chinese-embassy",
+  "osce-mission-to-serbia",
+  "serbian-swimming-federation",
+] as const;
+const approvedClientRecords = getApprovedClientsFor(routeKey);
+if (
+  approvedClientRecords.length !== approvedClientIds.length ||
+  approvedClientRecords.some((client, index) => client.id !== approvedClientIds[index])
+) {
+  throw new Error("Delegation institutional clients do not match the locked approved roster.");
+}
+const resolvedClients = approvedClientRecords.map((client) => {
+  if (!client.logoAsset) throw new Error(`Approved Delegation client "${client.id}" has no logo.`);
+  return { id: client.id, displayName: client.displayName, logo: clientLogoMedia[client.logoAsset] };
+});
+const institutionalClients = [resolvedClients[0]!, resolvedClients[1]!, resolvedClients[2]!] as const;
+
+const briefingItems = [
+  {
+    title: ui("delegationTransportation.briefing.times.title"),
+    text: ui("delegationTransportation.briefing.times.text"),
+  },
+  {
+    title: ui("delegationTransportation.briefing.groups.title"),
+    text: ui("delegationTransportation.briefing.groups.text"),
+  },
+  {
+    title: ui("delegationTransportation.briefing.vehicles.title"),
+    text: ui("delegationTransportation.briefing.vehicles.text"),
+  },
+  {
+    title: ui("delegationTransportation.briefing.special.title"),
+    text: ui("delegationTransportation.briefing.special.text"),
+  },
+] as const;
+
+const lockedVehicleIds = [
+  "mercedes-s-class",
+  "mercedes-e-class",
+  "mercedes-v-class-7-plus-1-extra-long",
+] as const;
+if (
+  data.vehicleRecommendations.vehicleIds.length !== lockedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== lockedVehicleIds[index]) ||
+  data.vehicleRecommendations.cta.target.type !== "route" ||
+  data.vehicleRecommendations.cta.target.routeKey !== "fleet"
+) {
+  throw new Error("Delegation vehicle recommendations do not match the locked fleet contract.");
+}
+
+const vehicleRoleKeys = {
+  "mercedes-s-class": "delegationTransportation.vehicleRole.sClass",
+  "mercedes-e-class": "delegationTransportation.vehicleRole.eClass",
+  "mercedes-v-class-7-plus-1-extra-long": "delegationTransportation.vehicleRole.vClass",
+} as const satisfies Record<(typeof lockedVehicleIds)[number], UiStringKey>;
+
+const recommendations = lockedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(vehicleRoleKeys[id]),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const standards = buildServiceStandardGroups(locale).map((group, index) => ({
+  ...group,
+  marker: String(index + 1).padStart(2, "0"),
+}));
+if (standards.length !== 4 || standards.some((group) => group.items.length !== 3)) {
+  throw new Error("Delegation standards require exactly four groups with three facts each.");
+}
+
+const faqTokens = {
+  multipleVehiclesAnswer: ui("delegationTransportation.faq.multipleVehiclesAnswer"),
+  mixedClassesAnswer: ui("delegationTransportation.faq.mixedClassesAnswer"),
+  coordinatorAnswer: ui("delegationTransportation.faq.coordinatorAnswer"),
+  groupMovementAnswer: ui("delegationTransportation.faq.groupMovementAnswer"),
+  ndaAnswer: ui("delegationTransportation.faq.ndaAnswer"),
+  confirmationAnswer: ui("delegationTransportation.faq.confirmationAnswer"),
+  securityAnswer: ui("delegationTransportation.faq.securityAnswer"),
+} as const;
+const faqItems = data.faq.items.map((item, index) => ({
+  question: interpolateTokens(item.question, faqTokens, `Delegation FAQ question ${index + 1}`),
+  answer: interpolateTokens(item.answer, faqTokens, `Delegation FAQ answer ${index + 1}`),
+}));
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(faqItems)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("delegationTransportation.hero.eyebrow")}
+    trustMarkers={[
+      ui("business.coordination.multipleVehicles"),
+      ui("business.coordination.mixedVehicleClasses"),
+      ui("business.coordination.dedicatedCoordinator"),
+    ]}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <ServiceOverview
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    groups={overviewGroups}
+    label={ui("delegationTransportation.section.overview")}
+    variant="numbered-divider-facts"
+    surface="open-dark"
+  />
+
+  <Section spacing="standard" surface="open-dark" aria-labelledby="delegation-audience-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={audienceImage}
+        imageAlt=""
+        layout="image-content"
+        ratio="7-5"
+        mobileOrder="content-first"
+      >
+        <div slot="content" class="section-copy">
+          <p class="section-label"><span aria-hidden="true"></span>{ui("delegationTransportation.section.audience")}</p>
+          <SectionHeading
+            id="delegation-audience-heading"
+            heading={audienceSection.heading.title}
+            description={audienceSection.heading.intro}
+          />
+          <p class="body-copy">{audienceSection.body}</p>
+          <ol class="editorial-list">
+            {audienceSection.items.map((item, index) => (
+              <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
+            ))}
+          </ol>
+        </div>
+      </OpenSplitSection>
+    </PageContainer>
+  </Section>
+
+  <DelegationMovementSequence
+    heading={movementSection.heading.title}
+    intro={movementSection.heading.intro}
+    body={movementSection.body}
+    label={ui("delegationTransportation.section.movement")}
+    exampleLabel={ui("delegationTransportation.movement.exampleLabel")}
+    stages={movementStages}
+    closing={ui("delegationTransportation.movement.closing")}
+    image={movementImage}
+  />
+
+  <Section spacing="standard" surface="open-dark" aria-labelledby="delegation-mixed-fleet-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={mixedFleetImage}
+        imageAlt=""
+        layout="content-image"
+        ratio="7-5"
+        mobileOrder="content-first"
+      >
+        <div slot="content" class="section-copy">
+          <p class="section-label"><span aria-hidden="true"></span>{ui("delegationTransportation.section.mixedFleet")}</p>
+          <SectionHeading
+            id="delegation-mixed-fleet-heading"
+            heading={mixedFleetSection.heading.title}
+            description={mixedFleetSection.heading.intro}
+          />
+          <p class="body-copy">{mixedFleetSection.body}</p>
+          <ol class="editorial-list">
+            {mixedFleetSection.items.map((item, index) => (
+              <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
+            ))}
+          </ol>
+        </div>
+      </OpenSplitSection>
+    </PageContainer>
+  </Section>
+
+  <Section spacing="standard" surface="elevated" aria-labelledby="delegation-discretion-heading">
+    <PageContainer>
+      <OpenSplitSection
+        image={discretionImage}
+        imageAlt=""
+        layout="image-content"
+        ratio="5-7"
+        mobileOrder="content-first"
+      >
+        <div slot="content" class="section-copy">
+          <p class="section-label"><span aria-hidden="true"></span>{ui("delegationTransportation.section.discretion")}</p>
+          <SectionHeading
+            id="delegation-discretion-heading"
+            heading={discretionSection.heading.title}
+            description={discretionSection.heading.intro}
+          />
+          <p class="body-copy">{discretionSection.body}</p>
+          <ol class="editorial-list">
+            {discretionItems.map((item, index) => (
+              <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
+            ))}
+          </ol>
+        </div>
+      </OpenSplitSection>
+    </PageContainer>
+  </Section>
+
+  <DelegationInstitutionalProof
+    heading={ui("delegationTransportation.clients.heading")}
+    intro={ui("delegationTransportation.clients.intro")}
+    label={ui("delegationTransportation.section.clients")}
+    clients={institutionalClients}
+  />
+
+  <Section spacing="standard" surface="open-dark" aria-labelledby="delegation-briefing-heading">
+    <PageContainer>
+      <div class="briefing-layout">
+        <div class="section-copy">
+          <p class="section-label"><span aria-hidden="true"></span>{ui("delegationTransportation.section.briefing")}</p>
+          <SectionHeading
+            id="delegation-briefing-heading"
+            heading={briefingSection.heading.title}
+            description={briefingSection.heading.intro}
+          />
+          <p class="body-copy">{briefingSection.body}</p>
+          <Link href={primaryAction.href} locale={locale}>{ui("delegationTransportation.cta.sendProgramme")}</Link>
+        </div>
+        <div>
+          <ol class="briefing-list">
+            {briefingItems.map((item, index) => (
+              <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
+            ))}
+          </ol>
+          <p class="confirmation-note">{ui("delegationTransportation.briefing.confirmationNote")}</p>
+        </div>
+      </div>
+    </PageContainer>
+  </Section>
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" as RouteKey }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    {classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("delegationTransportation.section.vehicles")}
+    carouselId="delegation-transportation-vehicles"
+  />
+
+  <ServiceStandards
+    heading={ui("delegationTransportation.standards.heading")}
+    intro={ui("delegationTransportation.standards.intro")}
+    groups={standards}
+    label={ui("delegationTransportation.section.standards")}
+    variant="numbered-matrix"
+    surface="contained-dark"
+  />
+
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="delegation-faq-heading"
+    class="mt-[var(--space-section-standard)]"
+  >
+    <ReadingContainer>
+      <p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("delegationTransportation.section.faq")}</p>
+      <SectionHeading id="delegation-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={faqItems} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .section-copy {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  :global(.service-hero__content),
+  :global(.service-hero__content h1),
+  :global(.standards-layout),
+  :global(.standard-copy),
+  :global(.standard-copy h3) {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label > span {
+    flex: 0 0 auto;
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .section-label--light {
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label--light > span {
+    background: var(--color-focus-light);
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .editorial-list,
+  .briefing-list {
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .editorial-list li,
+  .briefing-list li {
+    display: grid;
+    grid-template-columns: var(--space-8) minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .editorial-list li > span,
+  .briefing-list li > span {
+    padding-block-start: var(--space-1);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .editorial-list h3,
+  .briefing-list h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    text-wrap: balance;
+  }
+
+  .editorial-list p,
+  .briefing-list p {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .briefing-layout {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .section-copy :global(a) {
+    margin-block-start: var(--space-6);
+  }
+
+  .confirmation-note {
+    margin: var(--space-5) 0 0;
+    padding: var(--space-5);
+    border-inline-start: var(--space-1) solid var(--color-accent);
+    background: var(--color-surface-elevated);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .briefing-layout {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--column-gap-desktop);
+      align-items: start;
+    }
+
+    .briefing-list {
+      margin-block-start: 0;
+    }
+  }
+</style>

@@ -9,7 +9,7 @@ Generated: 2026-08-29
 | `agent-handoff.md` | `ea764883d8492b67452a3138a0bbbcfbedcfb07fb01edd36830e2860be394c07` |
 | `asset-contract.md` | `76d8812bd9010ee3b8868b61c4f6e18808bc560c9fe4aa5095c823d6b04dc2fd` |
 | `blueprint.md` | `770db0d8373eb2dce057f1a4515884ecd8b27f3a7cb884accae50810377ecd39` |
-| `compliance-matrix.md` | `61c1fe9e7f029976822b3629f74c672dc7c225a4d60910ce23d189916494b284` |
+| `compliance-matrix.md` | `d7532f11b593cab7ce9357432fc2f43ec18ba567751cfdc1f92bc734631eed10` |
 | `content/delegation-transportation.en.md` | `30afa44811044131212d74dc00d8dde4e41de4818b96a9920a41008fd2b979d4` |
 | `content/delegation-transportation.ru.md` | `a3b911941cff15d3014c21d9b0ec4c40f2488e4953e963ae8cea1435902c89ee` |
 | `content/delegation-transportation.sr.md` | `210cfdfd102d7dce4085ce27373ab75c28a95c5a6a4b3e115bf4dee47a89f20b` |
