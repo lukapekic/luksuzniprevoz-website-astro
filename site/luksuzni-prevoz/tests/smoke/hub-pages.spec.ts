@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { axeWcag22Tags, assertNoHorizontalOverflow, routePath } from "../support/contracts";
+import {
+  axeWcag22Tags,
+  assertMinimumTargetSize,
+  assertNoHorizontalOverflow,
+  routePath,
+} from "../support/contracts";
 
 const hubRoutes = [
   { key: "businessTransportation", locale: "sr", htmlLang: "sr-Latn" },
@@ -20,9 +25,7 @@ test.describe("Business and Special Events hubs", () => {
       await expect(page.locator("main h1")).toHaveCount(1);
       await expect(page.locator("main h2")).not.toHaveCount(0);
       const cardSelector =
-        route.key === "businessTransportation"
-          ? ".service-grid > li"
-          : ".selector-grid > article";
+        route.key === "businessTransportation" ? ".service-grid > li" : ".selector-grid > article";
       await expect(page.locator(cardSelector)).toHaveCount(3);
     });
   }
@@ -38,7 +41,11 @@ test.describe("Business and Special Events hubs", () => {
     }
 
     await page.goto(routePath("specialEvents", "en"));
-    for (const key of ["weddingTransportation", "promTransportation", "vipTransportation"] as const) {
+    for (const key of [
+      "weddingTransportation",
+      "promTransportation",
+      "vipTransportation",
+    ] as const) {
       await expect(page.locator(`.selector-grid a[href="${routePath(key, "en")}"]`)).toHaveCount(1);
     }
   });
@@ -49,14 +56,10 @@ test.describe("Business and Special Events hubs", () => {
       await page.locator('[data-dropdown-trigger][aria-controls="hdr-services"]').click();
 
       for (const key of ["businessTransportation", "specialEvents"] as const) {
-        const trigger = page.locator(
-          `[data-dropdown-trigger][aria-controls="hdr-sub-${key}"]`,
-        );
+        const trigger = page.locator(`[data-dropdown-trigger][aria-controls="hdr-sub-${key}"]`);
         await trigger.click();
         await expect(
-          page.locator(
-            `#hdr-sub-${key} a[href="${routePath(key, locale)}"]:visible`,
-          ),
+          page.locator(`#hdr-sub-${key} a[href="${routePath(key, locale)}"]:visible`),
         ).toHaveCount(1);
         await trigger.click();
       }
@@ -77,13 +80,16 @@ test.describe("Business and Special Events hubs", () => {
     expect(await page.locator('link[rel="alternate"][hreflang]').count()).toBeGreaterThanOrEqual(3);
   });
 
-  test("Business renders the locked commercial, proof, and conversion contract", async ({ page }) => {
+  test("Business renders the locked commercial, proof, and conversion contract", async ({
+    page,
+  }) => {
     await page.goto(routePath("businessTransportation", "en"));
 
     await expect(page.locator('.service-hero[data-variant="full-bleed"]')).toHaveCount(1);
     await expect(page.locator('.service-hero a[href="#business-services"]')).toHaveCount(1);
     await expect(page.locator(".service-hero__trust > li")).toHaveCount(3);
     await expect(page.locator(".service-grid > li")).toHaveCount(3);
+    await expect(page.locator(".service-card__media img")).toHaveCount(3);
     await expect(page.locator(".service-grid")).not.toContainText(/security|protection/i);
 
     for (const name of [
@@ -109,8 +115,37 @@ test.describe("Business and Special Events hubs", () => {
       for (const width of [320, 768, 1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: width < 1024 ? 1024 : 900 });
         await assertNoHorizontalOverflow(page);
+        if (route === routePath("businessTransportation", "sr")) {
+          await assertMinimumTargetSize(page);
+        }
       }
     }
+  });
+
+  test("Business uses the locked tablet and desktop topology", async ({ page }) => {
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await page.goto(routePath("businessTransportation", "en"));
+
+    const tabletCards = await page.locator(".service-grid > li").evaluateAll((items) =>
+      items.map((item) => {
+        const rect = item.getBoundingClientRect();
+        return { x: rect.x, y: rect.y, width: rect.width };
+      }),
+    );
+    expect(tabletCards[0].width).toBeGreaterThan(tabletCards[1].width * 1.8);
+    expect(Math.abs(tabletCards[1].y - tabletCards[2].y)).toBeLessThan(2);
+    expect(tabletCards[0].y).toBeLessThan(tabletCards[1].y);
+
+    await page.setViewportSize({ width: 1024, height: 768 });
+    const desktopCards = await page
+      .locator(".service-grid > li")
+      .evaluateAll((items) => items.map((item) => item.getBoundingClientRect().y));
+    expect(Math.max(...desktopCards) - Math.min(...desktopCards)).toBeLessThan(2);
+
+    const desktopLogos = await page
+      .locator(".client-grid > li")
+      .evaluateAll((items) => items.map((item) => item.getBoundingClientRect().y));
+    expect(Math.max(...desktopLogos) - Math.min(...desktopLogos)).toBeLessThan(2);
   });
 
   for (const key of ["businessTransportation", "specialEvents"] as const) {

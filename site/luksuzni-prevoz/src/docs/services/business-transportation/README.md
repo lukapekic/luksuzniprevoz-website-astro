@@ -5,17 +5,20 @@ This package replaces the previous Business Transportation redesign handoff and 
 ## Included files
 
 ### Locked page documentation
+
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/blueprint.md`
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/acceptance.md`
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/implementation.md`
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/wireframe.md`
 
 ### Replacement page content
+
 - `site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.sr.md`
 - `site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.en.md`
 - `site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.ru.md`
 
 ### Shared content/UI changes
+
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/redesign-content-pack/schema-changes.md`
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/redesign-content-pack/ui-additions.sr.json`
 - `site/luksuzni-prevoz/src/docs/services/business-transportation/redesign-content-pack/ui-additions.en.json`
@@ -30,6 +33,7 @@ This package replaces the previous Business Transportation redesign handoff and 
 - Generic Business flight tracking is removed.
 - Client proof renders the four owner-confirmed public-display assets; the unapproved Chinese Embassy record stays hidden.
 - Business uses the shared full-bleed Service Hero and approved over-Hero Header state.
+- The three commercial cards use the approved contextual media under `assets/pages/business-hub/`.
 - Final CTA keeps Request a Quote as the secondary CTA; verified phone/email remain tertiary contacts.
 - Fleet role labels live in `content/ui`; canonical fleet facts remain in fleet data.
 - Business Standards are data-gated instead of authored as duplicate capability lists.

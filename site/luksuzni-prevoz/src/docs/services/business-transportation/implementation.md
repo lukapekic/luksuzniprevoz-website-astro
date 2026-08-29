@@ -98,6 +98,11 @@ Render `childServices.items` in authored order.
 
 Card index comes from array order.
 
+Use the approved contextual assets under `assets/pages/business-hub/` for the
+Corporate, Delegation, and Conference card media respectively. They remain
+decorative because each card's localized title and body provide the service
+context.
+
 ### Corporate
 
 Read `getService("corporateTransportation")`.
