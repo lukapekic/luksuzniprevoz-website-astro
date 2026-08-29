@@ -47,4 +47,4 @@ pnpm content:sync-digests site/luksuzni-prevoz
 
 Do not copy a packet digest into production by hand.
 
-The content deliberately remains `in-review` + `noindex:true` until both locked shared images resolve and all acceptance gates pass.
+The content deliberately remains `in-review` + `noindex:true` until all three locked shared images resolve and all acceptance gates pass.

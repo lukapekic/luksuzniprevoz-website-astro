@@ -7,7 +7,7 @@
 
 This directory is the implementation package for the Special Events hub redesign.
 
-It supersedes the planning-level document:
+It replaces the removed planning-level document that previously lived at:
 
 `src/docs/services/hub-specs/special-events-hub.md`
 
@@ -49,6 +49,7 @@ After content installation run:
 
 ```bash
 pnpm content:sync-digests
+pnpm types:generate
 pnpm content:validate
 ```
 
@@ -76,35 +77,28 @@ The supplied photography is stored under:
 
 `src/assets/shared/other/`
 
-Use these normalized production names:
+Use these existing production names. Do not rename or duplicate shared assets:
 
 ```text
-s-class-driving-forest.webp
-  source upload: s-class-driving-forest-intheback.webp
+s-class-driving-forest-intheback.webp
   role: Special Events full-bleed Hero
 
-e-class-outside-wedding-day.webp
-  source upload: e-class-outside-weeding-day.webp
+e-class-outside-weeding-day.webp
   role: Wedding service destination card
 
 v-class-interior.webp
-  source upload: v-class-interior.webp
   role: temporary Prom service destination card
 
 s-class-interior-driver-side.webp
-  source upload: s-class-interior-driver-side.webp
   role: VIP service destination card
 
-v-class-outside-wedding-day.webp
-  source upload: v-class-outisde-weeding-day.webp
+v-class-outisde-weeding-day.webp
   role: event coordination / guest-transport editorial media
 
-s-class-wedding-flower-detail.webp
-  source upload: s-class-with-flowers-special-occasion.webp
+s-class-with-flowers-special-occasion.webp
   role: reserved for Wedding child page; do not use on this hub
 
-wedding-couple-vehicle.webp
-  source upload: weeding-day-kissing.webp
+weeding-day-kissing.webp
   role: reserved for Wedding child page; do not use on this hub
 ```
 

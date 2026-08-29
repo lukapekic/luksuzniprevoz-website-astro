@@ -106,6 +106,13 @@ Every applicable blocking item must pass before publication.
 - [ ] one-off CTA → booking
 - [ ] recurring CTA → quote
 - [ ] recurring side has exactly 3 capability facts
+- [ ] desktop introduction 5 / stacked pathways 7 activates at `lg`
+- [ ] introduction owns label, heading, intro and body
+- [ ] right region renders pathway 01 then pathway 02 vertically
+- [ ] recurring facts are one integrated divider-led zone, not three cards
+- [ ] recurring facts remain one simple vertical list at every width
+- [ ] mobile order = introduction, one-off, recurring copy, facts 01/02/03, recurring CTA
+- [ ] all engagement grid tracks/children have zero intrinsic minimums
 - [ ] recurring contracts fact
 - [ ] invoicing fact
 - [ ] negotiated terms fact
@@ -122,6 +129,9 @@ Every applicable blocking item must pass before publication.
 - [ ] itinerary rendered
 - [ ] order = Hotel → Office → Meeting → Lunch → Client → Dinner
 - [ ] itinerary labels come from UI
+- [ ] semantic list with readable text at least `text-sm`
+- [ ] subtle outer/internal dividers and accent directional separators
+- [ ] desktop uses `repeat(6, minmax(0, 1fr))`
 - [ ] no hardcoded times
 - [ ] no map
 - [ ] no JS
@@ -139,6 +149,10 @@ Every applicable blocking item must pass before publication.
 - [ ] confirmed-itinerary node
 - [ ] one confirmed transport plan destination
 - [ ] static CSS connectors only
+- [ ] component stylesheet owns the outer and node grids
+- [ ] desktop nodes form one equal-width row connected to the full-width destination
+- [ ] mobile/tablet nodes form one vertical connected sequence before the destination
+- [ ] node rules, dividers, connector and destination panel are visibly present
 - [ ] quiet booking CTA visible
 - [ ] no JS diagram
 - [ ] no glow/glass/raw colors
@@ -195,6 +209,14 @@ Every applicable blocking item must pass before publication.
 - [ ] localized heading/text
 - [ ] booking button visible
 - [ ] quote button visible
+- [ ] caller passes `src/assets/shared/other/s-class-interior-driver-side.webp`
+- [ ] final CTA image is present
+- [ ] `imageAlt=""`
+- [ ] `imageFit="cover"`
+- [ ] `mediaTreatment="integrated"`
+- [ ] shared `FinalCTA` has no fixed image import
+- [ ] content precedes media in DOM and at tablet/mobile widths
+- [ ] desktop uses the shared 62/38 content/media composition
 - [ ] both use `resolveCtaHref`
 - [ ] booking resolves with canonical `intent=booking`
 - [ ] quote resolves with canonical `intent=quote`
@@ -299,9 +321,13 @@ Specific:
 - [ ] Working Day DOM remains copy then image
 - [ ] Working Day visual 7/5 activates at `lg`
 - [ ] itinerary is vertical below `lg` and one row from `lg`
+- [ ] Engagement stacks below `lg` and uses introduction 5 / stacked pathways 7 from `lg`
 - [ ] Audience is 1 / 2 / 2 / 3 / 5 columns across required states
 - [ ] Hero support is stacked below `xl` and 7/5 from `xl`
 - [ ] both FinalCTA actions remain visible
+- [ ] FinalCTA media has substantial height below `lg`
+- [ ] FinalCTA media does not overlap copy/actions
+- [ ] FinalCTA interior detail remains visible at 320/768/1024/1440/1920
 - [ ] SR/EN/RU long content wraps without clipping
 - [ ] CTA destination intent is correct at every state
 - [ ] keyboard/focus order follows DOM order
@@ -357,7 +383,7 @@ Specific:
 - [ ] no catch-all duplication
 - [ ] route remains scaffold during implementation
 - [ ] SR/EN/RU all validate
-- [ ] both locked shared images resolve
+- [ ] all three locked shared images resolve
 - [ ] acceptance fully passes
 - [ ] only then route → published
 - [ ] only then content → published/indexable

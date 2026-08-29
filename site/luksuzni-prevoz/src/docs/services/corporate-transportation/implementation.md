@@ -309,8 +309,12 @@ One parent light surface.
 Desktop:
 
 ```text
-5 / 7
+section introduction 5 / stacked pathways 7 from lg
 ```
+
+Use `minmax(0, ...)` tracks and `min-inline-size: 0` on every grid child.
+The introduction contains the label, heading, intro and body. The pathways
+region contains 01 followed by 02 in one connected vertical sequence.
 
 One-off:
 
@@ -333,6 +337,10 @@ exactly 3 facts:
 CTA label = corporateTransportation.cta.recurring
 CTA href = quote
 ```
+
+Render the three recurring facts inside pathway 02 as one simple vertical
+divider list. Do not turn them into cards, columns, or a separate facts matrix.
+Keep the recurring CTA after the facts in DOM order.
 
 No monetary data.
 
@@ -369,7 +377,11 @@ Hotel → Office → Meeting → Lunch → Client → Dinner
 
 Use Corporate itinerary UI keys.
 
-No JS, map, hardcoded times, or horizontal overflow.
+Use a semantic list with at least the approved `text-sm` role, clear primary
+text contrast, a subtle divider boundary and accent directional separators.
+Keep it vertical below `lg`; from `lg`, use
+`repeat(6, minmax(0, 1fr))`. No JS, flex-wrap, map, hardcoded times,
+horizontal scrolling, or horizontal overflow.
 
 ---
 
@@ -388,6 +400,12 @@ Desktop:
 ```text
 5 / 7
 ```
+
+The component-scoped stylesheet owns the complete outer grid and coordination
+model. From `lg`, render the three nodes in one equal-width row with internal
+dividers and one visible connection into the full-width destination. Below
+`lg`, keep the nodes as one connected vertical sequence followed by the
+destination. Do not rely on page-parent scoped selectors or JS positioning.
 
 Exactly three nodes:
 
@@ -521,8 +539,14 @@ Coordination:
 
 FinalCTA:
 - booking + quote
+- verified contact channels
+- caller-provided `s-class-interior-driver-side.webp`
+- `imageAlt=""`
+- `imageFit="cover"`
+- `mediaTreatment="integrated"`
 
 Both FinalCTA buttons MUST render.
+The shared component must not import or select a fixed image.
 
 ---
 
@@ -549,11 +573,12 @@ Locked shared assets:
 ```text
 Hero        → src/assets/shared/other/chauffeur-inside-grayedout.webp
 Working Day → src/assets/shared/other/s-class-driving-forest-intheback.webp
+Final CTA   → src/assets/shared/other/s-class-interior-driver-side.webp
 ```
 
-Import both existing WebP files directly. Do not copy them into a page-local
+Import all three existing WebP files directly. Do not copy them into a page-local
 directory, rename them, convert them or retain the obsolete placeholder paths.
-Use the existing `ServiceHero` and `OpenSplitSection` image pipelines.
+Use the existing `ServiceHero`, `OpenSplitSection`, and `FinalCTA` image pipelines.
 
 No autonomous stock download or runtime hotlink.
 
@@ -590,7 +615,7 @@ Release only after:
 
 ```text
 SR/EN/RU validated
-both locked shared images resolve
+all three locked shared images resolve
 design review passes
 technical review passes
 acceptance fully passes
@@ -663,7 +688,7 @@ Execute exactly:
 6. Regenerate generated types.
 7. Install SR/EN/RU content in review/noindex state.
 8. Regenerate source digests and validate content.
-9. Verify both locked shared images and remove obsolete placeholder references.
+9. Verify all three locked shared images and remove obsolete placeholder references.
 10. Create CorporateTransportationPage.
 11. Create CorporateEngagementPanel.
 12. Create CorporateCoordinationPanel.

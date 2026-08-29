@@ -10,6 +10,8 @@
     .wf-corp-audience { display:grid; gap:0; border-block:1px solid var(--color-border-subtle); }
     .wf-corp-audience > div { padding:var(--space-5); border-block-end:1px solid var(--color-border-subtle); }
     .wf-corp-engagement { padding:var(--space-8); }
+    .wf-corp-pathways { border-block-start:1px solid var(--color-border-subtle); }
+    .wf-corp-pathway { padding-block:var(--space-6); border-block-end:1px solid var(--color-border-subtle); }
     .wf-corp-itinerary { display:grid; gap:var(--space-3); padding-block-start:var(--space-8); }
     .wf-corp-stop { padding:var(--space-3); border-block:1px solid var(--color-border-subtle); }
     .wf-corp-coordination { padding:var(--space-8); }
@@ -35,7 +37,7 @@
     html[data-wf-layout="tablet-landscape"] .wf-corp-itinerary,
     html[data-wf-layout="desktop"] .wf-corp-itinerary,
     html[data-wf-layout="wide"] .wf-corp-itinerary {
-      grid-template-columns:repeat(11,auto);
+      grid-template-columns:repeat(6,minmax(0,1fr));
       align-items:center;
     }
   </style>
@@ -109,27 +111,27 @@
 
     <!-- 04 ENGAGEMENT -->
     <section class="wf-shell wf-section-standard">
-      <div class="wf-light wf-corp-engagement">
+      <div class="wf-light wf-corp-engagement wf-grid wf-grid-5-7">
         <div class="wf-stack wf-narrow">
           <p class="wf-label">04 / One-Off vs Recurring</p>
           <div class="wf-title"></div>
           <div class="wf-line"></div>
         </div>
-        <div class="wf-grid wf-grid-5-7" style="margin-top:var(--space-8)">
-          <article class="wf-stack">
+        <div class="wf-corp-pathways">
+          <article class="wf-stack wf-corp-pathway">
             <div class="wf-marker">01</div>
             <div class="wf-title-sm"></div>
             <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:72%"></div></div>
             <div class="wf-button"></div>
           </article>
-          <article class="wf-stack">
+          <article class="wf-stack wf-corp-pathway">
             <div class="wf-marker">02</div>
             <div class="wf-title-sm"></div>
             <div class="wf-lines"><div class="wf-line"></div><div class="wf-line" style="width:78%"></div></div>
             <div class="wf-divider-list">
-              <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
-              <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
-              <div class="wf-divider-row"><div class="wf-marker"></div><div class="wf-line"></div></div>
+              <div class="wf-divider-row"><div class="wf-marker">01</div><div class="wf-line"></div></div>
+              <div class="wf-divider-row"><div class="wf-marker">02</div><div class="wf-line"></div></div>
+              <div class="wf-divider-row"><div class="wf-marker">03</div><div class="wf-line"></div></div>
             </div>
             <div class="wf-button"></div>
           </article>
@@ -152,14 +154,14 @@
           </div>
         </div>
       </div>
-      <div class="wf-corp-itinerary">
-        <div class="wf-corp-stop">Hotel</div><span>→</span>
-        <div class="wf-corp-stop">Office</div><span>→</span>
-        <div class="wf-corp-stop">Meeting</div><span>→</span>
-        <div class="wf-corp-stop">Lunch</div><span>→</span>
-        <div class="wf-corp-stop">Client</div><span>→</span>
-        <div class="wf-corp-stop">Dinner</div>
-      </div>
+      <ol class="wf-corp-itinerary">
+        <li class="wf-corp-stop">Hotel ↓/→</li>
+        <li class="wf-corp-stop">Office ↓/→</li>
+        <li class="wf-corp-stop">Meeting ↓/→</li>
+        <li class="wf-corp-stop">Lunch ↓/→</li>
+        <li class="wf-corp-stop">Client ↓/→</li>
+        <li class="wf-corp-stop">Dinner</li>
+      </ol>
     </section>
 
     <!-- 06 COORDINATION -->

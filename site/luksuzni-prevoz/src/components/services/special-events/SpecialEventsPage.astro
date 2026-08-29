@@ -1,82 +1,500 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import type { ImageMetadata } from "astro";
 import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
 import { buildFaqPage } from "@astro-foundation/core/seo";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Section from "../../../foundation/ui/Section.astro";
-import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
-import Link from "../../../foundation/ui/Link.astro";
 import ServiceHero from "../shared/ServiceHero.astro";
 import ServiceOverview from "../shared/ServiceOverview.astro";
-import HubServiceSelector from "../shared/HubServiceSelector.astro";
 import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
-import ServiceStandards from "../shared/ServiceStandards.astro";
-import OpenSplitSection from "../../shared/OpenSplitSection.astro";
 import FAQ from "../../shared/FAQ.astro";
 import FinalCTA from "../../shared/FinalCTA.astro";
-import { getService, type SpecialEventUseCase } from "../../../data/services.ts";
+import SpecialEventServiceGrid from "./SpecialEventServiceGrid.astro";
+import SpecialEventOtherOccasions from "./SpecialEventOtherOccasions.astro";
+import SpecialEventServiceScope from "./SpecialEventServiceScope.astro";
+import SpecialEventCoordinationStory from "./SpecialEventCoordinationStory.astro";
+import SpecialEventStandards from "./SpecialEventStandards.astro";
+import SpecialEventProcessSteps from "./SpecialEventProcessSteps.astro";
+import {
+  getService,
+  type SpecialEventUseCase,
+} from "../../../data/services.ts";
 import { getVehicle } from "../../../data/fleet.ts";
-import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import {
+  homepageFleetEntries,
+  homepageFleetMedia,
+} from "../../../data/fleet-media.ts";
+import { operations } from "../../../data/operations.ts";
 import { contact, isVerified } from "../../../data/contact.ts";
 import { resolveHubChildItems } from "../../../lib/hubs.ts";
-import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
 import { t } from "../../../lib/i18n.ts";
-import { resolveCtaHref } from "../../../lib/cta.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import eventImage from "../../../assets/services/special-events-card.webp";
-import heroImage from "../../../assets/hero.webp";
+import heroImage from "../../../assets/shared/other/s-class-driving-forest-intheback.webp";
+import weddingServiceImage from "../../../assets/shared/other/e-class-outside-weeding-day.webp";
+import promServiceImage from "../../../assets/shared/other/v-class-interior.webp";
+import vipServiceImage from "../../../assets/shared/other/s-class-interior-driver-side.webp";
+import coordinationImage from "../../../assets/shared/other/v-class-outisde-weeding-day.webp";
 import finalCtaImage from "../../../assets/final-cta-bg.webp";
 
-interface Props { routeKey:"specialEvents"; locale:LocaleCode; content:CollectionEntry<"pages"> }
+interface Props {
+  routeKey: "specialEvents";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+interface StandardItem {
+  title: string;
+  text: string;
+}
+
+interface SpecialEventServiceItem {
+  index: string;
+  routeKey: RouteKey;
+  title: string;
+  text: string;
+  ctaLabel: string;
+  capabilities: [string, string, string];
+  image: ImageMetadata;
+}
+
 const { routeKey, locale, content } = Astro.props;
-if (routeKey !== "specialEvents" || content.data.pageType !== "hub" || content.data.routeKey !== routeKey) throw new Error("SpecialEventsPage received incompatible data.");
-const data=content.data;
-if(!data.hero||!data.vehicleRecommendations||!data.faq)throw new Error(`Special Events content incomplete for ${locale}.`);
-const section=(key:string)=>{const value=data.sections.find((item)=>item.key===key);if(!value)throw new Error(`Missing Special Events section ${key}.`);return value};
-const coordination=section("eventCoordination");const occasions=section("otherOccasions");
-const hub=getService(routeKey);const wedding=getService("weddingTransportation");const prom=getService("promTransportation");const vip=getService("vipTransportation");
-const ui=(key:string)=>t(key as UiStringKey,locale);
-const children=resolveHubChildItems(routeKey,data.childServices.items);
-const childCards=children.map((item)=>({...item,routeKey:item.routeKey as RouteKey,image:null}));
-const primaryAction={label:data.hero.primaryCta.label,href:resolveCtaHref(data.hero.primaryCta,locale)};
-const secondaryAction=data.hero.secondaryCta?{label:data.hero.secondaryCta.label,href:resolveCtaHref(data.hero.secondaryCta,locale)}:undefined;
-const overviewFacts=[
-  (wedding.coupleTransport||prom.individualAndGroup||vip.privacy)&&{key:"principal",title:ui("specialEvents.overview.principal.title"),text:ui("specialEvents.overview.principal.text")},
-  (wedding.guestTransport||prom.individualAndGroup)&&{key:"guests",title:ui("specialEvents.overview.guests.title"),text:ui("specialEvents.overview.guests.text")},
-  (wedding.multipleVehicles||prom.multipleVehicles||vip.multiVehicle)&&{key:"vehicles",title:ui("specialEvents.overview.vehicles.title"),text:ui("specialEvents.overview.vehicles.text")},
-  (wedding.returnPossible||prom.returnPossible||wedding.waitingPossible==="custom-quote"||prom.waitingPossible==="custom-quote")&&{key:"timing",title:ui("specialEvents.overview.timing.title"),text:ui("specialEvents.overview.timing.text")},
-].filter((item):item is Exclude<typeof item,false|undefined>=>Boolean(item));
-const occasionKeys:Record<SpecialEventUseCase,UiStringKey>={birthdays:"specialEvents.occasion.birthdays", "private-parties":"specialEvents.occasion.privateParties",galas:"specialEvents.occasion.galas","other-special-events":"specialEvents.occasion.other"};
-const occasionLabels=(hub.generalUseCases??[]).map((useCase)=>ui(occasionKeys[useCase]));
-const recommendations=data.vehicleRecommendations.vehicleIds.map((id)=>{const vehicle=getVehicle(id);const entry=homepageFleetEntries.find((item)=>item.vehicleId===id);return{vehicle,image:homepageFleetMedia[vehicle.id],displayName:entry?.displayName,showPassengerCapacity:entry?.showPassengerCapacity}});
-const classes={sedan:ui("fleet.class.sedan"),van:ui("fleet.class.van"),minivan:ui("fleet.class.minivan"),bus:ui("fleet.class.bus")};
-const standards=buildServiceStandardGroups(locale);
-const finalPrimary={label:data.finalCta.primaryCta.label,href:resolveCtaHref(data.finalCta.primaryCta,locale)};const finalSecondary=data.finalCta.secondaryCta?{label:data.finalCta.secondaryCta.label,href:resolveCtaHref(data.finalCta.secondaryCta,locale)}:undefined;
-const contacts={phone:isVerified(contact.phone)?contact.phone.value??undefined:undefined,email:isVerified(contact.email)?contact.email.value??undefined:undefined};
-const seo=buildPageSeo({routeKey,locale,title:data.seoTitle,description:data.seoDescription,noindex:data.noindex??false,structuredData:[buildFaqPage(data.faq.items)]});
+
+if (
+  routeKey !== "specialEvents" ||
+  content.data.pageType !== "hub" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("SpecialEventsPage received incompatible data.");
+}
+
+const data = content.data;
+if (!data.hero || !data.vehicleRecommendations || !data.faq) {
+  throw new Error(`Special Events content is incomplete for ${locale}.`);
+}
+if (!data.overview.items || data.overview.items.length !== 3) {
+  throw new Error("Special Events proposition requires exactly three localized items.");
+}
+if (data.faq.items.length !== 6) {
+  throw new Error("Special Events requires exactly six localized FAQ items.");
+}
+if (data.noindex === true) {
+  throw new Error("Special Events V2 must remain indexable.");
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Special Events section "${key}" for ${locale}.`);
+  return value;
+};
+
+const otherOccasions = section("otherOccasions");
+const serviceScope = section("serviceScope");
+const eventCoordination = section("eventCoordination");
+const standardsSection = section("standards");
+const process = section("process");
+
+if (!otherOccasions.cta) {
+  throw new Error("Other Occasions requires one authored CTA.");
+}
+if (
+  otherOccasions.cta.target.type !== "flow" ||
+  otherOccasions.cta.target.flowKey !== "booking"
+) {
+  throw new Error("Other Occasions CTA must use the canonical booking flow.");
+}
+if (!serviceScope.items || serviceScope.items.length !== 2) {
+  throw new Error("Special Events service scope requires exactly two items.");
+}
+if (!eventCoordination.items || eventCoordination.items.length !== 5) {
+  throw new Error("Special Events coordination requires exactly five phases.");
+}
+if (!process.items || process.items.length !== 3) {
+  throw new Error("Special Events process requires exactly three steps.");
+}
+if (
+  data.hero.primaryCta.target.type !== "anchor" ||
+  data.hero.primaryCta.target.anchorId !== "event-services"
+) {
+  throw new Error("Special Events primary Hero CTA must target #event-services.");
+}
+if (
+  !data.hero.secondaryCta ||
+  data.hero.secondaryCta.target.type !== "flow" ||
+  data.hero.secondaryCta.target.flowKey !== "quote"
+) {
+  throw new Error("Special Events secondary Hero CTA must use the quote flow.");
+}
+if (
+  data.finalCta.primaryCta.target.type !== "flow" ||
+  data.finalCta.primaryCta.target.flowKey !== "booking" ||
+  !data.finalCta.secondaryCta ||
+  data.finalCta.secondaryCta.target.type !== "flow" ||
+  data.finalCta.secondaryCta.target.flowKey !== "quote"
+) {
+  throw new Error("Special Events final actions must remain booking then quote.");
+}
+if (
+  data.vehicleRecommendations.cta.target.type !== "route" ||
+  data.vehicleRecommendations.cta.target.routeKey !== "fleet"
+) {
+  throw new Error("Special Events fleet CTA must route to Fleet.");
+}
+if (
+  operations.chauffeurs.dressCode !== "suit-and-tie" ||
+  contact.bookingLeadTime.confirmationMode !== "manual"
+) {
+  throw new Error("Special Events Hero trust markers require professional dress and manual confirmation.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = resolveAction(data.hero.secondaryCta);
+const otherOccasionsAction = resolveAction(otherOccasions.cta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+
+const overviewGroups = data.overview.items.map((item, index) => ({
+  key: `special-event-principle-${index + 1}`,
+  marker: String(index + 1).padStart(2, "0"),
+  title: item.title,
+  text: item.text,
+}));
+
+const wedding = getService("weddingTransportation");
+const prom = getService("promTransportation");
+const vip = getService("vipTransportation");
+
+const capabilityMap = {
+  weddingTransportation: [
+    wedding.coupleTransport && ui("specialEvents.capability.coupleTransport"),
+    wedding.guestTransport && ui("specialEvents.capability.guestTransport"),
+    wedding.multipleVehicles && ui("specialEvents.capability.multipleVehicles"),
+  ].filter((item): item is string => Boolean(item)),
+  promTransportation: [
+    prom.individualAndGroup && ui("specialEvents.capability.individualAndGroup"),
+    prom.multipleVehicles && ui("specialEvents.capability.multipleVehicles"),
+    prom.returnPossible && ui("specialEvents.capability.returnByAgreement"),
+  ].filter((item): item is string => Boolean(item)),
+  vipTransportation: [
+    vip.privacy && ui("specialEvents.capability.privacy"),
+    vip.discretion && ui("specialEvents.capability.discretion"),
+    vip.pricingMode.includes("quote") && ui("specialEvents.capability.individualQuote"),
+  ].filter((item): item is string => Boolean(item)),
+};
+
+const expectedChildOrder = [
+  "weddingTransportation",
+  "promTransportation",
+  "vipTransportation",
+] as const;
+const serviceImages = {
+  weddingTransportation: weddingServiceImage,
+  promTransportation: promServiceImage,
+  vipTransportation: vipServiceImage,
+} satisfies Record<(typeof expectedChildOrder)[number], ImageMetadata>;
+
+const children = resolveHubChildItems(routeKey, data.childServices.items);
+if (
+  children.length !== expectedChildOrder.length ||
+  children.some((item, index) => item.routeKey !== expectedChildOrder[index])
+) {
+  throw new Error("Special Events child services must remain in Wedding, Prom, VIP order.");
+}
+
+const serviceItems = expectedChildOrder.map((expectedRouteKey, index) => {
+  const item = children[index];
+  const capabilities = capabilityMap[expectedRouteKey];
+  if (!item || item.routeKey !== expectedRouteKey || !item.text) {
+    throw new Error(`Missing Special Events child service ${expectedRouteKey}.`);
+  }
+  if (capabilities.length !== 3) {
+    throw new Error(`${expectedRouteKey} must expose exactly three active Special Events capabilities.`);
+  }
+
+  return {
+    index: String(index + 1).padStart(2, "0"),
+    routeKey: expectedRouteKey,
+    title: item.title,
+    text: item.text,
+    ctaLabel: item.ctaLabel,
+    capabilities: capabilities as [string, string, string],
+    image: serviceImages[expectedRouteKey],
+  };
+}) as [SpecialEventServiceItem, SpecialEventServiceItem, SpecialEventServiceItem];
+
+const hub = getService(routeKey);
+const expectedOccasions = [
+  "birthdays",
+  "private-parties",
+  "galas",
+  "other-special-events",
+] as const satisfies readonly SpecialEventUseCase[];
+const canonicalOccasions = hub.generalUseCases ?? [];
+if (
+  canonicalOccasions.length !== expectedOccasions.length ||
+  canonicalOccasions.some((item, index) => item !== expectedOccasions[index])
+) {
+  throw new Error("Special Events general occasions must remain in canonical order.");
+}
+const occasionKeys = {
+  birthdays: "specialEvents.occasion.birthdays",
+  "private-parties": "specialEvents.occasion.privateParties",
+  galas: "specialEvents.occasion.galas",
+  "other-special-events": "specialEvents.occasion.other",
+} as const satisfies Record<SpecialEventUseCase, UiStringKey>;
+const occasionLabels = expectedOccasions.map((occasion) => ui(occasionKeys[occasion])) as [
+  string,
+  string,
+  string,
+  string,
+];
+
+const expectedVehicleIds = [
+  "mercedes-s-class",
+  "mercedes-e-class",
+  "mercedes-v-class-7-plus-1-extra-long",
+  "mercedes-sprinter",
+] as const;
+if (
+  data.vehicleRecommendations.vehicleIds.length !== expectedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== expectedVehicleIds[index])
+) {
+  throw new Error("Special Events vehicle recommendations must remain in the locked four-vehicle order.");
+}
+const vehicleRoleKeys = {
+  "mercedes-s-class": "specialEvents.vehicleRole.mercedesSClass",
+  "mercedes-e-class": "specialEvents.vehicleRole.mercedesEClass",
+  "mercedes-v-class-7-plus-1-extra-long": "specialEvents.vehicleRole.mercedesVClassExtraLong",
+  "mercedes-sprinter": "specialEvents.vehicleRole.mercedesSprinter",
+} as const satisfies Record<(typeof expectedVehicleIds)[number], UiStringKey>;
+
+const recommendations = expectedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[vehicle.id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(vehicleRoleKeys[id]),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const standards = [
+  operations.chauffeurs.dressCode === "suit-and-tie" && {
+    title: ui("specialEvents.standard.professionalChauffeur.title"),
+    text: ui("specialEvents.standard.professionalChauffeur.text"),
+  },
+  (operations.chauffeurs.internalTraining.includes("discretion") || vip.discretion) && {
+    title: ui("specialEvents.standard.discretion.title"),
+    text: ui("specialEvents.standard.discretion.text"),
+  },
+  (wedding.multipleVehicles || prom.multipleVehicles || vip.multiVehicle) && {
+    title: ui("specialEvents.standard.multiVehicle.title"),
+    text: ui("specialEvents.standard.multiVehicle.text"),
+  },
+  (
+    wedding.returnPossible ||
+    prom.returnPossible ||
+    wedding.waitingPossible === "custom-quote" ||
+    prom.waitingPossible === "custom-quote"
+  ) && {
+    title: ui("specialEvents.standard.waitingReturn.title"),
+    text: ui("specialEvents.standard.waitingReturn.text"),
+  },
+  contact.bookingLeadTime.confirmationMode === "manual" && {
+    title: ui("specialEvents.standard.manualConfirmation.title"),
+    text: ui("specialEvents.standard.manualConfirmation.text"),
+  },
+].filter((item): item is StandardItem => Boolean(item));
+
+if (standards.length !== 5) {
+  throw new Error("Special Events standards require all five canonical gates.");
+}
+const standardsTuple = standards as [
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+];
+
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: false,
+  structuredData: [buildFaqPage(data.faq.items)],
+});
 ---
 
-<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale}>
-  <ServiceHero title={data.hero.title} description={data.hero.description} supportText={data.hero.supportText} primaryAction={primaryAction} secondaryAction={secondaryAction} locale={locale} variant="contained" image={heroImage} imageAlt="" />
-  <ServiceOverview heading={data.overview.heading.title} intro={data.overview.heading.intro} body={data.overview.body} groups={overviewFacts} label={ui("specialEvents.section.overview")} variant="divider-facts" surface="open-dark" />
-  <HubServiceSelector heading={data.childServices.heading.title} intro={data.childServices.heading.intro} items={childCards} locale={locale} label={ui("specialEvents.section.services")} />
-  <Section spacing="feature" surface="open-dark" aria-labelledby="event-coordination-heading">
-    <PageContainer><OpenSplitSection image={eventImage} imageAlt="" layout="content-image" ratio="7-5" mobileOrder="content-first" mediaHeight="match-content" mediaOverlay><div slot="content"><p class="section-label"><span aria-hidden="true"></span>{ui("specialEvents.section.coordination")}</p><SectionHeading id="event-coordination-heading" heading={coordination.heading.title} description={coordination.heading.intro} />{coordination.body&&<p class="body-copy">{coordination.body}</p>}{coordination.items&&<div class="coordination-list">{coordination.items.map((item)=><article><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>}</div></OpenSplitSection></PageContainer>
+<BaseLayout
+  seo={seo}
+  currentRouteKey={routeKey}
+  currentLocale={locale}
+  overHero={true}
+>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("specialEvents.hero.eyebrow")}
+    trustMarkers={[
+      ui("specialEvents.hero.trust.professionalChauffeur"),
+      ui("specialEvents.hero.trust.eventPlan"),
+      ui("specialEvents.hero.trust.manualConfirmation"),
+    ]}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <ServiceOverview
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    groups={overviewGroups}
+    label={ui("specialEvents.section.overview")}
+    variant="numbered-divider-facts"
+    surface="open-dark"
+  />
+
+  <SpecialEventServiceGrid
+    heading={data.childServices.heading.title}
+    intro={data.childServices.heading.intro}
+    label={ui("specialEvents.section.services")}
+    items={serviceItems}
+    {locale}
+  />
+
+  <SpecialEventOtherOccasions
+    heading={otherOccasions.heading.title}
+    intro={otherOccasions.heading.intro}
+    body={otherOccasions.body}
+    label={ui("specialEvents.section.occasions")}
+    occasions={occasionLabels}
+    action={otherOccasionsAction}
+    {locale}
+  />
+
+  <SpecialEventServiceScope
+    heading={serviceScope.heading.title}
+    intro={serviceScope.heading.intro}
+    body={serviceScope.body}
+    label={ui("specialEvents.section.scope")}
+    items={[serviceScope.items[0], serviceScope.items[1]]}
+  />
+
+  <SpecialEventCoordinationStory
+    heading={eventCoordination.heading.title}
+    intro={eventCoordination.heading.intro}
+    body={eventCoordination.body}
+    label={ui("specialEvents.section.coordination")}
+    items={[
+      eventCoordination.items[0],
+      eventCoordination.items[1],
+      eventCoordination.items[2],
+      eventCoordination.items[3],
+      eventCoordination.items[4],
+    ]}
+    image={coordinationImage}
+  />
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    classLabels={classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("specialEvents.section.vehicles")}
+    carouselId="special-events-vehicles"
+  />
+
+  <SpecialEventStandards
+    heading={standardsSection.heading.title}
+    intro={standardsSection.heading.intro}
+    body={standardsSection.body}
+    label={ui("specialEvents.section.standards")}
+    items={standardsTuple}
+  />
+
+  <SpecialEventProcessSteps
+    heading={process.heading.title}
+    intro={process.heading.intro}
+    label={ui("specialEvents.section.process")}
+    steps={[process.items[0], process.items[1], process.items[2]]}
+  />
+
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="special-events-faq-heading"
+    class="mt-[var(--space-8)]"
+  >
+    <ReadingContainer>
+      <p class="section-label section-label--light">
+        <span aria-hidden="true"></span>{ui("specialEvents.section.faq")}
+      </p>
+      <SectionHeading
+        id="special-events-faq-heading"
+        heading={data.faq.heading}
+        on="light"
+      />
+      <FAQ items={data.faq.items} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
   </Section>
-  <Section spacing="standard" surface="light" aria-labelledby="other-occasions-heading"><PageContainer><div class="occasions-grid"><div><p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("specialEvents.section.occasions")}</p><SectionHeading id="other-occasions-heading" heading={occasions.heading.title} description={occasions.heading.intro} on="light" />{occasions.body&&<p class="body-copy body-copy--light">{occasions.body}</p>}<Link variant="on-light" href={secondaryAction?.href??primaryAction.href} locale={locale}>{secondaryAction?.label??primaryAction.label}</Link></div><ul>{occasionLabels.map((label)=><li>{label}</li>)}</ul></div></PageContainer></Section>
-  <VehicleRecommendations heading={data.vehicleRecommendations.heading.title} intro={data.vehicleRecommendations.heading.intro} recommendations={recommendations} cta={{label:data.vehicleRecommendations.cta.label,to:data.vehicleRecommendations.cta.target.type==="route"?data.vehicleRecommendations.cta.target.routeKey as RouteKey:"fleet"}} locale={locale} passengerLabel={ui("fleet.passengers")} classLabels={classes} ariaLabel={ui("fleet.carousel.ariaLabel")} previousLabel={ui("fleet.carousel.previous")} nextLabel={ui("fleet.carousel.next")} label={ui("specialEvents.section.vehicles")} carouselId="special-events-vehicles" />
-  <ServiceStandards heading={ui("serviceStandards.heading")} intro={ui("serviceStandards.intro")} groups={standards} label={ui("specialEvents.section.standards")} variant="divided-panel" />
-  <Section spacing="compact" surface="light" aria-labelledby="special-events-faq-heading" class="mt-[var(--space-8)]"><ReadingContainer><p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("specialEvents.section.faq")}</p><SectionHeading id="special-events-faq-heading" heading={data.faq.heading} on="light" /><FAQ items={data.faq.items} on="light" class="faq-spacing" /></ReadingContainer></Section>
-  <FinalCTA heading={data.finalCta.heading} description={data.finalCta.text} primaryAction={finalPrimary} secondaryAction={finalSecondary} contacts={contacts} image={finalCtaImage} imageAlt="" imageFit="cover" mediaTreatment="integrated" locale={locale} />
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
 </BaseLayout>
 
 <style>
-  .section-label{display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);font-weight:var(--font-weight-medium);color:var(--color-text-muted)}.section-label>span{inline-size:var(--space-8);block-size:1px;background:var(--color-accent)}.section-label--light{color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%)}.section-label--light>span{background:var(--color-focus-light)}
-  .body-copy{max-inline-size:var(--measure-body);margin-block-start:var(--space-5);font-family:var(--font-body);line-height:var(--line-height-body);color:var(--color-text-muted)}.body-copy--light{color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 30%)}
-  .coordination-list{display:grid;margin-block-start:var(--space-6);border-block-start:1px solid var(--color-divider)}.coordination-list article{padding-block:var(--space-4);border-block-end:1px solid var(--color-divider)}.coordination-list h3{font-family:var(--font-heading);font-size:var(--text-xl);font-weight:var(--font-weight-semibold)}.coordination-list p{margin-block-start:var(--space-2);font-family:var(--font-body);font-size:var(--text-sm);line-height:var(--line-height-body);color:var(--color-text-muted)}
-  .occasions-grid{display:grid;gap:var(--space-8)}.occasions-grid>:first-child{display:flex;flex-direction:column;align-items:flex-start}.occasions-grid>:first-child>:global(a){margin-block-start:var(--space-6)}.occasions-grid ul{margin:0;padding:0;border-block-start:1px solid var(--color-border-subtle);list-style:none}.occasions-grid li{padding-block:var(--space-5);border-block-end:1px solid var(--color-border-subtle);font-family:var(--font-heading);font-size:var(--text-xl);font-weight:var(--font-weight-semibold);color:var(--color-text-on-light)}
-  .faq-spacing{margin-block-start:var(--space-8)}
-  @media(min-width:64rem){.occasions-grid{grid-template-columns:7fr 5fr;gap:var(--column-gap-desktop);align-items:start}}
+  .section-label { display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);font-weight:var(--font-weight-medium);color:var(--color-text-muted) }
+  .section-label > span { inline-size:var(--space-8);block-size:1px;background:var(--color-accent) }
+  .section-label--light { color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%) }
+  .section-label--light > span { background:var(--color-focus-light) }
 </style>

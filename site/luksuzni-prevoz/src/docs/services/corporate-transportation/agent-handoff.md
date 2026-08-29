@@ -32,10 +32,10 @@ compose Audience Rail and Working Day from primitives
 reuse VehicleRecommendations
 reuse ServiceStandards numbered-matrix
 resolve FAQ operational tokens only after canonical assertions
-reuse FinalCTA with booking + quote
+reuse FinalCTA with booking + quote + the caller-owned locked interior image
 add mapping to existing ContentPageRenderer
 run every repository gate
-publish only after both locked shared images resolve and complete acceptance passes
+publish only after all three locked shared images resolve and complete acceptance passes
 ```
 
 The Serbian source digest is generator-owned. After installing or changing the

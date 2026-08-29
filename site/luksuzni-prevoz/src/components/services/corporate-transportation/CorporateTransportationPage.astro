@@ -19,7 +19,7 @@ import CorporateCoordinationPanel from "./CorporateCoordinationPanel.astro";
 import { getService } from "../../../data/services.ts";
 import { getVehicle } from "../../../data/fleet.ts";
 import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
-import { contact } from "../../../data/contact.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
 import { operations } from "../../../data/operations.ts";
 import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
 import { t } from "../../../lib/i18n.ts";
@@ -28,6 +28,7 @@ import { interpolateTokens } from "../../../lib/interpolate.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
 import corporateHeroImage from "../../../assets/shared/other/chauffeur-inside-grayedout.webp";
 import corporateWorkingDayImage from "../../../assets/shared/other/s-class-driving-forest-intheback.webp";
+import corporateFinalCtaImage from "../../../assets/shared/other/s-class-interior-driver-side.webp";
 
 interface Props {
   routeKey: "corporateTransportation";
@@ -156,6 +157,10 @@ const primaryAction = resolveAction(data.hero.primaryCta);
 const secondaryAction = resolveAction(data.hero.secondaryCta);
 const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
 const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
 
 const heroSupport = [
   ui("business.commercial.oneOff"),
@@ -448,6 +453,11 @@ const seo = buildPageSeo({
     description={data.finalCta.text}
     primaryAction={finalPrimaryAction}
     secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={corporateFinalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
     {locale}
   />
 </BaseLayout>
@@ -552,9 +562,9 @@ const seo = buildPageSeo({
 
   .itinerary {
     display: grid;
-    gap: var(--space-3);
     margin: var(--space-8) 0 0;
-    padding: 0;
+    padding: var(--space-2) 0;
+    border-block: 1px solid var(--color-divider);
     list-style: none;
   }
 
@@ -562,39 +572,54 @@ const seo = buildPageSeo({
     position: relative;
     min-inline-size: 0;
     padding: var(--space-4) var(--space-5);
-    border-block: 1px solid var(--color-divider);
     font-family: var(--font-body);
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
     color: var(--color-text-primary);
     overflow-wrap: anywhere;
   }
 
+  .itinerary li:not(:last-child) {
+    border-block-end: 1px solid var(--color-divider);
+  }
+
   .itinerary li:not(:last-child)::after {
     position: absolute;
-    inset-block-end: calc(-1 * var(--space-4));
+    inset-block-end: 0;
     inset-inline-start: 50%;
     z-index: 1;
+    padding-inline: var(--space-2);
+    background: var(--color-background);
     color: var(--color-accent);
+    line-height: 1;
+    transform: translate(-50%, 50%);
     content: "↓";
   }
 
   @media (min-width: 64rem) {
     .itinerary {
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: var(--space-5);
     }
 
     .itinerary li {
+      padding-block: var(--space-5);
       text-align: center;
+    }
+
+    .itinerary li:not(:last-child) {
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--color-divider);
     }
 
     .itinerary li:not(:last-child)::after {
       inset-block-end: auto;
       inset-block-start: 50%;
       inset-inline-start: auto;
-      inset-inline-end: calc(-1 * var(--space-4));
-      transform: translateY(-50%);
+      inset-inline-end: 0;
+      padding-block: var(--space-2);
+      padding-inline: 0;
+      transform: translate(50%, -50%);
       content: "→";
     }
   }

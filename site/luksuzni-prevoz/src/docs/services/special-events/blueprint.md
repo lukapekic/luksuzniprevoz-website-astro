@@ -101,10 +101,10 @@ All supplied page photography lives under:
 The implementation MUST use these normalized target names and roles:
 
 ```text
-s-class-driving-forest.webp
+s-class-driving-forest-intheback.webp
 → full-bleed Special Events Hero
 
-e-class-outside-wedding-day.webp
+e-class-outside-weeding-day.webp
 → Wedding service card
 
 v-class-interior.webp
@@ -113,15 +113,15 @@ v-class-interior.webp
 s-class-interior-driver-side.webp
 → VIP service card
 
-v-class-outside-wedding-day.webp
+v-class-outisde-weeding-day.webp
 → Event Coordination Story media
 ```
 
 These assets are reserved for the Wedding child page and MUST NOT render on the hub:
 
 ```text
-s-class-wedding-flower-detail.webp
-wedding-couple-vehicle.webp
+s-class-with-flowers-special-occasion.webp
+weeding-day-kissing.webp
 ```
 
 ### Prom temporary-media rule
@@ -166,7 +166,7 @@ Primary CTA MUST target `#event-services`.
 
 Secondary CTA MUST use the existing quote flow.
 
-Hero image MUST be `s-class-driving-forest.webp`.
+Hero image MUST be `s-class-driving-forest-intheback.webp`.
 
 The Hero MUST remain category-neutral. It MUST NOT contain wedding-specific, prom-specific, or VIP-specific decorative language.
 
@@ -230,7 +230,7 @@ multipleVehicles → specialEvents.capability.multipleVehicles
 
 Card media:
 
-`e-class-outside-wedding-day.webp`
+`e-class-outside-weeding-day.webp`
 
 Do not render unsupported gifts, champagne, decorations-as-included, unlimited waiting, or automatic vehicle availability.
 
@@ -336,7 +336,7 @@ The sequence is illustrative. It MUST NOT create a universal event timetable or 
 
 Media:
 
-`v-class-outside-wedding-day.webp`
+`v-class-outisde-weeding-day.webp`
 
 Render through Astro's image pipeline with:
 
@@ -499,7 +499,7 @@ booking
 quote
 ```
 
-The current CTA resolver routes unresolved flow targets through the existing localized Contact fallback.
+The current CTA resolver routes both flow targets to the localized Contact route with their canonical intent parameters.
 
 The implementation MUST NOT create a page-local booking form, duplicate form state, or invent a temporary booking route.
 

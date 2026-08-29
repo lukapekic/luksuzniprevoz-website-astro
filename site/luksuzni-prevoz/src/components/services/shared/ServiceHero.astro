@@ -156,6 +156,7 @@ const hasActions = Boolean(primaryAction || secondaryAction);
   .service-hero[data-variant="full-bleed"] .service-hero__content { max-inline-size: 38rem; animation: service-hero-content-in var(--duration-cinematic) var(--ease-entrance) both; }
   .service-hero[data-variant="full-bleed"] h1 { max-inline-size: 18ch; font-size: clamp(var(--text-h2), 5vw, var(--text-h1)); font-weight: var(--font-weight-regular); line-height: var(--line-height-tight); letter-spacing: var(--letter-spacing-tight); }
   .service-hero[data-variant="full-bleed"] .service-hero__description { max-inline-size: 34rem; color: var(--color-text-primary); }
+  .service-hero[data-variant="full-bleed"] .service-hero__actions > :global(a) { min-block-size: var(--space-12); }
   .service-hero[data-variant="full-bleed"] .service-hero__support { animation: service-hero-content-in var(--duration-cinematic) var(--ease-entrance) both; animation-delay: var(--duration-fast); }
 
   @media (min-width: 48rem) {

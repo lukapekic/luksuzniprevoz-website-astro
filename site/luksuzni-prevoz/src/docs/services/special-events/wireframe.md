@@ -299,7 +299,7 @@ The card's text remains outside uncontrolled photographic detail. Essential cont
 
 ```text
 01 Wedding
-assets/shared/other/e-class-outside-wedding-day.webp
+assets/shared/other/e-class-outside-weeding-day.webp
 
 02 Prom — temporary
 assets/shared/other/v-class-interior.webp

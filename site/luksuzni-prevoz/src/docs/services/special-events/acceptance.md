@@ -25,14 +25,14 @@ Every applicable item MUST pass.
 
 ## C. Assets
 
-- [ ] Required assets exist under `src/assets/shared/other/` using the normalized names from `README.md`.
-- [ ] Hero uses `s-class-driving-forest.webp`.
-- [ ] Wedding card uses `e-class-outside-wedding-day.webp`.
+- [ ] Required assets exist under `src/assets/shared/other/` using the existing production names from `README.md`.
+- [ ] Hero uses `s-class-driving-forest-intheback.webp`.
+- [ ] Wedding card uses `e-class-outside-weeding-day.webp`.
 - [ ] Prom card uses temporary `v-class-interior.webp` until a dedicated Prom asset is supplied.
 - [ ] VIP card uses `s-class-interior-driver-side.webp`.
-- [ ] Event Coordination uses `v-class-outside-wedding-day.webp`.
-- [ ] `s-class-wedding-flower-detail.webp` does not render on the hub.
-- [ ] `wedding-couple-vehicle.webp` does not render on the hub.
+- [ ] Event Coordination uses `v-class-outisde-weeding-day.webp`.
+- [ ] `s-class-with-flowers-special-occasion.webp` does not render on the hub.
+- [ ] `weeding-day-kissing.webp` does not render on the hub.
 - [ ] No high-prominence hub image is reused in another hub region.
 - [ ] All locked hub photographs are decorative with correct empty-alt treatment.
 
@@ -121,7 +121,7 @@ Every applicable item MUST pass.
 - [ ] Exactly five event phases render in authored order.
 - [ ] Flow remains semantic text.
 - [ ] Mobile narrative/flow precedes media.
-- [ ] `v-class-outside-wedding-day.webp` renders through Astro's asset pipeline.
+- [ ] `v-class-outisde-weeding-day.webp` renders through Astro's asset pipeline.
 - [ ] Media uses an intentional `object-cover` crop and semantic radius.
 - [ ] Media has no text overlay or surrounding card.
 - [ ] Arranged waiting is not presented as automatic/unlimited waiting.
@@ -190,7 +190,7 @@ Every applicable item MUST pass.
 - [ ] No page-local booking form is created.
 - [ ] No temporary booking route is created.
 - [ ] No duplicated form state or client island is introduced.
-- [ ] Existing canonical unresolved-flow behavior remains intact until the real booking workflow exists.
+- [ ] Existing canonical Contact-route intent behavior remains intact until a future booking workflow changes the canonical flow map.
 
 ## P. Theme
 
@@ -252,17 +252,17 @@ Every applicable item MUST pass.
 ## U. Verification
 
 - [ ] `pnpm content:sync-digests`
-- [ ] `pnpm content:validate`
-- [ ] `pnpm routes:validate`
-- [ ] `pnpm theme:sync:check`
-- [ ] `pnpm theme:validate`
+- [ ] `pnpm types:generate`
+- [ ] `pnpm content:validate site/luksuzni-prevoz`
+- [ ] `pnpm routes:validate site/luksuzni-prevoz`
+- [ ] `pnpm seo:validate site/luksuzni-prevoz`
+- [ ] `pnpm theme:validate site/luksuzni-prevoz`
 - [ ] `pnpm lint`
-- [ ] `pnpm check`
-- [ ] `pnpm quality:fast`
-- [ ] `pnpm build`
-- [ ] relevant `pnpm verify:ui`
+- [ ] `pnpm --filter @luksuzni-prevoz/site check`
+- [ ] `pnpm --filter @luksuzni-prevoz/site build`
+- [ ] `pnpm verify:ui --target site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro --surface special-events --change page`
 - [ ] `pnpm test:a11y`
-- [ ] relevant E2E tests
+- [ ] `pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/hub-pages.spec.ts`
 - [ ] `pnpm format:check`
 
 ## V. Prom temporary asset handoff

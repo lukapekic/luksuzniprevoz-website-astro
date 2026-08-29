@@ -1,6 +1,6 @@
 # Corporate Transportation — Image Slot Contract
 
-The implementation uses exactly two locked contextual assets from the existing
+The implementation uses exactly three locked contextual assets from the existing
 shared image pool. Source files are imported in place and are never duplicated
 into a Corporate-specific directory.
 
@@ -49,6 +49,25 @@ work / call / preparation / quiet travel
 credible premium corporate context
 ```
 
+## Final CTA
+
+Locked source:
+
+```text
+src/assets/shared/other/s-class-interior-driver-side.webp
+```
+
+Use through shared `FinalCTA` with:
+
+```text
+imageAlt=""
+imageFit="cover"
+mediaTreatment="integrated"
+```
+
+The caller imports and supplies the decorative image. The shared component
+must not select or import a fixed vehicle asset.
+
 ## Integration rule
 
 Use the existing `ServiceHero` treatment for the Hero and the existing
@@ -60,7 +79,6 @@ The following shared images remain reserved for later Business-family work and
 are not additional Corporate sections:
 
 ```text
-src/assets/shared/other/s-class-interior-driver-side.webp
 src/assets/shared/other/v-class-interior.webp
 src/assets/shared/other/v-class-on-the-move-veertical.webp
 ```

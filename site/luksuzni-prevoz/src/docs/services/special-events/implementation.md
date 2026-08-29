@@ -30,35 +30,22 @@ Run `git status` before edits and preserve unrelated work.
 
 The current Special Events implementation is not a visual reference. It can be inspected for data wiring, route resolution, existing shared-component APIs, and proven technical behavior only.
 
-## 2. Install and normalize assets first
+## 2. Verify existing assets first
 
-The supplied binary assets are external to this text package. Install them under:
+The supplied binary assets already live under:
 
 `src/assets/shared/other/`
 
-with these exact normalized target names:
+Use their existing production names. Do not rename or duplicate shared assets:
 
 ```text
-s-class-driving-forest.webp
-  ← s-class-driving-forest-intheback.webp
-
-e-class-outside-wedding-day.webp
-  ← e-class-outside-weeding-day.webp
-
+s-class-driving-forest-intheback.webp
+e-class-outside-weeding-day.webp
 v-class-interior.webp
-  ← v-class-interior.webp
-
 s-class-interior-driver-side.webp
-  ← s-class-interior-driver-side.webp
-
-v-class-outside-wedding-day.webp
-  ← v-class-outisde-weeding-day.webp
-
-s-class-wedding-flower-detail.webp
-  ← s-class-with-flowers-special-occasion.webp
-
-wedding-couple-vehicle.webp
-  ← weeding-day-kissing.webp
+v-class-outisde-weeding-day.webp
+s-class-with-flowers-special-occasion.webp
+weeding-day-kissing.webp
 ```
 
 The last two assets are reserved for the Wedding child page and MUST NOT be imported by the Special Events hub.
@@ -101,6 +88,7 @@ Run immediately after installation:
 
 ```bash
 pnpm content:sync-digests
+pnpm types:generate
 pnpm content:validate
 ```
 
@@ -137,11 +125,9 @@ Use page-local components only for real semantic regions:
 ```text
 SpecialEventsPage.astro
 ├─ SpecialEventServiceGrid.astro
-│  └─ SpecialEventServiceCard.astro
 ├─ SpecialEventOtherOccasions.astro
 ├─ SpecialEventServiceScope.astro
 ├─ SpecialEventCoordinationStory.astro
-│  └─ SpecialEventFlow.astro
 ├─ SpecialEventStandards.astro
 └─ SpecialEventProcessSteps.astro
 ```
@@ -180,7 +166,7 @@ BaseLayout overHero={true}
 
 Image:
 
-`src/assets/shared/other/s-class-driving-forest.webp`
+`src/assets/shared/other/s-class-driving-forest-intheback.webp`
 
 Render:
 
@@ -254,7 +240,7 @@ multipleVehicles
 
 Media:
 
-`e-class-outside-wedding-day.webp`
+`e-class-outside-weeding-day.webp`
 
 ### Prom
 
@@ -317,7 +303,7 @@ Replace the current generic `HubServiceSelector` usage for this page with `Speci
 
 `event-services`
 
-`SpecialEventServiceCard` owns card composition, not data truth.
+`SpecialEventServiceGrid` owns the card composition inline; data truth remains in the page adapter and canonical data modules.
 
 Every card has exactly one localized route-map-driven link. Avoid nested links/buttons.
 
@@ -375,9 +361,9 @@ Require exactly five items.
 
 Use:
 
-`src/assets/shared/other/v-class-outside-wedding-day.webp`
+`src/assets/shared/other/v-class-outisde-weeding-day.webp`
 
-Render a semantic ordered event flow through page-local `SpecialEventFlow`.
+Render the semantic ordered event flow inline in `SpecialEventCoordinationStory`.
 
 At mobile:
 
@@ -552,7 +538,7 @@ Continue using the existing `booking` and `quote` flow targets.
 
 Do not create a temporary page-local form, route, wizard, or client state.
 
-The current resolver may hand unresolved flows to localized Contact. Preserve that canonical behavior.
+The current resolver maps both flows to the localized Contact route with their canonical intent parameters. Preserve that behavior.
 
 ## 19. Indexability
 
@@ -650,17 +636,17 @@ Run:
 
 ```bash
 pnpm content:sync-digests
-pnpm content:validate
-pnpm routes:validate
-pnpm theme:sync:check
-pnpm theme:validate
+pnpm types:generate
+pnpm content:validate site/luksuzni-prevoz
+pnpm routes:validate site/luksuzni-prevoz
+pnpm seo:validate site/luksuzni-prevoz
+pnpm theme:validate site/luksuzni-prevoz
 pnpm lint
-pnpm check
-pnpm quality:fast
-pnpm build
-pnpm verify:ui
+pnpm --filter @luksuzni-prevoz/site check
+pnpm --filter @luksuzni-prevoz/site build
+pnpm verify:ui --target site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro --surface special-events --change page
 pnpm test:a11y
-pnpm test:e2e
+pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/hub-pages.spec.ts
 pnpm format:check
 ```
 

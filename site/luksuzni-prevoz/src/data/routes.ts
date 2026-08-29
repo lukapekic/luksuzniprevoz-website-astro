@@ -124,8 +124,6 @@ export const routeMap: Record<string, RouteEntry> = {
     kind: "hub",
     availability: "published",
     parent: null,
-    noindex: true,
-    sitemap: { include: false, priority: 0 },
     slugs: {
       sr: "prevoz-za-specijalne-dogadjaje",
       en: "special-events",

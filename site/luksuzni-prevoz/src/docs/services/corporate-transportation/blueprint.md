@@ -281,8 +281,17 @@ One light functional parent surface.
 Desktop:
 
 ```text
-one-off 5 | recurring 7
+section introduction 5 | engagement pathways 7
+
+inside pathways 7:
+01 one-off
+02 recurring
 ```
+
+The section introduction owns the label, heading, intro and body. The right
+region is one connected vertical sequence with the one-off pathway first and
+the recurring pathway second. The `5 / 7` split activates at `lg`. Every grid
+track and child uses a zero intrinsic minimum.
 
 ## One-off side
 
@@ -311,6 +320,10 @@ business.capability.recurringContracts
 business.capability.invoicing
 business.capability.negotiatedPricing
 ```
+
+The facts form one simple, connected, divider-led vertical list inside pathway
+02. They never become cards, columns, or a separate right-side matrix. The
+recurring CTA follows the facts in DOM order.
 
 CTA:
 
@@ -379,6 +392,11 @@ Hotel
 → Dinner
 ```
 
+The itinerary is a semantic list with readable body/UI contrast, a subtle
+outer divider and accent directional separators. It is vertical below `lg`
+and uses `repeat(6, minmax(0, 1fr))` from `lg` onward. It never flex-wraps or
+scrolls horizontally.
+
 Labels come from UI JSON.
 
 No times. No map. No JavaScript. No dashboard styling. No CTA.
@@ -422,6 +440,12 @@ feeding:
 ```text
 One confirmed transport plan
 ```
+
+From `lg`, the three source nodes form one equal-width top row with restrained
+internal dividers and a visible shared connection into the full-width
+destination below. Below `lg`, the nodes remain one vertical connected sequence
+followed by the destination. The component owns the complete grid and connector
+CSS; the model must not collapse into unconnected text columns.
 
 Node copy comes from `corporateTransportation.coordination.*`.
 
@@ -569,6 +593,19 @@ Secondary → quote.
 
 Both buttons MUST render through canonical `resolveCtaHref()` behavior.
 
+The shared component receives its required Corporate media from the caller:
+
+```text
+image          → src/assets/shared/other/s-class-interior-driver-side.webp
+imageAlt       → ""
+imageFit       → cover
+mediaTreatment → integrated
+```
+
+The image is decorative. It follows the content below `lg` and occupies the
+shared 38% media region from `lg` onward. The shared `FinalCTA` remains
+presentation-only and MUST NOT import a fixed page image.
+
 Do not create a fake booking route.
 
 ---
@@ -626,7 +663,7 @@ noindex: true
 
 during implementation.
 
-Publish only after acceptance passes and both locked shared images resolve.
+Publish only after acceptance passes and all three locked shared images resolve.
 
 ---
 
@@ -663,7 +700,7 @@ The active theme owns thresholds. The locked topology changes are:
 
 ```text
 md  → tablet editorial grids become available
-lg  → 12-column service splits and horizontal itinerary activate
+lg  → 12-column service splits, Engagement 5 / 7 and horizontal itinerary activate
 xl  → ServiceHero supportText uses its existing 7 / 5 wide composition
 2xl → audience rail expands from three to five segments
 ```
@@ -679,7 +716,7 @@ image visually first only from `lg` onward.
 Hero                         full bleed; copy/actions/support stack; actions full width
 Overview                     one vertical fact sequence
 Audience rail                one vertical divider sequence
-Engagement                   one-off then recurring
+Engagement                   intro; 01 one-off; 02 recurring with vertical facts
 Working Day                  copy then 4:3 image; itinerary vertical
 Coordination                 heading, three nodes, destination, quiet CTA
 Vehicles                     shared narrow carousel behavior
@@ -694,7 +731,7 @@ FinalCTA                     copy, both stacked actions, then shared media behav
 Hero                         full bleed; actions may share a row; support remains stacked
 Overview                     one vertical fact sequence
 Audience rail                two columns; fifth item spans the final row
-Engagement                   stacked pathways inside one light parent surface
+Engagement                   intro then stacked 01 / 02 pathways; facts remain vertical
 Working Day                  copy then image; itinerary remains vertical
 Coordination                 stacked model with visible node-to-destination relationship
 Vehicles                     shared tablet carousel behavior
@@ -708,7 +745,7 @@ FAQ / FinalCTA               shared tablet behavior; both CTA actions remain vis
 Hero                         full bleed; support remains stacked
 Overview                     5 / 7
 Audience rail                two columns; fifth item spans the final row
-Engagement                   5 / 7
+Engagement                   intro 5 / stacked pathways 7; recurring facts remain vertical
 Working Day                  visual image 7 / copy 5; one horizontal itinerary
 Coordination                 5 / 7
 Vehicles                     shared three-item-capable carousel behavior
@@ -722,13 +759,13 @@ FAQ / FinalCTA               shared behavior; both CTA actions remain visible
 Hero                         full bleed; support uses existing 7 / 5 composition
 Overview                     5 / 7
 Audience rail                three columns; final row remains left aligned
-Engagement                   5 / 7
+Engagement                   intro 5 / stacked pathways 7; recurring facts remain vertical
 Working Day                  visual image 7 / copy 5; one horizontal itinerary
 Coordination                 5 / 7
 Vehicles                     shared three-item behavior
 Standards                    4 / 8 with 2×2 matrix
 FAQ                          reading width
-FinalCTA                     shared desktop behavior; both actions visible
+FinalCTA                     62/38 content/media; both actions visible
 ```
 
 ## Wide desktop — 1920 reference, `2xl` and above

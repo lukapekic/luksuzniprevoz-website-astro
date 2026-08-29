@@ -1,0 +1,50 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+
+interface Props {
+  heading: string;
+  intro?: string;
+  body?: string;
+  label: string;
+  occasions: readonly [string, string, string, string];
+  action: { label: string; href: string };
+  locale: LocaleCode;
+}
+
+const { heading, intro, body, label, occasions, action, locale } = Astro.props;
+---
+
+<Section spacing="compact" surface="elevated" aria-labelledby="other-occasions-heading">
+  <PageContainer>
+    <div class="occasions-layout">
+      <div class="occasions-copy">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading id="other-occasions-heading" {heading} description={intro} />
+        {body && <p class="body-copy">{body}</p>}
+        <Link variant="default" href={action.href} {locale}>{action.label}<span aria-hidden="true">→</span></Link>
+      </div>
+      <ul class="occasion-list" role="list">
+        {occasions.map((occasion, index) => (
+          <li><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{occasion}</li>
+        ))}
+      </ul>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .occasions-layout { display:grid;gap:var(--space-8);align-items:start }
+  .occasions-copy,.occasion-list { min-inline-size:0 }
+  .section-label { display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);font-weight:var(--font-weight-medium);color:var(--color-text-muted) }
+  .section-label > span { inline-size:var(--space-8);block-size:1px;background:var(--color-accent) }
+  .body-copy { max-inline-size:var(--measure-body);margin-block-start:var(--space-5);font-family:var(--font-body);line-height:var(--line-height-body);color:var(--color-text-muted) }
+  .occasions-copy > :global(a) { margin-block-start:var(--space-6);min-block-size:2.75rem }
+  .occasion-list { margin:0;padding:0;border-block-start:1px solid var(--color-divider);list-style:none }
+  .occasion-list li { display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-4);padding-block:var(--space-5);border-block-end:1px solid var(--color-divider);font-family:var(--font-heading);font-size:var(--text-xl);font-weight:var(--font-weight-semibold);line-height:var(--line-height-heading) }
+  .occasion-list span { font-family:var(--font-body);font-size:var(--text-caption);color:var(--color-accent) }
+  @media (min-width:64rem) { .occasions-layout { grid-template-columns:7fr 5fr;gap:var(--column-gap-desktop) } }
+</style>

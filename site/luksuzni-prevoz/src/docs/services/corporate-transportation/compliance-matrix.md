@@ -11,7 +11,7 @@
 | Exact S/E/V vehicle order | Blueprint §10 | localized content, `fleet.ts`, `fleet-media.ts` | `VehicleRecommendations` | shared carousel contract |
 | Four standards groups with three facts | Blueprint §11 | `operations.ts`, service-standard builder, Corporate UI dictionaries | `ServiceStandards` | one sequence below `lg`; 4/8 and 2×2 from `lg` |
 | Nine resolved FAQ rows and matching schema | Blueprint §12 | localized content, canonical data assertions, Corporate UI dictionaries | `FAQ`, `buildFaqPage` | reading width and wrapping at every state |
-| Two final flow actions | Blueprint §13 | localized content, canonical flow resolver | `FinalCTA` | both visible; stacked on narrow mobile |
+| Two final flow actions and caller-owned contextual image | Blueprint §13 | localized content, canonical flow resolver, locked shared WebP | `FinalCTA` | actions visible; media follows content below `lg`; 62/38 from `lg` |
 | Localized route/SEO lifecycle | Blueprint §§15, 19 | route map, localized content, SEO helper | existing renderer and `BaseLayout` | SR/EN/RU route and head checks |
 
 Unresolved release gate: localized entries intentionally remain `in-review` and

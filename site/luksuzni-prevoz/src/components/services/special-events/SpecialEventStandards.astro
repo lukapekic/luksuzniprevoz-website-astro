@@ -1,0 +1,43 @@
+---
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface Standard { title: string; text: string }
+interface Props { heading: string; intro?: string; body?: string; label: string; items: readonly [Standard, Standard, Standard, Standard, Standard] }
+const { heading, intro, body, label, items } = Astro.props;
+---
+
+<Section spacing="standard" surface="open-dark" aria-labelledby="special-event-standards-heading">
+  <PageContainer>
+    <div class="standards-layout">
+      <div class="standards-copy">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading id="special-event-standards-heading" {heading} description={intro} />
+        {body && <p class="body-copy">{body}</p>}
+      </div>
+      <ol class="standards-list">
+        {items.map((item, index) => (
+          <li>
+            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <div><h3>{item.title}</h3><p>{item.text}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .standards-layout { display:grid;gap:var(--space-10);align-items:start }
+  .standards-copy,.standards-list { min-inline-size:0 }
+  .section-label { display:flex;align-items:center;gap:var(--space-3);margin-block-end:var(--space-5);font-family:var(--font-body);font-size:var(--text-ui);font-weight:var(--font-weight-medium);color:var(--color-text-muted) }
+  .section-label > span { inline-size:var(--space-8);block-size:1px;background:var(--color-accent) }
+  .body-copy { max-inline-size:var(--measure-body);margin-block-start:var(--space-5);font-family:var(--font-body);line-height:var(--line-height-body);color:var(--color-text-muted) }
+  .standards-list { margin:0;padding:0;border-block-start:1px solid var(--color-divider);list-style:none }
+  .standards-list li { display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-5);padding-block:var(--space-5);border-block-end:1px solid var(--color-divider) }
+  .standards-list li > span { min-inline-size:var(--space-8);font-family:var(--font-body);font-size:var(--text-caption);font-weight:var(--font-weight-semibold);color:var(--color-accent) }
+  h3 { font-family:var(--font-heading);font-size:var(--text-xl);font-weight:var(--font-weight-semibold);line-height:var(--line-height-heading) }
+  li p { margin-block-start:var(--space-2);font-family:var(--font-body);font-size:var(--text-sm);line-height:var(--line-height-body);color:var(--color-text-muted) }
+  @media (min-width:64rem) { .standards-layout { grid-template-columns:5fr 7fr;gap:var(--column-gap-desktop) } }
+</style>
