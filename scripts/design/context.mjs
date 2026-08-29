@@ -79,6 +79,10 @@ try {
       return /(clients|business|fleet|services|operations|contact)\.(ts|json)$/.test(file);
     if (surface === "corporate-transportation")
       return /(fleet|services|operations|contact|flows)\.(ts|json)$/.test(file);
+    if (surface === "delegation-transportation")
+      return /(clients|client-media|fleet|services|operations|contact|flows)\.(ts|json)$/.test(
+        file,
+      );
     return true;
   });
 

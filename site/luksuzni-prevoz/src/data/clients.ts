@@ -22,13 +22,24 @@ import { routeMap } from "./routes.ts";
 
 // --- Enum vocabularies (typed unions) --------------------------------------
 
-export type ClientCategory = "hotel" | "aviation" | "diplomatic";
+export type ClientCategory =
+  | "hotel"
+  | "aviation"
+  | "diplomatic"
+  | "international-organisation"
+  | "sports-federation";
 
 /** Relationship context for a client (code, not prose). Extend as more arise. */
 export type ClientContext = "private-flight-related-transport";
 
 export type ClientLogoId =
-  "hyatt-regency" | "president-palace-hotel" | "qatar-airways" | "square-nine-hotels";
+  | "hyatt-regency"
+  | "president-palace-hotel"
+  | "qatar-airways"
+  | "square-nine-hotels"
+  | "chinese-embassy"
+  | "osce"
+  | "serbian-swimming-association";
 
 export type LogoStatus =
   | "approved-for-public-display"
@@ -47,6 +58,8 @@ export interface Client {
   /** Stable identifier into client-media.ts; null until an asset is provided. */
   logoAsset: ClientLogoId | null;
   logoStatus: LogoStatus;
+  /** Routes on which this client may be shown after the route-level policy passes. */
+  placements: RouteKey[];
 }
 
 export interface ClientDisplayPolicy {
@@ -62,6 +75,7 @@ export const clientDisplayPolicy: ClientDisplayPolicy = {
   placements: {
     home: false,
     businessTransportation: true,
+    delegationTransportation: true,
     about: true,
   },
   logoPermissionShouldBeVerified: true,
@@ -74,6 +88,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "president-palace-hotel",
     logoStatus: "approved-for-public-display",
+    placements: ["businessTransportation", "about"],
   },
   {
     id: "hyatt-regency-belgrade",
@@ -81,6 +96,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "hyatt-regency",
     logoStatus: "approved-for-public-display",
+    placements: ["businessTransportation", "about"],
   },
   {
     id: "qatar-airways",
@@ -89,13 +105,31 @@ export const clients: Client[] = [
     context: "private-flight-related-transport",
     logoAsset: "qatar-airways",
     logoStatus: "approved-for-public-display",
+    placements: ["businessTransportation", "about"],
   },
   {
     id: "chinese-embassy",
     displayName: "Embassy of the People's Republic of China",
     category: "diplomatic",
-    logoAsset: null,
-    logoStatus: "asset-and-public-usage-check-required",
+    logoAsset: "chinese-embassy",
+    logoStatus: "approved-for-public-display",
+    placements: ["delegationTransportation"],
+  },
+  {
+    id: "osce-mission-to-serbia",
+    displayName: "OSCE Mission to Serbia",
+    category: "international-organisation",
+    logoAsset: "osce",
+    logoStatus: "approved-for-public-display",
+    placements: ["delegationTransportation"],
+  },
+  {
+    id: "serbian-swimming-federation",
+    displayName: "Serbian Swimming Federation",
+    category: "sports-federation",
+    logoAsset: "serbian-swimming-association",
+    logoStatus: "approved-for-public-display",
+    placements: ["delegationTransportation"],
   },
   {
     id: "square-nine-belgrade",
@@ -103,6 +137,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "square-nine-hotels",
     logoStatus: "approved-for-public-display",
+    placements: ["businessTransportation", "about"],
   },
 ];
 
@@ -117,7 +152,10 @@ export function shouldDisplayClientsOn(routeKey: RouteKey): boolean {
 export function getApprovedClientsFor(routeKey: RouteKey): Client[] {
   if (!shouldDisplayClientsOn(routeKey)) return [];
   return clients.filter(
-    (client) => client.logoAsset !== null && client.logoStatus === "approved-for-public-display",
+    (client) =>
+      client.placements.includes(routeKey) &&
+      client.logoAsset !== null &&
+      client.logoStatus === "approved-for-public-display",
   );
 }
 
@@ -133,7 +171,8 @@ export const clientDisplayRoutes: RouteKey[] = (
  *   1. displayPolicy placement keys are known routes (compile already
  *      guarantees they're valid RouteKeys; this closes the gap if
  *      types:generate isn't re-run after a route rename);
- *   2. client ids are unique (a duplicate would collide as a list key and when
+ *   2. per-client placements are known, route-level-enabled routes;
+ *   3. client ids are unique (a duplicate would collide as a list key and when
  *      matching logo assets later).
  * Throws on drift so it fails loud in dev/build, not in production HTML.
  */
@@ -149,7 +188,23 @@ export function assertClientsConsistency(): void {
     }
   }
 
-  // (2) unique client ids
+  // (2) client placements are known and route-level enabled
+  for (const client of clients) {
+    for (const routeKey of client.placements) {
+      if (!knownRoutes.has(routeKey)) {
+        throw new Error(
+          `clients.ts client "${client.id}" references unknown routeKey "${routeKey}" — not in src/data/routes.ts routeMap.`,
+        );
+      }
+      if (!clientDisplayPolicy.placements[routeKey]) {
+        throw new Error(
+          `clients.ts client "${client.id}" is placed on "${routeKey}", but that route is disabled by clientDisplayPolicy.`,
+        );
+      }
+    }
+  }
+
+  // (3) unique client ids
   const seen = new Set<string>();
   for (const c of clients) {
     if (seen.has(c.id)) {
