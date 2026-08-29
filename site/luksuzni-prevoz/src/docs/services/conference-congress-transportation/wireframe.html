@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wireframe — Prevoz za konferencije i kongrese</title>
+  <style>
+    :root {
+      --bg: #0c0d0e;
+      --surface: #151719;
+      --surface-2: #1d2023;
+      --light: #ececea;
+      --ink: #111214;
+      --text: #f3f3f0;
+      --muted: #a7aaae;
+      --rule: #34383c;
+      --accent: #b8bcc2;
+      --max: 1280px;
+      --read: 760px;
+      --r: 14px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 Arial, sans-serif; }
+    h1,h2,h3,p { margin-top: 0; }
+    h1 { max-width: 14ch; font-size: clamp(2.7rem, 6vw, 5.7rem); line-height: .95; font-weight: 500; }
+    h2 { max-width: 18ch; font-size: clamp(2rem, 4vw, 4rem); line-height: 1; font-weight: 500; }
+    h3 { font-size: 1.15rem; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    .read { width: min(100%, var(--read)); }
+    .eyebrow,.label,.num { color: var(--accent); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+    .muted { color: var(--muted); }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .btn { min-height: 48px; display: inline-flex; align-items: center; padding: 0 18px; border: 1px solid var(--accent); text-decoration: none; color: inherit; }
+    .btn.primary { background: var(--light); color: var(--ink); }
+    section { padding: 88px 0; }
+    .section-head { margin-bottom: 40px; }
+    .section-head .label { margin-bottom: 16px; }
+    .grid { display: grid; gap: 28px; }
+    .two { grid-template-columns: minmax(0,1fr); }
+    .hero { min-height: 84svh; position: relative; display: grid; align-items: end; isolation: isolate; overflow: hidden; }
+    .hero img { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(.58) saturate(.75); }
+    .hero::after { content:""; position:absolute; inset:0; z-index:-2; background: linear-gradient(90deg, rgba(10,11,12,.97), rgba(10,11,12,.7) 45%, rgba(10,11,12,.15) 78%), linear-gradient(0deg, rgba(10,11,12,.8), transparent 45%); }
+    .hero-inner { padding: 132px 0 72px; }
+    .hero p { max-width: 58ch; }
+    .trust { display: flex; gap: 12px 26px; flex-wrap: wrap; margin: 28px 0 0; padding: 18px 0 0; border-top: 1px solid rgba(255,255,255,.25); list-style: none; color: #d2d4d6; }
+    .overview { grid-template-columns: 1fr; }
+    .facts { border-top: 1px solid var(--rule); }
+    .fact { display:grid; grid-template-columns: 42px 1fr; gap:18px; padding: 24px 0; border-bottom:1px solid var(--rule); }
+    .fact p { margin: 7px 0 0; color: var(--muted); }
+    .audience { display:grid; grid-template-columns:1fr; border-top:1px solid var(--rule); }
+    .audience article { padding:24px 18px; border-bottom:1px solid var(--rule); }
+    .audience p { color:var(--muted); }
+    .journey { background: var(--surface); }
+    .journey-layout { display:grid; gap:32px; }
+    .stages { list-style:none; padding:0; margin:0; border-top:1px solid var(--rule); }
+    .stages li { position:relative; display:grid; grid-template-columns:46px 1fr; gap:18px; padding:20px 0; border-bottom:1px solid var(--rule); }
+    .stages li p { margin:4px 0 0; color:var(--muted); }
+    .journey-media,.role-media,.cta-media { overflow:hidden; border-radius:var(--r); background:#24272a; }
+    .journey-media img,.role-media img,.cta-media img { width:100%; height:100%; object-fit:cover; display:block; }
+    .journey-media { min-height:360px; }
+    .passengers { background:var(--light); color:var(--ink); }
+    .passengers .muted { color:#55595d; }
+    .schedule-pill { margin: 0 0 24px; padding: 11px 0; border-block:1px solid #c9c9c5; text-align:center; font-size:.75rem; letter-spacing:.14em; }
+    .roles { display:grid; grid-template-columns:1fr; border-top:1px solid #c9c9c5; }
+    .role { padding:30px 0; border-bottom:1px solid #c9c9c5; }
+    .role p { max-width:52ch; color:#55595d; }
+    .role-media { height:260px; margin-top:22px; }
+    .vehicle-role { font-size:.8rem; letter-spacing:.08em; font-weight:700; }
+    .multi { background:var(--surface-2); }
+    .multi-layout { display:grid; gap:38px; }
+    .nodes { border-top:1px solid var(--rule); display:grid; grid-template-columns:1fr; }
+    .node { padding:24px; border-bottom:1px solid var(--rule); }
+    .node p { color:var(--muted); }
+    .outcome { margin-top:24px; min-height:110px; display:grid; place-items:center; padding:24px; border:1px solid var(--rule); border-radius:var(--r); text-align:center; }
+    .vehicles { display:grid; grid-template-columns:1fr; gap:16px; }
+    .vehicle { min-height:230px; padding:22px; background:var(--surface); border-radius:var(--r); display:flex; flex-direction:column; justify-content:flex-end; }
+    .vehicle p { color:var(--muted); margin-bottom:0; }
+    .standards { background:var(--surface); }
+    .standard-grid { display:grid; grid-template-columns:1fr; border-top:1px solid var(--rule); }
+    .standard { padding:26px 18px; border-bottom:1px solid var(--rule); }
+    .standard ul { color:var(--muted); padding-left:18px; }
+    .faq { background:var(--light); color:var(--ink); }
+    details { border-top:1px solid #c4c4c0; padding:18px 0; }
+    details:last-child { border-bottom:1px solid #c4c4c0; }
+    summary { cursor:pointer; font-weight:700; }
+    .final { padding-bottom:100px; }
+    .final-box { overflow:hidden; border-radius:var(--r); background:var(--surface-2); display:grid; }
+    .final-copy { padding:40px; }
+    .cta-media { min-height:260px; border-radius:0; }
+    .note { position:fixed; right:12px; bottom:12px; z-index:10; padding:8px 10px; background:#fff; color:#000; font-size:11px; border:1px solid #999; }
+    @media (min-width: 768px) {
+      .audience { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .audience article { border-right:1px solid var(--rule); }
+      .audience article:last-child { grid-column:1 / -1; }
+      .vehicles { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .standard-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .roles { grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px; }
+      .role:first-child { border-right:1px solid #c9c9c5; padding-right:30px; }
+      .role:last-child { padding-left:0; }
+    }
+    @media (min-width: 1024px) {
+      .overview { grid-template-columns:5fr 7fr; gap:64px; }
+      .journey-layout { grid-template-columns:7fr 5fr; gap:48px; align-items:stretch; }
+      .multi-layout { grid-template-columns:5fr 7fr; gap:64px; }
+      .nodes { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .node { border-right:1px solid var(--rule); }
+      .vehicles { grid-template-columns:repeat(4,minmax(0,1fr)); }
+      .final-box { grid-template-columns:62fr 38fr; }
+      .cta-media { min-height:360px; }
+    }
+    @media (min-width: 1280px) {
+      .audience { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .audience article:last-child { grid-column:auto; }
+    }
+    @media (min-width: 1536px) {
+      .audience { grid-template-columns:repeat(5,minmax(0,1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="note">STRUCTURAL WIREFRAME — NOT PRODUCTION CSS</div>
+
+  <header class="hero">
+    <img src="../../../assets/shared/other/s-class-hotel-entrance-night.webp" alt="" />
+    <div class="wrap hero-inner">
+      <p class="eyebrow">POSLOVNI PREVOZ · KONFERENCIJE I KONGRESI</p>
+      <h1>Prevoz za konferencije i kongrese</h1>
+      <p>Prevoz organizovan prema rasporedu događaja — za organizatore, govornike, rukovodioce, goste i grupe, od dolaska na aerodrom preko hotela do lokacija programa.</p>
+      <div class="btns">
+        <a class="btn primary" href="#">Planirajte prevoz za događaj</a>
+        <a class="btn" href="#">Zatražite ponudu</a>
+      </div>
+      <ul class="trust"><li>Dolasci sa aerodroma</li><li>Raspored za više vozila</li><li>Grupni prevoz</li></ul>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="wrap grid overview">
+        <div class="section-head">
+          <p class="label">Pregled usluge</p>
+          <h2>Jedan transportni plan oko rasporeda događaja</h2>
+          <p class="muted">Konferencija ne počinje na vratima sale niti se završava poslednjim predavanjem. Prevoz povezuje kretanja koja se dešavaju oko programa.</p>
+        </div>
+        <div class="facts">
+          <article class="fact"><span class="num">01</span><div><h3>Dolasci sa aerodroma</h3><p>Početak organizacije od potvrđenog dolaska gosta.</p></div></article>
+          <article class="fact"><span class="num">02</span><div><h3>Hotel i lokacije događaja</h3><p>Ključne tačke programa povezane u jednu transportnu celinu.</p></div></article>
+          <article class="fact"><span class="num">03</span><div><h3>Individualni i grupni prevoz</h3><p>Odvojena kretanja i zajednički prevoz grupa u istoj organizaciji.</p></div></article>
+          <article class="fact"><span class="num">04</span><div><h3>Raspored za više vozila</h3><p>Više uloga vozila unutar istog potvrđenog rasporeda.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head read"><p class="label">Kome je namenjeno</p><h2>Za ljude koji događaj organizuju, predstavljaju i posećuju</h2><p class="muted">Različiti učesnici nemaju uvek isti raspored, istu tačku preuzimanja ni isti način kretanja.</p></div>
+        <div class="audience">
+          <article><span class="num">01</span><h3>Organizatori događaja</h3><p>Jedna struktura za dolaske, hotele, program i grupe.</p></article>
+          <article><span class="num">02</span><h3>Govornici</h3><p>Kretanja usklađena sa njihovim delom programa.</p></article>
+          <article><span class="num">03</span><h3>Direktori i rukovodstvo</h3><p>Individualna poslovna kretanja unutar događaja.</p></article>
+          <article><span class="num">04</span><h3>Poslovni i pozvani gosti</h3><p>Profesionalan prevoz između potvrđenih tačaka.</p></article>
+          <article><span class="num">05</span><h3>Grupe učesnika</h3><p>Učesnici koji treba da ostanu zajedno tokom transfera.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey">
+      <div class="wrap">
+        <div class="section-head read"><p class="label">Raspored kretanja</p><h2>Od dolaska do završnog transfera</h2><p class="muted">Primer organizacije, ne fiksna ruta. Konačan raspored nastaje iz podataka za konkretan događaj.</p></div>
+        <div class="journey-layout">
+          <div><p class="label">Primer organizacije kretanja</p><ol class="stages">
+            <li><span class="num">01</span><div><strong>Dolazak</strong><p>Potvrđeno preuzimanje.</p></div></li>
+            <li><span class="num">02</span><div><strong>Hotel</strong><p>Jedna od ključnih tačaka programa.</p></div></li>
+            <li><span class="num">03</span><div><strong>Lokacija konferencije</strong><p>Potvrđena lokacija događaja.</p></div></li>
+            <li><span class="num">04</span><div><strong>Dodatna lokacija programa</strong><p>Sledeća organizovana tačka.</p></div></li>
+            <li><span class="num">05</span><div><strong>Povratak u hotel</strong><p>Kada je deo potvrđenog rasporeda.</p></div></li>
+            <li><span class="num">06</span><div><strong>Završni transfer</strong><p>Poslednje potvrđeno kretanje.</p></div></li>
+          </ol></div>
+          <figure class="journey-media"><img src="../../../assets/shared/other/v-class-on-the-move.webp" alt="" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="passengers">
+      <div class="wrap">
+        <div class="section-head read"><p class="label">Putnici i grupe</p><h2>Različiti putnici. Različita kretanja.</h2><p class="muted">Individualni i grupni prevoz rešavaju različite potrebe unutar iste organizacije.</p></div>
+        <div class="schedule-pill">ISTI RASPORED DOGAĐAJA</div>
+        <div class="roles">
+          <article class="role"><span class="num">01</span><h3>Individualno i izvršno kretanje</h3><p>Za govornike, rukovodioce i pojedinačne goste sa odvojenim kretanjem.</p><p class="vehicle-role">S KLASA · E KLASA</p><div class="role-media"><img src="../../../assets/shared/other/s-class-interior-2.webp" alt="" /></div></article>
+          <article class="role"><span class="num">02</span><h3>Grupno kretanje</h3><p>Za organizatore, timove i grupe učesnika koji treba da putuju zajedno.</p><p class="vehicle-role">V KLASA · SPRINTER</p><div class="role-media"><img src="../../../assets/shared/other/v-class-interior.webp" alt="" /></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="multi">
+      <div class="wrap multi-layout">
+        <div class="section-head"><p class="label">Više vozila</p><h2>Više vozila. Jedan raspored događaja.</h2><p class="muted">Različite uloge vozila ostaju deo iste transportne organizacije.</p><div class="btns"><a class="btn" href="#">Pošalji raspored događaja</a></div></div>
+        <div><div class="nodes">
+          <article class="node"><span class="num">01</span><h3>Individualno kretanje</h3><p>S klasa · E klasa</p></article>
+          <article class="node"><span class="num">02</span><h3>Manja grupa</h3><p>V klasa</p></article>
+          <article class="node"><span class="num">03</span><h3>Veća grupa</h3><p>Sprinter</p></article>
+        </div><div class="outcome"><strong>JEDAN RASPORED PREVOZA ZA DOGAĐAJ</strong></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap"><div class="section-head read"><p class="label">Preporučena vozila</p><h2>Vozilo prema ulozi putnika u događaju</h2></div>
+        <div class="vehicles">
+          <article class="vehicle"><span class="num">01</span><h3>Mercedes S klasa</h3><p>Individualni izvršni putnik.</p></article>
+          <article class="vehicle"><span class="num">02</span><h3>Mercedes E klasa</h3><p>Individualna poslovna kretanja.</p></article>
+          <article class="vehicle"><span class="num">03</span><h3>Mercedes V klasa</h3><p>Manja grupa.</p></article>
+          <article class="vehicle"><span class="num">04</span><h3>Mercedes Sprinter</h3><p>Veća poslovna grupa.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="standards">
+      <div class="wrap grid overview"><div class="section-head"><p class="label">Standard usluge</p><h2>Standard koji prati potvrđen prevoz za događaj</h2><p class="muted">Shared ServiceStandards — 4 grupe × 3 kanonske činjenice.</p></div>
+        <div class="standard-grid">
+          <article class="standard"><span class="num">01</span><h3>Profesionalni vozači</h3><ul><li>kanonska činjenica</li><li>kanonska činjenica</li><li>kanonska činjenica</li></ul></article>
+          <article class="standard"><span class="num">02</span><h3>Pripremljena vozila</h3><ul><li>kanonska činjenica</li><li>kanonska činjenica</li><li>kanonska činjenica</li></ul></article>
+          <article class="standard"><span class="num">03</span><h3>Usluga putniku</h3><ul><li>kanonska činjenica</li><li>kanonska činjenica</li><li>kanonska činjenica</li></ul></article>
+          <article class="standard"><span class="num">04</span><h3>Potvrđena organizacija</h3><ul><li>kanonska činjenica</li><li>kanonska činjenica</li><li>kanonska činjenica</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq"><div class="wrap read"><div class="section-head"><p class="label">Česta pitanja</p><h2>Česta pitanja o prevozu za konferencije i kongrese</h2></div>
+      <details><summary>Kome je namenjen ovaj prevoz?</summary><p>Editorial answer.</p></details>
+      <details><summary>Da li organizujete dolazak sa aerodroma?</summary><p>Canonical token answer.</p></details>
+      <details><summary>Da li organizujete hotel ↔ lokacija događaja?</summary><p>Canonical token answer.</p></details>
+      <details><summary>Može li više vozila biti deo istog rasporeda?</summary><p>Canonical token answer.</p></details>
+      <details><summary>Mogu li rukovodioci i grupe koristiti različita vozila?</summary><p>Canonical token answer.</p></details>
+      <details><summary>Koje podatke treba poslati?</summary><p>Editorial answer.</p></details>
+      <details><summary>Kako se određuje cena?</summary><p>Quote-only token answer.</p></details>
+      <details><summary>Mogu li zatražiti konkretan model?</summary><p>Canonical token answer.</p></details>
+      <details><summary>Da li je zahtev odmah potvrđen?</summary><p>Manual-confirmation token answer.</p></details>
+    </div></section>
+
+    <section class="final"><div class="wrap final-box"><div class="final-copy"><p class="label">Završni upit</p><h2>Pošaljite raspored događaja. Mi organizujemo prevoz.</h2><p class="muted">Datum, ključne lokacije, broj putnika, struktura grupa i osnovni raspored događaja.</p><div class="btns"><a class="btn primary" href="#">Planirajte prevoz za događaj</a><a class="btn" href="#">Zatražite ponudu</a></div></div><div class="cta-media"><img src="../../../assets/shared/other/v-class-parked-outside.webp" alt="" /></div></div></section>
+  </main>
+</body>
+</html>
