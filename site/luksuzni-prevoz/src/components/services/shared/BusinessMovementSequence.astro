@@ -11,6 +11,7 @@ interface Stage {
 }
 
 interface Props {
+  headingId: string;
   heading: string;
   intro: string;
   body: string;
@@ -20,14 +21,14 @@ interface Props {
   image: ImageMetadata;
 }
 
-const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props;
+const { headingId, heading, intro, body, label, exampleLabel, stages, image } = Astro.props;
 ---
 
-<Section spacing="feature" surface="elevated" aria-labelledby="delegation-movement-heading">
+<Section spacing="feature" surface="elevated" aria-labelledby={headingId}>
   <PageContainer>
     <div class="movement-intro">
       <p class="section-label"><span aria-hidden="true"></span>{label}</p>
-      <SectionHeading id="delegation-movement-heading" heading={heading} description={intro} />
+      <SectionHeading id={headingId} heading={heading} description={intro} />
       <p class="body-copy">{body}</p>
     </div>
 
@@ -60,7 +61,6 @@ const { heading, intro, body, label, exampleLabel, stages, image } = Astro.props
         />
       </figure>
     </div>
-
   </PageContainer>
 </Section>
 

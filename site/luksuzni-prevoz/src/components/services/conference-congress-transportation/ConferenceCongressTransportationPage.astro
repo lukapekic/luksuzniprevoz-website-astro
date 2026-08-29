@@ -1,0 +1,577 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import ServiceOverview from "../shared/ServiceOverview.astro";
+import BusinessMovementSequence from "../shared/BusinessMovementSequence.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import ServiceStandards from "../shared/ServiceStandards.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import ConferencePassengerMovement from "./ConferencePassengerMovement.astro";
+import ConferenceMultiVehicleSchedule from "./ConferenceMultiVehicleSchedule.astro";
+import { getService } from "../../../data/services.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { operations } from "../../../data/operations.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { buildServiceStandardGroups } from "../../../lib/service-standards.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { interpolateTokens } from "../../../lib/interpolate.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/shared/other/s-class-hotel-entrance-night.webp";
+import journeyImage from "../../../assets/shared/other/v-class-on-the-move.webp";
+import executiveImage from "../../../assets/shared/other/s-class-interior-2.webp";
+import groupImage from "../../../assets/shared/other/v-class-interior.webp";
+import finalCtaImage from "../../../assets/shared/other/v-class-parked-outside.webp";
+
+interface Props {
+  routeKey: "conferenceCongressTransportation";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "conferenceCongressTransportation" ||
+  content.data.pageType !== "service" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("ConferenceCongressTransportationPage received incompatible data.");
+}
+
+const data = content.data;
+if (
+  !data.hero ||
+  !data.hero.secondaryCta ||
+  !data.vehicleRecommendations ||
+  !data.faq ||
+  !data.finalCta.secondaryCta
+) {
+  throw new Error(`Conference and Congress Transportation content is incomplete for ${locale}.`);
+}
+
+if (data.sections.length !== 4) {
+  throw new Error("Conference and Congress Transportation requires exactly four authored sections.");
+}
+
+const section = (key: string) => {
+  const matches = data.sections.filter((item) => item.key === key);
+  if (matches.length !== 1) {
+    throw new Error(
+      `Conference and Congress Transportation requires exactly one section "${key}" for ${locale}.`,
+    );
+  }
+  return matches[0]!;
+};
+
+const assertCompleteSection = (
+  value: (typeof data.sections)[number],
+  key: string,
+  itemCount: number,
+) => {
+  if (
+    !value.heading.title.trim() ||
+    !value.heading.intro?.trim() ||
+    !value.body?.trim() ||
+    !value.items ||
+    value.items.length !== itemCount ||
+    value.items.some((item) => !item.title.trim() || !item.text.trim())
+  ) {
+    throw new Error(
+      `Conference section "${key}" requires complete localized copy and exactly ${itemCount} items.`,
+    );
+  }
+};
+
+const audienceSection = section("audience");
+const eventJourneySection = section("eventJourney");
+const passengerMovementSection = section("passengerMovement");
+const multiVehicleSection = section("multiVehicle");
+
+assertCompleteSection(audienceSection, "audience", 5);
+assertCompleteSection(eventJourneySection, "eventJourney", 6);
+assertCompleteSection(passengerMovementSection, "passengerMovement", 2);
+assertCompleteSection(multiVehicleSection, "multiVehicle", 3);
+
+if (!multiVehicleSection.cta) {
+  throw new Error("Conference multi-vehicle section requires its localized booking CTA.");
+}
+if (
+  !data.faq.heading.trim() ||
+  data.faq.items.length !== 9 ||
+  data.faq.items.some((item) => !item.question.trim() || !item.answer.trim())
+) {
+  throw new Error("Conference and Congress Transportation requires nine complete FAQ items.");
+}
+
+const conference = getService(routeKey);
+const arrayEquals = (actual: readonly string[], expected: readonly string[]) =>
+  actual.length === expected.length && actual.every((value, index) => value === expected[index]);
+
+if (
+  conference.pricingMode.length !== 1 ||
+  conference.pricingMode[0] !== "quote" ||
+  conference.airportArrivals !== true ||
+  conference.hotelTransfers !== true ||
+  conference.venueShuttles !== true ||
+  conference.multiVehicleSchedules !== true ||
+  conference.individualExecutiveTransfers !== true ||
+  conference.groupTransport !== true ||
+  !arrayEquals(conference.vehicleRoles.individualExecutive, [
+    "mercedes-s-class",
+    "mercedes-e-class",
+  ]) ||
+  !arrayEquals(conference.vehicleRoles.smallerGroup, [
+    "mercedes-v-class-7-plus-1-extra-long",
+  ]) ||
+  !arrayEquals(conference.vehicleRoles.largerGroup, ["mercedes-sprinter"])
+) {
+  throw new Error("Conference canonical service facts do not satisfy the locked page contract.");
+}
+
+if (
+  operations.chauffeurs.dressCode !== "suit-and-tie" ||
+  operations.chauffeurs.englishSpeakingStandard !== true ||
+  operations.chauffeurs.minimumLicenseYears < 1 ||
+  operations.vehicles.cleanlinessStandard !== "highest-standard" ||
+  operations.vehicles.maintenance !== "authorized-or-official-service-representatives" ||
+  operations.vehicles.preTripInspectionForImportantTrips !== true ||
+  operations.vehicles.requestedConfirmedModelGuaranteed !== true ||
+  operations.service.doorOpening !== true ||
+  operations.service.luggageAssistance !== true ||
+  operations.service.passengerInsurance !== true ||
+  operations.service.bottledWater !== true ||
+  operations.service.wifi !== true ||
+  operations.service.chargers !== true ||
+  operations.service.climateControl !== true ||
+  contact.bookingLeadTime.confirmationMode !== "manual"
+) {
+  throw new Error("Conference operations/contact facts do not satisfy the locked page contract.");
+}
+
+if (
+  data.hero.primaryCta.target.type !== "flow" ||
+  data.hero.primaryCta.target.flowKey !== "booking" ||
+  data.hero.secondaryCta.target.type !== "flow" ||
+  data.hero.secondaryCta.target.flowKey !== "quote" ||
+  multiVehicleSection.cta.target.type !== "flow" ||
+  multiVehicleSection.cta.target.flowKey !== "booking" ||
+  data.finalCta.primaryCta.target.type !== "flow" ||
+  data.finalCta.primaryCta.target.flowKey !== "booking" ||
+  data.finalCta.secondaryCta.target.type !== "flow" ||
+  data.finalCta.secondaryCta.target.flowKey !== "quote"
+) {
+  throw new Error("Conference CTA flow roles do not match the locked contract.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = resolveAction(data.hero.secondaryCta);
+const multiVehicleAction = resolveAction(multiVehicleSection.cta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const overviewGroups = [
+  {
+    key: "airport-arrivals",
+    marker: "01",
+    title: ui("business.coordination.airportArrivals"),
+    text: ui("conferenceCongressTransportation.overview.airportArrivals.text"),
+  },
+  {
+    key: "hotel-venues",
+    marker: "02",
+    title: ui("conferenceCongressTransportation.overview.hotelVenue.title"),
+    text: ui("conferenceCongressTransportation.overview.hotelVenue.text"),
+  },
+  {
+    key: "individual-groups",
+    marker: "03",
+    title: ui("conferenceCongressTransportation.overview.individualGroup.title"),
+    text: ui("conferenceCongressTransportation.overview.individualGroup.text"),
+  },
+  {
+    key: "multi-vehicle",
+    marker: "04",
+    title: ui("business.coordination.multiVehicleSchedules"),
+    text: ui("conferenceCongressTransportation.overview.multiVehicle.text"),
+  },
+];
+
+const audienceItems = [
+  audienceSection.items![0]!,
+  audienceSection.items![1]!,
+  audienceSection.items![2]!,
+  audienceSection.items![3]!,
+  audienceSection.items![4]!,
+] as const;
+const journeyStages = [
+  eventJourneySection.items![0]!,
+  eventJourneySection.items![1]!,
+  eventJourneySection.items![2]!,
+  eventJourneySection.items![3]!,
+  eventJourneySection.items![4]!,
+  eventJourneySection.items![5]!,
+] as const;
+const passengerItems = [
+  passengerMovementSection.items![0]!,
+  passengerMovementSection.items![1]!,
+] as const;
+const multiVehicleItems = [
+  multiVehicleSection.items![0]!,
+  multiVehicleSection.items![1]!,
+  multiVehicleSection.items![2]!,
+] as const;
+
+const roleVehicleLabels = {
+  individualExecutive: conference.vehicleRoles.individualExecutive
+    .map((id) => getVehicle(id).displayName)
+    .join(" · "),
+  smallerGroup: conference.vehicleRoles.smallerGroup
+    .map((id) => getVehicle(id).displayName)
+    .join(" · "),
+  largerGroup: conference.vehicleRoles.largerGroup
+    .map((id) => getVehicle(id).displayName)
+    .join(" · "),
+};
+const scheduleRoles = [
+  {
+    label: ui("conferenceCongressTransportation.multiVehicle.executive.label"),
+    vehicleLabel: roleVehicleLabels.individualExecutive,
+  },
+  {
+    label: ui("conferenceCongressTransportation.multiVehicle.smallGroup.label"),
+    vehicleLabel: roleVehicleLabels.smallerGroup,
+  },
+  {
+    label: ui("conferenceCongressTransportation.multiVehicle.largeGroup.label"),
+    vehicleLabel: roleVehicleLabels.largerGroup,
+  },
+] as const;
+
+const lockedVehicleIds = [
+  ...conference.vehicleRoles.individualExecutive,
+  ...conference.vehicleRoles.smallerGroup,
+  ...conference.vehicleRoles.largerGroup,
+] as const;
+if (
+  data.vehicleRecommendations.vehicleIds.length !== lockedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== lockedVehicleIds[index]) ||
+  data.vehicleRecommendations.cta.target.type !== "route" ||
+  data.vehicleRecommendations.cta.target.routeKey !== "fleet"
+) {
+  throw new Error("Conference vehicle recommendations do not match the locked fleet contract.");
+}
+
+const vehicleRoleKeys = {
+  "mercedes-s-class": "business.vehicleRole.mercedesSClass",
+  "mercedes-e-class": "business.vehicleRole.mercedesEClass",
+  "mercedes-v-class-7-plus-1-extra-long": "business.vehicleRole.mercedesVClassExtraLong",
+  "mercedes-sprinter": "business.vehicleRole.mercedesSprinter",
+} as const satisfies Record<(typeof lockedVehicleIds)[number], UiStringKey>;
+
+const recommendations = lockedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(vehicleRoleKeys[id]),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const standards = buildServiceStandardGroups(locale).map((group, index) => ({
+  ...group,
+  marker: String(index + 1).padStart(2, "0"),
+}));
+if (standards.length !== 4 || standards.some((group) => group.items.length !== 3)) {
+  throw new Error("Conference standards require exactly four groups with three facts each.");
+}
+
+const faqTokens = {
+  airportArrivalsAnswer: ui("conferenceCongressTransportation.faq.airportArrivalsAnswer"),
+  hotelVenueAnswer: ui("conferenceCongressTransportation.faq.hotelVenueAnswer"),
+  multiVehicleAnswer: ui("conferenceCongressTransportation.faq.multiVehicleAnswer"),
+  individualGroupAnswer: ui("conferenceCongressTransportation.faq.individualGroupAnswer"),
+  quoteAnswer: ui("conferenceCongressTransportation.faq.quoteAnswer"),
+  vehicleAnswer: ui("conferenceCongressTransportation.faq.vehicleAnswer"),
+  confirmationAnswer: ui("conferenceCongressTransportation.faq.confirmationAnswer"),
+} as const;
+const faqItems = data.faq.items.map((item, index) => ({
+  question: interpolateTokens(item.question, faqTokens, `Conference FAQ question ${index + 1}`),
+  answer: interpolateTokens(item.answer, faqTokens, `Conference FAQ answer ${index + 1}`),
+}));
+if (faqItems.some((item) => !item.question.trim() || !item.answer.trim())) {
+  throw new Error("Conference FAQ interpolation produced incomplete visible content.");
+}
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(faqItems)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("conferenceCongressTransportation.hero.eyebrow")}
+    trustMarkers={[
+      ui("business.coordination.airportArrivals"),
+      ui("business.coordination.multiVehicleSchedules"),
+      ui("business.coordination.groupTransport"),
+    ]}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <ServiceOverview
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    groups={overviewGroups}
+    label={ui("conferenceCongressTransportation.section.overview")}
+    variant="numbered-divider-facts"
+    surface="open-dark"
+  />
+
+  <Section spacing="standard" surface="open-dark" aria-labelledby="conference-audience-heading">
+    <PageContainer>
+      <div class="audience-intro">
+        <p class="section-label"><span aria-hidden="true"></span>{ui("conferenceCongressTransportation.section.audience")}</p>
+        <SectionHeading
+          id="conference-audience-heading"
+          heading={audienceSection.heading.title}
+          description={audienceSection.heading.intro}
+        />
+        <p class="body-copy">{audienceSection.body}</p>
+      </div>
+      <ol class="audience-rail grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
+        {audienceItems.map((item, index) => (
+          <li class="md:last:col-span-2 xl:last:col-span-1">
+            <span class="audience-marker" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </PageContainer>
+  </Section>
+
+  <BusinessMovementSequence
+    headingId="conference-event-journey-heading"
+    heading={eventJourneySection.heading.title}
+    intro={eventJourneySection.heading.intro!}
+    body={eventJourneySection.body!}
+    label={ui("conferenceCongressTransportation.section.eventJourney")}
+    exampleLabel={ui("conferenceCongressTransportation.eventJourney.exampleLabel")}
+    stages={journeyStages}
+    image={journeyImage}
+  />
+
+  <ConferencePassengerMovement
+    heading={passengerMovementSection.heading.title}
+    intro={passengerMovementSection.heading.intro!}
+    body={passengerMovementSection.body!}
+    label={ui("conferenceCongressTransportation.section.passengerMovement")}
+    items={passengerItems}
+    sharedScheduleLabel={ui("conferenceCongressTransportation.passengerMovement.sharedScheduleLabel")}
+    executiveVehicleLabel={ui("conferenceCongressTransportation.passengerMovement.executiveVehicleLabel")}
+    groupVehicleLabel={ui("conferenceCongressTransportation.passengerMovement.groupVehicleLabel")}
+    {executiveImage}
+    {groupImage}
+  />
+
+  <ConferenceMultiVehicleSchedule
+    heading={multiVehicleSection.heading.title}
+    intro={multiVehicleSection.heading.intro!}
+    body={multiVehicleSection.body!}
+    label={ui("conferenceCongressTransportation.section.multiVehicle")}
+    items={multiVehicleItems}
+    roles={scheduleRoles}
+    outcomeLabel={ui("conferenceCongressTransportation.multiVehicle.scheduleLabel")}
+    action={multiVehicleAction}
+    {locale}
+  />
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" as RouteKey }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    {classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("conferenceCongressTransportation.section.vehicles")}
+    carouselId="conference-congress-transportation-vehicles"
+  />
+
+  <ServiceStandards
+    heading={ui("conferenceCongressTransportation.standards.heading")}
+    intro={ui("conferenceCongressTransportation.standards.intro")}
+    groups={standards}
+    label={ui("conferenceCongressTransportation.section.standards")}
+    variant="numbered-matrix"
+    surface="contained-dark"
+  />
+
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="conference-faq-heading"
+    class="mt-[var(--space-section-standard)]"
+  >
+    <ReadingContainer>
+      <p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("conferenceCongressTransportation.section.faq")}</p>
+      <SectionHeading id="conference-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={faqItems} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .audience-intro {
+    max-inline-size: var(--measure-body);
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  :global(.service-hero__content),
+  :global(.service-hero__content h1),
+  :global(.standards-layout),
+  :global(.standard-copy),
+  :global(.standard-copy h3) {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label > span {
+    flex: 0 0 auto;
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .section-label--light {
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .section-label--light > span {
+    background: var(--color-focus-light);
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .audience-rail {
+    margin: var(--space-10) 0 0;
+    padding: 0;
+    border-block-start: 1px solid var(--color-divider);
+    list-style: none;
+  }
+
+  .audience-rail li {
+    min-inline-size: 0;
+    padding: var(--space-6) var(--space-5);
+    border-block-end: 1px solid var(--color-divider);
+    overflow-wrap: anywhere;
+  }
+
+  .audience-marker {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .audience-rail h3 {
+    margin-block: var(--space-4) 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    text-wrap: balance;
+  }
+
+  .audience-rail p {
+    margin-block: var(--space-3) 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+</style>

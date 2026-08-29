@@ -1,0 +1,223 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import Link from "../../../foundation/ui/Link.astro";
+
+interface ScheduleItem {
+  title: string;
+  text: string;
+}
+
+interface Role {
+  label: string;
+  vehicleLabel: string;
+}
+
+interface Props {
+  heading: string;
+  intro: string;
+  body: string;
+  label: string;
+  items: readonly [ScheduleItem, ScheduleItem, ScheduleItem];
+  roles: readonly [Role, Role, Role];
+  outcomeLabel: string;
+  action: { label: string; href: string };
+  locale: LocaleCode;
+}
+
+const { heading, intro, body, label, items, roles, outcomeLabel, action, locale } = Astro.props;
+---
+
+<Section spacing="feature" surface="elevated" aria-labelledby="conference-multi-vehicle-heading">
+  <PageContainer>
+    <div class="schedule-layout">
+      <div class="section-copy">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading
+          id="conference-multi-vehicle-heading"
+          heading={heading}
+          description={intro}
+        />
+        <p class="body-copy">{body}</p>
+        <Link href={action.href} {locale}>{action.label}</Link>
+      </div>
+
+      <div class="role-model">
+        <ol class="role-nodes" aria-label={heading}>
+          {items.map((item, index) => (
+            <li>
+              <span class="node-marker" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3>{roles[index]?.label ?? item.title}</h3>
+              <strong>{roles[index]?.vehicleLabel}</strong>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="schedule-outcome"><span>{outcomeLabel}</span></p>
+      </div>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .schedule-layout {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  .schedule-layout > *,
+  .section-copy,
+  .role-model,
+  .role-nodes > li {
+    min-inline-size: 0;
+  }
+
+  .section-copy {
+    overflow-wrap: anywhere;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .section-label span {
+    flex: 0 0 auto;
+    inline-size: var(--space-8);
+    block-size: 1px;
+    background: var(--color-accent);
+  }
+
+  .body-copy {
+    max-inline-size: var(--measure-body);
+    margin-block: var(--space-5) 0;
+    font-family: var(--font-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .section-copy :global(a) {
+    margin-block-start: var(--space-6);
+  }
+
+  .role-nodes {
+    display: grid;
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .role-nodes > li {
+    position: relative;
+    padding: var(--space-6);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    overflow-wrap: anywhere;
+  }
+
+  .role-nodes > li::after {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 50%;
+    inline-size: 1px;
+    block-size: var(--space-5);
+    background: var(--color-border-subtle);
+    content: "";
+  }
+
+  .node-marker {
+    display: block;
+    margin-block-end: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    text-wrap: balance;
+  }
+
+  .role-nodes strong {
+    display: block;
+    margin-block-start: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  .role-nodes p {
+    margin: var(--space-4) 0 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .schedule-outcome {
+    position: relative;
+    margin: var(--space-5) 0 0;
+    padding: var(--space-6);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-card);
+    background: var(--color-background);
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: var(--color-text-primary);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .schedule-outcome::before {
+    position: absolute;
+    inset-block-end: 100%;
+    inset-inline-start: 50%;
+    inline-size: 1px;
+    block-size: var(--space-5);
+    background: var(--color-accent);
+    content: "";
+  }
+
+  .schedule-outcome span {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 64rem) {
+    .schedule-layout {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--column-gap-desktop);
+      align-items: start;
+    }
+
+    .role-nodes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .role-nodes > li {
+      block-size: 100%;
+    }
+  }
+</style>

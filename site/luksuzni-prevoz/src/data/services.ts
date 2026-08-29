@@ -23,7 +23,6 @@
  * Typing is the validation; the module-load guard is the structural check.
  */
 import type { RouteKey } from "@astro-foundation/core";
-import type { VehicleId } from "./fleet.ts";
 import { type RouteKind, getRoute, childrenOf, routeMap } from "./routes.ts";
 
 // --- Enum vocabularies (typed unions) --------------------------------------
@@ -149,9 +148,9 @@ export interface PrivateChauffeurServiceDef extends ServiceDef {
 }
 
 export interface ConferenceCongressVehicleRoles {
-  individualExecutive: readonly [VehicleId, VehicleId];
-  smallerGroup: readonly [VehicleId];
-  largerGroup: readonly [VehicleId];
+  individualExecutive: readonly ["mercedes-s-class", "mercedes-e-class"];
+  smallerGroup: readonly ["mercedes-v-class-7-plus-1-extra-long"];
+  largerGroup: readonly ["mercedes-sprinter"];
 }
 
 export interface ConferenceCongressServiceDef extends ServiceDef {

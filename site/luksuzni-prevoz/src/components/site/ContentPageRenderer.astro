@@ -9,6 +9,7 @@ import SpecialEventsPage from "../services/special-events/SpecialEventsPage.astr
 import PrivateChauffeurPage from "../services/private-chauffeur/PrivateChauffeurPage.astro";
 import CorporateTransportationPage from "../services/corporate-transportation/CorporateTransportationPage.astro";
 import DelegationTransportationPage from "../services/delegation-transportation/DelegationTransportationPage.astro";
+import ConferenceCongressTransportationPage from "../services/conference-congress-transportation/ConferenceCongressTransportationPage.astro";
 import WeddingTransportationPage from "../services/wedding-transportation/WeddingTransportationPage.astro";
 import PromTransportationPage from "../services/prom-transportation/PromTransportationPage.astro";
 import ContactPage from "../contact/ContactPage.astro";
@@ -31,6 +32,8 @@ const { routeKey, locale, content } = Astro.props;
   <CorporateTransportationPage routeKey="corporateTransportation" locale={locale} content={content} />
 ) : routeKey === "delegationTransportation" ? (
   <DelegationTransportationPage routeKey="delegationTransportation" locale={locale} content={content} />
+) : routeKey === "conferenceCongressTransportation" ? (
+  <ConferenceCongressTransportationPage routeKey="conferenceCongressTransportation" locale={locale} content={content} />
 ) : routeKey === "weddingTransportation" ? (
   <WeddingTransportationPage routeKey="weddingTransportation" locale={locale} content={content} />
 ) : routeKey === "promTransportation" ? (

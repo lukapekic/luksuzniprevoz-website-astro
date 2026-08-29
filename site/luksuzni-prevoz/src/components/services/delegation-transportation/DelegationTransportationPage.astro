@@ -15,7 +15,7 @@ import ServiceStandards from "../shared/ServiceStandards.astro";
 import OpenSplitSection from "../../shared/OpenSplitSection.astro";
 import FAQ from "../../shared/FAQ.astro";
 import FinalCTA from "../../shared/FinalCTA.astro";
-import DelegationMovementSequence from "./DelegationMovementSequence.astro";
+import BusinessMovementSequence from "../shared/BusinessMovementSequence.astro";
 import DelegationInstitutionalProof from "./DelegationInstitutionalProof.astro";
 import { getService } from "../../../data/services.ts";
 import { getApprovedClientsFor } from "../../../data/clients.ts";
@@ -396,7 +396,8 @@ const seo = buildPageSeo({
     </PageContainer>
   </Section>
 
-  <DelegationMovementSequence
+  <BusinessMovementSequence
+    headingId="delegation-movement-heading"
     heading={movementSection.heading.title}
     intro={movementSection.heading.intro}
     body={movementSection.body}
