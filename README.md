@@ -164,8 +164,10 @@ right starting point — the scale envelope assumes ≤30 routes per locale.
 
 The publishable workspace packages (`@astro-foundation/core`,
 `eslint-plugin-astro-foundation`, `create-astro-foundation`) are versioned
-with [Changesets](https://github.com/changesets/changesets) and published with
-`access: "public"`.
+with [Changesets](https://github.com/changesets/changesets). Package publishing
+is an explicit manual operation and requires an authenticated npm account with
+permission to publish the package names; the website quality workflow never
+publishes packages.
 
 ```bash
 pnpm changeset          # describe a change; creates a .changeset entry
@@ -176,8 +178,9 @@ pnpm release:next      # changeset publish --tag next (pre-release dist-tag)
 
 **`next` dist-tag flow:** for pre-release iteration, publish with
 `pnpm release:next` so consumers opt in via `npm install
-@astro-foundation/core@next` without affecting `@latest`. Merge to `main` and
-run `pnpm release` only for a stable release. The `foundationVersion` field in
+@astro-foundation/core@next` without affecting `@latest`. Merge to `master` and
+run `pnpm release` only for an intentional, authenticated stable package
+release. The `foundationVersion` field in
 `foundation.config.ts` tracks which spec version a project conforms to — it
 is independent of the package semver.
 
@@ -194,6 +197,8 @@ is independent of the package semver.
 7. `audit:deps` (FND-ENV-07) — `pnpm audit --prod` surfaces advisories
 
 The gate runs in `.github/workflows/release.yml` on every push to `master`.
+It validates the merged website but does not invoke Changesets or publish to
+npm.
 
 ## Documentation
 
