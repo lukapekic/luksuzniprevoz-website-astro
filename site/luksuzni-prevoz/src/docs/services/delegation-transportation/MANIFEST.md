@@ -7,7 +7,7 @@ Generated: 2026-08-29
 | `README.md` | `5d70193ace67386ba863a5d8e6b78ce6b60bb651c89ea6dfb134f16fe22059b1` |
 | `acceptance.md` | `cff6f503e0047f453c8a92705a81e5f59dcb2613771c8cc46989b5e023a41c5b` |
 | `agent-handoff.md` | `fa6b05999411fdf673cb718a185985469b9da9b360f77a992cfc037361f34268` |
-| `asset-contract.md` | `43c1a7802f480b7b5a552974af4f463978a7adc0e9aa725f2d28ad0f8fb5f2fb` |
+| `asset-contract.md` | `49a6d7b5ac8f5e5cefc7bf225e00657d4c4a140621150eb445523481f439c24b` |
 | `blueprint.md` | `5f3c40b595d130e79ff7ebc9a42044f9cf84193beec437be4977083c50663cb5` |
 | `compliance-matrix.md` | `eeca75e82f9d594940f2c29f25f404631dd4a60d10b979801a9feebd0b9cf23b` |
 | `content/delegation-transportation.en.md` | `598506c12bb627ffd42c089509033f001e17635026394763cd35874e60e079b1` |
