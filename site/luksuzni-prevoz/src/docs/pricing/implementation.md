@@ -36,7 +36,7 @@ Canonical pricing/fleet facts:
 ```text
 fleet.ts declares eight vehicles
 seven vehicles have pricingStatus: published
-Skoda Kodiaq has pricingStatus: quote-only
+Škoda Kodiaq has pricingStatus: quote-only
 pricing.ts intentionally contains numeric records for the seven published vehicles only
 VehiclePricing.currency is typed as EUR and present on every numeric record
 airportTransfer retains its own typed currency and scope
@@ -82,7 +82,7 @@ split authority into the root technical chain and the page visual chain
 refer to the configured active theme rather than hard-binding the document to Theme V2
 replace the obsolete missing-currency gate with the current VehiclePricing.currency invariant
 define numeric rows as all and only pricingStatus: published vehicles
-define Skoda Kodiaq as quote-only and outside numeric ledgers for V1
+define Škoda Kodiaq as quote-only and outside numeric ledgers for V1
 correct every advertised 5/7 composition to literal 5 columns + 7 columns
 lock the page-local ledger split to xl
 require hero.supportText passthrough
@@ -103,7 +103,7 @@ assert all-and-only published-pricing vehicle parity instead of "current fleet =
 assert quote-only vehicles receive no numeric fallback
 assert hero support text is rendered
 assert BaseLayout + buildPageSeo ownership
-assert the exact breakpoint contract in Phase 8
+assert the exact breakpoint contract in Phase 7
 separate draft validation from post-publication browser tests
 make publication an atomic route + three-locale lifecycle transition
 use check-only generators unless their authoritative input changed
