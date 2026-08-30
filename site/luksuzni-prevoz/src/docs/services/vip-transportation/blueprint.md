@@ -340,7 +340,7 @@ Required IDs and order:
 ```text
 mercedes-s-class
 mercedes-e-class
-mercedes-v-class-7-plus-1-extra-long
+mercedes-v-class-6-plus-1-extra-long (presented as the generic V-Class family; no capacity suffix)
 mercedes-sprinter
 ```
 
@@ -359,6 +359,10 @@ Intended role language:
 - E-Class → discreet individual or accompanying executive transport;
 - V-Class → guest with accompanying passengers or additional luggage;
 - Sprinter → larger accompanying group / coordinated multi-vehicle requirement.
+
+All four cards use the canonical `front-facing.webp` fleet image. The V-Class
+card uses the base canonical record only and suppresses its configuration and
+passenger-capacity suffix so no additional V-Class variant breaks the card.
 
 Suitability labels are advisory, not exclusive assignments. Do not duplicate capacities, luggage values, equipment, price or availability.
 

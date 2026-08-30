@@ -17,7 +17,10 @@ export type BookingValidationCode =
   | "passenger-count"
   | "vehicle-required"
   | "vehicle-capacity"
+  | "full-name"
   | "email"
+  | "phone"
+  | "notes-length"
   | "company";
 
 export interface BookingValidationIssue {
@@ -100,6 +103,9 @@ const businessServices: BookingServiceKey[] = [
   "conferenceCongressTransportation",
 ];
 
+const FULL_NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M}'’.-]*(?:[ \t]+[\p{L}\p{M}][\p{L}\p{M}'’.-]*)+$/u;
+const PHONE_PATTERN = /^[+\d][\d\s()./-]{5,31}$/u;
+
 export interface BookingValidationOptions {
   publicMinimumHours: number;
   hourlyMinimumHours: number;
@@ -163,9 +169,17 @@ export function validateBookingDraft(
   }
 
   if (options.includeContact) {
-    if (!required(draft.fullName)) issues.push({ field: "fullName", code: "required" });
+    if (!draft.fullName || !FULL_NAME_PATTERN.test(draft.fullName.trim()) || draft.fullName.trim().length > 100) {
+      issues.push({ field: "fullName", code: "full-name" });
+    }
     if (!draft.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.email)) {
       issues.push({ field: "email", code: "email" });
+    }
+    if (draft.phone && !PHONE_PATTERN.test(draft.phone.trim())) {
+      issues.push({ field: "phone", code: "phone" });
+    }
+    if (draft.notes && draft.notes.trim().length > 1000) {
+      issues.push({ field: "notes", code: "notes-length" });
     }
     if (businessServices.includes(draft.serviceKey) && !required(draft.company)) {
       issues.push({ field: "company", code: "company" });

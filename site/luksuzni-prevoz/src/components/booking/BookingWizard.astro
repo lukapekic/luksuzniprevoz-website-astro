@@ -29,6 +29,7 @@ const ui = (key: UiStringKey): string => {
 };
 const interpolate = (key: UiStringKey, values: Record<string, string | number>) =>
   interpolateTokens(ui(key), values, `BookingWizard:${key}`);
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const choiceClass = "booking-choice";
 const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium leading-[var(--line-height-body)] text-[var(--color-error)]";
@@ -41,6 +42,8 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
   data-step="service"
   data-locale={locale}
   data-time-zone={timeZone}
+  data-endpoint="/api/forms/booking"
+  data-turnstile-site-key={turnstileSiteKey}
   data-public-minimum-hours={publicMinimumHours}
   data-hourly-minimum-hours={privateOptions.hourly.minimumHours}
   data-not-selected={ui("booking.summary.notSelected")}
@@ -63,8 +66,20 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
   data-error-vehicle-required={ui("booking.error.vehicleRequired")}
   data-error-vehicle-capacity={ui("booking.error.capacity")}
   data-error-email={ui("booking.error.email")}
+  data-error-full-name={ui("booking.error.fullName")}
+  data-error-phone={ui("booking.error.phone")}
+  data-error-notes-length={ui("booking.error.notesLength")}
   data-error-company={ui("booking.error.company")}
   data-error-summary-heading={ui("booking.error.summaryHeading")}
+  data-status-submitting={ui("booking.status.submitting")}
+  data-status-success={ui("booking.status.success")}
+  data-status-error={ui("booking.status.error")}
+  data-status-reference={ui("booking.status.requestReference")}
+  data-status-rate-limited={ui("booking.status.rateLimited")}
+  data-status-bot-verification={ui("booking.status.botVerification")}
+  data-status-turnstile-required={ui("booking.status.turnstileRequired")}
+  data-status-service-unavailable={ui("booking.status.serviceUnavailable")}
+  data-status-server-error={ui("booking.status.serverError")}
   data-quote-multi-day={ui("booking.quote.reason.multiDay")}
   data-quote-international={ui("booking.quote.reason.international")}
   data-quote-outside-airport-scope={ui("booking.quote.reason.airportScope")}
@@ -290,25 +305,27 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
       <h3 class="mt-[var(--space-10)] font-heading text-[length:var(--text-h3)] font-bold leading-[var(--line-height-heading)]">{ui("booking.contact.heading")}</h3>
       <div class="booking-fields mt-[var(--space-6)] md:grid-cols-2">
         <Field label={ui("booking.field.fullName")} htmlFor="booking-full-name" required>
-          <Input slot="control" id="booking-full-name" name="fullName" autocomplete="name" required />
+          <Input slot="control" id="booking-full-name" name="fullName" autocomplete="name" maxlength={100} required />
         </Field>
         <Field label={ui("booking.field.email")} htmlFor="booking-email" required>
-          <Input slot="control" id="booking-email" name="email" type="email" autocomplete="email" required />
+          <Input slot="control" id="booking-email" name="email" type="email" autocomplete="email" maxlength={254} required />
         </Field>
         <p class={groupErrorClass} data-error-for="fullName" hidden></p>
         <p class={groupErrorClass} data-error-for="email" hidden></p>
         <Field label={ui("booking.field.phone")} htmlFor="booking-phone">
-          <Input slot="control" id="booking-phone" name="phone" type="tel" autocomplete="tel" />
+          <Input slot="control" id="booking-phone" name="phone" type="tel" autocomplete="tel" maxlength={32} />
         </Field>
         <div data-company-field hidden>
           <Field label={ui("booking.field.company")} htmlFor="booking-company" required>
-            <Input slot="control" id="booking-company" name="company" autocomplete="organization" />
+            <Input slot="control" id="booking-company" name="company" autocomplete="organization" maxlength={200} />
           </Field>
           <p class={groupErrorClass} data-error-for="company" hidden></p>
         </div>
+        <p class={groupErrorClass} data-error-for="phone" hidden></p>
         <Field label={ui("booking.field.notes")} htmlFor="booking-notes" class="md:col-span-2">
           <Textarea slot="control" id="booking-notes" name="notes" rows={4} autocomplete="off" maxlength={1000} />
         </Field>
+        <p class={`${groupErrorClass} md:col-span-2`} data-error-for="notes" hidden></p>
       </div>
       <p class="booking-time-note">{ui("booking.confirmation.note")}</p>
     </section>
@@ -331,8 +348,9 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
     <div data-booking-back hidden><Button type="button" variant="secondary">{ui("booking.action.back")}</Button></div>
     <div data-booking-continue><Button type="button">{ui("booking.action.continue")}</Button></div>
     <div data-booking-final hidden>
-      <Button type="button" disabled><span data-booking-final-label>{ui("booking.action.requestBooking")}</span></Button>
-      <FormStatus id="booking-form-status" type="info" on="light" message={ui("booking.status.submissionUnavailable")} class="mt-[var(--space-3)]" />
+      <div class="mb-[var(--space-3)]" data-booking-turnstile></div>
+      <Button type="submit"><span data-booking-final-label>{ui("booking.action.requestBooking")}</span></Button>
+      <FormStatus id="booking-form-status" type="info" on="light" class="mt-[var(--space-3)]" />
     </div>
     <Link to="contact" locale={locale} variant="on-light">{ui("booking.action.contactDirectly")}</Link>
     <p class="sr-only" aria-live="polite" aria-atomic="true" data-booking-live></p>

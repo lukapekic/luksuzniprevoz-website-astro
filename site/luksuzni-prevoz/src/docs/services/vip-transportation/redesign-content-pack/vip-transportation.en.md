@@ -122,7 +122,7 @@ vehicleRecommendations:
   vehicleIds:
     - mercedes-s-class
     - mercedes-e-class
-    - mercedes-v-class-7-plus-1-extra-long
+    - mercedes-v-class-6-plus-1-extra-long
     - mercedes-sprinter
   cta:
     label: "View all vehicles"

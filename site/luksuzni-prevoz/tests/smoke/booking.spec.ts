@@ -19,6 +19,16 @@ test.describe("Booking page", () => {
   }
 
   test("consumes a validated Airport handoff and completes the client-only flow", async ({ page }) => {
+    await page.addInitScript(() => {
+      window.turnstile = {
+        render: (_container, options) => { options.callback("test-token"); return "booking-widget"; },
+        reset: () => undefined,
+        remove: () => undefined,
+      };
+    });
+    await page.route("**/api/forms/booking", async (route) => {
+      await route.fulfill({ status: 202, contentType: "application/json", body: JSON.stringify({ ok: true, status: "pending", reference: "LP-TEST-BOOKING" }) });
+    });
     await page.goto("/en/booking/?intent=booking&service=airportTransportation&date=2099-12-31&time=12%3A00&flightNumber=JU123");
     await expect(page).toHaveURL(/\/en\/booking\/$/);
     await expect(page.locator('[data-step-panel="journey"]')).toBeVisible();
@@ -38,9 +48,12 @@ test.describe("Booking page", () => {
     await page.locator('[data-booking-continue] button').click();
     await expect(page.locator("#booking-review-heading")).toBeFocused();
     await expect(page.locator('[data-booking-summary]')).toBeHidden();
-    await expect(page.locator('[data-booking-final] button')).toBeDisabled();
-    await expect(page.locator("#booking-form-status")).toContainText("Online request sending is not enabled yet");
+    await expect(page.locator('[data-booking-final] button')).toBeEnabled();
     await expect(page.locator('[data-review-value="price"]')).toContainText("Custom quote");
+    await page.locator('[name="fullName"]').fill("Jovana Petrović");
+    await page.locator('[name="email"]').fill("jovana@example.com");
+    await page.locator('[data-booking-final] button').click();
+    await expect(page.locator("#booking-form-status")).toContainText("LP-TEST-BOOKING");
   });
 
   test("generic and concrete CTA handoffs stay distinct", async ({ page }) => {

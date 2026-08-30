@@ -18,8 +18,7 @@ import VipDiscretion from "./VipDiscretion.astro";
 import VipAviation from "./VipAviation.astro";
 import VipItinerary from "./VipItinerary.astro";
 import { getService } from "../../../data/services.ts";
-import { getVehicle } from "../../../data/fleet.ts";
-import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { fleetModelDisplayNames, getVehicle } from "../../../data/fleet.ts";
 import { operations } from "../../../data/operations.ts";
 import { contact, isVerified } from "../../../data/contact.ts";
 import { t } from "../../../lib/i18n.ts";
@@ -31,6 +30,10 @@ import discretionImage from "../../../assets/shared/other/s-class-hotel-front-wi
 import aviationPrimaryImage from "../../../assets/shared/other/mercedes-sprint-next-to-private-jet.webp";
 import aviationSupportingImage from "../../../assets/shared/other/private-jet-parked-outside-of-hangar.webp";
 import finalCtaImage from "../../../assets/final-cta-bg.webp";
+import mercedesSClassFront from "../../../assets/fleet/original/s-class/front-facing.webp";
+import mercedesEClassFront from "../../../assets/fleet/original/e-class/front-facing.webp";
+import mercedesVClassFront from "../../../assets/fleet/original/v-class/front-facing.webp";
+import mercedesSprinterFront from "../../../assets/fleet/original/sprinter/front-facing.webp";
 
 interface Props {
   routeKey: "vipTransportation";
@@ -138,7 +141,7 @@ if (scopeCapabilities.length !== 5) {
 const expectedVehicleIds = [
   "mercedes-s-class",
   "mercedes-e-class",
-  "mercedes-v-class-7-plus-1-extra-long",
+  "mercedes-v-class-6-plus-1-extra-long",
   "mercedes-sprinter",
 ] as const;
 
@@ -158,18 +161,25 @@ if (
 const vehicleRoleKeys = {
   "mercedes-s-class": "vip.vehicleRole.mercedesSClass",
   "mercedes-e-class": "vip.vehicleRole.mercedesEClass",
-  "mercedes-v-class-7-plus-1-extra-long": "vip.vehicleRole.mercedesVClassExtraLong",
+  "mercedes-v-class-6-plus-1-extra-long": "vip.vehicleRole.mercedesVClassExtraLong",
   "mercedes-sprinter": "vip.vehicleRole.mercedesSprinter",
 } as const satisfies Record<(typeof expectedVehicleIds)[number], UiStringKey>;
 
+const vehicleImages = {
+  "mercedes-s-class": mercedesSClassFront,
+  "mercedes-e-class": mercedesEClassFront,
+  "mercedes-v-class-6-plus-1-extra-long": mercedesVClassFront,
+  "mercedes-sprinter": mercedesSprinterFront,
+} as const;
+
 const recommendations = expectedVehicleIds.map((id) => {
   const vehicle = getVehicle(id);
-  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  const isVClass = id === "mercedes-v-class-6-plus-1-extra-long";
   return {
     vehicle,
-    image: homepageFleetMedia[vehicle.id],
-    displayName: entry?.displayName,
-    showPassengerCapacity: entry?.showPassengerCapacity,
+    image: vehicleImages[id],
+    displayName: isVClass ? fleetModelDisplayNames.mercedesVClass : undefined,
+    showPassengerCapacity: !isVClass,
     suitability: ui(vehicleRoleKeys[id]),
   };
 });

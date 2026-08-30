@@ -136,14 +136,68 @@ Do not fabricate a consent vendor in this document. Record the selected implemen
 
 ## Forms (FND-A11Y-10, FND-ENV-06, FND-ENV-09)
 
-The site has form capability, but the submission endpoint/provider is an explicit production decision.
-
-The approved, not-yet-provisioned implementation target is documented in
+The form runtime is implemented in the repository and is ready for Cloudflare
+account provisioning. The architecture and security contract are documented in
 [`site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md`](../site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md).
+The account-owner setup, D1/free-plan explanation, deployment sequence,
+acceptance checks, monitoring, and rollback procedure are in the
+[`Cloudflare Pages Forms Deployment Runbook`](cloudflare-pages-forms/README.md).
 It keeps Astro static, uses same-origin Cloudflare Pages Functions, Managed
 Turnstile, a D1 metadata/idempotency ledger, and Brevo office notifications for
-both Contact and Booking. The existing forms remain validation-only until that
-plan's active security, delivery, UI-state, and verification gates pass.
+both Contact and Booking. The UI activates when `PUBLIC_TURNSTILE_SITE_KEY` is
+present at build time; without it, submission fails closed and the direct
+contact channels remain available.
+
+Implemented repository contracts:
+
+- `POST /api/forms/contact` and `POST /api/forms/booking` under root `functions/`;
+- mandatory server-side Turnstile Siteverify with exact action and allowed-host checks;
+- shared server validation, bounded JSON bodies, same-origin enforcement, and no-store responses;
+- D1 migration `migrations/0001_form_submission_ledger.sql`, storing metadata only;
+- Brevo REST delivery with Reply-To, provider message ID capture, and stable submission idempotency;
+- localized accessible form errors, pending states, failure recovery, and request references.
+
+### Cloudflare Pages project configuration
+
+Use the repository root as the Pages root so both `functions/` and the monorepo
+build are visible.
+
+| Setting                | Value                                                                    |
+| ---------------------- | ------------------------------------------------------------------------ |
+| Production branch      | `master` (confirm before connecting Git)                                 |
+| Build command          | `pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site build` |
+| Build output directory | `site/luksuzni-prevoz/dist`                                              |
+| Node version           | `.nvmrc`                                                                 |
+| D1 binding name        | `FORM_DB`                                                                |
+
+Configure these separately for Preview and Production. Secrets must use encrypted
+bindings rather than plaintext repository files.
+
+| Binding / variable          | Kind             | Required value                              |
+| --------------------------- | ---------------- | ------------------------------------------- |
+| `PUBLIC_TURNSTILE_SITE_KEY` | build variable   | matching Turnstile widget site key          |
+| `FORM_ENVIRONMENT`          | runtime variable | `preview` or `production`                   |
+| `TURNSTILE_ALLOWED_HOSTS`   | runtime variable | comma-separated exact hostnames, no schemes |
+| `TURNSTILE_SECRET_KEY`      | encrypted secret | matching widget secret                      |
+| `BREVO_API_KEY`             | encrypted secret | site-specific Brevo transactional key       |
+| `BREVO_SENDER_EMAIL`        | runtime variable | verified Brevo sender address               |
+| `BREVO_SENDER_NAME`         | runtime variable | approved sender display name                |
+| `BREVO_TO_EMAIL`            | runtime variable | comma-separated internal recipients         |
+
+Create Preview and Production D1 databases, bind each as `FORM_DB`, then apply
+`migrations/0001_form_submission_ledger.sql` to Preview first and Production only
+after Preview acceptance. Do not place database IDs in the repository until the
+actual account resources exist.
+
+Create a Cloudflare WAF rate-limit rule for POST requests to
+`/api/forms/contact` and `/api/forms/booking`. Select and test the threshold in
+the actual account plan; do not emulate this with a client-side timer. Production
+must use Managed Turnstile keys and must not use Cloudflare's always-pass test key.
+
+Before enabling production traffic, verify the Brevo sender/domain, decide the
+transactional-log/content-preview retention setting, and run real delivery tests
+for both form types. A `202` response means accepted for manual review, never an
+instant confirmed booking.
 
 Any deployed form must:
 
@@ -237,12 +291,12 @@ Keep these fields updated once infrastructure is finalized:
 | Decision                      | Value                                                                    |
 | ----------------------------- | ------------------------------------------------------------------------ |
 | Hosting provider / plan       | Cloudflare Pages approved; exact account plan/provisioning still pending |
-| Production deploy trigger     | Planned Pages Git integration from `master`; not configured              |
+| Production deploy trigger     | Pages Git integration from `master`; external connection not configured  |
 | Preview/staging URL strategy  | Planned Pages branch previews; hostname policy still pending             |
-| Form submission endpoint      | Planned same-origin `/api/forms/contact` and `/api/forms/booking`         |
-| Spam mitigation               | Planned Managed Turnstile plus Cloudflare edge rate limiting             |
-| Form delivery provider        | Brevo transactional email approved; production sender not yet verified   |
-| Form persistence              | Planned D1 metadata/idempotency ledger; no submitted PII                  |
+| Form submission endpoint      | Implemented same-origin `/api/forms/contact` and `/api/forms/booking`    |
+| Spam mitigation               | Managed Turnstile implemented; external WAF rate-limit rule pending      |
+| Form delivery provider        | Brevo adapter implemented; production sender not yet verified            |
+| Form persistence              | D1 metadata/idempotency migration implemented; databases not provisioned |
 | Consent implementation/vendor | TBD if required                                                          |
 | CSP reporting endpoint        | TBD if used                                                              |
 

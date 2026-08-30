@@ -1,5 +1,12 @@
 # Cloudflare Pages, Turnstile, D1, and Brevo Forms Implementation Plan
 
+> Implementation status (2026-08-30): repository phases for the shared Pages
+> Functions pipeline, D1 migration, Brevo adapter, Turnstile integration,
+> localized Contact/Booking states, CSP, and unit/browser contracts are
+> implemented. Cloudflare Pages/D1/Turnstile/WAF provisioning, Brevo sender
+> verification, live Preview acceptance, and production activation remain
+> external rollout gates. See `docs/deployment.md` for the binding checklist.
+
 Status: **READY FOR PHASED IMPLEMENTATION — infrastructure not provisioned**
 
 Scope: production submission for both the general Contact question form and the
@@ -684,4 +691,3 @@ The integration is complete only when:
 - all repository, UI, accessibility, Functions, and production smoke gates pass;
 - exact Cloudflare/Brevo configuration and rollback instructions are recorded
   in `docs/deployment.md`.
-

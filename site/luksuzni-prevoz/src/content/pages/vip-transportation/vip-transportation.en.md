@@ -1,7 +1,7 @@
 ---
 routeKey: vipTransportation
 locale: en
-sourceDigest: 3cb16f59a76f709d
+sourceDigest: de9e17d48a07d7f4
 sourceLocale: sr
 pageType: service
 status: published
@@ -123,7 +123,7 @@ vehicleRecommendations:
   vehicleIds:
     - mercedes-s-class
     - mercedes-e-class
-    - mercedes-v-class-7-plus-1-extra-long
+    - mercedes-v-class-6-plus-1-extra-long
     - mercedes-sprinter
   cta:
     label: "View all vehicles"

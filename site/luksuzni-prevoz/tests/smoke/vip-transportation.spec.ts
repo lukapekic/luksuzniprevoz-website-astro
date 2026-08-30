@@ -78,9 +78,10 @@ test.describe("VIP Transportation", () => {
     expect(vehicleNames).toEqual([
       "Mercedes S klasa",
       "Mercedes E klasa",
-      "Mercedes V klasa 7+1 Extra Long",
+      "Mercedes V klasa",
       "Mercedes Sprinter",
     ]);
+    await expect(page.locator(".vehicle").nth(2).locator(".vehicle__meta")).toHaveCount(0);
 
     for (const selector of [".service-hero__actions", ".aviation-action", ".fcta-actions"]) {
       const hrefs = await page

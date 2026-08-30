@@ -9,6 +9,8 @@ import {
 import { parseBookingHandoff, cleanBookingHandoffUrl } from "../../lib/booking/booking-handoff.ts";
 import { resolveBookingPricing } from "../../lib/booking/booking-pricing.ts";
 import { loadBookingDraft, saveBookingDraft } from "../../lib/booking/booking-storage.ts";
+import { BOOKING_STORAGE_KEY } from "../../lib/booking/booking-storage.ts";
+import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
 import {
   buildBookingRequest,
   validateBookingDraft,
@@ -26,6 +28,12 @@ const eventServices: BookingServiceKey[] = [
 const multiVehicleServices: BookingServiceKey[] = [
   "delegationTransportation", "conferenceCongressTransportation", ...eventServices,
 ];
+
+interface FormApiResponse {
+  ok: boolean;
+  code?: "validation" | "bot_verification" | "rate_limited" | "service_unavailable" | "server_error";
+  reference?: string;
+}
 
 function control(form: HTMLFormElement, name: string): HTMLInputElement | HTMLTextAreaElement | null {
   const item = form.elements.namedItem(name);
@@ -266,7 +274,10 @@ function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft:
     "passenger-count": form.dataset.errorPassengerCount,
     "vehicle-required": form.dataset.errorVehicleRequired,
     "vehicle-capacity": form.dataset.errorVehicleCapacity?.replace("{passengers}", String(draft.passengerCount ?? "")),
+    "full-name": form.dataset.errorFullName,
     email: form.dataset.errorEmail,
+    phone: form.dataset.errorPhone,
+    "notes-length": form.dataset.errorNotesLength,
     company: form.dataset.errorCompany,
   };
   return map[issue.code] ?? form.dataset.errorRequired ?? "";
@@ -337,7 +348,7 @@ function issuesForStep(form: HTMLFormElement, step: BookingStep): BookingValidat
     service: ["service"],
     journey: ["dateTime", "pickup", "destination", "hireMode", "hours", "airportDirection", "airportScope", "return", "scheduleOutline", "eventVenue", "engagement"],
     vehicle: ["passengerCount", "vehiclePreference"],
-    review: ["fullName", "email", "company"],
+    review: ["fullName", "email", "phone", "notes", "company"],
   };
   return issues.filter((issue) => fields[step].includes(issue.field));
 }
@@ -405,7 +416,73 @@ export function mountBookingWizards(root: ParentNode = document): void {
     if (actions) actions.hidden = false;
     goToStep(form, handoff.initialStep, false);
 
-    form.addEventListener("submit", (event) => event.preventDefault());
+    const status = form.querySelector<HTMLElement>("#booking-form-status");
+    const finalButton = form.querySelector<HTMLButtonElement>("[data-booking-final] button");
+    const turnstileContainer = form.querySelector<HTMLElement>("[data-booking-turnstile]");
+    const siteKey = form.dataset.turnstileSiteKey ?? "";
+    const turnstile = turnstileContainer && siteKey
+      ? createTurnstileController({ container: turnstileContainer, siteKey, action: "booking_submit" })
+      : null;
+    if (!turnstile) {
+      if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
+      if (finalButton) finalButton.disabled = true;
+    } else {
+      void turnstile.render().catch(() => {
+        if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
+        if (finalButton) finalButton.disabled = true;
+      });
+    }
+
+    let submissionId: string | null = null;
+    let completed = false;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || completed) return;
+      const issues = issuesForStep(form, "review");
+      if (issues.length > 0) return renderErrors(form, issues);
+      const token = turnstile.getToken();
+      if (!token) {
+        status.textContent = form.dataset.statusTurnstileRequired ?? "";
+        return;
+      }
+
+      submissionId ??= crypto.randomUUID();
+      finalButton.disabled = true;
+      status.textContent = form.dataset.statusSubmitting ?? "";
+      try {
+        const response = await fetch(form.dataset.endpoint ?? "/api/forms/booking", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            submissionId,
+            locale: form.dataset.locale,
+            turnstileToken: token,
+            payload: readDraft(form),
+          }),
+        });
+        const body = await response.json() as FormApiResponse;
+        if (response.ok && body.ok && body.reference) {
+          status.textContent = `${form.dataset.statusSuccess ?? ""} ${(form.dataset.statusReference ?? "").replace("{reference}", body.reference)}`;
+          completed = true;
+          submissionId = null;
+          try { sessionStorage.removeItem(BOOKING_STORAGE_KEY); } catch { /* storage may be blocked */ }
+          return;
+        }
+        const statusKeys = {
+          bot_verification: "statusBotVerification",
+          rate_limited: "statusRateLimited",
+          service_unavailable: "statusServiceUnavailable",
+          server_error: "statusServerError",
+          validation: "statusError",
+        } as const;
+        status.textContent = form.dataset[statusKeys[body.code ?? "server_error"]] ?? "";
+      } catch {
+        status.textContent = form.dataset.statusServerError ?? "";
+      } finally {
+        turnstile.reset();
+        finalButton.disabled = completed;
+      }
+    });
     form.addEventListener("change", (event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "serviceCategory") {

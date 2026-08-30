@@ -188,7 +188,8 @@ Every applicable item MUST pass. Keep every item unchecked until there is concre
 - [x] Discretion → `s-class-hotel-front-winter.webp`.
 - [x] Aviation primary → `mercedes-sprint-next-to-private-jet.webp`.
 - [x] Aviation supporting → `private-jet-parked-outside-of-hangar.webp`.
-- [x] Canonical Fleet media remains responsible for vehicle recommendations.
+- [x] Vehicle recommendations use the canonical front-facing Fleet media for all four models.
+- [x] V-Class renders once as the generic model family, without a 6+1/7+1 configuration or passenger-capacity suffix.
 - [x] Shared FinalCTA media remains responsible for final CTA.
 - [x] All contextual images use the approved Astro asset pipeline.
 - [x] Hero follows existing eager/LCP strategy; below-fold media follows lazy-loading contract.

@@ -58,8 +58,16 @@ const copy: ContactPageCopy = {
     phoneHint: t("contact.form.phoneHint", locale),
     messageLabel: t("contact.form.message", locale),
     messageHint: t("contact.form.messageHint", locale),
-    unavailableAction: t("contact.form.unavailableAction", locale),
-    unavailableStatus: t("contact.form.unavailableStatus", locale),
+    submitAction: t("contact.form.submit", locale),
+    submittingStatus: t("contact.form.submitting", locale),
+    successStatus: t("contact.form.success", locale),
+    referenceStatus: t("contact.form.reference", locale),
+    errorSummaryHeading: t("contact.form.errorSummaryHeading", locale),
+    botVerificationStatus: t("contact.form.botVerification", locale),
+    rateLimitedStatus: t("contact.form.rateLimited", locale),
+    serviceUnavailableStatus: t("contact.form.serviceUnavailable", locale),
+    serverErrorStatus: t("contact.form.serverError", locale),
+    turnstileRequiredStatus: t("contact.form.turnstileRequired", locale),
     errors: {
       required: t("form.error.required", locale),
       fullNameFormat: t("contact.form.error.fullName", locale),
@@ -112,6 +120,7 @@ const copy: ContactPageCopy = {
             heading={data.contact.formHeading}
             intro={data.contact.formIntro}
             copy={copy.form}
+            locale={locale}
           />
         </div>
       </div>

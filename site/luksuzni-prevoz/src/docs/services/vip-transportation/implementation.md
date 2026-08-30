@@ -354,7 +354,7 @@ Require exact IDs/order:
 ```text
 mercedes-s-class
 mercedes-e-class
-mercedes-v-class-7-plus-1-extra-long
+mercedes-v-class-6-plus-1-extra-long
 mercedes-sprinter
 ```
 
@@ -368,6 +368,11 @@ vip.vehicleRole.mercedesEClass
 vip.vehicleRole.mercedesVClassExtraLong
 vip.vehicleRole.mercedesSprinter
 ```
+
+The page-local recommendation mapping uses each model's canonical
+`front-facing.webp` asset. V-Class uses the base 6+1 canonical record only,
+but presents the generic `fleetModelDisplayNames.mercedesVClass` label and
+suppresses capacity so configuration text cannot distort the card.
 
 Use a unique `carouselId="vip-vehicles"`.
 

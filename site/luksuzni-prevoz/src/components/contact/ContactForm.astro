@@ -7,11 +7,13 @@ import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import Textarea from "../../foundation/ui/Textarea.astro";
 import { CONTACT_FORM_LIMITS } from "./contact-form-validation.ts";
 import type { ContactFormCopy } from "./contact-form.types.ts";
+import type { LocaleCode } from "@astro-foundation/core";
 
 interface Props {
   heading: string;
   intro?: string;
   copy: ContactFormCopy;
+  locale: LocaleCode;
   formId?: string;
 }
 
@@ -19,6 +21,7 @@ const {
   heading,
   intro,
   copy,
+  locale,
   formId = "contact-question-form",
 } = Astro.props;
 const fullNameId = `${formId}-full-name`;
@@ -26,17 +29,7 @@ const emailId = `${formId}-email`;
 const phoneId = `${formId}-phone`;
 const messageId = `${formId}-message`;
 const statusId = `${formId}-status`;
-
-/**
- * TODO(contact-cloudflare): Do not enable submission by adding only an action.
- * The production phase must add an isolated same-origin POST endpoint, Managed
- * Turnstile, mandatory server-side Siteverify with hostname/action checks,
- * server-side validation using the shared schema, body-size limits, rate
- * limiting, secret bindings, CSP review, and an approved delivery/retention
- * policy. Only then replace the unavailable state with pending/error/success
- * states. Cloudflare owns bot verification; do not add a local honeypot or
- * timestamp heuristic here.
- */
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 ---
 
 <section
@@ -56,13 +49,34 @@ const statusId = `${formId}-status`;
     novalidate
     aria-describedby={statusId}
     data-contact-question-form
-    data-mode="validation-only"
+    data-endpoint="/api/forms/contact"
+    data-locale={locale}
+    data-turnstile-site-key={turnstileSiteKey}
+    data-submit-action={copy.submitAction}
+    data-status-submitting={copy.submittingStatus}
+    data-status-success={copy.successStatus}
+    data-status-reference={copy.referenceStatus}
+    data-status-bot-verification={copy.botVerificationStatus}
+    data-status-rate-limited={copy.rateLimitedStatus}
+    data-status-service-unavailable={copy.serviceUnavailableStatus}
+    data-status-server-error={copy.serverErrorStatus}
+    data-status-turnstile-required={copy.turnstileRequiredStatus}
     data-error-required={copy.errors.required}
     data-error-full-name-format={copy.errors.fullNameFormat}
     data-error-email-format={copy.errors.emailFormat}
     data-error-phone-format={copy.errors.phoneFormat}
     data-error-message-length={copy.errors.messageLength}
   >
+    <div
+      class="rounded-[var(--radius-control)] border border-[var(--color-error)] p-[var(--space-4)] text-[var(--color-error)]"
+      data-contact-error-summary
+      hidden
+      tabindex="-1"
+      role="alert"
+    >
+      <p class="font-heading font-bold">{copy.errorSummaryHeading}</p>
+      <ul class="mt-[var(--space-2)] list-disc ps-[var(--space-5)]" data-contact-error-summary-list></ul>
+    </div>
     <Field
       label={copy.fullNameLabel}
       htmlFor={fullNameId}
@@ -142,18 +156,18 @@ const statusId = `${formId}-status`;
     </Field>
 
     <div class="grid gap-[var(--space-3)]">
-      <Button type="button" disabled class="justify-self-start">
-        {copy.unavailableAction}
-      </Button>
-      <FormStatus id={statusId} type="info" on="light" message={copy.unavailableStatus} />
+      <div data-contact-turnstile></div>
+      <div data-contact-submit class="justify-self-start">
+        <Button type="submit"><span data-contact-submit-label>{copy.submitAction}</span></Button>
+      </div>
+      <FormStatus id={statusId} type="info" on="light" />
     </div>
   </form>
 </section>
 
 <script>
-  // Client-script justification: field-level validation needs touched/dirty
-  // state and custom localized errors. This script performs no submission,
-  // storage, analytics, network request, or bot-verification work.
+  // Client-script justification: localized field state, asynchronous same-origin
+  // submission, and explicit Turnstile token lifecycle require browser behavior.
   import { mountContactForms } from "./contact-form-controller.ts";
 
   mountContactForms();
