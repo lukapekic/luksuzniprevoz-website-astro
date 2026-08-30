@@ -1,4 +1,4 @@
-# Luxury Transportation — Pricing Page Acceptance v1
+# Luxury Transportation — Pricing Page Acceptance v1.2
 
 **Status:** LOCKED BINARY ACCEPTANCE
 **Target:** `pricing`
@@ -11,7 +11,7 @@ Every applicable item MUST pass.
 - [ ] `DESIGN.md` was read.
 - [ ] Pricing blueprint/data/shared-UI docs were read.
 - [ ] Required Pricing/design/functional/a11y/SEO/i18n skills were loaded.
-- [ ] Active theme resolves to Theme V2.
+- [ ] The theme configured by `foundation.config.ts` resolves consistently through generated CSS and `.design/system.json`.
 - [ ] `pnpm design:context` resolves the Pricing surface.
 - [ ] `pnpm components:check` ran before any shared-component edit.
 
@@ -28,16 +28,16 @@ Every applicable item MUST pass.
 - [ ] No unsupported overage/surcharge formula appears.
 - [ ] No fabricated event package or numeric `from` price appears.
 
-## C. Currency data gate
+## C. Currency data invariant
 
 - [ ] Airport fare currency comes from `airportTransfer.currency`.
-- [ ] Owner-confirmed canonical currency exists for hourly fares.
-- [ ] Owner-confirmed canonical currency exists for half-day fares.
-- [ ] Owner-confirmed canonical currency exists for full-day fares.
+- [ ] Hourly currency comes from `VehiclePricing.currency`.
+- [ ] Half-day currency comes from `VehiclePricing.currency`.
+- [ ] Full-day currency comes from `VehiclePricing.currency`.
 - [ ] Currency is not stored in Markdown.
 - [ ] Currency is not stored in UI JSON.
 - [ ] Currency symbol/code is not hardcoded in Pricing components.
-- [ ] Route stays scaffold/noindex until this gate is complete.
+- [ ] Missing currency for a published-pricing vehicle fails loudly and blocks publication.
 
 ## D. Content
 
@@ -62,9 +62,16 @@ Every applicable item MUST pass.
 
 ## F. Structure
 
-- [ ] Visible order is Header → Hero → Intro/Index → Published Pricing → Individual Pricing → Pricing Models → Confirmation → FAQ → FinalCTA → Footer.
+- [ ] Visible order is Header → full-bleed Hero → Intro/Index → dark Published Prices heading → light Airport panel → dark Private Chauffeur heading → independent light Chauffeur panel → Individual Pricing → light Pricing Models panel → dark Confirmation → contained light FAQ section → FinalCTA → Footer.
 - [ ] No visible region is silently removed.
 - [ ] No required region is merged into another.
+- [ ] Airport and Private Chauffeur use independent contained light pricing surfaces.
+- [ ] Published Prices and Private Chauffeur headings/descriptions remain open on the dark page canvas.
+- [ ] Pricing Models, Confirmation and FAQ remain separate semantic regions with independent surface ownership.
+- [ ] Confirmation heading/copy renders directly on the dark page canvas.
+- [ ] FAQ heading and rows render together in one independent contained light section.
+- [ ] Confirmation and FAQ align to `container.main`; neither is capped by `ReadingContainer`.
+- [ ] Confirmation and FAQ remain adjacent semantic sections with independent surface ownership.
 - [ ] No unapproved visible region is inserted.
 - [ ] FinalCTA remains medium-height.
 - [ ] Published Pricing is the dominant functional region.
@@ -72,12 +79,14 @@ Every applicable item MUST pass.
 ## G. Hero
 
 - [ ] `ServiceHero` is reused unchanged.
-- [ ] `variant="responsive-split"`.
-- [ ] Hero is not full-bleed.
+- [ ] `variant="full-bleed"`.
+- [ ] `BaseLayout overHero={true}` integrates the header with the Hero.
+- [ ] Hero is full-bleed and reuses the shared variant without page-local layering overrides.
 - [ ] Exactly one H1 comes from localized content.
 - [ ] Hero primary action uses booking flow.
 - [ ] Hero secondary action uses quote flow.
 - [ ] Hero eyebrow comes from UI localization.
+- [ ] `content.data.hero.supportText` is rendered through the existing support-text contract.
 - [ ] Hero image is `src/assets/s-class-wheel-interior.webp` or an explicitly reported neutral placeholder blocker.
 - [ ] Hero image is decorative with empty alt.
 - [ ] No trust-marker badge row was added.
@@ -97,7 +106,8 @@ Every applicable item MUST pass.
 - [ ] Section id is `airport`.
 - [ ] Source is `pricing[vehicleId].airportTransfer`.
 - [ ] Scope is verified as `belgrade-airport-to-belgrade-city`.
-- [ ] Exactly seven current fleet rows render.
+- [ ] Rows contain all and only canonical `pricingStatus: published` vehicles.
+- [ ] Quote-only vehicles receive no numeric fallback.
 - [ ] Fleet order follows canonical fleet order.
 - [ ] Vehicle names come from fleet data.
 - [ ] Amount/currency come from pricing data.
@@ -105,6 +115,7 @@ Every applicable item MUST pass.
 - [ ] One service CTA appears after/with the section.
 - [ ] No row-level CTAs.
 - [ ] No table/card grid.
+- [ ] Published Prices heading and description are outside the Airport light panel.
 
 ## J. Private Chauffeur Pricing
 
@@ -117,10 +128,13 @@ Every applicable item MUST pass.
 - [ ] Half-day hours/km come from service data.
 - [ ] Full-day amount source is canonical.
 - [ ] Full-day hours/km come from service data.
-- [ ] Each group renders exactly seven current fleet rows.
+- [ ] Each group contains all and only canonical `pricingStatus: published` vehicles.
+- [ ] Quote-only vehicles receive no numeric fallback.
 - [ ] `perKm` is absent.
 - [ ] One Private Chauffeur route CTA appears after all groups.
 - [ ] No row-level CTA.
+- [ ] Private Chauffeur heading, label and note are outside its light panel.
+- [ ] Hourly, Half Day and Full Day share one panel with quiet internal dividers.
 
 ## K. Individual Pricing
 
@@ -146,6 +160,7 @@ Every applicable item MUST pass.
 - [ ] No icons are required for comprehension.
 - [ ] No outer card border.
 - [ ] No new pricing facts are introduced.
+- [ ] All three models remain groups inside one parent light surface, not detached cards.
 
 ## M. Confirmation
 
@@ -153,12 +168,18 @@ Every applicable item MUST pass.
 - [ ] Request submission is not presented as confirmed booking.
 - [ ] No unsupported response-time promise.
 - [ ] Region is open/reading-width, not a card.
+- [ ] Region uses the dark page canvas rather than a light continuation panel.
+- [ ] Region uses regular page/grid width while paragraph copy retains semantic body measure.
 - [ ] No extra CTA is inserted.
 
 ## N. FAQ
 
 - [ ] Exactly eight localized questions.
 - [ ] Existing `FAQ.astro` is reused.
+- [ ] FAQ heading and rows share one contained light section; individual items are not cards.
+- [ ] FAQ section uses `PageContainer`, matching the reviewed `/dev/ui` light FAQ composition.
+- [ ] `SectionHeading` and `FAQ` both use their light-surface contracts.
+- [ ] No FAQ intro is fabricated while the approved content model has no intro field.
 - [ ] Same validated FAQ array feeds visible FAQ and FAQ schema.
 - [ ] No numeric fares are duplicated in FAQ.
 - [ ] No Private Chauffeur service-limit numbers are duplicated in FAQ copy.
@@ -173,6 +194,8 @@ Every applicable item MUST pass.
 - [ ] Secondary action is quote.
 - [ ] Contact facts come from canonical contact data.
 - [ ] Hero image is not reused.
+- [ ] FinalCTA uses `final-cta-bg.webp`, decorative alt, cover fit and integrated media treatment.
+- [ ] FinalCTA preserves its reviewed 62/38 layout from `lg`.
 - [ ] FinalCTA is not Hero #2.
 
 ## P. Theme and visual system
@@ -180,10 +203,12 @@ Every applicable item MUST pass.
 - [ ] Inter Tight headings.
 - [ ] Manrope body/UI.
 - [ ] Cormorant Garamond remains brand-lockup only.
-- [ ] Theme V2 semantic tokens only.
+- [ ] Configured active-theme semantic tokens only.
 - [ ] No raw palette values in production components.
 - [ ] No new spacing/radius/type scale.
-- [ ] Light pricing canvas uses semantic light-surface roles.
+- [ ] Independent Airport, Chauffeur, Pricing Models and FAQ panels use semantic light-surface roles.
+- [ ] Surface contrast and whitespace lead; borders/dividers remain restrained.
+- [ ] Monetary values use an existing semantic text role and are slightly more prominent than row metadata.
 - [ ] Platinum is restrained.
 - [ ] No gold-first styling.
 - [ ] No metallic gradient.
@@ -191,7 +216,7 @@ Every applicable item MUST pass.
 - [ ] No strong shadow.
 - [ ] No SaaS/dashboard cardification.
 - [ ] Wireframe loads the shared `wireframe-base.css` and `wireframe-responsive.js` from the intended repository location.
-- [ ] Wireframe/page-local structural CSS uses semantic Theme V2 variables only; no local palette, font scale, spacing scale, radius scale, or raw breakpoint values.
+- [ ] Wireframe/page-local structural CSS uses configured semantic variables only; no local palette, font scale, spacing scale, radius scale, or raw breakpoint values.
 - [ ] Pricing ledger split uses an approved 5/7 composition, not 4/8.
 
 ## Q. Responsive
@@ -203,6 +228,9 @@ Every applicable item MUST pass.
 - [ ] 1920 width passes.
 - [ ] Chosen ledger split breakpoint is tokenized and documented.
 - [ ] Both sides of the ledger split breakpoint were reviewed.
+- [ ] Intro/Index activates 5/7 at `lg`.
+- [ ] Numeric ledgers and custom families activate their desktop splits at `xl`.
+- [ ] Pricing Models and FinalCTA use their reviewed `lg` states.
 - [ ] Mobile preserves content-first DOM order.
 - [ ] Vehicle names can wrap without detaching from price.
 - [ ] Custom families stack in correct order.
@@ -241,6 +269,7 @@ Every applicable item MUST pass.
 
 - [ ] Dedicated `src/components/pricing/PricingPage.astro` exists.
 - [ ] `ContentPageRenderer.astro` dispatches `pricing` explicitly.
+- [ ] `PricingPage.astro` uses `BaseLayout`, `buildPageSeo` and `overHero={true}`.
 - [ ] Page-local components match `shared-ui-additions.md`.
 - [ ] No unnecessary shared component was created.
 - [ ] No existing reviewed shared component was redesigned.
@@ -251,7 +280,7 @@ Every applicable item MUST pass.
 
 ## U. Publication transition
 
-- [ ] Currency gate passed.
+- [ ] Fleet/pricing/currency consistency invariants pass.
 - [ ] SR/EN/RU content validation passed.
 - [ ] Page acceptance passed.
 - [ ] `routes.ts` Pricing availability changed from `scaffold` to `published`.
@@ -264,20 +293,22 @@ Every applicable item MUST pass.
 
 - [ ] Pricing smoke test exists.
 - [ ] All three locales are exercised.
-- [ ] Seven Airport rows asserted.
+- [ ] Airport rows are asserted against the canonical published-pricing roster.
 - [ ] Three chauffeur groups asserted.
-- [ ] Seven rows per chauffeur group asserted.
+- [ ] Chauffeur rows are asserted against the canonical published-pricing roster.
+- [ ] Quote-only numeric fallback is rejected.
 - [ ] No per-km public rate asserted.
 - [ ] No city-to-city content asserted.
 - [ ] Custom status behavior asserted.
 - [ ] CTA destinations asserted.
-- [ ] Noindex/publication behavior asserted.
+- [ ] Draft/noindex behavior is covered before publication through validators/dev preview.
+- [ ] Published/indexable behavior is covered in production E2E.
 - [ ] Responsive overflow coverage asserted.
 
 ## W. Verification commands
 
-- [ ] `pnpm content:sync-digests`
-- [ ] `pnpm types:generate`
+- [ ] `pnpm content:sync-digests` only if Serbian editorial source changed.
+- [ ] `pnpm types:generate` only if authoritative route/UI keys changed; otherwise `pnpm types:generate:check`.
 - [ ] `pnpm foundation:doctor site/luksuzni-prevoz`
 - [ ] `pnpm theme:sync:check`
 - [ ] `pnpm theme:validate site/luksuzni-prevoz`
@@ -298,7 +329,7 @@ Every applicable item MUST pass.
 ## X. Completion report
 
 - [ ] Exact files changed are listed.
-- [ ] Currency data change is described.
+- [ ] Canonical fleet/pricing eligibility and currency behavior are described.
 - [ ] Shared-component changes are listed; expected value is none.
 - [ ] Content digest is reported.
 - [ ] Commands actually run are listed with results.

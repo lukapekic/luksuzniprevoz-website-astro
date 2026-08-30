@@ -50,14 +50,17 @@ export async function buildLeafStaticPaths(
     const { routeKey, locale, status } = page.data;
     if (!allowedLocales.includes(locale)) continue;
 
-    // FND-LIFE-02: production builds emit only `published`. In dev/preview,
+    // FND-LIFE-02: production builds emit authored pages only when both the
+    // content lifecycle and route availability are published. In dev/preview,
     // draft and in-review pages ARE emitted (so reviewers can see them) but
-    // are marked noindex so they never reach a search index.
+    // are marked noindex so they never reach a search index. Empty scaffold
+    // pages retain the existing non-indexable production placeholder behavior.
     const isScaffold = page.data.pageType === "scaffold" && page.data.scaffold === true;
     if (import.meta.env.PROD && status !== "published" && !isScaffold) continue;
 
     const route = routes.find((r) => r.key === routeKey);
     if (!route) continue;
+    if (import.meta.env.PROD && route.availability !== "published" && !isScaffold) continue;
 
     const slug = route.slugs[locale];
     if (slug === undefined || slug === "") continue; // home handled by the home route

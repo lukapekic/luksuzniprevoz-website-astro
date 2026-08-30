@@ -1,6 +1,6 @@
 # VIP Transportation — Locked Blueprint V1
 
-**Status:** LOCKED TARGET CONTRACT — READY FOR IMPLEMENTATION  
+**Status:** LOCKED TARGET CONTRACT — IMPLEMENTED
 **Route key:** `vipTransportation`  
 **Primary locale:** `sr`  
 **Theme:** configured active Black & Platinum system  
@@ -166,10 +166,10 @@ PROHIBITED:
 
 Use shared `ServiceHero` with `variant="full-bleed"` and `BaseLayout overHero={true}`.
 
-Required asset:
+Required page-specific editorial asset:
 
 ```text
-src/assets/shared/other/hero-chauffeur-wheel.webp
+src/assets/pages/vip-transportation/hero.png
 ```
 
 Render:
@@ -273,7 +273,7 @@ Present when needed. Invisible when not.
 Required asset:
 
 ```text
-src/assets/shared/other/schedule-backseat-view.webp
+src/assets/shared/other/s-class-hotel-front-winter.webp
 ```
 
 This is the signature VIP editorial section.
@@ -540,7 +540,7 @@ Maintain content-first editorial order. Do not force desktop splits. Standards u
 - Service Definition: content 7 / media 5 or equivalent existing split primitive;
 - Discretion: content 5 / media 7 or equivalent cinematic split, without sacrificing text measure;
 - Aviation: content and media form a deliberate editorial composition; supporting image stays subordinate;
-- Itinerary becomes a horizontal or stepped desktop sequence only when semantics, focus order and long Russian copy remain intact;
+- Itinerary uses a deterministic `4/4/4` first row and `6/6` second row at `lg` and above; DOM order remains stages 1–5;
 - Standards use a 3×2 matrix;
 - Process uses three equal columns.
 
@@ -568,14 +568,14 @@ WCAG 2.2 AA is REQUIRED.
 
 Target localized VIP chauffeur / VIP transportation intent with Belgrade relevance.
 
-Use unique SR/EN/RU metadata. Follow existing direct-service FAQ/Breadcrumb/service schema conventions. Do not use:
+Use unique SR/EN/RU metadata. Use the current site schema contract: global Organization/WebSite plus one FAQPage generated from the same validated FAQ array. Service or BreadcrumbList schema requires a separate enabled foundation capability. Do not use:
 
 - Event schema implying Luxury Transportation runs an event;
 - Flight/Airline schema;
 - security-service schema/claims;
 - fake price/rating/review structured data.
 
-The route remains scaffold until all three complete service entries are installed and validated. Only then change `vipTransportation` availability to `published` and allow canonical/hreflang/sitemap generation.
+The route remains scaffold and complete content remains `in-review`/`noindex` until the dedicated renderer, dispatch, tests, site build and page verification pass. Publication is atomic across content lifecycle and route availability. A scaffold route is not by itself an indexability gate.
 
 ## 23. Prohibited outcomes
 

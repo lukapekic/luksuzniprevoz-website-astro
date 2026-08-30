@@ -10,6 +10,7 @@ import {
   diffSnapshotInventory,
   loadConfig,
   loadSystem,
+  parseDesignArgs,
   parseGeneratedCssVariables,
   readText,
   resolveActiveTheme,
@@ -52,6 +53,20 @@ try {
     rejectedUnknownSurface = true;
   }
   if (!rejectedUnknownSurface) throw new Error("Unknown surface identifiers must be rejected.");
+  const plannedArgs = parseDesignArgs([
+    "--planned",
+    "--target",
+    "site/example/PlannedPage.astro",
+    "--surface",
+    "home",
+  ]);
+  if (
+    plannedArgs.planned !== true ||
+    plannedArgs.target !== "site/example/PlannedPage.astro" ||
+    plannedArgs.surface !== "home"
+  ) {
+    throw new Error("Planned design-context arguments must preserve target and surface.");
+  }
   let rejectedDuplicateConfig = false;
   try {
     validateDesignConfig({

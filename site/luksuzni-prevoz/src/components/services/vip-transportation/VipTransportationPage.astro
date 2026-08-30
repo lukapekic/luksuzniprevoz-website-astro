@@ -1,0 +1,369 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Section from "../../../foundation/ui/Section.astro";
+import ReadingContainer from "../../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../shared/ServiceHero.astro";
+import VehicleRecommendations from "../shared/VehicleRecommendations.astro";
+import OccasionScope from "../occasion-transportation/OccasionScope.astro";
+import OccasionStandards from "../occasion-transportation/OccasionStandards.astro";
+import OccasionProcessSteps from "../occasion-transportation/OccasionProcessSteps.astro";
+import FAQ from "../../shared/FAQ.astro";
+import FinalCTA from "../../shared/FinalCTA.astro";
+import VipServiceDefinition from "./VipServiceDefinition.astro";
+import VipDiscretion from "./VipDiscretion.astro";
+import VipAviation from "./VipAviation.astro";
+import VipItinerary from "./VipItinerary.astro";
+import { getService } from "../../../data/services.ts";
+import { getVehicle } from "../../../data/fleet.ts";
+import { homepageFleetEntries, homepageFleetMedia } from "../../../data/fleet-media.ts";
+import { operations } from "../../../data/operations.ts";
+import { contact, isVerified } from "../../../data/contact.ts";
+import { t } from "../../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
+import { buildPageSeo } from "../../../lib/seo.ts";
+import heroImage from "../../../assets/pages/vip-transportation/hero.png";
+import passengerImage from "../../../assets/shared/other/passenger-experience-alternate.webp";
+import discretionImage from "../../../assets/shared/other/s-class-hotel-front-winter.webp";
+import aviationPrimaryImage from "../../../assets/shared/other/mercedes-sprint-next-to-private-jet.webp";
+import aviationSupportingImage from "../../../assets/shared/other/private-jet-parked-outside-of-hangar.webp";
+import finalCtaImage from "../../../assets/final-cta-bg.webp";
+
+interface Props {
+  routeKey: "vipTransportation";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction { label: string; href: string }
+interface StandardItem { title: string; text: string }
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "vipTransportation" ||
+  content.data.pageType !== "service" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("VipTransportationPage received incompatible data.");
+}
+
+const data = content.data;
+if (!data.hero || !data.vehicleRecommendations || !data.faq) {
+  throw new Error(`VIP Transportation content is incomplete for ${locale}.`);
+}
+if (!data.overview.items || data.overview.items.length !== 3) {
+  throw new Error("VIP service definition requires exactly three principles.");
+}
+if (data.faq.items.length !== 8) {
+  throw new Error("VIP Transportation requires exactly eight FAQ items.");
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing VIP Transportation section "${key}" for ${locale}.`);
+  return value;
+};
+
+const serviceScope = section("serviceScope");
+const discretion = section("discretion");
+const aviation = section("aviation");
+const itinerary = section("itinerary");
+const standardsSection = section("standards");
+const process = section("process");
+
+if (!serviceScope.body || !serviceScope.items || serviceScope.items.length !== 3) {
+  throw new Error("VIP service scope requires body copy and exactly three items.");
+}
+if (!discretion.body || !discretion.items || discretion.items.length !== 3) {
+  throw new Error("VIP discretion requires body copy and exactly three principles.");
+}
+if (!aviation.body || !aviation.items || aviation.items.length !== 3 || !aviation.cta) {
+  throw new Error("VIP aviation requires body copy, exactly three items and one CTA.");
+}
+if (!itinerary.body || !itinerary.items || itinerary.items.length !== 5) {
+  throw new Error("VIP itinerary requires body copy and exactly five stages.");
+}
+if (!standardsSection.body) {
+  throw new Error("VIP standards require explanatory body copy.");
+}
+if (!process.items || process.items.length !== 3) {
+  throw new Error("VIP arrangement process requires exactly three steps.");
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale, { service: routeKey }),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = data.hero.secondaryCta ? resolveAction(data.hero.secondaryCta) : null;
+const aviationAction = resolveAction(aviation.cta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = data.finalCta.secondaryCta
+  ? resolveAction(data.finalCta.secondaryCta)
+  : null;
+
+const vip = getService(routeKey);
+if (
+  !vip.pricingMode.includes("quote") ||
+  !vip.discretion ||
+  !vip.privacy ||
+  !vip.commercialAviation ||
+  !vip.privateAviation ||
+  !vip.multiVehicle ||
+  !vip.dedicatedCoordinatorForComplexBookings ||
+  vip.securityService !== false ||
+  vip.customDecorationPositioning !== false
+) {
+  throw new Error("VIP Transportation canonical capability contract is incomplete.");
+}
+
+const scopeCapabilities = [
+  vip.pricingMode.includes("quote") && ui("occasion.capability.individualQuote"),
+  vip.commercialAviation && ui("vip.capability.commercialAviation"),
+  vip.privateAviation && ui("vip.capability.privateAviation"),
+  vip.multiVehicle && ui("vip.capability.multiVehicle"),
+  vip.dedicatedCoordinatorForComplexBookings && ui("vip.capability.dedicatedCoordinator"),
+].filter((item): item is string => Boolean(item));
+
+if (scopeCapabilities.length !== 5) {
+  throw new Error("VIP Transportation requires all five canonical scope capabilities.");
+}
+
+const expectedVehicleIds = [
+  "mercedes-s-class",
+  "mercedes-e-class",
+  "mercedes-v-class-7-plus-1-extra-long",
+  "mercedes-sprinter",
+] as const;
+
+if (
+  data.vehicleRecommendations.vehicleIds.length !== expectedVehicleIds.length ||
+  data.vehicleRecommendations.vehicleIds.some((id, index) => id !== expectedVehicleIds[index])
+) {
+  throw new Error("VIP vehicle recommendations must retain the locked fleet order.");
+}
+if (
+  data.vehicleRecommendations.cta.target.type !== "route" ||
+  data.vehicleRecommendations.cta.target.routeKey !== "fleet"
+) {
+  throw new Error("VIP vehicle recommendations CTA must target the canonical Fleet route.");
+}
+
+const vehicleRoleKeys = {
+  "mercedes-s-class": "vip.vehicleRole.mercedesSClass",
+  "mercedes-e-class": "vip.vehicleRole.mercedesEClass",
+  "mercedes-v-class-7-plus-1-extra-long": "vip.vehicleRole.mercedesVClassExtraLong",
+  "mercedes-sprinter": "vip.vehicleRole.mercedesSprinter",
+} as const satisfies Record<(typeof expectedVehicleIds)[number], UiStringKey>;
+
+const recommendations = expectedVehicleIds.map((id) => {
+  const vehicle = getVehicle(id);
+  const entry = homepageFleetEntries.find((item) => item.vehicleId === id);
+  return {
+    vehicle,
+    image: homepageFleetMedia[vehicle.id],
+    displayName: entry?.displayName,
+    showPassengerCapacity: entry?.showPassengerCapacity,
+    suitability: ui(vehicleRoleKeys[id]),
+  };
+});
+
+const classLabels = {
+  sedan: ui("fleet.class.sedan"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+  suv: ui("fleet.class.suv"),
+};
+
+const standards = [
+  operations.chauffeurs.dressCode === "suit-and-tie" && {
+    title: ui("occasion.standard.professionalChauffeur.title"),
+    text: ui("occasion.standard.professionalChauffeur.text"),
+  },
+  operations.vehicles.cleanlinessStandard === "highest-standard" &&
+    operations.vehicles.preTripInspectionForImportantTrips && {
+      title: ui("occasion.standard.preparedVehicle.title"),
+      text: ui("occasion.standard.preparedVehicle.text"),
+    },
+  vip.discretion && vip.privacy && {
+    title: ui("vip.standard.discretion.title"),
+    text: ui("vip.standard.discretion.text"),
+  },
+  vip.dedicatedCoordinatorForComplexBookings && {
+    title: ui("vip.standard.coordination.title"),
+    text: ui("vip.standard.coordination.text"),
+  },
+  vip.multiVehicle && {
+    title: ui("occasion.standard.multiVehicle.title"),
+    text: ui("occasion.standard.multiVehicle.text"),
+  },
+  contact.bookingLeadTime.confirmationMode === "manual" && {
+    title: ui("occasion.standard.manualConfirmation.title"),
+    text: ui("occasion.standard.manualConfirmation.text"),
+  },
+].filter((item): item is StandardItem => Boolean(item));
+
+if (standards.length !== 6) {
+  throw new Error("VIP Transportation standards require all six canonical gates.");
+}
+
+const standardsTuple = standards as [
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+  StandardItem,
+];
+
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(data.faq.items)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("vip.hero.eyebrow")}
+    trustMarkers={[
+      ui("vip.hero.trust.discretion"),
+      ui("vip.hero.trust.privateItinerary"),
+      ui("vip.hero.trust.coordinatedService"),
+    ]}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <VipServiceDefinition
+    heading={data.overview.heading.title}
+    intro={data.overview.heading.intro}
+    body={data.overview.body}
+    label={ui("vip.section.overview")}
+    principles={[data.overview.items[0], data.overview.items[1], data.overview.items[2]]}
+    image={passengerImage}
+  />
+
+  <OccasionScope
+    heading={serviceScope.heading.title}
+    intro={serviceScope.heading.intro}
+    body={serviceScope.body}
+    label={ui("vip.section.scope")}
+    items={[serviceScope.items[0], serviceScope.items[1], serviceScope.items[2]]}
+    capabilities={scopeCapabilities}
+  />
+
+  <VipDiscretion
+    heading={discretion.heading.title}
+    intro={discretion.heading.intro}
+    body={discretion.body}
+    label={ui("vip.section.discretion")}
+    items={[discretion.items[0], discretion.items[1], discretion.items[2]]}
+    image={discretionImage}
+  />
+
+  <VipAviation
+    heading={aviation.heading.title}
+    intro={aviation.heading.intro}
+    body={aviation.body}
+    label={ui("vip.section.aviation")}
+    items={[aviation.items[0], aviation.items[1], aviation.items[2]]}
+    action={aviationAction}
+    {locale}
+    primaryImage={aviationPrimaryImage}
+    supportingImage={aviationSupportingImage}
+  />
+
+  <VehicleRecommendations
+    heading={data.vehicleRecommendations.heading.title}
+    intro={data.vehicleRecommendations.heading.intro}
+    recommendations={recommendations}
+    cta={{ label: data.vehicleRecommendations.cta.label, to: "fleet" }}
+    {locale}
+    passengerLabel={ui("fleet.passengers")}
+    {classLabels}
+    ariaLabel={ui("fleet.carousel.ariaLabel")}
+    previousLabel={ui("fleet.carousel.previous")}
+    nextLabel={ui("fleet.carousel.next")}
+    label={ui("vip.section.vehicles")}
+    carouselId="vip-vehicles"
+  />
+
+  <VipItinerary
+    heading={itinerary.heading.title}
+    intro={itinerary.heading.intro}
+    body={itinerary.body}
+    label={ui("vip.section.itinerary")}
+    stages={[
+      itinerary.items[0],
+      itinerary.items[1],
+      itinerary.items[2],
+      itinerary.items[3],
+      itinerary.items[4],
+    ]}
+  />
+
+  <OccasionStandards
+    heading={standardsSection.heading.title}
+    intro={standardsSection.heading.intro}
+    body={standardsSection.body}
+    label={ui("vip.section.standards")}
+    items={standardsTuple}
+  />
+
+  <OccasionProcessSteps
+    heading={process.heading.title}
+    intro={process.heading.intro}
+    label={ui("vip.section.process")}
+    steps={[process.items[0], process.items[1], process.items[2]]}
+  />
+
+  <Section spacing="compact" surface="light" aria-labelledby="vip-faq-heading" class="mt-[var(--space-8)]">
+    <ReadingContainer>
+      <p class="section-label section-label--light"><span aria-hidden="true"></span>{ui("vip.section.faq")}</p>
+      <SectionHeading id="vip-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={data.faq.items} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .section-label { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-medium); color: var(--color-text-muted); }
+  .section-label > span { inline-size: var(--space-8); block-size: 1px; background: var(--color-accent); }
+  .section-label--light { color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%); }
+  .section-label--light > span { background: var(--color-focus-light); }
+</style>

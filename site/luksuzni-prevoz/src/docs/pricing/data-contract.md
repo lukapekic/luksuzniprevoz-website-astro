@@ -39,6 +39,11 @@ site/luksuzni-prevoz/src/data/fleet.ts
 
 Vehicle names and IDs MUST come from fleet data.
 
+Numeric ledgers contain all and only vehicles whose canonical
+`pricingStatus === "published"`, in fleet declaration order. Quote-only
+vehicles have no numeric fallback. The current fleet contains eight vehicles;
+seven are published-pricing and Škoda Kodiaq is quote-only.
+
 ### Route labels / destination URLs
 
 ```text
@@ -91,34 +96,22 @@ City-to-city service is outside the supported Luxury Transportation service cata
 
 The implementation MUST NOT parse `pricing.csv` at runtime.
 
-## 4. Currency publication gate
+## 4. Currency invariant
 
 Current canonical state:
 
 ```text
 airportTransfer.currency = "EUR"
-hourly currency           = not encoded
-halfDay currency          = not encoded
-fullDay currency          = not encoded
-perKm currency            = not encoded
+VehiclePricing.currency   = "EUR"
 ```
 
-Before the Pricing route becomes published, the owner-confirmed currency for the three public Private Chauffeur fare fields MUST be represented in `pricing.ts`.
-
-Allowed implementation outcome after confirmation:
-
-```text
-one typed canonical currency field shared by published chauffeur fares
-OR
-typed money objects carrying amount + currency
-```
-
-The coding agent MUST choose the smallest change that preserves type safety and existing consumers.
+Hourly, half-day and full-day rows use `VehiclePricing.currency`. Airport rows
+use `airportTransfer.currency`. Both are typed canonical data and are already
+present for every numeric record.
 
 The coding agent MUST NOT:
 
 ```text
-assume EUR because airport fares use EUR
 hardcode "€" in Pricing components
 store currency in UI JSON
 store currency in Markdown
@@ -188,8 +181,9 @@ development/build → fail loud
 production render → do not substitute fabricated fallback
 ```
 
-If canonical currency is missing:
+If a published-pricing vehicle or required currency is missing:
 
 ```text
-Pricing route remains draft + noindex + scaffold
+development/build fails loud
+publication is blocked
 ```

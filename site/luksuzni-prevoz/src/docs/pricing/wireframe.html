@@ -8,7 +8,7 @@
     Intended repository location:
     site/luksuzni-prevoz/src/docs/pricing/wireframe.html
 
-    The shared wireframe base imports the active generated Theme V2 and exposes
+    The shared wireframe base imports the configured active generated theme and exposes
     only semantic documentation helpers. This wireframe deliberately does not
     define a local palette, type scale, spacing scale, radius scale or raw
     breakpoint values.
@@ -18,20 +18,19 @@
     /*
       WIREFRAME-ONLY GEOMETRY.
       Production code MUST NOT copy this CSS.
-      Active Theme V2 + production components own final visual styling.
+      The configured active theme + production components own final visual styling.
     */
 
     /* ---------------------------------------------------------------------
-       PRICING HERO — mirrors reviewed ServiceHero responsive-split behavior
+       PRICING HERO — mirrors reviewed ServiceHero full-bleed behavior
        --------------------------------------------------------------------- */
     .pricing-hero {
       position: relative;
       isolation: isolate;
       display: grid;
       grid-template-areas: "hero";
-      min-block-size: calc(var(--space-24) * 6);
+      min-block-size: 78svh;
       overflow: clip;
-      border-radius: var(--radius-section);
       background: var(--color-surface);
     }
 
@@ -51,6 +50,12 @@
       max-inline-size: var(--container-narrow);
     }
 
+    .pricing-hero__support {
+      max-inline-size: var(--container-reading);
+      padding-block-start: var(--space-6);
+      border-block-start: 1px solid var(--color-border-subtle);
+    }
+
     .pricing-hero__media {
       z-index: 0;
       min-block-size: inherit;
@@ -60,7 +65,6 @@
       color: var(--color-text-muted);
       font-size: var(--text-caption);
       text-align: center;
-      border: 1px dashed var(--color-border-subtle);
     }
 
     .pricing-hero__scrim {
@@ -95,7 +99,7 @@
     }
 
     /* ---------------------------------------------------------------------
-       PUBLISHED PRICING — one contained light functional canvas
+       PUBLISHED PRICING — dark headings + independent light panels
        --------------------------------------------------------------------- */
     .pricing-ledger {
       padding: var(--space-8);
@@ -162,8 +166,7 @@
     }
 
     .pricing-chauffeur-heading {
-      padding-block: var(--space-10) var(--space-4);
-      border-block-start: 1px solid var(--color-input-border);
+      padding-block-end: var(--space-10);
     }
 
     /* ---------------------------------------------------------------------
@@ -198,7 +201,7 @@
     }
 
     /* ---------------------------------------------------------------------
-       EXPLANATION + CONFIRMATION + FAQ — one calm light reading composition
+       MODELS + CONFIRMATION + FAQ — independent semantic surfaces
        --------------------------------------------------------------------- */
     .pricing-reading-panel {
       padding: var(--space-8);
@@ -213,18 +216,8 @@
       border-block-start: 1px solid var(--color-input-border);
     }
 
-    .pricing-confirmation {
-      max-inline-size: var(--container-reading);
-      margin-block-start: var(--space-10);
-      padding-block-start: var(--space-10);
-      border-block-start: 1px solid var(--color-input-border);
-    }
-
-    .pricing-faq {
-      max-inline-size: var(--container-reading);
-      margin-block-start: var(--space-10);
-      padding-block-start: var(--space-10);
-      border-block-start: 1px solid var(--color-input-border);
+    .pricing-faq-panel {
+      margin-block-start: var(--space-8);
     }
 
     .pricing-faq__row {
@@ -270,30 +263,9 @@
     /* ---------------------------------------------------------------------
        STRUCTURAL STATES — assigned by shared wireframe-responsive.js
        --------------------------------------------------------------------- */
-    html[data-wf-layout="desktop"] .pricing-hero,
-    html[data-wf-layout="wide"] .pricing-hero {
-      grid-template-areas: "content media";
-      grid-template-columns: 5fr 7fr;
-    }
-
-    html[data-wf-layout="desktop"] .pricing-hero__content,
-    html[data-wf-layout="wide"] .pricing-hero__content {
-      grid-area: content;
-      min-block-size: inherit;
-      display: grid;
-      align-content: end;
-    }
-
-    html[data-wf-layout="desktop"] .pricing-hero__media,
-    html[data-wf-layout="wide"] .pricing-hero__media {
-      grid-area: media;
-      border-block: 0;
-      border-inline-end: 0;
-    }
-
-    html[data-wf-layout="desktop"] .pricing-hero__scrim,
-    html[data-wf-layout="wide"] .pricing-hero__scrim {
-      display: none;
+    html[data-wf-layout="desktop"] .pricing-hero__copy,
+    html[data-wf-layout="wide"] .pricing-hero__copy {
+      max-inline-size: var(--container-main);
     }
 
     html[data-wf-layout="desktop"] .pricing-custom-grid,
@@ -319,6 +291,17 @@
       border-inline-start: 1px solid var(--color-divider);
     }
 
+    /* Dense tariff ledgers intentionally remain stacked through tablet
+       landscape and activate their approved 5/7 split at the xl/desktop state. */
+    html[data-wf-layout="tablet-landscape"] .pricing-tariff {
+      grid-template-columns: 1fr;
+    }
+
+    html[data-wf-layout="desktop"] .pricing-tariff,
+    html[data-wf-layout="wide"] .pricing-tariff {
+      grid-template-columns: 5fr 7fr;
+    }
+
     html[data-wf-layout="tablet-landscape"] .pricing-model,
     html[data-wf-layout="desktop"] .pricing-model,
     html[data-wf-layout="wide"] .pricing-model {
@@ -334,12 +317,14 @@
       border-inline-start: 0;
     }
 
+    html[data-wf-layout="tablet-landscape"] .pricing-final,
     html[data-wf-layout="desktop"] .pricing-final,
     html[data-wf-layout="wide"] .pricing-final {
-      grid-template-columns: 7fr 5fr;
+      grid-template-columns: 62fr 38fr;
       min-block-size: calc(var(--space-24) * 4);
     }
 
+    html[data-wf-layout="tablet-landscape"] .pricing-final__media,
     html[data-wf-layout="desktop"] .pricing-final__media,
     html[data-wf-layout="wide"] .pricing-final__media {
       min-block-size: inherit;
@@ -353,10 +338,10 @@
 <body>
   <aside class="wf-shell wf-note">
     LOCKED semantic wireframe. Production implementation follows blueprint.md and current repository authority.
-    Theme values come from the active generated Theme V2 through the shared wireframe base. Do not copy wireframe CSS or placeholder markup into production.
+    Theme values come from the configured active generated theme through the shared wireframe base. Do not copy wireframe CSS or placeholder markup into production.
   </aside>
 
-  <!-- Existing reviewed SiteHeader — normal page state, not over-Hero. -->
+  <!-- Existing reviewed SiteHeader — integrated over the full-bleed Hero. -->
   <header class="wf-shell wf-header" aria-label="SiteHeader placeholder">
     <div class="wf-brand"></div>
     <div class="wf-nav"></div>
@@ -368,15 +353,15 @@
 
   <main>
     <!-- 01 PRICING HERO -------------------------------------------------- -->
-    <section class="wf-shell wf-section-compact" aria-label="Pricing Hero / ServiceHero responsive-split">
+    <section aria-label="Pricing Hero / ServiceHero full-bleed">
       <div class="pricing-hero">
         <div class="pricing-hero__media">
-          Pricing contextual media — decorative. Existing ServiceHero responsive-split media role.
+          Pricing contextual media — decorative. Existing ServiceHero full-bleed media role.
         </div>
         <div class="pricing-hero__scrim" aria-hidden="true"></div>
         <div class="pricing-hero__content">
           <div class="pricing-hero__copy wf-stack">
-            <p class="wf-label">01 / ServiceHero / responsive-split / contained</p>
+            <p class="wf-label">01 / ServiceHero / full-bleed / integrated header</p>
             <div class="wf-title-lg"></div>
             <div class="wf-lines">
               <div class="wf-line"></div>
@@ -386,6 +371,12 @@
               <div class="wf-button"></div>
               <div class="wf-button wf-button-secondary"></div>
             </div>
+            <aside class="pricing-hero__support" aria-label="Authored Hero support statement">
+              <div class="wf-lines">
+                <div class="wf-line"></div>
+                <div class="wf-line" style="width:72%"></div>
+              </div>
+            </aside>
           </div>
         </div>
       </div>
@@ -404,29 +395,28 @@
       </div>
 
       <nav class="pricing-index" aria-label="Pricing index placeholder">
-        <div class="pricing-index__item">
+        <a class="pricing-index__item" href="#airport">
           <span class="pricing-index__number">01</span>
           <div class="wf-title-sm"></div>
           <span aria-hidden="true">↓</span>
-        </div>
-        <div class="pricing-index__item">
+        </a>
+        <a class="pricing-index__item" href="#private-chauffeur">
           <span class="pricing-index__number">02</span>
           <div class="wf-title-sm"></div>
           <span aria-hidden="true">↓</span>
-        </div>
-        <div class="pricing-index__item">
+        </a>
+        <a class="pricing-index__item" href="#individual-pricing">
           <span class="pricing-index__number">03</span>
           <div class="wf-title-sm"></div>
           <span aria-hidden="true">↓</span>
-        </div>
+        </a>
       </nav>
     </section>
 
-    <!-- 03 PUBLISHED PRICING CANVAS ------------------------------------ -->
-    <section class="wf-shell wf-section-standard" aria-label="Published pricing functional canvas">
-      <div class="wf-light pricing-ledger">
+    <!-- 03 PUBLISHED PRICES + AIRPORT PANEL ---------------------------- -->
+    <section class="wf-shell wf-section-standard" aria-label="Published prices and Airport pricing">
         <div class="pricing-ledger__heading wf-stack">
-          <p class="wf-label">03 / Published pricing / one contained light functional canvas</p>
+          <p class="wf-label">03 / Published prices / open dark heading</p>
           <div class="wf-title"></div>
           <div class="wf-lines">
             <div class="wf-line"></div>
@@ -434,8 +424,9 @@
           </div>
         </div>
 
-        <!-- 03A Airport — approved 5/7 composition -->
-        <section class="pricing-tariff wf-grid wf-grid-5-7" aria-label="Airport fixed-fare ledger">
+      <div class="wf-light pricing-ledger">
+        <!-- 03A Airport — one contained light 5/7 ledger -->
+        <section id="airport" class="pricing-tariff wf-grid wf-grid-5-7" aria-label="Airport fixed-fare ledger">
           <div class="pricing-tariff__meta wf-stack">
             <div class="pricing-status">Fixed fare</div>
             <p class="wf-label">03A / Airport Transportation</p>
@@ -449,7 +440,7 @@
             </div>
           </div>
 
-          <div class="pricing-rate-list" aria-label="Seven vehicle/fare rows">
+          <div class="pricing-rate-list" aria-label="Canonical published-pricing vehicle/fare rows">
             <div class="pricing-rate-row"><div class="pricing-rate-row__vehicle"><div class="wf-title-sm"></div><div class="wf-line" style="width:42%"></div></div><div class="pricing-rate-row__price"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
             <div class="pricing-rate-row"><div class="pricing-rate-row__vehicle"><div class="wf-title-sm"></div><div class="wf-line" style="width:46%"></div></div><div class="pricing-rate-row__price"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
             <div class="pricing-rate-row"><div class="pricing-rate-row__vehicle"><div class="wf-title-sm"></div><div class="wf-line" style="width:52%"></div></div><div class="pricing-rate-row__price"><div class="wf-title-sm"></div><div class="wf-line"></div></div></div>
@@ -460,9 +451,13 @@
           </div>
         </section>
 
-        <!-- Private Chauffeur heading -->
+      </div>
+    </section>
+
+    <!-- 04 PRIVATE CHAUFFEUR + INDEPENDENT LIGHT PANEL ----------------- -->
+    <section id="private-chauffeur" class="wf-shell wf-section-standard" aria-label="Private Chauffeur published tariffs">
         <div class="pricing-chauffeur-heading wf-stack wf-reading">
-          <p class="wf-label">03B–D / Private Chauffeur / published tariff family</p>
+          <p class="wf-label">04 / Private Chauffeur / open dark heading</p>
           <div class="wf-title"></div>
           <div class="wf-lines">
             <div class="wf-line"></div>
@@ -470,10 +465,11 @@
           </div>
         </div>
 
+      <div class="wf-light pricing-ledger">
         <!-- Hourly -->
         <section class="pricing-tariff wf-grid wf-grid-5-7" aria-label="Private Chauffeur hourly ledger">
           <div class="pricing-tariff__meta wf-stack">
-            <p class="wf-label">03B / Hourly</p>
+            <p class="wf-label">04A / Hourly</p>
             <div class="wf-title-sm"></div>
             <div class="wf-line" style="width:52%"></div>
           </div>
@@ -491,7 +487,7 @@
         <!-- Half-day -->
         <section class="pricing-tariff wf-grid wf-grid-5-7" aria-label="Private Chauffeur half-day ledger">
           <div class="pricing-tariff__meta wf-stack">
-            <p class="wf-label">03C / Half-day</p>
+            <p class="wf-label">04B / Half-day</p>
             <div class="wf-title-sm"></div>
             <div class="wf-line" style="width:58%"></div>
           </div>
@@ -509,7 +505,7 @@
         <!-- Full-day -->
         <section class="pricing-tariff wf-grid wf-grid-5-7" aria-label="Private Chauffeur full-day ledger">
           <div class="pricing-tariff__meta wf-stack">
-            <p class="wf-label">03D / Full-day</p>
+            <p class="wf-label">04C / Full-day</p>
             <div class="wf-title-sm"></div>
             <div class="wf-line" style="width:60%"></div>
           </div>
@@ -530,10 +526,10 @@
       </div>
     </section>
 
-    <!-- 04 INDIVIDUAL PRICING ------------------------------------------ -->
-    <section class="wf-shell wf-section-feature" aria-label="Individual pricing for business and special events">
+    <!-- 05 INDIVIDUAL PRICING ------------------------------------------ -->
+    <section id="individual-pricing" class="wf-shell wf-section-feature" aria-label="Individual pricing for business and special events">
       <div class="wf-stack wf-reading" style="padding-block-end:var(--space-8)">
-        <p class="wf-label">04 / Individual pricing / dark</p>
+        <p class="wf-label">05 / Individual pricing / dark</p>
         <div class="wf-title"></div>
         <div class="wf-lines">
           <div class="wf-line"></div>
@@ -572,13 +568,13 @@
       </div>
     </section>
 
-    <!-- 05–07 PRICING MODELS + CONFIRMATION + FAQ ---------------------- -->
-    <section class="wf-shell wf-section-standard" aria-label="Pricing explanation confirmation and FAQ">
+    <!-- 06 PRICING MODELS ---------------------------------------------- -->
+    <section class="wf-shell wf-section-standard" aria-label="Pricing Models">
       <div class="wf-light pricing-reading-panel">
-        <div class="wf-stack wf-reading">
-          <p class="wf-label">05 / How pricing works / light reading-functional region</p>
+        <section class="wf-stack wf-reading" aria-label="Pricing Models">
+          <p class="wf-label">06 / How pricing works / one contained light surface</p>
           <div class="wf-title"></div>
-        </div>
+        </section>
 
         <div class="pricing-models wf-grid wf-grid-3">
           <article class="pricing-model wf-stack-sm">
@@ -598,18 +594,29 @@
           </article>
         </div>
 
-        <div class="pricing-confirmation wf-stack">
-          <p class="wf-label">06 / Confirmation statement / open reading width</p>
+      </div>
+    </section>
+
+    <!-- 07 CONFIRMATION ------------------------------------------------ -->
+    <section class="wf-shell wf-section-standard" aria-label="Pricing confirmation">
+      <section class="pricing-confirmation wf-stack" aria-label="Confirmation Statement">
+          <p class="wf-label">07 / Confirmation statement / open dark regular width</p>
           <div class="wf-title"></div>
           <div class="wf-lines">
             <div class="wf-line"></div>
             <div class="wf-line" style="width:78%"></div>
           </div>
-        </div>
+      </section>
 
-        <div class="pricing-faq wf-stack">
-          <p class="wf-label">07 / FAQ / reviewed shared component</p>
+    </section>
+
+    <!-- 08 FAQ / ONE CONTAINED LIGHT SECTION --------------------------- -->
+    <section class="wf-shell wf-section-compact wf-light" aria-label="FAQ">
+        <div class="wf-stack">
+          <p class="wf-label">08 / FAQ / contained light heading + rows</p>
           <div class="wf-title"></div>
+        </div>
+        <div class="pricing-faq-panel">
           <div>
             <div class="pricing-faq__row"><div class="wf-line"></div><span aria-hidden="true">+</span></div>
             <div class="pricing-faq__row"><div class="wf-line"></div><span aria-hidden="true">+</span></div>
@@ -621,14 +628,13 @@
             <div class="pricing-faq__row"><div class="wf-line"></div><span aria-hidden="true">+</span></div>
           </div>
         </div>
-      </div>
     </section>
 
-    <!-- 08 FINAL CTA ---------------------------------------------------- -->
+    <!-- 09 FINAL CTA ---------------------------------------------------- -->
     <section class="wf-shell wf-section-feature" aria-label="Existing reviewed FinalCTA">
       <div class="pricing-final">
         <div class="pricing-final__content wf-stack">
-          <p class="wf-label">08 / FinalCTA / existing reviewed component / medium-height</p>
+          <p class="wf-label">09 / FinalCTA / existing reviewed component / medium-height</p>
           <div class="wf-title"></div>
           <div class="wf-lines">
             <div class="wf-line"></div>

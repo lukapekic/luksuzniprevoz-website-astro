@@ -3,10 +3,10 @@ routeKey: vipTransportation
 locale: ru
 sourceLocale: sr
 pageType: service
-status: published
+status: in-review
 translationState: reviewed
 reviewedOn: 2026-08-30
-noindex: false
+noindex: true
 
 seoTitle: "VIP-трансфер в Белграде | Luxury Transportation"
 seoDescription: "Дискретный VIP-трансфер с профессиональным водителем в Белграде: частные гости, авиаприлёты, сложные маршруты и координация нескольких автомобилей."

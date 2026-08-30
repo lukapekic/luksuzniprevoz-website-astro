@@ -96,7 +96,6 @@ const headingId = `${id}-heading`;
 <style>
   .vehicle-feature {
     padding-block: var(--space-section-standard);
-    border-block-end: 1px solid var(--color-divider);
   }
 
   :global(.vehicle-feature__grid) {
@@ -135,10 +134,11 @@ const headingId = `${id}-heading`;
   }
 
   .vehicle-feature__media {
+    position: relative;
     display: grid;
     grid-area: media;
+    aspect-ratio: 3 / 2;
     min-inline-size: 0;
-    min-block-size: clamp(17rem, 55vw, 28rem);
     place-items: center;
     overflow: hidden;
     border-radius: var(--radius-section);
@@ -148,7 +148,16 @@ const headingId = `${id}-heading`;
   .vehicle-feature__media :global(img) {
     inline-size: 100%;
     block-size: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .vehicle-feature__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: color-mix(in oklab, var(--color-background) 10%, transparent);
   }
 
   .vehicle-feature__details {
@@ -252,16 +261,27 @@ const headingId = `${id}-heading`;
 
   @media (min-width: 64rem) {
     :global(.vehicle-feature__grid) {
-      grid-template-areas:
-        "media identity"
-        "media details";
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      column-gap: var(--space-8);
+      grid-template-areas: none;
+      grid-template-columns: repeat(var(--grid-desktop), minmax(0, 1fr));
+      column-gap: var(--column-gap-desktop);
       align-items: center;
     }
 
     .vehicle-feature__media {
-      min-block-size: 34rem;
+      grid-area: auto;
+      grid-column: 1 / span 6;
+      grid-row: 1 / span 2;
+      align-self: center;
+    }
+
+    .vehicle-feature__identity {
+      grid-area: auto;
+      grid-column: 7 / -1;
+    }
+
+    .vehicle-feature__details {
+      grid-area: auto;
+      grid-column: 7 / -1;
     }
 
     .vehicle-feature__facts div {
@@ -272,8 +292,13 @@ const headingId = `${id}-heading`;
   }
 
   @media (min-width: 80rem) {
-    :global(.vehicle-feature__grid) {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    .vehicle-feature__media {
+      grid-column: 1 / span 7;
+    }
+
+    .vehicle-feature__identity,
+    .vehicle-feature__details {
+      grid-column: 8 / -1;
     }
   }
 </style>

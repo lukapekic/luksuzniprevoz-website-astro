@@ -69,10 +69,10 @@ img{max-width:100%}
 .section-intro{max-width:var(--measure-body);margin:var(--space-4) 0 0;font-size:var(--text-lg);color:var(--color-text-muted)}
 .body-copy{max-width:var(--measure-body);margin:var(--space-5) 0 0;color:var(--color-text-muted)}
 
-/* Fleet navigator — divider-led, not pills / filter UI. */
-.navigator-section{padding-block:var(--space-6);background:var(--color-background)}
-.fleet-nav{border-block:1px solid var(--color-divider)}
-.fleet-nav-list{margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
+/* Fleet navigator — contained divider-led surface, not pills / filter UI. */
+.navigator-section{background:var(--color-background)}
+.fleet-nav{overflow:hidden;border-block:1px solid var(--color-divider);border-radius:var(--radius-card);background:var(--color-surface)}
+.fleet-nav-list{margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none}
 .fleet-nav li{min-width:0}
 .fleet-nav li + li{border-inline-start:1px solid var(--color-divider)}
 .fleet-nav a{min-height:4.75rem;display:grid;align-content:center;gap:var(--space-1);padding:var(--space-4) var(--space-5);text-decoration:none;transition:background .15s ease}
@@ -81,7 +81,8 @@ img{max-width:100%}
 .nav-name{font-family:var(--font-heading);font-size:var(--text-lg);font-weight:600;line-height:1.15}
 
 /* Intro resembles the site's open ServiceOverview composition. */
-.overview-grid{display:grid;gap:var(--space-10)}
+.overview-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--column-gap-desktop)}
+.overview-grid>div{grid-column:span 8;max-width:var(--container-reading)}
 .overview-facts{margin:0;padding:0;border-block-start:1px solid var(--color-divider);list-style:none}
 .overview-facts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-4);padding-block:var(--space-5);border-block-end:1px solid var(--color-divider)}
 .fact-marker{min-width:var(--space-8);font-size:.75rem;font-weight:600;color:var(--color-accent)}
@@ -97,11 +98,12 @@ img{max-width:100%}
 .category-name span{color:var(--color-accent);font-size:.75rem;font-weight:600}
 
 /* Vehicle product chapter */
-.vehicle{padding-block:clamp(4rem,7.5vw,7rem);border-bottom:1px solid var(--color-divider)}
+.vehicle{padding-block:clamp(4rem,7.5vw,7rem)}
 .vehicle-grid{display:grid;grid-template-areas:"identity" "media" "copy";gap:var(--space-10);align-items:center}
 .vehicle-identity{grid-area:identity}
-.vehicle-media{position:relative;min-height:clamp(18rem,35vw,31rem);display:grid;place-items:center;overflow:hidden;border-radius:var(--radius-card);background:var(--color-surface)}
-.vehicle-media img{position:relative;z-index:2;width:93%;height:93%;object-fit:contain;object-position:center}
+.vehicle-media{position:relative;aspect-ratio:3/2;display:grid;place-items:center;overflow:hidden;border-radius:var(--radius-card);background:var(--color-surface)}
+.vehicle-media img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center}
+.vehicle-media::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:color-mix(in oklab,var(--color-background) 10%,transparent)}
 .vehicle-media img:not([hidden]) ~ .media-fallback{opacity:0}
 .media-fallback{position:absolute;inset:0;display:grid;place-content:center;gap:var(--space-2);padding:var(--space-6);text-align:center;color:var(--color-text-muted)}
 .media-fallback strong{font-family:var(--font-heading);font-size:var(--text-xl);font-weight:500;color:var(--color-text-primary)}
@@ -172,23 +174,26 @@ img{max-width:100%}
 .footer-bottom{margin-top:var(--space-8);padding-top:var(--space-5);border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;gap:var(--space-5);color:var(--color-text-muted);font-size:.75rem}
 
 @media (min-width:64rem){
-  .vehicle-grid{grid-template-areas:"media identity" "media copy";grid-template-columns:7fr 5fr;gap:2rem}
+  .vehicle-grid{grid-template-areas:none;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--column-gap-desktop)}
+  .vehicle-media{grid-area:auto;grid-column:1/span 6;grid-row:1/span 2}
+  .vehicle-identity{grid-area:auto;grid-column:7/-1}
+  .vehicle-copy{grid-area:auto;grid-column:7/-1}
   .fit-grid{grid-template-columns:repeat(4,minmax(0,1fr));padding:var(--space-7)}
   .fit-grid li{padding:0 var(--space-7);border-bottom:0;border-inline-end:1px solid color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 75%)}
   .fit-grid li:first-child{padding-inline-start:0}
   .fit-grid li:last-child{padding-inline-end:0;border-inline-end:0}
 }
 
-@media (max-width:79.99rem) and (min-width:64rem){
-  .vehicle-grid{grid-template-columns:1fr 1fr}
+@media (min-width:80rem){
+  .vehicle-media{grid-column:1/span 7}
+  .vehicle-identity,.vehicle-copy{grid-column:8/-1}
 }
 
 @media (max-width:63.98rem){
   .header-nav,.lang{display:none}.menu{display:grid;place-items:center}
   .header-row{grid-template-columns:auto 1fr auto}.header-actions{grid-column:3}
   .fleet-nav-list{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .fleet-nav li:nth-child(3){border-inline-start:0;border-top:1px solid var(--color-divider)}
-  .fleet-nav li:nth-child(4){border-top:1px solid var(--color-divider)}
+  .fleet-nav li:nth-child(3){grid-column:1/-1;border-inline-start:0;border-top:1px solid var(--color-divider)}
   .vehicle-grid{grid-template-columns:1fr}
   .vehicle-copy{max-width:var(--measure-body)}
   .final-panel{grid-template-columns:1fr;min-height:auto}
@@ -201,10 +206,10 @@ img{max-width:100%}
   .hero{min-height:78svh}.hero-inner{padding-bottom:var(--space-8)}
   .hero-copy{max-width:100%}.hero p{font-size:1rem}
   .hero-actions{flex-direction:column;align-items:stretch}.hero-actions a{width:100%}
-  .navigator-section{padding-block:0}.fleet-nav{border-top:0}.fleet-nav-list{grid-template-columns:1fr 1fr}
+  .fleet-nav-list{grid-template-columns:1fr 1fr}
   .fleet-nav a{min-height:4.5rem;padding:var(--space-4)}
   .vehicle{padding-block:var(--space-section-standard)}
-  .vehicle-media{min-height:17rem}
+  .overview-grid{grid-template-columns:1fr}.overview-grid>div{grid-column:auto}
   .vehicle-facts li{grid-template-columns:1fr;gap:var(--space-1)}
   .fit-panel{width:calc(100% - 2 * var(--gutter-page));padding:var(--space-7) var(--space-5)}
   .fit-grid{padding:var(--space-4)}
@@ -257,8 +262,7 @@ img{max-width:100%}
       <ul class="fleet-nav-list">
         <li><a href="#sedans"><span class="nav-index">01</span><span class="nav-name">Sedans</span></a></li>
         <li><a href="#suv"><span class="nav-index">02</span><span class="nav-name">SUV</span></a></li>
-        <li><a href="#vans"><span class="nav-index">03</span><span class="nav-name">Vans</span></a></li>
-        <li><a href="#groups"><span class="nav-index">04</span><span class="nav-name">Group transport</span></a></li>
+        <li><a href="#groups"><span class="nav-index">03</span><span class="nav-name">Group transport</span></a></li>
       </ul>
     </div>
   </section>
@@ -363,8 +367,8 @@ img{max-width:100%}
       </div>
     </article>
 
-    <div class="page-shell category-anchor" id="vans">
-      <p class="category-name"><span>03</span>Vans</p>
+    <div class="page-shell category-anchor" id="groups">
+      <p class="category-name"><span>03</span>Group transport</p>
     </div>
 
     <article class="vehicle">
@@ -385,10 +389,6 @@ img{max-width:100%}
         </div>
       </div>
     </article>
-
-    <div class="page-shell category-anchor" id="groups">
-      <p class="category-name"><span>04</span>Group transport</p>
-    </div>
 
     <article class="vehicle">
       <div class="page-shell vehicle-grid">

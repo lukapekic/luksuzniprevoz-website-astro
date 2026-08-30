@@ -138,6 +138,13 @@ Do not fabricate a consent vendor in this document. Record the selected implemen
 
 The site has form capability, but the submission endpoint/provider is an explicit production decision.
 
+The approved, not-yet-provisioned implementation target is documented in
+[`site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md`](../site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md).
+It keeps Astro static, uses same-origin Cloudflare Pages Functions, Managed
+Turnstile, a D1 metadata/idempotency ledger, and Brevo office notifications for
+both Contact and Booking. The existing forms remain validation-only until that
+plan's active security, delivery, UI-state, and verification gates pass.
+
 Any deployed form must:
 
 - submit personal data via POST/body, never query strings;
@@ -227,14 +234,16 @@ After a production deploy, verify at minimum:
 
 Keep these fields updated once infrastructure is finalized:
 
-| Decision                      | Value                       |
-| ----------------------------- | --------------------------- |
-| Hosting provider / plan       | TBD until encoded/confirmed |
-| Production deploy trigger     | TBD until finalized         |
-| Preview/staging URL strategy  | TBD until finalized         |
-| Form submission endpoint      | TBD until implemented       |
-| Spam mitigation               | TBD until implemented       |
-| Consent implementation/vendor | TBD if required             |
-| CSP reporting endpoint        | TBD if used                 |
+| Decision                      | Value                                                                    |
+| ----------------------------- | ------------------------------------------------------------------------ |
+| Hosting provider / plan       | Cloudflare Pages approved; exact account plan/provisioning still pending |
+| Production deploy trigger     | Planned Pages Git integration from `master`; not configured              |
+| Preview/staging URL strategy  | Planned Pages branch previews; hostname policy still pending             |
+| Form submission endpoint      | Planned same-origin `/api/forms/contact` and `/api/forms/booking`         |
+| Spam mitigation               | Planned Managed Turnstile plus Cloudflare edge rate limiting             |
+| Form delivery provider        | Brevo transactional email approved; production sender not yet verified   |
+| Form persistence              | Planned D1 metadata/idempotency ledger; no submitted PII                  |
+| Consent implementation/vendor | TBD if required                                                          |
+| CSP reporting endpoint        | TBD if used                                                              |
 
 Unknown operational facts are better marked TBD than invented.

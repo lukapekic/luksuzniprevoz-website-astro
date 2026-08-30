@@ -2,12 +2,12 @@
 routeKey: pricing
 locale: ru
 pageType: pricing
-status: draft
+status: published
 translationState: reviewed
 reviewedOn: '2026-08-30'
 sourceLocale: sr
 sourceDigest: efbdb5a9f5bbdc38
-noindex: true
+noindex: false
 seoTitle: Цены на трансфер с водителем | Luxury Transportation
 seoDescription: Цены на трансфер из аэропорта Белграда и аренду Private Chauffeur, а также индивидуальные предложения для
   деловых, делегационных и специальных поездок.

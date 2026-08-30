@@ -2,12 +2,12 @@
 routeKey: pricing
 locale: en
 pageType: pricing
-status: draft
+status: published
 translationState: reviewed
 reviewedOn: '2026-08-30'
 sourceLocale: sr
 sourceDigest: efbdb5a9f5bbdc38
-noindex: true
+noindex: false
 seoTitle: Chauffeur Service Prices | Luxury Transportation
 seoDescription: Belgrade airport transfer and Private Chauffeur hire prices, with individual quotations for business, delegation
   and special-event transportation.

@@ -1,261 +1,134 @@
 # VIP Transportation — Locked Wireframe V1
 
-**Status:** LOCKED STRUCTURAL WIREFRAME — READY FOR IMPLEMENTATION  
+**Status:** LOCKED STRUCTURAL WIREFRAME — IMPLEMENTED
 **Prepared:** 2026-08-30
 
-Topology only. `DESIGN.md`, the configured active theme and approved shared components own final visual values.
+This file owns topology and reading order only. The locked blueprint owns content intent and image roles. Localized content, canonical data, shared component APIs, `DESIGN.md` and the active theme own final copy, facts, behavior and visual values.
 
-## Desktop — 1440×900 reference
+## Universal reading order
 
 ```text
-HEADER OVER HERO
-↓
-FULL-BLEED VIP HERO
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ hero-chauffeur-wheel.webp                                                   │
-│ approved dark ServiceHero scrim                                             │
-│ VIP TRANSPORTATION                                                         │
-│ H1: Discreet transportation, organised around your schedule                │
-│ concise service definition                                                  │
-│ [Request VIP Transportation] [Request a Quote]                              │
-│ · Discretion · Private itinerary · Individually coordinated service         │
-└──────────────────────────────────────────────────────────────────────────────┘
-↓
-SERVICE DEFINITION / PASSENGER EXPERIENCE — OPEN DARK
-┌─────────────────────────────────────────┬────────────────────────────────────┐
-│ H2 + intro + body                       │ passenger-experience-alternate.webp │
-│ 01 discreet chauffeur service           │                                    │
-│ 02 individual organisation              │                                    │
-│ 03 coordinated movement                 │                                    │
-└─────────────────────────────────────────┴────────────────────────────────────┘
-↓
-SERVICE SCOPE
-heading + intro + body
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 01 Individual VIP transportation                                           │
-│ ──────────────────────────────────────────────────────────────────────────── │
-│ 02 Private itinerary                                                       │
-│ ──────────────────────────────────────────────────────────────────────────── │
-│ 03 Multiple vehicles                                                       │
-└──────────────────────────────────────────────────────────────────────────────┘
-[Individual quote] [Commercial aviation] [Private aviation]
-[Multi-vehicle organisation] [Dedicated complex-booking coordination]
-↓
-DISCRETION & PRIVACY — SIGNATURE EDITORIAL REGION
-┌──────────────────────────────┬───────────────────────────────────────────────┐
-│ label                        │                                               │
-│ H2                           │ schedule-backseat-view.webp                   │
-│ “Present when needed.        │ dark passenger-perspective image              │
-│  Invisible when not.”        │                                               │
-│ body                         │                                               │
-│ 01 Professional presence     │                                               │
-│ 02 Private schedule          │                                               │
-│ 03 Quiet execution           │                                               │
-└──────────────────────────────┴───────────────────────────────────────────────┘
-↓
-ARRIVALS & AVIATION
-┌──────────────────────────────────────┬───────────────────────────────────────┐
-│ H2: From arrival to the next         │ mercedes-sprint-next-to-private-jet   │
-│ engagement                           │                                       │
-│ body                                 │ primary editorial aviation image       │
-│ 01 Commercial aviation              │                                       │
-│ 02 Private aviation                 │  ┌─────────────────────────────────┐  │
-│ 03 Onward itinerary                 │  │ private-jet-parked-outside-     │  │
-│ [Discuss an arrival]                │  │ of-hangar.webp — secondary      │  │
-│                                      │  └─────────────────────────────────┘  │
-└──────────────────────────────────────┴───────────────────────────────────────┘
-↓
-FLEET BY VIP ROLE
-[S-Class] [E-Class] [V-Class] [Sprinter]
-canonical facts + VIP suitability label
-↓
-COMPLEX ITINERARY & COORDINATION
-H2: One itinerary. One coordinated transport plan.
-┌──────────────┬────────────────┬─────────────────┬────────────┬────────────────┐
-│ 01 Arrival   │ 02 Scheduled   │ 03 Additional   │ 04 Changes │ 05 Dedicated  │
-│              │ movements      │ passengers /    │ reviewed    │ coordination  │
-│              │                │ vehicles        │             │               │
-└──────────────┴────────────────┴─────────────────┴────────────┴────────────────┘
-semantic sequence — NOT a fake tracker
-↓
-VIP SERVICE STANDARDS
-01 Professional chauffeur | 02 Prepared vehicle | 03 Discretion & privacy
-04 Dedicated coordination | 05 Multi-vehicle    | 06 Manual confirmation
-↓
-HOW THE ARRANGEMENT WORKS
-heading on dark
-┌───────────────────────┬────────────────────────┬─────────────────────────────┐
-│ 01 Send requirements  │ 02 We review           │ 03 Confirmed plan + quote   │
-└───────────────────────┴────────────────────────┴─────────────────────────────┘
-one shared light strip
-↓
-FAQ — ONLY LARGE LIGHT READING REGION
-8 questions
-↓
-FINAL CTA
-┌───────────────────────────────────────┬──────────────────────────────────────┐
-│ H2 + copy                             │ approved shared FinalCTA media        │
-│ [Request VIP Transportation]          │                                      │
-│ [Request a Quote]                     │                                      │
-│ verified phone · email                │                                      │
-└───────────────────────────────────────┴──────────────────────────────────────┘
-↓
-FOOTER
+Header over Hero
+→ full-bleed Hero
+→ service definition
+→ service scope
+→ discretion and privacy
+→ arrivals and aviation
+→ vehicle recommendations
+→ itinerary coordination
+→ service standards
+→ arrangement process
+→ FAQ
+→ Final CTA
+→ Footer
 ```
 
-## Tablet portrait — 768×1024
+DOM, screen-reader and keyboard order remain identical to this sequence at every viewport.
+
+## 320×568 — mobile
 
 ```text
 FULL-BLEED HERO
+localized eyebrow
+localized H1 + description
+primary conversion
+secondary conversion
+three passive trust markers
 ↓
 DEFINITION
-copy → three principles → passenger image
-↓
-SERVICE SCOPE
-one divided stack + wrapped capability labels
-↓
-DISCRETION
-copy → three principles → dark backseat image
-↓
-AVIATION
-copy → three items → CTA → primary image → secondary image
-↓
-FLEET approved tablet behavior
-↓
-ITINERARY vertical five-stage sequence
-↓
-STANDARDS 2 columns at active md
-↓
-PROCESS one stacked light strip
-↓
-LIGHT FAQ
-↓
-FINAL CTA
-```
-
-## Tablet landscape — 1024×768
-
-```text
-FULL-BLEED HERO
-↓
-DEFINITION content 7 / media 5
-↓
-SCOPE divided panel
-↓
-DISCRETION content 5 / media 7
-↓
-AVIATION editorial split; secondary image subordinate
-↓
-FLEET
-↓
-ITINERARY five-stage desktop sequence only if long RU copy remains readable
-↓
-STANDARDS 3×2
-↓
-PROCESS 3 equal columns
-↓
-FAQ
-↓
-FINAL CTA
-```
-
-## Mobile — 320×568
-
-```text
-HEADER OVER HERO
-↓
-FULL-BLEED HERO
-VIP TRANSPORTATION
-H1
-[Request VIP Transportation]
-[Request a Quote]
-three trust markers
-↓
-DEFINITION
-H2 + body
-01 / 02 / 03
-[passenger image]
+label + H2 + body
+three ordered principles
+editorial media
 ↓
 SCOPE
-01 individual transport
-02 private itinerary
-03 multiple vehicles
-capability labels wrap without horizontal scroll
+label + H2 + body
+three divided items
+wrapped capability labels
 ↓
 DISCRETION
-H2 + body
-01 professional presence
-02 private schedule
-03 quiet execution
-[schedule-backseat image]
+label + H2 + body
+three principles
+editorial media
 ↓
 AVIATION
-H2 + body + CTA
-01 commercial
-02 private
-03 onward itinerary
-[primary aviation image]
-[secondary aviation image]
+label + H2 + body
+three items + one action
+primary media
+supporting media
 ↓
-FLEET carousel
+VEHICLE RECOMMENDATIONS
+shared horizontal carousel
+fleet action
 ↓
 ITINERARY
-01 Arrival
-02 Scheduled movements
-03 Additional passengers / vehicles
-04 Changes reviewed
-05 Dedicated coordination
+five vertical ordered stages
 ↓
-STANDARDS 01–06
+STANDARDS
+six rows / one column
 ↓
-PROCESS one light strip, stacked
+PROCESS
+three stacked steps in one light inner strip
 ↓
-LIGHT FAQ
+FAQ
+single light reading region / eight rows
 ↓
 FINAL CTA
-↓
-FOOTER
+content first, media second
 ```
 
-## Image-role contract
+Requirements: no horizontal page overflow, no horizontal itinerary scroller, full-width stacked Hero actions at the existing narrow breakpoint, and 44×44 interactive targets.
 
-### Hero — `hero-chauffeur-wheel.webp`
+## 768×1024 — tablet portrait
 
-Preserve the chauffeur/passenger relationship, reflective cabin context and usable dark copy space. Do not crop to a steering-wheel product photograph. Use the current shared ServiceHero scrim and focal behavior first.
+```text
+Hero topology unchanged
+Definition remains content-first and stacked
+Scope remains one divided stack
+Discretion remains content-first and stacked
+Aviation remains content → primary media → supporting media
+Fleet uses shared tablet behavior
+Itinerary remains one vertical sequence
+Standards use 2 columns
+Process remains stacked
+FAQ and Final CTA use their shared tablet behavior
+```
 
-### Definition — `passenger-experience-alternate.webp`
+No media is visually reordered ahead of its explanatory content.
 
-Represents the passenger experience and private rear-seat environment. It does not prove or promise equipment, laptop availability or a specific vehicle feature.
+## 1024×768 — tablet landscape / active lg
 
-### Discretion — `schedule-backseat-view.webp`
+```text
+Definition: approved 7/5 editorial split
+Scope: shared divided panel
+Discretion: approved 5/7 editorial split
+Aviation: approved 5/7 content/media split with subordinate supporting media
+Fleet: shared carousel
+Itinerary: row one 4/4/4, row two 6/6
+Standards: 3×2
+Process: 3 equal columns
+FAQ: reading container
+Final CTA: shared desktop composition
+```
 
-Signature VIP image. Preserve the rear-seat passenger perspective, dark cabin and road ahead. No large overlay card over the central view.
+The itinerary always remains stages 1–5 in source and visual order. Russian copy wraps within the fixed topology; it never selects a different layout.
 
-### Aviation primary — `mercedes-sprint-next-to-private-jet.webp`
+## 1440×900 — desktop
 
-Connects ground transport and private aviation. It does not imply tarmac, airside or aircraft-side access as a standard entitlement.
+Use the same topology as 1024×768. Main and reading containers follow the active theme. Editorial media receives greater footprint only inside the approved split; no additional columns, cards or decorative trackers appear.
 
-### Aviation supporting — `private-jet-parked-outside-of-hangar.webp`
+## 1920×1080 — wide desktop
 
-Secondary editorial context only. Keep it visually subordinate so the page remains a ground-transport page, not an aircraft-charter page.
+No topology expansion. Containers cap at active theme limits, text measures remain bounded, Hero/background media may fill the viewport, and contextual media remains contained by its section composition.
 
 ## Surface rhythm
 
 ```text
-DARK HERO
-DARK DEFINITION
-DARK SCOPE
-DARK DISCRETION
-DARK AVIATION
-DARK FLEET
-DARK ITINERARY
-DARK STANDARDS
-DARK PROCESS + LIGHT INNER STRIP
-LIGHT FAQ
-DARK FINAL CTA
-DARK FOOTER
+dark Hero
+dark editorial sequence
+dark Process section with one light inner strip
+light FAQ reading region
+dark Final CTA
+dark Footer
 ```
 
-## Non-negotiable mobile rule
-
-Every editorial region keeps content-first DOM order. CSS may reposition media at desktop, but keyboard/focus/reading order remains logical. No horizontal itinerary or capability scroller is allowed at narrow widths.
+FAQ is the only large light page region. The wireframe does not prescribe raw colors, spacing, radii, typography values, asset filenames, localized copy, vehicle names or component internals.

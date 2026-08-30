@@ -1,0 +1,390 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import { formatCurrency } from "@astro-foundation/core/i18n";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../services/shared/ServiceHero.astro";
+import FAQ from "../shared/FAQ.astro";
+import FinalCTA from "../shared/FinalCTA.astro";
+import PricingIndex from "./PricingIndex.astro";
+import PricingPublishedRates from "./PricingPublishedRates.astro";
+import PricingCustomServices from "./PricingCustomServices.astro";
+import PricingModels from "./PricingModels.astro";
+import { getPublishedPricingRecords } from "./pricing-view-model.ts";
+import type {
+  PricingCustomServiceRow,
+  PricingRateRow,
+  PricingServiceFamily,
+  PricingTariffGroup,
+} from "./pricing.types.ts";
+import { getLocaleConfig } from "../../data/locales.ts";
+import { getNavLabel } from "../../data/navigation.ts";
+import { getRoute } from "../../data/routes.ts";
+import { getService, privateChauffeurService } from "../../data/services.ts";
+import { contact, isVerified } from "../../data/contact.ts";
+import { t } from "../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
+import { buildPageSeo } from "../../lib/seo.ts";
+import { interpolateTokens } from "../../lib/interpolate.ts";
+import heroImage from "../../assets/s-class-wheel-interior.webp";
+import finalCtaImage from "../../assets/final-cta-bg.webp";
+
+interface Props {
+  routeKey: "pricing";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (
+  routeKey !== "pricing" ||
+  content.data.pageType !== "pricing" ||
+  content.data.routeKey !== routeKey
+) {
+  throw new Error("PricingPage received incompatible data.");
+}
+
+const data = content.data;
+if (
+  !data.hero ||
+  !data.hero.secondaryCta ||
+  !data.hero.supportText ||
+  data.pricing.source !== "pricing-data" ||
+  !data.faq ||
+  !data.finalCta.secondaryCta
+) {
+  throw new Error(`Pricing content is incomplete for ${locale}.`);
+}
+
+const section = (key: string) => {
+  const value = data.sections.find((item) => item.key === key);
+  if (!value) throw new Error(`Missing Pricing section "${key}" for ${locale}.`);
+  return value;
+};
+
+const individualSection = section("individualPricing");
+const modelsSection = section("pricingModels");
+const confirmationSection = section("confirmation");
+
+if (!individualSection.heading.intro || !individualSection.body || !individualSection.cta) {
+  throw new Error(`Individual Pricing content is incomplete for ${locale}.`);
+}
+if (!modelsSection.items || modelsSection.items.length !== 3) {
+  throw new Error(`Pricing Models requires exactly three localized items for ${locale}.`);
+}
+if (!confirmationSection.heading.intro || !confirmationSection.body) {
+  throw new Error(`Pricing confirmation content is incomplete for ${locale}.`);
+}
+if (data.faq.items.length !== 8) {
+  throw new Error(`Pricing FAQ requires exactly eight localized entries for ${locale}.`);
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = resolveAction(data.hero.secondaryCta);
+const quoteAction = resolveAction(individualSection.cta);
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = resolveAction(data.finalCta.secondaryCta);
+
+const publishedRecords = getPublishedPricingRecords();
+if (publishedRecords.length === 0) {
+  throw new Error("Pricing page requires at least one canonical published-pricing vehicle.");
+}
+
+for (const { vehicle, pricing } of publishedRecords) {
+  if (
+    pricing.vehicleId !== vehicle.id ||
+    pricing.currency !== "EUR" ||
+    pricing.airportTransfer.currency !== pricing.currency ||
+    pricing.airportTransfer.scope !== "belgrade-airport-to-belgrade-city"
+  ) {
+    throw new Error(`Pricing currency or airport scope drift for "${vehicle.id}".`);
+  }
+}
+
+const numberLocale = getLocaleConfig(locale).intl.numberLocale;
+const rateRows = (
+  amount: (record: (typeof publishedRecords)[number]) => number,
+  unit: string,
+): PricingRateRow[] =>
+  publishedRecords.map((record) => ({
+    vehicleId: record.vehicle.id,
+    displayName: record.vehicle.displayName,
+    formattedPrice: formatCurrency(amount(record), record.pricing.currency, numberLocale),
+    unit,
+  }));
+
+const airportRows = rateRows(
+  ({ pricing }) => pricing.airportTransfer.amount,
+  ui("pricing.unit.perVehicle"),
+);
+const chauffeurGroups: PricingTariffGroup[] = [
+  {
+    key: "hourly",
+    heading: ui("pricing.rate.hourly.title"),
+    fact: interpolateTokens(
+      ui("pricing.rate.hourly.fact"),
+      { hours: privateChauffeurService.bookingOptions.hourly.minimumHours },
+      "Pricing hourly fact",
+    ),
+    status: ui("pricing.status.published"),
+    rows: rateRows(({ pricing }) => pricing.hourly, ui("pricing.unit.perHour")),
+  },
+  {
+    key: "half-day",
+    heading: ui("pricing.rate.halfDay.title"),
+    fact: interpolateTokens(
+      ui("pricing.rate.halfDay.fact"),
+      {
+        hours: privateChauffeurService.bookingOptions.halfDay.hours,
+        km: privateChauffeurService.bookingOptions.halfDay.includedKm,
+      },
+      "Pricing half-day fact",
+    ),
+    status: ui("pricing.status.published"),
+    rows: rateRows(({ pricing }) => pricing.halfDay, ui("pricing.unit.perHire")),
+  },
+  {
+    key: "full-day",
+    heading: ui("pricing.rate.fullDay.title"),
+    fact: interpolateTokens(
+      ui("pricing.rate.fullDay.fact"),
+      {
+        hours: privateChauffeurService.bookingOptions.fullDay.hours,
+        km: privateChauffeurService.bookingOptions.fullDay.includedKm,
+      },
+      "Pricing full-day fact",
+    ),
+    status: ui("pricing.status.published"),
+    rows: rateRows(({ pricing }) => pricing.fullDay, ui("pricing.unit.perHire")),
+  },
+];
+
+const pricingStatus = (serviceRouteKey: RouteKey): string => {
+  const modes = getService(serviceRouteKey).pricingMode;
+  return modes.includes("estimated-when-simple")
+    ? ui("pricing.status.estimateQuote")
+    : ui("pricing.status.quote");
+};
+
+const buildFamily = (
+  key: "business" | "events",
+  hubKey: "businessTransportation" | "specialEvents",
+  heading: string,
+): PricingServiceFamily => {
+  const hub = getService(hubKey);
+  if (hub.kind !== "hub" || !hub.children || hub.children.length !== 3) {
+    throw new Error(`Pricing family "${hubKey}" requires its canonical three service children.`);
+  }
+
+  const routeKeys: RouteKey[] = [hub.routeKey, ...hub.children];
+  const rows: PricingCustomServiceRow[] = routeKeys.map((familyRouteKey) => ({
+    routeKey: familyRouteKey,
+    label: getNavLabel(familyRouteKey, locale),
+    status: pricingStatus(familyRouteKey),
+    availability: getRoute(familyRouteKey).availability,
+  }));
+
+  return { key, heading, rows };
+};
+
+const customFamilies: PricingServiceFamily[] = [
+  buildFamily("business", "businessTransportation", ui("pricing.custom.businessGroup")),
+  buildFamily("events", "specialEvents", ui("pricing.custom.eventsGroup")),
+];
+
+const expectedRelatedRoutes = customFamilies.flatMap((family) =>
+  family.rows.map((row) => row.routeKey),
+);
+if (
+  !individualSection.relatedRouteKeys ||
+  individualSection.relatedRouteKeys.length !== expectedRelatedRoutes.length ||
+  individualSection.relatedRouteKeys.some((key, index) => key !== expectedRelatedRoutes[index])
+) {
+  throw new Error(`Individual Pricing related routes drift from canonical service families for ${locale}.`);
+}
+
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(data.faq.items)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    eyebrow={ui("pricing.hero.eyebrow")}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    supportText={data.hero.supportText}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <Section spacing="standard" aria-labelledby="pricing-introduction-heading">
+    <PageContainer>
+      <div class="pricing-introduction">
+        <div>
+          <SectionHeading
+            id="pricing-introduction-heading"
+            heading={data.introSection.heading.title}
+            description={data.introSection.heading.intro}
+            accent={true}
+          />
+          <p class="pricing-introduction__body">{data.introSection.body}</p>
+        </div>
+        <PricingIndex
+          ariaLabel={ui("pricing.nav.ariaLabel")}
+          items={[
+            { href: "#airport", label: getNavLabel("airportTransportation", locale) },
+            { href: "#private-chauffeur", label: getNavLabel("privateChauffeur", locale) },
+            { href: "#individual-pricing", label: ui("pricing.nav.custom") },
+          ]}
+        />
+      </div>
+    </PageContainer>
+  </Section>
+
+  <PricingPublishedRates
+    heading={data.pricing.heading.title}
+    intro={data.pricing.heading.intro}
+    airport={{
+      label: ui("pricing.airport.label"),
+      heading: getNavLabel("airportTransportation", locale),
+      fact: ui("pricing.airport.scope"),
+      rows: airportRows,
+      action: { label: ui("pricing.cta.airport"), to: "airportTransportation" },
+    }}
+    chauffeur={{
+      label: ui("pricing.chauffeur.label"),
+      heading: getNavLabel("privateChauffeur", locale),
+      note: ui("pricing.chauffeur.note"),
+      groups: chauffeurGroups,
+      action: { label: ui("pricing.cta.chauffeur"), to: "privateChauffeur" },
+    }}
+    {locale}
+  />
+
+  <PricingCustomServices
+    heading={individualSection.heading.title}
+    intro={individualSection.heading.intro}
+    body={individualSection.body}
+    families={customFamilies}
+    quoteAction={quoteAction}
+    {locale}
+  />
+
+  <Section as="div" spacing="standard">
+    <PageContainer>
+      <div
+        class="pricing-light-panel p-[var(--space-6)] lg:p-[var(--space-12)]"
+        data-pricing-surface="models"
+      >
+        <PricingModels
+          heading={modelsSection.heading.title}
+          intro={modelsSection.heading.intro}
+          items={modelsSection.items}
+        />
+      </div>
+    </PageContainer>
+  </Section>
+
+  <Section spacing="standard" aria-labelledby="pricing-confirmation-heading">
+    <PageContainer>
+      <SectionHeading
+        id="pricing-confirmation-heading"
+        heading={confirmationSection.heading.title}
+        description={confirmationSection.heading.intro}
+        accent={true}
+      />
+      <p class="pricing-confirmation__body">{confirmationSection.body}</p>
+    </PageContainer>
+  </Section>
+
+  <Section spacing="compact" surface="light" aria-labelledby="pricing-faq-heading">
+    <PageContainer>
+      <div data-pricing-surface="faq">
+        <SectionHeading id="pricing-faq-heading" heading={data.faq.heading} on="light" />
+        <FAQ items={data.faq.items} on="light" class="mt-[var(--space-6)]" />
+      </div>
+    </PageContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .pricing-introduction {
+    display: grid;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  .pricing-introduction__body {
+    max-inline-size: var(--measure-body);
+    margin-block-start: var(--space-6);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .pricing-introduction {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+
+  .pricing-light-panel {
+    border-radius: var(--radius-section);
+    background: var(--color-surface-light);
+    color: var(--color-text-on-light);
+  }
+
+  .pricing-confirmation__body {
+    max-inline-size: var(--measure-body);
+    margin-block-start: var(--space-6);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+</style>

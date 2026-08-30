@@ -7,11 +7,12 @@ Every applicable item MUST pass.
 
 ## A. Structure
 
-- [ ] Header → Full-bleed Hero → Navigator → Introduction → S klasa → E klasa → Superb → Kodiaq → V klasa → Sprinter → Fit Guide → FAQ → Final CTA → Footer.
+- [ ] Header → Full-bleed Hero → Navigator → Introduction → Sedans (S klasa, E klasa, Superb) → SUV (Kodiaq) → Group Transport (V klasa, Sprinter) → Fit Guide → FAQ → Final CTA → Footer.
 - [ ] Fleet renders through dedicated `FleetPage.astro`.
 - [ ] No required region is silently merged, removed, or reordered.
 - [ ] Homepage Fleet carousel is not used as the Fleet page.
 - [ ] Vehicle chapters do not alternate image/text sides.
+- [ ] Vehicle chapters have no bottom separator border between cars.
 - [ ] Final CTA remains subordinate to Hero.
 
 ## B. Route and publication
@@ -52,7 +53,10 @@ Every applicable item MUST pass.
 ## E. Navigator
 
 - [ ] Navigator is a semantic `<nav>`.
-- [ ] Exactly four categories render: Sedans, SUV, Vans, Group Transport.
+- [ ] Exactly three categories render: Sedans, SUV, Group Transport.
+- [ ] V-Class and Sprinter both render under Group Transport.
+- [ ] The navigator surface is capped by the approved main container with no extra inner panel gutter.
+- [ ] Navigator uses one semantic card-radius shell; individual anchors are not pills.
 - [ ] Category anchors target real page ids.
 - [ ] No client JavaScript is required.
 - [ ] Targets meet 44×44 project minimum.
@@ -96,7 +100,8 @@ Every applicable item MUST pass.
 - [ ] V-Class uses `original/v-class/left-facing.webp`.
 - [ ] Sprinter uses `original/sprinter/left-facing.webp`.
 - [ ] No side-facing image substitutes for a locked chapter.
-- [ ] Vehicle media uses containment, not crop.
+- [ ] Vehicle media fills the complete stable 3:2 stage with centered `object-cover`.
+- [ ] Every vehicle image has a very light semantic black scrim.
 - [ ] Original multi-megabyte source files are transformed by Astro.
 - [ ] Only Hero is eager/high priority.
 - [ ] Vehicle images are lazy loaded with intrinsic geometry.
@@ -125,10 +130,11 @@ Every applicable item MUST pass.
 - [ ] 768: single-column composition remains intentional, not desktop squeezed.
 - [ ] 1024: vehicle chapter uses approved 6/6 split.
 - [ ] 1440: vehicle chapter uses approved 7/5 split.
+- [ ] Desktop vehicle splits use the canonical 12-column grid and approved column-gap token.
 - [ ] 1920: main content remains capped by approved container.
 - [ ] DOM order stays logical.
 - [ ] No CSS visual reordering breaks reading/focus order.
-- [ ] Full vehicle remains visible at every review width.
+- [ ] Vehicle image fills the stage and its centred subject remains clear at every review width.
 - [ ] No chapter causes page overflow.
 
 ## K. Fit Guide
@@ -151,6 +157,7 @@ Every applicable item MUST pass.
 - [ ] Visible FAQ and FAQPage schema use the same array.
 - [ ] FAQ covers exact model, capacity, V-Class configs, luggage, Kodiaq, multiple vehicles, child seats, manual confirmation.
 - [ ] No unverified vehicle spec appears in FAQ.
+- [ ] FAQ uses the contained light Section pattern, not a full-width light band.
 
 ## M. Final CTA
 
@@ -174,6 +181,7 @@ Every applicable item MUST pass.
 - [ ] No oversized SaaS rounding.
 - [ ] Platinum remains restrained.
 - [ ] Vehicle media, typography, and whitespace establish hierarchy before decoration.
+- [ ] Introduction copy aligns to a bounded reading span of the canonical main grid.
 
 ## O. Technical quality
 

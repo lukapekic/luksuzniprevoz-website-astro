@@ -168,6 +168,14 @@
         "site/luksuzni-prevoz/src/docs/services/prom-transportation"
       ]
     },
+    "vip-transportation": {
+      "match": ["vip-transportation", "vipTransportation", "vip-prevoz", "vip-transfer"],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/services/vip-transportation/blueprint.md"],
+      "contracts": [
+        "site/luksuzni-prevoz/src/docs/services/shared",
+        "site/luksuzni-prevoz/src/docs/services/vip-transportation"
+      ]
+    },
     "fleet": {
       "match": [
         "src/components/fleet/",

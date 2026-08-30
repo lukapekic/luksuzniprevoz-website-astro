@@ -1,0 +1,149 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import Link from "../../foundation/ui/Link.astro";
+import type { PricingHrefAction, PricingServiceFamily } from "./pricing.types.ts";
+
+interface Props {
+  heading: string;
+  intro: string;
+  body: string;
+  families: readonly PricingServiceFamily[];
+  quoteAction: PricingHrefAction;
+  locale: LocaleCode;
+}
+
+const { heading, intro, body, families, quoteAction, locale } = Astro.props;
+
+if (families.length !== 2 || families.some((family) => family.rows.length !== 4)) {
+  throw new Error("Individual Pricing requires two canonical four-service families.");
+}
+---
+
+<Section
+  id="individual-pricing"
+  spacing="standard"
+  aria-labelledby="individual-pricing-heading"
+  class="scroll-mt-[var(--space-24)]"
+>
+  <PageContainer>
+    <div class="pricing-custom">
+      <div class="pricing-custom__introduction">
+        <SectionHeading
+          id="individual-pricing-heading"
+          {heading}
+          description={intro}
+          accent={true}
+        />
+        <p>{body}</p>
+      </div>
+
+      <div class="pricing-custom__families xl:grid-cols-2">
+        {families.map((family) => (
+          <section
+            class="pricing-custom__family"
+            aria-labelledby={`pricing-family-${family.key}`}
+            data-pricing-family={family.key}
+          >
+            <h3 id={`pricing-family-${family.key}`}>{family.heading}</h3>
+            <ul role="list">
+              {family.rows.map((row) => (
+                <li data-route-key={row.routeKey}>
+                  <span class="pricing-custom__service">
+                    {row.availability === "published" ? (
+                      <Link variant="default" to={row.routeKey} {locale}>{row.label}</Link>
+                    ) : (
+                      row.label
+                    )}
+                  </span>
+                  <span class="pricing-custom__status">{row.status}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <Link variant="cta" href={quoteAction.href} {locale} class="mt-[var(--space-8)]">
+        {quoteAction.label}
+      </Link>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .pricing-custom {
+    border-radius: var(--radius-section);
+    background: var(--color-surface-elevated);
+    padding: clamp(var(--space-6), 4vw, var(--space-12));
+  }
+
+  .pricing-custom__introduction {
+    display: grid;
+    gap: var(--space-5);
+    max-inline-size: var(--measure-wide);
+  }
+
+  .pricing-custom__introduction > p {
+    max-inline-size: var(--measure-body);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: var(--color-text-muted);
+  }
+
+  .pricing-custom__families {
+    display: grid;
+    gap: var(--space-8);
+    margin-block-start: var(--space-10);
+  }
+
+  .pricing-custom__family {
+    min-inline-size: 0;
+  }
+
+  .pricing-custom__family h3 {
+    padding-block-end: var(--space-5);
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-text-primary);
+  }
+
+  .pricing-custom__family ul {
+    border-block-start: 1px solid var(--color-divider);
+  }
+
+  .pricing-custom__family li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-4);
+    min-block-size: var(--space-16);
+    align-items: center;
+    border-block-end: 1px solid var(--color-divider);
+    padding-block: var(--space-3);
+  }
+
+  .pricing-custom__service {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-primary);
+  }
+
+  .pricing-custom__status {
+    max-inline-size: var(--measure-compact);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: var(--line-height-ui);
+    text-align: end;
+    color: var(--color-text-muted);
+  }
+</style>

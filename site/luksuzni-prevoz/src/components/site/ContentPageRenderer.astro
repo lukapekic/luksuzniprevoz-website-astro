@@ -12,9 +12,11 @@ import DelegationTransportationPage from "../services/delegation-transportation/
 import ConferenceCongressTransportationPage from "../services/conference-congress-transportation/ConferenceCongressTransportationPage.astro";
 import WeddingTransportationPage from "../services/wedding-transportation/WeddingTransportationPage.astro";
 import PromTransportationPage from "../services/prom-transportation/PromTransportationPage.astro";
+import VipTransportationPage from "../services/vip-transportation/VipTransportationPage.astro";
 import ContactPage from "../contact/ContactPage.astro";
 import BookingPage from "../booking/BookingPage.astro";
 import FleetPage from "../fleet/FleetPage.astro";
+import PricingPage from "../pricing/PricingPage.astro";
 
 interface Props { routeKey: RouteKey; locale: LocaleCode; content: CollectionEntry<"pages"> }
 const { routeKey, locale, content } = Astro.props;
@@ -40,12 +42,16 @@ const { routeKey, locale, content } = Astro.props;
   <WeddingTransportationPage routeKey="weddingTransportation" locale={locale} content={content} />
 ) : routeKey === "promTransportation" ? (
   <PromTransportationPage routeKey="promTransportation" locale={locale} content={content} />
+) : routeKey === "vipTransportation" ? (
+  <VipTransportationPage routeKey="vipTransportation" locale={locale} content={content} />
 ) : routeKey === "contact" ? (
   <ContactPage routeKey="contact" locale={locale} content={content} />
 ) : routeKey === "booking" ? (
   <BookingPage routeKey="booking" locale={locale} content={content} />
 ) : routeKey === "fleet" ? (
   <FleetPage routeKey="fleet" locale={locale} content={content} />
+) : routeKey === "pricing" ? (
+  <PricingPage routeKey="pricing" locale={locale} content={content} />
 ) : (
   <LeafPage routeKey={routeKey} locale={locale} content={content} />
 )}

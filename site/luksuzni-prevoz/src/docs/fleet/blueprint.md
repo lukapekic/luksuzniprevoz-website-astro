@@ -128,12 +128,11 @@ Provide fast in-page orientation without becoming a filter application.
 
 ### Categories
 
-The navigator contains exactly four anchors:
+The navigator contains exactly three anchors:
 
 1. Sedans
 2. SUV
-3. Vans
-4. Group Transport
+3. Group Transport
 
 Mapping:
 
@@ -146,10 +145,8 @@ Sedans
 SUV
   Škoda Kodiaq
 
-Vans
-  Mercedes V klasa
-
 Group Transport
+  Mercedes V klasa
   Mercedes Sprinter
 ```
 
@@ -162,10 +159,18 @@ Group Transport
 - Sticky behavior is NOT required.
 - No pill-cloud styling.
 - Use restrained text / divider treatment.
+- The navigator surface itself is contained by the approved main container.
+- Do not add an inner panel gutter around the divider-led tab row.
+- Treat the navigator as one grouped surface using the semantic card radius;
+  individual anchors do not become rounded pills.
 
 ## 6. Fleet Introduction
 
 Open-dark section.
+
+The section uses the approved main page container and canonical grid. Its
+heading and body occupy a bounded reading span aligned to the main grid rather
+than a separately centred reading container.
 
 The section explains:
 
@@ -179,11 +184,15 @@ Do not publish a blanket model-year statement.
 
 ### Global chapter contract
 
-Every model chapter uses the same stable composition.
+Every model chapter uses the same stable composition inside the approved main
+page container and canonical 12-column grid.
+
+Chapters are separated by the approved section rhythm and category markers,
+not by a bottom border after every vehicle.
 
 #### Desktop ≥ 80rem
 
-Approved `7/5` composition:
+Approved `7/5` composition on the 12-column grid:
 
 ```text
 7 columns: vehicle media stage
@@ -196,7 +205,7 @@ The media stays on the same logical side for every chapter.
 
 #### Tablet landscape 64–79.99rem
 
-Use `6/6`.
+Use `6/6` on the same 12-column grid.
 
 #### Tablet portrait 48–63.98rem
 
@@ -234,10 +243,11 @@ Every chapter uses:
 
 Image treatment:
 
-- contain the whole vehicle;
-- do not crop a vehicle cutout/product render with `object-cover`;
-- stable aspect ratio;
-- centered visual baseline;
+- fill the complete media stage with `object-cover`;
+- use the source photography's stable 3:2 aspect ratio so the vehicle remains
+  clear without artificial top/bottom bands;
+- center the crop with `object-position: center`;
+- add a very light black scrim derived from the semantic background token;
 - restrained graphite stage;
 - no glowing outline;
 - no fake floor reflection;
@@ -328,7 +338,9 @@ It MUST NOT promise that the largest nominal passenger configuration is always c
 
 Use the approved shared FAQ.
 
-FAQ is the primary large reading-focused light region.
+FAQ is the primary reading-focused light region. It uses the approved
+contained light `Section` pattern with `ReadingContainer` inside; it is not a
+full-width light band.
 
 Questions cover:
 
@@ -407,7 +419,7 @@ At every state verify:
 
 - one H1;
 - no horizontal overflow;
-- vehicle fully visible;
+- vehicle image fills its stage and the centred vehicle subject remains clear;
 - readable content measure;
 - logical DOM order;
 - 44×44 interactive targets;

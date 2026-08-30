@@ -4,7 +4,7 @@
 **Page type:** direct service  
 **Primary locale:** Serbian (`sr`)  
 **Theme:** configured active Theme V2 — Black & Platinum  
-**Status:** LOCKED — READY FOR IMPLEMENTATION  
+**Status:** LOCKED — IMPLEMENTED
 **Prepared:** 2026-08-30
 
 This package defines the production target for the final Special Events child service: VIP Transportation. It follows the repository authority chain and the established Wedding/Prom Occasion architecture, but gives VIP its own operational identity: discreet, individually coordinated transportation around an important guest and confirmed itinerary.
@@ -45,17 +45,17 @@ vip-transportation/
 
 ## Locked contextual imagery
 
-The selected production assets already exist in `src/assets/shared/other/`:
+The production mapping combines one page-specific editorial Hero with verified repository assets:
 
 ```text
 Hero
-→ hero-chauffeur-wheel.webp
+→ src/assets/pages/vip-transportation/hero.png
 
 Service definition / passenger experience
 → passenger-experience-alternate.webp
 
 Discretion & privacy signature section
-→ schedule-backseat-view.webp
+→ src/assets/shared/other/s-class-hotel-front-winter.webp
 
 Arrivals & aviation primary image
 → mercedes-sprint-next-to-private-jet.webp
@@ -71,8 +71,9 @@ Do not substitute the following as prominent VIP storytelling media:
 ```text
 mercedes-outside-of-airstrip.webp
 s-class-interior-1.webp
-s-class-interior-driver-side(1).webp
-s-class-move-highway(1).webp
+s-class-interior-driver-side.webp
+s-class-move-highway.webp
+s-class-move-highway-2.webp
 v-class-interior-1.webp
 productivity-backseat.webp
 ```
@@ -111,13 +112,14 @@ The `redesign-content-pack` contains the complete SR/EN/RU target service entrie
 
 Installation order is locked:
 
-1. replace all three VIP scaffolds with the supplied full service entries;
+1. replace all three VIP scaffolds with the supplied full service entries staged as `in-review` and `noindex: true`;
 2. merge matching UI additions into `src/content/ui/{sr,en,ru}.json` using the strict merge rule below;
 3. run `pnpm content:sync-digests` so EN/RU receive the real Serbian source digest;
 4. validate content, routes and SEO;
-5. change `vipTransportation` route availability from `scaffold` to `published` only after all three locale entries validate;
-6. implement and dispatch the dedicated VIP renderer;
-7. pass the full acceptance stack before completion.
+5. implement and dispatch the dedicated VIP renderer while the route remains scaffold;
+6. pass renderer tests, site check/build and UI verification;
+7. publish content (`published`, `noindex: false`) and route availability atomically;
+8. rerun the full acceptance stack before completion.
 
 UI merge rule:
 

@@ -1,6 +1,6 @@
 # VIP Transportation — Implementation V1
 
-**Status:** READY FOR IMPLEMENTATION  
+**Status:** IMPLEMENTED — VERIFIED
 **Target:** `vipTransportation`  
 **Prepared:** 2026-08-30
 
@@ -9,14 +9,15 @@ Every step below is mandatory. The coding agent MUST use current repository cont
 ## 0. Ordered execution plan
 
 1. **Preflight** — load root authorities, VIP blueprint/wireframe, active theme, current Wedding/Prom implementations and applicable skills.
-2. **Install localized content/UI** — replace all three VIP scaffolds, merge new UI keys, synchronize digests and validate before publication.
-3. **Publish route** — change `vipTransportation` availability to `published` only after SR/EN/RU validate as complete service entries.
+2. **Governance** — register the VIP surface, refresh a stale design snapshot only when preflight requires it, and run planned-target context before creating production UI.
+3. **Stage localized content/UI** — keep all three complete VIP entries `in-review` and `noindex: true`; merge UI keys and validate without exposing an unfinished page.
 4. **Assembler and dispatch** — create `VipTransportationPage.astro`, add explicit renderer dispatch and strict content/capability guards.
 5. **VIP-local editorial components** — implement Service Definition, Discretion, Aviation and Itinerary without forking shared Occasion contracts.
-6. **Shared integrations** — reuse Scope, Fleet, Standards, Process, FAQ and FinalCTA.
+6. **Shared integrations** — reuse Scope, Fleet, Standards, Process, FAQ and FinalCTA through their complete current APIs.
 7. **Responsive/image hardening** — verify all five governed viewports, long Russian copy, crop, loading, focus, target size and overflow.
-8. **Automated acceptance** — add VIP smoke coverage and run the repository verification stack.
-9. **Handoff** — reconcile `acceptance.md`; completion requires all applicable checks to pass.
+8. **Automated acceptance** — add VIP smoke coverage and run the repository verification stack while content remains non-indexable.
+9. **Atomic publication** — only after renderer dispatch and page gates pass, set content `published`/`noindex: false` and route availability `published`, then rerun route/content/SEO/build verification.
+10. **Handoff** — reconcile `acceptance.md`; completion requires all applicable checks to pass.
 
 Expected production file map:
 
@@ -59,13 +60,28 @@ site/luksuzni-prevoz/src/data/operations.ts
 site/luksuzni-prevoz/src/data/contact.ts
 site/luksuzni-prevoz/src/content/schemas/pages.ts
 site/luksuzni-prevoz/src/content/schemas/shared.ts
+.skills/design-foundation-governance.md
+.skills/blueprint-to-ui.md
+.skills/component-architecture.md
+.skills/high-value-visual-execution.md
+.skills/typography-system.md
+.skills/responsive-layout.md
+.skills/responsive-ui.md
+.skills/tailwind-v4.md
+.skills/accessibility-wcag.md
+.skills/imagery-art-direction.md
+.skills/responsive-images-performance.md
+.skills/multilingual-routing.md
+.skills/design-review.md
+.skills/technical-page-review.md
 ```
 
 Run:
 
 ```bash
 git status
-pnpm design:context --target site/luksuzni-prevoz/src/components/services/vip-transportation/VipTransportationPage.astro --surface vip-transportation
+pnpm design:sync:check
+pnpm design:context --planned --target site/luksuzni-prevoz/src/components/services/vip-transportation/VipTransportationPage.astro --surface vip-transportation
 pnpm components:check
 ```
 
@@ -78,9 +94,9 @@ Wedding and Prom are architectural references for shared Occasion contracts. The
 Resolve these exact files before code:
 
 ```text
-src/assets/shared/other/hero-chauffeur-wheel.webp
+src/assets/pages/vip-transportation/hero.png
 src/assets/shared/other/passenger-experience-alternate.webp
-src/assets/shared/other/schedule-backseat-view.webp
+src/assets/shared/other/s-class-hotel-front-winter.webp
 src/assets/shared/other/mercedes-sprint-next-to-private-jet.webp
 src/assets/shared/other/private-jet-parked-outside-of-hangar.webp
 src/assets/final-cta-bg.webp
@@ -128,14 +144,7 @@ pnpm routes:validate site/luksuzni-prevoz
 pnpm seo:validate site/luksuzni-prevoz
 ```
 
-Only after these checks pass, change in `src/data/routes.ts`:
-
-```text
-vipTransportation.availability
-scaffold → published
-```
-
-Then run route/content/SEO validation again.
+Keep the staged entries `status: in-review` and `noindex: true`. Route publication is the final atomic step after the renderer, smoke test, site check/build and UI verification pass. The generic `LeafPage` MUST never be used as an interim VIP renderer.
 
 ## 4. Renderer dispatch
 
@@ -211,6 +220,7 @@ privateAviation === true
 multiVehicle === true
 dedicatedCoordinatorForComplexBookings === true
 customDecorationPositioning === false
+securityService === false
 ```
 
 Do not infer unsupported capabilities from copy or imagery.
@@ -227,7 +237,7 @@ BaseLayout overHero={true}
 Import:
 
 ```ts
-import heroImage from "../../../assets/shared/other/hero-chauffeur-wheel.webp";
+import heroImage from "../../../assets/pages/vip-transportation/hero.png";
 ```
 
 Resolve localized eyebrow, Hero title/description, booking CTA, quote CTA and exactly three UI trust markers:
@@ -298,7 +308,7 @@ Source: `sections[key=discretion]`.
 Import:
 
 ```ts
-import discretionImage from "../../../assets/shared/other/schedule-backseat-view.webp";
+import discretionImage from "../../../assets/shared/other/s-class-hotel-front-winter.webp";
 ```
 
 Require exactly three principles. Render a cinematic dark editorial split with content-first DOM order.
@@ -361,6 +371,18 @@ vip.vehicleRole.mercedesSprinter
 
 Use a unique `carouselId="vip-vehicles"`.
 
+Pass the complete current adapter contract:
+
+```text
+cta target asserted as route:fleet
+locale
+fleet.passengers
+all fleet class labels
+fleet carousel aria/previous/next labels
+vip.section.vehicles
+carouselId="vip-vehicles"
+```
+
 Do not use the uploaded Maybach-looking highway photograph in this section.
 
 ## 13. Complex Itinerary & Coordination
@@ -376,7 +398,7 @@ vip.multiVehicle === true
 vip.dedicatedCoordinatorForComplexBookings === true
 ```
 
-Render semantic ordered content. Desktop may use a stepped/horizontal visual sequence only if DOM order remains linear and Russian text remains readable. Mobile is always a vertical sequence.
+Render semantic ordered content. Below `lg` it is one vertical sequence. At `lg` and above it is a deterministic theme-approved `4/4/4` first row followed by `6/6`; DOM order remains linear in every state.
 
 This is static explanation, not an interactive timeline, live map or booking control.
 
@@ -431,6 +453,8 @@ Require exactly eight FAQ items.
 
 Reuse existing `FAQ` visible component and pass the same validated array to `buildFaqPage`.
 
+Compose FAQ inside the current light `Section` + `ReadingContainer` + `SectionHeading` contract; `FAQ` owns rows only.
+
 Add no duplicate FAQ copy in component code.
 
 The explicit security question MUST state that VIP Transportation is a chauffeur/transport coordination service and does not include security or close protection.
@@ -438,6 +462,8 @@ The explicit security question MUST state that VIP Transportation is a chauffeur
 ## 17. Final CTA
 
 Reuse shared `FinalCTA` with the approved shared final-CTA image.
+
+Pass verified canonical contacts, locale, `imageFit="cover"` and `mediaTreatment="integrated"` through the current shared API.
 
 Resolve:
 
@@ -489,7 +515,7 @@ lg and above
 → Aviation editorial media composition
 → Standards 3×2
 → Process 3 equal columns
-→ Itinerary may use desktop sequence if copy remains readable
+→ Itinerary uses a deterministic 3+2 sequence (`4/4/4` then `6/6`)
 ```
 
 At every viewport verify Hero crop, text measure, CTA visibility, image focal points, Fleet behavior, focus order, 44×44 targets and zero page overflow.
@@ -539,9 +565,10 @@ site/luksuzni-prevoz/tests/smoke/vip-transportation.spec.ts
 Cover:
 
 - dedicated VIP renderer dispatch;
+- no generic `LeafPage` fallback and one non-empty Hero H1;
 - all three locales are complete service entries;
-- route is published only after content parity;
-- full-bleed Hero and exact Hero asset;
+- route/content remain non-indexable until renderer verification, then publish atomically;
+- full-bleed Hero and page-specific Hero asset;
 - exactly three trust markers;
 - exact service-capability contract;
 - exact five scope capability labels and order;
@@ -564,6 +591,14 @@ Cover:
 - governed viewport overflow checks;
 - computed Inter Tight/Manrope roles;
 - Axe WCAG 2.2 checks and minimum target checks.
+
+Before the final verification stack, publish atomically:
+
+```text
+content status: in-review → published
+content noindex: true → false
+route availability: scaffold → published
+```
 
 ## 22. Verification
 

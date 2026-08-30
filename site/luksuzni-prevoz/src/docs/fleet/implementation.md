@@ -206,7 +206,7 @@ Responsibilities:
 2. resolve localized content;
 3. resolve canonical model/profile records;
 4. resolve media from `fleet-page-media.ts`;
-5. resolve categories through the explicit page mapping `sedan → sedans`, `suv → suv`, `van → vans`, `bus → groups`;
+5. resolve categories through the explicit page mapping `sedan → sedans`, `suv → suv`, `van → groups`, `bus → groups`;
 6. build FAQ schema from the same visible FAQ data;
 7. resolve CTA hrefs through existing helpers;
 8. compose page sections;
@@ -221,8 +221,7 @@ BaseLayout overHero=true
 → Introduction
 → Sedans anchor + S klasa/E klasa/Superb
 → SUV anchor + Kodiaq
-→ Vans anchor + V klasa
-→ Group Transport anchor + Sprinter
+→ Group Transport anchor + V klasa/Sprinter
 → FleetFitGuide
 → FAQ
 → FinalCTA
@@ -242,6 +241,10 @@ Desktop:
 
 - horizontal layout;
 - restrained divider treatment;
+- the complete navigator surface is capped by `PageContainer`;
+- the tab row has no extra inner panel gutter;
+- the grouped navigator shell uses `--radius-card` with clipped internal states;
+- individual anchors remain square within the group rather than becoming pills;
 - anchors remain text-led.
 
 Mobile:
@@ -303,11 +306,14 @@ Do not render an empty label.
 
 Component owns the actual grid node. Its DOM order is identity → media → facts → summary → best-for → highlights. Desktop grid placement puts media in the first visual column without CSS `order` or duplicated content.
 
-At `xl`: `7fr media / 5fr content`.  
-At `lg`: `6fr / 6fr`.  
+At `xl`: canonical 12-column grid with media spanning 7 and content spanning 5.
+At `lg`: canonical 12-column grid with a 6/6 split.
 Below `lg`: single logical column.
 
 Do not reverse individual chapters.
+
+Do not render a bottom divider after each vehicle chapter. Section rhythm and
+category markers provide separation between cars.
 
 ## 9. Image delivery
 
@@ -335,8 +341,9 @@ The original files can exceed 2 MB; they MUST be processed by Astro.
 Expected vehicle delivery:
 
 - `loading="lazy"`;
-- `object-fit: contain`;
-- stable aspect ratio;
+- centered `object-fit: cover`;
+- stable source-aligned 3:2 aspect ratio;
+- a very light scrim derived from `--color-background`;
 - widths sized for 7-column / 6-column / mobile use;
 - no oversized source shipped untouched;
 - decorative empty alt where adjacent heading identifies the model.
@@ -366,6 +373,9 @@ No four-card grid.
 ## 11. FAQ
 
 Reuse shared `FAQ`.
+
+Compose it in the established contained `Section surface="light"` pattern,
+with `ReadingContainer` inside. Do not use the full-width light band.
 
 Build `FAQPage` structured data from the identical validated item array.
 
@@ -423,6 +433,10 @@ Evidence widths:
 Do not invent non-token breakpoints for primary topology changes.
 
 At 1920, cap content with the approved main container. Vehicle media must not expand indefinitely.
+
+The introduction uses `PageContainer` plus a canonical 12-column grid; its
+copy occupies a bounded reading span aligned to the page grid. Vehicle chapters
+use the same canonical grid rather than independent fractional tracks.
 
 ## 15. Shared component wiring
 

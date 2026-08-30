@@ -12,19 +12,14 @@
 | Responsive design | `.skills/responsive-layout.md` | 320/768/1024/1440/1920 acceptance |
 | Technical SEO | `.skills/technical-seo.md` | indexability/canonical/hreflang |
 | Multilingual routing | `.skills/multilingual-routing.md` | localized route parity |
-| Active palette | `src/theme/versions/version-2/palette.json` | semantic surface/color source |
-| Active typography | `src/theme/versions/version-2/typography.json` | Inter Tight / Manrope |
-| Active spacing | `src/theme/versions/version-2/spacing.json` | section/spacing tiers |
-| Active layout | `src/theme/versions/version-2/layout.json` | containers, grid, breakpoints |
-| Active radii | `src/theme/versions/version-2/radii.json` | semantic radius roles |
-| Active motion | `src/theme/versions/version-2/motion.json` | restrained motion + reduced motion |
+| Active theme | version resolved from `foundation.config.ts` | semantic visual/token source |
 | Pricing facts | `src/data/pricing.ts` | numeric pricing source of truth |
 | Service rules | `src/data/services.ts` | pricing modes + hire limits + catalogue |
 | Fleet facts | `src/data/fleet.ts` | vehicle names/IDs |
 | Route truth | `src/data/routes.ts` | slugs, hierarchy, publication |
 | Content schema | `src/content/schemas/pages.ts` | `pricingPageSchema` |
 | Shared content schema | `src/content/schemas/shared.ts` | CTA/FAQ/editorial contracts |
-| Current Pricing content | `src/content/pages/pricing/*` | current scaffold state |
+| Current Pricing content | `src/content/pages/pricing/*` | full localized published/indexable entries |
 | Renderer | `src/components/site/ContentPageRenderer.astro` | explicit page dispatch |
 | Hero | `src/components/services/shared/ServiceHero.astro` | reviewed hero API |
 | FAQ | `src/components/shared/FAQ.astro` | reviewed FAQ |
@@ -42,15 +37,12 @@ src/docs/services/prom-transportation/
 
 ## Files in this package
 
-- `content/pricing.sr.md` — canonical Serbian editorial content.
-- `content/pricing.en.md` — English translation with Serbian source digest.
-- `content/pricing.ru.md` — Russian translation with Serbian source digest.
-- `ui-additions/*.json` — only new `pricing.*` localized UI keys.
 - `data-contract.md` — public pricing scope and source ownership.
 - `shared-ui-additions.md` — reuse/new-component contract.
 - `blueprint.md` — locked page structure and responsive design.
 - `implementation.md` — ordered coding plan.
 - `acceptance.md` — binary completion checklist.
+- `compliance-matrix.md` — implemented region/source/verification traceability.
 - `wireframe.html` — responsive visual/topology reference.
 
 ## No schema expansion
@@ -66,4 +58,6 @@ faq
 finalCta
 ```
 
-No content schema change is authorized for Pricing V1.
+No content schema change is authorized for Pricing V1. Canonical localized
+content and UI strings live only in their official `src/content` locations;
+this documentation directory does not keep duplicate source copies.

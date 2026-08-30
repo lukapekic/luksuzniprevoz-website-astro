@@ -1,34 +1,43 @@
-# Luxury Transportation — Pricing Page Blueprint v1
+# Luxury Transportation — Pricing Page Blueprint v1.2
 
 Status: **LOCKED STRUCTURAL BLUEPRINT**
 Route key: `pricing`
 Page kind: `page`
 Design direction: **Platinum Tariff Ledger**
-Theme binding: **semantic; active Theme V2 only**
+Theme binding: **semantic; resolve the configured active theme**
 Primary objective: **make supported prices easy to find without turning the page into a table-heavy tariff sheet**
 
 > This file is page-specific authority.
 > The coding agent MUST preserve the visible section order, data ownership, CTA hierarchy, responsive topology, price eligibility, and component roles defined here.
 > Any structural change requires an explicit blueprint revision.
 
+Revision 1.2 adopts the reviewed full-bleed `ServiceHero` presentation with an
+integrated over-Hero header. It also aligns Pricing FAQ composition with the
+shared `/dev/ui` light example: the localized heading and divider-led rows now
+share one contained light section. Content, data, CTA, route and SEO contracts
+are unchanged.
+
 ---
 
 # 1. Authority
 
-Apply the repository authority chain exactly:
+Apply the repository authority chains exactly:
 
 ```text
-1. this locked blueprint
-2. root AGENTS.md
-3. DESIGN.md
-4. configured active Theme V2 JSON
-5. reviewed shared component contracts
-6. wireframe.html
-7. matching .skills procedures
-8. verified production patterns
-```
+Technical:
+1. root AGENTS.md
+2. validated repository configuration and generated contracts
+3. this blueprint for page-specific requirements
+4. current reviewed component/data contracts
 
-Where the repository's global hierarchy places root authority above page docs for technical rules, root `AGENTS.md` remains non-waivable.
+Visual:
+1. this locked blueprint
+2. DESIGN.md
+3. configured active theme and generated semantic tokens
+4. reviewed shared component contracts
+5. wireframe.html geometry
+6. matching .skills procedures
+```
 
 The wireframe defines geometry and hierarchy only.
 
@@ -93,6 +102,11 @@ Private Chauffeur full-day
 → pricing[vehicleId].fullDay
 → service limits from privateChauffeur.bookingOptions.fullDay
 ```
+
+Numeric ledgers include all and only vehicles whose canonical
+`pricingStatus === "published"`, in `fleet.ts` declaration order. The current
+fleet has eight vehicles; seven have published pricing. Škoda Kodiaq is
+quote-only and does not receive a numeric fallback in Pricing V1.
 
 ## Public non-numeric pricing behavior
 
@@ -210,20 +224,28 @@ The final visible order is exactly:
 
 ```text
 1.  SiteHeader
-2.  Pricing Hero — ServiceHero / responsive-split
+2.  Pricing Hero — ServiceHero / full-bleed
 3.  Pricing Intro + three-link PricingIndex
-4.  Published Pricing Canvas — light surface
-    4A. Airport Transportation
-    4B. Private Chauffeur — hourly
-    4C. Private Chauffeur — half-day
-    4D. Private Chauffeur — full-day
-5.  Individual Pricing — dark surface
-6.  Pricing Models — light explanatory strip
-7.  Confirmation Statement — light/open reading continuation
-8.  FAQ — light reading surface
-9.  FinalCTA
-10. SiteFooter
+4.  Published Prices heading + description — dark/open
+5.  Airport Published Pricing — contained light surface
+    5A. Airport Transportation
+6.  Private Chauffeur heading + description — dark/open
+7.  Private Chauffeur Published Pricing — independent contained light surface
+    7A. Private Chauffeur — hourly
+    7B. Private Chauffeur — half-day
+    7C. Private Chauffeur — full-day
+8.  Individual Pricing — dark/elevated reset
+9.  Pricing Models — independent contained light explanatory surface
+10. Confirmation Statement — dark/open reading statement
+11. FAQ heading + rows — one independent contained light section
+12. FinalCTA
+13. SiteFooter
 ```
+
+`PricingPage.astro` composes the page through `BaseLayout` with
+`overHero={true}`. `BaseLayout`/`Page` own document chrome, `lang`/`dir` and
+head emission. Build metadata with `buildPageSeo`; no Pricing component emits
+head tags.
 
 The coding agent MUST NOT:
 
@@ -249,7 +271,7 @@ Component:
 
 ```text
 ServiceHero
-variant="responsive-split"
+variant="full-bleed"
 ```
 
 Shared component code remains unchanged.
@@ -286,16 +308,14 @@ The Hero communicates:
 4. booking and quote are separate actions
 ```
 
+Pass `content.data.hero.supportText` through the existing `ServiceHero`
+support-text contract. Do not replace it with trust-marker badges.
+
 ## Desktop topology
 
-At the component's existing `xl` threshold:
-
-```text
-5 columns content
-7 columns media
-```
-
-The Pricing blueprint accepts the current reviewed `responsive-split` behavior.
+Use the reviewed full-bleed component topology. The media fills the Hero canvas,
+the content remains inside the main container, and authored support text uses
+the existing split composition at the component's desktop threshold.
 
 ## Mobile/tablet
 
@@ -305,9 +325,8 @@ Do not create a second mobile Hero.
 
 ## Height
 
-Do not convert this page Hero to full-bleed/near-viewport.
-
-Pricing is a functional page. The reviewed contained/split Hero is the correct prominence.
+Use the existing `full-bleed` variant height and layering contract unchanged.
+Do not create page-local viewport-height, scrim or focal-point overrides.
 
 ---
 
@@ -342,7 +361,9 @@ Private Chauffeur      → #private-chauffeur
 Individual Quotes      → #individual-pricing
 ```
 
-Labels come from `pricing.nav.*`.
+Airport and Private Chauffeur labels come from canonical navigation labels.
+The authored custom anchor label comes from `pricing.nav.custom`. The nav
+`aria-label` comes from `pricing.nav.ariaLabel`.
 
 ## Visual identity
 
@@ -373,18 +394,28 @@ Anchor targets must receive correct scroll offset for the sticky header if requi
 
 ---
 
-# 8. Section 03 — Published Pricing Canvas
+# 8. Section 03 — Published Prices + Airport Pricing
 
-Surface:
+Heading surface:
+
+```text
+background / open dark
+```
+
+The localized Published Prices heading and description render directly on the
+page canvas. They are not children of the light pricing surface.
+
+Airport pricing surface:
 
 ```text
 surfaceLight
 textOnLight
 ```
 
-This is the page's primary functional region.
+The Airport ledger is one contained light functional surface below the dark
+heading. It does not include the Private Chauffeur ledgers.
 
-Use one continuous light pricing canvas. Do not create separate floating white cards for each tariff.
+Do not create a floating card for each rate row.
 
 Source heading:
 
@@ -470,15 +501,15 @@ The page MUST state that the published fare is per vehicle for the supported tra
 Use approved 5/7 composition:
 
 ```text
-4 columns
+5 columns
 → title
 → fixed-fare label
 → scope
 → compact explanatory note
 → one service route CTA
 
-8 columns
-→ seven vehicle/fare rows
+7 columns
+→ all canonical published-pricing vehicle/fare rows
 ```
 
 ## Mobile/tablet portrait
@@ -509,7 +540,7 @@ Do not route directly to a fabricated booking URL.
 
 ---
 
-# 10. Section 03B–D — Private Chauffeur tariff groups
+# 10. Section 04 — Private Chauffeur tariff groups
 
 Anchor on section wrapper:
 
@@ -534,6 +565,11 @@ Intro/note:
 ```text
 pricing.chauffeur.note
 ```
+
+The Private Chauffeur label, title and note render directly on the dark page
+canvas. Below them, render one new independent contained light surface that
+owns all three tariff groups and the single service CTA. Return to the dark
+canvas between the Airport and Private Chauffeur pricing surfaces.
 
 Render exactly three tariff groups:
 
@@ -614,16 +650,19 @@ pricing.rate.fullDay.fact
 Each `PricingRateGroup` uses approved 5/7 desktop composition:
 
 ```text
-4 columns
+5 columns
 → tariff title
 → data-derived fact
 → unit/status
 
-8 columns
+7 columns
 → vehicle/fare ledger
 ```
 
 Groups are separated by whitespace and one quiet divider.
+
+The first group has no decorative top rule. Borders remain restrained; surface
+contrast, spacing and hierarchy do most of the separation.
 
 ## CTA
 
@@ -643,19 +682,17 @@ Do not repeat the CTA inside each group.
 
 ---
 
-# 11. Currency gate
+# 11. Currency invariant
 
-The Published Pricing Canvas MUST NOT be considered publishable until canonical currency exists for:
+Canonical currency already exists in `pricing.ts`:
 
 ```text
-hourly
-halfDay
-fullDay
+Airport fares                  → airportTransfer.currency
+hourly / halfDay / fullDay     → VehiclePricing.currency
 ```
 
-Airport fares can format from their existing embedded currency.
-
-Private Chauffeur fares MUST format only from new owner-confirmed canonical currency metadata.
+Format both through the existing shared locale-aware currency helper and the
+configured locale's `intl.numberLocale`.
 
 The component MUST NOT hardcode:
 
@@ -665,11 +702,12 @@ EUR
 RSD
 ```
 
-The route remains scaffold/noindex until this gate passes.
+Missing currency for any published-pricing row is a development/build failure
+and blocks publication. No presentation fallback is permitted.
 
 ---
 
-# 12. Section 04 — Individual Pricing
+# 12. Section 05 — Individual Pricing
 
 Anchor:
 
@@ -778,12 +816,12 @@ No card grid.
 
 ---
 
-# 13. Section 05 — Pricing Models
+# 13. Section 06 — Pricing Models
 
 Surface:
 
 ```text
-surfaceLight
+independent contained surfaceLight panel
 ```
 
 Content:
@@ -825,7 +863,7 @@ The section is explanatory, not interactive.
 
 ---
 
-# 14. Section 06 — Confirmation Statement
+# 14. Section 07 — Confirmation Statement
 
 Content:
 
@@ -836,10 +874,13 @@ sections[key=confirmation]
 Surface:
 
 ```text
-continue light reading region
+background / open dark
 ```
 
-Render as an open reading-width statement, not a card.
+Render the heading, intro and body directly on the dark page canvas as an open
+commercial/policy statement, not a card. The region uses the regular
+`container.main` page width and grid alignment; paragraph copy remains capped by
+the semantic body measure. Use deliberate but non-heroic whitespace.
 
 It must state:
 
@@ -854,7 +895,7 @@ Do not invent response-time guarantees.
 
 ---
 
-# 15. Section 07 — FAQ
+# 15. Section 08 — FAQ
 
 Reuse:
 
@@ -870,9 +911,17 @@ content.data.faq
 
 Exactly eight questions in the supplied content set.
 
-The FAQ is divider-led.
+Render the localized FAQ heading and shared FAQ rows together in one independent
+contained `Section surface="light"`, matching the reviewed light composition in
+`/dev/ui`. Use `PageContainer` inside the section and pass `on="light"` to both
+`SectionHeading` and `FAQ`. The current approved FAQ content model has no intro
+field, so do not fabricate intro copy. The FAQ remains divider-led and no item
+becomes a card.
 
-The same validated array feeds visible FAQ and FAQ structured data if the current page schema pipeline supports it.
+Confirmation and FAQ remain separate adjacent semantic sections with independent
+dark/open and contained-light surface ownership.
+
+The same validated array feeds visible FAQ and `buildFaqPage` structured data.
 
 Do not add price amounts to FAQ copy.
 
@@ -880,7 +929,7 @@ Do not duplicate service limits numerically in FAQ copy.
 
 ---
 
-# 16. Section 08 — Final CTA
+# 16. Section 09 — Final CTA
 
 Reuse:
 
@@ -912,6 +961,16 @@ Do not reuse the Pricing Hero image.
 
 FinalCTA remains medium-height.
 
+Integration contract:
+
+```text
+image             → src/assets/final-cta-bg.webp
+imageAlt          → ""
+imageFit          → "cover"
+mediaTreatment    → "integrated"
+desktop behavior  → reviewed 62/38 split from lg
+```
+
 ---
 
 # 17. Visual contract
@@ -919,7 +978,7 @@ FinalCTA remains medium-height.
 Theme:
 
 ```text
-Black & Platinum / Theme V2
+configured active Black & Platinum theme
 ```
 
 Type:
@@ -933,11 +992,16 @@ Brand     → existing BrandLockup only
 Page rhythm:
 
 ```text
-dark contained responsive-split Hero
+full-bleed image Hero with integrated header
 → dark 5/7 intro/index
-→ contained light published-pricing canvas
+→ dark Published Prices heading/description
+→ contained light Airport pricing surface
+→ dark Private Chauffeur heading/description
+→ independent contained light shared Chauffeur surface
 → dark individual-pricing region with one elevated family panel
-→ contained light pricing-model/confirmation/FAQ region
+→ independent contained light Pricing Models surface
+→ dark open confirmation statement
+→ contained light FAQ section with heading + shared rows
 → dark contained FinalCTA
 ```
 
@@ -975,7 +1039,7 @@ Reference evidence widths:
 1920
 ```
 
-All topology changes use the active Theme V2 breakpoint roles from `layout.json`.
+All topology changes use the configured active theme breakpoint roles from `layout.json`.
 Do not copy raw breakpoint values into page-local production code or future blueprint revisions.
 
 ## 320 mobile
@@ -987,7 +1051,8 @@ Airport → heading then ledger
 Chauffeur groups → heading then ledger
 Custom services → Business then Events
 Pricing models → stacked
-FAQ → full reading width inside page gutter
+Confirmation → open regular-width region on the dark canvas; prose retains body measure
+FAQ → contained light section; heading then divider-led rows in logical order
 ```
 
 ## 768 tablet portrait
@@ -1002,11 +1067,16 @@ no forced side-by-side ledger
 
 ```text
 pricing ledgers remain readable
-5/7 split activates only at the blueprint-authorized implementation threshold
-do not force desktop topology before available width supports it
+Intro/Index uses 5/7
+pricing ledgers remain stacked until xl
+custom families remain stacked until xl
+Pricing Models uses three columns
+FinalCTA uses its reviewed 62/38 lg state
 ```
 
-Use the active tokenized layout threshold selected during implementation for the page-local 5/7 tariff topology. The implementation MUST verify both sides of that threshold and MUST NOT introduce a raw breakpoint value.
+The page-local Airport/Chauffeur 5/7 tariff topology and custom-family 6/6
+topology activate at `xl`. Verify immediately below and above `xl`; do not copy
+its raw value into production CSS.
 
 ## 1440 desktop
 
@@ -1064,7 +1134,7 @@ content status      = draft
 noindex             = true
 ```
 
-After currency/data gate + implementation acceptance:
+After data consistency + implementation acceptance:
 
 ```text
 route availability = published
@@ -1107,12 +1177,12 @@ for Pricing V1.
 
 # 21. Content/localization contract
 
-Install:
+Canonical localized content lives at:
 
 ```text
-content/pricing.sr.md
-content/pricing.en.md
-content/pricing.ru.md
+src/content/pages/pricing/pricing.sr.md
+src/content/pages/pricing/pricing.en.md
+src/content/pages/pricing/pricing.ru.md
 ```
 
 The three files MUST retain structural parity.
@@ -1125,7 +1195,7 @@ EN/RU source digest in this package:
 efbdb5a9f5bbdc38
 ```
 
-After any Serbian editorial change:
+Only after an approved Serbian editorial change:
 
 ```bash
 pnpm content:sync-digests
@@ -1143,7 +1213,7 @@ The page is complete only when:
 
 ```text
 all acceptance items pass
-currency blocker is cleared
+fleet/pricing/currency invariants pass
 content is published
 route is published
 design review has no P0/P1

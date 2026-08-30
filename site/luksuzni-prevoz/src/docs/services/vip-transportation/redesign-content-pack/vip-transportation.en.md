@@ -3,10 +3,10 @@ routeKey: vipTransportation
 locale: en
 sourceLocale: sr
 pageType: service
-status: published
+status: in-review
 translationState: reviewed
 reviewedOn: 2026-08-30
-noindex: false
+noindex: true
 
 seoTitle: "VIP Transportation Belgrade | Luxury Transportation"
 seoDescription: "Discreet chauffeur-driven VIP transportation in Belgrade for private guests, aviation arrivals, complex itineraries and coordinated vehicle requirements."

@@ -84,6 +84,7 @@ let routes: {
   slugs: Record<string, string | undefined>;
   parent?: string;
   kind?: string;
+  availability?: string;
 }[] = [];
 if (existsSync(routesPath)) {
   try {
@@ -207,6 +208,28 @@ issues.push(
     ...(clientIds ? { clientIds } : {}),
   }),
 );
+
+// A route marked as scaffold is not, by itself, an SEO/lifecycle barrier.
+// Reject the dangerous cross-artifact state where authored content is both
+// published and indexable while its route has not been published.
+const routesByKey = new Map(routes.map((route) => [route.key, route]));
+for (const file of contentFiles) {
+  const routeKey = String(file.frontmatter["routeKey"] ?? "");
+  const status = String(file.frontmatter["status"] ?? "draft");
+  const noindex = file.frontmatter["noindex"] === true;
+  const route = routesByKey.get(routeKey);
+  if (status === "published" && !noindex && route?.availability !== "published") {
+    issues.push({
+      ruleId: "FND-LIFE-02",
+      severity: "error",
+      filePath: file.filePath,
+      offendingValue: `Indexable published content is bound to route "${routeKey}" with availability "${route?.availability ?? "missing"}"`,
+      expectedValue: "Publish content/noindex and route availability atomically",
+      fix: "Keep content in-review/noindex until its dedicated renderer and route are ready, or publish the route in the same change.",
+      docAnchor: "#FND-LIFE-02",
+    });
+  }
+}
 
 validateUiStrings();
 

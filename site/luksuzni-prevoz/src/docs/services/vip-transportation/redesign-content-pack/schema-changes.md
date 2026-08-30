@@ -17,11 +17,12 @@ The signature Discretion message remains authored through the existing section h
 
 ## Required non-schema changes during implementation
 
-1. Replace the three VIP scaffold entries with the supplied service entries.
+1. Replace the three VIP scaffold entries with the supplied service entries, initially `in-review` and `noindex: true`.
 2. Merge the supplied `vip.*` UI keys into all three UI dictionaries with key parity.
 3. Run `pnpm content:sync-digests`; the tool owns EN/RU `sourceDigest` values.
-4. Validate all content before publishing the route.
-5. Change `vipTransportation.availability` from `scaffold` to `published` only after SR/EN/RU pass validation.
-6. Add the dedicated page renderer and tests.
+4. Validate content while the route remains scaffold.
+5. Add the dedicated page renderer, dispatch and tests.
+6. After the renderer, site build and UI gates pass, atomically publish content and change `vipTransportation.availability` to `published`.
+7. Rerun content, route, SEO, build and page verification.
 
 If implementation discovers a genuine content-model requirement that cannot be represented by the current schema, STOP and amend the locked blueprint before changing the schema. Presentation convenience is not a valid reason for schema expansion.

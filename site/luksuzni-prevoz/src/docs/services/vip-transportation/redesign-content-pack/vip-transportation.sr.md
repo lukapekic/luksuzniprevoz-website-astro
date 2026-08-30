@@ -2,10 +2,10 @@
 routeKey: vipTransportation
 locale: sr
 pageType: service
-status: published
+status: in-review
 translationState: reviewed
 reviewedOn: 2026-08-30
-noindex: false
+noindex: true
 
 seoTitle: "VIP prevoz Beograd | Luxury Transportation"
 seoDescription: "Diskretan VIP prevoz sa profesionalnim vozačem u Beogradu za privatne goste, avio dolaske, složene itinerere i koordinaciju više vozila."

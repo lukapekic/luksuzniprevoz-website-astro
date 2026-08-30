@@ -2,10 +2,10 @@
 routeKey: pricing
 locale: sr
 pageType: pricing
-status: draft
+status: published
 translationState: reviewed
 reviewedOn: '2026-08-30'
-noindex: true
+noindex: false
 seoTitle: Cene prevoza sa vozačem | Luxury Transportation
 seoDescription: Cene aerodromskog prevoza i Private Chauffeur najma u Beogradu, uz individualne ponude za poslovni, delegacijski
   i prevoz za specijalne događaje.

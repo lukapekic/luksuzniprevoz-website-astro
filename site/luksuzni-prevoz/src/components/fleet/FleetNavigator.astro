@@ -17,8 +17,8 @@ interface Props {
 const { ariaLabel, locale, items } = Astro.props;
 ---
 
-<nav class="fleet-navigator" aria-label={ariaLabel}>
-  <PageContainer>
+<PageContainer>
+  <nav class="fleet-navigator" aria-label={ariaLabel}>
     <ol class="fleet-navigator__list" role="list">
       {items.map((item, index) => (
         <li>
@@ -31,12 +31,14 @@ const { ariaLabel, locale, items } = Astro.props;
         </li>
       ))}
     </ol>
-  </PageContainer>
-</nav>
+  </nav>
+</PageContainer>
 
 <style>
   .fleet-navigator {
+    overflow: hidden;
     border-block: 1px solid var(--color-divider);
+    border-radius: var(--radius-card);
     background: var(--color-surface);
   }
 
@@ -57,8 +59,10 @@ const { ariaLabel, locale, items } = Astro.props;
     border-inline-end: 1px solid var(--color-divider);
   }
 
-  .fleet-navigator__list li:nth-last-child(-n + 2) {
+  .fleet-navigator__list li:last-child {
+    grid-column: 1 / -1;
     border-block-end: 0;
+    border-inline-end: 0;
   }
 
   .fleet-navigator :global(a) {
@@ -100,7 +104,7 @@ const { ariaLabel, locale, items } = Astro.props;
 
   @media (min-width: 64rem) {
     .fleet-navigator__list {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .fleet-navigator__list li,
@@ -110,6 +114,7 @@ const { ariaLabel, locale, items } = Astro.props;
     }
 
     .fleet-navigator__list li:last-child {
+      grid-column: auto;
       border-inline-end: 0;
     }
 

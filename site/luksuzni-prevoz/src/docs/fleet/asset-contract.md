@@ -79,7 +79,9 @@ Use Astro image transformation.
 
 Vehicle chapters:
 
-- `object-fit: contain`;
+- centered `object-fit: cover`;
+- stable 3:2 stage matching the source photography;
+- a very light black scrim derived from the semantic background token;
 - lazy;
 - stable aspect ratio;
 - responsive widths;

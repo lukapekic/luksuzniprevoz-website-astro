@@ -1,0 +1,65 @@
+---
+interface PricingIndexItem {
+  href: "#airport" | "#private-chauffeur" | "#individual-pricing";
+  label: string;
+}
+
+interface Props {
+  ariaLabel: string;
+  items: readonly PricingIndexItem[];
+}
+
+const { ariaLabel, items } = Astro.props;
+
+if (items.length !== 3) {
+  throw new Error("PricingIndex requires exactly three canonical destinations.");
+}
+---
+
+<nav aria-label={ariaLabel} class="pricing-index">
+  <ul role="list" class="pricing-index__list">
+    {items.map((item) => (
+      <li>
+        <a class="pricing-index__link" href={item.href}>{item.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .pricing-index__list {
+    display: grid;
+    border-block-start: 1px solid var(--color-divider);
+  }
+
+  .pricing-index__link {
+    display: flex;
+    min-block-size: var(--space-11);
+    align-items: center;
+    justify-content: space-between;
+    border-block-end: 1px solid var(--color-divider);
+    padding-block: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .pricing-index__link:hover {
+    color: var(--color-accent);
+  }
+
+  .pricing-index__link:focus-visible {
+    border-radius: var(--radius-control);
+    outline: 2px solid var(--color-focus-dark);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing-index__link {
+      transition: none;
+    }
+  }
+</style>

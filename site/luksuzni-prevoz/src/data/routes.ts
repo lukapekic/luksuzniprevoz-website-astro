@@ -144,7 +144,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   vipTransportation: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: "specialEvents",
     slugs: { sr: "vip-prevoz", en: "vip-transportation", ru: "vip-transfer" },
   },
@@ -156,7 +156,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   pricing: {
     kind: "page",
-    availability: "scaffold",
+    availability: "published",
     parent: null,
     slugs: { sr: "cene", en: "pricing", ru: "tseny" },
   },

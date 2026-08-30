@@ -12,7 +12,14 @@ Prepared: **2026-08-30**
 - Hero asset: `site/luksuzni-prevoz/src/assets/pages/fleet/hero.webp`.
 - Header integrates over the full-bleed Hero through the existing over-Hero contract.
 - Vehicle presentation is open, product-led, and chapter-based.
+- Fleet navigation is a contained three-category row: Sedans, SUV, and Group Transport.
+- Fleet navigation uses one semantic card-radius shell; tabs do not become pills.
+- Mercedes V-Class and Mercedes Sprinter share the Group Transport chapter marker.
+- Introduction and vehicle layouts align to the approved main container and canonical grid.
 - Every vehicle chapter uses the corresponding `assets/fleet/original/<folder>/left-facing.webp`.
+- Vehicle photography fills a stable 3:2 stage with a centred cover crop and very light black scrim.
+- Vehicle chapters use whitespace rather than bottom separator borders between cars.
+- FAQ uses the established contained light-section pattern.
 - No Homepage fleet carousel is reused as the full Fleet page.
 - No automatic left/right zig-zag.
 - No dashboard-style vehicle cards.

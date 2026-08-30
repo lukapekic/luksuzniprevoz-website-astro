@@ -1,6 +1,6 @@
 # Luxury Transportation — Pricing Page Implementation Plan v2
 
-Status: **CODE-ALIGNED IMPLEMENTATION PLAN**
+Status: **IMPLEMENTED AND VERIFIED**
 Target route: `pricing`
 Page type: `pricing`
 Required blueprint: `blueprint.md`
@@ -12,22 +12,27 @@ repository contracts as of 2026-08-30. The current code and generated contracts
 remain authoritative for technical and data behavior. After Phase 1 synchronizes
 the page documents, the locked blueprint resumes page-specific visual authority.
 
+The approved blueprint v1.2 refinement keeps every existing data, content,
+route, CTA, SEO and responsive rule, but replaces the two monolithic light
+canvases with purpose-specific contained surfaces separated by the dark page
+canvas. This is a page-local composition change, not a redesign.
+
 No production Pricing UI may be implemented before Phase 1 and Phase 2 pass.
 
 ---
 
 # 0. Verified repository baseline
 
-The implementation starts from these current facts:
+The implementation started from these facts (historical preflight baseline):
 
 ```text
 pricing content already lives in src/content/pages/pricing/
 SR, EN and RU use the full pricing schema and currently validate
 localized Pricing UI keys are already merged and generated types are current
-Pricing route availability is scaffold
-Pricing content status is draft and noindex is true in all locales
-src/components/pricing/ does not exist yet
-ContentPageRenderer has no Pricing dispatch yet
+Pricing route availability was scaffold
+Pricing content status was draft and noindex was true in all locales
+src/components/pricing/ did not exist yet
+ContentPageRenderer had no Pricing dispatch yet
 the Pricing design surface is registered in .design/config.json
 ```
 
@@ -89,7 +94,7 @@ require hero.supportText passthrough
 require FAQPage from the same visible validated FAQ array
 align FinalCTA behavior with its reviewed 62/38 lg contract
 clarify that Pricing Models, Confirmation and FAQ remain separate semantic regions
-even when they share one continuous light visual surface
+with independent light/dark surface ownership under blueprint v1.2
 ```
 
 ## `acceptance.md`
@@ -209,7 +214,7 @@ Required responsibilities:
 ```text
 PricingPage.astro            → content guards, canonical adapter, SEO and page assembly
 PricingIndex.astro           → three native in-page links
-PricingPublishedRates.astro  → one continuous light numeric-pricing canvas
+PricingPublishedRates.astro  → dark rate-family headings + two independent light numeric surfaces
 PricingRateGroup.astro       → one tariff metadata/ledger composition
 PricingCustomServices.astro  → Business and Special Events quote families
 PricingModels.astro          → three authored explanatory items
@@ -369,7 +374,7 @@ Use `BaseLayout` as the sole page/chrome owner:
   seo={seo}
   currentRouteKey="pricing"
   currentLocale={locale}
-  overHero={false}
+  overHero={true}
 >
   ...
 </BaseLayout>
@@ -390,30 +395,37 @@ Visible order:
 
 ```text
 SiteHeader
-ServiceHero responsive-split
+ServiceHero full-bleed
 Pricing Intro + PricingIndex
-Published Pricing Canvas
-  Airport
-  Private Chauffeur hourly
-  Private Chauffeur half-day
-  Private Chauffeur full-day
+Published numeric pricing rhythm
+  dark Published Prices heading/description
+  contained light Airport panel
+  dark Private Chauffeur heading/description
+  independent contained light Chauffeur panel
+    hourly
+    half-day
+    full-day
 Individual Pricing
-Pricing Models
-Confirmation Statement
-FAQ
+contained light Pricing Models panel
+dark/open Confirmation Statement
+contained light FAQ section with heading + shared rows
 FinalCTA
 SiteFooter
 ```
 
-Pricing Models, Confirmation and FAQ remain separate semantic regions even
-when placed inside one continuous light visual canvas.
+Pricing Models, Confirmation and FAQ remain separate semantic regions and have
+independent surface ownership. Confirmation is open on the dark canvas. The FAQ
+uses one contained `Section surface="light"`; its `PageContainer` owns the
+regular page width while both `SectionHeading` and the shared `FAQ` use their
+`on="light"` contracts. The current FAQ schema has no approved intro field, so
+the implementation does not invent one.
 
 ## Hero
 
 Reuse `ServiceHero` unchanged:
 
 ```text
-variant="responsive-split"
+variant="full-bleed"
 title/description/supportText from content.data.hero
 eyebrow from Pricing UI
 resolved booking and quote actions
@@ -435,11 +447,18 @@ Use one native `<nav>` containing exactly these links:
 Targets need sticky-header-safe scroll offset, visible focus and 44×44 minimum
 interactive size.
 
-## Published Pricing Canvas
+## Published numeric pricing surfaces
 
-Use one contained light canvas with semantic light-surface tokens. Rate groups
-are open, divider-led compositions, not cards or tables. Each row keeps vehicle,
-formatted price and localized unit/status understandable without layout CSS.
+Render the Published Prices heading and description directly on the dark page
+canvas, followed by one contained light Airport ledger. Return to the dark
+canvas for the Private Chauffeur label, heading and description, followed by a
+second independent contained light panel containing Hourly, Half Day and Full
+Day. Rate groups remain open, divider-led compositions, not cards or tables.
+The first group in each panel has no decorative top rule. Each row keeps
+vehicle, formatted price and localized unit/status understandable without
+layout CSS. Monetary values use the existing semantic `xl` text role, tabular
+figures and heading family for a slight scanability increase; no new scale is
+introduced.
 
 ## Individual Pricing
 
@@ -470,11 +489,13 @@ Use one logical DOM order at every width.
 ## Mobile — 320
 
 ```text
-Hero: existing single-column responsive-split state
+Hero: full-bleed media with single-column logical content order
 Intro/Index: stacked; full-width anchor links
 Every ledger: meta then rows
 Custom families: Business then Special Events
 Pricing Models: stacked with horizontal dividers
+Confirmation: open dark reading-width statement
+FAQ: heading and divider-led rows in one contained light section
 FinalCTA: content then image
 No horizontal overflow; long vehicle names wrap within their row
 ```
@@ -490,18 +511,19 @@ ledgers and custom families remain stacked
 ## Tablet landscape — 1024 (`lg`)
 
 ```text
-Hero remains in its existing pre-xl state
+Hero remains full-bleed; support content preserves logical order
 Intro/Index becomes 5/7
 numeric ledgers remain stacked
 custom families remain stacked
 Pricing Models becomes three columns
+Confirmation and FAQ retain their independent surface ownership
 FinalCTA uses its reviewed 62/38 layout
 ```
 
 ## Desktop — 1440 (`xl` active)
 
 ```text
-ServiceHero uses its reviewed 5/7 responsive split
+ServiceHero uses its reviewed full-bleed support split
 Airport and every Chauffeur ledger use 5/7
 custom families use 6/6
 Pricing Models remains three columns
@@ -620,7 +642,7 @@ keyboard focus order and visible focus
 Run the Pricing spec with the repository site script, for example:
 
 ```bash
-pnpm --filter @luksuzni-prevoz/site test:e2e -- tests/smoke/pricing.spec.ts
+pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/pricing.spec.ts
 ```
 
 Do not snapshot raw CSS.
@@ -645,7 +667,7 @@ pnpm lint
 pnpm test:unit
 pnpm --filter @luksuzni-prevoz/site check
 pnpm --filter @luksuzni-prevoz/site build
-pnpm --filter @luksuzni-prevoz/site test:e2e -- tests/smoke/pricing.spec.ts
+pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/pricing.spec.ts
 pnpm verify:ui --target site/luksuzni-prevoz/src/components/pricing/PricingPage.astro --surface pricing --change page
 ```
 

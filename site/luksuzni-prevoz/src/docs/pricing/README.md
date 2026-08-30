@@ -1,6 +1,6 @@
 # Luxury Transportation — Pricing Page Package
 
-Status: **DESIGN + CONTENT HANDOFF**
+Status: **IMPLEMENTED AND VERIFIED**
 Route key: `pricing`
 Target site: `site/luksuzni-prevoz`
 Prepared: 2026-08-30
@@ -8,10 +8,15 @@ Source digest for EN/RU content: `efbdb5a9f5bbdc38`
 
 This package defines the complete Pricing page direction **Platinum Tariff Ledger**.
 
+Blueprint v1.2 preserves that direction while adopting the shared full-bleed
+Hero and its integrated header treatment. Airport, Private Chauffeur, Pricing
+Models and FAQ each own one purpose-specific contained light surface; the FAQ
+heading and divider-led rows share the same light section.
+
 ## Package contents
 
 ```text
-pricing-page-package/
+src/docs/pricing/
 ├── README.md
 ├── MANIFEST.md
 ├── data-contract.md
@@ -19,34 +24,16 @@ pricing-page-package/
 ├── blueprint.md
 ├── implementation.md
 ├── acceptance.md
-├── wireframe.html
-├── content/
-│   ├── pricing.sr.md
-│   ├── pricing.en.md
-│   └── pricing.ru.md
-└── ui-additions/
-    ├── sr.json
-    ├── en.json
-    └── ru.json
+├── compliance-matrix.md
+└── wireframe.html
 ```
 
 ## Installation targets
 
 ```text
-content/pricing.*.md
-→ site/luksuzni-prevoz/src/content/pages/pricing/
-
-ui-additions/*.json
-→ merge into site/luksuzni-prevoz/src/content/ui/<locale>.json
-
-blueprint.md
-implementation.md
-acceptance.md
-wireframe.html
-data-contract.md
-shared-ui-additions.md
-→ recommended repository location:
-  site/luksuzni-prevoz/src/docs/pricing/
+localized page content → site/luksuzni-prevoz/src/content/pages/pricing/
+localized UI strings  → site/luksuzni-prevoz/src/content/ui/<locale>.json
+page contracts         → site/luksuzni-prevoz/src/docs/pricing/
 ```
 
 ## Mandatory repository authority
@@ -54,11 +41,9 @@ shared-ui-additions.md
 Implementation MUST follow:
 
 ```text
-root AGENTS.md
-DESIGN.md
-this blueprint
-active Theme V2 JSON
-existing reviewed shared components
+technical: root AGENTS.md → validated repository configuration/contracts
+visual: locked blueprint → DESIGN.md → configured active theme
+reviewed shared components
 matching .skills procedures
 ```
 
@@ -96,14 +81,17 @@ automatic overage formulas
 fake event packages
 ```
 
-## Publication blocker
+## Publication state
 
-`pricing.ts` currently encodes `currency: "EUR"` only for `airportTransfer`.
+`pricing.ts` already owns typed EUR currency for every numeric pricing record.
+The fleet contains eight vehicles: seven are `pricingStatus: "published"` and
+Škoda Kodiaq is intentionally `quote-only` with no numeric pricing record.
 
-Hourly, half-day and full-day numeric values do not carry canonical currency metadata.
+The route and all three localized content records were published atomically
+after implementation and acceptance verification:
 
-The coding agent MUST keep the authored Pricing entries `draft` + `noindex: true` and the route `availability: "scaffold"` until the currency for published chauffeur fares is confirmed and represented in canonical typed pricing data.
-
-The agent MUST NOT infer currency from the airport fare field or from presentation context.
-
-After that data fact is confirmed, implementation follows the publication transition in `implementation.md`.
+```text
+route availability: published
+SR/EN/RU status: published
+SR/EN/RU noindex: false
+```

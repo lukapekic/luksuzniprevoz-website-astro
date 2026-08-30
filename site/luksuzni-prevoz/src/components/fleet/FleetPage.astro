@@ -42,7 +42,7 @@ interface ResolvedAction {
   href: string;
 }
 
-type FleetCategoryId = "sedans" | "suv" | "vans" | "groups";
+type FleetCategoryId = "sedans" | "suv" | "groups";
 
 interface ResolvedModel {
   key: VisibleFleetPageProfileKey;
@@ -88,7 +88,7 @@ const resolveAction = (cta: Cta): ResolvedAction => ({
 const categoryByClass: Partial<Record<VehicleClass, FleetCategoryId>> = {
   sedan: "sedans",
   suv: "suv",
-  van: "vans",
+  van: "groups",
   bus: "groups",
 };
 
@@ -128,7 +128,6 @@ const categories: readonly {
 }[] = [
   { id: "sedans", label: ui("fleet.navigator.sedans") },
   { id: "suv", label: ui("fleet.navigator.suv") },
-  { id: "vans", label: ui("fleet.navigator.vans") },
   { id: "groups", label: ui("fleet.navigator.groupTransport") },
 ];
 
@@ -209,24 +208,32 @@ const seo = buildPageSeo({
   <FleetNavigator ariaLabel={ui("fleet.navigator.ariaLabel")} items={categories} {locale} />
 
   <Section spacing="standard" aria-labelledby="fleet-introduction-heading">
-    <ReadingContainer>
-      <SectionHeading
-        id="fleet-introduction-heading"
-        heading={data.introSection.heading.title}
-        description={data.introSection.heading.intro}
-        accent={true}
-      />
-      <p class="fleet-introduction__body">{data.introSection.body}</p>
-    </ReadingContainer>
+    <PageContainer>
+      <div class="fleet-introduction__grid">
+        <div class="fleet-introduction__content">
+          <SectionHeading
+            id="fleet-introduction-heading"
+            heading={data.introSection.heading.title}
+            description={data.introSection.heading.intro}
+            accent={true}
+          />
+          <p class="fleet-introduction__body">{data.introSection.body}</p>
+        </div>
+      </div>
+    </PageContainer>
   </Section>
 
   <Section id="collection" spacing="feature" aria-labelledby="fleet-collection-heading">
     <PageContainer>
-      <SectionHeading
-        id="fleet-collection-heading"
-        heading={data.fleetSection.heading.title}
-        description={data.fleetSection.heading.intro}
-      />
+      <div class="fleet-collection__heading-grid">
+        <div class="fleet-collection__heading-content">
+          <SectionHeading
+            id="fleet-collection-heading"
+            heading={data.fleetSection.heading.title}
+            description={data.fleetSection.heading.intro}
+          />
+        </div>
+      </div>
     </PageContainer>
 
     <div class="fleet-collection">
@@ -270,7 +277,12 @@ const seo = buildPageSeo({
     items={fitGuide.items}
   />
 
-  <Section spacing="compact" surface="light-full" aria-labelledby="fleet-faq-heading">
+  <Section
+    spacing="compact"
+    surface="light"
+    aria-labelledby="fleet-faq-heading"
+    class="mt-[var(--space-section-standard)]"
+  >
     <ReadingContainer>
       <SectionHeading id="fleet-faq-heading" heading={data.faq.heading} on="light" />
       <FAQ items={data.faq.items} on="light" class="mt-[var(--space-8)]" />
@@ -301,6 +313,19 @@ const seo = buildPageSeo({
     line-height: var(--line-height-body);
   }
 
+  .fleet-introduction__grid,
+  .fleet-collection__heading-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-mobile), minmax(0, 1fr));
+    column-gap: var(--column-gap-mobile);
+  }
+
+  .fleet-introduction__content,
+  .fleet-collection__heading-content {
+    grid-column: 1 / -1;
+    max-inline-size: var(--container-reading);
+  }
+
   .fleet-collection {
     margin-block-start: var(--space-12);
   }
@@ -326,5 +351,31 @@ const seo = buildPageSeo({
   .fleet-category__label span {
     color: var(--color-accent);
     font-size: var(--text-caption);
+  }
+
+  @media (min-width: 48rem) {
+    .fleet-introduction__grid,
+    .fleet-collection__heading-grid {
+      grid-template-columns: repeat(var(--grid-tablet), minmax(0, 1fr));
+      column-gap: var(--column-gap-tablet);
+    }
+
+    .fleet-introduction__content,
+    .fleet-collection__heading-content {
+      grid-column: span 6;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .fleet-introduction__grid,
+    .fleet-collection__heading-grid {
+      grid-template-columns: repeat(var(--grid-desktop), minmax(0, 1fr));
+      column-gap: var(--column-gap-desktop);
+    }
+
+    .fleet-introduction__content,
+    .fleet-collection__heading-content {
+      grid-column: span 8;
+    }
   }
 </style>

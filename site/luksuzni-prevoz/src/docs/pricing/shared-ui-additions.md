@@ -11,6 +11,7 @@ foundation/ui/PageContainer.astro
 foundation/ui/Section.astro
 foundation/ui/SectionHeading.astro
 foundation/ui/Link.astro
+layouts/BaseLayout.astro
 components/services/shared/ServiceHero.astro
 components/shared/FAQ.astro
 components/shared/FinalCTA.astro
@@ -28,7 +29,7 @@ Use:
 
 ```text
 ServiceHero
-variant="responsive-split"
+variant="full-bleed"
 ```
 
 The component name is service-oriented, but its current typed API is generic enough for this page:
@@ -42,6 +43,7 @@ secondaryAction
 locale
 image
 imageAlt
+supportText
 ```
 
 Pricing V1 reuses the component without modifying it.
@@ -70,7 +72,7 @@ Create under:
 src/components/pricing/
 ```
 
-Required file map:
+Required responsibility map:
 
 ```text
 PricingPage.astro
@@ -80,6 +82,9 @@ PricingRateGroup.astro
 PricingCustomServices.astro
 PricingModels.astro
 ```
+
+Additional page-local types or an adapter helper are allowed when they make
+canonical data validation independently testable.
 
 Responsibilities:
 
@@ -196,7 +201,7 @@ UI JSON owns:
 
 ```text
 section labels
-in-page navigation labels
+in-page navigation aria/custom labels
 rate-mode labels
 data-derived fact templates
 price status labels
@@ -215,3 +220,6 @@ pricing modes
 service relationships
 route availability
 ```
+
+Canonical route/service names come from `getNavLabel(routeKey, locale)`. Pricing
+UI does not become a duplicate service-name store.
