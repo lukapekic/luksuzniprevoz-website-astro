@@ -1,0 +1,279 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+
+interface Fact {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  id: string;
+  index: number;
+  total: number;
+  displayName: string;
+  image: ImageMetadata;
+  summary: string;
+  bestFor: string;
+  bestForLabel: string;
+  facts: readonly Fact[];
+  statusLabel?: string;
+  highlights: readonly string[];
+}
+
+const {
+  id,
+  index,
+  total,
+  displayName,
+  image,
+  summary,
+  bestFor,
+  bestForLabel,
+  facts,
+  statusLabel,
+  highlights,
+} = Astro.props;
+
+const headingId = `${id}-heading`;
+---
+
+<article class="vehicle-feature" aria-labelledby={headingId} data-fleet-vehicle={id}>
+  <PageContainer class="vehicle-feature__grid">
+    <header class="vehicle-feature__identity">
+      <p class="vehicle-feature__index" aria-hidden="true">
+        {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
+      </p>
+      <h3 id={headingId}>{displayName}</h3>
+    </header>
+
+    <div class="vehicle-feature__media">
+      <Image
+        src={image}
+        alt=""
+        role="presentation"
+        loading="lazy"
+        decoding="async"
+        format="avif"
+        quality={55}
+        widths={[480, 640, 768, 1024]}
+        sizes="(min-width: 80rem) 58vw, (min-width: 64rem) 50vw, calc(100vw - 2rem)"
+      />
+    </div>
+
+    <div class="vehicle-feature__details">
+      {statusLabel && <p class="vehicle-feature__status">{statusLabel}</p>}
+
+      <dl class="vehicle-feature__facts">
+        {facts.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p class="vehicle-feature__summary">{summary}</p>
+
+      <div class="vehicle-feature__best-for">
+        <p>{bestForLabel}</p>
+        <p>{bestFor}</p>
+      </div>
+
+      <ol class="vehicle-feature__highlights">
+        {highlights.map((highlight, highlightIndex) => (
+          <li>
+            <span aria-hidden="true">{String(highlightIndex + 1).padStart(2, "0")}</span>
+            <p>{highlight}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </PageContainer>
+</article>
+
+<style>
+  .vehicle-feature {
+    padding-block: var(--space-section-standard);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  :global(.vehicle-feature__grid) {
+    display: grid;
+    grid-template-areas:
+      "identity"
+      "media"
+      "details";
+    gap: var(--space-8);
+    min-inline-size: 0;
+  }
+
+  .vehicle-feature__identity {
+    grid-area: identity;
+    align-self: end;
+  }
+
+  .vehicle-feature__index {
+    margin: 0 0 var(--space-3);
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+  }
+
+  h3 {
+    max-inline-size: 18ch;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+  }
+
+  .vehicle-feature__media {
+    display: grid;
+    grid-area: media;
+    min-inline-size: 0;
+    min-block-size: clamp(17rem, 55vw, 28rem);
+    place-items: center;
+    overflow: hidden;
+    border-radius: var(--radius-section);
+    background: var(--color-surface);
+  }
+
+  .vehicle-feature__media :global(img) {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+
+  .vehicle-feature__details {
+    display: grid;
+    grid-area: details;
+    min-inline-size: 0;
+    gap: var(--space-6);
+    align-self: start;
+  }
+
+  .vehicle-feature__status {
+    justify-self: start;
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-control);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .vehicle-feature__facts {
+    display: grid;
+    margin: 0;
+    border-block-start: 1px solid var(--color-divider);
+  }
+
+  .vehicle-feature__facts div {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .vehicle-feature__facts dt,
+  .vehicle-feature__best-for > p:first-child {
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+  }
+
+  .vehicle-feature__facts dd {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .vehicle-feature__summary,
+  .vehicle-feature__best-for > p:last-child,
+  .vehicle-feature__highlights p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+  }
+
+  .vehicle-feature__summary {
+    color: var(--color-text-primary);
+    font-size: var(--text-lg);
+  }
+
+  .vehicle-feature__best-for {
+    display: grid;
+    gap: var(--space-2);
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--color-accent);
+  }
+
+  .vehicle-feature__best-for > p:first-child {
+    margin: 0;
+  }
+
+  .vehicle-feature__highlights {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vehicle-feature__highlights li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  .vehicle-feature__highlights span {
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-body);
+  }
+
+  @media (min-width: 64rem) {
+    :global(.vehicle-feature__grid) {
+      grid-template-areas:
+        "media identity"
+        "media details";
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-8);
+      align-items: center;
+    }
+
+    .vehicle-feature__media {
+      min-block-size: 34rem;
+    }
+
+    .vehicle-feature__facts div {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    :global(.vehicle-feature__grid) {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode } from "@astro-foundation/core";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import Section from "../../foundation/ui/Section.astro";
+import { getUiStrings } from "../../lib/i18n.ts";
+import { buildPageSeo } from "../../lib/seo.ts";
+import { vehicles } from "../../data/fleet.ts";
+import { privateChauffeurService } from "../../data/services.ts";
+import { contact } from "../../data/contact.ts";
+import { operations } from "../../data/operations.ts";
+import BookingProgress from "./BookingProgress.astro";
+import BookingWizard from "./BookingWizard.astro";
+
+interface Props {
+  routeKey: "booking";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+const { routeKey, locale, content } = Astro.props;
+if (content.data.pageType !== "booking" || content.data.routeKey !== routeKey) {
+  throw new Error("BookingPage received incompatible content.");
+}
+if (!content.data.h1) throw new Error(`BookingPage requires an h1 for ${locale}.`);
+
+const data = content.data;
+const copy = getUiStrings(locale);
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle ?? data.h1,
+  description: data.seoDescription ?? data.intro ?? "",
+  noindex: true,
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale}>
+  <div data-booking-root>
+    <Section spacing="compact" aria-labelledby="booking-page-heading">
+      <PageContainer>
+        <h1
+          id="booking-page-heading"
+          class="max-w-[var(--measure-heading)] font-heading text-[length:var(--text-h1)] font-bold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)]"
+        >
+          {data.h1}
+        </h1>
+        {data.intro && (
+          <p class="mt-[var(--space-4)] max-w-[var(--measure-body)] font-body text-[length:var(--text-xl)] leading-[var(--line-height-body)] text-[var(--color-text-muted)]">
+            {data.intro}
+          </p>
+        )}
+        <div class="mt-[var(--space-8)]">
+          <BookingProgress copy={copy} />
+        </div>
+      </PageContainer>
+    </Section>
+
+    <Section spacing="feature" as="div">
+      <PageContainer>
+        <div class="mb-[var(--space-8)] max-w-[var(--measure-body)]">
+          <h2 class="font-heading text-[length:var(--text-h2)] font-bold leading-[var(--line-height-heading)]">
+            {data.booking.heading.title}
+          </h2>
+          {data.booking.heading.intro && (
+            <p class="mt-[var(--space-3)] text-[var(--color-text-muted)]">{data.booking.heading.intro}</p>
+          )}
+        </div>
+        <BookingWizard
+          locale={locale}
+          copy={copy}
+          vehicles={vehicles}
+          privateOptions={privateChauffeurService.bookingOptions}
+          publicMinimumHours={contact.bookingLeadTime.publicMinimumHours}
+          timeZone={contact.bookingLeadTime.timeZone}
+          childSeatAvailable={operations.service.childSeatOnRequest}
+        />
+      </PageContainer>
+    </Section>
+
+    <Section spacing="compact" as="div">
+      <PageContainer>
+        <div class="grid gap-[var(--space-3)] border-block border-solid border-[var(--color-divider)] py-[var(--space-6)] md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:items-start md:gap-[var(--space-8)]">
+          <h2 class="font-heading text-[length:var(--text-h3)] font-bold leading-[var(--line-height-heading)]">
+            {data.booking.assuranceTitle}
+          </h2>
+          <p class="max-w-[var(--measure-body)] text-[var(--color-text-muted)]">{data.booking.assuranceBody}</p>
+        </div>
+      </PageContainer>
+    </Section>
+  </div>
+</BaseLayout>

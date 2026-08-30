@@ -142,6 +142,7 @@ const PAGE_TYPE_TO_KIND: Record<string, string> = {
   pricing: "page",
   about: "page",
   contact: "page",
+  booking: "page",
   service: "service",
   hub: "hub",
 };

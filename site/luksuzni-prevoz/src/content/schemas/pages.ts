@@ -55,7 +55,7 @@ const pageBase = BaseContentSchema.merge(BaseSeoSchema).extend({
  */
 export const pageScaffoldSchema = BaseContentSchema.extend({
   pageType: z.literal("scaffold"),
-  targetPageType: z.enum(["service", "hub", "fleet", "pricing", "about", "contact"]),
+  targetPageType: z.enum(["service", "hub", "fleet", "pricing", "about", "contact", "booking"]),
   scaffold: z.literal(true),
   status: z.literal("draft"),
   translationState: z.literal("missing"),
@@ -147,13 +147,28 @@ export const hubPageSchema = pageBase.extend({
   finalCta: finalCtaSchema,
 });
 
+const fleetProfileSchema = z.object({
+  key: z.enum([
+    "mercedesSClass",
+    "mercedesEClass",
+    "skodaSuperb",
+    "skodaKodiaq",
+    "mercedesVClass",
+    "mercedesSprinter",
+  ]),
+  vehicleIds: z.array(vehicleIdEnum).min(1).max(2),
+  summary: z.string().min(1),
+  bestFor: z.string().min(1),
+  highlights: z.array(z.string().min(1)).min(2).max(3),
+});
+
 export const fleetPageSchema = pageBase.extend({
   pageType: z.literal("fleet"),
   hero: heroSchema.optional(),
   introSection: z.object({ heading: sectionHeadingSchema, body: z.string().min(1) }),
   fleetSection: z.object({
     heading: sectionHeadingSchema.optional(),
-    vehicleIds: z.array(vehicleIdEnum).min(1),
+    profiles: z.array(fleetProfileSchema).length(6),
   }),
   sections: z.array(editorialSectionSchema).max(6).default([]),
   faq: faqSchema.optional(),
@@ -199,6 +214,15 @@ export const contactPageSchema = pageBase.extend({
   }),
 });
 
+export const bookingPageSchema = pageBase.extend({
+  pageType: z.literal("booking"),
+  booking: z.object({
+    heading: sectionHeadingSchema,
+    assuranceTitle: z.string().min(1),
+    assuranceBody: z.string().min(1),
+  }),
+});
+
 const authoredPageSchema = z.discriminatedUnion("pageType", [
   homePageSchema,
   servicePageSchema,
@@ -207,6 +231,7 @@ const authoredPageSchema = z.discriminatedUnion("pageType", [
   pricingPageSchema,
   aboutPageSchema,
   contactPageSchema,
+  bookingPageSchema,
 ]);
 
 export const pageSchema = z.union([pageScaffoldSchema, authoredPageSchema]);

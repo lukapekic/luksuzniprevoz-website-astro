@@ -1,0 +1,33 @@
+---
+import type { UiStringKey } from "@astro-foundation/core";
+
+interface Props { copy: Record<string, string> }
+const { copy } = Astro.props;
+const ui = (key: UiStringKey): string => {
+  const value = copy[key];
+  if (!value) throw new Error(`BookingProgress missing UI key: ${key}`);
+  return value;
+};
+const steps = [
+  ["service", ui("booking.step.service")],
+  ["journey", ui("booking.step.journey")],
+  ["vehicle", ui("booking.step.vehicle")],
+  ["review", ui("booking.step.review")],
+] as const;
+---
+
+<nav aria-label={ui("booking.progress.ariaLabel")} data-booking-progress>
+  <ol class="grid grid-cols-4 gap-[var(--space-2)]" role="list">
+    {steps.map(([id, label], index) => (
+      <li
+        class="min-w-0 border-t border-solid border-[var(--color-divider)] pt-[var(--space-3)] font-body text-[length:var(--text-sm)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)] data-[active=true]:border-[var(--color-accent)] data-[active=true]:text-[var(--color-text-primary)]"
+        data-progress-step={id}
+        data-active={index === 0 ? "true" : "false"}
+        aria-current={index === 0 ? "step" : undefined}
+      >
+        <span class="block text-[length:var(--text-xs)]" aria-hidden="true">0{index + 1}</span>
+        <span class="block break-words">{label}</span>
+      </li>
+    ))}
+  </ol>
+</nav>

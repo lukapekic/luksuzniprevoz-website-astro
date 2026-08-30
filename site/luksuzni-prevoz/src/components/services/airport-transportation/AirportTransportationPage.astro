@@ -46,20 +46,22 @@ const overviewGroups=[
 ].filter((item):item is Exclude<typeof item,false|undefined>=>Boolean(item));
 const timelineSteps=[service.flightTracking&&{title:ui("airport.timeline.flight.title"),text:ui("airport.timeline.flight.text")},service.meetAndGreet&&{title:ui("airport.timeline.meeting.title"),text:ui("airport.timeline.meeting.text")},service.luggageAssistance&&{title:ui("airport.timeline.luggage.title"),text:ui("airport.timeline.luggage.text")},service.standardStops==="point-to-point"&&{title:ui("airport.timeline.destination.title"),text:ui("airport.timeline.destination.text")}].filter((item):item is Exclude<typeof item,false|undefined>=>Boolean(item));
 const standardGroups=buildServiceStandardGroups(locale);
-const primaryAction={label:data.hero.primaryCta.label,href:resolveCtaHref(data.hero.primaryCta,locale)};const secondaryAction=data.hero.secondaryCta?{label:data.hero.secondaryCta.label,href:resolveCtaHref(data.hero.secondaryCta,locale)}:undefined;
-const finalPrimary={label:data.finalCta.primaryCta.label,href:resolveCtaHref(data.finalCta.primaryCta,locale)};const finalSecondary=data.finalCta.secondaryCta?{label:data.finalCta.secondaryCta.label,href:resolveCtaHref(data.finalCta.secondaryCta,locale)}:undefined;
+const primaryAction={label:data.hero.primaryCta.label,href:resolveCtaHref(data.hero.primaryCta,locale,{service:routeKey})};const secondaryAction=data.hero.secondaryCta?{label:data.hero.secondaryCta.label,href:resolveCtaHref(data.hero.secondaryCta,locale,{service:routeKey})}:undefined;
+const finalPrimary={label:data.finalCta.primaryCta.label,href:resolveCtaHref(data.finalCta.primaryCta,locale,{service:routeKey})};const finalSecondary=data.finalCta.secondaryCta?{label:data.finalCta.secondaryCta.label,href:resolveCtaHref(data.finalCta.secondaryCta,locale,{service:routeKey})}:undefined;
 const contacts={phone:isVerified(contact.phone)?contact.phone.value??undefined:undefined,email:isVerified(contact.email)?contact.email.value??undefined:undefined};
 const seo=buildPageSeo({routeKey,locale,title:data.seoTitle,description:data.seoDescription,noindex:data.noindex??false,structuredData:[buildFaqPage(data.faq.items)]});
-const classes={sedan:ui("fleet.class.sedan"),van:ui("fleet.class.van"),minivan:ui("fleet.class.minivan"),bus:ui("fleet.class.bus")};
+const classes={sedan:ui("fleet.class.sedan"),suv:ui("fleet.class.suv"),van:ui("fleet.class.van"),minivan:ui("fleet.class.minivan"),bus:ui("fleet.class.bus")};
 const vehicleRecommendations=data.vehicleRecommendations.vehicleIds.map((id)=>{
   const vehicle=getVehicle(id);
+  const vehiclePricing=getPricing(vehicle.id);
+  if(!vehiclePricing)throw new Error(`Published Airport recommendation ${vehicle.id} is missing pricing.`);
   const showcaseEntry: HomepageFleetEntry | undefined = homepageFleetEntries.find((entry)=>entry.vehicleId===id);
   return {
     vehicle,
     image:homepageFleetMedia[vehicle.id],
     displayName:showcaseEntry?.displayName,
     showPassengerCapacity:showcaseEntry?.showPassengerCapacity,
-    meta:{label:ui("airport.fare.label"),value:new Intl.NumberFormat(locale,{style:"currency",currency:getPricing(vehicle.id).airportTransfer.currency}).format(getPricing(vehicle.id).airportTransfer.amount)},
+    meta:{label:ui("airport.fare.label"),value:new Intl.NumberFormat(locale,{style:"currency",currency:vehiclePricing.airportTransfer.currency}).format(vehiclePricing.airportTransfer.amount)},
   };
 });
 ---

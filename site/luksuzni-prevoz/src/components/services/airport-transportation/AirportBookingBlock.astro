@@ -33,6 +33,7 @@ const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
         aria-labelledby="airport-booking-heading"
         aria-describedby="airport-booking-handoff airport-booking-confirmation">
         <input type="hidden" name="service" value="airportTransportation" />
+        <input type="hidden" name="intent" value="booking" />
         <Field label={flightLabel} htmlFor="airport-flight-number" class="md:col-span-full">
           <Input slot="control" id="airport-flight-number" name="flightNumber" type="text" autocomplete="off" />
         </Field>

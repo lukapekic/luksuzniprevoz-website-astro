@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fleet — The Chauffeur Collection — Structural Wireframe</title>
+<meta name="color-scheme" content="dark" />
+<link rel="stylesheet" href="../../theme/generated/theme.css" />
+<style>
+/*
+  STRUCTURAL WIREFRAME — NOT PRODUCTION CSS.
+  Semantic variables resolve from the generated snapshot of the theme selected
+  by foundation.config.ts. Production uses Astro components, not this markup.
+*/
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--color-background)}
+body{margin:0;background:var(--color-background);color:var(--color-text-primary);font-family:var(--font-body);font-size:var(--text-base);line-height:var(--line-height-body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button,a{font:inherit}
+img{max-width:100%}
+::selection{background:var(--color-selection);color:var(--color-text-primary)}
+
+.page-shell{width:min(calc(100% - 2 * var(--gutter-page)),var(--container-main));margin-inline:auto}
+.reading{max-width:var(--container-reading)}
+.section{padding-block:var(--space-section-standard)}
+.section--feature{padding-block:var(--space-section-feature)}
+.section--compact{padding-block:var(--space-section-compact)}
+
+/* Header — same top-state idea as SiteHeader: transparent over Hero, compact chrome. */
+.site-header{position:absolute;inset:0 0 auto;z-index:20;min-height:4.75rem}
+.header-row{width:min(calc(100% - 2 * var(--gutter-page)),var(--container-main));min-height:4.75rem;margin-inline:auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--space-6);padding-block:var(--space-2)}
+.brand-mark{inline-size:2.7rem;block-size:2.7rem;display:grid;place-items:center;border:1px solid color-mix(in oklab,var(--color-text-primary),transparent 72%);border-radius:50%;font-family:var(--font-brand);font-style:italic;font-size:1.15rem;color:var(--color-text-primary);background:color-mix(in oklab,var(--color-background),transparent 72%);backdrop-filter:blur(4px)}
+.header-nav{justify-self:center;display:flex;align-items:center;gap:var(--space-6);font-size:var(--text-sm);font-weight:500;letter-spacing:var(--letter-spacing-ui)}
+.header-nav a{min-height:2.75rem;display:inline-flex;align-items:center;text-decoration:none;color:var(--color-text-primary)}
+.header-nav a.active{color:var(--color-accent)}
+.header-actions{display:flex;align-items:center;gap:var(--space-3)}
+.lang{min-inline-size:2.75rem;min-block-size:2.75rem;display:grid;place-items:center;border:0;background:transparent;color:var(--color-text-muted)}
+.menu{display:none;min-inline-size:2.75rem;min-block-size:2.75rem;border:1px solid var(--color-border-subtle);border-radius:var(--radius-control);background:transparent;color:var(--color-text-primary)}
+
+/* CTA primitives */
+.cta,.button{min-height:2.75rem;display:inline-flex;align-items:center;justify-content:center;padding:.75rem 1rem;border-radius:var(--radius-control);font-size:.875rem;font-weight:600;letter-spacing:var(--letter-spacing-ui);line-height:1;text-decoration:none;transition:background .15s ease,border-color .15s ease,color .15s ease}
+.cta{background:var(--color-accent);color:var(--color-text-on-light);border:1px solid var(--color-accent)}
+.button{background:transparent;color:var(--color-text-primary);border:1px solid var(--color-border-subtle)}
+.cta:hover{background:var(--color-accent-hover)}
+.button:hover{background:var(--color-surface-elevated)}
+.cta:focus-visible,.button:focus-visible,.fleet-nav a:focus-visible{outline:2px solid var(--color-focus-dark);outline-offset:2px}
+
+/* Full-bleed ServiceHero language */
+.hero{position:relative;isolation:isolate;min-height:84svh;display:grid;align-items:end;overflow:hidden;background:var(--color-surface)}
+.hero-media{position:absolute;inset:0;z-index:-3;width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.70) contrast(1.06) saturate(.76)}
+.hero-fallback{position:absolute;inset:0;z-index:-4;background:linear-gradient(145deg,var(--color-surface-elevated),var(--color-background))}
+.hero-media:not([hidden]) + .hero-fallback{opacity:0}
+.hero-scrim{position:absolute;inset:0;z-index:-2;background:
+  radial-gradient(ellipse 76% 74% at 68% 58%,transparent 0%,transparent 32%,color-mix(in oklab,var(--color-background),transparent 58%) 72%,color-mix(in oklab,var(--color-background),transparent 24%) 100%),
+  linear-gradient(180deg,color-mix(in oklab,var(--color-background),transparent 8%) 0%,transparent 30%,transparent 58%,color-mix(in oklab,var(--color-background),transparent 10%) 100%),
+  linear-gradient(90deg,color-mix(in oklab,var(--color-background),transparent 3%) 0%,color-mix(in oklab,var(--color-background),transparent 28%) 42%,color-mix(in oklab,var(--color-background),transparent 82%) 70%,color-mix(in oklab,var(--color-background),transparent 64%) 100%)}
+.hero-inner{width:min(calc(100% - 2 * var(--gutter-page)),var(--container-main));margin-inline:auto;padding-block-start:calc(4.75rem + var(--space-8));padding-block-end:clamp(var(--space-8),6vw,var(--space-20))}
+.hero-copy{max-width:38rem;display:grid;gap:var(--space-5)}
+.hero h1{max-width:16ch;margin:0;font-family:var(--font-heading);font-size:clamp(var(--text-h2),5vw,var(--text-h1));font-weight:400;line-height:var(--line-height-tight);letter-spacing:var(--letter-spacing-tight)}
+.hero p{max-width:34rem;margin:0;font-size:var(--text-lg);color:var(--color-text-primary)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-4)}
+.hero-asset{margin-top:var(--space-2);font-size:.75rem;color:color-mix(in oklab,var(--color-text-muted),transparent 30%)}
+
+/* Section heading signature from SectionHeading + section-label production patterns */
+.section-label{display:flex;align-items:center;gap:var(--space-3);margin:0 0 var(--space-5);font-size:.875rem;font-weight:500;color:var(--color-text-muted)}
+.section-label::before{content:"";inline-size:var(--space-8);block-size:1px;background:var(--color-accent)}
+.section-heading{margin:0;font-family:var(--font-heading);font-size:var(--text-h2);font-weight:600;line-height:var(--line-height-heading);letter-spacing:var(--letter-spacing-heading)}
+.section-intro{max-width:var(--measure-body);margin:var(--space-4) 0 0;font-size:var(--text-lg);color:var(--color-text-muted)}
+.body-copy{max-width:var(--measure-body);margin:var(--space-5) 0 0;color:var(--color-text-muted)}
+
+/* Fleet navigator — divider-led, not pills / filter UI. */
+.navigator-section{padding-block:var(--space-6);background:var(--color-background)}
+.fleet-nav{border-block:1px solid var(--color-divider)}
+.fleet-nav-list{margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
+.fleet-nav li{min-width:0}
+.fleet-nav li + li{border-inline-start:1px solid var(--color-divider)}
+.fleet-nav a{min-height:4.75rem;display:grid;align-content:center;gap:var(--space-1);padding:var(--space-4) var(--space-5);text-decoration:none;transition:background .15s ease}
+.fleet-nav a:hover{background:var(--color-surface)}
+.nav-index{font-size:.75rem;font-weight:600;color:var(--color-accent)}
+.nav-name{font-family:var(--font-heading);font-size:var(--text-lg);font-weight:600;line-height:1.15}
+
+/* Intro resembles the site's open ServiceOverview composition. */
+.overview-grid{display:grid;gap:var(--space-10)}
+.overview-facts{margin:0;padding:0;border-block-start:1px solid var(--color-divider);list-style:none}
+.overview-facts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-4);padding-block:var(--space-5);border-block-end:1px solid var(--color-divider)}
+.fact-marker{min-width:var(--space-8);font-size:.75rem;font-weight:600;color:var(--color-accent)}
+.overview-facts strong,.overview-facts small{display:block}
+.overview-facts strong{font-weight:600}
+.overview-facts small{margin-top:var(--space-2);font-size:.875rem;color:var(--color-text-muted)}
+
+/* Collection heading */
+.collection-head{padding-bottom:var(--space-10)}
+.collection-meta{margin-top:var(--space-4);color:var(--color-text-muted);font-size:.875rem}
+.category-anchor{scroll-margin-top:5rem;padding-top:var(--space-6);border-top:1px solid var(--color-divider)}
+.category-name{margin:0;display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;font-weight:500;color:var(--color-text-muted)}
+.category-name span{color:var(--color-accent);font-size:.75rem;font-weight:600}
+
+/* Vehicle product chapter */
+.vehicle{padding-block:clamp(4rem,7.5vw,7rem);border-bottom:1px solid var(--color-divider)}
+.vehicle-grid{display:grid;grid-template-areas:"identity" "media" "copy";gap:var(--space-10);align-items:center}
+.vehicle-identity{grid-area:identity}
+.vehicle-media{position:relative;min-height:clamp(18rem,35vw,31rem);display:grid;place-items:center;overflow:hidden;border-radius:var(--radius-card);background:var(--color-surface)}
+.vehicle-media img{position:relative;z-index:2;width:93%;height:93%;object-fit:contain;object-position:center}
+.vehicle-media img:not([hidden]) ~ .media-fallback{opacity:0}
+.media-fallback{position:absolute;inset:0;display:grid;place-content:center;gap:var(--space-2);padding:var(--space-6);text-align:center;color:var(--color-text-muted)}
+.media-fallback strong{font-family:var(--font-heading);font-size:var(--text-xl);font-weight:500;color:var(--color-text-primary)}
+.media-fallback small{font-size:.75rem;color:color-mix(in oklab,var(--color-text-muted),transparent 18%)}
+.vehicle-media{grid-area:media}
+.vehicle-copy{grid-area:copy;min-width:0}
+.vehicle-topline{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding-bottom:var(--space-4);border-bottom:1px solid var(--color-divider);font-size:.75rem;font-weight:600;letter-spacing:var(--letter-spacing-ui);color:var(--color-text-muted)}
+.vehicle-topline .index{color:var(--color-accent)}
+.vehicle h3{margin:var(--space-5) 0 0;font-family:var(--font-heading);font-size:var(--text-h3);font-weight:600;line-height:var(--line-height-heading);letter-spacing:var(--letter-spacing-heading)}
+.vehicle-summary{margin:var(--space-4) 0 0;color:var(--color-text-muted)}
+.vehicle-facts{margin:var(--space-6) 0 0;padding:0;border-block-start:1px solid var(--color-divider);list-style:none}
+.vehicle-facts li{display:grid;grid-template-columns:minmax(8rem,1fr) 1.5fr;gap:var(--space-4);padding-block:var(--space-4);border-block-end:1px solid var(--color-divider);font-size:.875rem}
+.vehicle-facts span{color:var(--color-text-muted)}
+.vehicle-facts strong{font-weight:600;color:var(--color-text-primary)}
+.best-for{margin-top:var(--space-6)}
+.best-for small{display:block;margin-bottom:var(--space-2);font-size:.75rem;font-weight:600;color:var(--color-accent)}
+.best-for p{margin:0;color:var(--color-text-primary)}
+.highlights{margin:var(--space-6) 0 0;padding:0;border-block-start:1px solid var(--color-divider);list-style:none}
+.highlights li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-4);padding-block:var(--space-3);border-block-end:1px solid var(--color-divider);font-size:.875rem;color:var(--color-text-muted)}
+.highlights b{font-size:.75rem;color:var(--color-accent)}
+
+/* One bounded light decision-support panel — mirrors existing divided-panel language. */
+.fit-wrap{padding-block:var(--space-section-feature)}
+.fit-panel{width:min(calc(100% - 2 * var(--gutter-page)),var(--container-main));margin-inline:auto;padding:clamp(var(--space-8),4vw,var(--space-12));border-radius:var(--radius-section);background:var(--color-surface-light);color:var(--color-text-on-light)}
+.fit-panel .section-label{color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%)}
+.fit-panel .section-heading{color:var(--color-text-on-light)}
+.fit-panel .section-intro{color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 30%)}
+.fit-grid{margin:var(--space-8) 0 0;padding:var(--space-5);display:grid;list-style:none;border-radius:var(--radius-section);background:var(--color-surface-light);border:1px solid color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 75%)}
+.fit-grid li{padding:var(--space-5) 0;border-bottom:1px solid color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 75%)}
+.fit-grid li:last-child{border-bottom:0}
+.fit-grid .marker{font-size:.75rem;font-weight:600;color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 42%)}
+.fit-grid h3{margin:var(--space-3) 0 0;font-family:var(--font-body);font-size:var(--text-xl);font-weight:600;line-height:1.3}
+.fit-grid p{margin:var(--space-3) 0 0;color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%)}
+
+/* FAQ: reading-focused contained light section. */
+.faq-section{width:min(calc(100% - 2 * var(--gutter-page)),var(--container-main));margin-inline:auto;padding:var(--space-section-compact) var(--gutter-page);border-radius:var(--radius-section);background:var(--color-surface-light);color:var(--color-text-on-light)}
+.faq-inner{max-width:var(--container-reading);margin-inline:auto}
+.faq-section .section-label{color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 35%)}
+.faq-section .section-heading{color:var(--color-text-on-light)}
+.faq-list{margin:var(--space-8) 0 0;border-top:1px solid color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 75%)}
+.faq-row{border-bottom:1px solid color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 75%)}
+.faq-row summary{min-height:4.25rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--space-5);padding-block:var(--space-5);font-weight:600;cursor:pointer;list-style:none}
+.faq-row summary::after{content:"+";color:color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 42%);font-size:1.25rem;font-weight:400}
+.faq-row[open] summary::after{content:"−"}
+
+/* Final CTA mirrors approved component proportions. */
+.final-section{padding-block:var(--space-section-feature)}
+.final-panel{position:relative;overflow:hidden;min-height:22rem;display:grid;grid-template-columns:62fr 38fr;border-radius:var(--radius-section);background:linear-gradient(135deg,var(--color-background),var(--color-surface-elevated))}
+.final-copy{display:grid;align-content:center;gap:var(--space-4);padding:clamp(var(--space-8),5vw,var(--space-16));max-width:40rem}
+.final-copy h2{margin:0;font-family:var(--font-heading);font-size:var(--text-h2);font-weight:600;line-height:var(--line-height-heading);letter-spacing:var(--letter-spacing-heading)}
+.final-copy p{margin:0;color:var(--color-text-muted)}
+.final-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-2)}
+.final-media{position:relative;min-height:22rem;background:var(--color-surface-elevated);-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.18) 16%,rgba(0,0,0,.48) 36%,rgba(0,0,0,.84) 56%,#000 72%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.18) 16%,rgba(0,0,0,.48) 36%,rgba(0,0,0,.84) 56%,#000 72%)}
+.final-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% center;filter:brightness(.68) saturate(.78)}
+.final-media img:not([hidden]) + .final-fallback{opacity:0}
+.final-fallback{position:absolute;inset:0;display:grid;place-items:center;color:var(--color-text-muted);font-size:.75rem}
+
+/* Compact Low Horizon footer language. */
+.footer{border-top:1px solid var(--color-divider);background:var(--color-surface)}
+.footer-inner{width:min(calc(100% - 2 * var(--gutter-page)),var(--container-main));margin-inline:auto;padding-block:clamp(var(--space-9),4vw,var(--space-13)) clamp(var(--space-5),2vw,var(--space-7))}
+.footer-grid{display:grid;grid-template-columns:.7fr 1.6fr 1fr;gap:clamp(var(--space-8),5vw,var(--space-12))}
+.footer-brand .brand-mark{background:transparent}
+.footer-nav-cols{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
+.footer-label{margin:0 0 var(--space-4);font-size:.75rem;font-weight:600;color:var(--color-text-muted)}
+.footer-list{margin:0;padding:0;list-style:none;display:grid;gap:var(--space-2)}
+.footer-list a{font-size:.875rem;text-decoration:none;color:var(--color-text-primary)}
+.footer-copy{margin:0;color:var(--color-text-muted);font-size:.875rem}
+.footer-bottom{margin-top:var(--space-8);padding-top:var(--space-5);border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;gap:var(--space-5);color:var(--color-text-muted);font-size:.75rem}
+
+@media (min-width:64rem){
+  .vehicle-grid{grid-template-areas:"media identity" "media copy";grid-template-columns:7fr 5fr;gap:2rem}
+  .fit-grid{grid-template-columns:repeat(4,minmax(0,1fr));padding:var(--space-7)}
+  .fit-grid li{padding:0 var(--space-7);border-bottom:0;border-inline-end:1px solid color-mix(in oklab,var(--color-text-on-light),var(--color-surface-light) 75%)}
+  .fit-grid li:first-child{padding-inline-start:0}
+  .fit-grid li:last-child{padding-inline-end:0;border-inline-end:0}
+}
+
+@media (max-width:79.99rem) and (min-width:64rem){
+  .vehicle-grid{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:63.98rem){
+  .header-nav,.lang{display:none}.menu{display:grid;place-items:center}
+  .header-row{grid-template-columns:auto 1fr auto}.header-actions{grid-column:3}
+  .fleet-nav-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fleet-nav li:nth-child(3){border-inline-start:0;border-top:1px solid var(--color-divider)}
+  .fleet-nav li:nth-child(4){border-top:1px solid var(--color-divider)}
+  .vehicle-grid{grid-template-columns:1fr}
+  .vehicle-copy{max-width:var(--measure-body)}
+  .final-panel{grid-template-columns:1fr;min-height:auto}
+  .final-copy{padding:clamp(var(--space-8),5vw,var(--space-12));max-width:none}
+  .final-media{min-height:17rem;-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.2) 18%,rgba(0,0,0,.6) 42%,#000 72%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.2) 18%,rgba(0,0,0,.6) 42%,#000 72%)}
+  .footer-grid{grid-template-columns:auto 1fr}.footer-contact{grid-column:1/-1}
+}
+
+@media (max-width:47.99rem){
+  .hero{min-height:78svh}.hero-inner{padding-bottom:var(--space-8)}
+  .hero-copy{max-width:100%}.hero p{font-size:1rem}
+  .hero-actions{flex-direction:column;align-items:stretch}.hero-actions a{width:100%}
+  .navigator-section{padding-block:0}.fleet-nav{border-top:0}.fleet-nav-list{grid-template-columns:1fr 1fr}
+  .fleet-nav a{min-height:4.5rem;padding:var(--space-4)}
+  .vehicle{padding-block:var(--space-section-standard)}
+  .vehicle-media{min-height:17rem}
+  .vehicle-facts li{grid-template-columns:1fr;gap:var(--space-1)}
+  .fit-panel{width:calc(100% - 2 * var(--gutter-page));padding:var(--space-7) var(--space-5)}
+  .fit-grid{padding:var(--space-4)}
+  .faq-section{width:calc(100% - 2 * var(--gutter-page));padding-inline:var(--space-5)}
+  .final-actions{flex-direction:column}.final-actions a{width:100%}
+  .footer-grid{grid-template-columns:1fr}.footer-contact{grid-column:auto}.footer-nav-cols{grid-template-columns:1fr 1fr}.footer-bottom{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" aria-label="Site header wireframe">
+  <div class="header-row">
+    <div class="brand-mark" aria-label="GS brand mark placeholder">GS</div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="#">Services</a>
+      <a href="#collection" class="active">Fleet</a>
+      <a href="#">Pricing</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="lang" type="button" aria-label="Language">EN</button>
+      <a class="cta" href="#" data-flow="booking">Book</a>
+      <button class="menu" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <img class="hero-media" src="../../assets/pages/fleet/hero.webp" alt="" onerror="this.hidden=true" />
+    <div class="hero-fallback" aria-hidden="true"></div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1 id="hero-title">A fleet selected around the way you travel</h1>
+        <p>From representative sedans and an SUV to Extra Long vans and group transportation — choose the vehicle around your passengers, luggage and the way your journey is organised.</p>
+        <div class="hero-actions">
+          <a class="cta" href="#" data-flow="booking">Book a Ride</a>
+          <a class="button" href="#" data-flow="quote">Request a Quote</a>
+        </div>
+        <div class="hero-asset">Hero media · assets/pages/fleet/hero.webp</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="navigator-section" aria-label="Fleet category navigation">
+    <div class="page-shell fleet-nav">
+      <ul class="fleet-nav-list">
+        <li><a href="#sedans"><span class="nav-index">01</span><span class="nav-name">Sedans</span></a></li>
+        <li><a href="#suv"><span class="nav-index">02</span><span class="nav-name">SUV</span></a></li>
+        <li><a href="#vans"><span class="nav-index">03</span><span class="nav-name">Vans</span></a></li>
+        <li><a href="#groups"><span class="nav-index">04</span><span class="nav-name">Group transport</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="overview-heading">
+    <div class="page-shell overview-grid">
+      <div>
+        <h2 class="section-heading" id="overview-heading">The right vehicle starts with the way you travel</h2>
+        <p class="section-intro">Not every journey is the same, so vehicle choice begins with more than a seat count.</p>
+        <p class="body-copy">Passenger count, luggage, journey length, occasion and the need for one or several vehicles all shape the right choice. The requested model is confirmed only after availability is checked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="collection" class="section--feature" aria-labelledby="collection-heading">
+    <div class="page-shell collection-head">
+      <h2 class="section-heading" id="collection-heading">The Chauffeur Collection</h2>
+      <p class="section-intro">Sedans for individual travel, an SUV alternative, spacious vans for smaller groups and Sprinter for organised group transportation.</p>
+    </div>
+
+    <div class="page-shell category-anchor" id="sedans">
+      <p class="category-name"><span>01</span>Sedans</p>
+    </div>
+
+    <article class="vehicle">
+      <div class="page-shell vehicle-grid">
+        <div class="vehicle-identity">
+          <div class="vehicle-topline"><span class="index">01 / 06</span><span>Sedan</span></div>
+          <h3>Mercedes S klasa</h3>
+        </div>
+        <div class="vehicle-media">
+          <img src="../../assets/fleet/original/s-class/left-facing.webp" alt="" onerror="this.hidden=true" />
+          <div class="media-fallback"><strong>Mercedes S klasa</strong><small>assets/fleet/original/s-class/left-facing.webp</small></div>
+        </div>
+        <div class="vehicle-copy">
+          <p class="vehicle-summary">The flagship choice when rear-passenger experience, discretion and a representative arrival are the main priorities.</p>
+          <ul class="vehicle-facts"><li><span>Passenger capacity</span><strong>3 passengers</strong></li></ul>
+          <div class="best-for"><small>Best for</small><p>VIP guests, executives, protocol engagements and special occasions where presentation matters as much as the journey itself.</p></div>
+          <ol class="highlights"><li><b>01</b><span>Centred on the rear-passenger experience.</span></li><li><b>02</b><span>The most representative sedan in the collection.</span></li><li><b>03</b><span>Comfort, privacy and a calm travel environment take priority.</span></li></ol>
+        </div>
+      </div>
+    </article>
+
+    <article class="vehicle">
+      <div class="page-shell vehicle-grid">
+        <div class="vehicle-identity">
+          <div class="vehicle-topline"><span class="index">02 / 06</span><span>Sedan</span></div>
+          <h3>Mercedes E klasa</h3>
+        </div>
+        <div class="vehicle-media">
+          <img src="../../assets/fleet/original/e-class/left-facing.webp" alt="" onerror="this.hidden=true" />
+          <div class="media-fallback"><strong>Mercedes E klasa</strong><small>assets/fleet/original/e-class/left-facing.webp</small></div>
+        </div>
+        <div class="vehicle-copy">
+          <p class="vehicle-summary">An executive sedan that combines a serious presence, comfortable travel and everyday practicality for schedules that often change through the day.</p>
+          <ul class="vehicle-facts"><li><span>Passenger capacity</span><strong>3 passengers</strong></li></ul>
+          <div class="best-for"><small>Best for</small><p>Business meetings, airport journeys, private commitments and individual travel requiring a professional, understated vehicle.</p></div>
+          <ol class="highlights"><li><b>01</b><span>Premium comfort with business practicality.</span></li><li><b>02</b><span>Discreet individual executive format.</span></li><li><b>03</b><span>Fits shorter engagements and full chauffeur schedules.</span></li></ol>
+        </div>
+      </div>
+    </article>
+
+    <article class="vehicle">
+      <div class="page-shell vehicle-grid">
+        <div class="vehicle-identity">
+          <div class="vehicle-topline"><span class="index">03 / 06</span><span>Sedan</span></div>
+          <h3>Škoda Superb</h3>
+        </div>
+        <div class="vehicle-media">
+          <img src="../../assets/fleet/original/superb/left-facing.webp" alt="" onerror="this.hidden=true" />
+          <div class="media-fallback"><strong>Škoda Superb</strong><small>assets/fleet/original/superb/left-facing.webp</small></div>
+        </div>
+        <div class="vehicle-copy">
+          <p class="vehicle-summary">A spacious and understated business choice for passengers who value rear-cabin room and practical day-to-day or longer-distance travel.</p>
+          <ul class="vehicle-facts"><li><span>Passenger capacity</span><strong>3 passengers</strong></li></ul>
+          <div class="best-for"><small>Best for</small><p>Business and private journeys where a comfortable sedan with a practical balance of cabin and luggage space is preferred.</p></div>
+          <ol class="highlights"><li><b>01</b><span>Generous passenger space in a discreet format.</span></li><li><b>02</b><span>Practical when the journey includes more luggage.</span></li><li><b>03</b><span>Strong balance of comfort, space and understatement.</span></li></ol>
+        </div>
+      </div>
+    </article>
+
+    <div class="page-shell category-anchor" id="suv">
+      <p class="category-name"><span>02</span>SUV</p>
+    </div>
+
+    <article class="vehicle">
+      <div class="page-shell vehicle-grid">
+        <div class="vehicle-identity">
+          <div class="vehicle-topline"><span class="index">04 / 06</span><span>SUV</span></div>
+          <h3>Škoda Kodiaq</h3>
+        </div>
+        <div class="vehicle-media">
+          <img src="../../assets/fleet/original/kodiaq/left-facing.webp" alt="" onerror="this.hidden=true" />
+          <div class="media-fallback"><strong>Škoda Kodiaq</strong><small>assets/fleet/original/kodiaq/left-facing.webp</small></div>
+        </div>
+        <div class="vehicle-copy">
+          <p class="vehicle-summary">Price by quote</p>
+          <p class="vehicle-summary">The SUV alternative for passengers who prefer a higher seating position, more upright access and a flexible relationship between cabin and luggage space.</p>
+          <div class="best-for"><small>Best for</small><p>Private and business journeys where an SUV format is preferred, particularly schedules combining city travel with longer sections.</p></div>
+          <ol class="highlights"><li><b>01</b><span>Higher SUV seating position.</span></li><li><b>02</b><span>Flexible cabin and luggage relationship.</span></li><li><b>03</b><span>An alternative to a sedan without moving to a van.</span></li></ol>
+        </div>
+      </div>
+    </article>
+
+    <div class="page-shell category-anchor" id="vans">
+      <p class="category-name"><span>03</span>Vans</p>
+    </div>
+
+    <article class="vehicle">
+      <div class="page-shell vehicle-grid">
+        <div class="vehicle-identity">
+          <div class="vehicle-topline"><span class="index">05 / 06</span><span>Van</span></div>
+          <h3>Mercedes V klasa</h3>
+        </div>
+        <div class="vehicle-media">
+          <img src="../../assets/fleet/original/v-class/left-facing.webp" alt="" onerror="this.hidden=true" />
+          <div class="media-fallback"><strong>Mercedes V klasa</strong><small>assets/fleet/original/v-class/left-facing.webp</small></div>
+        </div>
+        <div class="vehicle-copy">
+          <p class="vehicle-summary">A premium Extra Long van for smaller groups that want to travel together without moving to a larger group-transport format.</p>
+          <ul class="vehicle-facts"><li><span>Service configuration</span><strong>6 passengers</strong></li><li><span>Service configuration</span><strong>7 passengers</strong></li></ul>
+          <div class="best-for"><small>Best for</small><p>Business teams, guests, families, delegations and smaller groups where travelling together and cabin comfort matter more than separate cars.</p></div>
+          <ol class="highlights"><li><b>01</b><span>One model family with two confirmed configurations.</span></li><li><b>02</b><span>Premium small-group format.</span></li><li><b>03</b><span>Supports one coordinated arrival.</span></li></ol>
+        </div>
+      </div>
+    </article>
+
+    <div class="page-shell category-anchor" id="groups">
+      <p class="category-name"><span>04</span>Group transport</p>
+    </div>
+
+    <article class="vehicle">
+      <div class="page-shell vehicle-grid">
+        <div class="vehicle-identity">
+          <div class="vehicle-topline"><span class="index">06 / 06</span><span>Group vehicle</span></div>
+          <h3>Mercedes Sprinter</h3>
+        </div>
+        <div class="vehicle-media">
+          <img src="../../assets/fleet/original/sprinter/left-facing.webp" alt="" onerror="this.hidden=true" />
+          <div class="media-fallback"><strong>Mercedes Sprinter</strong><small>assets/fleet/original/sprinter/left-facing.webp</small></div>
+        </div>
+        <div class="vehicle-copy">
+          <p class="vehicle-summary">The largest group format in the collection for moving a higher number of passengers as one organised transport plan.</p>
+          <ul class="vehicle-facts"><li><span>Passenger capacity</span><strong>19 passengers</strong></li></ul>
+          <div class="best-for"><small>Best for</small><p>Conferences, congresses, delegations, event guests and other situations where a larger group travels as one unit.</p></div>
+          <ol class="highlights"><li><b>01</b><span>Designed for larger groups and coordinated schedules.</span></li><li><b>02</b><span>Keeps the group together instead of splitting between cars.</span></li><li><b>03</b><span>Natural fit for repeated group movements and events.</span></li></ol>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="fit-wrap" aria-labelledby="fit-heading">
+    <div class="fit-panel">
+      <h2 class="section-heading" id="fit-heading">How to choose the right vehicle</h2>
+      <p class="section-intro">It is enough to tell us who is travelling, what you are carrying and how the plan is structured.</p>
+      <p class="body-copy">We assess passengers and luggage together and check whether one vehicle or several vehicles create the better arrangement.</p>
+      <ol class="fit-grid">
+        <li><span class="marker">01</span><h3>Passengers</h3><p>Passenger count defines the starting vehicle class and available service configurations.</p></li>
+        <li><span class="marker">02</span><h3>Luggage</h3><p>Suitcases, cabin bags and special equipment are reviewed together with passenger count.</p></li>
+        <li><span class="marker">03</span><h3>Journey type</h3><p>Airport travel, a business day, an event, a longer route or several stops can require a different vehicle format.</p></li>
+        <li><span class="marker">04</span><h3>One or several</h3><p>For larger groups and complex schedules, the plan can include several vehicles when the service supports it.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section--compact" aria-labelledby="faq-heading">
+    <div class="faq-section">
+      <div class="faq-inner">
+        <h2 class="section-heading" id="faq-heading">Frequently asked questions about the fleet</h2>
+        <div class="faq-list">
+          <details class="faq-row"><summary>Can I choose a specific vehicle model?</summary></details>
+          <details class="faq-row"><summary>How many passengers can travel in each vehicle?</summary></details>
+          <details class="faq-row"><summary>What is the difference between the two V-Class options?</summary></details>
+          <details class="faq-row"><summary>Which vehicle is best for airport travel with more luggage?</summary></details>
+          <details class="faq-row"><summary>Is the Škoda Kodiaq part of the fleet?</summary></details>
+          <details class="faq-row"><summary>Can several vehicles be organised for the same group?</summary></details>
+          <details class="faq-row"><summary>Is a child seat available?</summary></details>
+          <details class="faq-row"><summary>Is the booking confirmed immediately?</summary></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-section" id="final-cta">
+    <div class="page-shell final-panel">
+      <div class="final-copy">
+        <h2>Tell us how you plan to travel</h2>
+        <p>Send the date, route or schedule, passenger count, luggage and preferred vehicle. We will check the right configuration and availability before confirmation.</p>
+        <div class="final-actions"><a class="cta" href="#" data-flow="booking">Book a Ride</a><a class="button" href="#" data-flow="quote">Request a Quote</a></div>
+      </div>
+      <div class="final-media">
+        <img src="../../assets/final-cta-bg.webp" alt="" onerror="this.hidden=true" />
+        <div class="final-fallback">Existing integrated FinalCTA media region</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="brand-mark" aria-hidden="true">GS</div></div>
+      <div class="footer-nav-cols">
+        <div><p class="footer-label">Services</p><ul class="footer-list"><li><a href="#">Private Chauffeur</a></li><li><a href="#">Airport Transportation</a></li><li><a href="#">Business Transportation</a></li><li><a href="#">Special Events</a></li></ul></div>
+        <div><p class="footer-label">Company</p><ul class="footer-list"><li><a href="#">Fleet</a></li><li><a href="#">Pricing</a></li><li><a href="#">About</a></li><li><a href="#">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-contact"><p class="footer-label">Contact</p><p class="footer-copy">Verified phone / email<br>Mon–Sun · 08:00–18:00<br>Verified office address</p></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 GrandSolution · All rights reserved</span><span>Belgrade · Serbia</span></div>
+  </div>
+</footer>
+
+</body>
+</html>

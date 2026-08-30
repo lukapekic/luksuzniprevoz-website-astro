@@ -44,6 +44,8 @@ export interface OfficeHours {
 }
 
 export interface BookingLeadTime {
+  /** IANA time zone used to interpret all customer-entered booking dates/times. */
+  timeZone: "Europe/Belgrade";
   publicMinimumHours: number;
   lastMinuteMarketingAllowed: boolean;
   /** UiStringKey into content/ui/*.json for the translated exception policy. */
@@ -84,6 +86,7 @@ export const contact: Contact = {
     publicNoteKey: "contact.officeNote",
   },
   bookingLeadTime: {
+    timeZone: "Europe/Belgrade",
     publicMinimumHours: 24,
     lastMinuteMarketingAllowed: false,
     exceptionPolicyKey: "contact.bookingExceptionPolicy",
@@ -92,6 +95,9 @@ export const contact: Contact = {
 };
 
 export function assertContactConsistency(): void {
+  if (contact.bookingLeadTime.timeZone !== "Europe/Belgrade") {
+    throw new Error("contact.ts booking time zone must be Europe/Belgrade.");
+  }
   if (contact.bookingLeadTime.confirmationMode !== "manual") {
     throw new Error("contact.ts booking confirmation mode must be explicitly manual.");
   }

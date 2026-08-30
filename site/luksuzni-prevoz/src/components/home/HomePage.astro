@@ -229,7 +229,7 @@ const flagshipImage = privateChauffeurSectionImg;
 //
 // Vehicle identity is NOT translated — canonical fleet vocabulary is rendered
 // verbatim for all locales. `vehicleClass` is
-// a canonical structural enum (sedan/van/minivan/bus); its localized display
+// a canonical structural enum (sedan/suv/van/minivan/bus); its localized display
 // label comes from the UI dictionary (`fleet.class.*`) via static keys keyed
 // by VehicleClass — never a dynamically-built `t()` key (UiStringKey is a
 // literal union; FND-ARCH-03 / FND-TYPE-02). Passenger capacity is rendered
@@ -245,6 +245,7 @@ const fleetCta = {
 };
 const fleetClassLabels: Record<VehicleClass, string> = {
   sedan: t("fleet.class.sedan", currentLocale),
+  suv: t("fleet.class.suv", currentLocale),
   van: t("fleet.class.van", currentLocale),
   minivan: t("fleet.class.minivan", currentLocale),
   bus: t("fleet.class.bus", currentLocale),

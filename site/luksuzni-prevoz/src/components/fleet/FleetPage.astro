@@ -1,0 +1,330 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocaleCode, UiStringKey } from "@astro-foundation/core";
+import { buildFaqPage } from "@astro-foundation/core/seo";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import ReadingContainer from "../../foundation/ui/ReadingContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import ServiceHero from "../services/shared/ServiceHero.astro";
+import FAQ from "../shared/FAQ.astro";
+import FinalCTA from "../shared/FinalCTA.astro";
+import FleetNavigator from "./FleetNavigator.astro";
+import FleetVehicleFeature from "./FleetVehicleFeature.astro";
+import FleetFitGuide from "./FleetFitGuide.astro";
+import { fleetPageShowcase } from "../../data/fleet-page-media.ts";
+import {
+  visibleFleetPageProfileKeys,
+  type VisibleFleetPageProfileKey,
+} from "../../data/fleet-page.ts";
+import {
+  fleetModelDisplayNames,
+  getVehicle,
+  type Vehicle,
+  type VehicleClass,
+} from "../../data/fleet.ts";
+import { contact, isVerified } from "../../data/contact.ts";
+import { t } from "../../lib/i18n.ts";
+import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
+import { buildPageSeo } from "../../lib/seo.ts";
+import heroImage from "../../assets/pages/fleet/hero.webp";
+import finalCtaImage from "../../assets/final-cta-bg.webp";
+
+interface Props {
+  routeKey: "fleet";
+  locale: LocaleCode;
+  content: CollectionEntry<"pages">;
+}
+
+interface ResolvedAction {
+  label: string;
+  href: string;
+}
+
+type FleetCategoryId = "sedans" | "suv" | "vans" | "groups";
+
+interface ResolvedModel {
+  key: VisibleFleetPageProfileKey;
+  categoryId: FleetCategoryId;
+  displayName: string;
+  image: (typeof fleetPageShowcase)[number]["image"];
+  vehicles: Vehicle[];
+  summary: string;
+  bestFor: string;
+  highlights: string[];
+}
+
+const { routeKey, locale, content } = Astro.props;
+
+if (routeKey !== "fleet" || content.data.pageType !== "fleet" || content.data.routeKey !== routeKey) {
+  throw new Error("FleetPage received incompatible route or content data.");
+}
+
+const data = content.data;
+if (!data.hero || !data.fleetSection.heading || !data.faq) {
+  throw new Error(`Fleet content is incomplete for ${locale}.`);
+}
+if (data.faq.items.length !== 8) {
+  throw new Error(`Fleet requires exactly eight localized FAQ items for ${locale}.`);
+}
+
+const fitGuide = data.sections.find((section) => section.key === "chooseRightVehicle");
+if (!fitGuide || !fitGuide.items || fitGuide.items.length !== 4) {
+  throw new Error(`Fleet requires chooseRightVehicle with exactly four items for ${locale}.`);
+}
+
+const contentKeys = data.fleetSection.profiles.map((profile) => profile.key);
+if (contentKeys.join("|") !== visibleFleetPageProfileKeys.join("|")) {
+  throw new Error(`Fleet profile keys or order differ from the visible presentation contract for ${locale}.`);
+}
+
+const ui = (key: UiStringKey) => t(key, locale);
+const resolveAction = (cta: Cta): ResolvedAction => ({
+  label: cta.label,
+  href: resolveCtaHref(cta, locale),
+});
+
+const categoryByClass: Partial<Record<VehicleClass, FleetCategoryId>> = {
+  sedan: "sedans",
+  suv: "suv",
+  van: "vans",
+  bus: "groups",
+};
+
+const resolvedModels: ResolvedModel[] = fleetPageShowcase.map((pageModel, index) => {
+  const profile = data.fleetSection.profiles[index];
+  if (!profile || profile.key !== pageModel.key) {
+    throw new Error(`Fleet profile "${pageModel.key}" is missing or out of order for ${locale}.`);
+  }
+  if (profile.vehicleIds.join("|") !== pageModel.vehicleIds.join("|")) {
+    throw new Error(`Fleet profile "${pageModel.key}" has incorrect canonical vehicle ids.`);
+  }
+
+  const vehicles = pageModel.vehicleIds.map((vehicleId) => getVehicle(vehicleId));
+  const categoryId = categoryByClass[vehicles[0].vehicleClass];
+  if (!categoryId || vehicles.some((vehicle) => categoryByClass[vehicle.vehicleClass] !== categoryId)) {
+    throw new Error(`Fleet profile "${pageModel.key}" cannot resolve one visible category.`);
+  }
+
+  return {
+    key: pageModel.key,
+    categoryId,
+    displayName:
+      pageModel.key === "mercedesVClass"
+        ? fleetModelDisplayNames.mercedesVClass
+        : vehicles[0].displayName,
+    image: pageModel.image,
+    vehicles,
+    summary: profile.summary,
+    bestFor: profile.bestFor,
+    highlights: profile.highlights,
+  };
+});
+
+const categories: readonly {
+  id: FleetCategoryId;
+  label: string;
+}[] = [
+  { id: "sedans", label: ui("fleet.navigator.sedans") },
+  { id: "suv", label: ui("fleet.navigator.suv") },
+  { id: "vans", label: ui("fleet.navigator.vans") },
+  { id: "groups", label: ui("fleet.navigator.groupTransport") },
+];
+
+const classLabels: Record<VehicleClass, string> = {
+  sedan: ui("fleet.class.sedan"),
+  suv: ui("fleet.class.suv"),
+  van: ui("fleet.class.van"),
+  minivan: ui("fleet.class.minivan"),
+  bus: ui("fleet.class.bus"),
+};
+
+const factsFor = (model: ResolvedModel): { label: string; value: string }[] => {
+  const facts = [
+    {
+      label: ui("fleet.profile.vehicleClass"),
+      value: classLabels[model.vehicles[0].vehicleClass],
+    },
+  ];
+
+  if (model.vehicles.length === 2) {
+    facts.push(
+      {
+        label: ui("fleet.profile.configurations"),
+        value: ui("fleet.vClass.configuration.six"),
+      },
+      {
+        label: ui("fleet.profile.configurations"),
+        value: ui("fleet.vClass.configuration.seven"),
+      },
+    );
+  } else {
+    const passengers = model.vehicles[0].passengers;
+    if (passengers !== null) {
+      facts.push({
+        label: ui("fleet.profile.passengerCapacity"),
+        value: `${passengers} ${ui("fleet.passengers")}`,
+      });
+    }
+  }
+
+  return facts;
+};
+
+const primaryAction = resolveAction(data.hero.primaryCta);
+const secondaryAction = data.hero.secondaryCta ? resolveAction(data.hero.secondaryCta) : null;
+const finalPrimaryAction = resolveAction(data.finalCta.primaryCta);
+const finalSecondaryAction = data.finalCta.secondaryCta
+  ? resolveAction(data.finalCta.secondaryCta)
+  : null;
+
+const contacts = {
+  phone: isVerified(contact.phone) ? contact.phone.value ?? undefined : undefined,
+  email: isVerified(contact.email) ? contact.email.value ?? undefined : undefined,
+};
+
+const seo = buildPageSeo({
+  routeKey,
+  locale,
+  title: data.seoTitle,
+  description: data.seoDescription,
+  noindex: data.noindex ?? false,
+  structuredData: [buildFaqPage(data.faq.items)],
+});
+---
+
+<BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero={true}>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    {locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <FleetNavigator ariaLabel={ui("fleet.navigator.ariaLabel")} items={categories} {locale} />
+
+  <Section spacing="standard" aria-labelledby="fleet-introduction-heading">
+    <ReadingContainer>
+      <SectionHeading
+        id="fleet-introduction-heading"
+        heading={data.introSection.heading.title}
+        description={data.introSection.heading.intro}
+        accent={true}
+      />
+      <p class="fleet-introduction__body">{data.introSection.body}</p>
+    </ReadingContainer>
+  </Section>
+
+  <Section id="collection" spacing="feature" aria-labelledby="fleet-collection-heading">
+    <PageContainer>
+      <SectionHeading
+        id="fleet-collection-heading"
+        heading={data.fleetSection.heading.title}
+        description={data.fleetSection.heading.intro}
+      />
+    </PageContainer>
+
+    <div class="fleet-collection">
+      {categories.map((category, categoryIndex) => (
+        <div class="fleet-category" id={category.id}>
+          <PageContainer>
+            <p class="fleet-category__label">
+              <span aria-hidden="true">{String(categoryIndex + 1).padStart(2, "0")}</span>
+              {category.label}
+            </p>
+          </PageContainer>
+
+          {resolvedModels
+            .filter((model) => model.categoryId === category.id)
+            .map((model) => (
+              <FleetVehicleFeature
+                id={`fleet-${model.key}`}
+                index={resolvedModels.indexOf(model) + 1}
+                total={resolvedModels.length}
+                displayName={model.displayName}
+                image={model.image}
+                summary={model.summary}
+                bestFor={model.bestFor}
+                bestForLabel={ui("fleet.profile.bestFor")}
+                facts={factsFor(model)}
+                statusLabel={model.vehicles.some((vehicle) => vehicle.pricingStatus === "quote-only")
+                  ? ui("fleet.profile.quoteOnly")
+                  : undefined}
+                highlights={model.highlights}
+              />
+            ))}
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <FleetFitGuide
+    heading={fitGuide.heading.title}
+    intro={fitGuide.heading.intro}
+    body={fitGuide.body}
+    items={fitGuide.items}
+  />
+
+  <Section spacing="compact" surface="light-full" aria-labelledby="fleet-faq-heading">
+    <ReadingContainer>
+      <SectionHeading id="fleet-faq-heading" heading={data.faq.heading} on="light" />
+      <FAQ items={data.faq.items} on="light" class="mt-[var(--space-8)]" />
+    </ReadingContainer>
+  </Section>
+
+  <FinalCTA
+    heading={data.finalCta.heading}
+    description={data.finalCta.text}
+    primaryAction={finalPrimaryAction}
+    secondaryAction={finalSecondaryAction}
+    {contacts}
+    image={finalCtaImage}
+    imageAlt=""
+    imageFit="cover"
+    mediaTreatment="integrated"
+    {locale}
+  />
+</BaseLayout>
+
+<style>
+  .fleet-introduction__body {
+    max-inline-size: var(--measure-body);
+    margin: var(--space-5) 0 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+  }
+
+  .fleet-collection {
+    margin-block-start: var(--space-12);
+  }
+
+  .fleet-category {
+    scroll-margin-block-start: var(--space-20);
+  }
+
+  .fleet-category__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: 0;
+    padding-block: var(--space-5);
+    border-block: 1px solid var(--color-divider);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+  }
+
+  .fleet-category__label span {
+    color: var(--color-accent);
+    font-size: var(--text-caption);
+  }
+</style>

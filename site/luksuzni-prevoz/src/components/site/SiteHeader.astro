@@ -227,7 +227,7 @@ const leafServices = servicesChildren.filter(isLeaf);
             idPrefix={`${idPrefix}-lang`}
           />
         </div>
-        <Link href={bookHref} variant="cta" size="sm" class="book-cta">
+        <Link href={bookHref} variant="cta" size="sm" class="book-cta" ariaCurrent={currentRouteKey === "booking" ? "page" : undefined}>
           {bookLabel}
         </Link>
         <button
@@ -347,7 +347,7 @@ const leafServices = servicesChildren.filter(isLeaf);
             idPrefix={`${idPrefix}-m-lang`}
           />
         </div>
-        <Link href={bookHref} variant="cta" size="sm" class="book-cta w-full">
+        <Link href={bookHref} variant="cta" size="sm" class="book-cta w-full" ariaCurrent={currentRouteKey === "booking" ? "page" : undefined}>
           {bookLabel}
         </Link>
       </div>

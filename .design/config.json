@@ -44,6 +44,12 @@
     "OccasionStandards",
     "OccasionProcessSteps",
     "Button",
+    "Field",
+    "Input",
+    "Select",
+    "Textarea",
+    "Checkbox",
+    "FormStatus",
     "Link",
     "BrandLockup"
   ],
@@ -161,6 +167,44 @@
         "site/luksuzni-prevoz/src/docs/services/shared",
         "site/luksuzni-prevoz/src/docs/services/prom-transportation"
       ]
+    },
+    "fleet": {
+      "match": [
+        "src/components/fleet/",
+        "src/content/pages/fleet/",
+        "src/data/fleet-page.ts",
+        "src/data/fleet-page-media.ts",
+        "src/docs/fleet/",
+        "vozila",
+        "avtopark"
+      ],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/fleet/blueprint.md"],
+      "contracts": ["site/luksuzni-prevoz/src/docs/fleet"]
+    },
+    "booking": {
+      "match": [
+        "src/components/booking/",
+        "src/content/pages/booking/",
+        "src/docs/booking/",
+        "rezervacija",
+        "booking",
+        "bronirovanie"
+      ],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/booking/blueprint.md"],
+      "contracts": ["site/luksuzni-prevoz/src/docs/booking"]
+    },
+    "pricing": {
+      "match": [
+        "src/components/pricing/",
+        "src/content/pages/pricing/",
+        "src/data/pricing.ts",
+        "src/docs/pricing/",
+        "cene",
+        "pricing",
+        "tseny"
+      ],
+      "blueprints": ["site/luksuzni-prevoz/src/docs/pricing/blueprint.md"],
+      "contracts": ["site/luksuzni-prevoz/src/docs/pricing"]
     },
     "contact": {
       "match": [

@@ -1,0 +1,121 @@
+---
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import Link from "../../foundation/ui/Link.astro";
+import type { LocaleCode } from "@astro-foundation/core";
+
+interface Item {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  ariaLabel: string;
+  locale: LocaleCode;
+  items: readonly Item[];
+}
+
+const { ariaLabel, locale, items } = Astro.props;
+---
+
+<nav class="fleet-navigator" aria-label={ariaLabel}>
+  <PageContainer>
+    <ol class="fleet-navigator__list" role="list">
+      {items.map((item, index) => (
+        <li>
+          <Link to="fleet" {locale} hash={`#${item.id}`}>
+            <span class="fleet-navigator__index" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span>{item.label}</span>
+          </Link>
+        </li>
+      ))}
+    </ol>
+  </PageContainer>
+</nav>
+
+<style>
+  .fleet-navigator {
+    border-block: 1px solid var(--color-divider);
+    background: var(--color-surface);
+  }
+
+  .fleet-navigator__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fleet-navigator__list li {
+    min-inline-size: 0;
+    border-block-end: 1px solid var(--color-divider);
+  }
+
+  .fleet-navigator__list li:nth-child(odd) {
+    border-inline-end: 1px solid var(--color-divider);
+  }
+
+  .fleet-navigator__list li:nth-last-child(-n + 2) {
+    border-block-end: 0;
+  }
+
+  .fleet-navigator :global(a) {
+    display: flex;
+    min-block-size: var(--space-20);
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    text-decoration: none;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
+  }
+
+  .fleet-navigator :global(a:hover) {
+    background: var(--color-surface-elevated);
+    color: var(--color-accent-hover);
+  }
+
+  .fleet-navigator :global(a:focus-visible) {
+    position: relative;
+    z-index: 1;
+    border-radius: var(--radius-control);
+    outline: 2px solid var(--color-focus-dark);
+    outline-offset: -2px;
+  }
+
+  .fleet-navigator__index {
+    color: var(--color-text-muted);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-ui);
+  }
+
+  @media (min-width: 64rem) {
+    .fleet-navigator__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .fleet-navigator__list li,
+    .fleet-navigator__list li:nth-child(odd) {
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--color-divider);
+    }
+
+    .fleet-navigator__list li:last-child {
+      border-inline-end: 0;
+    }
+
+    .fleet-navigator :global(a) {
+      min-block-size: var(--space-16);
+      padding-inline: var(--space-5);
+    }
+  }
+</style>

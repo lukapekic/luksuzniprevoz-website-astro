@@ -8,9 +8,9 @@
  * VOCABULARY: the vehicle identity lives HERE and is the single source of
  * truth. Content frontmatter references vehicles by `vehicleId` (validated
  * against this roster by content:validate); pricing.ts keys its price matrix
- * by the same `VehicleId`. A module-load guard (assertFleetConsistency)
- * asserts ids are unique and that pricing.ts and fleet.ts agree on the roster
- * (the fleet↔pricing side of the two-sources-of-truth closure).
+ * by the same `VehicleId` and uses `pricingStatus` to distinguish published
+ * fares from quote-only vehicles. A module-load guard (assertFleetConsistency)
+ * asserts ids are unique.
  *
  * The source is the owner-supplied "Cene Limo servis usluga.xlsx". Only facts
  * present in the source are recorded here: identity + display name. Passenger
@@ -27,17 +27,19 @@
 // --- Enum vocabularies (typed unions) --------------------------------------
 
 /** Coarse vehicle class, derived from the source's vehicle grouping. */
-export type VehicleClass = "sedan" | "van" | "minivan" | "bus";
+export type VehicleClass = "sedan" | "suv" | "van" | "minivan" | "bus";
+
+/** Whether canonical numeric pricing is available for this vehicle. */
+export type VehiclePricingStatus = "published" | "quote-only";
 
 /**
  * Stable vehicle id — an explicit union (not derived from the `vehicles` array,
- * which would be circular). Listed exactly once here; `Vehicle.id: VehicleId`
- * and `pricing: Record<VehicleId, …>` together force the array and the pricing
- * matrix to cover the full set (TS requires every union key in a Record), and
- * assertFleetConsistency closes the array↔pricing loop at runtime.
+ * which would be circular). `Vehicle.id: VehicleId` constrains the roster and
+ * pricing.ts validates the partial numeric-pricing map against pricingStatus.
  */
 export type VehicleId =
   | "skoda-superb"
+  | "skoda-kodiaq"
   | "mercedes-e-class"
   | "mercedes-v-class-6-plus-1-extra-long"
   | "mercedes-v-class-7-plus-1-extra-long"
@@ -54,6 +56,8 @@ export interface Vehicle {
   displayName: string;
   /** Coarse class for grouping/filtering on the fleet page. */
   vehicleClass: VehicleClass;
+  /** Controls whether pricing consumers may expect canonical numeric fares. */
+  pricingStatus: VehiclePricingStatus;
   /**
    * Passenger seats, ONLY where the source id explicitly encodes the count
    * (e.g. "6+1" → 6). null where the source states no number — never fabricated.
@@ -72,49 +76,64 @@ export const fleetModelDisplayNames = {
 } as const;
 
 // --- Authoritative fleet facts --------------------------------------------
-// Sourced from "Cene Limo servis usluga.xlsx" (table "LIMO SERVIS USLUGE").
-// Display names are the source's `sourceName` verbatim.
+// Priced records are sourced from "Cene Limo servis usluga.xlsx" (table
+// "LIMO SERVIS USLUGE"). Kodiaq identity/class are owner-supplied Fleet facts;
+// its capacity and pricing remain deliberately unverified/quote-only.
 export const vehicles: Vehicle[] = [
   {
     id: "skoda-superb",
     displayName: "Škoda Superb",
     vehicleClass: "sedan",
+    pricingStatus: "published",
     passengers: 3,
+  },
+  {
+    id: "skoda-kodiaq",
+    displayName: "Škoda Kodiaq",
+    vehicleClass: "suv",
+    pricingStatus: "quote-only",
+    passengers: null,
   },
   {
     id: "mercedes-e-class",
     displayName: "Mercedes E klasa",
     vehicleClass: "sedan",
+    pricingStatus: "published",
     passengers: 3,
   },
   {
     id: "mercedes-v-class-6-plus-1-extra-long",
     displayName: "Mercedes V klasa 6+1 Extra Long",
     vehicleClass: "van",
+    pricingStatus: "published",
     passengers: 6,
   },
   {
     id: "mercedes-v-class-7-plus-1-extra-long",
     displayName: "Mercedes V klasa 7+1 Extra Long",
     vehicleClass: "van",
+    pricingStatus: "published",
     passengers: 7,
   },
   {
     id: "mercedes-vito-tourer-8-plus-1",
     displayName: "Mercedes Vito Tourer 8+1",
     vehicleClass: "minivan",
+    pricingStatus: "published",
     passengers: 8,
   },
   {
     id: "mercedes-s-class",
     displayName: "Mercedes S klasa",
     vehicleClass: "sedan",
+    pricingStatus: "published",
     passengers: 3,
   },
   {
     id: "mercedes-sprinter",
     displayName: "Mercedes Sprinter",
     vehicleClass: "bus",
+    pricingStatus: "published",
     passengers: 19,
   },
 ];
@@ -138,9 +157,8 @@ export function getVehicle(id: string): Vehicle {
  * Verifies, at module load (dev/build):
  *   1. fleet ids are unique (a duplicate would collide as a list key and when
  *      matching the pricing matrix);
- *   2. the fleet roster and the pricing roster agree on exactly the same id
- *      set (the fleet↔pricing side of the two-sources-of-truth closure — a
- *      vehicle priced but not listed, or listed but unpriced, fails loud).
+ * Pricing-status agreement is validated from pricing.ts to avoid a circular
+ * runtime import here.
  * Throws on drift so it fails loud in dev/build, not in production HTML.
  */
 export function assertFleetConsistency(): void {
@@ -153,10 +171,6 @@ export function assertFleetConsistency(): void {
     seen.add(v.id);
   }
 
-  // (2) agreement with pricing.ts is asserted from pricing.ts (it imports the
-  // VehicleId union from here, and Record<VehicleId, …> forces completeness),
-  // so the closure is checked from the pricing side. This guard closes the
-  // internal uniqueness side.
 }
 
 assertFleetConsistency();

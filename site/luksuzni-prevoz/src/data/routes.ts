@@ -150,7 +150,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   fleet: {
     kind: "page",
-    availability: "scaffold",
+    availability: "published",
     parent: null,
     slugs: { sr: "vozila", en: "fleet", ru: "avtopark" },
   },
@@ -171,6 +171,14 @@ export const routeMap: Record<string, RouteEntry> = {
     availability: "published",
     parent: null,
     slugs: { sr: "kontakt", en: "contact", ru: "kontakty" },
+  },
+  booking: {
+    kind: "page",
+    availability: "published",
+    parent: null,
+    slugs: { sr: "rezervacija", en: "booking", ru: "bronirovanie" },
+    noindex: true,
+    sitemap: { include: false, priority: 0 },
   },
 };
 

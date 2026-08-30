@@ -22,8 +22,17 @@
       "name": "Button",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Button.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Checkbox.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"
       ]
     },
@@ -31,6 +40,7 @@
       "name": "FAQ",
       "path": "site/luksuzni-prevoz/src/components/shared/FAQ.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/conference-congress-transportation/ConferenceCongressTransportationPage.astro",
@@ -44,9 +54,20 @@
       ]
     },
     {
+      "name": "Field",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Field.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
+        "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
       "name": "FinalCTA",
       "path": "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessTransportationPage.astro",
@@ -58,6 +79,14 @@
         "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "FormStatus",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/FormStatus.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
+        "site/luksuzni-prevoz/src/components/contact/ContactForm.astro"
       ]
     },
     {
@@ -78,9 +107,21 @@
       ]
     },
     {
+      "name": "Input",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Input.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
+        "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
       "name": "Link",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Link.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetNavigator.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
         "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
         "site/luksuzni-prevoz/src/components/home/PrivateChauffeurFeature.astro",
@@ -158,8 +199,13 @@
       "name": "PageContainer",
       "path": "site/luksuzni-prevoz/src/foundation/ui/PageContainer.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
         "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetNavigator.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetVehicleFeature.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
@@ -221,6 +267,7 @@
       "name": "ReadingContainer",
       "path": "site/luksuzni-prevoz/src/foundation/ui/ReadingContainer.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/conference-congress-transportation/ConferenceCongressTransportationPage.astro",
@@ -237,8 +284,11 @@
       "name": "Section",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Section.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
         "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/components/home/HowItWorks.astro",
@@ -304,6 +354,8 @@
       "consumers": [
         "site/luksuzni-prevoz/src/components/contact/ContactDetails.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/components/home/HowItWorks.astro",
@@ -360,6 +412,13 @@
       ]
     },
     {
+      "name": "Select",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Select.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
       "name": "ServiceCard",
       "path": "site/luksuzni-prevoz/src/components/shared/ServiceCard.astro",
       "consumers": [
@@ -372,6 +431,7 @@
       "name": "ServiceHero",
       "path": "site/luksuzni-prevoz/src/components/services/shared/ServiceHero.astro",
       "consumers": [
+        "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/conference-congress-transportation/ConferenceCongressTransportationPage.astro",
@@ -426,6 +486,15 @@
         "site/luksuzni-prevoz/src/layouts/BaseLayout.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
+        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+      ]
+    },
+    {
+      "name": "Textarea",
+      "path": "site/luksuzni-prevoz/src/foundation/ui/Textarea.astro",
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
+        "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"
       ]
     },
