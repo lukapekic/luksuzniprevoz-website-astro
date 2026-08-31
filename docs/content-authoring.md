@@ -116,8 +116,8 @@ there is no language fallback.
 | `hub`      | `hub`               | Service-family hub |
 | `fleet`    | `page`              | Fleet page         |
 | `pricing`  | `page`              | Pricing page       |
-| `about`    | `page`              | About page         |
 | `contact`  | `page`              | Contact page       |
+| `booking`  | `page`              | Booking page       |
 
 `content:validate` verifies the page type matches the structural route kind.
 

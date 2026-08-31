@@ -10,13 +10,13 @@
  * COPY only — localized headings, intros, CTA labels, FAQ Q/A, section prose.
  * It MUST NOT duplicate operational facts (prices, phone/email, address,
  * office hours, vehicle capacities, service limits) which live in
- * src/data/*.ts. It references routes by `routeKey`, vehicles by `vehicleId`,
- * and clients by `clientId` — never by raw URL. It MUST NOT choose presentation
+ * src/data/*.ts. It references routes by `routeKey` and vehicles by `vehicleId`
+ * — never by raw URL. It MUST NOT choose presentation
  * (no layout/theme/columns/imagePosition fields) — blueprints/components own
  * that.
  *
  * Referential integrity is enforced at the Zod level where the referent is
- * site data (route keys, vehicle ids, client ids → z.enum against the live
+ * site data (route keys and vehicle ids → z.enum against the live
  * data modules), so a bad reference is a parse error at `astro sync`. Cross-
  * artifact consistency (pageType ↔ route kind, routeKey+locale uniqueness,
  * lifecycle, parity) is enforced by content:validate (see validate-content.ts).
@@ -28,7 +28,6 @@ import { z } from "astro:content";
 import { ContentImageSchema } from "@astro-foundation/core/content";
 import { routeMap } from "../../data/routes.ts";
 import { vehicleIds } from "../../data/fleet.ts";
-import { clients } from "../../data/clients.ts";
 import { flowKeys } from "../../data/flows.ts";
 
 // --- Live referent sets (single source of truth → Zod enums) ----------------
@@ -37,8 +36,6 @@ import { flowKeys } from "../../data/flows.ts";
 const routeKeyEnum = z.enum(Object.keys(routeMap) as [string, ...string[]]);
 /** Every known fleet vehicle id, as a Zod enum tuple. */
 const vehicleIdEnum = z.enum(vehicleIds as [string, ...string[]]);
-/** Every known client id, as a Zod enum tuple. */
-const clientIdEnum = z.enum(clients.map((c) => c.id) as [string, ...string[]]);
 
 // --- CTA -------------------------------------------------------------------
 
@@ -181,4 +178,4 @@ export const routeCardSchema = z.object({
 
 // --- Re-exports for pages.ts -----------------------------------------------
 
-export { routeKeyEnum, vehicleIdEnum, clientIdEnum };
+export { routeKeyEnum, vehicleIdEnum };

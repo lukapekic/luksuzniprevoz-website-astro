@@ -12,7 +12,7 @@
  * shared.ts for the separation contract and referential-integrity model.
  *
  * `pageType` ↔ route `kind` consistency is enforced by content:validate
- * (FND-DATA-09), not here: home/fleet/pricing/about/contact → kind:"page";
+ * (FND-DATA-09), not here: home/fleet/pricing/contact/booking → kind:"page";
  * service → kind:"service"; hub → kind:"hub". The schema declares the page's
  * editorial shape; the route declares its structural kind; the validator
  * asserts they agree.
@@ -30,7 +30,6 @@ import {
   finalCtaSchema,
   routeCardSchema,
   vehicleIdEnum,
-  clientIdEnum,
 } from "./shared.ts";
 
 /**
@@ -55,7 +54,7 @@ const pageBase = BaseContentSchema.merge(BaseSeoSchema).extend({
  */
 export const pageScaffoldSchema = BaseContentSchema.extend({
   pageType: z.literal("scaffold"),
-  targetPageType: z.enum(["service", "hub", "fleet", "pricing", "about", "contact", "booking"]),
+  targetPageType: z.enum(["service", "hub", "fleet", "pricing", "contact", "booking"]),
   scaffold: z.literal(true),
   status: z.literal("draft"),
   translationState: z.literal("missing"),
@@ -185,24 +184,6 @@ export const pricingPageSchema = pageBase.extend({
   finalCta: finalCtaSchema,
 });
 
-export const aboutPageSchema = pageBase.extend({
-  pageType: z.literal("about"),
-  hero: heroSchema.optional(),
-  story: z.object({
-    heading: sectionHeadingSchema,
-    body: z.string().min(1),
-    image: imageReferenceSchema.optional(),
-  }),
-  sections: z.array(editorialSectionSchema).max(8).default([]),
-  clients: z
-    .object({
-      heading: sectionHeadingSchema,
-      clientIds: z.array(clientIdEnum).min(1),
-    })
-    .optional(),
-  finalCta: finalCtaSchema,
-});
-
 export const contactPageSchema = pageBase.extend({
   pageType: z.literal("contact"),
   hero: heroSchema.optional(),
@@ -229,7 +210,6 @@ const authoredPageSchema = z.discriminatedUnion("pageType", [
   hubPageSchema,
   fleetPageSchema,
   pricingPageSchema,
-  aboutPageSchema,
   contactPageSchema,
   bookingPageSchema,
 ]);

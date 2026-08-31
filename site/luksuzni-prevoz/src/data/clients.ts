@@ -2,8 +2,8 @@
  * Client roster + display policy — FND-ARCH-03 / FND-TYPE-02.
  *
  * `displayPolicy` is route-coupled: its keys are `RouteKey`s (the original
- * semantic names map homepage→home, businessHub→businessTransportation,
- * about→about). Authored as typed TS so every placement is a compile-checked
+ * semantic names map homepage→home and businessHub→businessTransportation).
+ * Authored as typed TS so every placement is a compile-checked
  * RouteKey; a module-load guard asserts those keys are known routes (closes
  * the rename gap if types:generate isn't re-run after a route rename — same
  * posture as navigation.ts/services.ts).
@@ -76,7 +76,6 @@ export const clientDisplayPolicy: ClientDisplayPolicy = {
     home: false,
     businessTransportation: true,
     delegationTransportation: true,
-    about: true,
   },
   logoPermissionShouldBeVerified: true,
 };
@@ -88,7 +87,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "president-palace-hotel",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
   {
     id: "hyatt-regency-belgrade",
@@ -96,7 +95,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "hyatt-regency",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
   {
     id: "qatar-airways",
@@ -105,7 +104,7 @@ export const clients: Client[] = [
     context: "private-flight-related-transport",
     logoAsset: "qatar-airways",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
   {
     id: "chinese-embassy",
@@ -137,7 +136,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "square-nine-hotels",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
 ];
 

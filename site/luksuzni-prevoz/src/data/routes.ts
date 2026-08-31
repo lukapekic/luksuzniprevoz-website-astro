@@ -160,12 +160,6 @@ export const routeMap: Record<string, RouteEntry> = {
     parent: null,
     slugs: { sr: "cene", en: "pricing", ru: "tseny" },
   },
-  about: {
-    kind: "page",
-    availability: "scaffold",
-    parent: null,
-    slugs: { sr: "o-nama", en: "about-us", ru: "o-nas" },
-  },
   contact: {
     kind: "page",
     availability: "published",

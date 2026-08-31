@@ -134,13 +134,12 @@ export function parseFrontmatter(raw: string): Record<string, unknown> {
 /**
  * FND-DATA-09: maps a content `pageType` (the editorial archetype) to the
  * structural route `kind` it requires. Page archetypes (home/fleet/pricing/
- * about/contact) bind to kind:"page"; service → kind:"service"; hub → kind:"hub".
+ * contact/booking) bind to kind:"page"; service → kind:"service"; hub → kind:"hub".
  */
 const PAGE_TYPE_TO_KIND: Record<string, string> = {
   home: "page",
   fleet: "page",
   pricing: "page",
-  about: "page",
   contact: "page",
   booking: "page",
   service: "service",
@@ -273,7 +272,7 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
 
     // FND-DATA-09: pageType ↔ route kind consistency. The content's pageType
     // (its editorial archetype) must match the route's structural kind: the
-    // page archetypes (home/fleet/pricing/about/contact) → kind:"page";
+    // page archetypes (home/fleet/pricing/contact/booking) → kind:"page";
     // service → kind:"service"; hub → kind:"hub". The schema declares the
     // editorial shape; the route declares the structural kind; this asserts
     // they agree (analogous to services.ts's kind-parity guard).

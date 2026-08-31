@@ -34,6 +34,7 @@
     { "name": "astro-architecture", "category": "architecture" },
     { "name": "tailwind-v4", "category": "architecture" },
     { "name": "multilingual-routing", "category": "architecture" },
+    { "name": "content-quality-review", "category": "content-quality" },
     { "name": "design-governance", "category": "design-workflow" },
     { "name": "design-shape", "category": "design-workflow" },
     { "name": "design-audit", "category": "design-workflow" },

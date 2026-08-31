@@ -48,7 +48,7 @@ export interface ParentCompany {
   operatingSince: number;
   /** UiStringKey into content/ui/*.json for the translated description. */
   relationshipDescriptionKey: UiStringKey;
-  publicPlacement: ("about" | "footer")[];
+  publicPlacement: "footer"[];
 }
 
 export interface Headquarters {
@@ -90,7 +90,7 @@ export const business: Business = {
     name: "GrandSolution",
     operatingSince: 2014,
     relationshipDescriptionKey: "business.parentCompanyDescription",
-    publicPlacement: ["about", "footer"],
+    publicPlacement: ["footer"],
   },
   headquarters: {
     city: "Belgrade",

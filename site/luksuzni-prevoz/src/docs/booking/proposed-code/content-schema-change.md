@@ -24,7 +24,6 @@ const authoredPageSchema = z.discriminatedUnion("pageType", [
   hubPageSchema,
   fleetPageSchema,
   pricingPageSchema,
-  aboutPageSchema,
   contactPageSchema,
   bookingPageSchema,
 ]);

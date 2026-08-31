@@ -13,7 +13,6 @@
     "vipTransportation": "VIP prevoz",
     "fleet": "Vozila",
     "pricing": "Cene",
-    "about": "O nama",
     "contact": "Kontakt",
     "book": "Rezerviši"
   },
@@ -31,7 +30,6 @@
     "vipTransportation": "VIP Transportation",
     "fleet": "Fleet",
     "pricing": "Pricing",
-    "about": "About Us",
     "contact": "Contact",
     "book": "Book"
   },
@@ -49,7 +47,6 @@
     "vipTransportation": "VIP-трансфер",
     "fleet": "Автопарк",
     "pricing": "Цены",
-    "about": "О нас",
     "contact": "Контакты",
     "book": "Забронировать"
   }

@@ -29,15 +29,16 @@ Do not move page design rules into root operational docs.
 
 ## Active documents
 
-| File                               | Purpose                                                                                                |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `a11y-manual-checklist.md`         | Manual WCAG 2.2 AA release checks not fully covered by automation.                                     |
-| `cloudflare-pages-forms/README.md` | Operator runbook for Pages, Functions, Turnstile, D1, WAF, Brevo, rollout, and monitoring.             |
-| `content-authoring.md`             | Editorial content, page-archetype, localization, SEO, image, and data-separation workflow.             |
-| `deployment.md`                    | Static production build/deploy requirements, headers, redirects, cache, forms, and post-deploy checks. |
-| `exceptions.md`                    | Canonical FND-rule waiver registry parsed by `pnpm parse-waivers`.                                     |
-| `rule-traceability.md`             | Generated FND rule-to-enforcer matrix. Never hand-edit.                                                |
-| `scale-envelope.md`                | Architectural scale assumptions and signals that require a deliberate architecture change.             |
+| File                                          | Purpose                                                                                                |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `a11y-manual-checklist.md`                    | Manual WCAG 2.2 AA release checks not fully covered by automation.                                     |
+| `cloudflare-pages-forms/README.md`            | Operator runbook for Pages, Functions, Turnstile, D1, WAF, Brevo, rollout, and monitoring.             |
+| `content-authoring.md`                        | Editorial content, page-archetype, localization, SEO, image, and data-separation workflow.             |
+| `deployment.md`                               | Static production build/deploy requirements, headers, redirects, cache, forms, and post-deploy checks. |
+| `exceptions.md`                               | Canonical FND-rule waiver registry parsed by `pnpm parse-waivers`.                                     |
+| `rule-traceability.md`                        | Generated FND rule-to-enforcer matrix. Never hand-edit.                                                |
+| `scale-envelope.md`                           | Architectural scale assumptions and signals that require a deliberate architecture change.             |
+| `seo-research-package-implementation-plan.md` | Phased contract for the portable ValueSERP-backed SEO research workspace package.                      |
 
 ## Generated documentation
 

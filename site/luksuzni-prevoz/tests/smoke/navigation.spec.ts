@@ -31,9 +31,9 @@ test.describe("Navigation", () => {
     await expect(page).toHaveURL(destination);
   });
 
-  test("FND-I18N-03: can navigate to about page from route-map URL", async ({ page }) => {
+  test("FND-I18N-03: can navigate to contact page from route-map URL", async ({ page }) => {
     await page.goto(routePath("home", defaultLocale));
-    const destination = routePath("about", defaultLocale);
+    const destination = routePath("contact", defaultLocale);
     await page.locator(`a[href="${destination}"]:visible`).first().click();
     await expect(page).toHaveURL(destination);
   });

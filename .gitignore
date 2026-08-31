@@ -14,3 +14,6 @@ lhci-reports
 # Design-governance local/ephemeral state
 .design/.cache/
 .design/*.tmp
+
+# SEO research provider cache, local runs, and normalized snapshots
+site/*/.seo-research/

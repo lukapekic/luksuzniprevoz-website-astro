@@ -105,7 +105,6 @@ export const navigation: NavStructure = {
     },
     { routeKey: "fleet" },
     { routeKey: "pricing" },
-    { routeKey: "about" },
     { routeKey: "contact" },
   ],
   headerPrimaryAction: {
@@ -123,7 +122,6 @@ export const navigation: NavStructure = {
     company: [
       { routeKey: "fleet" },
       { routeKey: "pricing" },
-      { routeKey: "about" },
       { routeKey: "contact" },
     ],
   },
