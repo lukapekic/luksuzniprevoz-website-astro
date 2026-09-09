@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "updatedOn": "2026-09-09",
+  "site": "luksuzni-prevoz",
+  "mode": "audit-proposal",
+  "sourceLocale": "sr",
+  "reviewedLocales": ["sr"],
+  "stage": "approval-ready",
+  "productionContentChanged": false,
+  "releaseState": "baseline-green",
+  "checkpoint": {
+    "savedAtUtc": "2026-09-09T13:31:56Z",
+    "resumeFrom": "owner-approval",
+    "nextOwnerInput": "Approve Serbian defaults",
+    "nextAgentAction": "Apply the approved Serbian source edits, review and update English and Russian against the final Serbian source, synchronize lifecycle artifacts, and run the routing-content verification profile.",
+    "doNotProceedWithoutApproval": true,
+    "workingTreeState": "uncommitted-review-artifacts"
+  },
+  "order": [
+    "fleet",
+    "pricing",
+    "booking",
+    "contact",
+    "privateChauffeur",
+    "airportTransportation",
+    "corporateTransportation",
+    "delegationTransportation",
+    "conferenceCongressTransportation",
+    "businessTransportation",
+    "weddingTransportation",
+    "promTransportation",
+    "vipTransportation",
+    "specialEvents",
+    "home"
+  ],
+  "routes": {
+    "fleet": { "wave": 1, "state": "audited", "report": "pages/fleet.md" },
+    "pricing": { "wave": 1, "state": "audited", "report": "pages/pricing.md" },
+    "booking": { "wave": 1, "state": "audited", "report": "pages/booking.md" },
+    "contact": { "wave": 1, "state": "audited", "report": "pages/contact.md" },
+    "privateChauffeur": { "wave": 2, "state": "audited", "report": "pages/private-chauffeur.md" },
+    "airportTransportation": { "wave": 2, "state": "audited", "report": "pages/airport-transportation.md" },
+    "corporateTransportation": { "wave": 3, "state": "audited", "report": "pages/corporate-transportation.md" },
+    "delegationTransportation": { "wave": 3, "state": "audited", "report": "pages/delegation-transportation.md" },
+    "conferenceCongressTransportation": { "wave": 3, "state": "audited", "report": "pages/conference-congress-transportation.md" },
+    "businessTransportation": { "wave": 3, "state": "audited", "report": "pages/business-transportation.md" },
+    "weddingTransportation": { "wave": 4, "state": "audited", "report": "pages/wedding-transportation.md" },
+    "promTransportation": { "wave": 4, "state": "audited", "report": "pages/prom-transportation.md" },
+    "vipTransportation": { "wave": 4, "state": "audited", "report": "pages/vip-transportation.md" },
+    "specialEvents": { "wave": 4, "state": "audited", "report": "pages/special-events.md" },
+    "home": { "wave": 5, "state": "audited", "report": "pages/home.md" }
+  },
+  "corpusPass": {
+    "terminology": "completed",
+    "repetition": "completed",
+    "ctaIntegrity": "completed",
+    "sharedSerbianUi": "completed",
+    "seoHandoff": "completed",
+    "serbianLanguageResearch": "completed",
+    "proposalLanguageReview": "completed"
+  },
+  "validation": {
+    "skillsValidate": "passed-final",
+    "routesValidate": "passed-final",
+    "contentValidate": "passed-final",
+    "seoValidate": "passed-final-45-of-45",
+    "siteCheck": "passed-final-0-errors-6-hints",
+    "siteBuild": "passed-final-43-pages",
+    "traceabilityCheck": "passed-final"
+  }
+}

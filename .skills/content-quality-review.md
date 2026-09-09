@@ -14,6 +14,10 @@ Use after page structure and copy exist, before final SEO optimization. Make con
 - **Apply mode** makes the smallest authorized editorial edits, then verifies them.
 - A review request does not authorize lifecycle certification, schema work, route changes, or unrelated rewrites.
 
+## Autonomous corpus mode
+
+For a Serbian-first corpus review, stay in audit/proposal mode; leave live entries unchanged until Serbian is approved and translations can be updated. Track route status, evidence, findings, proposals, dependencies, and completion. Review leaves before hubs and the homepage last. Continue without page-by-page approval. Consolidate unresolved facts after exhausting repository evidence. Finish with a language-checked, approval-ready Serbian source pack. Apply later in releasable multilingual batches.
+
 ## Authority and preflight
 
 Read the smallest relevant chain:
@@ -48,6 +52,7 @@ Record unverifiable needs only in review notes as `[CONTENT INPUT REQUIRED: <exa
 8. **Human polish:** Improve rhythm and continuity. Treat repeated em dashes, slogan triplets, mirrored constructions, `whether...or...`, `designed to`, and generic summaries as diagnostic signals, not automatic deletion rules.
 9. **Repetition:** Distinguish necessary shared operational truth from harmful boilerplate. Within a page, each section adds information. In corpus reviews, compare sibling routes for audience, unique scope, proof, objections, CTA, and duplicated FAQs or claims.
 10. **CTA integrity:** Labels describe the real next action and still match their typed target. Do not imply instant confirmation, fixed price, availability, or response time without explicit support.
+11. **Serbian language gate:** Before corpus approval, apply the repository language reference to every proposal. Check person, tense, aspect, case, agreement, word order, terminology, and resolved numeric/token forms.
 
 ## Tokens and localization
 
@@ -58,7 +63,7 @@ Treat Serbian Latin, English, and Russian as native-facing copy, not literal tra
 Do not change `translationState` to `reviewed` or refresh `reviewedOn` without real language review. Digest handling is conditional:
 
 - no content edit: do not run `content:sync-digests`;
-- source-only edit: do not sync away staleness; leave or demote affected translations to `draft` and report them;
+- source-only production edit: retain the old digest, demote affected translations to `draft`, and report any intentionally non-releasable parity state;
 - genuinely retranslated and reviewed locales: update truthful lifecycle metadata, then sync digests.
 
 ## SEO handoff
