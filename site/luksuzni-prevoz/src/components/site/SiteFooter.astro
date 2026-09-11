@@ -115,15 +115,15 @@ const officeAddressVerified =
 const officeAddressLines = officeAddressVerified
   ? [
       contact.office.address,
-      `${contact.office.postalCode} ${contact.office.city}`,
-      contact.office.country,
+      `${contact.office.postalCode} ${t("location.belgrade", currentLocale)}`,
+      t("location.serbia", currentLocale),
     ]
   : [];
 
 // Bottom-row compact location — verified headquarters city/country
 // (business.headquarters, verificationStatus "verified"). Rendered ONCE here
 // in the bottom row; the detailed street address lives in the Contact column.
-const locationLine = `${business.headquarters.city} · ${business.headquarters.country}`;
+const locationLine = `${t("location.belgrade", currentLocale)} · ${t("location.serbia", currentLocale)}`;
 
 // --- Bottom row -----------------------------------------------------------
 // Copyright carries the canonical operating/legal identity (business.parentCompany

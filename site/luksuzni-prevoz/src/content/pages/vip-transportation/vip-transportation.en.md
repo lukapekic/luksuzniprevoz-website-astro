@@ -1,22 +1,22 @@
 ---
 routeKey: vipTransportation
 locale: en
-sourceDigest: de9e17d48a07d7f4
+sourceDigest: c19dad6c87f638b9
 sourceLocale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-30
+reviewedOn: 2026-09-11
 noindex: false
 
-seoTitle: "VIP Transportation Belgrade | Luxury Transportation"
-seoDescription: "Discreet chauffeur-driven VIP transportation in Belgrade for private guests, aviation arrivals, complex itineraries and coordinated vehicle requirements."
+seoTitle: "VIP Chauffeur Service in Belgrade"
+seoDescription: "Discreet VIP chauffeur service in Belgrade for guests and special events. Choose a Mercedes-Benz S-Class or V-Class and agree your travel details in advance."
 
 hero:
-  title: "Discreet transportation, organised around your schedule"
-  description: "Chauffeur-driven transportation for important guests, private itineraries and engagements that require greater discretion, precise coordination and individual organisation."
+  title: "VIP transport tailored to your guest and itinerary"
+  description: "Discreet transport for important guests, private visits and complex itineraries. Vehicles and coordination are arranged individually around passenger needs."
   primaryCta:
-    label: "Request VIP Transportation"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking
@@ -28,9 +28,9 @@ hero:
 
 overview:
   heading:
-    title: "More than a premium vehicle"
+    title: "A carefully arranged service for your guest"
     intro: "VIP Transportation is designed for engagements where the way transportation is organised matters as much as the vehicle itself."
-  body: "An airport arrival, hotel departure, private meeting, dinner or event can form part of one coordinated itinerary. Send the schedule and requirements relevant to the guest. Before confirming the service, we review the appropriate vehicle organisation, timing and level of coordination."
+  body: "Send the visit itinerary and passenger requirements. The service can connect airport arrival, hotel and private appointments, with a tailored quote for the agreed transport."
   items:
     - "Discreet chauffeur-driven transportation focused on the guest and the confirmed engagement."
     - "Individual organisation around the confirmed itinerary, without a predefined VIP package."
@@ -41,7 +41,7 @@ sections:
     heading:
       title: "Built around the guest, not a standard route"
       intro: "VIP Transportation does not follow one predefined format."
-    body: "Some requests involve one important arrival and a direct journey. Others connect several locations, an aviation arrival, accompanying passengers or several vehicles within one confirmed plan. The organisation is defined around the actual itinerary and availability."
+    body: "A single arrival may need just one vehicle. For accompanying passengers or separate destinations, we review extra vehicles and coordination needs."
     items:
       - title: "Individual VIP transportation"
         text: "A chauffeur-driven vehicle for a guest whose pickup, destination and schedule have been agreed in advance."
@@ -52,22 +52,22 @@ sections:
 
   - key: discretion
     heading:
-      title: "Present when needed. Invisible when not."
+      title: "Attentive service, without intrusion"
       intro: "A discreet service does not need to attract attention to be well organised."
-    body: "For a VIP engagement, the vehicle should be ready, the chauffeur briefed on the confirmed plan and the transportation organised without placing unnecessary demands on the guest. Movement and schedule details are used to deliver the confirmed service while the chauffeur's presence remains professional and unobtrusive."
+    body: "The chauffeur is briefed on the agreed plan. Communication with the guest remains professional and unobtrusive, with attention to departures and onward travel."
     items:
       - title: "Professional presence"
         text: "The chauffeur is prepared for the engagement and focused on the agreed service without unnecessary intrusion."
-      - title: "Private schedule"
-        text: "Locations and timings are used to coordinate transportation within the requirements needed to deliver the engagement."
-      - title: "Quiet execution"
-        text: "The objective is for the guest not to have to manage individual transport movements and operational details during the engagement."
+      - title: "An itinerary agreed in advance"
+        text: "We agree on departure times and locations with the person organising the visit."
+      - title: "A smoothly coordinated visit"
+        text: "Your guest can focus on the visit while we coordinate the agreed journeys."
 
   - key: aviation
     heading:
       title: "From arrival to the next engagement"
       intro: "VIP transportation often begins before the guest reaches the first destination in the city."
-    body: "We organise ground transportation for commercial and private aviation arrivals. The airport, hotel, meeting, residence, restaurant or event can connect within a wider confirmed VIP itinerary when that forms part of the specific request."
+    body: "We arrange ground transport for passengers arriving on commercial or private flights. At private terminals, pickup depends on local procedures and authorised access."
     items:
       - title: "Commercial aviation"
         text: "Pickup after a commercial flight and onward transportation to the confirmed destination are organised as part of the agreed plan."
@@ -83,8 +83,8 @@ sections:
 
   - key: itinerary
     heading:
-      title: "One itinerary. One coordinated transport plan."
-      intro: "A complex VIP engagement should not feel like a collection of unrelated transfers."
+      title: "Connected journeys throughout the visit"
+      intro: "Each vehicle and passenger group has a clear place in the plan."
     body: "When a request involves several movements or vehicles, the plan is reviewed as a whole. Pickup points, destinations, passenger groups and important timings are aligned before final confirmation."
     items:
       - title: "Arrival"
@@ -102,19 +102,19 @@ sections:
     heading:
       title: "Details matter more when the guest should not need to think about them"
       intro: "VIP Transportation combines the vehicle with the operating standards needed for calm, professional delivery."
-    body: "Standards are rendered from confirmed operating rules and canonical VIP capabilities without adding unverified luxury or security services."
+    body: "A professional chauffeur, a prepared vehicle and discreet service, with coordination based on the agreed details."
 
   - key: process
     heading:
-      title: "Share the itinerary. We organise the movement."
+      title: "Share your itinerary with our team"
       intro: "Three clear steps are enough to begin the arrangement."
     items:
       - title: "Send the requirements"
         text: "Provide the date, passenger count, principal locations, approximate timings and any aviation or multi-vehicle requirements."
       - title: "We review the engagement"
         text: "We assess the itinerary, suitable vehicles, availability and the level of coordination required for the specific arrangement."
-      - title: "Receive a confirmed plan"
-        text: "After the operating details are reviewed, you receive a manually confirmed transportation arrangement and individual quote."
+      - title: "Agree on the quote and arrangements"
+        text: "After review, we send a proposed plan and tailored quote, including the details that need your confirmation."
 
 vehicleRecommendations:
   heading:
@@ -144,8 +144,8 @@ faq:
       answer: "Yes. VIP Transportation supports multi-vehicle arrangements when accompanying passengers, separate groups or the schedule require that type of plan."
     - question: "Can a complex booking have dedicated coordination?"
       answer: "Yes. Dedicated coordination can be arranged for complex VIP bookings where several vehicles, passenger movements or timings need to operate as part of one confirmed plan."
-    - question: "Does VIP Transportation include security or close-protection services?"
-      answer: "No. VIP Transportation is a professional chauffeur and ground-transport coordination service. Security, bodyguards and close-protection services are not included."
+    - question: "Does VIP transport include personal security?"
+      answer: "No. VIP transport does not include security or personal protection. The service provides a professional chauffeur and ground transport coordination."
     - question: "Does VIP Transportation have a published fixed price?"
       answer: "No. VIP Transportation is individually quoted because the itinerary, required vehicle structure and level of coordination differ between engagements."
     - question: "Is the booking confirmed immediately after I submit the request?"
@@ -155,7 +155,7 @@ finalCta:
   heading: "Share the itinerary. We will organise the transportation."
   text: "Send the date, principal locations, approximate schedule and passenger requirements. If the engagement includes an aviation arrival, several vehicles or more complex coordination, include those details in the request."
   primaryCta:
-    label: "Request VIP Transportation"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking

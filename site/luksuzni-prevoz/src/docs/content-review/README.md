@@ -1,3 +1,5 @@
+> **Historical checkpoint, superseded 11 September 2026.** The owner authorized autonomous multilingual content application and SEO research. See [EXECUTION.md](EXECUTION.md), [execution-status.json](execution-status.json), and [FINAL-REVIEW.md](FINAL-REVIEW.md) for the current result. Approval pauses and unchanged-content statements below describe the earlier audit only.
+
 # Serbian Content Corpus Review
 
 This workspace records the Serbian-first content-quality review for every current Luxury Transportation route. It is an audit/proposal workspace: production entries under `src/content/pages/` and `src/content/ui/` remain unchanged until the Serbian corpus is approved and EN/RU can be updated in releasable multilingual batches.

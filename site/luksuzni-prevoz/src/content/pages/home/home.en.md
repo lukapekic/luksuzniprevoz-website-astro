@@ -4,18 +4,18 @@ locale: en
 pageType: home
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-17
+reviewedOn: 2026-09-11
 sourceLocale: sr
-sourceDigest: 22f3aaf2e0c2e365
+sourceDigest: 78d4e6b59a412541
 
-seoTitle: "Luxury Transportation | Chauffeur service in Belgrade"
-seoDescription: "Private chauffeur-driven transportation in Belgrade for business, airport transfers, events and personal travel, with manual booking confirmation."
+seoTitle: "Luxury Chauffeur Service in Belgrade"
+seoDescription: "Luxury chauffeur service in Belgrade for airport transfers, business travel and special occasions. Explore the fleet and send us your travel plans."
 
 hero:
-  title: "Private transportation with a professional chauffeur"
-  description: "For business schedules, airport transfers, special events and private travel in Belgrade — with carefully coordinated service and a vehicle suited to your needs."
+  title: "Luxury chauffeur service in Belgrade"
+  description: "Professional chauffeur service based in Belgrade for airport transfers, business travel and special occasions. Your vehicle and schedule are arranged around your journey."
   primaryCta:
-    label: "Book a ride"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking
@@ -24,7 +24,7 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: "Discreet coordination and manual confirmation for every journey — a professional chauffeur for business, airport, private and special-event travel."
+  supportText: "Agreed arrangements and confirmation from our team before every journey."
 
 services:
   heading:
@@ -44,16 +44,16 @@ services:
       text: "Transport for employees, executives, guests, delegations and business groups."
       ctaLabel: "Learn more"
     - routeKey: specialEvents
-      title: "Special Events"
+      title: "Special occasions"
       text: "Coordinated transport for weddings, proms, VIP requirements and private events."
       ctaLabel: "Learn more"
 
 flagshipFeature:
   heading:
     title: "Private chauffeur, on your schedule"
-  body: "Book a vehicle and professional chauffeur for appointments, multiple stops or meetings throughout the day. The service follows your itinerary within the selected hire period."
+  body: "Request a vehicle with a professional chauffeur and share your planned stops or appointments. Hire follows your itinerary within the agreed period."
   points:
-    - "Hire from one hour"
+    - "Hire matched to your journey duration"
     - "Half-day and full-day options"
     - "Multiple stops within the booked period"
   cta:
@@ -65,21 +65,21 @@ flagshipFeature:
 trust:
   heading:
     title: "A consistent standard for every journey"
-    intro: "From first contact to arrival at your destination — the same attention to the chauffeur, vehicle and coordination."
+    intro: "From the first enquiry to arrival, we attend to the passenger, vehicle and agreed arrangements."
   items:
     - title: "Professional chauffeurs"
-      text: "Suit-and-tie chauffeurs experienced in business, private and VIP transportation."
+      text: "Chauffeurs wear a suit and tie and receive internal training in passenger service, discretion and route knowledge."
     - title: "Carefully maintained vehicles"
-      text: "Vehicles are regularly maintained and prepared before demanding or longer assignments."
+      text: "Vehicles are maintained by authorised or official service providers and additionally checked before important journeys."
     - title: "Discreet coordination"
       text: "Clear communication, manual booking confirmation and team support for more complex requests."
     - title: "Backup arrangements"
-      text: "Confirmed journeys are supported with an appropriate replacement vehicle when required."
+      text: "A backup vehicle is available when needed."
 
 fleet:
   heading:
     title: "A vehicle suited to your passengers and journey"
-    intro: "From executive sedans to V-Class vehicles and Sprinter transport for groups."
+    intro: "Business sedans, the Mercedes-Benz V-Class and Mercedes-Benz Sprinter for different travel needs."
   cta:
     label: "View fleet"
     target:
@@ -94,7 +94,7 @@ process:
     - title: "Send your request"
       text: "Choose the service and provide the date, time, locations, passenger count and preferred vehicle."
     - title: "Receive confirmation"
-      text: "Our team checks the details and manually confirms availability and the booking."
+      text: "Our team checks availability and agrees on the details before confirming your booking."
     - title: "Your chauffeur arrives"
       text: "Pickup is arranged according to the confirmed schedule and location."
 
@@ -108,7 +108,7 @@ finalCta:
   heading: "Tell us where and when you are travelling"
   text: "Choose a service and send the details. Simple journeys may show a price, while more complex requests receive a tailored quote."
   primaryCta:
-    label: "Book"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking

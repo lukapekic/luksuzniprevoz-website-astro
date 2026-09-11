@@ -1,0 +1,131 @@
+{
+  "queryCeiling": 60,
+  "attempted": 42,
+  "completed": [
+    "home-sr",
+    "home-ru",
+    "airportTransportation-sr",
+    "airportTransportation-en",
+    "privateChauffeur-en",
+    "privateChauffeur-ru",
+    "corporateTransportation-en",
+    "corporateTransportation-ru",
+    "delegationTransportation-ru",
+    "weddingTransportation-sr",
+    "promTransportation-sr",
+    "vipTransportation-en",
+    "vipTransportation-ru",
+    "fleet-en",
+    "contact-ru"
+  ],
+  "failed": [
+    {
+      "id": "home-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "airportTransportation-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "privateChauffeur-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "businessTransportation-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "businessTransportation-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "businessTransportation-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "corporateTransportation-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "delegationTransportation-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "delegationTransportation-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "conferenceCongressTransportation-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "conferenceCongressTransportation-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "conferenceCongressTransportation-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "specialEvents-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "specialEvents-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "specialEvents-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "weddingTransportation-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "weddingTransportation-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "promTransportation-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "promTransportation-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "vipTransportation-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "fleet-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "fleet-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "pricing-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "pricing-en",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "pricing-ru",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "contact-sr",
+      "reason": "Provider request failed; no automatic retry"
+    },
+    {
+      "id": "contact-en",
+      "reason": "Provider request failed; no automatic retry"
+    }
+  ]
+}

@@ -4,15 +4,15 @@ locale: en
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-28
+reviewedOn: 2026-09-11
 sourceLocale: sr
-sourceDigest: 87d8c2f00b99596f
-seoTitle: "Business Transportation Belgrade | Luxury Transportation"
-seoDescription: "Business transportation in Belgrade for executives, companies, delegations and conferences, with professional chauffeurs and precise schedule coordination."
+sourceDigest: b0e6c87df3ace64d
+seoTitle: "Business Transport in Belgrade"
+seoDescription: "Business transport in Belgrade for companies, delegations and conferences. Coordinate passengers, schedules and multiple vehicles with a tailored quote."
 
 hero:
   title: "Business transportation organised around your schedule"
-  description: "From a single executive journey to coordinating a delegation or conference. Professional chauffeurs, representative vehicles and organisation built around the business schedule."
+  description: "Professional chauffeurs and vehicles for business guests, companies and delegations. Arrangements begin with your times, locations and passenger numbers."
   primaryCta:
     label: "Choose a business service"
     target:
@@ -23,13 +23,13 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: "One journey, several meetings or a more complex schedule — we direct the request to the appropriate business service and manually confirm the organisation."
+  supportText: "Availability, vehicles and terms are confirmed after we review your request."
 
 overview:
   heading:
-    title: "More than transportation between two addresses"
+    title: "Transport within your business programme"
     intro: "Business transportation becomes complex when people, timings and several locations need to work as one reliable schedule."
-  body: "Meetings move, guests arrive at different times, and one business day can involve several locations and different passenger groups. We therefore organise business transportation around the schedule, not only the route. From a business guest arrival to a corporate engagement, delegation or conference, the aim is for transport to function as part of the wider organisation."
+  body: "We organise transport around timings, locations and each vehicle’s role. Before confirmation, we agree who travels together, where the stops are and what coordination is needed."
   items:
     - title: "Schedule first"
       text: "Organisation starts with timings, locations, passengers and the way the business day actually needs to operate."
@@ -40,7 +40,7 @@ overview:
 
 childServices:
   heading:
-    title: "Choose the right business service"
+    title: "Choose a business service"
     intro: "Choose the service according to the schedule, passenger group and level of coordination required."
   items:
     - routeKey: corporateTransportation
@@ -48,7 +48,7 @@ childServices:
       text: "For executives, employees and business guests — from an individual request to recurring arrangements and connected stops within the same schedule."
       ctaLabel: "Explore Corporate Transportation"
     - routeKey: delegationTransportation
-      title: "Delegations and protocol"
+      title: "Delegation transportation"
       text: "For delegation arrivals and movement when several vehicles, mixed vehicle classes and central coordination need to work as one plan."
       ctaLabel: "Delegation Transportation"
     - routeKey: conferenceCongressTransportation
@@ -76,7 +76,7 @@ sections:
   - key: coordination
     heading:
       title: "When one vehicle is no longer enough"
-      intro: "For more complex business requirements, the challenge is not only the number of vehicles but how arrivals, locations and timings operate as one plan."
+      intro: "This example business schedule shows how locations connect. Actual times and vehicles are agreed for your request."
     body: "Delegations and conference schedules can require coordination across several vehicles, passenger groups and key locations. Within Corporate Transportation, the same chauffeur can remain across connected schedule points when that operating model is part of the confirmed service."
     items:
       - title: "08:30"
@@ -92,8 +92,8 @@ sections:
 
   - key: trustedClients
     heading:
-      title: "Transportation that becomes part of your organisation"
-      intro: "Experience with demanding business and institutional transportation."
+      title: "Selected business clients"
+      intro: "Companies for which we have provided transportation services."
   - key: standards
     heading:
       title: "The business transportation standard is more than the vehicle"
@@ -107,15 +107,15 @@ sections:
     items:
       - title: "Send the schedule"
         text: "Provide locations, timings, passenger numbers and all important details of the business assignment."
-      - title: "We propose the organisation"
-        text: "We direct the request to the appropriate business service and define the required operating model."
+      - title: "We propose a travel plan"
+        text: "We recommend a suitable service, vehicles and coordination arrangements."
       - title: "We confirm the transport"
-        text: "After availability and details are checked, you receive a manually confirmed transport organisation."
+        text: "After availability and details are checked, you receive a transport plan confirmed by our team."
 
 vehicleRecommendations:
   heading:
     title: "The vehicle is chosen for its role in the schedule"
-    intro: "An executive passenger, a business guest and a larger group do not have the same requirement. Vehicle choice is aligned with passenger numbers, luggage and how the group needs to move."
+    intro: "Executives, business guests and groups have different needs. We select vehicles around passengers, luggage and the schedule."
   vehicleIds:
     - mercedes-s-class
     - mercedes-e-class
@@ -141,13 +141,13 @@ faq:
     - question: "How does transportation for conferences and congresses work?"
       answer: "Send arrivals, departures, hotels, event locations and group structure. The service supports airport arrivals, hotel transfers, venue shuttles and multi-vehicle schedules."
     - question: "Is the request confirmed immediately after submission?"
-      answer: "No. The team checks availability, the appropriate service, vehicles and operating details, then manually confirms the organisation."
+      answer: "No. The team checks availability, the appropriate service, vehicles and operating details, then confirms the arrangements personally."
 
 finalCta:
   heading: "Send us the schedule. We will organise the transportation."
   text: "One business journey, a recurring corporate engagement or a complex multi-vehicle schedule — send the core details and we will check the appropriate service and organisation."
   primaryCta:
-    label: "Send a business enquiry"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking

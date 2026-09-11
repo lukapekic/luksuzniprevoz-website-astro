@@ -393,3 +393,19 @@ The implementation fails this blueprint if it contains:
 - a generic `HubPage` abstraction created for this redesign;
 - a second-hero Final CTA;
 - mobile layouts that are only collapsed desktop layouts.
+
+
+## Unpublished child destinations — 2026-09-11 SEO correction
+
+The autonomous content/SEO task authorizes correction of broken public links.
+Keep all three canonical child cards, their order, images, capabilities, and
+explicit single CTA. For a child whose route availability is not `published`,
+the CTA uses the existing quote flow with that child's canonical service ID and
+the localized “Send an enquiry” label. Published children retain the authored
+service-detail CTA. This is a documented temporary destination/label exception;
+it does not publish the child, promise availability, or alter card composition.
+When a child's release gate is completed, its service-detail CTA returns
+through the route availability condition without another content migration.
+The header omits unpublished route destinations while keeping the public hub.
+
+The same destination rule applies to the recurring-corporate section CTA.

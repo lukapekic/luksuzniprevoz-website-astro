@@ -2,21 +2,21 @@
 routeKey: promTransportation
 locale: en
 sourceLocale: sr
-sourceDigest: 8d696a90bd857ba6
+sourceDigest: 1a1a2ef08464dd08
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-29
+reviewedOn: 2026-09-11
 noindex: false
 
-seoTitle: "Prom Transportation Belgrade | Luxury Transportation"
-seoDescription: "Chauffeur-driven prom transportation in Belgrade for individual or group arrivals, with vehicle choice, agreed pickup and return transportation when confirmed."
-h1: "Your prom arrival, properly organised"
+seoTitle: "Prom Car Hire in Belgrade"
+seoDescription: "Prom car hire in Belgrade for one passenger, a couple or a group of friends. Arrange a chauffeur, pickup point, photo stops and a planned return journey."
+h1: "Prom transport, from pickup to arrival"
 
 hero:
-  title: "Your prom arrival, properly organised"
-  description: "A premium vehicle with a professional chauffeur for an individual or group arrival, with an agreed pickup time and return transportation when it forms part of the confirmed plan."
-  primaryCta: { label: "Send a prom request", target: { type: flow, flowKey: booking } }
+  title: "Prom transport, from pickup to arrival"
+  description: "A chauffeured vehicle for an individual, a couple or a group of friends. Pickup and departure time are arranged around your prom night."
+  primaryCta: { label: "Start your booking", target: { type: flow, flowKey: booking } }
   secondaryCta: { label: "Request a quote", target: { type: flow, flowKey: quote } }
 
 overview:
@@ -25,7 +25,7 @@ overview:
     intro: "The service combines a vehicle, a professional chauffeur and an agreed pickup into one confirmed transport arrangement."
   body: "Send the date, pickup location, approximate time and passenger count. You can also state a preferred vehicle and the team will review availability and propose a suitable arrangement."
   items:
-    - "A premium vehicle with a professional chauffeur and a confirmed pickup location and time."
+    - "A vehicle with a professional chauffeur and an agreed pickup point and time."
     - "Individual, pair or group transportation according to the passenger count."
     - "Return transportation and waiting can be included when requested in advance and confirmed."
 
@@ -42,7 +42,7 @@ sections:
         }
       - {
           title: "Who is travelling",
-          text: "Passenger count determines whether one sedan, a group vehicle or a more coordinated arrangement is appropriate.",
+          text: "Passenger numbers determine whether a sedan, a larger vehicle or several vehicles are needed.",
         }
       - {
           title: "Return or waiting",
@@ -52,8 +52,8 @@ sections:
   - key: arrivalStory
     heading:
       title: "The arrival is part of the evening"
-      intro: "Transportation is more than simply getting to the venue. A well-organised arrival starts before you step out of the vehicle."
-    body: "An agreed pickup time, a professional chauffeur and a vehicle suited to the passenger count mean you do not need to think about driving, parking or who takes the car home. Return transportation is organised when included in the confirmed request."
+      intro: "A well-organised arrival starts with a clear pickup plan."
+    body: "Your chauffeur handles the driving and parking, leaving you and your friends to enjoy the evening."
     items:
       - {
           title: "Pickup",
@@ -80,7 +80,7 @@ sections:
     items:
       - {
           title: "Individual or pair",
-          text: "A sedan can be suitable when one person or a smaller number of passengers are travelling.",
+          text: "A sedan can be a suitable choice for one person or a couple.",
         }
       - {
           title: "Arrive with your group",
@@ -102,7 +102,7 @@ sections:
     heading:
       title: "A simple plan, professionally delivered"
       intro: "On prom day, the goal is for transportation to be clear, prepared and confirmed in advance."
-    body: "Standards are based on confirmed operating rules and Prom Transportation capabilities."
+    body: "The service includes a professional chauffeur, a prepared vehicle and confirmation of the agreed details."
 
   - key: process
     heading:
@@ -119,7 +119,7 @@ sections:
         }
       - {
           title: "Receive confirmation",
-          text: "After review, you receive manually confirmed pickup and transport details.",
+          text: "After review, you receive pickup and transport details confirmed by our team.",
         }
 
 vehicleRecommendations:
@@ -135,7 +135,7 @@ faq:
   items:
     - {
         question: "Can I book transportation just for myself or for two people?",
-        answer: "Yes. Prom Transportation supports individual and group travel. The arrangement is aligned with passenger numbers and vehicle availability.",
+        answer: "Yes. You can request transport for one person, a couple or a group. We match the vehicle to passenger numbers and availability.",
       }
     - {
         question: "Can I request a specific vehicle model?",
@@ -143,7 +143,7 @@ faq:
       }
     - {
         question: "Can we organise several vehicles for the same group?",
-        answer: "Yes. The service supports multiple vehicles and mixed vehicle classes when passenger numbers or the transport plan require them.",
+        answer: "Yes. For larger groups or separate departures, we can check several vehicles and a mix of classes.",
       }
     - {
         question: "Can the chauffeur wait and take us back after the event?",
@@ -160,7 +160,7 @@ faq:
 
 finalCta:
   heading: "Send the date, passenger count and pickup location"
-  text: "Include the approximate time, preferred vehicle if you have one, and whether you need waiting or return transportation. The team will review availability and confirm the next step."
-  primaryCta: { label: "Send a prom request", target: { type: flow, flowKey: booking } }
+  text: "Include the time, preferred vehicle and any return or waiting requirements. Our team will check availability and send a proposed arrangement."
+  primaryCta: { label: "Start your booking", target: { type: flow, flowKey: booking } }
   secondaryCta: { label: "Request a quote", target: { type: flow, flowKey: quote } }
 ---

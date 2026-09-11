@@ -115,7 +115,7 @@ test.describe("VIP Transportation", () => {
     expect(
       visible.some((item) =>
         item.answer?.includes(
-          "Security, bodyguards and close-protection services are not included",
+          "VIP transport does not include security or personal protection",
         ),
       ),
     ).toBe(true);

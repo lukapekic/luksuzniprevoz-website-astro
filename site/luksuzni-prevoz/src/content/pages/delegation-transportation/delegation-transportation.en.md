@@ -4,19 +4,19 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-29
+reviewedOn: 2026-09-11
 sourceLocale: sr
-sourceDigest: 1c621f648b8fcd3c
+sourceDigest: d32b86aa7132fcc5
 noindex: false
 
-seoTitle: "Delegation Transportation Belgrade | Luxury Transportation"
-seoDescription: "Delegation transportation in Belgrade with multi-vehicle coordination, mixed vehicle classes, discreet service and an individual quote."
+seoTitle: "Delegation Transport in Belgrade"
+seoDescription: "Delegation transport in Belgrade with a dedicated coordinator, multiple vehicles and an agreed schedule for airport arrivals, hotels and meetings."
 
 hero:
   title: "Delegation transportation, coordinated as one plan"
-  description: "For delegations and executive groups moving between several programme locations — with multiple vehicles, different vehicle classes and dedicated coordination."
+  description: "Transport for delegations and executives visiting several locations. Combine vehicle classes with one contact coordinating the travel plan."
   primaryCta:
-    label: "Send a Delegation Request"
+    label: "Start your booking"
     target: { type: flow, flowKey: booking }
   secondaryCta:
     label: "Request a Quote"
@@ -24,9 +24,9 @@ hero:
 
 overview:
   heading:
-    title: "One request. Multiple vehicles. One coordination point."
+    title: "One arrangement for separate journeys"
     intro: "When a delegation does not travel as one group, transportation still needs to stay connected even when vehicles, passengers and locations differ."
-  body: "Delegation Transportation organises several movements as one transport programme. The schedule, passenger groups and vehicle roles remain within the same operational context from the first to the final confirmed movement."
+  body: "Each group is assigned a suitable vehicle and departure time. A coordinator keeps the individual journeys aligned with the delegation’s programme."
 
 sections:
   - key: audience
@@ -60,32 +60,32 @@ sections:
     heading:
       title: "One delegation. Several movements."
       intro: "Different groups can use different vehicles and follow different programme points while their transportation remains part of one plan."
-    body: "The sequence below illustrates the coordination principle rather than a fixed service itinerary. The final schedule is built from the programme you provide and the details that are confirmed."
+    body: "The example illustrates coordination. We prepare the final plan from the programme, groups and locations you provide."
 
   - key: mixedFleet
     heading:
-      title: "Different vehicles. One operational plan."
+      title: "Vehicles matched to each group’s role and size"
       intro: "The vehicle role depends on who is travelling, how many passengers need to stay together and how the programme is structured."
-    body: "Mixing vehicle classes allows individual executives, other delegation members and smaller groups to use different vehicle types while their transportation remains part of the same organisation. The final vehicle structure is confirmed against the passenger count and the delegation programme."
+    body: "Executives can travel separately while other delegation members share a vehicle. We check the combination against passenger numbers, luggage and the programme."
     items:
       - {
-          title: "Representative sedan",
-          text: "For an individual executive or delegation member who requires individual movement and a more representative vehicle role.",
+          title: "Executive sedan",
+          text: "For an executive or delegation member with a separate schedule.",
         }
       - {
           title: "Business sedan",
           text: "For individual passengers, separate movements and business points within the programme.",
         }
       - {
-          title: "V-Class",
+          title: "Mercedes-Benz V-Class",
           text: "For a smaller group that needs to stay together through one or several parts of the confirmed programme.",
         }
 
   - key: discretion
     heading:
-      title: "Discretion is part of the service, not an extra"
-      intro: "Delegation transportation can involve passenger names, schedules, meeting locations and other operational details that are not intended for public communication."
-    body: "Professional discretion is built into chauffeur conduct and the way the engagement is organised. State formal confidentiality requirements in advance so they can be reviewed and, once agreed, confirmed in writing before the engagement."
+      title: "Discretion and terms agreed in advance"
+      intro: "Raise formal confidentiality requirements before agreeing on transport."
+    body: "Chauffeurs are trained in discreet passenger service. A non-disclosure agreement (NDA) or other written terms can be considered in advance and apply only once agreed in writing."
 
   - key: briefing
     heading:
@@ -96,7 +96,7 @@ sections:
 vehicleRecommendations:
   heading:
     title: "Choose the vehicle around each passenger's role"
-    intro: "S-Class, E-Class and V-Class cover different roles — from an individual executive passenger to a smaller group moving together."
+    intro: "Mercedes-Benz S-Class, E-Class and V-Class for individual travellers and smaller groups, according to the delegation’s programme."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long]
   cta:
     label: "View Full Fleet"
@@ -110,17 +110,17 @@ faq:
         answer: "{multipleVehiclesAnswer}",
       }
     - { question: "Can different vehicle classes be combined?", answer: "{mixedClassesAnswer}" }
-    - { question: "Is dedicated transport coordination included?", answer: "{coordinatorAnswer}" }
+    - { question: "Will we have a contact coordinating our transport?", answer: "{coordinatorAnswer}" }
     - {
         question: "What information should I send for a quote?",
-        answer: "Send the dates and times, confirmed or planned locations, passenger count, group structure, preferred vehicles and any special operational or confidentiality requirements that affect the organisation.",
+        answer: "Send dates, times, locations, passenger numbers, group schedules and preferred vehicles. Include any special coordination or confidentiality requirements.",
       }
     - {
         question: "Can different groups use different pickup or movement points?",
         answer: "{groupMovementAnswer}",
       }
     - {
-        question: "Can we request an NDA or another formal confidentiality condition?",
+        question: "Can we request a non-disclosure agreement?",
         answer: "{ndaAnswer}",
       }
     - {
@@ -136,7 +136,7 @@ finalCta:
   heading: "Organise your delegation transportation with us."
   text: "Send the programme, passenger count, locations and special requirements. We will review the details and prepare an individual quote for the complete transport plan."
   primaryCta:
-    label: "Send a Delegation Request"
+    label: "Start your booking"
     target: { type: flow, flowKey: booking }
   secondaryCta:
     label: "Request a Quote"

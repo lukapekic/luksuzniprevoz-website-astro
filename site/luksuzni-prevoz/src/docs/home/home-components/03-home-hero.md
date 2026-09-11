@@ -133,3 +133,13 @@ Do not replace Request a Quote with Fleet or an unrelated action.
 - pricing;
 - separate image column;
 - contained rounded Homepage Hero panel.
+
+## Animation containment verification (2026-09-11)
+
+The decorative image has its own absolute media wrapper with `overflow: clip`.
+The image's existing settle animation is contained within the full-bleed canvas;
+copy, actions, focus rings and the header remain outside that wrapper. This fixes
+measured horizontal overflow during the image zoom without changing the approved
+composition or suppressing page/content overflow. At 320, 768, 1024, 1440 and
+1920 CSS px, reading order, CTA placement, crop breakpoints and content-driven
+height retain the contract above. There is no shared API change.

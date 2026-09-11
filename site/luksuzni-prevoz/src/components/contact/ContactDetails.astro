@@ -1,15 +1,18 @@
 ---
+import type { LocaleCode } from "@astro-foundation/core";
+import { t } from "../../lib/i18n.ts";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import { contact, isVerified } from "../../data/contact.ts";
 import type { ContactDetailsCopy } from "./contact-form.types.ts";
 
 interface Props {
+  locale: LocaleCode;
   heading: string;
   intro?: string;
   copy: ContactDetailsCopy;
 }
 
-const { heading, intro, copy } = Astro.props;
+const { heading, intro, copy, locale } = Astro.props;
 const phone = isVerified(contact.phone) ? contact.phone.value : null;
 const email = isVerified(contact.email) ? contact.email.value : null;
 const office =
@@ -54,10 +57,10 @@ const emailHref = email ? `mailto:${email}` : null;
           <address class="not-italic">
             {office.googleMapsUrl ? (
               <a class="contact-value" href={office.googleMapsUrl}>
-                {office.address}, {office.postalCode} {office.city}, {office.country}
+                {office.address}, {office.postalCode} {t("location.belgrade", locale)}, {t("location.serbia", locale)}
               </a>
             ) : (
-              <span>{office.address}, {office.postalCode} {office.city}, {office.country}</span>
+              <span>{office.address}, {office.postalCode} {t("location.belgrade", locale)}, {t("location.serbia", locale)}</span>
             )}
           </address>
         </dd>

@@ -17,17 +17,13 @@
  * usage rights are confirmed — consuming components gate public logo display
  * on per-client `logoStatus`, not just asset presence.
  */
-import type { RouteKey } from "@astro-foundation/core";
+import type { RouteKey, UiStringKey } from "@astro-foundation/core";
 import { routeMap } from "./routes.ts";
 
 // --- Enum vocabularies (typed unions) --------------------------------------
 
 export type ClientCategory =
-  | "hotel"
-  | "aviation"
-  | "diplomatic"
-  | "international-organisation"
-  | "sports-federation";
+  "hotel" | "aviation" | "diplomatic" | "international-organisation" | "sports-federation";
 
 /** Relationship context for a client (code, not prose). Extend as more arise. */
 export type ClientContext = "private-flight-related-transport";
@@ -53,6 +49,8 @@ export interface Client {
   /** Stable id; used as React/key and to match future logo assets. */
   id: string;
   displayName: string;
+  /** Localized institutional name; commercial brands keep their proper name. */
+  displayNameKey?: UiStringKey;
   category: ClientCategory;
   context?: ClientContext;
   /** Stable identifier into client-media.ts; null until an asset is provided. */
@@ -108,6 +106,7 @@ export const clients: Client[] = [
   },
   {
     id: "chinese-embassy",
+    displayNameKey: "clients.embassyChina",
     displayName: "Embassy of the People's Republic of China",
     category: "diplomatic",
     logoAsset: "chinese-embassy",
@@ -116,6 +115,7 @@ export const clients: Client[] = [
   },
   {
     id: "osce-mission-to-serbia",
+    displayNameKey: "clients.osce",
     displayName: "OSCE Mission to Serbia",
     category: "international-organisation",
     logoAsset: "osce",
@@ -124,6 +124,7 @@ export const clients: Client[] = [
   },
   {
     id: "serbian-swimming-federation",
+    displayNameKey: "clients.swimmingFederation",
     displayName: "Serbian Swimming Federation",
     category: "sports-federation",
     logoAsset: "serbian-swimming-association",

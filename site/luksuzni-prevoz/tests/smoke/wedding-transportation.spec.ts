@@ -77,8 +77,8 @@ test.describe("Wedding Transportation", () => {
       "Mercedes Sprinter",
     ]);
 
-    const bookingHref = flowPath("booking", "en");
-    const quoteHref = flowPath("quote", "en");
+    const bookingHref = `${flowPath("booking", "en")}&service=weddingTransportation`;
+    const quoteHref = `${flowPath("quote", "en")}&service=weddingTransportation`;
     await expect(page.locator(".service-hero__actions a").nth(0)).toHaveAttribute(
       "href",
       bookingHref,
@@ -96,8 +96,8 @@ test.describe("Wedding Transportation", () => {
     );
     await expect(page.locator("main a:not([href])")).toHaveCount(0);
 
-    await expect(page.getByText(/Decorations, flowers, ribbons/)).toBeVisible();
-    await expect(page.getByText(/manually confirms the organisation/)).toBeAttached();
+    await expect(page.getByText(/Decorations, flowers and ribbons/)).toBeVisible();
+    await expect(page.getByText(/then confirms the arrangements personally/)).toBeAttached();
   });
 
   test("visible FAQ and FAQ structured data use the same six localized items", async ({ page }) => {

@@ -4,17 +4,17 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-29
+reviewedOn: 2026-09-11
 noindex: false
 
-seoTitle: "Prevoz za venčanje Beograd | Luxury Transportation"
-seoDescription: "Prevoz sa profesionalnim vozačem za venčanja u Beogradu — za mladence, porodicu i goste, uz organizaciju više vozila, čekanja i povratka prema potvrđenom planu."
+seoTitle: "Vozilo sa vozačem za svadbu u Beogradu"
+seoDescription: "Vozilo sa vozačem za venčanje u Beogradu: dolazak mladenaca, fotografisanje i prevoz između lokacija. Dodatno vozilo za goste prema dogovoru."
 
 hero:
   title: "Prevoz za venčanje organizovan oko vašeg dana"
   description: "Od reprezentativnog vozila za mladence do prevoza porodice i gostiju. Organizujemo vozila, termine i dogovoreni povratak prema planu vašeg venčanja."
   primaryCta:
-    label: "Planirajte prevoz za venčanje"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
@@ -39,7 +39,7 @@ sections:
     heading:
       title: "Jedno vozilo ili plan za više putnika"
       intro: "Obim prevoza prilagođava se načinu na koji želite da organizujete dan."
-    body: "Nekim venčanjima je potrebno samo glavno vozilo za mladence. Druga uključuju prevoz porodice, gostiju ili nekoliko grupa koje dolaze u različito vreme. Broj i klase vozila usklađuju se sa potvrđenim zahtevom."
+    body: "Za neka venčanja dovoljno je jedno vozilo za mladence. Druga uključuju porodicu i grupe gostiju sa različitim mestima preuzimanja. Vozila biramo prema tom planu."
     items:
       - title: "Glavno vozilo"
         text: "Prevoz mladenaca ili glavnih putnika prema potvrđenim tačkama i terminima."
@@ -51,8 +51,8 @@ sections:
   - key: weddingDay
     heading:
       title: "Dan ima više važnih trenutaka"
-      intro: "Prevoz treba da prati plan venčanja, a ne samo jednu vožnju od tačke A do tačke B."
-    body: "Tok svakog venčanja je drugačiji. Navedite samo lokacije i termine koji su relevantni za vaš dan, a transport organizujemo prema potvrđenom rasporedu. Primer ispod pokazuje kako više tačaka može činiti jednu celinu."
+      intro: "Prevoz prati ceremoniju, fotografisanje i proslavu prema vašem planu."
+    body: "Ovo je primer redosleda vožnji. Pošaljite lokacije i termine koji su važni za vaše venčanje."
     items:
       - title: "Preuzimanje"
         text: "Dogovoreno mesto i vreme za početak angažovanja."
@@ -69,7 +69,7 @@ sections:
     heading:
       title: "Mladenci i gosti ne moraju imati isti prevoz"
       intro: "Glavno vozilo može ostati namenjeno mladencima, dok se porodica i gosti organizuju odvojeno."
-    body: "Kada broj putnika ili raspored to zahteva, plan može uključiti različite klase vozila i više preuzimanja. Cilj je da prevoz gostiju funkcioniše kao deo istog potvrđenog plana, bez pretvaranja glavnog vozila u kompromis za sve putnike."
+    body: "Za porodicu i goste možemo planirati dodatna vozila i odvojena preuzimanja. Tako vozilo mladenaca prati njihov raspored, a ostali putnici imaju svoj dogovoren prevoz."
     items:
       - title: "Mladenci"
         text: "Glavno vozilo ostaje fokusirano na njihov raspored i važna kretanja tokom dana."
@@ -80,9 +80,9 @@ sections:
 
   - key: presentation
     heading:
-      title: "Vozilo kao deo prezentacije"
-      intro: "Ako imate poseban zahtev vezan za izgled ili prezentaciju vozila, navedite ga već u prvom upitu."
-    body: "Posebni zahtevi za prezentaciju proveravaju se individualno i postaju deo usluge samo kada su izričito potvrđeni. Dekoracija, cveće, trake i drugi detalji nisu automatski uključeni u standardnu Wedding Transportation uslugu."
+      title: "Posebni zahtevi za izgled vozila"
+      intro: "Želje u vezi sa izgledom vozila navedite u prvom upitu."
+    body: "Dekoracija, cveće i trake nisu automatski uključeni. Svaki poseban zahtev proveravamo i potvrđujemo izričito, pre nego što postane deo dogovora."
     cta:
       label: "Navedite posebne zahteve"
       target:
@@ -91,9 +91,9 @@ sections:
 
   - key: standards
     heading:
-      title: "Važan dan zahteva pouzdanu organizaciju"
+      title: "Važan dan zahteva pažljivu pripremu"
       intro: "Automobil je samo jedan deo usluge. Priprema vozila, profesionalni vozač i jasna potvrda plana podjednako su važni."
-    body: "Standardi se oslanjaju na potvrđene operativne uslove i mogućnosti Wedding Transportation servisa."
+    body: "Profesionalni vozač, pripremljeno vozilo i unapred usaglašeni polasci čine osnovu usluge."
 
   - key: process
     heading:
@@ -109,7 +109,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "Vozilo se bira prema ulozi u danu"
+    title: "Vozilo prema putnicima i delu plana"
     intro: "Glavno vozilo za mladence i prevoz gostiju nemaju isti zadatak. Izbor se usklađuje sa brojem putnika, karakterom vožnje i potvrđenim rasporedom."
   vehicleIds:
     - mercedes-s-class
@@ -128,21 +128,21 @@ faq:
     - question: "Koliko ranije treba da pošaljemo zahtev?"
       answer: "Pošaljite zahtev čim znate datum i osnovni raspored. Dostupnost vozila i organizacija proveravaju se za konkretan datum pre konačne potvrde."
     - question: "Možete li organizovati i prevoz gostiju?"
-      answer: "Da. Wedding Transportation podržava prevoz gostiju, a broj i klase vozila usklađuju se sa brojem putnika, rasporedom i raspoloživošću."
+      answer: "Da. Možemo organizovati prevoz porodice i gostiju. Broj i klase vozila proveravamo prema putnicima, rasporedu i raspoloživosti."
     - question: "Možemo li imati više vozila i različite klase vozila?"
-      answer: "Da. Servis podržava više vozila i kombinovanje različitih klasa kada takva organizacija odgovara potvrđenom planu venčanja."
+      answer: "Da. Različite klase vozila mogu biti deo istog plana venčanja, uz prethodnu proveru i potvrdu."
     - question: "Da li možete da čekate tokom ceremonije ili fotografisanja i organizujete povratak?"
       answer: "Čekanje i povratak su mogući kada se unapred navedu u zahtevu i potvrde kao deo individualnog aranžmana. Nisu automatski uključeni."
     - question: "Da li je dekoracija vozila uključena?"
-      answer: "Ne automatski. Posebne zahteve za prezentaciju vozila možete navesti u upitu, a tim će potvrditi šta može biti deo konkretnog aranžmana."
+      answer: "Ne automatski. Posebne zahteve za izgled vozila možete navesti u upitu, a tim će potvrditi šta može biti deo konkretnog aranžmana."
     - question: "Da li je rezervacija potvrđena odmah nakon slanja zahteva?"
-      answer: "Ne. Tim prvo proverava datum, raspoloživost vozila, raspored i operativne detalje, a zatim ručno potvrđuje organizaciju."
+      answer: "Ne. Tim prvo proverava datum, raspoloživost vozila, raspored i detalje organizacije, a zatim ručno potvrđuje organizaciju."
 
 finalCta:
   heading: "Pošaljite datum i plan venčanja. Mi ćemo organizovati prevoz."
-  text: "Navedite glavne lokacije, okvirne termine, broj putnika i da li su vam potrebna dodatna vozila, čekanje, povratak ili poseban zahtev za prezentaciju."
+  text: "Navedite datum, lokacije, termine i broj putnika. Dodajte potrebe za prevozom gostiju, čekanjem, povratkom i izgledom vozila."
   primaryCta:
-    label: "Pošaljite zahtev za venčanje"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking

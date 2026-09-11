@@ -2,23 +2,23 @@
 routeKey: booking
 locale: en
 sourceLocale: sr
-sourceDigest: 838ecee87b090844
+sourceDigest: 3277dfdf46d5e4af
 pageType: booking
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-30
+reviewedOn: 2026-09-11
 noindex: true
 
-seoTitle: "Book Chauffeur Transportation | Luxury Transportation Belgrade"
-seoDescription: "Plan private chauffeur, airport, business or special-event transportation in Belgrade. Choose the service, schedule and preferred vehicle."
+seoTitle: "Request a Chauffeur Booking or Quote"
+seoDescription: "Send a chauffeur booking or quote request with your service, dates, journey and vehicle. Our team reviews the details and confirms your reservation."
 
 h1: "Plan your transportation"
-intro: "Choose the service, tell us when and where you need to travel, and select a vehicle preference. Simple requests show the applicable fare or estimate; complex itineraries continue as a custom quote."
+intro: "Choose your service, travel dates and route, then select a preferred vehicle. Straightforward requests show a fare or estimate; more complex plans receive a tailored quote."
 
 booking:
   heading:
     title: "Your request, step by step"
-    intro: "We only ask for details needed for the selected service. You can review and edit everything before contacting us."
-  assuranceTitle: "Before you continue"
-  assuranceBody: "Online sending is not enabled yet. Availability, vehicle assignment and the final arrangement are confirmed manually after direct contact."
+    intro: "We ask only for the details needed for your service. You can review and edit them before the final step."
+  assuranceTitle: "How we confirm your request"
+  assuranceBody: "Our team reviews your request before confirming availability, vehicle selection, price and the final arrangements."
 ---

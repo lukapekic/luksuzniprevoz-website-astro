@@ -269,3 +269,43 @@ describe("StructuredDataSchemas", () => {
     ]);
   });
 });
+
+describe("LocalBusiness opening hours", () => {
+  it("includes optional verified hours and rejects invalid clocks or days", () => {
+    const business = {
+      name: "Test",
+      description: "Office",
+      address: { city: "Belgrade", postalCode: "11070", country: "RS" },
+    };
+    const result = buildLocalBusiness({
+      site: "https://example.com",
+      business,
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Sunday"],
+          opens: "08:00",
+          closes: "18:00",
+        },
+      ],
+    });
+    expect(LocalBusinessSchema.safeParse(result).success).toBe(true);
+    expect(result.openingHoursSpecification?.[0]?.opens).toBe("08:00");
+    expect(
+      LocalBusinessSchema.safeParse({
+        ...result,
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Funday"],
+            opens: "25:00",
+            closes: "18:00",
+          },
+        ],
+      }).success,
+    ).toBe(false);
+    expect(buildLocalBusiness({ site: "https://example.com", business })).not.toHaveProperty(
+      "openingHoursSpecification",
+    );
+  });
+});

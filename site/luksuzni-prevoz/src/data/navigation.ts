@@ -20,7 +20,7 @@
  */
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { routeMap } from "./routes.ts";
-import navLabelsJson from "./navigation-labels.json";
+import navLabelsJson from "./navigation-labels.json" with { type: "json" };
 import { defaultLocale, localeCodes } from "./locales.ts";
 import type { FlowKey } from "./flows.ts";
 
@@ -77,7 +77,7 @@ export interface NavStructure {
 
 // --- Structure (typed TS — compile-checked against RouteKey) --------------
 
-export const navigation: NavStructure = {
+const authoredNavigation: NavStructure = {
   header: [
     {
       id: "services",
@@ -119,11 +119,28 @@ export const navigation: NavStructure = {
       { routeKey: "businessTransportation" },
       { routeKey: "specialEvents" },
     ],
-    company: [
-      { routeKey: "fleet" },
-      { routeKey: "pricing" },
-      { routeKey: "contact" },
-    ],
+    company: [{ routeKey: "fleet" }, { routeKey: "pricing" }, { routeKey: "contact" }],
+  },
+};
+
+/** Public navigation cannot advertise route documents excluded from the build.
+ * Canonical service relationships and translated label keys remain intact. */
+function publishedChildren(items: readonly NavChild[]): NavChild[] {
+  return items
+    .filter((item) => routeMap[item.routeKey]?.availability === "published")
+    .map((item) =>
+      "children" in item ? { ...item, children: publishedChildren(item.children) } : item,
+    );
+}
+export const navigation: NavStructure = {
+  ...authoredNavigation,
+  header: authoredNavigation.header.flatMap((item): NavHeaderItem[] => {
+    if ("id" in item) return [{ ...item, children: publishedChildren(item.children) }];
+    return publishedChildren([item]);
+  }),
+  footer: {
+    services: publishedChildren(authoredNavigation.footer.services),
+    company: publishedChildren(authoredNavigation.footer.company),
   },
 };
 

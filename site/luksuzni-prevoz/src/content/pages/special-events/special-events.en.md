@@ -2,18 +2,18 @@
 routeKey: specialEvents
 locale: en
 sourceLocale: sr
-sourceDigest: 14007ae0f4107300
+sourceDigest: cace6329dcbd3cd8
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-29
+reviewedOn: 2026-09-11
 
-seoTitle: "Special Event Transportation Belgrade"
-seoDescription: "Chauffeur-driven transportation for weddings, proms, VIP guests and special events in Belgrade, with guest and multi-vehicle coordination where arranged."
+seoTitle: "Special Occasion Transport in Belgrade"
+seoDescription: "Chauffeur transport for weddings, proms and VIP events in Belgrade. Choose the occasion and vehicle, then arrange arrival, waiting and the return journey."
 
 hero:
-  title: "When the event matters, transportation must be part of the plan"
-  description: "From one representative vehicle to coordinated guest and multi-vehicle transportation. We organise transport for weddings, proms, VIP guests and other special occasions around the date, locations and event schedule."
+  title: "Chauffeur transport for special occasions"
+  description: "Transport for weddings, proms, VIP guests and private celebrations. Choose your service, then we will agree on vehicles and timings for your occasion."
   primaryCta:
     label: "Choose your event service"
     target:
@@ -27,12 +27,12 @@ hero:
 
 overview:
   heading:
-    title: "More than arriving in one car"
-    intro: "A special event often involves more than one journey. The principal passenger, family, guests, several locations and the return should work as parts of the same plan."
-  body: "Sometimes one vehicle is enough for an important arrival. Other events require guest transportation, several vehicles or timings connected across multiple locations. The organisation is therefore adapted to the occasion, passenger count and confirmed schedule."
+    title: "Transport matched to your guests and event"
+    intro: "A special arrival and guest transport can be part of the same arrangement."
+  body: "Tell us who travels together and which locations need connecting. We use these details to check the appropriate service and vehicles."
   items:
     - title: "Principal passenger or couple"
-      text: "Representative, precisely planned transportation for the people at the centre of the occasion."
+      text: "Carefully planned chauffeur transport for the people at the centre of the occasion."
     - title: "Guests and groups"
       text: "Additional vehicles and group transportation when the selected service supports an arrangement for family, guests or several passengers."
     - title: "One agreed schedule"
@@ -59,7 +59,7 @@ childServices:
 sections:
   - key: otherOccasions
     heading:
-      title: "Is your occasion outside these three categories?"
+      title: "Planning another special occasion?"
       intro: "Special-event transportation is not limited to weddings, proms and VIP requirements."
     body: "We also organise transportation for birthdays, private celebrations, galas and other special occasions. Send the date, locations and approximate passenger count, and the team will review the appropriate organisation and availability."
     cta:
@@ -71,7 +71,7 @@ sections:
   - key: serviceScope
     heading:
       title: "One vehicle or coordinated transportation for the whole event"
-      intro: "The event determines the scale of the service. One vehicle is enough for a single important arrival, while a more complex plan can connect several passengers, vehicles and timings."
+      intro: "Passenger numbers and pickup points determine how many vehicles are needed."
     body: "You do not need to decide the number of vehicles in advance. Send the basic schedule and passenger count, and we define the organisation around the selected service and confirmed availability."
     items:
       - title: "One important arrival"
@@ -82,8 +82,8 @@ sections:
   - key: eventCoordination
     heading:
       title: "Transportation follows the flow of the event"
-      intro: "A good transport plan does not end at arrival outside the venue. Pickup, principal arrival, guest movement and the return should follow what has been agreed in advance."
-    body: "Waiting, additional locations and changes are included only when they form part of the confirmed arrangement. This keeps the plan clear without promising unlimited flexibility."
+      intro: "We agree on departures, arrivals and onward journeys in the order your event requires."
+    body: "Include waiting, extra stops and return travel in your request. They are included only where the selected service supports them and they have been confirmed."
     items:
       - title: "Pickup"
         text: "The confirmed plan begins with the agreed pickup time and location."
@@ -109,15 +109,15 @@ sections:
     items:
       - title: "Send the date and plan"
         text: "Provide the date, approximate time, locations, passenger count and type of event."
-      - title: "We propose the organisation"
-        text: "We review availability and match a vehicle or combination of vehicles to the specific request."
+      - title: "We propose a travel plan"
+        text: "We check availability and propose a vehicle or combination of vehicles for your passengers and plans."
       - title: "Receive confirmed details"
-        text: "After review, you receive manually confirmed timings, vehicles and the relevant organisation details."
+        text: "After review, you receive timings, vehicles and arrangements confirmed by our team."
 
 vehicleRecommendations:
   heading:
     title: "The vehicle is chosen for its role in the event"
-    intro: "A representative arrival, discreet individual transportation and group organisation have different requirements. Selection is aligned with passenger count, the character of the event and the available fleet."
+    intro: "We select vehicles according to passengers, their role in the event and availability on the requested date."
   vehicleIds:
     - mercedes-s-class
     - mercedes-e-class
@@ -143,13 +143,13 @@ faq:
     - question: "What happens if the event schedule changes?"
       answer: "Changes are reviewed against the specific engagement, reserved period and availability. Approval of a change is not automatic."
     - question: "Is the booking confirmed immediately after I send the request?"
-      answer: "No. The team reviews the date, vehicle availability, schedule and operational details, then confirms the organisation manually."
+      answer: "No. The team reviews the date, vehicle availability, schedule and operational details, then confirms the arrangements personally."
 
 finalCta:
   heading: "Send the date and plan. We will propose the transportation."
-  text: "To start, we only need the event date, locations, approximate timings, passenger count and type of occasion. If you do not yet know which vehicle or how many vehicles you need, send the basic plan and we will help define the appropriate organisation."
+  text: "Send the date, locations, approximate times, passenger count and occasion. If you are unsure which vehicle to choose, ask our team to recommend one."
   primaryCta:
-    label: "Send an event request"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking

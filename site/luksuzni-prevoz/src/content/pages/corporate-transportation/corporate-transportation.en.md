@@ -4,19 +4,19 @@ locale: en
 pageType: service
 status: in-review
 translationState: reviewed
-reviewedOn: 2026-08-29
+reviewedOn: 2026-09-11
 sourceLocale: sr
-sourceDigest: 78a3841d992b0cbc
+sourceDigest: 772934d6201b6b0e
 noindex: true
 
-seoTitle: "Corporate Transportation Belgrade | Luxury Transportation"
-seoDescription: "Corporate transportation in Belgrade for executives, business guests and companies, from one-off requests to recurring chauffeur arrangements."
+seoTitle: "Corporate Chauffeur in Belgrade"
+seoDescription: "Corporate chauffeur service in Belgrade for executives and business guests. Arrange a single working day or recurring travel, with agreed billing terms."
 
 hero:
   title: "Corporate Transportation in Belgrade"
-  description: "Professional chauffeur-driven transportation for executives, business guests and companies — from a single business schedule to an ongoing corporate arrangement."
+  description: "Professional chauffeur transport for executives, business guests and companies, from a single business day to a recurring arrangement."
   primaryCta:
-    label: "Send a Corporate Request"
+    label: "Start your booking"
     target: { type: flow, flowKey: booking }
   secondaryCta:
     label: "Request a Quote"
@@ -25,15 +25,15 @@ hero:
 overview:
   heading:
     title: "Business transportation that works as part of your day"
-    intro: "For a company, getting from A to B is not enough. The schedule, vehicle and confirmed organisation need to work together."
-  body: "Corporate Transportation connects the passenger, vehicle and business schedule within one organised service. It is designed for situations where professional arrival, continuity between connected locations and a simpler way to manage company transportation all matter."
+    intro: "A clear schedule, a suitable vehicle and arrangements agreed in advance for your company."
+  body: "Corporate transport brings a business traveller’s or company’s journeys into one arrangement. We agree on locations, waiting times and vehicles with the person organising the travel."
 
 sections:
   - key: audience
     heading:
       title: "For people and teams whose working day does not stop at one address"
       intro: "The service is built for passengers and organisers who value professional, discreet and pre-arranged transportation."
-    body: "From an executive or business guest to the assistant coordinating the schedule, Corporate Transportation creates a clear structure for a working day with one or several connected locations."
+    body: "An assistant or coordinator can submit the plan on behalf of the passenger. For recurring travel, include the frequency and expected routes."
     items:
       - { title: "Executives and management", text: "For business commitments where professional arrival, discreet service and a well-organised schedule matter." }
       - { title: "Business guests and partners", text: "For guests whose company wants to provide organised transportation between the hotel, office and planned meetings." }
@@ -44,8 +44,8 @@ sections:
   - key: engagementModel
     heading:
       title: "One request or an ongoing corporate arrangement"
-      intro: "Two clear models for two different business needs."
-    body: "The right approach depends on whether you are arranging a specific business day or looking for a more stable model for transportation that repeats."
+      intro: "Arrange a single engagement or discuss regular journeys."
+    body: "For a single business day, send the date and itinerary. For recurring work, we agree on frequency, invoicing and commercial terms."
     items:
       - { title: "For a defined business assignment", text: "When the date, passenger and basic schedule are already known and you want transportation organised as one confirmed service." }
       - { title: "For recurring requirements", text: "When the company needs a more consistent way to organise business transportation across several journeys or a longer period." }
@@ -54,22 +54,22 @@ sections:
     heading:
       title: "Keep the working day connected"
       intro: "A meeting rarely ends the working day. Transportation should follow what comes next."
-    body: "Hotel, office, meeting, lunch with partners and the next business location can all form part of the same daily plan. Instead of reorganising transportation between every point, the schedule stays connected and the passenger moves through the day without breaking the business rhythm."
+    body: "The hotel, office and meetings can form one day’s engagement. The same chauffeur can remain between locations when this is part of the confirmed arrangement."
     items:
       - { title: "Less repeated organisation", text: "You do not start from zero after every business commitment." }
-      - { title: "The schedule stays in context", text: "The next confirmed location already belongs to the same transportation plan." }
+      - { title: "The next stop is already agreed", text: "The next destination is already part of the travel plan." }
       - { title: "Continuity for the passenger", text: "The executive or business guest gets a calmer transition between commitments and locations." }
 
   - key: coordination
     heading:
-      title: "One plan. One point of coordination."
-      intro: "The chauffeur, company contact and confirmed itinerary should operate as one system."
-    body: "When passenger, location and timing information is gathered into one confirmed plan, transportation becomes simpler for the company and clearer for the chauffeur. The goal is not to create another administrative process, but to make business transportation a clean part of the schedule already in place."
+      title: "Coordination with your travel organiser"
+      intro: "Bring passenger details, locations and departure times together."
+    body: "Your company contact agrees on the plan with our team. We check the vehicle and schedule before confirmation; later changes are considered within the agreed terms."
 
 vehicleRecommendations:
   heading:
     title: "Choose the vehicle around the passenger and schedule"
-    intro: "From a representative sedan for an executive to a V-Class for several colleagues or business guests, the vehicle is selected around how it will be used."
+    intro: "A sedan for an executive or a Mercedes-Benz V-Class for colleagues and business guests. Choose according to passengers, luggage and schedule."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long]
   cta:
     label: "View Full Fleet"
@@ -92,7 +92,7 @@ finalCta:
   heading: "Send the schedule. We organise the corporate transportation."
   text: "Send the date, time, locations, passenger count and preferred vehicle. We will check availability and confirm the appropriate engagement model."
   primaryCta:
-    label: "Send a Corporate Request"
+    label: "Start your booking"
     target: { type: flow, flowKey: booking }
   secondaryCta:
     label: "Request a Quote"

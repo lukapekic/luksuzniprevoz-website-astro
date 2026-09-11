@@ -7,6 +7,17 @@ import { z } from "zod";
 
 // --- Zod schemas for structured data validation (FND-SEO-04) ---
 
+const OpeningHoursSchema = z.object({
+  "@type": z.literal("OpeningHoursSpecification"),
+  dayOfWeek: z
+    .array(
+      z.enum(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]),
+    )
+    .min(1),
+  opens: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/u),
+  closes: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/u),
+});
+
 export const LocalBusinessSchema = z.object({
   "@type": z.literal("LocalBusiness"),
   "@id": z.string(),
@@ -25,6 +36,7 @@ export const LocalBusinessSchema = z.object({
   image: z.string().url().optional(),
   inLanguage: z.string().optional(),
   areaServed: z.array(z.string()).optional(),
+  openingHoursSpecification: z.array(OpeningHoursSchema).optional(),
 });
 
 export const WebSiteSchema = z.object({
@@ -106,6 +118,7 @@ export function buildLocalBusiness(data: {
   };
   locale?: string;
   image?: string;
+  openingHoursSpecification?: LocalBusiness["openingHoursSpecification"];
 }): LocalBusiness {
   return {
     "@type": "LocalBusiness",
@@ -124,6 +137,9 @@ export function buildLocalBusiness(data: {
     },
     image: data.image,
     inLanguage: data.locale,
+    ...(data.openingHoursSpecification
+      ? { openingHoursSpecification: data.openingHoursSpecification }
+      : {}),
   };
 }
 

@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import type { ImageMetadata } from "astro";
-import type { LocaleCode, RouteKey, UiStringKey } from "@astro-foundation/core";
+import type { LocaleCode, UiStringKey } from "@astro-foundation/core";
 import { buildFaqPage } from "@astro-foundation/core/seo";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Section from "../../../foundation/ui/Section.astro";
@@ -45,7 +45,7 @@ interface ResolvedAction { label: string; href: string }
 interface StandardItem { title: string; text: string }
 interface BusinessServiceItem {
   index: string;
-  routeKey: RouteKey;
+  routeKey: "corporateTransportation" | "delegationTransportation" | "conferenceCongressTransportation";
   title: string;
   text: string;
   ctaLabel: string;

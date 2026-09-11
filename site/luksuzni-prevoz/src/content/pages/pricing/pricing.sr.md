@@ -4,47 +4,41 @@ locale: sr
 pageType: pricing
 status: published
 translationState: reviewed
-reviewedOn: '2026-08-30'
+reviewedOn: 2026-09-11
 noindex: false
-seoTitle: Cene prevoza sa vozačem | Luxury Transportation
-seoDescription: Cene aerodromskog prevoza i Private Chauffeur najma u Beogradu, uz individualne ponude za poslovni, delegacijski
-  i prevoz za specijalne događaje.
+seoTitle: "Cenovnik prevoza sa vozačem"
+seoDescription: "Pogledajte cene aerodromskog prevoza po vozilu i pakete najma sa vozačem u Beogradu. Za složeniji raspored ili više vozila zatražite posebnu ponudu."
 hero:
-  title: Cene privatnog prevoza sa vozačem
+  title: "Cene prevoza sa vozačem"
   description: Jasno objavljene cene za standardne usluge, uz individualnu ponudu kada raspored, više vozila ili dodatna koordinacija
     zahtevaju plan po meri.
   primaryCta:
-    label: Rezerviši vožnju
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: Zatraži ponudu
+    label: "Zatražite ponudu"
     target:
       type: flow
       flowKey: quote
-  supportText: Fiksna aerodromska tarifa · Objavljeni formati Private Chauffeur najma · Individualne ponude za poslovne i
-    specijalne angažmane
+  supportText: "Cenu i raspoloživost za vaš zahtev potvrđuje naš tim."
 introSection:
   heading:
-    title: Prvo izaberite vrstu angažmana
-    intro: Na ovoj strani prikazujemo samo modele cena koji pripadaju aktuelnom katalogu usluga.
-  body: Aerodromski prevoz ima fiksnu cenu kada su ispunjeni definisani uslovi. Private Chauffeur koristi objavljene tarife
-    prema formatu najma. Poslovni, delegacijski, konferencijski i specijalni angažmani prelaze na procenu ili individualnu
-    ponudu u skladu sa konkretnim zahtevom.
+    title: "Izaberite uslugu i način obračuna"
+    intro: "Uporedite objavljene tarife ili zatražite ponudu za složeniji plan."
+  body: "Aerodromski prevoz ima fiksnu cenu za podržanu relaciju. Najam vozila sa profesionalnim vozačem obračunava se prema trajanju. Za poslovne programe i posebne prilike pripremamo procenu ili individualnu ponudu prema rasporedu."
 pricing:
   heading:
     title: Objavljene cene
-    intro: Izaberite aerodromski prevoz ili format Private Chauffeur najma. Iznosi, trajanje i uključena kilometraža moraju
-      se prikazati direktno iz aktuelnih podataka o cenama i uslugama.
+    intro: "Uporedite aerodromski prevoz i najam vozila sa profesionalnim vozačem. Uz svaku opciju prikazani su cena i uslovi."
   source: pricing-data
 sections:
 - key: individualPricing
   heading:
-    title: Kada se cena formira prema angažmanu
+    title: "Kada je potrebna individualna ponuda"
     intro: Složeniji rasporedi, više vozila i koordinisani događaji dobijaju cenu tek kada je potvrđen stvarni obim usluge.
-  body: Kod ovih usluga ne prikazujemo privlačnu početnu cenu bez potvrđenog osnova. Na osnovu rasporeda, izbora vozila i
-    potrebnog nivoa koordinacije pripremamo procenu ili individualnu ponudu u skladu sa pravilima konkretne usluge.
+  body: "Cenu određuju raspored, relacije, izbor i broj vozila i potrebna koordinacija. Kada dobijemo te podatke, pripremamo procenu ili individualnu ponudu u skladu sa izabranom uslugom."
   items:
   - title: Poslovni i korporativni prevoz
     text: Jednostavniji zahtevi mogu dobiti procenu, dok ponavljajući angažmani, ugovorni odnosi i složeniji rasporedi prelaze
@@ -63,68 +57,57 @@ sections:
   - promTransportation
   - vipTransportation
   cta:
-    label: Zatraži individualnu ponudu
+    label: "Zatražite individualnu ponudu"
     target:
       type: flow
       flowKey: quote
 - key: pricingModels
   heading:
     title: Tri jasna načina formiranja cene
-    intro: Način prikaza cene prati način na koji je usluga stvarno definisana.
+    intro: "Razlika između fiksne tarife, najma prema trajanju i ponude za vaš raspored."
   items:
   - title: Fiksna cena
-    text: Za standardizovan aerodromski prevoz prikazuje se tačno definisana cena po vozilu kada je vožnja unutar podržanog
-      opsega.
+    text: "Za prevoz između Aerodroma Nikola Tesla i Beograda prikazana je cena po vozilu, u okviru navedenih uslova."
   - title: Objavljena tarifa
-    text: Private Chauffeur prikazuje tarifu prema izabranom vremenskom formatu najma, uz uslove koji se čitaju iz aktuelnih
-      podataka usluge.
+    text: "Najam sa vozačem ima tarife po satu, za pola dana i za ceo dan. Trajanje i uključena kilometraža navedeni su uz svaku opciju."
   - title: Individualna ponuda
-    text: Kada raspored ili koordinacija ne mogu da se svedu na standardni model, zahtev se proverava i cena se potvrđuje
-      kroz ponudu.
+    text: "Za složenije rasporede i više vozila pripremamo ponudu nakon provere relacija i potrebne koordinacije."
 - key: confirmation
   heading:
     title: Cena i raspoloživost potvrđuju se zajedno
     intro: Slanje zahteva pokreće proveru; ne predstavlja automatski potvrđenu rezervaciju.
-  body: Nakon prijema zahteva proveravamo raspoloživost, detalje angažmana i primenljivi model cene. Rezervacija postaje potvrđena
-    tek nakon ručne potvrde našeg tima.
+  body: "Nakon prijema zahteva proveravamo raspoloživost, detalje vožnje i način obračuna. Cena i termin važe tek kada ih naš tim potvrdi."
 faq:
   heading: Česta pitanja o cenama
   items:
   - question: Da li je cena aerodromskog prevoza po osobi ili po vozilu?
     answer: Objavljena aerodromska tarifa prikazuje se po vozilu za definisani transfer između Aerodroma Nikola Tesla i Beograda.
       Izbor vozila prilagođava se broju putnika i prtljagu pre potvrde rezervacije.
-  - question: Koje tarife su objavljene za Private Chauffeur?
-    answer: Na strani prikazujemo podržane vremenske formate najma Private Chauffeur usluge. Aktuelno trajanje, uključena
-      kilometraža i cena svakog formata čitaju se direktno iz podataka usluge i cenovnika.
+  - question: "Koje tarife postoje za najam vozila sa vozačem?"
+    answer: "Prikazani su najam po satu, poludnevni i celodnevni najam. Uz svaku opciju navedeni su iznos i uslovi."
   - question: Da li najam po satu ima minimalno trajanje?
-    answer: Da. Važeće minimalno trajanje prikazuje se direktno uz tarifni format iz aktuelnih podataka usluge, tako da se
-      pravilo ne duplira u sadržaju stranice.
+    answer: "Da. Minimalno trajanje navedeno je uz najam po satu."
   - question: Šta je uključeno u poludnevni i celodnevni najam?
-    answer: Uz svaku opciju prikazujemo trajanje i uključenu kilometražu iz aktuelnih podataka Private Chauffeur usluge. Ako
-      plan izlazi iz standardnog okvira, zahtev prelazi na proveru i individualnu ponudu.
+    answer: "Uz obe opcije prikazani su trajanje i uključena kilometraža. Ako vaš plan izlazi iz tog okvira, pripremamo individualnu ponudu."
   - question: Da li na ovoj strani prikazujete cenu po kilometru?
-    answer: 'Ne. Javni cenovnik prikazuje samo modele koji su direktno vezani za podržane usluge: aerodromski prevoz i vremenske
-      formate Private Chauffeur najma. Ostali zahtevi koriste procenu ili individualnu ponudu prema pravilima konkretne usluge.'
+    answer: "Ne. Javni cenovnik obuhvata aerodromski prevoz i najam vozila sa vozačem prema trajanju. Za ostale zahteve pripremamo procenu ili individualnu ponudu, u zavisnosti od usluge."
   - question: Kako se formira cena poslovnog prevoza?
     answer: Jednostavniji poslovni zahtevi mogu se proceniti kada su podaci dovoljni. Složeniji rasporedi, ponavljajući angažmani,
       delegacije i konferencijski programi potvrđuju se kroz individualnu ponudu.
   - question: Da li venčanja, mature i VIP prevoz imaju fiksne pakete?
-    answer: Ne prikazujemo fiksni paket bez potvrđenog osnova. Cena se formira prema konkretnom planu, vozilima i potrebnoj
-      koordinaciji, a zatim potvrđuje kroz individualnu ponudu.
+    answer: "Za venčanja, mature i VIP prevoz pripremamo individualnu ponudu prema rasporedu, vozilima i potrebnoj koordinaciji."
   - question: Kada je cena konačno potvrđena?
-    answer: Nakon slanja zahteva naš tim proverava raspoloživost, detalje vožnje i odgovarajući model cene. Cena i rezervacija
-      postaju potvrđene tek nakon ručne potvrde.
+    answer: "Kada tim proveri raspoloživost i detalje vožnje i pošalje potvrdu cene i rezervacije. Samo slanje zahteva nije potvrda."
 finalCta:
-  heading: Znate šta vam je potrebno?
-  text: Pošaljite osnovne detalje vožnje ili angažmana. Proverićemo raspoloživost, primeniti odgovarajući model cene i potvrditi
-    sledeći korak.
+  heading: "Pošaljite detalje prevoza"
+  text: "Navedite datum, relaciju, broj putnika i željeno vozilo. Proverićemo raspoloživost i poslati cenu ili individualnu ponudu."
   primaryCta:
-    label: Rezerviši vožnju
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: Zatraži ponudu
+    label: "Zatražite ponudu"
     target:
       type: flow
       flowKey: quote

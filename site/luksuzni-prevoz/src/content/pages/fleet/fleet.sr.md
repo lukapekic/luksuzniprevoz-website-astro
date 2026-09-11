@@ -4,86 +4,86 @@ locale: sr
 pageType: fleet
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-30
+reviewedOn: 2026-09-11
 noindex: false
 
-seoTitle: "Vozila sa vozačem Beograd | Luxury Transportation"
-seoDescription: "Mercedes S i E klasa, Škoda Superb i Kodiaq, Mercedes V klasa i Sprinter za privatni, poslovni i grupni prevoz sa profesionalnim vozačem."
+seoTitle: "Vozni park – vozila sa vozačem"
+seoDescription: "Uporedite Mercedes-Benz S-Class, E-Class, V-Class i Sprinter, kao i Škoda Superb i Kodiaq. Izaberite vozilo sa vozačem prema putnicima i planu vožnje."
 
 hero:
-  title: "Flota za putovanje po vašem standardu"
-  description: "Od reprezentativnih limuzina i SUV vozila do Extra Long vanova i grupnog prevoza — izaberite vozilo prema putnicima, prtljagu i načinu na koji je vaše putovanje organizovano."
+  title: "Vozila sa profesionalnim vozačem"
+  description: "Limuzina, SUV ili kombi za zajedničko putovanje: uporedite modele i izaberite vozilo prema broju putnika, prtljagu i rasporedu."
   primaryCta:
-    label: "Rezerviši vožnju"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: "Zatraži ponudu"
+    label: "Zatražite ponudu"
     target:
       type: flow
       flowKey: quote
 
 introSection:
   heading:
-    title: "Pravo vozilo počinje od načina na koji putujete"
+    title: "Izbor prema putnicima, prtljagu i rasporedu"
     intro: "Nije svaki put isti, zato izbor vozila ne počinje samo od broja sedišta."
   body: "Broj putnika, količina prtljaga, trajanje vožnje, tip događaja i potreba za jednim ili više vozila zajedno određuju najbolji izbor. Recite nam kako putujete, a mi proveravamo odgovarajuću konfiguraciju i dostupnost konkretnog modela pre potvrde."
 
 fleetSection:
   heading:
-    title: "The Chauffeur Collection"
-    intro: "Sedani za individualna putovanja, SUV alternativa, prostrani vanovi za manje grupe i Sprinter za organizovan grupni prevoz."
+    title: "Kolekcija vozila"
+    intro: "Limuzine za privatne i poslovne vožnje, SUV kao alternativa i kombi vozila za grupe koje putuju zajedno."
   profiles:
     - key: mercedesSClass
       vehicleIds:
         - mercedes-s-class
-      summary: "Flagship izbor kolekcije kada su iskustvo putnika na zadnjem sedištu, diskrecija i reprezentativan dolazak glavni prioriteti."
+      summary: "Reprezentativna limuzina za putovanja na kojima su udobnost i diskretna usluga prioritet."
       bestFor: "VIP goste, rukovodioce, protokolarne obaveze i posebne prilike kada je nivo predstavljanja jednako važan kao i sama vožnja."
       highlights:
         - "Fokusiran na iskustvo putnika na zadnjem sedištu."
         - "Najreprezentativnija limuzina u kolekciji."
-        - "Izbor kada se prednost daje komforu, privatnosti i mirnom tempu putovanja."
+        - "Za putovanja koja zahtevaju diskretnu uslugu i pažljivo usklađen raspored."
 
     - key: mercedesEClass
       vehicleIds:
         - mercedes-e-class
-      summary: "Poslovna limuzina koja spaja ozbiljan nastup, udobnu vožnju i svakodnevnu praktičnost za rasporede koji se često menjaju."
-      bestFor: "Poslovne sastanke, aerodromske vožnje, privatne obaveze i individualna putovanja tokom kojih je potreban profesionalan, nenametljiv automobil."
+      summary: "Poslovna limuzina za sastanke, aerodromske vožnje i svakodnevne obaveze."
+      bestFor: "Poslovne goste i putnike koji biraju limuzinu za privatne ili poslovne vožnje."
       highlights:
-        - "Uravnotežen izbor između premium komfora i poslovne praktičnosti."
+        - "Uravnotežen izbor između udobnosti i poslovne praktičnosti."
         - "Diskretan format za individualne putnike i rukovodioce."
         - "Prirodno se uklapa u kraće i celodnevne rasporede sa vozačem."
 
     - key: skodaSuperb
       vehicleIds:
         - skoda-superb
-      summary: "Prostran i nenametljiv poslovni izbor za putnike kojima su važni udobnost zadnje klupe i praktičnost tokom svakodnevnih i dužih vožnji."
-      bestFor: "Poslovna i privatna putovanja kada je potreban komforan sedan sa praktičnim odnosom kabine i prostora za prtljag."
+      summary: "Nenametljiva poslovna limuzina za privatne i poslovne vožnje."
+      bestFor: "Sastanke, aerodromske vožnje i svakodnevne obaveze, uz izbor prema putnicima i prtljagu."
       highlights:
-        - "Prostran putnički prostor u nenametljivom poslovnom formatu."
-        - "Praktičan izbor kada putovanje uključuje i više prtljaga."
-        - "Dobar balans komfora, prostora i diskretnog nastupa."
+        - "Limuzina za individualna i poslovna putovanja."
+        - "Prtljag proveravamo zajedno sa brojem putnika."
+        - "Za kraće vožnje ili najam sa vozačem prema rasporedu."
 
     - key: skodaKodiaq
       vehicleIds:
         - skoda-kodiaq
-      summary: "SUV alternativa u kolekciji za putnike koji preferiraju viši položaj sedenja, uspravniji ulazak i fleksibilniji odnos kabine i prtljažnog prostora."
-      bestFor: "Privatna i poslovna putovanja kada se preferira SUV format, naročito za rasporede koji kombinuju gradsku vožnju i duže deonice."
+      summary: "SUV kao alternativa limuzini za putnike koji žele ovaj tip vozila."
+      bestFor: "Privatna i poslovna putovanja, uz proveru broja putnika, prtljaga, cene i raspoloživosti pre potvrde."
       highlights:
-        - "SUV format sa višim položajem sedenja."
-        - "Fleksibilniji odnos putničkog i prtljažnog prostora."
-        - "Alternativa klasičnoj limuzini bez prelaska na van."
+        - "SUV u kolekciji vozila sa vozačem."
+        - "Za putnike koji žele alternativu limuzini."
+        - "Cenu i uslove potvrđujemo prema zahtevu."
 
     - key: mercedesVClass
       vehicleIds:
         - mercedes-v-class-6-plus-1-extra-long
         - mercedes-v-class-7-plus-1-extra-long
-      summary: "Premium Extra Long van za manje grupe koje žele da putuju zajedno, bez prelaska na veliki grupni autobuski format."
+      summary: "Kombi Extra Long za manje grupe koje žele da putuju zajedno, bez prelaska na veliki grupni autobuski format."
       bestFor: "Poslovne timove, goste, porodice, delegacije i manje grupe kojima su zajednička vožnja i komfor važniji od odvojenih automobila."
       highlights:
-        - "Jedan model sa dve potvrđene konfiguracije usluge."
-        - "Prostran grupni format sa premium karakterom."
+        - "Extra Long model sa dve putničke konfiguracije."
+        - "Prostran grupni format sa udobnim prevozom."
         - "Praktičan za rasporede sa više putnika i zajedničkim dolaskom."
 
     - key: mercedesSprinter
@@ -101,7 +101,7 @@ sections:
     heading:
       title: "Kako da izaberete pravo vozilo"
       intro: "Dovoljno je da znamo ko putuje, šta nosite i kako izgleda plan."
-    body: "Ne morate sami da procenjujete da li je nominalno najveća konfiguracija i najbolja za konkretnu vožnju. Broj putnika i prtljag uvek posmatramo zajedno, a kod složenijih rasporeda proveravamo i da li je praktičnije koristiti jedno ili više vozila."
+    body: "Broj putnika i prtljag posmatramo zajedno. Kod složenijih rasporeda proveravamo da li je praktičnije koristiti jedno ili više vozila."
     items:
       - title: "Putnici"
         text: "Broj putnika određuje početni izbor klase i raspoloživih konfiguracija."
@@ -118,13 +118,13 @@ faq:
     - question: "Mogu li da izaberem konkretan model vozila?"
       answer: "Da. Navedite željeni model u zahtevu. Dostupnost konkretnog vozila proverava se pre ručne potvrde rezervacije."
     - question: "Koliko putnika može da se vozi u svakom vozilu?"
-      answer: "Na stranici prikazujemo samo potvrđeni operativni kapacitet iz podataka flote. Ako kapacitet za određeni model još nije potvrđen u podacima, broj se ne prikazuje dok ne bude verifikovan."
-    - question: "Koja je razlika između dve V-klase?"
-      answer: "V-klasu prikazujemo kao jedan Extra Long model, ali usluga ima dve potvrđene putničke konfiguracije. Pri rezervaciji se bira odgovarajuća konfiguracija prema broju putnika i prtljagu."
+      answer: "Uz vozila sa potvrđenim kapacitetom prikazan je najveći broj putnika. Konačan izbor proveravamo i prema količini prtljaga."
+    - question: "Kako se razlikuju konfiguracije modela Mercedes-Benz V-Class?"
+      answer: "Model Mercedes-Benz V-Class Extra Long ima dve putničke konfiguracije. Odgovarajući raspored sedišta biramo prema broju putnika i prtljagu."
     - question: "Koje vozilo je najbolje za aerodrom kada imamo mnogo kofera?"
       answer: "Pošaljite broj putnika i okvirnu količinu prtljaga. Ta dva podatka proveravamo zajedno, jer maksimalan broj putnika nije uvek i najbolja konfiguracija za veći broj kofera."
     - question: "Da li je Škoda Kodiaq deo flote?"
-      answer: "Da. Kodiaq je SUV opcija u kolekciji. Njegov konkretan operativni kapacitet i cena prikazuju se tek kada budu potvrđeni u kanonskim podacima; do tada se organizacija proverava kroz upit."
+      answer: "Da. Škoda Kodiaq je SUV u našoj floti. Pošaljite broj putnika, prtljag i raspored putovanja kako bismo proverili odgovarajuće uslove, cenu i raspoloživost."
     - question: "Može li se organizovati više vozila za istu grupu?"
       answer: "Da, kod usluga koje podržavaju organizaciju više vozila. Pošaljite broj putnika, lokacije i raspored, a tim potvrđuje odgovarajuću kombinaciju."
     - question: "Da li je dostupno dečje sedište?"
@@ -136,12 +136,12 @@ finalCta:
   heading: "Recite nam kako putujete"
   text: "Pošaljite datum, relaciju ili raspored, broj putnika, prtljag i željeno vozilo. Proverićemo odgovarajuću konfiguraciju i dostupnost pre potvrde."
   primaryCta:
-    label: "Rezerviši vožnju"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: "Zatraži ponudu"
+    label: "Zatražite ponudu"
     target:
       type: flow
       flowKey: quote

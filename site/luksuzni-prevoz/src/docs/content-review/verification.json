@@ -1,0 +1,1562 @@
+{
+  "updatedOn": "2026-09-11",
+  "status": "complete-for-owner-review",
+  "scope": {
+    "routeFamilies": 15,
+    "localizedContentEntries": 45,
+    "publishedLocalizedPages": 39,
+    "indexableLocalizedPages": 36,
+    "scaffoldLocalizedEntries": 6
+  },
+  "releaseGate": {
+    "command": "pnpm quality:release",
+    "exitCode": 0,
+    "dependencyAuditClean": false,
+    "note": "Final release run includes current content, generated outputs, lint, types, all unit tests, site build and secret scan; dependency audit remains nonblocking.",
+    "phase": "final-handoff"
+  },
+  "profiles": [
+    {
+      "schemaVersion": 1,
+      "change": "component",
+      "target": "site/luksuzni-prevoz/src/foundation/ui/Page.astro",
+      "surface": "shared-ui",
+      "startedAt": "2026-09-11T16:13:19.100Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 667
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 674
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 707
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/foundation/ui/Page.astro",
+            "--surface",
+            "shared-ui"
+          ],
+          "exitCode": 0,
+          "durationMs": 174
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 677
+        },
+        {
+          "gate": "component-impact",
+          "command": [
+            "node",
+            "scripts/governance/component-impact.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/foundation/ui/Page.astro"
+          ],
+          "exitCode": 0,
+          "durationMs": 174
+        },
+        {
+          "gate": "design-doctor",
+          "command": [
+            "pnpm",
+            "design:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 712
+        },
+        {
+          "gate": "design-detect",
+          "command": [
+            "node",
+            "scripts/design/detect.mjs",
+            "--strict",
+            "--target",
+            "site/luksuzni-prevoz/src/foundation/ui/Page.astro",
+            "--surface",
+            "shared-ui"
+          ],
+          "exitCode": 0,
+          "durationMs": 152
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1099
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 22899
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9679
+        },
+        {
+          "gate": "unit-tests",
+          "command": [
+            "pnpm",
+            "test:unit"
+          ],
+          "exitCode": 0,
+          "durationMs": 15095
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7676
+        }
+      ],
+      "completedAt": "2026-09-11T16:14:19.486Z",
+      "ok": true
+    },
+    {
+      "schemaVersion": 1,
+      "change": "component",
+      "target": "site/luksuzni-prevoz/src/components/site/SiteFooter.astro",
+      "surface": "shared-ui",
+      "startedAt": "2026-09-11T16:14:20.162Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 675
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 666
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 698
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/components/site/SiteFooter.astro",
+            "--surface",
+            "shared-ui"
+          ],
+          "exitCode": 0,
+          "durationMs": 179
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 705
+        },
+        {
+          "gate": "component-impact",
+          "command": [
+            "node",
+            "scripts/governance/component-impact.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/components/site/SiteFooter.astro"
+          ],
+          "exitCode": 0,
+          "durationMs": 180
+        },
+        {
+          "gate": "design-doctor",
+          "command": [
+            "pnpm",
+            "design:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 725
+        },
+        {
+          "gate": "design-detect",
+          "command": [
+            "node",
+            "scripts/design/detect.mjs",
+            "--strict",
+            "--target",
+            "site/luksuzni-prevoz/src/components/site/SiteFooter.astro",
+            "--surface",
+            "shared-ui"
+          ],
+          "exitCode": 0,
+          "durationMs": 159
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1130
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 21658
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9743
+        },
+        {
+          "gate": "unit-tests",
+          "command": [
+            "pnpm",
+            "test:unit"
+          ],
+          "exitCode": 0,
+          "durationMs": 15216
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7674
+        }
+      ],
+      "completedAt": "2026-09-11T16:15:19.570Z",
+      "ok": true
+    },
+    {
+      "schemaVersion": 1,
+      "change": "small-ui",
+      "target": "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
+      "surface": "home",
+      "startedAt": "2026-09-11T16:15:20.260Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 687
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 681
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 729
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
+            "--surface",
+            "home"
+          ],
+          "exitCode": 0,
+          "durationMs": 187
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 699
+        },
+        {
+          "gate": "design-doctor",
+          "command": [
+            "pnpm",
+            "design:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 733
+        },
+        {
+          "gate": "design-detect",
+          "command": [
+            "node",
+            "scripts/design/detect.mjs",
+            "--strict",
+            "--target",
+            "site/luksuzni-prevoz/src/components/home/HomepageHero.astro",
+            "--surface",
+            "home"
+          ],
+          "exitCode": 0,
+          "durationMs": 170
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1104
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 21987
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9794
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7804
+        }
+      ],
+      "completedAt": "2026-09-11T16:16:04.836Z",
+      "ok": true
+    },
+    {
+      "schemaVersion": 1,
+      "change": "routing-content",
+      "target": "site/luksuzni-prevoz/src/content/pages/home/home.sr.md",
+      "surface": "home",
+      "startedAt": "2026-09-11T16:16:05.539Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 687
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 668
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 703
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/content/pages/home/home.sr.md",
+            "--surface",
+            "home"
+          ],
+          "exitCode": 0,
+          "durationMs": 181
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 693
+        },
+        {
+          "gate": "content-validate",
+          "command": [
+            "pnpm",
+            "content:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1382
+        },
+        {
+          "gate": "routes-validate",
+          "command": [
+            "pnpm",
+            "routes:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1060
+        },
+        {
+          "gate": "seo-validate",
+          "command": [
+            "pnpm",
+            "seo:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1347
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1129
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 21829
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9928
+        },
+        {
+          "gate": "unit-tests",
+          "command": [
+            "pnpm",
+            "test:unit"
+          ],
+          "exitCode": 0,
+          "durationMs": 15365
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7640
+        }
+      ],
+      "completedAt": "2026-09-11T16:17:08.151Z",
+      "ok": true
+    },
+    {
+      "schemaVersion": 1,
+      "change": "page",
+      "target": "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+      "surface": "airport-transportation",
+      "startedAt": "2026-09-11T16:17:08.841Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 695
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 687
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 720
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+            "--surface",
+            "airport-transportation"
+          ],
+          "exitCode": 0,
+          "durationMs": 185
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 703
+        },
+        {
+          "gate": "foundation-doctor",
+          "command": [
+            "pnpm",
+            "foundation:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 1076
+        },
+        {
+          "gate": "theme-sync-check",
+          "command": [
+            "pnpm",
+            "theme:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1102
+        },
+        {
+          "gate": "theme-validate",
+          "command": [
+            "pnpm",
+            "theme:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 1117
+        },
+        {
+          "gate": "design-doctor",
+          "command": [
+            "pnpm",
+            "design:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 742
+        },
+        {
+          "gate": "design-detect",
+          "command": [
+            "node",
+            "scripts/design/detect.mjs",
+            "--strict",
+            "--target",
+            "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+            "--surface",
+            "airport-transportation"
+          ],
+          "exitCode": 0,
+          "durationMs": 156
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1127
+        },
+        {
+          "gate": "content-validate",
+          "command": [
+            "pnpm",
+            "content:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1446
+        },
+        {
+          "gate": "routes-validate",
+          "command": [
+            "pnpm",
+            "routes:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1124
+        },
+        {
+          "gate": "seo-validate",
+          "command": [
+            "pnpm",
+            "seo:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1391
+        },
+        {
+          "gate": "traceability-check",
+          "command": [
+            "pnpm",
+            "traceability",
+            "--check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1106
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 21925
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9955
+        },
+        {
+          "gate": "unit-tests",
+          "command": [
+            "pnpm",
+            "test:unit"
+          ],
+          "exitCode": 0,
+          "durationMs": 15456
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7933
+        }
+      ],
+      "completedAt": "2026-09-11T16:18:17.487Z",
+      "ok": true
+    },
+    {
+      "schemaVersion": 1,
+      "change": "page",
+      "target": "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+      "surface": "home",
+      "startedAt": "2026-09-11T16:46:55.326Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 686
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 702
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 683
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+            "--surface",
+            "home"
+          ],
+          "exitCode": 0,
+          "durationMs": 167
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 677
+        },
+        {
+          "gate": "foundation-doctor",
+          "command": [
+            "pnpm",
+            "foundation:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 1094
+        },
+        {
+          "gate": "theme-sync-check",
+          "command": [
+            "pnpm",
+            "theme:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1059
+        },
+        {
+          "gate": "theme-validate",
+          "command": [
+            "pnpm",
+            "theme:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 1064
+        },
+        {
+          "gate": "design-doctor",
+          "command": [
+            "pnpm",
+            "design:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 707
+        },
+        {
+          "gate": "design-detect",
+          "command": [
+            "node",
+            "scripts/design/detect.mjs",
+            "--strict",
+            "--target",
+            "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+            "--surface",
+            "home"
+          ],
+          "exitCode": 0,
+          "durationMs": 168
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1077
+        },
+        {
+          "gate": "content-validate",
+          "command": [
+            "pnpm",
+            "content:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1362
+        },
+        {
+          "gate": "routes-validate",
+          "command": [
+            "pnpm",
+            "routes:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1072
+        },
+        {
+          "gate": "seo-validate",
+          "command": [
+            "pnpm",
+            "seo:validate",
+            "site/luksuzni-prevoz"
+          ],
+          "exitCode": 0,
+          "durationMs": 1354
+        },
+        {
+          "gate": "traceability-check",
+          "command": [
+            "pnpm",
+            "traceability",
+            "--check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1078
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 21400
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9672
+        },
+        {
+          "gate": "unit-tests",
+          "command": [
+            "pnpm",
+            "test:unit"
+          ],
+          "exitCode": 0,
+          "durationMs": 15211
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7770
+        }
+      ],
+      "completedAt": "2026-09-11T16:48:02.329Z",
+      "ok": true
+    },
+    {
+      "schemaVersion": 1,
+      "change": "theme",
+      "target": "site/luksuzni-prevoz/src/foundation/ui/Page.astro",
+      "surface": "shared-ui",
+      "startedAt": "2026-09-11T16:48:03.020Z",
+      "results": [
+        {
+          "gate": "governance-validate",
+          "command": [
+            "pnpm",
+            "governance:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 674
+        },
+        {
+          "gate": "skills-validate",
+          "command": [
+            "pnpm",
+            "skills:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 688
+        },
+        {
+          "gate": "components-check",
+          "command": [
+            "pnpm",
+            "components:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 719
+        },
+        {
+          "gate": "design-context",
+          "command": [
+            "node",
+            "scripts/design/context.mjs",
+            "--target",
+            "site/luksuzni-prevoz/src/foundation/ui/Page.astro",
+            "--surface",
+            "shared-ui"
+          ],
+          "exitCode": 0,
+          "durationMs": 183
+        },
+        {
+          "gate": "theme-sync-check",
+          "command": [
+            "pnpm",
+            "theme:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1109
+        },
+        {
+          "gate": "theme-validate",
+          "command": [
+            "pnpm",
+            "theme:validate"
+          ],
+          "exitCode": 0,
+          "durationMs": 1118
+        },
+        {
+          "gate": "design-sync-check",
+          "command": [
+            "pnpm",
+            "design:sync:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 720
+        },
+        {
+          "gate": "design-doctor",
+          "command": [
+            "pnpm",
+            "design:doctor"
+          ],
+          "exitCode": 0,
+          "durationMs": 729
+        },
+        {
+          "gate": "design-detect",
+          "command": [
+            "node",
+            "scripts/design/detect.mjs",
+            "--strict",
+            "--target",
+            "site/luksuzni-prevoz/src/foundation/ui/Page.astro",
+            "--surface",
+            "shared-ui"
+          ],
+          "exitCode": 0,
+          "durationMs": 154
+        },
+        {
+          "gate": "types-check",
+          "command": [
+            "pnpm",
+            "types:generate:check"
+          ],
+          "exitCode": 0,
+          "durationMs": 1099
+        },
+        {
+          "gate": "check",
+          "command": [
+            "pnpm",
+            "check"
+          ],
+          "exitCode": 0,
+          "durationMs": 21636
+        },
+        {
+          "gate": "lint",
+          "command": [
+            "pnpm",
+            "lint"
+          ],
+          "exitCode": 0,
+          "durationMs": 9782
+        },
+        {
+          "gate": "unit-tests",
+          "command": [
+            "pnpm",
+            "test:unit"
+          ],
+          "exitCode": 0,
+          "durationMs": 15347
+        },
+        {
+          "gate": "site-build",
+          "command": [
+            "pnpm",
+            "--filter",
+            "@luksuzni-prevoz/site",
+            "build"
+          ],
+          "exitCode": 0,
+          "durationMs": 7789
+        }
+      ],
+      "completedAt": "2026-09-11T16:49:04.767Z",
+      "ok": true
+    }
+  ],
+  "research": {
+    "offlineReports": 42,
+    "builtReports": 36,
+    "builtFoundationIssues": 0,
+    "builtInvalidJsonLd": 0,
+    "additionalPaidQueries": 0,
+    "heuristicDisposition": "Exact query phrases permit natural inflection/prepositions/synonyms. Brand appears in shared rendered UI, not every raw source entry."
+  },
+  "visualReview": {
+    "reviewer": "AI visual inspection",
+    "kind": "Manual screenshot inspection plus automated computed-style measurements",
+    "viewports": [
+      320,
+      768,
+      1024,
+      1440,
+      1920
+    ],
+    "observations": "All sampled pages fit without horizontal overflow. H1/H2 use Inter Tight; visible body, controls and input use Manrope. Long homepage/Fleet headings were shortened and inspected again. Eager media decode successfully. No blueprint region was removed. Final home screenshots were inspected again after the font preload change.",
+    "cases": [
+      {
+        "name": "home-sr",
+        "path": "/",
+        "width": 320,
+        "height": 900,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/hero-example-2.DrZ512le_Z1Pg5So.avif",
+            "width": 320,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Luksuzni prevoz sa vozačem",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      },
+      {
+        "name": "home-ru",
+        "path": "/ru/",
+        "width": 768,
+        "height": 1024,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/hero-example-2.DrZ512le_1d1GgE.avif",
+            "width": 768,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Автомобиль с водителем в Белграде",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      },
+      {
+        "name": "airport-en",
+        "path": "/en/airport-transportation/",
+        "width": 1024,
+        "height": 768,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/hero.CPMpFgSR_Z1VQkoc.avif",
+            "width": 1024,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Belgrade airport transportation",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": "\"Manrope Variable\", system-ui, sans-serif"
+        }
+      },
+      {
+        "name": "business-sr",
+        "path": "/poslovni-prevoz/",
+        "width": 1440,
+        "height": 900,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/business-transport-card.Dys_Tu40_Z234guo.avif",
+            "width": 1439,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Poslovni prevoz organizovan oko vašeg rasporeda",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      },
+      {
+        "name": "fleet-ru",
+        "path": "/ru/avtopark/",
+        "width": 1920,
+        "height": 1080,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/hero.BPFdajjv_2pUi1x.avif",
+            "width": 1920,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Автопарк с водителем",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      },
+      {
+        "name": "pricing-sr",
+        "path": "/cene/",
+        "width": 320,
+        "height": 900,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/s-class-wheel-interior.DUU55EXg_ZSNPYS.avif",
+            "width": 320,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Cene prevoza sa vozačem",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      },
+      {
+        "name": "fleet-ru-mobile",
+        "path": "/ru/avtopark/",
+        "width": 320,
+        "height": 900,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/hero.BPFdajjv_2hl5G4.avif",
+            "width": 320,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Автопарк с водителем",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      },
+      {
+        "name": "home-en",
+        "path": "/en/",
+        "width": 1440,
+        "height": 900,
+        "status": 200,
+        "images": [
+          {
+            "src": "http://localhost:4323/_assets/hero-example-2.DrZ512le_Z2mKc6y.avif",
+            "width": 1439,
+            "complete": true
+          }
+        ],
+        "overflow": 0,
+        "h1": "Luxury chauffeur service in Belgrade",
+        "fonts": {
+          "h1": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "h2": "\"Inter Tight Variable\", system-ui, sans-serif",
+          "p": "\"Manrope Variable\", system-ui, sans-serif",
+          "button": "\"Manrope Variable\", system-ui, sans-serif",
+          "input": null
+        }
+      }
+    ],
+    "localScreenshotDirectory": "/tmp/content-seo-evidence/screenshots",
+    "screenshotsCommitted": false,
+    "platformFontCheck": {
+      "method": "Chromium DevTools CSS.getPlatformFontsForNode after document.fonts.ready on fresh local page visits",
+      "locales": [
+        "sr",
+        "en",
+        "ru"
+      ],
+      "h1": {
+        "family": "Inter Tight",
+        "customFont": true
+      },
+      "bodyAndControls": {
+        "internalFamilyName": "Manrope ExtraLight",
+        "customFont": true,
+        "note": "Internal family name of the active Manrope variable font; CSS semantic weights are retained."
+      },
+      "result": "Actual rendered webfonts confirmed in all three locales; computed family declarations were not the only evidence."
+    }
+  },
+  "dependencyAudit": {
+    "critical": 1,
+    "high": 6,
+    "moderate": 6,
+    "low": 3,
+    "changedDependencies": false,
+    "nonblockingRepositoryCommand": true,
+    "criticalAdvisory": "https://github.com/advisories/GHSA-26w7-cxv4-gfx2"
+  },
+  "browser": {
+    "command": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke --project=chromium --project=firefox --workers=4 --reporter=line",
+    "fullRun": {
+      "passed": 390,
+      "failed": 2,
+      "total": 392
+    },
+    "correctionRuns": [
+      {
+        "command": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke --project=chromium --project=firefox --last-failed --workers=2 --reporter=line",
+        "passed": 1,
+        "failed": 1,
+        "resolved": "Firefox lazy-image test",
+        "remainingFailure": "Hub test exceeded the old 30-second timeout while measuring twenty pages after animations."
+      },
+      {
+        "command": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/hub-pages.spec.ts --project=chromium --grep 'required responsive states' --workers=1 --reporter=line",
+        "passed": 1,
+        "failed": 0,
+        "durationSeconds": 52.7,
+        "resolved": "Hub responsiveness and strict target sizes; per-test timeout now accommodates twenty settled page loads."
+      }
+    ],
+    "coveredCasesPassingAfterCorrections": 392,
+    "unresolvedSupportedEngineFailures": 0,
+    "unavailableEngine": "WebKit: missing libicu74/libjpeg-turbo8 system dependencies; installation not attempted.",
+    "finalHandoffRun": {
+      "command": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/seo-content.spec.ts tests/smoke/accessibility.spec.ts tests/smoke/responsive.spec.ts tests/smoke/footer.spec.ts --project=chromium --project=firefox --workers=4 --reporter=line",
+      "passed": 138,
+      "failed": 0,
+      "exitCode": 0,
+      "durationMinutes": 1.6,
+      "scope": "Final source after LocalBusiness language-property correction and homepage font-preload opt-out."
+    }
+  },
+  "lighthouse": {
+    "status": "passed-with-nonblocking-warnings",
+    "runs": 18,
+    "pages": 6,
+    "categoryResults": "SEO, accessibility and best practices were 1.0 on all six URLs. Performance medians ranged from 0.94 to 0.99.",
+    "config": "Repository .lighthouserc.json assertions, URLs, three runs and throttling; installed Chromium path and temporary output/server working directory supplied for this environment.",
+    "initialRun": {
+      "status": "initial-run-failed-lcp",
+      "runs": 18,
+      "pages": 6,
+      "categoryResults": "SEO, accessibility and best practices were 1.0 on all six URLs. Performance medians ranged from 0.94 to 0.99.",
+      "blockingFindings": [
+        {
+          "path": "/",
+          "audit": "largest-contentful-paint",
+          "maximumMs": 2500,
+          "actualMs": 2563.5492
+        },
+        {
+          "path": "/ru/",
+          "audit": "largest-contentful-paint",
+          "maximumMs": 2500,
+          "actualMs": 2784.76995
+        }
+      ],
+      "nextAction": "Measure homepage font preload priority before final verification.",
+      "config": "Repository .lighthouserc.json assertions, URLs, three runs and throttling; installed Chromium path and temporary output/server working directory supplied for this environment."
+    },
+    "exitCode": 0,
+    "results": [
+      {
+        "path": "/",
+        "runs": 3,
+        "medianScores": {
+          "performance": 0.94,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 1
+        },
+        "medianLcpMs": 2638.41,
+        "medianCls": 0,
+        "medianTbtMs": 0
+      },
+      {
+        "path": "/aerodromski-prevoz/",
+        "runs": 3,
+        "medianScores": {
+          "performance": 0.98,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 1
+        },
+        "medianLcpMs": 2181.28,
+        "medianCls": 0,
+        "medianTbtMs": 0
+      },
+      {
+        "path": "/en/",
+        "runs": 3,
+        "medianScores": {
+          "performance": 0.96,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 1
+        },
+        "medianLcpMs": 2487.25,
+        "medianCls": 0,
+        "medianTbtMs": 0
+      },
+      {
+        "path": "/en/airport-transportation/",
+        "runs": 3,
+        "medianScores": {
+          "performance": 0.99,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 1
+        },
+        "medianLcpMs": 2030.3,
+        "medianCls": 0,
+        "medianTbtMs": 0
+      },
+      {
+        "path": "/ru/",
+        "runs": 3,
+        "medianScores": {
+          "performance": 0.98,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 1
+        },
+        "medianLcpMs": 2110.53,
+        "medianCls": 0,
+        "medianTbtMs": 0
+      },
+      {
+        "path": "/ru/transfer-iz-aeroporta/",
+        "runs": 3,
+        "medianScores": {
+          "performance": 0.96,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 1
+        },
+        "medianLcpMs": 2332.94,
+        "medianCls": 0,
+        "medianTbtMs": 0
+      }
+    ],
+    "command": "node node_modules/@lhci/cli/src/cli.js autorun --config /tmp/content-seo-evidence/lighthouse/config.json (temporary working directory)",
+    "note": "Same repository assertions, six URLs, three runs and throttling. Only browser path, report directory and server cwd adjusted for this environment.",
+    "warnings": [
+      {
+        "name": "maxNumericValue",
+        "expected": 1800,
+        "actual": 2106.1528,
+        "values": [
+          2106.1528,
+          2108.1673,
+          2112.8141
+        ],
+        "operator": "<=",
+        "passed": false,
+        "auditId": "first-contentful-paint",
+        "level": "warn",
+        "url": "http://127.0.0.1:4328/en/",
+        "auditTitle": "First Contentful Paint",
+        "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
+      },
+      {
+        "name": "maxNumericValue",
+        "expected": 1800,
+        "actual": 2106.0807,
+        "values": [
+          2107.9409,
+          2106.0807,
+          2111.0543
+        ],
+        "operator": "<=",
+        "passed": false,
+        "auditId": "first-contentful-paint",
+        "level": "warn",
+        "url": "http://127.0.0.1:4328/ru/transfer-iz-aeroporta/",
+        "auditTitle": "First Contentful Paint",
+        "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
+      }
+    ],
+    "remainingBlockingAssertions": [],
+    "interpretation": "The repository aggregation passed. Serbian homepage median LCP is 2638.41 ms; do not describe every sample as within 2500 ms. Keep this variance and FCP warnings visible for ongoing monitoring."
+  },
+  "exploratoryFailures": [
+    "Stale generated design snapshot repaired by design:sync.",
+    "Foundation config cannot be the design detector target; theme profile uses the affected Page.astro head surface.",
+    "Built --all SEO audit includes scaffold routes; corrected to 36 published targets plus offline review.",
+    "Overlapping early builds invalidated some browser/research evidence; reruns serialize builds.",
+    "Prior browser assertions referenced obsolete copy, generic service handoffs and an unverified driving-experience claim.",
+    "Initial homepage image animation caused real overflow; fixed in its media layer.",
+    "Axe sampled entrance opacity; now waits for full section reveals with motion enabled.",
+    "Target-size checks wait for finite animations without relaxing 44px.",
+    "Firefox lazy images are scrolled into view and polled before asserting successful load."
+  ],
+  "sitemap": {
+    "indexableEntries": 36,
+    "alternatesPerEntry": 4,
+    "indexXmlExists": true,
+    "previewRobotsDisallowsAll": true
+  },
+  "unitTests": {
+    "core": 285,
+    "seoResearch": 26,
+    "eslintPlugin": 80,
+    "site": 35,
+    "total": 426,
+    "passed": 426
+  },
+  "siteCheck": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 6
+  },
+  "secrets": {
+    "envIgnored": true,
+    "sourceSecretMatches": 0,
+    "buildSecretMatches": 0
+  },
+  "build": {
+    "astroPages": 43,
+    "staticXmlEndpoints": 2,
+    "deploymentPerformed": false
+  }
+}

@@ -120,19 +120,21 @@ const isDecorative = imageAlt === "";
       100vw. object-cover; object-position follows the vehicle's inline-start
       focal point on narrow crops and recenters progressively (reviewed per breakpoint
       — task §13). */}
-  <Image
-    class="homepage-hero__image"
-    src={image}
-    alt={imageAlt}
-    role={isDecorative ? "presentation" : undefined}
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
-    format="avif"
-    quality={40}
-    widths={[640, 768, 1024, 1536, 1920]}
-    sizes="100vw"
-  />
+  <div class="homepage-hero__media">
+    <Image
+      class="homepage-hero__image"
+      src={image}
+      alt={imageAlt}
+      role={isDecorative ? "presentation" : undefined}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      format="avif"
+      quality={40}
+      widths={[640, 768, 1024, 1536, 1920]}
+      sizes="100vw"
+    />
+  </div>
 
   {/* Controlled directional overlay (03 §Surface/image), rebuilt for the
       full-width canvas. Stronger behind the left copy, a darkened top strip so
@@ -231,6 +233,14 @@ const isDecorative = imageAlt === "";
      treated as low-key dusk rather than fake night; moderate exposure and
      saturation reduction preserve chrome/wheel highlights. Focal position is
      art-directed below for each responsive state. */
+  /* Contain the decorative zoom at its canvas boundary; content and focus
+     rings remain in an independent, unclipped layer. */
+  .homepage-hero__media {
+    position: absolute;
+    inset: 0;
+    overflow: clip;
+    z-index: 0;
+  }
   .homepage-hero__image {
     position: absolute;
     inset: 0;

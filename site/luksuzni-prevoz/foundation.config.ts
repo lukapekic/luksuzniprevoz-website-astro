@@ -65,7 +65,7 @@ export const config = defineFoundationConfig({
         strategy: "lazy",
       },
     ],
-    structuredData: ["Organization", "WebSite"],
+    structuredData: ["LocalBusiness", "WebSite", "BreadcrumbList", "FAQPage"],
     ogImages: "static",
   },
   activeThemeVersion: "version-2",

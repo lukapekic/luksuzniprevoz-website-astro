@@ -1,5 +1,9 @@
 ---
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import { getRoute } from "../../../data/routes.ts";
+import { isBookingServiceKey } from "../../../data/booking.ts";
+import { resolveFlowHref } from "../../../lib/cta.ts";
+import { t } from "../../../lib/i18n.ts";
 import Section from "../../../foundation/ui/Section.astro";
 import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
@@ -18,6 +22,9 @@ interface Props {
 }
 
 const { heading, intro, body, label, items, cta, locale } = Astro.props;
+const published = getRoute(cta.to).availability === "published";
+if (!published && !isBookingServiceKey(cta.to)) throw new Error("An unpublished service enquiry requires a booking service.");
+const enquiryHref = isBookingServiceKey(cta.to) ? resolveFlowHref("quote", locale, { service: cta.to }) : undefined;
 ---
 
 <Section spacing="compact" surface="contained-dark" aria-labelledby="business-engagement-heading">
@@ -28,9 +35,11 @@ const { heading, intro, body, label, items, cta, locale } = Astro.props;
         <SectionHeading id="business-engagement-heading" {heading} description={intro} />
         {body && <p class="body-copy">{body}</p>}
         <div class="engagement-action">
-          <Link variant="default" to={cta.to} {locale}>
-            {cta.label}<span aria-hidden="true">→</span>
-          </Link>
+          {published ? (
+            <Link variant="default" to={cta.to} {locale}>{cta.label}<span aria-hidden="true">→</span></Link>
+          ) : (
+            <Link variant="default" href={enquiryHref} {locale}>{t("business.serviceEnquiry", locale)}<span aria-hidden="true">→</span></Link>
+          )}
         </div>
       </div>
       <div class="engagement-panel">

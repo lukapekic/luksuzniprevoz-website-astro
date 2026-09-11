@@ -33,14 +33,20 @@ test.describe("Business and Special Events hubs", () => {
     });
   }
 
-  test("hub selectors preserve canonical child routes", async ({ page }) => {
+  test("hub selectors preserve published children and route gated services to an enquiry", async ({
+    page,
+  }) => {
     await page.goto(routePath("businessTransportation", "en"));
     for (const key of [
       "corporateTransportation",
       "delegationTransportation",
       "conferenceCongressTransportation",
     ] as const) {
-      await expect(page.locator(`.service-grid a[href="${routePath(key, "en")}"]`)).toHaveCount(1);
+      const target =
+        key === "delegationTransportation"
+          ? routePath(key, "en")
+          : `${routePath("booking", "en")}?intent=quote&service=${key}`;
+      await expect(page.locator(`.service-grid a[href="${target}"]`)).toHaveCount(1);
     }
 
     await page.goto(routePath("specialEvents", "en"));
@@ -219,6 +225,8 @@ test.describe("Business and Special Events hubs", () => {
   });
 
   test("required responsive states have no accidental horizontal overflow", async ({ page }) => {
+    // Twenty full page loads now wait for finite entrance animations to settle.
+    test.setTimeout(90_000);
     for (const route of [
       routePath("businessTransportation", "sr"),
       routePath("businessTransportation", "en"),

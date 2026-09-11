@@ -4,19 +4,18 @@ locale: en
 pageType: pricing
 status: published
 translationState: reviewed
-reviewedOn: '2026-08-30'
+reviewedOn: 2026-09-11
 sourceLocale: sr
-sourceDigest: efbdb5a9f5bbdc38
+sourceDigest: 823f269168c31c4d
 noindex: false
-seoTitle: Chauffeur Service Prices | Luxury Transportation
-seoDescription: Belgrade airport transfer and Private Chauffeur hire prices, with individual quotations for business, delegation
-  and special-event transportation.
+seoTitle: "Belgrade Chauffeur & Transfer Prices"
+seoDescription: "View Belgrade airport transfer fares per vehicle and chauffeur hire packages. Request a tailored quote for a complex itinerary or multiple vehicles."
 hero:
-  title: Private chauffeur service prices
+  title: "Chauffeur and transfer prices"
   description: Clear published prices for standard services, with an individual quotation when the schedule, multiple vehicles
     or additional coordination require a tailored plan.
   primaryCta:
-    label: Book a Ride
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking
@@ -25,30 +24,24 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: Fixed airport fare · Published Private Chauffeur hire formats · Individual quotations for business and special
-    engagements
+  supportText: "Our team confirms the price and availability for your request."
 introSection:
   heading:
-    title: Start with the type of engagement
-    intro: This page shows only pricing models that belong to the current service catalogue.
-  body: Airport transportation has a fixed fare when the defined conditions are met. Private Chauffeur uses published tariffs
-    according to the hire format. Business, delegation, conference and special-event engagements move to an estimate or individual
-    quotation according to the specific request.
+    title: "Choose your service and pricing option"
+    intro: "Compare published fares or request a quote for a more complex itinerary."
+  body: "Airport transfers have a fixed fare for the covered route. Chauffeur hire is priced by duration. Business programmes and special occasions receive an estimate or a tailored quote based on the schedule."
 pricing:
   heading:
     title: Published prices
-    intro: Choose airport transportation or a Private Chauffeur hire format. Amounts, duration and included distance must
-      be rendered directly from the current pricing and service data.
+    intro: "Compare airport transfers and chauffeur hire. Each option shows its price and applicable conditions."
   source: pricing-data
 sections:
 - key: individualPricing
   heading:
-    title: When the price follows the engagement
+    title: "When your journey needs a tailored quote"
     intro: Complex schedules, multiple vehicles and coordinated events receive a price only after the actual service scope
       is confirmed.
-  body: For these services we do not display an attractive starting price without a verified basis. We prepare an estimate
-    or individual quotation from the schedule, vehicle selection and required level of coordination, following the rules of
-    the specific service.
+  body: "The schedule, routes, vehicle selection and coordination needs determine the price. Once we have these details, we prepare an estimate or a tailored quote for the selected service."
   items:
   - title: Business and corporate transportation
     text: Simpler requests can receive an estimate, while recurring engagements, contractual arrangements and more complex
@@ -74,57 +67,45 @@ sections:
 - key: pricingModels
   heading:
     title: Three clear ways a price is formed
-    intro: The way a price is displayed follows the way the service is actually defined.
+    intro: "Understand fixed transfer fares, time-based hire and pricing for a tailored itinerary."
   items:
   - title: Fixed fare
-    text: For standardized airport transportation, an exact per-vehicle fare is shown when the journey is within the supported
-      scope.
+    text: "Transfers between Nikola Tesla Airport and Belgrade show a per-vehicle fare within the stated conditions."
   - title: Published tariff
-    text: Private Chauffeur shows a tariff for the selected time-based hire format, with conditions read from the current
-      service data.
+    text: "Chauffeur hire offers hourly, half-day and full-day rates. Duration and included distance are shown beside each option."
   - title: Individual quotation
-    text: When a schedule or coordination cannot be reduced to a standard model, the request is reviewed and the price is
-      confirmed through a quotation.
+    text: "For complex schedules and multiple vehicles, we prepare a quote after reviewing routes and coordination needs."
 - key: confirmation
   heading:
     title: Price and availability are confirmed together
     intro: Submitting a request starts the review; it does not create an automatically confirmed booking.
-  body: After receiving the request we check availability, engagement details and the applicable pricing model. The booking
-    becomes confirmed only after manual confirmation from our team.
+  body: "After receiving your request, we check availability, journey details and pricing. Your price and booking are confirmed only when our team explicitly accepts them."
 faq:
   heading: Pricing FAQ
   items:
   - question: Is the airport transportation price per passenger or per vehicle?
     answer: The published airport fare is shown per vehicle for the defined transfer between Belgrade Nikola Tesla Airport
       and Belgrade. Vehicle selection is matched to passengers and luggage before the booking is confirmed.
-  - question: Which Private Chauffeur tariffs are published?
-    answer: The page shows the supported time-based Private Chauffeur hire formats. Current duration, included distance and
-      the price of each format are read directly from the service and pricing data.
+  - question: "Which chauffeur hire rates are available?"
+    answer: "Hourly, half-day and full-day hire are listed, with the price and conditions beside each option."
   - question: Does hourly hire have a minimum duration?
-    answer: Yes. The current minimum duration is displayed directly beside the tariff format from the service data, so the
-      rule is not duplicated in page copy.
+    answer: "Yes. The minimum duration is shown beside the hourly rate."
   - question: What is included in half-day and full-day hire?
-    answer: Each option displays its duration and included distance from the current Private Chauffeur service data. If the
-      plan falls outside the standard scope, the request moves to review and an individual quotation.
+    answer: "Both options show the duration and included distance. If your plans fall outside those limits, we prepare a tailored quote."
   - question: Do you show a per-kilometre price on this page?
-    answer: 'No. The public pricing page shows only models directly tied to supported catalogue services: airport transportation
-      and time-based Private Chauffeur hire. Other requests use an estimate or individual quotation according to the rules
-      of the specific service.'
+    answer: "No. Published prices cover airport transfers and time-based chauffeur hire. Other requests receive an estimate or a tailored quote, depending on the service."
   - question: How is business transportation priced?
     answer: Simpler business requests can be estimated when the available details are sufficient. More complex schedules,
       recurring engagements, delegations and conference programmes are confirmed through an individual quotation.
   - question: Do weddings, prom and VIP transportation have fixed packages?
-    answer: We do not display a fixed package without a verified basis. Pricing follows the actual plan, vehicles and required
-      coordination, then is confirmed through an individual quotation.
+    answer: "Weddings, proms and VIP travel receive a tailored quote based on the schedule, vehicles and coordination required."
   - question: When is the final price confirmed?
-    answer: After you submit a request, our team checks availability, journey details and the applicable pricing model. The
-      price and booking become confirmed only after manual confirmation.
+    answer: "Once our team has checked availability and journey details and sent you confirmation of the price and booking. Submitting a request alone does not confirm either."
 finalCta:
-  heading: Know what you need?
-  text: Send the essential ride or engagement details. We will check availability, apply the correct pricing model and confirm
-    the next step.
+  heading: "Send your journey details"
+  text: "Share the date, route, passenger count and preferred vehicle. We will check availability and send the applicable price or a tailored quote."
   primaryCta:
-    label: Book a Ride
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking

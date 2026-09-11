@@ -11,6 +11,11 @@ lhci-reports
 .vercel
 .netlify
 
+# Local credentials; keep documented examples trackable.
+.env
+.env.*
+!.env.example
+
 # Design-governance local/ephemeral state
 .design/.cache/
 .design/*.tmp
