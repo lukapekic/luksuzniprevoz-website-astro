@@ -1,0 +1,134 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+import Link from "../../foundation/ui/Link.astro";
+import PricingRateGroup from "./PricingRateGroup.astro";
+import type {
+  PricingRateRow,
+  PricingRouteAction,
+  PricingTariffGroup,
+} from "./pricing.types.ts";
+
+interface Props {
+  heading: string;
+  intro?: string;
+  airport: {
+    label: string;
+    heading: string;
+    fact: string;
+    rows: PricingRateRow[];
+    action: PricingRouteAction;
+  };
+  chauffeur: {
+    label: string;
+    heading: string;
+    note: string;
+    groups: PricingTariffGroup[];
+    action: PricingRouteAction;
+  };
+  locale: LocaleCode;
+}
+
+const { heading, intro, airport, chauffeur, locale } = Astro.props;
+
+if (chauffeur.groups.length !== 3) {
+  throw new Error("Published Pricing requires exactly three Private Chauffeur groups.");
+}
+---
+
+<Section spacing="standard" aria-labelledby="published-pricing-heading">
+  <PageContainer>
+    <div class="pricing-rate-family__heading">
+      <SectionHeading
+        id="published-pricing-heading"
+        {heading}
+        description={intro}
+        accent={true}
+      />
+    </div>
+
+    <div
+      class="pricing-surface mt-[var(--space-10)] p-[var(--space-6)] lg:p-[var(--space-12)]"
+      data-pricing-surface="airport"
+    >
+      <PricingRateGroup
+        id="airport"
+        heading={airport.heading}
+        fact={airport.fact}
+        status={airport.label}
+        rows={airport.rows}
+        action={airport.action}
+        isFirst={true}
+        {locale}
+      />
+    </div>
+  </PageContainer>
+</Section>
+
+<Section
+  id="private-chauffeur"
+  spacing="standard"
+  aria-labelledby="private-chauffeur-pricing-heading"
+  class="scroll-mt-[var(--space-24)]"
+>
+  <PageContainer>
+    <div class="pricing-rate-family__heading">
+      <p class="pricing-rate-family__label">{chauffeur.label}</p>
+      <SectionHeading
+        id="private-chauffeur-pricing-heading"
+        heading={chauffeur.heading}
+        description={chauffeur.note}
+        accent={true}
+      />
+    </div>
+
+    <div
+      class="pricing-surface mt-[var(--space-10)] p-[var(--space-6)] lg:p-[var(--space-12)]"
+      data-pricing-surface="chauffeur"
+    >
+      {chauffeur.groups.map((group, index) => (
+        <PricingRateGroup
+          heading={group.heading}
+          fact={group.fact}
+          status={group.status}
+          rows={group.rows}
+          headingLevel={3}
+          isFirst={index === 0}
+          {locale}
+        />
+      ))}
+
+      <Link
+        variant="on-light"
+        to={chauffeur.action.to}
+        {locale}
+        class="mt-[var(--space-8)]"
+      >
+        {chauffeur.action.label}
+      </Link>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .pricing-rate-family__heading {
+    max-inline-size: var(--measure-wide);
+  }
+
+  .pricing-rate-family__label {
+    margin-block-end: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: var(--color-text-muted);
+  }
+
+  .pricing-surface {
+    border-radius: var(--radius-section);
+    background: var(--color-surface-light);
+    color: var(--color-text-on-light);
+  }
+</style>

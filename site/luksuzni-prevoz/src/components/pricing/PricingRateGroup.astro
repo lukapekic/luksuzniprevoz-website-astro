@@ -1,0 +1,171 @@
+---
+import type { LocaleCode } from "@astro-foundation/core";
+import Link from "../../foundation/ui/Link.astro";
+import type { PricingRateRow, PricingRouteAction } from "./pricing.types.ts";
+
+interface Props {
+  id?: string;
+  heading: string;
+  fact?: string;
+  status: string;
+  rows: PricingRateRow[];
+  headingLevel?: 3 | 4;
+  isFirst?: boolean;
+  action?: PricingRouteAction;
+  locale: LocaleCode;
+}
+
+const {
+  id,
+  heading,
+  fact,
+  status,
+  rows,
+  headingLevel = 3,
+  isFirst = false,
+  action,
+  locale,
+} = Astro.props;
+
+if (rows.length === 0) {
+  throw new Error(`PricingRateGroup "${heading}" requires canonical rows.`);
+}
+
+const HeadingTag = headingLevel === 4 ? "h4" : "h3";
+const headingId = id ? `${id}-heading` : undefined;
+---
+
+<section
+  id={id}
+  aria-labelledby={headingId}
+  data-pricing-rate-group
+  class:list={[
+    "pricing-rate-group xl:grid-cols-[5fr_7fr] xl:gap-[var(--space-10)]",
+    isFirst && "pricing-rate-group--first",
+  ]}
+>
+  <div class="pricing-rate-group__meta">
+    <p class="pricing-rate-group__status">{status}</p>
+    <HeadingTag id={headingId} class="pricing-rate-group__heading">{heading}</HeadingTag>
+    {fact && <p class="pricing-rate-group__fact">{fact}</p>}
+    {action && (
+      <Link variant="on-light" to={action.to} {locale} class="mt-[var(--space-4)]">
+        {action.label}
+      </Link>
+    )}
+  </div>
+
+  <ul role="list" class="pricing-rate-group__rows">
+    {rows.map((row) => (
+      <li class="pricing-rate-row" data-vehicle-id={row.vehicleId}>
+        <span class="pricing-rate-row__vehicle">{row.displayName}</span>
+        <span class="pricing-rate-row__money">
+          <strong>{row.formattedPrice}</strong>
+          <span>{row.unit}</span>
+        </span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .pricing-rate-group {
+    --pricing-rate-divider: color-mix(
+      in oklab,
+      var(--color-text-on-light),
+      var(--color-surface-light) 82%
+    );
+    display: grid;
+    gap: var(--space-8);
+    scroll-margin-block-start: var(--space-24);
+    padding-block: var(--space-10);
+    border-block-start: 1px solid var(--pricing-rate-divider);
+  }
+
+  .pricing-rate-group--first {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
+  .pricing-rate-group__meta {
+    min-inline-size: 0;
+    align-self: start;
+  }
+
+  .pricing-rate-group__status {
+    width: fit-content;
+    margin-block-end: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 28%);
+  }
+
+  .pricing-rate-group__heading {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-text-on-light);
+  }
+
+  .pricing-rate-group__fact {
+    max-inline-size: var(--measure-body);
+    margin-block-start: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+
+  .pricing-rate-group__rows {
+    min-inline-size: 0;
+    border-block-start: 1px solid var(--pricing-rate-divider);
+  }
+
+  .pricing-rate-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-4);
+    min-block-size: var(--space-16);
+    align-items: center;
+    border-block-end: 1px solid var(--pricing-rate-divider);
+    padding-block: var(--space-3);
+  }
+
+  .pricing-rate-row__vehicle {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    color: var(--color-text-on-light);
+  }
+
+  .pricing-rate-row__money {
+    display: grid;
+    min-inline-size: max-content;
+    justify-items: end;
+    gap: var(--space-1);
+    text-align: end;
+  }
+
+  .pricing-rate-row__money strong {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-ui);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-on-light);
+  }
+
+  .pricing-rate-row__money span {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 42%);
+  }
+
+</style>

@@ -26,18 +26,18 @@ test.describe("Airport Transportation", () => {
     page,
   }) => {
     await page.goto("/en/airport-transportation/");
-    await expect(page.getByText("Flight number (optional)")).toBeVisible();
+    await expect(page.getByLabel("Flight number")).toBeVisible();
     await expect(
       page.getByText(
         "Flight tracking, meet and greet, and standard waiting after landing: 60 min.",
       ),
     ).toBeVisible();
-    await expect(page.getByText("At least 5 years of driving experience")).toBeVisible();
+    await expect(page.getByText("Driving licence held for at least 5 yr")).toBeVisible();
     await expect(page.locator('input[name="date"]')).toHaveAttribute("required", "");
     await expect(page.locator('input[name="time"]')).toHaveAttribute("required", "");
     const form = page.locator("#airport-booking form");
     await expect(form).toHaveAttribute("method", "get");
-    await expect(form).toHaveAttribute("action", "/en/contact/");
+    await expect(form).toHaveAttribute("action", "/en/booking/?intent=booking&service=airportTransportation");
     await expect(form.locator('button[type="submit"]')).toHaveCount(1);
     await expect(form.locator('input[name="service"]')).toHaveValue("airportTransportation");
     await expect(page.getByText("Airport fare")).toHaveCount(4);

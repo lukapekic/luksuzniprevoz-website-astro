@@ -7,11 +7,12 @@
  */
 import type { ImageMetadata } from "astro";
 import { fleetModelDisplayNames, type VehicleId } from "./fleet.ts";
-import skodaSuperb from "../assets/fleet/skoda-superb.webp";
-import mercedesEClass from "../assets/fleet/mercedes-e.webp";
-import mercedesSClass from "../assets/fleet/mercedes-s.webp";
-import mercedesVClass from "../assets/fleet/mercedes-v.webp";
-import mercedesSprinter from "../assets/fleet/mercedes-sprinter.webp";
+import skodaSuperb from "../assets/fleet/original/superb/left-facing.webp";
+import skodaKodiaq from "../assets/fleet/original/kodiaq/left-facing.webp";
+import mercedesEClass from "../assets/fleet/original/e-class/left-facing.webp";
+import mercedesSClass from "../assets/fleet/original/s-class/left-facing.webp";
+import mercedesVClass from "../assets/fleet/original/v-class/left-facing.webp";
+import mercedesSprinter from "../assets/fleet/original/sprinter/left-facing.webp";
 
 export interface HomepageFleetEntry {
   /** Representative canonical record supplying vehicle class and media lookup. */
@@ -41,11 +42,12 @@ export const homepageFleetEntries = [
 /**
  * Both canonical V-Class configurations relate to the same exterior-model
  * photograph, although only one generic V-Class card renders on the Homepage.
- * Vito remains null and is omitted from that showcase. The unrelated Kodiaq
- * asset is intentionally not mapped to a canonical vehicle.
+ * Vito remains null and is omitted from that showcase. Kodiaq has canonical
+ * compact media available but is not added to the locked Homepage sequence.
  */
 export const homepageFleetMedia: Record<VehicleId, ImageMetadata | null> = {
   "skoda-superb": skodaSuperb,
+  "skoda-kodiaq": skodaKodiaq,
   "mercedes-e-class": mercedesEClass,
   "mercedes-v-class-6-plus-1-extra-long": mercedesVClass,
   "mercedes-v-class-7-plus-1-extra-long": mercedesVClass,

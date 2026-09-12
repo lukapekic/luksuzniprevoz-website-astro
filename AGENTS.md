@@ -340,6 +340,10 @@ All skills live directly in `.skills/`.
 - `tailwind-v4.md` — all Tailwind CSS work and v4 anti-regression rules.
 - `multilingual-routing.md` — locale routing, slugs, hreflang, breadcrumbs, switching, parity.
 
+## Content / editorial
+
+- `content-quality-review.md` — audit, proposal, and authorized improvement of localized website copy before final SEO review.
+
 ## Design / UI
 
 - `design-governance.md` — deterministic production-UI entry/exit workflow.

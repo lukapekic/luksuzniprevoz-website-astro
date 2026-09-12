@@ -1,0 +1,17 @@
+{
+  "fleet.class.suv": "SUV",
+  "fleet.navigator.ariaLabel": "Kategorije vozila",
+  "fleet.navigator.sedans": "Limuzine",
+  "fleet.navigator.suv": "SUV",
+  "fleet.navigator.vans": "Vanovi",
+  "fleet.navigator.groupTransport": "Grupni prevoz",
+  "fleet.profile.bestFor": "Najbolje za",
+  "fleet.profile.passengerCapacity": "Kapacitet putnika",
+  "fleet.profile.vehicleClass": "Klasa vozila",
+  "fleet.profile.configurations": "Konfiguracije usluge",
+  "fleet.profile.quoteOnly": "Cena na upit",
+  "fleet.vClass.configuration.six": "Konfiguracija za 6 putnika",
+  "fleet.vClass.configuration.seven": "Konfiguracija za 7 putnika",
+  "fleet.page.modelAvailability": "Izbor konkretnog modela potvrđuje se uz proveru dostupnosti",
+  "fleet.page.luggageNote": "Broj putnika i količina prtljaga proveravaju se zajedno pri izboru vozila"
+}

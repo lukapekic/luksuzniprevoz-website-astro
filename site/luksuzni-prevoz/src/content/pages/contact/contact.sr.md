@@ -4,22 +4,22 @@ locale: sr
 pageType: contact
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-28
+reviewedOn: 2026-09-12
 noindex: false
 
-seoTitle: "Kontakt | Luxury Transportation Beograd"
-seoDescription: "Kontaktirajte Luxury Transportation za pitanja o luksuznom prevozu sa profesionalnim vozačem u Beogradu, uslugama i poslovnoj saradnji."
+seoTitle: "Kontakt za prevoz u Beogradu"
+seoDescription: "Kontaktirajte Luxury Transportation u Beogradu za informacije o prevozu, izboru vozila i ponudi. Telefon, e-mail, adresa kancelarije i radno vreme."
 
 h1: "Kontakt"
-intro: "Za pitanja o našim uslugama, organizaciji prevoza ili poslovnoj saradnji, obratite se našem timu u Beogradu."
+intro: "Za pitanja o uslugama i organizaciji prevoza obratite se našem timu u Beogradu."
 
 introSection:
   heading:
     title: "Direktan kontakt"
-  body: "Pozovite nas ili pošaljite e-poštu. Tokom radnog vremena odgovaramo pažljivo i bez automatizovanih potvrda koje bi mogle da stvore pogrešna očekivanja."
+  body: "Pozovite nas ili pošaljite e-mail za savet pri izboru usluge ili razgovor o poslovnoj saradnji."
 
 contact:
   source: contact-data
   formHeading: "Postavite pitanje"
-  formIntro: "Obrazac je pripremljen za vizuelni pregled. Slanje će biti omogućeno kada bezbedna obrada poruka bude povezana sa sajtom."
+  formIntro: "Opišite ukratko svoje pitanje i ostavite podatke putem kojih možemo da odgovorimo."
 ---

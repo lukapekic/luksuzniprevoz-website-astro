@@ -19,7 +19,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? [["github"], ["html"]] : "html",
   use: {
-    baseURL: "http://localhost:4321",
+    baseURL: "http://localhost:4323",
     trace: "on-first-retry",
   },
   projects: [
@@ -40,10 +40,12 @@ export default defineConfig({
     // Build first, then preview the static output. The default locale is
     // intentionally unprefixed, so the health check targets the canonical
     // root because the configured default locale is unprefixed.
-    command: "pnpm exec astro build && pnpm exec astro preview --port 4321",
-    url: "http://localhost:4321/",
+    command: "PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm exec astro build && pnpm exec astro preview --port 4323",
+    url: "http://localhost:4323/",
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
-    env: { ASTRO_TELEMETRY_DISABLED: "1" },
+    env: {
+      ASTRO_TELEMETRY_DISABLED: "1",
+    },
   },
 });

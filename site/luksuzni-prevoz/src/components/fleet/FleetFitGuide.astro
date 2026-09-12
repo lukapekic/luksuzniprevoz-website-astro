@@ -1,0 +1,131 @@
+---
+import Section from "../../foundation/ui/Section.astro";
+import PageContainer from "../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+
+interface Item {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  intro?: string;
+  body?: string;
+  items: readonly Item[];
+}
+
+const { heading, intro, body, items } = Astro.props;
+const headingId = "fleet-fit-guide-heading";
+---
+
+<Section spacing="feature" aria-labelledby={headingId}>
+  <PageContainer>
+    <div class="fit-guide">
+      <SectionHeading id={headingId} heading={heading} description={intro} on="light" />
+      {body && <p class="fit-guide__body">{body}</p>}
+      <ol class="fit-guide__items">
+        {items.map((item, index) => (
+          <li class="fit-guide__item">
+            <p class="fit-guide__marker" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </p>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .fit-guide {
+    padding: var(--space-7) var(--space-5);
+    border-radius: var(--radius-section);
+    background: var(--color-surface-light);
+    color: var(--color-text-on-light);
+  }
+
+  .fit-guide__body {
+    max-inline-size: var(--measure-body);
+    margin: var(--space-5) 0 0;
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+  }
+
+  .fit-guide__items {
+    display: grid;
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    border-block: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+    list-style: none;
+  }
+
+  .fit-guide__item {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+  }
+
+  .fit-guide__item + .fit-guide__item {
+    border-block-start: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+  }
+
+  .fit-guide__marker {
+    margin: 0;
+    color: var(--color-focus-light);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-ui);
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--color-text-on-light);
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+  }
+
+  .fit-guide__item > p:last-child {
+    margin: 0;
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+  }
+
+  @media (min-width: 64rem) {
+    .fit-guide {
+      padding: var(--space-12);
+    }
+
+    .fit-guide__items {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-block-end: 0;
+    }
+
+    .fit-guide__item {
+      padding: var(--space-6);
+    }
+
+    .fit-guide__item + .fit-guide__item {
+      border-block-start: 0;
+      border-inline-start: 1px solid color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 75%);
+    }
+
+    .fit-guide__item:first-child {
+      padding-inline-start: 0;
+    }
+
+    .fit-guide__item:last-child {
+      padding-inline-end: 0;
+    }
+  }
+</style>

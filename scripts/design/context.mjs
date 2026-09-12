@@ -24,7 +24,8 @@ try {
   const root = findRepoRoot();
   const config = loadConfig(root);
   const target = parsed.target ? normalizeTarget(root, parsed.target) : null;
-  if (target && !fs.existsSync(target))
+  const targetExists = target ? fs.existsSync(target) : false;
+  if (target && !targetExists && !parsed.planned)
     throw new Error(`Target does not exist: ${rel(root, target)}`);
   const active = resolveActiveTheme(root, config);
   const surface = resolveSurface(root, config, {
@@ -59,7 +60,7 @@ try {
   }
 
   const directImports = [];
-  if (target && fs.existsSync(target) && fs.statSync(target).isFile()) {
+  if (target && targetExists && fs.statSync(target).isFile()) {
     for (const imported of parseLocalImports(target)) directImports.push(rel(root, imported));
   }
 
@@ -90,6 +91,7 @@ try {
     project: config.project,
     repoRoot: root,
     target: target ? rel(root, target) : null,
+    targetStatus: target ? (targetExists ? "existing" : "planned") : null,
     surface,
     activeTheme: {
       directory: active.directory,
@@ -125,6 +127,11 @@ try {
     warnings: [
       ...(!system ? ["Missing .design/system.json — run pnpm design:sync."] : []),
       ...(system && !systemCurrent ? ["Stale .design/system.json — run pnpm design:sync."] : []),
+      ...(target && !targetExists
+        ? [
+            "Planned target has no imports yet — rerun design:context after scaffolding and before substantive UI editing.",
+          ]
+        : []),
       ...(surface && surfaceInfo?.blueprintRequired !== false && blueprints.length === 0
         ? [`No installed blueprint discovered for surface "${surface}".`]
         : []),

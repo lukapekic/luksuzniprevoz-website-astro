@@ -4,16 +4,16 @@ locale: sr
 pageType: home
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-17
+reviewedOn: 2026-09-12
 
-seoTitle: "Luxury Transportation | Privatni i poslovni prevoz"
-seoDescription: "Privatni prevoz sa profesionalnim vozačem u Beogradu za poslovne obaveze, aerodrom, događaje i svakodnevne potrebe. Vozilo i vozač, uz potvrdu rezervacije."
+seoTitle: "Luksuzni prevoz u Beogradu sa vozačem"
+seoDescription: "Luksuzni prevoz sa vozačem u Beogradu: aerodromski transferi, poslovna putovanja i posebne prilike. Izaberite vozilo i pošaljite plan putovanja."
 
 hero:
-  title: "Privatni prevoz sa profesionalnim vozačem"
-  description: "Za poslovne obaveze, aerodrom, posebne događaje i privatne vožnje u Beogradu — uz pažljivo koordinisan prevoz i vozilo prilagođeno vašim potrebama."
+  title: "Luksuzni prevoz sa vozačem"
+  description: "Profesionalni prevoz sa vozačem iz Beograda za aerodromske transfere, poslovna putovanja i posebne prilike. Vozilo i raspored biramo prema vašem putovanju."
   primaryCta:
-    label: "Rezerviši vožnju"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
@@ -22,7 +22,7 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: "Diskretna koordinacija i ručna potvrda za svaku vožnju — profesionalni vozač za poslovne, aerodromske, privatne i posebne događaje."
+  supportText: "Detalje svake vožnje potvrđuje naš tim."
 
 services:
   heading:
@@ -32,30 +32,30 @@ services:
     - routeKey: privateChauffeur
       title: "Privatni vozač"
       text: "Vozilo sa profesionalnim vozačem na sat, pola dana ili ceo dan."
-      ctaLabel: "Saznaj više"
+      ctaLabel: "Privatni vozač"
     - routeKey: airportTransportation
       title: "Aerodromski prevoz"
       text: "Doček na aerodromu, praćenje leta i direktan prevoz do željene adrese."
-      ctaLabel: "Saznaj više"
+      ctaLabel: "Aerodromski prevoz"
     - routeKey: businessTransportation
       title: "Poslovni prevoz"
       text: "Prevoz zaposlenih, rukovodilaca, gostiju, delegacija i poslovnih grupa."
-      ctaLabel: "Saznaj više"
+      ctaLabel: "Poslovni prevoz"
     - routeKey: specialEvents
-      title: "Specijalni događaji"
+      title: "Posebne prilike"
       text: "Organizovan prevoz za venčanja, mature, VIP potrebe i privatne događaje."
-      ctaLabel: "Saznaj više"
+      ctaLabel: "Prevoz za posebne prilike"
 
 flagshipFeature:
   heading:
     title: "Privatni vozač po vašem rasporedu"
-  body: "Rezervišite vozilo i profesionalnog vozača za obaveze tokom dana, više stanica ili sastanke po gradu. Usluga se prilagođava vašem planu u okviru izabranog perioda najma."
+  body: "Pošaljite zahtev za vozilo sa profesionalnim vozačem i navedite lokacije ili obaveze tokom dana. Najam se usklađuje sa vašim planom u okviru dogovorenog perioda."
   points:
-    - "Najam od jednog sata"
+    - "Najam prema trajanju putovanja"
     - "Poludnevni i celodnevni angažman"
-    - "Više stanica u okviru rezervisanog vremena"
+    - "Više lokacija u okviru rezervisanog vremena"
   cta:
-    label: "Pogledaj uslugu"
+    label: "Pogledajte uslugu"
     target:
       type: route
       routeKey: privateChauffeur
@@ -63,23 +63,23 @@ flagshipFeature:
 trust:
   heading:
     title: "Standard koji ostaje isti za svaku vožnju"
-    intro: "Od prvog kontakta do dolaska na odredište — ista pažnja prema vozaču, vozilu i koordinaciji."
+    intro: "Od prvog kontakta do dolaska vodimo računa o putniku, vozilu i dogovorenim detaljima."
   items:
     - title: "Profesionalni vozači"
-      text: "Vozači u odelu i kravati, sa iskustvom u poslovnom, privatnom i VIP prevozu."
+      text: "Vozači nose odelo i kravatu i prolaze internu obuku za rad sa putnicima, diskreciju i poznavanje ruta."
     - title: "Pažljivo održavana vozila"
-      text: "Vozila se redovno održavaju i pripremaju pre zahtevnijih i dužih angažmana."
+      text: "Vozila se održavaju u ovlašćenim ili zvaničnim servisima i dodatno proveravaju pre važnih vožnji."
     - title: "Diskretna koordinacija"
       text: "Jasna komunikacija, ručna potvrda rezervacije i podrška tima za složenije zahteve."
     - title: "Rezervno rešenje"
-      text: "Za potvrđene vožnje planira se odgovarajuća zamena vozila kada je to potrebno."
+      text: "Rezervno vozilo dostupno je po potrebi."
 
 fleet:
   heading:
     title: "Vozilo prema broju putnika i vrsti vožnje"
-    intro: "Od poslovnih limuzina do V klase i Sprintera za grupe."
+    intro: "Poslovne limuzine, Mercedes-Benz V-Class i Mercedes-Benz Sprinter za različite potrebe putovanja."
   cta:
-    label: "Pogledaj vozila"
+    label: "Pogledajte vozila"
     target:
       type: route
       routeKey: fleet
@@ -92,7 +92,7 @@ process:
     - title: "Pošaljite zahtev"
       text: "Unesite uslugu, datum, vreme, lokacije, broj putnika i željeno vozilo."
     - title: "Dobijate potvrdu"
-      text: "Naš tim proverava detalje i ručno potvrđuje dostupnost i rezervaciju."
+      text: "Naš tim proverava raspoloživost, usaglašava detalje i tek zatim potvrđuje rezervaciju."
     - title: "Vozač dolazi po dogovoru"
       text: "Dolazak je organizovan prema potvrđenom rasporedu i mestu preuzimanja."
 
@@ -100,13 +100,13 @@ reviews:
   heading:
     title: "Iskustva naših putnika"
     intro: "Pogledajte utiske korisnika na našem Google profilu."
-  externalProfileLabel: "Pogledaj Google recenzije"
+  externalProfileLabel: "Pogledajte Google recenzije"
 
 finalCta:
   heading: "Recite nam gde i kada putujete"
   text: "Izaberite uslugu i pošaljite detalje. Jednostavne vožnje mogu imati prikaz cene, dok za složenije zahteve pripremamo ponudu."
   primaryCta:
-    label: "Rezerviši"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking

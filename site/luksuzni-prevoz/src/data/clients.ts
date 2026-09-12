@@ -2,8 +2,8 @@
  * Client roster + display policy — FND-ARCH-03 / FND-TYPE-02.
  *
  * `displayPolicy` is route-coupled: its keys are `RouteKey`s (the original
- * semantic names map homepage→home, businessHub→businessTransportation,
- * about→about). Authored as typed TS so every placement is a compile-checked
+ * semantic names map homepage→home and businessHub→businessTransportation).
+ * Authored as typed TS so every placement is a compile-checked
  * RouteKey; a module-load guard asserts those keys are known routes (closes
  * the rename gap if types:generate isn't re-run after a route rename — same
  * posture as navigation.ts/services.ts).
@@ -17,17 +17,13 @@
  * usage rights are confirmed — consuming components gate public logo display
  * on per-client `logoStatus`, not just asset presence.
  */
-import type { RouteKey } from "@astro-foundation/core";
+import type { RouteKey, UiStringKey } from "@astro-foundation/core";
 import { routeMap } from "./routes.ts";
 
 // --- Enum vocabularies (typed unions) --------------------------------------
 
 export type ClientCategory =
-  | "hotel"
-  | "aviation"
-  | "diplomatic"
-  | "international-organisation"
-  | "sports-federation";
+  "hotel" | "aviation" | "diplomatic" | "international-organisation" | "sports-federation";
 
 /** Relationship context for a client (code, not prose). Extend as more arise. */
 export type ClientContext = "private-flight-related-transport";
@@ -53,6 +49,8 @@ export interface Client {
   /** Stable id; used as React/key and to match future logo assets. */
   id: string;
   displayName: string;
+  /** Localized institutional name; commercial brands keep their proper name. */
+  displayNameKey?: UiStringKey;
   category: ClientCategory;
   context?: ClientContext;
   /** Stable identifier into client-media.ts; null until an asset is provided. */
@@ -76,7 +74,6 @@ export const clientDisplayPolicy: ClientDisplayPolicy = {
     home: false,
     businessTransportation: true,
     delegationTransportation: true,
-    about: true,
   },
   logoPermissionShouldBeVerified: true,
 };
@@ -88,7 +85,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "president-palace-hotel",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
   {
     id: "hyatt-regency-belgrade",
@@ -96,7 +93,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "hyatt-regency",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
   {
     id: "qatar-airways",
@@ -105,10 +102,11 @@ export const clients: Client[] = [
     context: "private-flight-related-transport",
     logoAsset: "qatar-airways",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
   {
     id: "chinese-embassy",
+    displayNameKey: "clients.embassyChina",
     displayName: "Embassy of the People's Republic of China",
     category: "diplomatic",
     logoAsset: "chinese-embassy",
@@ -117,6 +115,7 @@ export const clients: Client[] = [
   },
   {
     id: "osce-mission-to-serbia",
+    displayNameKey: "clients.osce",
     displayName: "OSCE Mission to Serbia",
     category: "international-organisation",
     logoAsset: "osce",
@@ -125,6 +124,7 @@ export const clients: Client[] = [
   },
   {
     id: "serbian-swimming-federation",
+    displayNameKey: "clients.swimmingFederation",
     displayName: "Serbian Swimming Federation",
     category: "sports-federation",
     logoAsset: "serbian-swimming-association",
@@ -137,7 +137,7 @@ export const clients: Client[] = [
     category: "hotel",
     logoAsset: "square-nine-hotels",
     logoStatus: "approved-for-public-display",
-    placements: ["businessTransportation", "about"],
+    placements: ["businessTransportation"],
   },
 ];
 

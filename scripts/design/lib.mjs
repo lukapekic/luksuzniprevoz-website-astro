@@ -486,14 +486,14 @@ export function parseDesignArgs(argv) {
   };
   const targetOption = valueAfter("--target");
   const surface = valueAfter("--surface");
-  const consumed = new Set(["--json", "--strict", "--soft", "--target", "--surface"]);
+  const consumed = new Set(["--json", "--strict", "--soft", "--planned", "--target", "--surface"]);
   const positional =
     argv.find(
       (arg, index) => !arg.startsWith("--") && !(index > 0 && consumed.has(argv[index - 1])),
     ) ?? null;
   if (targetOption && positional)
     throw new Error("Pass the target either positionally or with --target, not both.");
-  return { target: targetOption ?? positional, surface };
+  return { target: targetOption ?? positional, surface, planned: argv.includes("--planned") };
 }
 
 export function firstExisting(root, candidates = []) {

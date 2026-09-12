@@ -49,7 +49,6 @@ Do not introduce competing primary Homepage CTAs.
 - No Homepage pricing table or large pricing preview.
 - No embedded booking form in the Hero.
 - No trusted-client logo wall on the Homepage.
-- No dedicated About teaser is required.
 - Google Reviews appear before FinalCTA.
 - All final text and interaction states must satisfy WCAG 2.2 AA.
 - Raw design values come from active Theme V2 JSON; do not duplicate old V1 theme values in page code.

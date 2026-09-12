@@ -1,0 +1,53 @@
+---
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface Stage { title: string; text: string }
+interface Props {
+  heading: string;
+  intro?: string;
+  body: string;
+  label: string;
+  stages: readonly [Stage, Stage, Stage, Stage, Stage];
+}
+
+const { heading, intro, body, label, stages } = Astro.props;
+---
+
+<Section spacing="standard" surface="open-dark" aria-labelledby="vip-itinerary-heading">
+  <PageContainer>
+    <div class="itinerary-intro">
+      <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+      <SectionHeading id="vip-itinerary-heading" {heading} description={intro} />
+      <p class="body-copy">{body}</p>
+    </div>
+
+    <ol class="itinerary-sequence">
+      {stages.map((stage, index) => (
+        <li>
+          <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <h3>{stage.title}</h3>
+          <p>{stage.text}</p>
+        </li>
+      ))}
+    </ol>
+  </PageContainer>
+</Section>
+
+<style>
+  .itinerary-intro { max-inline-size: var(--measure-body); min-inline-size: 0; }
+  .section-label { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-medium); color: var(--color-text-muted); }
+  .section-label span { inline-size: var(--space-8); block-size: 1px; background: var(--color-accent); }
+  .body-copy { margin-block: var(--space-5) 0; font-family: var(--font-body); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  .itinerary-sequence { display: grid; margin: var(--space-10) 0 0; padding: 0; border-block-start: 1px solid var(--color-divider); list-style: none; }
+  .itinerary-sequence li { min-inline-size: 0; padding-block: var(--space-6); border-block-end: 1px solid var(--color-divider); }
+  .itinerary-sequence li > span { font-family: var(--font-body); font-size: var(--text-caption); font-weight: var(--font-weight-semibold); color: var(--color-accent); }
+  h3 { margin-block-start: var(--space-4); overflow-wrap: anywhere; font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); }
+  li p { margin-block: var(--space-3) 0; overflow-wrap: anywhere; font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  @media (min-width: 64rem) {
+    .itinerary-sequence { grid-template-columns: repeat(6, minmax(0, 1fr)); border-inline-start: 1px solid var(--color-divider); }
+    .itinerary-sequence li { grid-column: span 2; padding: var(--space-7); border-inline-end: 1px solid var(--color-divider); }
+    .itinerary-sequence li:nth-child(n + 4) { grid-column: span 3; }
+  }
+</style>

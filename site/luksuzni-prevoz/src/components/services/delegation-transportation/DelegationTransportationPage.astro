@@ -148,7 +148,7 @@ if (
 const ui = (key: UiStringKey) => t(key, locale);
 const resolveAction = (cta: Cta): ResolvedAction => ({
   label: cta.label,
-  href: resolveCtaHref(cta, locale),
+  href: resolveCtaHref(cta, locale, { service: routeKey }),
 });
 
 const primaryAction = resolveAction(data.hero.primaryCta);
@@ -247,7 +247,7 @@ if (
 }
 const resolvedClients = approvedClientRecords.map((client) => {
   if (!client.logoAsset) throw new Error(`Approved Delegation client "${client.id}" has no logo.`);
-  return { id: client.id, displayName: client.displayName, logo: clientLogoMedia[client.logoAsset] };
+  return { id: client.id, displayName: client.displayNameKey ? ui(client.displayNameKey) : client.displayName, logo: clientLogoMedia[client.logoAsset] };
 });
 const institutionalClients = [resolvedClients[0]!, resolvedClients[1]!, resolvedClients[2]!] as const;
 

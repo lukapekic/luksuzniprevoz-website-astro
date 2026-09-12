@@ -1,0 +1,86 @@
+---
+import SectionHeading from "../../foundation/ui/SectionHeading.astro";
+
+interface PricingModelItem {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  heading: string;
+  intro?: string;
+  items: readonly PricingModelItem[];
+}
+
+const { heading, intro, items } = Astro.props;
+
+if (items.length !== 3) {
+  throw new Error("Pricing Models requires exactly three localized models.");
+}
+---
+
+<section class="pricing-models" aria-labelledby="pricing-models-heading">
+  <SectionHeading
+    id="pricing-models-heading"
+    {heading}
+    description={intro}
+    on="light"
+    accent={true}
+  />
+  <ol class="pricing-models__list lg:grid-cols-3">
+    {items.map((item, index) => (
+      <li
+        class:list={[
+          "border-t border-[var(--pricing-model-divider)] pt-[var(--space-5)] lg:border-t-0 lg:pt-0",
+          index > 0 && "lg:border-s lg:ps-[var(--space-8)]",
+        ]}
+      >
+        <p class="pricing-models__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
+        <h3>{item.title}</h3>
+        <p>{item.text}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .pricing-models {
+    --pricing-model-divider: color-mix(
+      in oklab,
+      var(--color-text-on-light),
+      var(--color-surface-light) 76%
+    );
+  }
+
+  .pricing-models__list {
+    display: grid;
+    gap: var(--space-8);
+    margin-block-start: var(--space-10);
+  }
+
+  .pricing-models__number {
+    margin-block-end: var(--space-6);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-ui);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 42%);
+  }
+
+  .pricing-models__list h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-text-on-light);
+  }
+
+  .pricing-models__list li > p:last-child {
+    margin-block-start: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+    color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%);
+  }
+</style>

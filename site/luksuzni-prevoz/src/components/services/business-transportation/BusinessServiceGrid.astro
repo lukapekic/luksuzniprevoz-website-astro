@@ -1,7 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import type { LocaleCode } from "@astro-foundation/core";
+import { getRoute } from "../../../data/routes.ts";
+import { resolveFlowHref } from "../../../lib/cta.ts";
+import { t } from "../../../lib/i18n.ts";
+import type { BookingServiceKey } from "../../../data/booking.ts";
 import Section from "../../../foundation/ui/Section.astro";
 import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
@@ -9,7 +13,7 @@ import Link from "../../../foundation/ui/Link.astro";
 
 interface ServiceItem {
   index: string;
-  routeKey: RouteKey;
+  routeKey: BookingServiceKey;
   title: string;
   text: string;
   ctaLabel: string;
@@ -63,7 +67,11 @@ const { heading, intro, label, items, locale } = Astro.props;
               <ul class="capabilities" role="list">
                 {item.capabilities.map((capability) => <li>{capability}</li>)}
               </ul>
-              <Link variant="default" to={item.routeKey} {locale}>{item.ctaLabel}<span aria-hidden="true">→</span></Link>
+              {getRoute(item.routeKey).availability === "published" ? (
+                <Link variant="default" to={item.routeKey} {locale}>{item.ctaLabel}<span aria-hidden="true">→</span></Link>
+              ) : (
+                <Link variant="default" href={resolveFlowHref("quote", locale, { service: item.routeKey })} {locale}>{t("business.serviceEnquiry", locale)}<span aria-hidden="true">→</span></Link>
+              )}
             </div>
           </article>
         </li>

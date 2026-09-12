@@ -1,0 +1,644 @@
+import { defineSeoResearchConfig } from "@astro-foundation/seo-research";
+
+// Research settings and editorial targets; execution is explicit and read-only.
+export const config = defineSeoResearchConfig({
+  schemaVersion: 1,
+  provider: {
+    kind: "valueserp",
+    apiKeyEnv: "VALUESERP_API_KEY",
+  },
+  limits: {
+    maxQueriesPerRun: 12,
+    maxOrganicResultsPerQuery: 20,
+    maxCompetitorPagesPerQuery: 3,
+    maxPagesPerDomain: 1,
+    requestTimeoutMs: 20000,
+    maxResponseBytes: 1000000,
+    cacheTtlHours: 24,
+  },
+  competitors: [
+    {
+      name: "Belgrade Chauffeur",
+      domain: "belgradechauffeur.com",
+    },
+    {
+      name: "Lider Limo",
+      domain: "liderlimo.rs",
+    },
+    {
+      name: "VIP Transfer Tija",
+      domain: "viptransfer.rs",
+    },
+    {
+      name: "Pantas Limo",
+      domain: "pantas.rs",
+    },
+    {
+      name: "Transfers in Belgrade",
+      domain: "transfersinbelgrade.com",
+    },
+    {
+      name: "Transfers.rs",
+      domain: "transfers.rs",
+    },
+    {
+      name: "Transfer Gaja",
+      domain: "transfergaja.rs",
+    },
+  ],
+  targets: [
+    {
+      routeKey: "home",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "luksuzni prevoz Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "luxury chauffeur Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "автомобиль с водителем Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "airportTransportation",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "aerodromski prevoz Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation", "Aerodrom Nikola Tesla"],
+        },
+        en: {
+          primaryKeyword: "Belgrade airport transfer",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation", "Nikola Tesla Airport"],
+        },
+        ru: {
+          primaryKeyword: "трансфер из аэропорта Белграда",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation", "аэропорт Никола Тесла"],
+        },
+      },
+    },
+    {
+      routeKey: "privateChauffeur",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "privatni vozač Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "private chauffeur Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "личный водитель Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "businessTransportation",
+      intent: "transactional",
+      includeNonIndexable: true,
+      locales: {
+        sr: {
+          primaryKeyword: "poslovni prevoz Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "business transportation Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "деловой трансфер Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "corporateTransportation",
+      intent: "transactional",
+      includeNonIndexable: true,
+      locales: {
+        sr: {
+          primaryKeyword: "korporativni prevoz Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "corporate chauffeur Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "корпоративный транспорт Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "delegationTransportation",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "prevoz delegacija Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "delegation transportation Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "транспорт для делегаций Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "conferenceCongressTransportation",
+      intent: "transactional",
+      includeNonIndexable: true,
+      locales: {
+        sr: {
+          primaryKeyword: "prevoz za konferencije Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "conference transportation Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "транспорт для конференций Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "specialEvents",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "prevoz za posebne prilike Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "event transportation Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "транспорт на мероприятия Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "weddingTransportation",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "iznajmljivanje vozila sa vozačem za svadbe Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "wedding car hire Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "аренда авто на свадьбу Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "promTransportation",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "iznajmljivanje limuzina za maturu Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "prom car hire Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "авто на выпускной Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "vipTransportation",
+      intent: "transactional",
+      locales: {
+        sr: {
+          primaryKeyword: "VIP prevoz Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "VIP transfer Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "VIP трансфер Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "fleet",
+      intent: "commercial",
+      locales: {
+        sr: {
+          primaryKeyword: "iznajmljivanje vozila sa vozačem Beograd",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "chauffeur cars Belgrade",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "автопарк с водителем Белград",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "pricing",
+      intent: "commercial",
+      locales: {
+        sr: {
+          primaryKeyword: "limo servis Beograd cenovnik",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "Belgrade chauffeur prices",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "аренда авто с водителем Белград цены",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+    {
+      routeKey: "contact",
+      intent: "navigational",
+      locales: {
+        sr: {
+          primaryKeyword: "Luxury Transportation Beograd kontakt",
+          search: {
+            languageCode: "sr",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Beograd", "Luxury Transportation"],
+        },
+        en: {
+          primaryKeyword: "Luxury Transportation Belgrade contact",
+          search: {
+            languageCode: "en",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Belgrade", "Luxury Transportation"],
+        },
+        ru: {
+          primaryKeyword: "Luxury Transportation Белград контакты",
+          search: {
+            languageCode: "ru",
+            countryCode: "rs",
+            location: "Belgrade,Serbia",
+            googleDomain: "google.rs",
+            device: "desktop",
+            numResults: 20,
+          },
+          entities: ["Белград", "Luxury Transportation"],
+        },
+      },
+    },
+  ],
+});
+
+export default config;

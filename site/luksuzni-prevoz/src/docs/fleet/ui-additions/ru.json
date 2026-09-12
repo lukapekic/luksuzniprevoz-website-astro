@@ -1,0 +1,17 @@
+{
+  "fleet.class.suv": "SUV",
+  "fleet.navigator.ariaLabel": "Категории автомобилей",
+  "fleet.navigator.sedans": "Седаны",
+  "fleet.navigator.suv": "SUV",
+  "fleet.navigator.vans": "Минивэны",
+  "fleet.navigator.groupTransport": "Групповые перевозки",
+  "fleet.profile.bestFor": "Лучше всего подходит для",
+  "fleet.profile.passengerCapacity": "Вместимость пассажиров",
+  "fleet.profile.vehicleClass": "Класс автомобиля",
+  "fleet.profile.configurations": "Конфигурации услуги",
+  "fleet.profile.quoteOnly": "Цена по запросу",
+  "fleet.vClass.configuration.six": "Конфигурация для 6 пассажиров",
+  "fleet.vClass.configuration.seven": "Конфигурация для 7 пассажиров",
+  "fleet.page.modelAvailability": "Конкретная модель подтверждается после проверки доступности",
+  "fleet.page.luggageNote": "Количество пассажиров и багажа учитываются вместе при выборе автомобиля"
+}

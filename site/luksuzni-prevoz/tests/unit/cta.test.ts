@@ -3,10 +3,23 @@ import { describe, it } from "node:test";
 import { resolveCtaHref, resolveFlowHref, type Cta } from "../../src/lib/cta.ts";
 
 describe("CTA resolution", () => {
-  it("keeps booking and quote intents distinct on localized Contact routes", () => {
-    assert.equal(resolveFlowHref("booking", "sr"), "/kontakt/?intent=booking");
-    assert.equal(resolveFlowHref("booking", "en"), "/en/contact/?intent=booking");
-    assert.equal(resolveFlowHref("quote", "ru"), "/ru/kontakty/?intent=quote");
+  it("keeps booking and quote intents distinct on localized Booking routes", () => {
+    assert.equal(resolveFlowHref("booking", "sr"), "/rezervacija/?intent=booking");
+    assert.equal(resolveFlowHref("booking", "en"), "/en/booking/?intent=booking");
+    assert.equal(resolveFlowHref("quote", "ru"), "/ru/bronirovanie/?intent=quote");
+    assert.equal(
+      resolveFlowHref("booking", "en", { service: "airportTransportation" }),
+      "/en/booking/?intent=booking&service=airportTransportation",
+    );
+  });
+
+  it("adds service context only when a concrete caller supplies it", () => {
+    const cta: Cta = { label: "Book", target: { type: "flow", flowKey: "booking" } };
+    assert.equal(resolveCtaHref(cta, "sr"), "/rezervacija/?intent=booking");
+    assert.equal(
+      resolveCtaHref(cta, "sr", { service: "privateChauffeur" }),
+      "/rezervacija/?intent=booking&service=privateChauffeur",
+    );
   });
 
   it("preserves canonical route and same-document anchor behavior", () => {

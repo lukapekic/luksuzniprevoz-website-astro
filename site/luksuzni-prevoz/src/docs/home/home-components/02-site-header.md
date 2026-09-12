@@ -86,3 +86,13 @@ Menu panel:
 - ESC close where implemented
 - restore focus to trigger
 - no hidden child links behind accordion by default
+
+
+### Route availability correction (2026-09-11)
+
+The navigation projection excludes unpublished route destinations. It preserves
+published hub entries, branch order, localized labels, all header props and
+keyboard behavior. Canonical children remain in service data and the business
+hub cards; gated cards use the documented enquiry destination. All header
+consumers receive this correction through the shared navigation data, with no
+visual component API migration.

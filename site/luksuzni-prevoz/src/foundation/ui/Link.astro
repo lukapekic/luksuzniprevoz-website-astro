@@ -44,6 +44,8 @@ interface Props {
   hreflang?: string;
   /** Explicit lang (forwarded by LanguageSwitcher for alternate-locale links) */
   lang?: string;
+  /** Current-page/current-step semantics for navigation links */
+  ariaCurrent?: "page" | "step" | "location" | "date" | "time" | "true";
 }
 
 const {
@@ -58,6 +60,7 @@ const {
   size,
   hreflang,
   lang,
+  ariaCurrent,
 } = Astro.props;
 
 // Build the resolved href
@@ -112,6 +115,7 @@ const classNames = linkVariants(
   rel={finalRel}
   hreflang={hreflangValue}
   lang={langValue}
+  aria-current={ariaCurrent}
   {...(shouldPrefetch && { "data-astro-prefetch": true })}
 >
   <slot />

@@ -1,0 +1,212 @@
+{
+  "airport-transportation": {
+    "en": {
+      "title": "Belgrade Airport Transfers",
+      "description": "Private transfers to and from Belgrade Nikola Tesla Airport, with flight tracking, a name-sign welcome and luggage assistance. View fares per vehicle."
+    },
+    "ru": {
+      "title": "Трансфер из аэропорта Белграда",
+      "description": "Индивидуальный трансфер из аэропорта Никола Тесла в Белград и обратно. Встреча с табличкой, отслеживание рейса и помощь с багажом. Цены за автомобиль."
+    },
+    "sr": {
+      "title": "Aerodromski prevoz Beograd",
+      "description": "Privatni prevoz između Aerodroma Nikola Tesla i Beograda. Praćenje leta, doček sa tablom sa imenom putnika i pomoć sa prtljagom. Pogledajte cene po vozilu."
+    }
+  },
+  "booking": {
+    "en": {
+      "title": "Request a Chauffeur Booking or Quote",
+      "description": "Send a chauffeur booking or quote request with your service, dates, journey and vehicle. Our team reviews the details and confirms your reservation."
+    },
+    "ru": {
+      "title": "Запрос на бронирование автомобиля с водителем",
+      "description": "Отправьте запрос на бронирование автомобиля с водителем: выберите услугу, дату, маршрут и машину. Наш сотрудник проверит детали и подтвердит заказ."
+    },
+    "sr": {
+      "title": "Zahtev za rezervaciju prevoza sa vozačem",
+      "description": "Pošaljite zahtev za prevoz sa vozačem: izaberite uslugu, datum, raspored i vozilo. Naš tim proverava detalje i lično potvrđuje rezervaciju."
+    }
+  },
+  "business-transportation": {
+    "en": {
+      "title": "Business Transport in Belgrade",
+      "description": "Business transport in Belgrade for companies, delegations and conferences. Coordinate passengers, schedules and multiple vehicles with a tailored quote."
+    },
+    "ru": {
+      "title": "Деловой транспорт в Белграде",
+      "description": "Деловой транспорт в Белграде для компаний, делегаций и конференций. Согласование пассажиров, расписания и нескольких автомобилей по вашему плану."
+    },
+    "sr": {
+      "title": "Poslovni prevoz putnika u Beogradu",
+      "description": "Poslovni prevoz putnika u Beogradu za kompanije, delegacije i konferencije. Koordinacija rasporeda i više vozila uz ponudu prema planu putovanja."
+    }
+  },
+  "conference-congress-transportation": {
+    "en": {
+      "title": "Conference Transport in Belgrade",
+      "description": "Conference and congress transport in Belgrade for airport arrivals, hotel transfers and venue shuttles. Request a quote based on your event schedule."
+    },
+    "ru": {
+      "title": "Транспорт для конференций в Белграде",
+      "description": "Транспорт для конференций и конгрессов в Белграде: встреча в аэропорту, трансферы из отелей и поездки к месту проведения по расписанию участников."
+    },
+    "sr": {
+      "title": "Prevoz za konferencije u Beogradu",
+      "description": "Organizacija prevoza za konferencije i kongrese u Beogradu: aerodromski dolasci, hoteli i prevoz do mesta događaja prema rasporedu učesnika."
+    }
+  },
+  "contact": {
+    "en": {
+      "title": "Contact Our Chauffeur Team in Belgrade",
+      "description": "Contact Luxury Transportation in Belgrade about chauffeur services, vehicle selection and quotes. Find our phone, email, office address and opening hours."
+    },
+    "ru": {
+      "title": "Контакты – автомобиль с водителем",
+      "description": "Свяжитесь с Luxury Transportation в Белграде по вопросам поездки, выбора автомобиля и стоимости. Телефон, email, адрес офиса и часы работы."
+    },
+    "sr": {
+      "title": "Kontakt za prevoz u Beogradu",
+      "description": "Kontaktirajte Luxury Transportation u Beogradu za informacije o prevozu, izboru vozila i ponudi. Telefon, e-mail, adresa kancelarije i radno vreme."
+    }
+  },
+  "corporate-transportation": {
+    "en": {
+      "title": "Corporate Chauffeur in Belgrade",
+      "description": "Corporate chauffeur service in Belgrade for executives and business guests. Arrange a single working day or recurring travel, with agreed billing terms."
+    },
+    "ru": {
+      "title": "Корпоративный транспорт в Белграде",
+      "description": "Корпоративный транспорт в Белграде для руководителей и деловых гостей. Разовые и регулярные поездки с согласованным расписанием и условиями оплаты."
+    },
+    "sr": {
+      "title": "Korporativni prevoz u Beogradu",
+      "description": "Korporativni prevoz za direktore i poslovne goste u Beogradu. Jedan poslovni dan ili redovna saradnja, uz dogovor o rasporedu, vozilu i fakturisanju."
+    }
+  },
+  "delegation-transportation": {
+    "en": {
+      "title": "Delegation Transport in Belgrade",
+      "description": "Delegation transport in Belgrade with a dedicated coordinator, multiple vehicles and an agreed schedule for airport arrivals, hotels and meetings."
+    },
+    "ru": {
+      "title": "Транспорт для делегаций в Белграде",
+      "description": "Транспорт для делегаций в Белграде: выделенный координатор, несколько автомобилей и согласованный график встреч, поездок из аэропорта и отеля."
+    },
+    "sr": {
+      "title": "Prevoz delegacija u Beogradu",
+      "description": "Prevoz delegacija u Beogradu uz namenskog koordinatora, više vozila i usaglašen raspored. Aerodrom, hotel i sastanci prema planu vaše posete."
+    }
+  },
+  "fleet": {
+    "en": {
+      "title": "Chauffeur Fleet in Belgrade",
+      "description": "Explore Mercedes-Benz S-Class, E-Class, V-Class and Sprinter, alongside Škoda Superb and Kodiaq. Choose a chauffeur vehicle to suit your passengers and trip."
+    },
+    "ru": {
+      "title": "Автопарк с водителем в Белграде",
+      "description": "Сравните Mercedes-Benz S-Class, E-Class, V-Class и Sprinter, а также Škoda Superb и Kodiaq. Выберите автомобиль с водителем для вашей группы и поездки."
+    },
+    "sr": {
+      "title": "Vozni park limo servisa u Beogradu",
+      "description": "Uporedite Mercedes-Benz S-Class, E-Class, V-Class i Sprinter, kao i Škoda Superb i Kodiaq. Izaberite vozilo sa vozačem prema putnicima i planu vožnje."
+    }
+  },
+  "home": {
+    "en": {
+      "title": "Luxury Chauffeur Service in Belgrade",
+      "description": "Luxury chauffeur service in Belgrade for airport transfers, business travel and special occasions. Explore the fleet and send us your travel plans."
+    },
+    "ru": {
+      "title": "Автомобиль с водителем в Белграде",
+      "description": "Автомобиль с водителем в Белграде для трансфера из аэропорта, деловых поездок и особых событий. Выберите машину и отправьте нам план поездки."
+    },
+    "sr": {
+      "title": "Luksuzni prevoz u Beogradu sa vozačem",
+      "description": "Luksuzni prevoz sa vozačem u Beogradu: aerodromski transferi, poslovna putovanja i posebne prilike. Izaberite vozilo i pošaljite plan putovanja."
+    }
+  },
+  "pricing": {
+    "en": {
+      "title": "Belgrade Chauffeur & Transfer Prices",
+      "description": "View Belgrade airport transfer fares per vehicle and chauffeur hire packages. Request a tailored quote for a complex itinerary or multiple vehicles."
+    },
+    "ru": {
+      "title": "Цены на трансферы и аренду с водителем",
+      "description": "Цены за автомобиль на трансферы из аэропорта Белграда и пакеты аренды с водителем. Для сложного маршрута или нескольких машин запросите отдельное предложение."
+    },
+    "sr": {
+      "title": "Cenovnik limo servisa u Beogradu",
+      "description": "Pogledajte cene aerodromskog prevoza po vozilu i pakete najma sa vozačem u Beogradu. Za složeniji raspored ili više vozila zatražite posebnu ponudu."
+    }
+  },
+  "private-chauffeur": {
+    "en": {
+      "title": "Private Chauffeur in Belgrade",
+      "description": "Hire a private chauffeur in Belgrade by the hour, day or for a longer trip. Plan several stops and agreed waiting time with your chosen vehicle."
+    },
+    "ru": {
+      "title": "Личный водитель в Белграде",
+      "description": "Аренда автомобиля с личным водителем в Белграде на несколько часов, день или несколько дней. Поездки по нескольким адресам и согласованное ожидание."
+    },
+    "sr": {
+      "title": "Lični vozač u Beogradu",
+      "description": "Najam vozila sa ličnim vozačem u Beogradu po satu, danu ili za višednevno putovanje. Više lokacija i čekanje prema dogovorenom rasporedu."
+    }
+  },
+  "prom-transportation": {
+    "en": {
+      "title": "Prom Car Hire in Belgrade",
+      "description": "Prom car hire in Belgrade for one passenger, a couple or a group of friends. Arrange a chauffeur, pickup point, photo stops and a planned return journey."
+    },
+    "ru": {
+      "title": "Автомобиль на выпускной в Белграде",
+      "description": "Автомобиль с водителем на выпускной в Белграде для одного пассажира, пары или компании друзей. Согласуйте место подачи, остановки для фото и возвращение."
+    },
+    "sr": {
+      "title": "Prevoz za maturu u Beogradu",
+      "description": "Organizovan prevoz za maturu u Beogradu, za pojedinca, par ili društvo. Usaglasite vozilo, mesto polaska, fotografisanje i povratak sa vozačem."
+    }
+  },
+  "special-events": {
+    "en": {
+      "title": "Special Occasion Transport in Belgrade",
+      "description": "Chauffeur transport for weddings, proms and VIP events in Belgrade. Choose the occasion and vehicle, then arrange arrival, waiting and the return journey."
+    },
+    "ru": {
+      "title": "Транспорт для особых событий в Белграде",
+      "description": "Автомобиль с водителем для свадьбы, выпускного или VIP-мероприятия в Белграде. Выберите услугу и согласуйте прибытие, ожидание и обратную поездку."
+    },
+    "sr": {
+      "title": "Prevoz za posebne prilike u Beogradu",
+      "description": "Prevoz sa vozačem za venčanja, mature i VIP događaje u Beogradu. Izaberite vrstu usluge i vozilo, pa usaglasite dolazak, čekanje i povratak."
+    }
+  },
+  "vip-transportation": {
+    "en": {
+      "title": "VIP Chauffeur Service in Belgrade",
+      "description": "Discreet VIP chauffeur service in Belgrade for guests and special events. Choose a Mercedes-Benz S-Class or V-Class and agree your travel details in advance."
+    },
+    "ru": {
+      "title": "VIP-трансфер в Белграде",
+      "description": "VIP-трансфер в Белграде для гостей и особых мероприятий. Mercedes-Benz S-Class или V-Class, профессиональный водитель и заранее согласованный маршрут."
+    },
+    "sr": {
+      "title": "VIP prevoz sa vozačem u Beogradu",
+      "description": "Diskretan VIP prevoz sa vozačem u Beogradu za goste i posebne događaje. Mercedes-Benz S-Class ili V-Class, uz raspored i detalje usaglašene unapred."
+    }
+  },
+  "wedding-transportation": {
+    "en": {
+      "title": "Wedding Car Hire in Belgrade",
+      "description": "Wedding car hire in Belgrade with a professional chauffeur. Plan the couple’s arrival, photo stops and travel between venues, with guest transport on request."
+    },
+    "ru": {
+      "title": "Автомобиль на свадьбу в Белграде",
+      "description": "Автомобиль с водителем на свадьбу в Белграде: прибытие молодожёнов, остановки для фотографий и поездки между площадками. Транспорт для гостей по запросу."
+    },
+    "sr": {
+      "title": "Vozilo sa vozačem za svadbu u Beogradu",
+      "description": "Vozilo sa vozačem za venčanje u Beogradu: dolazak mladenaca, fotografisanje i prevoz između lokacija. Dodatno vozilo za goste prema dogovoru."
+    }
+  }
+}

@@ -6,6 +6,7 @@ import {
   type ContactFormValues,
   type ContactValidationSchema,
 } from "./contact-form-validation.ts";
+import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
 
 export interface ContactFieldState {
   touched: boolean;
@@ -20,6 +21,12 @@ export interface ContactFormController {
   validateField: (field: ContactFormField) => ContactFormErrorCode | null;
   validateAll: () => ReturnType<typeof validateContactForm>;
   destroy: () => void;
+}
+
+interface FormApiResponse {
+  ok: boolean;
+  code?: "validation" | "bot_verification" | "rate_limited" | "service_unavailable" | "server_error";
+  reference?: string;
 }
 
 const fields: readonly ContactFormField[] = ["fullName", "email", "phone", "message"];
@@ -170,12 +177,108 @@ export function createContactFormController(
 
 const mountedForms = new WeakMap<HTMLFormElement, ContactFormController>();
 
+function renderSummary(form: HTMLFormElement, messages: string[]): void {
+  const summary = form.querySelector<HTMLElement>("[data-contact-error-summary]");
+  const list = form.querySelector<HTMLElement>("[data-contact-error-summary-list]");
+  if (!summary || !list) return;
+  list.replaceChildren(...[...new Set(messages)].map((message) => {
+    const item = document.createElement("li");
+    item.textContent = message;
+    return item;
+  }));
+  summary.hidden = messages.length === 0;
+  if (messages.length > 0) summary.focus();
+}
+
+function statusMessage(form: HTMLFormElement, key: string): string {
+  return form.dataset[key] ?? "";
+}
+
 export function mountContactForms(root: ParentNode = document): void {
   for (const form of Array.from(
     root.querySelectorAll<HTMLFormElement>("[data-contact-question-form]"),
   )) {
     if (mountedForms.has(form)) continue;
-    mountedForms.set(form, createContactFormController(form));
+    const controller = createContactFormController(form);
+    mountedForms.set(form, controller);
     form.dataset.validationReady = "true";
+
+    const status = form.querySelector<HTMLElement>("[role='status']");
+    const submit = form.querySelector<HTMLButtonElement>("[data-contact-submit] button");
+    const submitLabel = form.querySelector<HTMLElement>("[data-contact-submit-label]");
+    const turnstileContainer = form.querySelector<HTMLElement>("[data-contact-turnstile]");
+    const siteKey = form.dataset.turnstileSiteKey ?? "";
+    if (!status || !submit || !submitLabel || !turnstileContainer || !siteKey) {
+      if (status) status.textContent = statusMessage(form, "statusServiceUnavailable");
+      if (submit) submit.disabled = true;
+      continue;
+    }
+
+    const turnstile = createTurnstileController({
+      container: turnstileContainer,
+      siteKey,
+      action: "contact_submit",
+    });
+    void turnstile.render().catch(() => {
+      status.textContent = statusMessage(form, "statusServiceUnavailable");
+      submit.disabled = true;
+    });
+
+    let submissionId: string | null = null;
+    let completed = false;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (completed) return;
+      renderSummary(form, []);
+      const validation = controller.validateAll();
+      if (!validation.isValid) {
+        const messages = Object.values(validation.errors).map((code) => getMessages(form)[code]);
+        renderSummary(form, messages);
+        return;
+      }
+      const token = turnstile.getToken();
+      if (!token) {
+        status.textContent = statusMessage(form, "statusTurnstileRequired");
+        return;
+      }
+
+      submissionId ??= crypto.randomUUID();
+      submit.disabled = true;
+      submitLabel.textContent = statusMessage(form, "statusSubmitting");
+      status.textContent = statusMessage(form, "statusSubmitting");
+      try {
+        const response = await fetch(form.dataset.endpoint ?? "/api/forms/contact", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            submissionId,
+            locale: form.dataset.locale,
+            turnstileToken: token,
+            payload: validation.values,
+          }),
+        });
+        const body = await response.json() as FormApiResponse;
+        if (response.ok && body.ok && body.reference) {
+          status.textContent = `${statusMessage(form, "statusSuccess")} ${statusMessage(form, "statusReference").replace("{reference}", body.reference)}`;
+          completed = true;
+          submissionId = null;
+          return;
+        }
+        const statusKeys = {
+          bot_verification: "statusBotVerification",
+          rate_limited: "statusRateLimited",
+          service_unavailable: "statusServiceUnavailable",
+          server_error: "statusServerError",
+          validation: "statusServerError",
+        } as const;
+        status.textContent = statusMessage(form, statusKeys[body.code ?? "server_error"]);
+      } catch {
+        status.textContent = statusMessage(form, "statusServerError");
+      } finally {
+        turnstile.reset();
+        submit.disabled = completed;
+        submitLabel.textContent = statusMessage(form, "submitAction");
+      }
+    });
   }
 }

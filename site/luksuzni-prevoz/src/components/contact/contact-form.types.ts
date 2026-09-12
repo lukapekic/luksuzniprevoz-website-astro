@@ -13,8 +13,16 @@ export interface ContactFormCopy {
   phoneHint?: string;
   messageLabel: string;
   messageHint?: string;
-  unavailableAction: string;
-  unavailableStatus: string;
+  submitAction: string;
+  submittingStatus: string;
+  successStatus: string;
+  referenceStatus: string;
+  errorSummaryHeading: string;
+  botVerificationStatus: string;
+  rateLimitedStatus: string;
+  serviceUnavailableStatus: string;
+  serverErrorStatus: string;
+  turnstileRequiredStatus: string;
   errors: Record<ContactFormErrorCode, string>;
 }
 

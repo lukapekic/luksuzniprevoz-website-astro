@@ -35,23 +35,22 @@ test.describe("Private Chauffeur", () => {
   }) => {
     await page.goto(routePath("privateChauffeur", "en"));
 
-    await expect(page.getByText("From 1 h · Half day 5 h / 100 km")).toBeVisible();
-    await expect(page.getByText("Full day 10 h / 200 km · Multi-day by request")).toBeVisible();
-    await expect(page.getByText("At least 5 years of driving experience")).toBeVisible();
+    await expect(page.getByText("Hire from 1 h. Half day: 5 h and up to 100 km. Full day: 10 h and up to 200 km. Multi-day hire by request.")).toBeVisible();
+    await expect(page.getByText("Driving licence held for at least 5 yr")).toBeVisible();
     await expect(page.getByText("Confirmed requested vehicle model")).toBeVisible();
     await expect(page.getByText("Luggage assistance")).toBeVisible();
     await expect(page.getByText("Child seat on request")).toBeVisible();
     await expect(page.getByText("In-vehicle Wi-Fi · Climate control")).toBeVisible();
 
     const mainLinks = page.locator("main a");
-    const bookingHref = flowPath("booking", "en");
-    const quoteHref = flowPath("quote", "en");
+    const bookingHref = `${flowPath("booking", "en")}&service=privateChauffeur`;
+    const quoteHref = `${flowPath("quote", "en")}&service=privateChauffeur`;
     await expect(page.locator("[data-site-header]")).toHaveAttribute("data-over-hero", "true");
     await expect(page.locator(".service-hero__actions a")).toHaveCount(2);
     await expect(page.locator(".fcta-actions a")).toHaveCount(2);
     await expect(page.locator(".fcta-actions a").nth(0)).toHaveAttribute("href", bookingHref);
     await expect(page.locator(".fcta-actions a").nth(1)).toHaveAttribute("href", quoteHref);
-    await expect(mainLinks.filter({ hasText: "Book Private Chauffeur" }).first()).toHaveAttribute(
+    await expect(mainLinks.filter({ hasText: "Start your booking" }).first()).toHaveAttribute(
       "href",
       bookingHref,
     );
@@ -217,8 +216,9 @@ test.describe("Private Chauffeur", () => {
     const images = page.locator("main img");
     expect(await images.count()).toBeGreaterThanOrEqual(9);
     for (const image of await images.all()) {
-      expect(
-        await image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(
+        () => image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
       ).toBeGreaterThan(0);
     }
   });

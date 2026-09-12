@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "updatedOn": "2026-09-12",
+  "site": "luksuzni-prevoz",
+  "mode": "multilingual-content-seo-finalization",
+  "sourceLocale": "sr",
+  "reviewedLocales": [
+    "sr",
+    "en",
+    "ru"
+  ],
+  "stage": "complete-for-owner-review",
+  "productionContentChanged": true,
+  "releaseState": "all-content-routes-published-final-owner-review-pending",
+  "checkpoint": {
+    "resumeFrom": "FINAL-REVIEW.md",
+    "nextAgentAction": "Await the owner's final manual editorial review, then deploy with production robots and generated legacy redirects.",
+    "doNotProceedWithoutApproval": false,
+    "authorization": "Owner delegated editorial approval and implementation on 2026-09-11. Final owner review remains before publication."
+  },
+  "order": [
+    "fleet",
+    "pricing",
+    "booking",
+    "contact",
+    "privateChauffeur",
+    "airportTransportation",
+    "corporateTransportation",
+    "delegationTransportation",
+    "conferenceCongressTransportation",
+    "businessTransportation",
+    "weddingTransportation",
+    "promTransportation",
+    "vipTransportation",
+    "specialEvents",
+    "home"
+  ],
+  "routes": {
+    "fleet": {
+      "wave": 1,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/fleet.md"
+    },
+    "pricing": {
+      "wave": 1,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/pricing.md"
+    },
+    "booking": {
+      "wave": 1,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/booking.md"
+    },
+    "contact": {
+      "wave": 1,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/contact.md"
+    },
+    "privateChauffeur": {
+      "wave": 2,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/private-chauffeur.md"
+    },
+    "airportTransportation": {
+      "wave": 2,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/airport-transportation.md"
+    },
+    "corporateTransportation": {
+      "wave": 3,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/corporate-transportation.md"
+    },
+    "delegationTransportation": {
+      "wave": 3,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/delegation-transportation.md"
+    },
+    "conferenceCongressTransportation": {
+      "wave": 3,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/conference-congress-transportation.md"
+    },
+    "businessTransportation": {
+      "wave": 3,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/business-transportation.md"
+    },
+    "weddingTransportation": {
+      "wave": 4,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/wedding-transportation.md"
+    },
+    "promTransportation": {
+      "wave": 4,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/prom-transportation.md"
+    },
+    "vipTransportation": {
+      "wave": 4,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/vip-transportation.md"
+    },
+    "specialEvents": {
+      "wave": 4,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/special-events.md"
+    },
+    "home": {
+      "wave": 5,
+      "state": "implemented-and-AI-reviewed",
+      "report": "pages/home.md"
+    }
+  },
+  "corpusPass": {
+    "terminology": "completed",
+    "repetition": "completed",
+    "ctaIntegrity": "completed",
+    "sharedSerbianUi": "completed",
+    "seoHandoff": "completed",
+    "serbianLanguageResearch": "completed",
+    "proposalLanguageReview": "completed",
+    "freshSerbianSeoMarketResearch": "completed-14-of-14-targets",
+    "legacyUrlMigrationMap": "completed-33-direct-redirects"
+  },
+  "validation": {
+    "skillsValidate": "passed-final",
+    "routesValidate": "passed-final",
+    "contentValidate": "passed-final",
+    "seoValidate": "passed-final-45-of-45",
+    "siteCheck": "passed-final-0-errors-6-hints",
+    "siteBuild": "passed-final-49-pages",
+    "traceabilityCheck": "passed-final"
+  },
+  "currentExecution": "execution-status.json"
+}

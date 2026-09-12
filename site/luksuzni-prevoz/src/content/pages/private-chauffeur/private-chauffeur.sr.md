@@ -4,22 +4,22 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-28
+reviewedOn: 2026-09-12
 noindex: false
 
-seoTitle: "Privatni vozač Beograd | Luxury Transportation"
-seoDescription: "Privatni vozač u Beogradu sa vozilom iz naše flote, angažovan po satu, na pola ili ceo dan, uz više stanica i ručnu potvrdu rezervacije."
+seoTitle: "Lični vozač u Beogradu"
+seoDescription: "Najam vozila sa ličnim vozačem u Beogradu po satu, danu ili za višednevno putovanje. Više lokacija i čekanje prema dogovorenom rasporedu."
 
 hero:
-  title: "Privatni vozač u Beogradu"
-  description: "Izaberite vozilo iz naše flote sa profesionalnim vozačem koji ostaje uz vaš potvrđeni raspored — za kraći angažman, više obaveza ili ceo dan."
+  title: "Lični vozač u Beogradu"
+  description: "Vozilo iz naše flote i profesionalni vozač na raspolaganju tokom dogovorenog perioda. Povežite sastanke, privatne obaveze i planirane lokacije u jednu rezervaciju."
   primaryCta:
-    label: "Rezerviši privatnog vozača"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: "Zatraži ponudu"
+    label: "Zatražite ponudu"
     target:
       type: flow
       flowKey: quote
@@ -27,121 +27,121 @@ hero:
 overview:
   heading:
     title: "Više od vožnje između dve adrese"
-    intro: "Privatni vozač je usluga za dan u kojem se sve ne završava na jednom odredištu."
-  body: "Za razliku od klasičnog transfera, vozilo i vozač ostaju vezani za rezervisani period i potvrđeni plan. Vi određujete tok dana, a mi organizujemo kontinuitet između sastanaka, privatnih obaveza, ručka, večere ili naredne lokacije."
+    intro: "Lični vozač je usluga za dan u kojem se sve ne završava na jednom odredištu."
+  body: "Usluga uključuje vozilo i vozača tokom rezervisanog perioda. Za razliku od transfera do jednog odredišta, najam može obuhvatiti više lokacija i čekanje između obaveza, u skladu sa dogovorenim planom."
 
 sections:
   - key: hireOptions
     heading:
       title: "Odaberite angažman prema svom rasporedu"
-      intro: "Od kraće obaveze do celog dana sa više stanica, izaberite format koji odgovara načinu na koji planirate vreme."
-    body: "Tri formata angažovanja pokrivaju različite vrste rasporeda. Trajanje i uključena kilometraža prikazuju se iz važećih podataka usluge, dok sadržaj ispod pomaže da izaberete format prema načinu na koji planirate dan."
+      intro: "Od kraće obaveze do celog dana sa više lokacija, izaberite vrstu angažovanja koja odgovara vašem rasporedu."
+    body: "Uporedite trajanje i uključenu kilometražu, pa izaberite opciju koja najbolje prati vaš dan."
     items:
       - title: "Za kraći raspored"
         text: "Za sastanak, večeru, termin ili nekoliko obaveza kada želite da vozilo ostane uz vas između lokacija."
       - title: "Za organizovan deo dana"
-        text: "Za više sastanaka, obaveza i stanica koje treba povezati u jedan plan bez ponovnog organizovanja prevoza."
+        text: "Za više sastanaka, obaveza i lokacija koje treba povezati u jedan plan bez ponovnog organizovanja prevoza."
       - title: "Za ceo dan u pokretu"
         text: "Za gust dnevni raspored sa više lokacija, dužim pauzama i promenama tempa tokom dana."
 
   - key: timeRemainsYours
     heading:
       title: "Vaše vreme ostaje vaše"
-      intro: "Vreme provedeno između destinacija postaje deo dana koji možete da iskoristite, a ne još jedna obaveza koju morate da organizujete."
-    body: "Vreme između dve lokacije ne mora da bude izgubljeno vreme. Dok vozač vodi računa o putu, možete da radite, pripremite sledeći sastanak, obavite poziv, pročitate nešto ili jednostavno napravite pauzu pre naredne obaveze."
+      intro: "Između obaveza možete da nastavite sa svojim danom dok vozač vodi računa o putu."
+    body: "Vreme u vozilu možete iskoristiti za pripremu, poziv ili predah."
     items:
-      - title: "Radite između stanica"
-        text: "Poziv, priprema, e-pošta ili fokusiran rad ostaju mogući dok se krećete ka sledećoj lokaciji."
+      - title: "Radite između lokacija"
+        text: "Pripremite beleške ili obavite poziv na putu do sledećeg sastanka."
       - title: "Prepustite logistiku vozaču"
-        text: "Ne tražite parking, ne organizujete novo vozilo i ne objašnjavate plan iznova posle svake stanice."
+        text: "Vozač brine o parkingu i nastavku puta."
       - title: "Stignite spremni za nastavak dana"
-        text: "Vreme u vozilu koristite prema svojim potrebama, dok vozač vodi računa o putu i potvrđenom planu."
+        text: "Napravite pauzu između obaveza umesto da planirate sledeću vožnju."
 
   - key: oneChauffeurOneSchedule
     heading:
-      title: "Jedan vozač. Jedan raspored."
-      intro: "Povežite sastanke, privatne obaveze i planirane stanice u jedan potvrđeni angažman."
-    body: "Umesto nove rezervacije posle svake stanice, vozilo i vozač ostaju povezani sa potvrđenim planom tokom rezervisanog perioda. Tako se više tačaka dana organizuje kao jedan kontinuitet, a ne kao niz odvojenih vožnji."
+      title: "Više lokacija u jednom planu"
+      intro: "Povežite sastanke, privatne obaveze i planirane lokacije u jedan potvrđeni angažman."
+    body: "Pre polaska usaglašavamo lokacije i okvirno vreme zadržavanja. Promene tokom dana proveravamo prema raspoloživosti i rezervisanom periodu."
 
   - key: travelWithoutLosingDay
     heading:
       title: "Putujte bez gubljenja dana"
-    body: "Vozač već poznaje potvrđeni plan i ostaje povezan sa rasporedom, tako da se vreme i pažnja ne troše na ponovno organizovanje prevoza između svake obaveze."
+    body: "Dogovoren plan olakšava nastavak puta nakon svake obaveze."
     items:
       - title: "Nema traženja sledećeg vozila."
         text: "Prevoz je već deo potvrđenog plana."
-      - title: "Nema odluka o parkingu između stanica."
-        text: "Vozač preuzima logistiku dolaska i nastavka putovanja."
-      - title: "Ne ponavljate itinerer tokom dana."
+      - title: "Ne morate da tražite parking između obaveza."
+        text: "Vozač vodi računa o dolasku, parkingu i nastavku putovanja."
+      - title: "Plan je unapred usaglašen."
         text: "Potvrđene lokacije ostaju povezane u istom rasporedu."
       - title: "Vratite se u vozilo i nastavite."
         text: "Kada ste spremni za sledeću tačku, putovanje se nastavlja prema dogovoru."
 
   - key: passengerExperience
     heading:
-      title: "Mir kada vam je potreban. Spremni kada treba da krenete."
-      intro: "Između dve obaveze, kabina ostaje vaš prostor — bez potrebe da se bavite sledećom vožnjom."
-    body: "Dok ste između destinacija, zadnja kabina ostaje vaš prostor. Možete da radite, čitate, obavite poziv ili napravite pauzu, dok vozač vodi računa o vožnji i sledećoj tački potvrđenog rasporeda."
+      title: "Diskretna usluga tokom vašeg dana"
+      intro: "Pažnja prema putniku počinje profesionalnim i nenametljivim odnosom."
+    body: "Vozač vodi računa o vožnji i dogovorenim polascima, uz poštovanje vašeg vremena."
     items:
       - title: "Diskretna usluga"
         text: "Vozač vodi računa o putu bez nepotrebnog zadiranja u vaš prostor i vreme."
-      - title: "Privatan prostor pozadi"
-        text: "Kabina ostaje prostor za rad, čitanje, poziv ili predah između obaveza."
+      - title: "Predah između obaveza"
+        text: "Vreme u vozilu prilagodite svojim potrebama."
 
   - key: customEngagement
     heading:
       title: "Kada vaš raspored ne staje u standardni najam"
-      intro: "Za duže, višednevne i složenije itinerere plan se usaglašava prema stvarnoj ruti i rasporedu."
-    body: "Višednevna putovanja, rute van standardnog područja usluge i rasporedi koji zahtevaju više planiranja obrađuju se individualno. Pošaljite itinerer, a tim će proveriti odgovarajući model angažovanja i sledeći korak."
+      intro: "Za duža i višednevna putovanja usaglašavamo relacije i raspored pojedinačno."
+    body: "Pošaljite datume, planirane lokacije i očekivano trajanje. Za rute van standardnog područja i složenije planove tim proverava mogućnosti i priprema individualnu ponudu."
 
 vehicleRecommendations:
   heading:
-    title: "Izaberite sedan koji odgovara vašem danu"
-    intro: "Od maksimalnog komfora na zadnjem sedištu do diskretnog poslovnog i privatnog prevoza, tri sedana pokrivaju različite prioritete putovanja."
+    title: "Izaberite limuzinu za svoj dan"
+    intro: "Tri limuzine za različite potrebe poslovnog i privatnog putovanja."
   vehicleIds:
     - mercedes-s-class
     - mercedes-e-class
     - skoda-superb
   cta:
-    label: "Pogledaj sva vozila"
+    label: "Pogledajte sva vozila"
     target:
       type: route
       routeKey: fleet
 
 faq:
-  heading: "Česta pitanja o usluzi privatnog vozača"
+  heading: "Česta pitanja o usluzi ličnog vozača"
   items:
-    - question: "Koja je razlika između privatnog vozača i klasičnog transfera?"
-      answer: "Kod transfera je fokus na vožnji od mesta preuzimanja do odredišta. Kod usluge privatnog vozača, vozilo i vozač ostaju povezani sa rezervisanim periodom i potvrđenim rasporedom, pa možete imati više planiranih stanica bez nove rezervacije za svaki deo dana."
+    - question: "Koja je razlika između ličnog vozača i klasičnog transfera?"
+      answer: "Kod transfera je fokus na vožnji od mesta preuzimanja do odredišta. Kod usluge ličnog vozača, vozilo i vozač ostaju povezani sa rezervisanim periodom i potvrđenim rasporedom, pa možete imati više planiranih lokacija bez nove rezervacije za svaki deo dana."
     - question: "Koje je minimalno trajanje angažmana?"
-      answer: "Minimalni angažman iznosi {minimumHours} h. Za duži raspored možete izabrati poludnevni ili celodnevni format, dok se složeniji planovi proveravaju kroz individualnu ponudu."
-    - question: "Da li vozač ostaje sa mnom između stanica?"
-      answer: "Da. Tokom potvrđenog perioda najma vozač ostaje na raspolaganju u skladu sa dogovorenim rasporedom, tako da se sledeća vožnja ne organizuje iznova posle svake stanice."
+      answer: "Minimalni angažman iznosi {minimumHours} h. Za duži raspored možete izabrati poludnevni ili celodnevni angažman, dok za složenije planove pripremamo individualnu ponudu."
+    - question: "Da li vozač ostaje sa mnom između lokacija?"
+      answer: "Da. Tokom potvrđenog perioda najma vozač ostaje na raspolaganju u skladu sa dogovorenim rasporedom, tako da se sledeća vožnja ne organizuje iznova posle svake lokacije."
     - question: "Šta obuhvata poludnevni angažman?"
-      answer: "Poludnevni angažman traje {halfDayHours} h i obuhvata do {halfDayKm} km. Namenjen je rasporedu sa više sastanaka, obaveza ili stanica tokom jednog organizovanog dela dana."
+      answer: "Poludnevni angažman traje {halfDayHours} h i obuhvata do {halfDayKm} km. Namenjen je rasporedu sa više sastanaka, obaveza ili lokacija tokom jednog organizovanog dela dana."
     - question: "Šta obuhvata celodnevni angažman?"
-      answer: "Celodnevni angažman traje {fullDayHours} h i obuhvata do {fullDayKm} km. Namenjen je kompletnom dnevnom itinereru sa više lokacija i dužim periodima između pojedinih obaveza."
-    - question: "Mogu li da imam više stanica i da promenim raspored tokom dana?"
-      answer: "Više planiranih stanica može biti deo istog angažmana. Ako se potvrđeni raspored promeni, javite timu; izmene se usaglašavaju prema raspoloživosti i okviru rezervisanog perioda."
-    - question: "Mogu li da rezervišem privatnog vozača za više dana?"
-      answer: "Da. Višednevni angažmani se planiraju individualno. Pošaljite datume, okvirni itinerer i očekivani obim vožnje kako bi tim pripremio odgovarajuću ponudu."
+      answer: "Celodnevni angažman traje {fullDayHours} h i obuhvata do {fullDayKm} km. Namenjen je kompletnom dnevnom rasporedu putovanja sa više lokacija i dužim periodima između pojedinih obaveza."
+    - question: "Mogu li da imam više lokacija i da promenim raspored tokom dana?"
+      answer: "Više planiranih lokacija može biti deo istog angažmana. Ako se potvrđeni raspored promeni, javite timu; izmene se usaglašavaju prema raspoloživosti i okviru rezervisanog perioda."
+    - question: "Mogu li da rezervišem ličnog vozača za više dana?"
+      answer: "Možete poslati zahtev za višednevni najam. Navedite datume, plan putovanja i očekivano trajanje vožnji kako bi tim proverio mogućnosti i pripremio ponudu."
     - question: "Da li mogu da putujem van Beograda ili međunarodno?"
-      answer: "Da. Rute van standardnog područja usluge i međunarodni itinereri pregledaju se individualno. Pošaljite rutu, datume i raspored kako bi tim proverio organizaciju i ponudu."
+      answer: "Možete poslati zahtev za putovanje van Beograda ili međunarodnu rutu. Tim proverava relacije, datume i uslove pre pripreme individualne ponude."
     - question: "Mogu li da izaberem konkretno vozilo?"
-      answer: "Da. U zahtevu navedite željeni sedan ili nivo usluge. Raspoloživost konkretnog modela proverava se pre ručne potvrde rezervacije."
+      answer: "Da. Navedite željenu limuzinu u zahtevu. Raspoloživost konkretnog modela proveravamo pre potvrde rezervacije."
     - question: "Da li je rezervacija potvrđena odmah nakon slanja zahteva?"
       answer: "Ne. Tim proverava raspoloživost, izabrano vozilo, trajanje i detalje rasporeda, a rezervacija se zatim potvrđuje ručno."
 
 finalCta:
   heading: "Recite nam kako izgleda vaš dan"
-  text: "Pošaljite datum, početno vreme, planirane lokacije, broj putnika i željeno vozilo. Proverićemo raspoloživost i potvrditi odgovarajući format angažovanja."
+  text: "Pošaljite datum, početno vreme, planirane lokacije, broj putnika i željeno vozilo. Proverićemo raspoloživost i potvrditi odgovarajuću vrstu angažovanja."
   primaryCta:
-    label: "Rezerviši privatnog vozača"
+    label: "Započnite rezervaciju"
     target:
       type: flow
       flowKey: booking
   secondaryCta:
-    label: "Zatraži ponudu"
+    label: "Zatražite ponudu"
     target:
       type: flow
       flowKey: quote

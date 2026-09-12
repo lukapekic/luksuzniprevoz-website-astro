@@ -8,6 +8,7 @@
  * set `PROD_ROBOTS=1` when building for the production deploy.
  */
 import type { APIRoute } from "astro";
+import { config } from "../../foundation.config.ts";
 
 const isProd = import.meta.env.PROD_ROBOTS === "1" || process.env.PROD_ROBOTS === "1";
 
@@ -16,7 +17,7 @@ const body = isProd
 User-agent: *
 Allow: /
 
-Sitemap: https://luksuzniprevoz.rs/sitemap-index.xml
+Sitemap: ${config.site}/sitemap-index.xml
 `
   : `# Non-production robots.txt — disallow all crawling (FND-ENV-02).
 User-agent: *

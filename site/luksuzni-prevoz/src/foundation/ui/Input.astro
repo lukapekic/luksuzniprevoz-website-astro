@@ -39,6 +39,12 @@ interface Props {
   maxlength?: number;
   /** Native validation pattern (custom messages remain caller-owned) */
   pattern?: string;
+  /** Native numeric/date minimum */
+  min?: number | string;
+  /** Native numeric/date maximum */
+  max?: number | string;
+  /** Native numeric/time increment */
+  step?: number | string;
   /** Mobile keyboard hint */
   inputmode?: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
   /** Browser capitalization hint */
@@ -71,6 +77,9 @@ const {
   minlength,
   maxlength,
   pattern,
+  min,
+  max,
+  step,
   inputmode,
   autocapitalize,
   spellcheck,
@@ -105,6 +114,9 @@ const describedBy =
   minlength={minlength}
   maxlength={maxlength}
   pattern={pattern}
+  min={min}
+  max={max}
+  step={step}
   inputmode={inputmode}
   autocapitalize={autocapitalize}
   spellcheck={spellcheck}

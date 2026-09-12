@@ -29,3 +29,19 @@ describe("Conference service data", () => {
     }
   });
 });
+
+describe("VIP service data", () => {
+  it("declares the complete positive and negative capability contract", () => {
+    const vip = getService("vipTransportation");
+
+    assert.deepEqual(vip.pricingMode, ["quote"]);
+    assert.equal(vip.discretion, true);
+    assert.equal(vip.privacy, true);
+    assert.equal(vip.commercialAviation, true);
+    assert.equal(vip.privateAviation, true);
+    assert.equal(vip.multiVehicle, true);
+    assert.equal(vip.dedicatedCoordinatorForComplexBookings, true);
+    assert.equal(vip.securityService, false);
+    assert.equal(vip.customDecorationPositioning, false);
+  });
+});

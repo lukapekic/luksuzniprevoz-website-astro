@@ -14,8 +14,8 @@ export interface FlowTarget {
 }
 
 const flowTargets: Record<FlowKey, FlowTarget> = {
-  booking: { routeKey: "contact", intent: "booking" },
-  quote: { routeKey: "contact", intent: "quote" },
+  booking: { routeKey: "booking", intent: "booking" },
+  quote: { routeKey: "booking", intent: "quote" },
 };
 
 export function isFlowKey(value: string): value is FlowKey {

@@ -60,6 +60,15 @@ export async function assertNoHorizontalOverflow(page: Page): Promise<void> {
 }
 
 export async function assertMinimumTargetSize(page: Page): Promise<void> {
+  // Measure settled hit targets, preserving the strict 44px threshold. Active
+  // transforms can report fractional compositor coordinates for a 44px box.
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await Promise.all(document.getAnimations()
+      .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
+      .map((animation) => animation.finished.catch(() => undefined)));
+  });
   const undersized = await page
     .locator('a[href], button, input:not([type="hidden"]), select, textarea, [role="button"]')
     .evaluateAll((elements) =>
@@ -82,8 +91,11 @@ export async function assertMinimumTargetSize(page: Page): Promise<void> {
         return [
           {
             element: node.outerHTML.slice(0, 180),
-            width: Math.round(rect.width * 100) / 100,
-            height: Math.round(rect.height * 100) / 100,
+            width: rect.width,
+            height: rect.height,
+            layoutHeight: node.offsetHeight,
+            minimumHeight: style.minHeight,
+            transform: style.transform,
           },
         ];
       }),

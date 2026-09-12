@@ -300,6 +300,7 @@ export const services: Record<string, ServiceDef> = {
     commercialAviation: true,
     multiVehicle: true,
     dedicatedCoordinatorForComplexBookings: true,
+    securityService: false,
     customDecorationPositioning: false,
   },
 };
@@ -307,9 +308,7 @@ export const services: Record<string, ServiceDef> = {
 // --- Lookup helpers --------------------------------------------------------
 
 export function getService(key: "privateChauffeur"): PrivateChauffeurServiceDef;
-export function getService(
-  key: "conferenceCongressTransportation",
-): ConferenceCongressServiceDef;
+export function getService(key: "conferenceCongressTransportation"): ConferenceCongressServiceDef;
 export function getService(key: string): ServiceDef;
 export function getService(key: string): ServiceDef {
   const svc = services[key];

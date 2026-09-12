@@ -103,7 +103,7 @@ if (!process.items || process.items.length !== 3) {
 const ui = (key: UiStringKey) => t(key, locale);
 const resolveAction = (cta: Cta): ResolvedAction => ({
   label: cta.label,
-  href: resolveCtaHref(cta, locale),
+  href: resolveCtaHref(cta, locale, { service: routeKey }),
 });
 
 const primaryAction = resolveAction(data.hero.primaryCta);

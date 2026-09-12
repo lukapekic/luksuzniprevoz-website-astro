@@ -11,13 +11,19 @@ import type { Cta } from "../content/schemas/shared.ts";
 import { defaultLocale } from "../data/locales.ts";
 import { getFlowTarget, isFlowKey, type FlowKey } from "../data/flows.ts";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
+import type { BookingServiceKey } from "../data/booking.ts";
 
 export type { Cta } from "../content/schemas/shared.ts";
 
-export function resolveFlowHref(flowKey: FlowKey, locale: LocaleCode): string {
+export function resolveFlowHref(
+  flowKey: FlowKey,
+  locale: LocaleCode,
+  context: { service?: BookingServiceKey } = {},
+): string {
   const target = getFlowTarget(flowKey);
   const path = getPath(target.routeKey, locale, routes, defaultLocale);
   const query = new URLSearchParams({ intent: target.intent });
+  if (context.service) query.set("service", context.service);
   return `${path}?${query.toString()}`;
 }
 
@@ -30,13 +36,14 @@ export function resolveFlowHref(flowKey: FlowKey, locale: LocaleCode): string {
  */
 export interface ResolveCtaOptions {
   unresolvedFlow?: "contact" | "omit";
+  service?: BookingServiceKey;
 }
 
 export function resolveCtaHref(cta: Cta, locale: LocaleCode): string;
 export function resolveCtaHref(
   cta: Cta,
   locale: LocaleCode,
-  options: { unresolvedFlow: "contact" },
+  options: ResolveCtaOptions & { unresolvedFlow?: "contact" },
 ): string;
 export function resolveCtaHref(
   cta: Cta,
@@ -58,5 +65,5 @@ export function resolveCtaHref(
     if (options.unresolvedFlow === "omit") return null;
     throw new Error(`Unknown flow key: ${cta.target.flowKey}`);
   }
-  return resolveFlowHref(cta.target.flowKey, locale);
+  return resolveFlowHref(cta.target.flowKey, locale, { service: options.service });
 }

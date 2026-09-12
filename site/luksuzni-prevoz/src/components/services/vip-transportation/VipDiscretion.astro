@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Section from "../../../foundation/ui/Section.astro";
+import PageContainer from "../../../foundation/ui/PageContainer.astro";
+import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+
+interface Item { title: string; text: string }
+interface Props {
+  heading: string;
+  intro?: string;
+  body: string;
+  label: string;
+  items: readonly [Item, Item, Item];
+  image: ImageMetadata;
+}
+
+const { heading, intro, body, label, items, image } = Astro.props;
+---
+
+<Section spacing="standard" surface="open-dark" aria-labelledby="vip-discretion-heading">
+  <PageContainer>
+    <div class="discretion-layout">
+      <div class="discretion-content">
+        <p class="section-label"><span aria-hidden="true"></span>{label}</p>
+        <SectionHeading id="vip-discretion-heading" {heading} description={intro} />
+        <p class="body-copy">{body}</p>
+
+        <ol class="discretion-list">
+          {items.map((item, index) => (
+            <li>
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <div><h3>{item.title}</h3><p>{item.text}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="discretion-media" aria-hidden="true">
+        <Image
+          src={image}
+          alt=""
+          role="presentation"
+          loading="lazy"
+          widths={[640, 960, 1440]}
+          sizes="(min-width: 64rem) 55vw, calc(100vw - 2rem)"
+        />
+      </div>
+    </div>
+  </PageContainer>
+</Section>
+
+<style>
+  .discretion-layout { display: grid; gap: var(--space-10); align-items: stretch; }
+  .discretion-content { min-inline-size: 0; }
+  .section-label { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-medium); color: var(--color-text-muted); }
+  .section-label span { inline-size: var(--space-8); block-size: 1px; background: var(--color-accent); }
+  .body-copy { max-inline-size: var(--measure-body); margin-block: var(--space-5) 0; font-family: var(--font-body); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  .discretion-list { margin: var(--space-8) 0 0; padding: 0; border-block-start: 1px solid var(--color-divider); list-style: none; }
+  .discretion-list li { display: grid; grid-template-columns: var(--space-10) minmax(0, 1fr); gap: var(--space-4); padding-block: var(--space-5); border-block-end: 1px solid var(--color-divider); }
+  .discretion-list li > span { font-family: var(--font-body); font-size: var(--text-caption); font-weight: var(--font-weight-semibold); color: var(--color-accent); }
+  h3 { font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); }
+  .discretion-list p { margin-block: var(--space-2) 0; overflow-wrap: anywhere; font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  .discretion-media { min-block-size: 22rem; overflow: hidden; border-radius: var(--radius-section); background: var(--color-surface); }
+  .discretion-media :global(img) { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 56% center; filter: brightness(0.72) contrast(1.06) saturate(0.68); }
+  @media (min-width: 64rem) {
+    .discretion-layout { grid-template-columns: 5fr 7fr; gap: var(--column-gap-desktop); }
+    .discretion-media { min-block-size: 38rem; }
+  }
+</style>

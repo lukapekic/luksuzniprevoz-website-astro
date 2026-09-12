@@ -4,19 +4,19 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-08-28
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: 24c03a312284196b
+sourceDigest: 0624a5c02326622c
 noindex: false
 
-seoTitle: "Private Chauffeur Belgrade | Luxury Transportation"
-seoDescription: "Private chauffeur service in Belgrade with a vehicle from our fleet, hourly, half-day or full-day hire, multiple stops and manual booking confirmation."
+seoTitle: "Private Chauffeur in Belgrade"
+seoDescription: "Hire a private chauffeur in Belgrade by the hour, day or for a longer trip. Plan several stops and agreed waiting time with your chosen vehicle."
 
 hero:
   title: "Private Chauffeur in Belgrade"
-  description: "Choose a vehicle from our fleet with a professional chauffeur who stays with your confirmed schedule — for a shorter engagement, several commitments or a full day."
+  description: "A vehicle from our fleet and a professional chauffeur for your reserved period. Connect meetings, private appointments and planned stops in one booking."
   primaryCta:
-    label: "Book Private Chauffeur"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking
@@ -30,14 +30,14 @@ overview:
   heading:
     title: "More than a journey between two addresses"
     intro: "Private Chauffeur is designed for a day that does not end at a single destination."
-  body: "Unlike a standard transfer, the vehicle and chauffeur remain connected to the reserved period and confirmed plan. You set the rhythm of the day; we provide continuity between meetings, private commitments, lunch, dinner or the next destination."
+  body: "The service includes a vehicle and chauffeur for a reserved period. Unlike a transfer to one destination, hire can cover several stops and waiting between appointments, within the agreed plan."
 
 sections:
   - key: hireOptions
     heading:
       title: "Choose the hire format around your schedule"
       intro: "From a shorter commitment to a full day with several stops, select the format that matches how you plan to use your time."
-    body: "Three hire formats cover different types of schedule. Duration and included distance are displayed from the current service data, while the guidance below helps you choose the format according to the way your day is planned."
+    body: "Compare the duration and included distance, then choose the option that fits your day."
     items:
       - title: "For a shorter schedule"
         text: "For a meeting, dinner, appointment or several commitments when you want the vehicle to remain with you between locations."
@@ -49,57 +49,57 @@ sections:
   - key: timeRemainsYours
     heading:
       title: "Your time remains yours"
-      intro: "Time between destinations becomes part of the day you can use, rather than another piece of logistics you have to manage."
-    body: "Time between two locations does not have to be lost time. While the chauffeur handles the journey, you can work, prepare for the next meeting, take a call, read or simply step away for a moment before the next commitment."
+      intro: "Continue with your day between appointments while your chauffeur handles the road."
+    body: "Use the journey to prepare, take a call or pause between commitments."
     items:
       - title: "Stay productive between stops"
-        text: "Calls, preparation, email and focused work remain possible while you continue towards the next location."
+        text: "Review your notes or take a call on the way to your next meeting."
       - title: "Leave the logistics to the chauffeur"
-        text: "No searching for parking, arranging the next car or explaining the plan again after every stop."
+        text: "Your chauffeur takes care of parking and the onward journey."
       - title: "Arrive ready for what comes next"
-        text: "Use the time in the vehicle as you choose while the chauffeur handles the road and the confirmed plan."
+        text: "Take a break between commitments instead of arranging another journey."
 
   - key: oneChauffeurOneSchedule
     heading:
-      title: "One chauffeur. One schedule."
+      title: "Several stops, one booking"
       intro: "Connect meetings, private commitments and planned stops within one confirmed engagement."
-    body: "Instead of making a new booking after every stop, the vehicle and chauffeur remain connected to the confirmed plan throughout the reserved period. Several points in the day become one continuous arrangement rather than a series of separate journeys."
+    body: "Before departure, we agree on locations and approximate waiting times. Changes during the day are checked against availability and the reserved period."
 
   - key: travelWithoutLosingDay
     heading:
       title: "Travel without losing the day"
-    body: "Your chauffeur already knows the confirmed plan and stays connected to the schedule, so time and attention are not spent reorganising transportation between every commitment."
+    body: "An agreed plan makes it easier to continue after each appointment."
     items:
       - title: "No searching for the next car."
         text: "Transportation is already part of the confirmed plan."
       - title: "No parking decisions between stops."
         text: "The chauffeur handles the logistics of arrival and continuing the journey."
-      - title: "No repeating your itinerary throughout the day."
+      - title: "Your itinerary is agreed in advance."
         text: "Confirmed locations remain connected within the same schedule."
       - title: "Step back in and continue."
         text: "When you are ready for the next point, the journey continues according to the arrangement."
 
   - key: passengerExperience
     heading:
-      title: "Quiet when you need it. Ready when you need to move."
-      intro: "Between commitments, the cabin remains your space without the need to manage the next journey."
-    body: "Between destinations, the rear cabin remains your own space. Work, read, make a call or take a moment to reset while the chauffeur takes care of the journey and the next point in the confirmed schedule."
+      title: "Discreet service throughout your day"
+      intro: "Considerate service starts with a professional, unobtrusive approach."
+    body: "Your chauffeur takes care of the journey and agreed departures, with respect for your time."
     items:
       - title: "Discreet service"
         text: "The chauffeur manages the journey without unnecessarily intruding on your space or time."
-      - title: "A private rear-cabin environment"
-        text: "The cabin remains a place for work, reading, calls or a quiet pause between commitments."
+      - title: "A pause between appointments"
+        text: "Spend your time in the vehicle as you choose."
 
   - key: customEngagement
     heading:
       title: "When your schedule does not fit a standard hire"
-      intro: "Longer, multi-day and more complex itineraries are aligned around the actual route and schedule."
-    body: "Multi-day journeys, routes outside the standard service area and schedules that require more planning are handled individually. Send the itinerary and the team will review the appropriate hire model and next step."
+      intro: "Longer and multi-day journeys are planned around the individual route and schedule."
+    body: "Send your dates, planned locations and expected duration. For journeys outside the standard area or more complex plans, our team checks what can be arranged and prepares a tailored quote."
 
 vehicleRecommendations:
   heading:
-    title: "Choose the sedan that suits your day"
-    intro: "From maximum rear-seat comfort to discreet business and private travel, three sedans cover different priorities for chauffeur hire."
+    title: "Choose a sedan for your day"
+    intro: "Three sedans for different business and private travel needs."
   vehicleIds:
     - mercedes-s-class
     - mercedes-e-class
@@ -126,11 +126,11 @@ faq:
     - question: "Can I include several stops and change the schedule during the day?"
       answer: "Several planned stops can form part of the same engagement. If the confirmed schedule changes, contact the team; changes are aligned with availability and the limits of the reserved hire period."
     - question: "Can I book Private Chauffeur for several days?"
-      answer: "Yes. Multi-day engagements are planned individually. Send the dates, outline itinerary and expected travel requirements so the team can prepare the appropriate quote."
+      answer: "You can request multi-day hire. Send the dates, itinerary and expected driving time so our team can check feasibility and prepare a quote."
     - question: "Can I travel outside Belgrade or internationally?"
-      answer: "Yes. Routes outside the standard service area and international itineraries are reviewed individually. Send the route, dates and schedule so the team can confirm the organisation and quote."
+      answer: "You can request travel outside Belgrade or an international journey. Our team reviews the route, dates and requirements before preparing a tailored quote."
     - question: "Can I choose a specific vehicle?"
-      answer: "Yes. State your preferred sedan or level of service in the request. Availability of the specific model is checked before the booking is manually confirmed."
+      answer: "Yes. State your preferred sedan in the request. We check the availability of that model before confirming the booking."
     - question: "Is the booking confirmed immediately after I send the request?"
       answer: "No. The team checks availability, selected vehicle, hire duration and schedule details, then confirms the booking manually."
 
@@ -138,7 +138,7 @@ finalCta:
   heading: "Tell us how your day is planned"
   text: "Send the date, starting time, planned locations, passenger count and preferred vehicle. We will check availability and confirm the appropriate hire format."
   primaryCta:
-    label: "Book Private Chauffeur"
+    label: "Start your booking"
     target:
       type: flow
       flowKey: booking

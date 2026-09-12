@@ -7,19 +7,18 @@
     "corporateTransportation": "Korporativni prevoz",
     "delegationTransportation": "Prevoz delegacija",
     "conferenceCongressTransportation": "Konferencije i kongresi",
-    "specialEvents": "Specijalni događaji",
+    "specialEvents": "Posebne prilike",
     "weddingTransportation": "Venčanja",
     "promTransportation": "Mature",
     "vipTransportation": "VIP prevoz",
     "fleet": "Vozila",
     "pricing": "Cene",
-    "about": "O nama",
     "contact": "Kontakt",
-    "book": "Rezerviši"
+    "book": "Započnite rezervaciju"
   },
   "en": {
     "services": "Services",
-    "privateChauffeur": "Private Chauffeur",
+    "privateChauffeur": "Privatni vozač",
     "airportTransportation": "Airport Transportation",
     "businessTransportation": "Business Transportation",
     "corporateTransportation": "Corporate Transportation",
@@ -31,7 +30,6 @@
     "vipTransportation": "VIP Transportation",
     "fleet": "Fleet",
     "pricing": "Pricing",
-    "about": "About Us",
     "contact": "Contact",
     "book": "Book"
   },
@@ -49,7 +47,6 @@
     "vipTransportation": "VIP-трансфер",
     "fleet": "Автопарк",
     "pricing": "Цены",
-    "about": "О нас",
     "contact": "Контакты",
     "book": "Забронировать"
   }

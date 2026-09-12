@@ -1,0 +1,17 @@
+{
+  "fleet.class.suv": "SUV",
+  "fleet.navigator.ariaLabel": "Fleet categories",
+  "fleet.navigator.sedans": "Sedans",
+  "fleet.navigator.suv": "SUV",
+  "fleet.navigator.vans": "Vans",
+  "fleet.navigator.groupTransport": "Group transport",
+  "fleet.profile.bestFor": "Best for",
+  "fleet.profile.passengerCapacity": "Passenger capacity",
+  "fleet.profile.vehicleClass": "Vehicle class",
+  "fleet.profile.configurations": "Service configurations",
+  "fleet.profile.quoteOnly": "Price by quote",
+  "fleet.vClass.configuration.six": "6-passenger configuration",
+  "fleet.vClass.configuration.seven": "7-passenger configuration",
+  "fleet.page.modelAvailability": "Specific model selection is confirmed with availability",
+  "fleet.page.luggageNote": "Passenger count and luggage are reviewed together when selecting the vehicle"
+}

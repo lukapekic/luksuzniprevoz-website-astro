@@ -40,18 +40,27 @@ test.describe("Contact", () => {
     await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
   });
 
-  test("keeps the question form validation-only", async ({ page }) => {
+  test("validates and sends the question form through the same-origin endpoint", async ({ page }) => {
     const postRequests: string[] = [];
     page.on("request", (request) => {
       if (request.method() === "POST") postRequests.push(request.url());
     });
 
+    await page.addInitScript(() => {
+      window.turnstile = {
+        render: (_container, options) => { options.callback("test-token"); return "contact-widget"; },
+        reset: () => undefined,
+        remove: () => undefined,
+      };
+    });
+    await page.route("**/api/forms/contact", async (route) => {
+      await route.fulfill({ status: 202, contentType: "application/json", body: JSON.stringify({ ok: true, status: "pending", reference: "LP-TEST-CONTACT" }) });
+    });
     await page.goto(routePath("contact", "en"));
     const form = page.locator("[data-contact-question-form]");
     expect(await form.evaluate((element) => element.hasAttribute("action"))).toBe(false);
     expect(await form.evaluate((element) => element.hasAttribute("method"))).toBe(false);
-    await expect(form.locator('button[type="button"]')).toBeDisabled();
-    await expect(form.locator('button[type="submit"]')).toHaveCount(0);
+    await expect(form.locator('button[type="submit"]')).toBeEnabled();
 
     const fullName = form.locator('input[name="fullName"]');
     await fullName.fill("Robot");
@@ -61,7 +70,11 @@ test.describe("Contact", () => {
 
     await fullName.fill("Jovana Petrović");
     await expect(fullName).not.toHaveAttribute("aria-invalid", "true");
-    expect(postRequests).toEqual([]);
+    await form.locator('input[name="email"]').fill("jovana@example.com");
+    await form.locator('textarea[name="message"]').fill("Please send additional service information.");
+    await form.locator('button[type="submit"]').click();
+    await expect(form.locator('[role="status"]')).toContainText("LP-TEST-CONTACT");
+    expect(postRequests).toHaveLength(1);
   });
 
   test("preserves the locked responsive topology without overflow", async ({ page }) => {
