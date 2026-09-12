@@ -10,7 +10,7 @@
     },
     "sr": {
       "title": "Aerodromski prevoz Beograd",
-      "description": "Privatni transfer do i sa aerodroma Nikola Tesla u Beogradu. Doček sa imenom, praćenje leta i pomoć sa prtljagom. Pogledajte vozila i cene po vozilu."
+      "description": "Privatni prevoz između Aerodroma Nikola Tesla i Beograda. Praćenje leta, doček sa tablom sa imenom putnika i pomoć sa prtljagom. Pogledajte cene po vozilu."
     }
   },
   "booking": {
@@ -37,8 +37,8 @@
       "description": "Деловой транспорт в Белграде для компаний, делегаций и конференций. Согласование пассажиров, расписания и нескольких автомобилей по вашему плану."
     },
     "sr": {
-      "title": "Poslovni prevoz u Beogradu",
-      "description": "Poslovni prevoz u Beogradu za kompanije, delegacije i konferencije. Koordinacija putnika, rasporeda i više vozila uz ponudu prema planu putovanja."
+      "title": "Poslovni prevoz putnika u Beogradu",
+      "description": "Poslovni prevoz putnika u Beogradu za kompanije, delegacije i konferencije. Koordinacija rasporeda i više vozila uz ponudu prema planu putovanja."
     }
   },
   "conference-congress-transportation": {
@@ -107,7 +107,7 @@
       "description": "Сравните Mercedes-Benz S-Class, E-Class, V-Class и Sprinter, а также Škoda Superb и Kodiaq. Выберите автомобиль с водителем для вашей группы и поездки."
     },
     "sr": {
-      "title": "Vozni park – vozila sa vozačem",
+      "title": "Vozni park limo servisa u Beogradu",
       "description": "Uporedite Mercedes-Benz S-Class, E-Class, V-Class i Sprinter, kao i Škoda Superb i Kodiaq. Izaberite vozilo sa vozačem prema putnicima i planu vožnje."
     }
   },
@@ -135,7 +135,7 @@
       "description": "Цены за автомобиль на трансферы из аэропорта Белграда и пакеты аренды с водителем. Для сложного маршрута или нескольких машин запросите отдельное предложение."
     },
     "sr": {
-      "title": "Cenovnik prevoza sa vozačem",
+      "title": "Cenovnik limo servisa u Beogradu",
       "description": "Pogledajte cene aerodromskog prevoza po vozilu i pakete najma sa vozačem u Beogradu. Za složeniji raspored ili više vozila zatražite posebnu ponudu."
     }
   },
@@ -149,8 +149,8 @@
       "description": "Аренда автомобиля с личным водителем в Белграде на несколько часов, день или несколько дней. Поездки по нескольким адресам и согласованное ожидание."
     },
     "sr": {
-      "title": "Privatni vozač u Beogradu",
-      "description": "Najam vozila sa privatnim vozačem u Beogradu po satu, danu ili za višednevno putovanje. Više lokacija i čekanje prema dogovorenom rasporedu."
+      "title": "Lični vozač u Beogradu",
+      "description": "Najam vozila sa ličnim vozačem u Beogradu po satu, danu ili za višednevno putovanje. Više lokacija i čekanje prema dogovorenom rasporedu."
     }
   },
   "prom-transportation": {

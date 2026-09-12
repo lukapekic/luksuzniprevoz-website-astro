@@ -1,5 +1,10 @@
 # Consolidated Content Decisions Required
 
+> **Resolved checkpoint — 12 September 2026.** The safe wording below was
+> applied. Corporate and Conference/Congress passed their page gates and were
+> activated together in all three locales. This file remains as decision history;
+> [FINAL-REVIEW.md](FINAL-REVIEW.md) is the current release summary.
+
 ## Optional verified claim
 
 The current Serbian `contact.officeNote` promises a response within two hours

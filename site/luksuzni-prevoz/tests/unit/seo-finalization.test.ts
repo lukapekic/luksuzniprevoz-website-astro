@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import { generateRedirects } from "@astro-foundation/core/seo";
 import { serializeJsonLd } from "../../src/lib/serialize-jsonld.ts";
 import { navigation, type NavChild, type NavHeaderItem } from "../../src/data/navigation.ts";
-import { getRoute } from "../../src/data/routes.ts";
+import { getRoute, routes } from "../../src/data/routes.ts";
 import { getService } from "../../src/data/services.ts";
 
 describe("SEO output safety and public destinations", () => {
@@ -34,8 +35,35 @@ describe("SEO output safety and public destinations", () => {
   });
 });
 
+describe("legacy URL migration", () => {
+  it("maps equivalent WordPress URLs directly and leaves unmatched archives unmapped", () => {
+    const redirects = generateRedirects(
+      routes,
+      "https://luksuzniprevoz.rs",
+      ["sr", "en", "ru"],
+      "sr",
+    );
+    const redirectMap = new Map(redirects.map((entry) => [entry.from, entry]));
+
+    assert.equal(redirects.length, 33);
+    assert.deepEqual(redirectMap.get("/cenovnik-usluga-prevoza/"), {
+      from: "/cenovnik-usluga-prevoza/",
+      to: "/cene/",
+      status: 301,
+    });
+    assert.equal(
+      redirectMap.get("/korporativni-prevoz-vasa-vrata-ka-profesionalizmu-i-luksuzu/")?.to,
+      "/korporativni-prevoz/",
+    );
+    assert.equal(redirectMap.get("/en/chauffeur-service/")?.to, "/en/private-chauffeur/");
+    assert.equal(redirectMap.has("/news/"), false);
+    assert.equal(redirectMap.has("/o-nama/"), false);
+    assert.equal(redirectMap.has("/en/about-us/"), false);
+  });
+});
+
 describe("static sitemap publication gates", () => {
-  it("excludes noindex, in-review and scaffold documents from URLs and alternates", async () => {
+  it("includes published routes and excludes noindex and in-review documents", async () => {
     const { buildSitemap, escapeXml } = await import("../../src/lib/sitemap.ts");
     const xml = buildSitemap([
       { routeKey: "home", locale: "sr", status: "published" },
@@ -45,11 +73,11 @@ describe("static sitemap publication gates", () => {
       { routeKey: "corporateTransportation", locale: "sr", status: "published" },
       { routeKey: "contact", locale: "en", status: "published", noindex: true },
     ]);
-    assert.equal((xml.match(/<loc>/gu) ?? []).length, 2);
+    assert.equal((xml.match(/<loc>/gu) ?? []).length, 3);
     assert.ok(xml.includes('hreflang="sr-Latn"'));
     assert.ok(xml.includes('hreflang="x-default"'));
     assert.equal(xml.includes('hreflang="ru"'), false);
-    assert.equal(xml.includes("korporativni"), false);
+    assert.equal(xml.includes("korporativni"), true);
     assert.equal(xml.includes("rezervacija"), false);
     assert.equal(escapeXml('a&<"'), "a&amp;&lt;&quot;");
   });

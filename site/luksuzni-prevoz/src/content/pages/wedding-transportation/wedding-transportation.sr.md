@@ -4,7 +4,7 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
 seoTitle: "Vozilo sa vozačem za svadbu u Beogradu"
@@ -126,7 +126,7 @@ faq:
   heading: "Česta pitanja o prevozu za venčanja"
   items:
     - question: "Koliko ranije treba da pošaljemo zahtev?"
-      answer: "Pošaljite zahtev čim znate datum i osnovni raspored. Dostupnost vozila i organizacija proveravaju se za konkretan datum pre konačne potvrde."
+      answer: "Pošaljite zahtev čim znate datum i osnovni raspored. Raspoloživost vozila i organizaciju proveravamo za konkretan datum pre konačne potvrde."
     - question: "Možete li organizovati i prevoz gostiju?"
       answer: "Da. Možemo organizovati prevoz porodice i gostiju. Broj i klase vozila proveravamo prema putnicima, rasporedu i raspoloživosti."
     - question: "Možemo li imati više vozila i različite klase vozila?"

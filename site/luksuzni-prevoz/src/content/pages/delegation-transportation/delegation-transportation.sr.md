@@ -4,7 +4,7 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
 seoTitle: "Prevoz delegacija u Beogradu"
@@ -39,7 +39,7 @@ sections:
         }
       - {
           title: "Zvanične i institucionalne delegacije",
-          text: "Za posete u kojima više članova treba uskladiti kroz zajednički program i potvrđena kretanja.",
+          text: "Za posete u kojima kretanje više članova treba uskladiti sa zajedničkim programom.",
         }
       - {
           title: "Međunarodne organizacije",
@@ -51,7 +51,7 @@ sections:
         }
       - {
           title: "Domaćini, asistenti i koordinatori",
-          text: "Za osobe koje vode program i žele jednu tačku za organizaciju prevoza umesto niza nepovezanih rezervacija.",
+          text: "Za osobe koje vode program i žele jednu kontaktnu tačku za organizaciju prevoza umesto niza nepovezanih rezervacija.",
         }
 
   - key: movement

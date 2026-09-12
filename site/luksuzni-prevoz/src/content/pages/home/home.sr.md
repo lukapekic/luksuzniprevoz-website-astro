@@ -4,7 +4,7 @@ locale: sr
 pageType: home
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 
 seoTitle: "Luksuzni prevoz u Beogradu sa vozačem"
 seoDescription: "Luksuzni prevoz sa vozačem u Beogradu: aerodromski transferi, poslovna putovanja i posebne prilike. Izaberite vozilo i pošaljite plan putovanja."
@@ -22,7 +22,7 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: "Dogovoreni detalji i potvrda našeg tima pre svake vožnje."
+  supportText: "Detalje svake vožnje potvrđuje naš tim."
 
 services:
   heading:
@@ -32,28 +32,28 @@ services:
     - routeKey: privateChauffeur
       title: "Privatni vozač"
       text: "Vozilo sa profesionalnim vozačem na sat, pola dana ili ceo dan."
-      ctaLabel: "Saznajte više"
+      ctaLabel: "Privatni vozač"
     - routeKey: airportTransportation
       title: "Aerodromski prevoz"
       text: "Doček na aerodromu, praćenje leta i direktan prevoz do željene adrese."
-      ctaLabel: "Saznajte više"
+      ctaLabel: "Aerodromski prevoz"
     - routeKey: businessTransportation
       title: "Poslovni prevoz"
       text: "Prevoz zaposlenih, rukovodilaca, gostiju, delegacija i poslovnih grupa."
-      ctaLabel: "Saznajte više"
+      ctaLabel: "Poslovni prevoz"
     - routeKey: specialEvents
       title: "Posebne prilike"
       text: "Organizovan prevoz za venčanja, mature, VIP potrebe i privatne događaje."
-      ctaLabel: "Saznajte više"
+      ctaLabel: "Prevoz za posebne prilike"
 
 flagshipFeature:
   heading:
     title: "Privatni vozač po vašem rasporedu"
-  body: "Pošaljite zahtev za vozilo sa profesionalnim vozačem i navedite stanice ili obaveze tokom dana. Najam se usklađuje sa vašim planom u okviru dogovorenog perioda."
+  body: "Pošaljite zahtev za vozilo sa profesionalnim vozačem i navedite lokacije ili obaveze tokom dana. Najam se usklađuje sa vašim planom u okviru dogovorenog perioda."
   points:
     - "Najam prema trajanju putovanja"
     - "Poludnevni i celodnevni angažman"
-    - "Više stanica u okviru rezervisanog vremena"
+    - "Više lokacija u okviru rezervisanog vremena"
   cta:
     label: "Pogledajte uslugu"
     target:

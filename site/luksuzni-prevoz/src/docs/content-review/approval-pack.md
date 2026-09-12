@@ -1,4 +1,4 @@
-> **Historical checkpoint, superseded 11 September 2026.** The owner authorized autonomous multilingual content application and SEO research. See [EXECUTION.md](EXECUTION.md), [execution-status.json](execution-status.json), and [FINAL-REVIEW.md](FINAL-REVIEW.md) for the current result. Approval pauses and unchanged-content statements below describe the earlier audit only.
+> **Historical checkpoint, superseded 12 September 2026.** The owner authorized autonomous multilingual content application, route completion and SEO research. See [execution-status.json](execution-status.json) and [FINAL-REVIEW.md](FINAL-REVIEW.md) for the current result. Approval pauses and unchanged-content statements below describe the earlier audit only.
 
 # Serbian Content Approval Pack
 

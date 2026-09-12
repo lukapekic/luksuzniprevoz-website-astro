@@ -2,12 +2,12 @@
 routeKey: conferenceCongressTransportation
 locale: ru
 pageType: service
-status: in-review
+status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: 89ad516a80d97102
-noindex: true
+sourceDigest: 1a4c9db5eaf946ac
+noindex: false
 
 seoTitle: "Транспорт для конференций в Белграде"
 seoDescription: "Транспорт для конференций и конгрессов в Белграде: встреча в аэропорту, трансферы из отелей и поездки к месту проведения по расписанию участников."

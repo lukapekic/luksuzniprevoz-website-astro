@@ -4,7 +4,7 @@ locale: sr
 pageType: booking
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: true
 
 seoTitle: "Zahtev za rezervaciju prevoza sa vozačem"

@@ -4,9 +4,9 @@ locale: ru
 pageType: home
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: 78d4e6b59a412541
+sourceDigest: b87750ee365ce53a
 
 seoTitle: "Автомобиль с водителем в Белграде"
 seoDescription: "Автомобиль с водителем в Белграде для трансфера из аэропорта, деловых поездок и особых событий. Выберите машину и отправьте нам план поездки."
@@ -24,7 +24,7 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: "Согласованные детали и подтверждение нашей команды перед каждой поездкой."
+  supportText: "Наша команда подтверждает детали каждой поездки."
 
 services:
   heading:
@@ -34,19 +34,19 @@ services:
     - routeKey: privateChauffeur
       title: "Личный водитель"
       text: "Автомобиль с профессиональным водителем с почасовой арендой, на полдня или на день."
-      ctaLabel: "Подробнее"
+      ctaLabel: "Личный водитель"
     - routeKey: airportTransportation
       title: "Трансфер из аэропорта"
       text: "Встреча в аэропорту, отслеживание рейса и прямой трансфер до нужного адреса."
-      ctaLabel: "Подробнее"
+      ctaLabel: "Трансфер из аэропорта"
     - routeKey: businessTransportation
       title: "Бизнес-трансфер"
       text: "Перевозка сотрудников, руководителей, гостей, делегаций и деловых групп."
-      ctaLabel: "Подробнее"
+      ctaLabel: "Бизнес-трансфер"
     - routeKey: specialEvents
       title: "Особые события"
       text: "Организованный транспорт для свадеб, выпускных, VIP-задач и частных мероприятий."
-      ctaLabel: "Подробнее"
+      ctaLabel: "Транспорт для особых событий"
 
 flagshipFeature:
   heading:

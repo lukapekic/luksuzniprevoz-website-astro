@@ -1,5 +1,10 @@
 # Serbian Corpus Review
 
+> **Historical audit, superseded 12 September 2026.** The Serbian proposals were
+> applied and followed by English/Russian review. See
+> [serbian-language-reference.md](serbian-language-reference.md) and
+> [FINAL-REVIEW.md](FINAL-REVIEW.md) for the current corpus state.
+
 ## Scope and method
 
 This pass reconciles all 15 Serbian page entries, the Serbian navigation-label

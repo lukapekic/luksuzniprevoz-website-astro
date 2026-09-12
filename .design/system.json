@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-11T16:46:03.017Z",
-  "sourceHash": "9d8b916956fa79749fd682ae051130a83ed05b400683b3596188fd9a628072ce",
+  "generatedAt": "2026-09-12T18:09:29.511Z",
+  "sourceHash": "5e2aa4fa037dddcfa99a1feb2c3b44548056ad6a6eeea679048a54435eab7159",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -462,6 +462,7 @@
       "site/luksuzni-prevoz/src/docs/content-review/pages/vip-transportation.md",
       "site/luksuzni-prevoz/src/docs/content-review/pages/wedding-transportation.md",
       "site/luksuzni-prevoz/src/docs/content-review/seo-decisions.md",
+      "site/luksuzni-prevoz/src/docs/content-review/seo-market-research-2026-09-12.md",
       "site/luksuzni-prevoz/src/docs/content-review/seo-research.md",
       "site/luksuzni-prevoz/src/docs/content-review/serbian-corpus.md",
       "site/luksuzni-prevoz/src/docs/content-review/serbian-language-final-review.md",

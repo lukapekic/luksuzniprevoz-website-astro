@@ -4,7 +4,7 @@ locale: sr
 pageType: contact
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
 seoTitle: "Kontakt za prevoz u Beogradu"

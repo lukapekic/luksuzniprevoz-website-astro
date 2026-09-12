@@ -1,5 +1,9 @@
 # Route: `businessTransportation`
 
+> **Final state — 12 September 2026:** This audit is retained as historical
+> evidence. The former child-route release blocker is resolved: Corporate,
+> Delegation and Conference/Congress are all published in SR/EN/RU.
+
 ## Scope
 
 - Mode: audit/proposal; Serbian Latin only; no production content changed.
@@ -15,7 +19,7 @@
 | Corporate supports recurring contracts, invoicing, terms, and same-chauffeur continuity | Corporate service data | verified and properly scoped |
 | Delegation and Conference support multi-vehicle coordination | respective child service data | verified and properly scoped |
 | Four selected client logos may render | `clients.ts` public display policy | verified display state; avoid endorsement language |
-| All three child destinations are publicly available | `routes.ts` and content lifecycle | false: Corporate and Conference are scaffold/in-review |
+| All three child destinations are publicly available | `routes.ts` and content lifecycle | resolved: all three children are published |
 
 ## Findings and proposed replacements
 
@@ -34,4 +38,7 @@
 
 ## Used Serbian UI and conclusion
 
-Capability labels are correctly gated per child, and the FAQ carefully avoids presenting multi-vehicle support as universal. The urgent issue is release integrity, not Serbian grammar: the public hub currently promotes two routes that production does not emit. Once that is resolved, compress the opening, standardize `usluga/prevoz`, and keep claims scoped to the correct child. One release decision is required; wording itself needs no owner input.
+Capability labels remain correctly gated per child, and the FAQ avoids presenting
+multi-vehicle support as universal. The former release-integrity issue is resolved;
+the final build emits all child routes. The opening was compressed, `usluga` and
+`prevoz` were standardized, and claims remain scoped to the correct child.

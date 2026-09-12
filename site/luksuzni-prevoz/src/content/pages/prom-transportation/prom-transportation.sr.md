@@ -4,7 +4,7 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
 seoTitle: "Prevoz za maturu u Beogradu"
@@ -54,7 +54,7 @@ sections:
       - title: "Preuzimanje"
         text: "Vozilo dolazi na potvrđeno mesto u okviru dogovorenog plana."
       - title: "Vožnja sa profesionalnim vozačem"
-        text: "Putnici mogu da se fokusiraju na veče dok vozač preuzima vožnju i parking logistiku."
+        text: "Putnici mogu da se posvete večeri dok vozač vodi računa o vožnji i parkingu."
       - title: "Dolazak"
         text: "Dolazak se usklađuje sa vremenom događaja i potvrđenom destinacijom."
       - title: "Dogovoreni povratak"
@@ -69,7 +69,7 @@ sections:
       - title: "Individualno ili u paru"
         text: "Limuzina može biti odgovarajući izbor za jednu osobu ili par."
       - title: "Dolazak sa društvom"
-        text: "Grupno vozilo omogućava da više putnika krene zajedno kada raspored i broj putnika to podržavaju."
+        text: "Grupno vozilo omogućava zajednički polazak kada odgovara rasporedu i broju putnika."
       - title: "Više vozila"
         text: "Za veće ili odvojene grupe može se proveriti organizacija nekoliko vozila u okviru istog potvrđenog zahteva."
 
@@ -114,7 +114,7 @@ faq:
     - question: "Da li mogu da rezervišem prevoz samo za sebe ili za nas dvoje?"
       answer: "Da. Možete poslati zahtev za individualni dolazak, par ili grupu. Vozilo biramo prema broju putnika i raspoloživosti."
     - question: "Da li mogu da izaberem određeni model vozila?"
-      answer: "U zahtevu možete navesti željeni model ili klasu vozila. Konačan izbor i dostupnost potvrđuju se za konkretan datum."
+      answer: "U zahtevu možete navesti željeni model ili klasu vozila. Konačan izbor i raspoloživost potvrđuju se za konkretan datum."
     - question: "Možemo li organizovati više vozila za isto društvo?"
       answer: "Da. Za veće društvo ili odvojene polaske možemo proveriti više vozila i kombinaciju klasa."
     - question: "Da li možete da čekate i vratite nas posle događaja?"

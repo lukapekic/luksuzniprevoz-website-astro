@@ -4,10 +4,10 @@ locale: sr
 pageType: fleet
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
-seoTitle: "Vozni park – vozila sa vozačem"
+seoTitle: "Vozni park limo servisa u Beogradu"
 seoDescription: "Uporedite Mercedes-Benz S-Class, E-Class, V-Class i Sprinter, kao i Škoda Superb i Kodiaq. Izaberite vozilo sa vozačem prema putnicima i planu vožnje."
 
 hero:
@@ -28,7 +28,7 @@ introSection:
   heading:
     title: "Izbor prema putnicima, prtljagu i rasporedu"
     intro: "Nije svaki put isti, zato izbor vozila ne počinje samo od broja sedišta."
-  body: "Broj putnika, količina prtljaga, trajanje vožnje, tip događaja i potreba za jednim ili više vozila zajedno određuju najbolji izbor. Recite nam kako putujete, a mi proveravamo odgovarajuću konfiguraciju i dostupnost konkretnog modela pre potvrde."
+  body: "Broj putnika, količina prtljaga, trajanje vožnje, tip događaja i potreba za jednim ili više vozila zajedno određuju najbolji izbor. Recite nam kako putujete, a mi ćemo pre potvrde proveriti odgovarajuću konfiguraciju i raspoloživost konkretnog modela."
 
 fleetSection:
   heading:
@@ -79,11 +79,11 @@ fleetSection:
       vehicleIds:
         - mercedes-v-class-6-plus-1-extra-long
         - mercedes-v-class-7-plus-1-extra-long
-      summary: "Kombi Extra Long za manje grupe koje žele da putuju zajedno, bez prelaska na veliki grupni autobuski format."
+      summary: "Kombi vozilo Extra Long za manje grupe koje žele da putuju zajedno, bez prelaska na autobuski prevoz."
       bestFor: "Poslovne timove, goste, porodice, delegacije i manje grupe kojima su zajednička vožnja i komfor važniji od odvojenih automobila."
       highlights:
         - "Extra Long model sa dve putničke konfiguracije."
-        - "Prostran grupni format sa udobnim prevozom."
+        - "Prostrano kombi vozilo za udoban grupni prevoz."
         - "Praktičan za rasporede sa više putnika i zajedničkim dolaskom."
 
     - key: mercedesSprinter
@@ -108,15 +108,15 @@ sections:
       - title: "Prtljag"
         text: "Koferi, ručni prtljag i posebna oprema proveravaju se zajedno sa brojem putnika."
       - title: "Tip putovanja"
-        text: "Aerodrom, poslovni dan, događaj, duža ruta ili više stanica mogu tražiti različit tip vozila."
+        text: "Aerodrom, poslovni dan, događaj, duža ruta ili više lokacija mogu tražiti različit tip vozila."
       - title: "Jedno ili više vozila"
-        text: "Kod većih grupa i složenijih rasporeda organizacija može uključiti više vozila kada izabrana usluga to podržava."
+        text: "Kod većih grupa i složenijih rasporeda organizacija može uključiti više vozila kada je to predviđeno izabranom uslugom."
 
 faq:
   heading: "Česta pitanja o vozilima"
   items:
     - question: "Mogu li da izaberem konkretan model vozila?"
-      answer: "Da. Navedite željeni model u zahtevu. Dostupnost konkretnog vozila proverava se pre ručne potvrde rezervacije."
+      answer: "Da. Navedite željeni model u zahtevu. Raspoloživost konkretnog vozila proverava se pre ručne potvrde rezervacije."
     - question: "Koliko putnika može da se vozi u svakom vozilu?"
       answer: "Uz vozila sa potvrđenim kapacitetom prikazan je najveći broj putnika. Konačan izbor proveravamo i prema količini prtljaga."
     - question: "Kako se razlikuju konfiguracije modela Mercedes-Benz V-Class?"
@@ -126,15 +126,15 @@ faq:
     - question: "Da li je Škoda Kodiaq deo flote?"
       answer: "Da. Škoda Kodiaq je SUV u našoj floti. Pošaljite broj putnika, prtljag i raspored putovanja kako bismo proverili odgovarajuće uslove, cenu i raspoloživost."
     - question: "Može li se organizovati više vozila za istu grupu?"
-      answer: "Da, kod usluga koje podržavaju organizaciju više vozila. Pošaljite broj putnika, lokacije i raspored, a tim potvrđuje odgovarajuću kombinaciju."
+      answer: "Da, kod usluga koje mogu da obuhvate više vozila. Pošaljite broj putnika, lokacije i raspored, a tim će potvrditi odgovarajuću kombinaciju."
     - question: "Da li je dostupno dečje sedište?"
       answer: "Dečje sedište je dostupno na zahtev. Navedite potrebu prilikom rezervacije kako bi se odgovarajuće sedište i vozilo proverili pre potvrde."
     - question: "Da li je rezervacija potvrđena odmah nakon slanja zahteva?"
-      answer: "Ne. Tim proverava dostupnost, izabrani model ili klasu, broj putnika, prtljag i detalje vožnje, a zatim ručno potvrđuje rezervaciju."
+      answer: "Ne. Tim proverava raspoloživost, izabrani model ili klasu, broj putnika, prtljag i detalje vožnje, a zatim ručno potvrđuje rezervaciju."
 
 finalCta:
   heading: "Recite nam kako putujete"
-  text: "Pošaljite datum, relaciju ili raspored, broj putnika, prtljag i željeno vozilo. Proverićemo odgovarajuću konfiguraciju i dostupnost pre potvrde."
+  text: "Pošaljite datum, relaciju ili raspored, broj putnika, prtljag i željeno vozilo. Proverićemo odgovarajuću konfiguraciju i raspoloživost pre potvrde."
   primaryCta:
     label: "Započnite rezervaciju"
     target:

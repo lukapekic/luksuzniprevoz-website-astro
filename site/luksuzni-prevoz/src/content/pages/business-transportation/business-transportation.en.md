@@ -4,9 +4,9 @@ locale: en
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: b0e6c87df3ace64d
+sourceDigest: 8caed6a1127af526
 seoTitle: "Business Transport in Belgrade"
 seoDescription: "Business transport in Belgrade for companies, delegations and conferences. Coordinate passengers, schedules and multiple vehicles with a tailored quote."
 
@@ -29,7 +29,7 @@ overview:
   heading:
     title: "Transport within your business programme"
     intro: "Business transportation becomes complex when people, timings and several locations need to work as one reliable schedule."
-  body: "We organise transport around timings, locations and each vehicle’s role. Before confirmation, we agree who travels together, where the stops are and what coordination is needed."
+  body: "We organise transport around timings, locations and each vehicle’s role. Before confirmation, we agree who travels together, where each pickup takes place and what coordination is needed."
   items:
     - title: "Schedule first"
       text: "Organisation starts with timings, locations, passengers and the way the business day actually needs to operate."
@@ -53,7 +53,7 @@ childServices:
       ctaLabel: "Delegation Transportation"
     - routeKey: conferenceCongressTransportation
       title: "Conferences and congresses"
-      text: "For participant arrivals, departures and movement between airports, hotels and event locations, including multi-vehicle schedules."
+      text: "For airport arrivals and participant transport between hotels and event locations, including multi-vehicle schedules."
       ctaLabel: "Conference transportation"
 
 sections:
@@ -139,7 +139,7 @@ faq:
     - question: "How do you organise delegation transportation?"
       answer: "Send passenger numbers, key timings and locations. Delegation Transportation supports multiple vehicles, mixed vehicle classes and dedicated coordination."
     - question: "How does transportation for conferences and congresses work?"
-      answer: "Send arrivals, departures, hotels, event locations and group structure. The service supports airport arrivals, hotel transfers, venue shuttles and multi-vehicle schedules."
+      answer: "Send airport-arrival details, hotels, event locations and group structure. We can organise airport arrivals, hotel transfers, transport between event locations and multi-vehicle schedules."
     - question: "Is the request confirmed immediately after submission?"
       answer: "No. The team checks availability, the appropriate service, vehicles and operating details, then confirms the arrangements personally."
 

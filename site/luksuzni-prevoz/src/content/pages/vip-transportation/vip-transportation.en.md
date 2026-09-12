@@ -1,12 +1,12 @@
 ---
 routeKey: vipTransportation
 locale: en
-sourceDigest: c19dad6c87f638b9
+sourceDigest: 08c8a7bbaa890752
 sourceLocale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
 seoTitle: "VIP Chauffeur Service in Belgrade"
@@ -137,11 +137,11 @@ faq:
     - question: "Who is VIP Transportation intended for?"
       answer: "The service is intended for private guests and engagements where greater discretion, individual scheduling or more detailed transport coordination is required. The requirements of the engagement define the service, not the passenger's title or profession."
     - question: "Can you organise VIP transportation from the airport?"
-      answer: "Yes. VIP Transportation supports commercial and private aviation arrivals. Airport transportation and subsequent confirmed movements can form part of the same itinerary."
+      answer: "Yes. We arrange VIP transportation for guests arriving on commercial or private flights. Airport transportation and subsequent confirmed journeys can form part of the same itinerary."
     - question: "Can the itinerary include several locations during the day?"
       answer: "Yes. Send the planned locations and approximate schedule. The itinerary is reviewed against the specific engagement, required resources and availability before confirmation."
     - question: "Can you organise several vehicles?"
-      answer: "Yes. VIP Transportation supports multi-vehicle arrangements when accompanying passengers, separate groups or the schedule require that type of plan."
+      answer: "Yes. We can arrange several vehicles when accompanying passengers, separate groups or the schedule require that type of plan."
     - question: "Can a complex booking have dedicated coordination?"
       answer: "Yes. Dedicated coordination can be arranged for complex VIP bookings where several vehicles, passenger movements or timings need to operate as part of one confirmed plan."
     - question: "Does VIP transport include personal security?"

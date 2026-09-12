@@ -1,131 +1,64 @@
 {
   "queryCeiling": 60,
-  "attempted": 42,
+  "attempted": 58,
   "completed": [
     "home-sr",
     "home-ru",
     "airportTransportation-sr",
     "airportTransportation-en",
+    "privateChauffeur-sr",
     "privateChauffeur-en",
     "privateChauffeur-ru",
+    "businessTransportation-sr",
+    "corporateTransportation-sr",
     "corporateTransportation-en",
     "corporateTransportation-ru",
+    "delegationTransportation-sr",
     "delegationTransportation-ru",
+    "conferenceCongressTransportation-sr",
+    "specialEvents-sr",
     "weddingTransportation-sr",
     "promTransportation-sr",
+    "vipTransportation-sr",
     "vipTransportation-en",
     "vipTransportation-ru",
+    "fleet-sr",
     "fleet-en",
+    "pricing-sr",
+    "contact-sr",
     "contact-ru"
   ],
   "failed": [
-    {
-      "id": "home-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "airportTransportation-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "privateChauffeur-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "businessTransportation-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "businessTransportation-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "businessTransportation-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "corporateTransportation-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "delegationTransportation-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "delegationTransportation-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "conferenceCongressTransportation-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "conferenceCongressTransportation-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "conferenceCongressTransportation-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "specialEvents-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "specialEvents-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "specialEvents-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "weddingTransportation-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "weddingTransportation-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "promTransportation-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "promTransportation-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "vipTransportation-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "fleet-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "fleet-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "pricing-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "pricing-en",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "pricing-ru",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "contact-sr",
-      "reason": "Provider request failed; no automatic retry"
-    },
-    {
-      "id": "contact-en",
-      "reason": "Provider request failed; no automatic retry"
-    }
-  ]
+    { "id": "home-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "airportTransportation-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "businessTransportation-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "businessTransportation-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "delegationTransportation-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "conferenceCongressTransportation-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "conferenceCongressTransportation-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "specialEvents-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "specialEvents-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "weddingTransportation-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "weddingTransportation-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "promTransportation-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "promTransportation-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "fleet-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "pricing-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "pricing-ru", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" },
+    { "id": "contact-en", "reason": "Historical provider request failed; not retried in the Serbian-only 2026-09-12 run" }
+  ],
+  "latestRun": {
+    "date": "2026-09-12",
+    "scope": "All 14 Serbian indexable route targets; Google Serbia desktop results localized to Belgrade",
+    "provider": "ValueSERP",
+    "attempts": 16,
+    "finalSuccessfulTargets": 14,
+    "finalFailedTargets": 0,
+    "retriedTargets": [
+      "conferenceCongressTransportation-sr",
+      "weddingTransportation-sr"
+    ],
+    "competitorPagesCollected": 42,
+    "rawReports": "site/luksuzni-prevoz/.seo-research/current-serbian-2026-09-12/ (ignored local tooling state; contains no API key)"
+  }
 }

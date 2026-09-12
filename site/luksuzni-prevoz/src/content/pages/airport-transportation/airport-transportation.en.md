@@ -4,9 +4,9 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: d190005921e0bb48
+sourceDigest: b374a6af2388acae
 
 seoTitle: "Belgrade Airport Transfers"
 seoDescription: "Private transfers to and from Belgrade Nikola Tesla Airport, with flight tracking, a name-sign welcome and luggage assistance. View fares per vehicle."

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedOn": "2026-09-11",
+  "updatedOn": "2026-09-12",
   "site": "luksuzni-prevoz",
   "mode": "multilingual-content-seo-finalization",
   "sourceLocale": "sr",
@@ -11,10 +11,10 @@
   ],
   "stage": "complete-for-owner-review",
   "productionContentChanged": true,
-  "releaseState": "scoped-checks-complete-with-documented-limitations",
+  "releaseState": "all-content-routes-published-final-owner-review-pending",
   "checkpoint": {
     "resumeFrom": "FINAL-REVIEW.md",
-    "nextAgentAction": "Address the owner's final review feedback on feature/content-seo-finalization.",
+    "nextAgentAction": "Await the owner's final manual editorial review, then deploy with production robots and generated legacy redirects.",
     "doNotProceedWithoutApproval": false,
     "authorization": "Owner delegated editorial approval and implementation on 2026-09-11. Final owner review remains before publication."
   },
@@ -119,7 +119,9 @@
     "sharedSerbianUi": "completed",
     "seoHandoff": "completed",
     "serbianLanguageResearch": "completed",
-    "proposalLanguageReview": "completed"
+    "proposalLanguageReview": "completed",
+    "freshSerbianSeoMarketResearch": "completed-14-of-14-targets",
+    "legacyUrlMigrationMap": "completed-33-direct-redirects"
   },
   "validation": {
     "skillsValidate": "passed-final",
@@ -127,7 +129,7 @@
     "contentValidate": "passed-final",
     "seoValidate": "passed-final-45-of-45",
     "siteCheck": "passed-final-0-errors-6-hints",
-    "siteBuild": "passed-final-43-pages",
+    "siteBuild": "passed-final-49-pages",
     "traceabilityCheck": "passed-final"
   },
   "currentExecution": "execution-status.json"

@@ -4,14 +4,14 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 
 seoTitle: "Aerodromski prevoz Beograd"
-seoDescription: "Privatni transfer do i sa aerodroma Nikola Tesla u Beogradu. Doček sa imenom, praćenje leta i pomoć sa prtljagom. Pogledajte vozila i cene po vozilu."
+seoDescription: "Privatni prevoz između Aerodroma Nikola Tesla i Beograda. Praćenje leta, doček sa tablom sa imenom putnika i pomoć sa prtljagom. Pogledajte cene po vozilu."
 
 hero:
   title: "Aerodromski prevoz u Beogradu"
-  description: "Privatni prevoz do i sa aerodroma Nikola Tesla u Beogradu, uz praćenje leta, doček sa imenom i pomoć sa prtljagom."
+  description: "Privatni prevoz između Aerodroma Nikola Tesla i Beograda, uz praćenje leta, doček sa tablom sa imenom putnika i pomoć sa prtljagom."
   primaryCta:
     label: "Započnite rezervaciju"
     target:
@@ -34,7 +34,7 @@ sections:
   - key: booking
     heading:
       title: "Pošaljite osnovne podatke o letu"
-      intro: "Započnite rezervaciju sa nekoliko ključnih podataka, a zatim nastavite na detaljniji obrazac."
+      intro: "Započnite rezervaciju unosom nekoliko ključnih podataka, a zatim nastavite na detaljniji obrazac."
     body: "Unesite broj leta, datum i vreme. Podaci se prenose u sledeći korak rezervacije, gde možete dopuniti lokacije, putnike, prtljag i izbor vozila."
 
   - key: arrivalHandling

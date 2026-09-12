@@ -1,9 +1,13 @@
 # Route: `corporateTransportation`
 
+> **Final state — 12 September 2026:** This audit is retained as historical
+> evidence. Its copy findings were applied, and the route is now published,
+> reviewed and indexable in SR/EN/RU after an isolated 13-gate verification.
+
 ## Scope
 
 - Mode: audit/proposal; Serbian Latin only; no production content changed.
-- Lifecycle: `in-review`, `noindex`; route availability is `scaffold`, so the full page is not emitted in production.
+- Lifecycle at audit time: `in-review`, `noindex`, route availability `scaffold`; now resolved and published.
 - User task: choose between one-off and recurring corporate transport, understand invoicing/terms, provide a business schedule, and await manual confirmation.
 - Sources: Serbian page entry, locked blueprint/content contract, final renderer, `services.ts`, `operations.ts`, `contact.ts`, used Corporate/Business UI keys, fleet and shared chrome.
 
@@ -34,4 +38,6 @@
 
 ## Used Serbian UI and conclusion
 
-Capability and FAQ templates are factually strong and properly data-gated. Keep the conditional language around invoicing, commercial terms, model availability, outside-Belgrade work, and confirmation. Compress duplicate uses of `potvrđen raspored`, normalize polite-plural CTAs, and retain `in-review`/`noindex` until the route is intentionally activated. No owner content input is required.
+Capability and FAQ templates remain factually data-gated. The repetition,
+terminology and polite-plural findings were applied, translations were reviewed,
+and the route was activated in all locales. No owner content input remains.

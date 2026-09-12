@@ -4,7 +4,7 @@ locale: sr
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 
 seoTitle: "Prevoz za posebne prilike u Beogradu"
 seoDescription: "Prevoz sa vozačem za venčanja, mature i VIP događaje u Beogradu. Izaberite vrstu usluge i vozilo, pa usaglasite dolazak, čekanje i povratak."
@@ -32,14 +32,14 @@ overview:
     - title: "Glavni putnik ili par"
       text: "Reprezentativan i precizno planiran prevoz za osobe koje imaju centralnu ulogu u događaju."
     - title: "Gosti i grupe"
-      text: "Dodatna vozila i grupni prevoz kada izabrana usluga podržava organizaciju za porodicu, goste ili više putnika."
+      text: "Dodatna vozila i grupni prevoz mogu se organizovati za porodicu, goste ili veći broj putnika."
     - title: "Jedan dogovoreni raspored"
       text: "Preuzimanja, lokacije, čekanje i povratak usklađuju se sa planom koji je potvrđen za konkretan događaj."
 
 childServices:
   heading:
     title: "Izaberite prevoz prema vašoj prilici"
-    intro: "Tri specijalizovane usluge pokrivaju najčešće zahteve. Izaberite onu koja najbolje odgovara događaju, a detalje organizacije definišemo nakon upita."
+    intro: "Tri namenske usluge pokrivaju najčešće zahteve. Izaberite onu koja najbolje odgovara događaju, a detalje organizacije definišemo nakon upita."
   items:
     - routeKey: weddingTransportation
       title: "Prevoz za venčanja"
@@ -75,24 +75,24 @@ sections:
       - title: "Jedan važan dolazak"
         text: "Za pojedinca, par ili gosta sa jasno definisanim preuzimanjem, destinacijom i terminom."
       - title: "Koordinisan događaj"
-        text: "Za glavne putnike, goste ili grupe kada potvrđena usluga podržava više vozila, vremena preuzimanja i lokacija."
+        text: "Za glavne putnike, goste ili grupe kada potvrđeni plan obuhvata više vozila, vremena preuzimanja i lokacija."
 
   - key: eventCoordination
     heading:
       title: "Prevoz prati tok događaja"
       intro: "Usaglašavamo polaske, dolaske i naredne vožnje u redosledu koji odgovara događaju."
-    body: "Čekanje, dodatne lokacije i povratak navedite u zahtevu. Uključuju se samo kada ih izabrana usluga podržava i kada su potvrđeni."
+    body: "Čekanje, dodatne lokacije i povratak navedite u zahtevu. Postaju deo usluge tek kada ih proverimo i potvrdimo."
     items:
       - title: "Preuzimanje"
         text: "Vreme i lokacija preuzimanja definišu početak potvrđenog plana."
       - title: "Glavni dolazak"
         text: "Dolazak glavnog putnika ili para usklađuje se sa dogovorenim terminom događaja."
       - title: "Gosti ili grupa"
-        text: "Dodatni putnici i vozila uključuju se kada izabrana usluga i potvrđena organizacija to podržavaju."
+        text: "Dodatni putnici i vozila uključuju se kada su predviđeni potvrđenim planom."
       - title: "Dogovoreno čekanje ili dodatna lokacija"
         text: "Čekanje i dodatne tačke unose se u plan kada su unapred dogovorene i potvrđene."
       - title: "Planirani povratak"
-        text: "Povratna vožnja organizuje se kao deo potvrđenog rasporeda kada izabrana usluga to podržava."
+        text: "Povratna vožnja organizuje se kada je predviđena izabranom uslugom i potvrđenim rasporedom."
 
   - key: standards
     heading:
@@ -133,11 +133,11 @@ faq:
     - question: "Koju uslugu treba da izaberem?"
       answer: "Izaberite prevoz za venčanje, maturu ili VIP prevoz kada odgovara vašoj prilici. Za rođendane, privatne proslave, gala događaje i druge posebne prilike pošaljite opšti zahtev za događaj."
     - question: "Možete li organizovati više vozila za isti događaj?"
-      answer: "Da, kada izabrana usluga podržava takvu organizaciju. Broj i klase vozila proveravaju se prema broju putnika, rasporedu i raspoloživosti."
+      answer: "Da, kada izabrana usluga omogućava takvu organizaciju. Broj i klase vozila proveravaju se prema broju putnika, rasporedu i raspoloživosti."
     - question: "Možete li organizovati i prevoz gostiju ili grupe?"
-      answer: "Da, kada odgovarajuća usluga podržava prevoz gostiju ili grupnu organizaciju. Pošaljite broj putnika i tačke preuzimanja kako bi tim proverio odgovarajući plan."
+      answer: "Da. Prevoz gostiju ili grupe može se organizovati u okviru odgovarajuće usluge. Pošaljite broj putnika i mesta preuzimanja kako bi tim proverio odgovarajući plan."
     - question: "Da li čekanje i povratak mogu biti deo aranžmana?"
-      answer: "Mogu kada ih izabrana usluga podržava i kada su unapred navedeni i potvrđeni. Čekanje i povratak nisu automatski uključeni u svaki zahtev."
+      answer: "Mogu kada su predviđeni izabranom uslugom, unapred navedeni i potvrđeni. Čekanje i povratak nisu automatski uključeni u svaki zahtev."
     - question: "Šta se dešava ako se raspored događaja promeni?"
       answer: "Promene se proveravaju prema konkretnom angažmanu, rezervisanom periodu i raspoloživosti. Potvrda izmene nije automatska."
     - question: "Da li je rezervacija potvrđena odmah nakon slanja zahteva?"

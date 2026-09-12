@@ -4,9 +4,9 @@ locale: sr
 pageType: pricing
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
-seoTitle: "Cenovnik prevoza sa vozačem"
+seoTitle: "Cenovnik limo servisa u Beogradu"
 seoDescription: "Pogledajte cene aerodromskog prevoza po vozilu i pakete najma sa vozačem u Beogradu. Za složeniji raspored ili više vozila zatražite posebnu ponudu."
 hero:
   title: "Cene prevoza sa vozačem"
@@ -27,7 +27,7 @@ introSection:
   heading:
     title: "Izaberite uslugu i način obračuna"
     intro: "Uporedite objavljene tarife ili zatražite ponudu za složeniji plan."
-  body: "Aerodromski prevoz ima fiksnu cenu za podržanu relaciju. Najam vozila sa profesionalnim vozačem obračunava se prema trajanju. Za poslovne programe i posebne prilike pripremamo procenu ili individualnu ponudu prema rasporedu."
+  body: "Aerodromski prevoz ima fiksnu cenu za definisanu relaciju. Najam vozila sa profesionalnim vozačem obračunava se prema trajanju. Za poslovne programe i posebne prilike pripremamo procenu ili individualnu ponudu prema rasporedu."
 pricing:
   heading:
     title: Objavljene cene
@@ -46,7 +46,7 @@ sections:
   - title: Delegacije, konferencije i kongresi
     text: Cena se formira prema potvrđenom rasporedu, kombinaciji vozila i nivou koordinacije koji angažman zahteva.
   - title: Venčanja, mature i VIP prevoz
-    text: Specijalni događaji i VIP angažmani obrađuju se kroz individualnu ponudu umesto unapred definisanih paketa.
+    text: Za posebne prilike i VIP prevoz pripremamo individualnu ponudu umesto unapred definisanih paketa.
   relatedRouteKeys:
   - businessTransportation
   - corporateTransportation
@@ -93,7 +93,7 @@ faq:
     answer: "Ne. Javni cenovnik obuhvata aerodromski prevoz i najam vozila sa vozačem prema trajanju. Za ostale zahteve pripremamo procenu ili individualnu ponudu, u zavisnosti od usluge."
   - question: Kako se formira cena poslovnog prevoza?
     answer: Jednostavniji poslovni zahtevi mogu se proceniti kada su podaci dovoljni. Složeniji rasporedi, ponavljajući angažmani,
-      delegacije i konferencijski programi potvrđuju se kroz individualnu ponudu.
+      delegacije i konferencijski programi dobijaju cenu u individualnoj ponudi.
   - question: Da li venčanja, mature i VIP prevoz imaju fiksne pakete?
     answer: "Za venčanja, mature i VIP prevoz pripremamo individualnu ponudu prema rasporedu, vozilima i potrebnoj koordinaciji."
   - question: Kada je cena konačno potvrđena?

@@ -25,13 +25,11 @@ new location page or unsupported vehicle specification was imported.
 - Route-derived canonical and reciprocal locale alternates remain absolute and
   retain Serbian Latin plus x-default. Route-level noindex and scaffold status
   now apply defensively even if a caller omits the content flag.
-- Booking remains noindex and outside the sitemap. Corporate and Conference
-  remain in-review/noindex/scaffold. No deployment or release activation occurs.
-- The public navigation excludes unavailable route documents. Business keeps its
-  three required cards; unpublished-child CTAs use the existing quote flow with
-  the correct service context. The recurring-corporate CTA follows the same rule.
-  The limited destination/label exception is recorded in the locked business
-  blueprint and header contract. Layout, order and service relationships remain.
+- Booking remains noindex and outside the sitemap. Corporate and Conference/
+  Congress are now published and indexable in all three locales after their
+  content, route and renderer gates passed.
+- Public navigation now links all three live Business child services. Layout,
+  order and canonical service relationships remain unchanged.
 - Shared typed builders supply LocalBusiness from verified contact/business facts,
   WebSite on the homepage, route-derived BreadcrumbList elsewhere, and FAQPage
   where the same questions and answers are visible. No fabricated ratings,
@@ -113,3 +111,28 @@ preload hints; font faces, semantic typography, image quality, layout and all
 performance thresholds remain unchanged. The isolated Russian probe improved LCP
 from about 2.785 seconds to 1.529 seconds, with all four standard categories at 100.
 The final six-URL, three-run-per-URL audit is recorded in verification.json.
+
+## Fresh Serbian SERP and legacy migration pass — 12 September 2026
+
+The configured ValueSERP runner completed all 14 Serbian indexable targets in a
+single current market snapshot. Two initial provider failures were retried once;
+the final result is 14/14 successful target reports and 42 bounded competitor
+page observations. The cumulative ledger is 58 attempts against the ceiling of
+60. The ignored `.env` key was loaded only into the process environment and is
+absent from reports and build output.
+
+Search intent supported four narrow Serbian refinements: `Lični vozač` reduces
+employment-query ambiguity, `Poslovni prevoz putnika` distinguishes passenger
+service from freight, and Fleet/Pricing use the observed `limo servis` task
+language. The exact-match analyzer's complaints about `u Beogradu` remain
+disposed as false positives: Serbian grammar outranks raw keyword order.
+
+The outgoing WordPress sitemaps contain 38 unique page/post URLs. The route map
+now owns 33 direct previous-slug mappings, including the legacy Corporate URL
+observed at position 1 and Pricing URL observed at position 9. Root and the
+English Corporate URL remain unchanged. News and Serbian/English About URLs have
+no equivalent and are deliberately not redirected to an irrelevant page.
+
+See [seo-market-research-2026-09-12.md](seo-market-research-2026-09-12.md) for
+the query table, competitor patterns, evidence boundaries and post-launch
+measurement workflow.

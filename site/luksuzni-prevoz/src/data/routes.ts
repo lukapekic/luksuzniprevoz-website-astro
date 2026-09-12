@@ -75,18 +75,47 @@ export const routeMap: Record<string, RouteEntry> = {
     availability: "published",
     parent: null,
     slugs: { sr: "", en: "", ru: "" },
+    previousSlugs: {
+      sr: ["limo-servis-beograd"],
+      en: ["luxury-transport-belgrade", "limo-service-belgrade"],
+      ru: [],
+    },
   },
   privateChauffeur: {
     kind: "service",
     availability: "published",
     parent: null,
     slugs: { sr: "privatni-vozac", en: "private-chauffeur", ru: "lichnyy-voditel" },
+    previousSlugs: {
+      sr: [
+        "iznajmljivanje-vozila-sa-vozacem",
+        "individualni-prevoz-putnika-pouzdani-transferi-usluge-prevoza-beograd",
+        "medjugradski-taxi",
+        "luksuzni-prevoz-beograd-nis",
+        "luksuzni-i-bezbedni-prevoz-do-zimskih-destinacija-u-srbiji",
+        "luksuzni-prevoz-do-banja-u-srbiji",
+        "transfer-prevoz-beograd-zagreb",
+        "transfer-prevoz-beograd-budimpesta",
+      ],
+      en: [
+        "chauffeur-service",
+        "popular-routes",
+        "belgrade-zagreb-transfer",
+        "belgrade-budapest-transfer",
+      ],
+      ru: [],
+    },
   },
   airportTransportation: {
     kind: "service",
     availability: "published",
     parent: null,
     slugs: { sr: "aerodromski-prevoz", en: "airport-transportation", ru: "transfer-iz-aeroporta" },
+    previousSlugs: {
+      sr: ["prevoz-do-aerodroma-beograd", "kako-izabrati-idealan-prevoz-do-aerodroma"],
+      en: ["airport-transfer-in-belgrade"],
+      ru: [],
+    },
   },
   businessTransportation: {
     kind: "hub",
@@ -96,12 +125,17 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   corporateTransportation: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: "businessTransportation",
     slugs: {
       sr: "korporativni-prevoz",
       en: "corporate-transportation",
       ru: "korporativnyy-transfer",
+    },
+    previousSlugs: {
+      sr: ["korporativni-prevoz-vasa-vrata-ka-profesionalizmu-i-luksuzu"],
+      en: [],
+      ru: [],
     },
   },
   delegationTransportation: {
@@ -112,7 +146,7 @@ export const routeMap: Record<string, RouteEntry> = {
   },
   conferenceCongressTransportation: {
     kind: "service",
-    availability: "scaffold",
+    availability: "published",
     parent: "businessTransportation",
     slugs: {
       sr: "prevoz-za-konferencije-i-kongrese",
@@ -135,6 +169,14 @@ export const routeMap: Record<string, RouteEntry> = {
     availability: "published",
     parent: "specialEvents",
     slugs: { sr: "prevoz-za-vencanja", en: "wedding-transportation", ru: "svadebnyy-transfer" },
+    previousSlugs: {
+      sr: [
+        "prevoz-mladenaca-prevoz-za-vencanje",
+        "kako-luksuzni-prevoz-cini-vase-vencanje-nezaboravnim",
+      ],
+      en: [],
+      ru: [],
+    },
   },
   promTransportation: {
     kind: "service",
@@ -153,18 +195,34 @@ export const routeMap: Record<string, RouteEntry> = {
     availability: "published",
     parent: null,
     slugs: { sr: "vozila", en: "fleet", ru: "avtopark" },
+    previousSlugs: {
+      sr: [
+        "flota-vozila",
+        "vozila-limo-servisa-beograd",
+        "iznajmljivanje-kombija-sa-vozacem",
+        "organizacija-prevoza-za-male-i-velike-grupe-putnika",
+      ],
+      en: [
+        "vehicles-of-limo-service-gs-in-belgrade",
+        "van-rental-with-a-driver",
+        "transportation-for-large-and-small-groups",
+      ],
+      ru: [],
+    },
   },
   pricing: {
     kind: "page",
     availability: "published",
     parent: null,
     slugs: { sr: "cene", en: "pricing", ru: "tseny" },
+    previousSlugs: { sr: ["cenovnik-usluga-prevoza"], en: [], ru: [] },
   },
   contact: {
     kind: "page",
     availability: "published",
     parent: null,
     slugs: { sr: "kontakt", en: "contact", ru: "kontakty" },
+    previousSlugs: { sr: ["kontakt-limo-servisa-gs"], en: ["contact-limo-service"], ru: [] },
   },
   booking: {
     kind: "page",
@@ -173,6 +231,11 @@ export const routeMap: Record<string, RouteEntry> = {
     slugs: { sr: "rezervacija", en: "booking", ru: "bronirovanie" },
     noindex: true,
     sitemap: { include: false, priority: 0 },
+    previousSlugs: {
+      sr: ["online-rezervacija-limo-servis-usluga"],
+      en: ["online-booking-for-a-limo-service"],
+      ru: [],
+    },
   },
 };
 

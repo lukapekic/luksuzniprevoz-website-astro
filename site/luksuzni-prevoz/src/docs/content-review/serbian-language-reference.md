@@ -12,43 +12,43 @@ marked **house style** is a deliberate product-language decision. When those
 conflict, record the exception instead of presenting house style as the only
 normatively accepted form.
 
-## Research basis
+## Research basis and authority
 
-Research checked on 9 September 2026:
+Research was refreshed on 12 September 2026. The reference separates codified
+language rules from editorial choices and does not treat search-result frequency
+as proof of correctness.
 
-- The [Board for Standardization of the Serbian Language](https://www.ossj.rs/naslovna-strana/)
-  brings together the principal Serbian-language institutions and publishes
-  normative decisions.
-- The University of Belgrade Faculty of Philology course
-  [Savremeni srpski jezik 2](https://www.fil.bg.ac.rs/sr-lat/fis/karton_predmeta/2101515)
-  treats agreement, cases, verb forms, word order, cohesion, and punctuation as
-  connected parts of text review. Its bibliography points to the current
-  standard grammar literature.
-- The University of Novi Sad textbook
-  [Standardni srpski jezik 2: Morfologija](https://digitalna.ff.uns.ac.rs/sadrzaj/2022/978-86-6065-706-2)
-  is the morphology reference for inflection.
-- The Institute for the Serbian Language SANU identifies
-  [Raskovnik](https://raskovnik.org/) as its Serbian lexicographic platform. Use
-  it to verify uncertain lemmas; dictionary presence alone does not make a word
-  suitable for customer copy.
-- The University of Novi Sad study of number/case errors confirms that two,
-  three, and four take the paucal/genitive-singular form, while five and higher
-  take genitive plural: [academic source](https://digitalna.ff.uns.ac.rs/sites/default/files/db/books/978-86-6065-910-3.pdf).
-- The Board's decision on [sat versus čas](https://www.ossj.rs/odluke-i-saopstenja/bosnjacki-ili-bosanski-jezik-sat-ili-cas-jevrejski-hebrejski-jezik-ili-ivrit/)
-  recommends `sat` as the natural word for a 60-minute duration; `čas` has
-  broader and more formal meanings.
-- The Board confirms that both the infinitive and `da` + present have legitimate
-  Serbian uses: [infinitive and da-construction](https://www.ossj.rs/odluke-i-saopstenja/o-odnosu-izmedju-da-konstrukcije-i-infinitiva-u-srpskom-jeziku/).
-- Prof. Dr Rada Stijović of the Institute for the Serbian Language SANU explains
-  the personal and impersonal uses of
-  [`trebati`](https://jezikofil.rs/sta-treba-znati-o-glagolu-trebati-ili-sta-cemo-sa-trebati/).
-- The Board's guidance on [enclitic placement](https://www.ossj.rs/odluke-i-saopstenja/mesto-enklitike-u-recenici/)
-  shows that short unstressed forms follow Serbian sentence structure and cannot
-  be placed mechanically as in English.
-- The University of Novi Sad's
-  [Dictionary of Recent Anglicisms](https://digitalna.ff.uns.ac.rs/sites/default/files/db/books/978-86-6065-636-2.pdf)
-  recommends adapted Serbian forms in general and records source-form `e-mail`
-  only for particular contexts.
+The primary normative authority is the current *Pravopis srpskoga jezika* and
+the fourth edition of *Normativna gramatika srpskoga jezika* (Matica srpska,
+2022). The latter is confirmed in the bibliography of the Institute for the
+Serbian Language SANU's 2025 *Južnoslovenski filolog*.^1 The Board for
+Standardization and the Institute's Standard Language Department are the
+institutional references for published decisions and the continuing development
+of the norm.^2
+
+For practical verification, the University of Belgrade syllabus for
+*Savremeni srpski jezik 2* treats congruence, case meanings, verb forms,
+negation, word order, cohesion and punctuation as connected parts of text
+analysis.^3 The University of Novi Sad's morphology textbook is the supporting
+reference for inflection,^4 while its *Serbian Dictionary of Recent Anglicisms*
+is used for current loanword treatment.^5 Raskovnik, maintained with the
+Institute for the Serbian Language SANU, is a useful lexicographic cross-check;
+dictionary presence alone does not make a word suitable for concise customer
+copy.^6
+
+Published Board decisions resolve several recurring website questions:
+
+- `sat` is the preferred ordinary word for a 60-minute unit; `čas` remains
+  legitimate in its other meanings and in formal administrative time
+  expressions.^7
+- Infinitive and `da` + present are both part of standard Serbian. Choice depends
+  on syntax, meaning, rhythm and avoidance of heavy repetition; neither should
+  be replaced mechanically.^8
+- Enclitics normally follow the first stressed word or phrase, cannot begin an
+  independent sentence and must not be stranded after a marked pause.^9
+- When `trebati` supplements another verb, the neutral construction is
+  impersonal (`treba da`, `trebalo bi da`); personal forms are normal when the
+  verb means “to need/be necessary”, with limited congruence-driven exceptions.^10
 
 ## Person, address, and voice
 
@@ -102,6 +102,15 @@ surface.
   long pause.
 - Prefer natural Serbian information order over English noun strings and heavy
   nominalization: `cena paketa`, `plan prevoza`, `broj putnika`.
+- Avoid English-influenced support verbs when Serbian has a direct predicate:
+  prefer `usluga omogućava`, `organizujemo`, `može da obuhvati` or a direct
+  active sentence over repeated `usluga podržava`.
+- Do not use `kroz` as a mechanical translation of English *through* when time,
+  means or procedure is intended. Prefer `tokom više vožnji`, `u ponudi`,
+  `nakon pregleda` or `uz koordinaciju`, according to meaning.
+- Distinguish location from stop. Use `lokacija`, `mesto preuzimanja`,
+  `odredište` or `planirano zaustavljanje`; reserve `stanica` for an actual
+  station or established public-transport stop.
 
 ## Numbers, durations, and interpolation
 
@@ -137,6 +146,14 @@ For full-word dynamic counts, select the form from the complete number, with
 - Preserve canonical trademarks and model labels: `Mercedes-Benz S-Class`,
   `E-Class`, `V-Class`, and `Sprinter`. Add a Serbian generic noun around a model
   when case would otherwise distort its canonical display form.
+- Use sentence case in headings and controls. All-uppercase display treatment
+  belongs to CSS, not authored language, unless an abbreviation such as `VIP`,
+  `SUV`, `FBO` or `NDA` requires capitals.
+- Use `—` for a deliberate sentence break and `–` for ranges. Avoid using a
+  slash to compress alternatives in customer-facing prose.
+- Prefer one clear sentence to stacked nominal phrases. A premium tone comes
+  from precise facts and calm syntax, not from superlatives, status language or
+  repeated adjectives.
 
 ## Luxury Transportation house style
 
@@ -154,6 +171,9 @@ These owner-approved choices govern this corpus:
 | availability | `raspoloživost` | mechanical replacement of every natural use of `dostupan` |
 | email | `e-mail`, `e-mail adresa` | `e-pošta`, `adresa e-pošte`, mixed spellings |
 | optional field | `(nije obavezno)` | `(opciono)` |
+| internal capability wording | direct Serbian verb: `organizujemo`, `može da obuhvati`, `omogućava` | repeated `podržava` calques |
+| service family | `usluga`, `usluge` | customer-facing `servis`, `servisi` |
+| planned stop | `lokacija`, `planirano zaustavljanje` | generic `stanica` when no station is meant |
 
 `E-mail` is an intentional house-style exception. Current normative references
 generally prefer adapted `imejl`/`mejl` and `imejl-adresa`, while allowing the
@@ -178,3 +198,33 @@ Before a proposal becomes the approved Serbian source:
 
 Only after this gate passes may the Serbian pack return to owner approval and
 then become the source for English and Russian review.
+
+## Sources
+
+1. Predrag Piper, Ivan Klajn and Rajna Dragićević. *Normativna gramatika
+   srpskoga jezika*, 4th ed., Matica srpska, 2022; bibliographic confirmation in
+   the Institute for the Serbian Language SANU,
+   [*Južnoslovenski filolog* 81/1](https://www.isj.sanu.ac.rs/wp-content/uploads/2025/11/%D0%88%D0%A4_81_1-4.pdf),
+   2025.
+2. Institute for the Serbian Language SANU,
+   [Standard Language Department](https://www.isj.sanu.ac.rs/odseci/odsek-za-standardni-jezik/),
+   and the [Board for Standardization of the Serbian Language](https://www.ossj.rs/).
+3. University of Belgrade Faculty of Philology,
+   [*Savremeni srpski jezik 2*](https://www.fil.bg.ac.rs/sr-lat/fis/karton_predmeta/2101515),
+   course specification and bibliography.
+4. Milan Ajdžanović,
+   [*Standardni srpski jezik 2: Morfologija*](https://digitalna.ff.uns.ac.rs/sadrzaj/2022/978-86-6065-706-2),
+   University of Novi Sad Faculty of Philosophy, 2022.
+5. Tvrtko Prćić et al.,
+   [*Srpski rečnik novijih anglicizama*](https://digitalna.ff.uns.ac.rs/sadrzaj/2021/978-86-6065-636-2),
+   University of Novi Sad Faculty of Philosophy, 2021.
+6. Institute for the Serbian Language SANU and partners,
+   [Raskovnik dictionary platform](https://raskovnik.org/).
+7. Board for Standardization of the Serbian Language,
+   [decision on `sat` and `čas`](https://www.ossj.rs/odluke-i-saopstenja/bosnjacki-ili-bosanski-jezik-sat-ili-cas-jevrejski-hebrejski-jezik-ili-ivrit/).
+8. Board for Standardization of the Serbian Language,
+   [decision on the infinitive and `da`-construction](https://www.ossj.rs/odluke-i-saopstenja/o-odnosu-izmedju-da-konstrukcije-i-infinitiva-u-srpskom-jeziku/).
+9. Board for Standardization of the Serbian Language,
+   [decision on enclitic placement](https://www.ossj.rs/odluke-i-saopstenja/mesto-enklitike-u-recenici/).
+10. Rada Stijović, Institute for the Serbian Language SANU,
+    [guidance on `trebati`](https://jezikofil.rs/sta-treba-znati-o-glagolu-trebati-ili-sta-cemo-sa-trebati/).

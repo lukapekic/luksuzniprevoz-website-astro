@@ -1,9 +1,13 @@
 # Route: `conferenceCongressTransportation`
 
+> **Final state — 12 September 2026:** This audit is retained as historical
+> evidence. Its copy findings were applied, and the route is now published,
+> reviewed and indexable in SR/EN/RU after an isolated 13-gate verification.
+
 ## Scope
 
 - Mode: audit/proposal; Serbian Latin only; no production content changed.
-- Lifecycle: `in-review`, `noindex`; route availability is `scaffold`, so the full page is not emitted in production.
+- Lifecycle at audit time: `in-review`, `noindex`, route availability `scaffold`; now resolved and published.
 - User task: provide the event schedule and passenger groups for a quote covering airport arrivals, hotels, venues, individual travellers, groups, and multiple vehicles.
 - Sources: Serbian page entry, locked blueprint/content contract, final renderer, `conferenceCongressService`, operations/contact data, used Conference/Business UI keys, fleet and shared chrome.
 
@@ -33,4 +37,7 @@
 
 ## Used Serbian UI and conclusion
 
-The interpolated FAQ answers accurately mirror typed capabilities and manual confirmation. Standardize `prevoz`, model names, polite-plural actions, and complete-sentence card copy. Retain `in-review`/`noindex` until production route activation is authorized and verified. No content fact requires owner input.
+The interpolated FAQ answers continue to mirror typed capabilities and manual
+confirmation. Terminology, model names, polite-plural actions and card copy were
+standardized, translations were reviewed, and the route was activated in all
+locales. No owner content input remains.

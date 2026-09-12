@@ -2,11 +2,11 @@
 routeKey: specialEvents
 locale: en
 sourceLocale: sr
-sourceDigest: cace6329dcbd3cd8
+sourceDigest: def95f3a55fea7e1
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 
 seoTitle: "Special Occasion Transport in Belgrade"
 seoDescription: "Chauffeur transport for weddings, proms and VIP events in Belgrade. Choose the occasion and vehicle, then arrange arrival, waiting and the return journey."
@@ -34,7 +34,7 @@ overview:
     - title: "Principal passenger or couple"
       text: "Carefully planned chauffeur transport for the people at the centre of the occasion."
     - title: "Guests and groups"
-      text: "Additional vehicles and group transportation when the selected service supports an arrangement for family, guests or several passengers."
+      text: "Additional vehicles and group transportation can be arranged for family, guests or a larger passenger group."
     - title: "One agreed schedule"
       text: "Pickups, locations, waiting and return journeys are aligned with the plan confirmed for the specific event."
 
@@ -77,24 +77,24 @@ sections:
       - title: "One important arrival"
         text: "For an individual, couple or guest with a clearly defined pickup, destination and time."
       - title: "Coordinated event transportation"
-        text: "For principal passengers, guests or groups when the confirmed service supports several vehicles, pickup times and locations."
+        text: "For principal passengers, guests or groups when the confirmed plan includes several vehicles, pickup times and locations."
 
   - key: eventCoordination
     heading:
       title: "Transportation follows the flow of the event"
       intro: "We agree on departures, arrivals and onward journeys in the order your event requires."
-    body: "Include waiting, extra stops and return travel in your request. They are included only where the selected service supports them and they have been confirmed."
+    body: "Include waiting, extra stops and return travel in your request. They become part of the service only after we review and confirm them."
     items:
       - title: "Pickup"
         text: "The confirmed plan begins with the agreed pickup time and location."
       - title: "Principal arrival"
         text: "The arrival of the principal passenger or couple is aligned with the agreed event timing."
       - title: "Guests or group"
-        text: "Additional passengers and vehicles are included when the selected service and confirmed organisation support them."
+        text: "Additional passengers and vehicles are included when they form part of the confirmed plan."
       - title: "Arranged waiting or additional location"
         text: "Waiting and additional stops enter the plan when they are agreed and confirmed in advance."
       - title: "Planned return"
-        text: "A return journey is organised as part of the confirmed schedule when the selected service supports it."
+        text: "A return journey is arranged when it forms part of the selected service and confirmed schedule."
 
   - key: standards
     heading:
@@ -135,11 +135,11 @@ faq:
     - question: "Which service should I choose?"
       answer: "Choose Wedding, Prom or VIP Transportation when it matches your occasion. For birthdays, private celebrations, galas and other special occasions, send a general event request."
     - question: "Can you organise several vehicles for the same event?"
-      answer: "Yes, when the selected service supports that type of organisation. Vehicle quantity and classes are reviewed against passenger count, schedule and availability."
+      answer: "Yes, when the selected service allows that type of organisation. Vehicle quantity and classes are reviewed against passenger count, schedule and availability."
     - question: "Can you also organise transportation for guests or a group?"
-      answer: "Yes, when the relevant service supports guest or group transportation. Send the passenger count and pickup points so the team can review the appropriate plan."
+      answer: "Yes. Guest or group transportation can be arranged within the relevant service. Send the passenger count and pickup points so the team can review the appropriate plan."
     - question: "Can waiting and a return journey be part of the arrangement?"
-      answer: "They can when the selected service supports them and they are specified and confirmed in advance. Waiting and return journeys are not automatically included in every request."
+      answer: "They can when they are available within the selected service and specified and confirmed in advance. Waiting and return journeys are not automatically included in every request."
     - question: "What happens if the event schedule changes?"
       answer: "Changes are reviewed against the specific engagement, reserved period and availability. Approval of a change is not automatic."
     - question: "Is the booking confirmed immediately after I send the request?"

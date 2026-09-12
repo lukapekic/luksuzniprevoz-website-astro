@@ -4,7 +4,7 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 noindex: false
 
 seoTitle: "VIP prevoz sa vozačem u Beogradu"
@@ -135,17 +135,17 @@ faq:
     - question: "Kome je namenjen VIP prevoz?"
       answer: "Usluga je namenjena privatnim gostima i angažmanima kod kojih su potrebni veća diskrecija, individualan raspored ili detaljnija koordinacija prevoza. Uslugu definišu zahtevi angažmana, a ne titula ili profesija putnika."
     - question: "Možete li organizovati VIP prevoz sa aerodroma?"
-      answer: "Da. VIP prevoz podržava dolaske komercijalnom i privatnom avijacijom. Aerodromski prevoz i naredna potvrđena kretanja mogu biti deo istog rasporeda putovanja."
+      answer: "Da. Organizujemo VIP prevoz za goste koji dolaze komercijalnim ili privatnim letom. Aerodromski prevoz i naredne potvrđene vožnje mogu biti deo istog rasporeda putovanja."
     - question: "Može li raspored putovanja da uključi više lokacija tokom dana?"
       answer: "Da. Pošaljite planirane lokacije i okvirni raspored. Raspored putovanja se proverava prema konkretnom angažmanu, potrebnim resursima i raspoloživosti pre potvrde."
     - question: "Možete li organizovati više vozila?"
-      answer: "Da. VIP prevoz podržava organizaciju više vozila kada prateći putnici, odvojene grupe ili raspored zahtevaju takav plan."
+      answer: "Da. Možemo organizovati više vozila kada prateći putnici, odvojene grupe ili raspored zahtevaju takav plan."
     - question: "Da li složenija rezervacija može imati posebnu koordinaciju?"
       answer: "Da. Za složene VIP rezervacije može se organizovati posebna koordinacija kada više vozila, putnika ili termina treba da funkcionišu kao deo jednog potvrđenog plana."
     - question: "Da li VIP prevoz uključuje lično obezbeđenje?"
       answer: "Ne. VIP prevoz ne uključuje fizičko ni lično obezbeđenje. Usluga obuhvata profesionalnog vozača i organizaciju kopnenog prevoza."
     - question: "Da li VIP prevoz ima unapred objavljenu fiksnu cenu?"
-      answer: "Ne. VIP prevoz se obračunava kroz individualnu ponudu jer se raspored putovanja, potrebna vozila i nivo koordinacije razlikuju između angažmana."
+      answer: "Ne. Cenu VIP prevoza određujemo na osnovu individualne ponude jer se raspored putovanja, potrebna vozila i nivo koordinacije razlikuju između angažmana."
     - question: "Da li je rezervacija potvrđena odmah nakon slanja zahteva?"
       answer: "Ne. Tim prvo proverava raspoloživost vozila, raspored putovanja i detalje organizacije, a zatim ručno potvrđuje organizaciju i ponudu."
 

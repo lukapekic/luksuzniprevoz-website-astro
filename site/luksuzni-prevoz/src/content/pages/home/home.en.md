@@ -4,9 +4,9 @@ locale: en
 pageType: home
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: 78d4e6b59a412541
+sourceDigest: b87750ee365ce53a
 
 seoTitle: "Luxury Chauffeur Service in Belgrade"
 seoDescription: "Luxury chauffeur service in Belgrade for airport transfers, business travel and special occasions. Explore the fleet and send us your travel plans."
@@ -24,7 +24,7 @@ hero:
     target:
       type: flow
       flowKey: quote
-  supportText: "Agreed arrangements and confirmation from our team before every journey."
+  supportText: "Our team confirms the details of every journey."
 
 services:
   heading:
@@ -34,19 +34,19 @@ services:
     - routeKey: privateChauffeur
       title: "Private Chauffeur"
       text: "A vehicle with a professional chauffeur by the hour, half day or full day."
-      ctaLabel: "Learn more"
+      ctaLabel: "Private Chauffeur"
     - routeKey: airportTransportation
       title: "Airport Transportation"
       text: "Airport meet and greet, flight tracking and direct transport to your destination."
-      ctaLabel: "Learn more"
+      ctaLabel: "Airport Transportation"
     - routeKey: businessTransportation
       title: "Business Transportation"
       text: "Transport for employees, executives, guests, delegations and business groups."
-      ctaLabel: "Learn more"
+      ctaLabel: "Business Transportation"
     - routeKey: specialEvents
       title: "Special occasions"
       text: "Coordinated transport for weddings, proms, VIP requirements and private events."
-      ctaLabel: "Learn more"
+      ctaLabel: "Special-occasion transportation"
 
 flagshipFeature:
   heading:

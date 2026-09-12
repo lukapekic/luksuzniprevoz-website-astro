@@ -2,12 +2,12 @@
 routeKey: corporateTransportation
 locale: ru
 pageType: service
-status: in-review
+status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: 772934d6201b6b0e
-noindex: true
+sourceDigest: 7a5c1b1c01e87e2c
+noindex: false
 
 seoTitle: "Корпоративный транспорт в Белграде"
 seoDescription: "Корпоративный транспорт в Белграде для руководителей и деловых гостей. Разовые и регулярные поездки с согласованным расписанием и условиями оплаты."
@@ -90,7 +90,7 @@ faq:
 
 finalCta:
   heading: "Отправьте расписание. Мы организуем корпоративный транспорт."
-  text: "Отправьте дату, время, адреса, количество пассажиров и предпочтительный автомобиль. Мы проверим доступность и подтвердим подходящий формат сотрудничества."
+  text: "Отправьте дату, время, адреса, количество пассажиров и предпочтительный автомобиль. Мы проверим наличие и подтвердим подходящий формат сотрудничества."
   primaryCta:
     label: "Начать бронирование"
     target: { type: flow, flowKey: booking }

@@ -1,12 +1,12 @@
 {
-  "updatedOn": "2026-09-11",
+  "updatedOn": "2026-09-12",
   "status": "complete-for-owner-review",
   "scope": {
     "routeFamilies": 15,
     "localizedContentEntries": 45,
-    "publishedLocalizedPages": 39,
-    "indexableLocalizedPages": 36,
-    "scaffoldLocalizedEntries": 6
+    "publishedLocalizedPages": 45,
+    "indexableLocalizedPages": 42,
+    "scaffoldLocalizedEntries": 0
   },
   "releaseGate": {
     "command": "pnpm quality:release",
@@ -1531,7 +1531,7 @@
     "Firefox lazy images are scrolled into view and polled before asserting successful load."
   ],
   "sitemap": {
-    "indexableEntries": 36,
+    "indexableEntries": 42,
     "alternatesPerEntry": 4,
     "indexXmlExists": true,
     "previewRobotsDisallowsAll": true
@@ -1555,7 +1555,7 @@
     "buildSecretMatches": 0
   },
   "build": {
-    "astroPages": 43,
+    "astroPages": 49,
     "staticXmlEndpoints": 2,
     "deploymentPerformed": false
   }

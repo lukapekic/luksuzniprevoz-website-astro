@@ -2,17 +2,17 @@
 routeKey: conferenceCongressTransportation
 locale: sr
 pageType: service
-status: in-review
+status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
-noindex: true
+reviewedOn: 2026-09-12
+noindex: false
 
 seoTitle: "Prevoz za konferencije u Beogradu"
 seoDescription: "Organizacija prevoza za konferencije i kongrese u Beogradu: aerodromski dolasci, hoteli i prevoz do mesta događaja prema rasporedu učesnika."
 
 hero:
   title: "Prevoz za konferencije i kongrese"
-  description: "Prevoz za organizatore, govornike, rukovodioce, goste i grupe — usklađen sa rasporedom događaja, od aerodromskog dolaska do hotela i lokacija programa."
+  description: "Prevoz za organizatore, govornike, rukovodioce, goste i grupe, usklađen sa rasporedom događaja — od dolaska na aerodrom do hotela i lokacija programa."
   primaryCta:
     label: "Započnite rezervaciju"
     target: { type: flow, flowKey: booking }
@@ -29,7 +29,7 @@ overview:
 sections:
   - key: audience
     heading:
-      title: "Za ljude koji događaj vode, predstavljaju i posećuju"
+      title: "Za organizatore, govornike, rukovodioce i učesnike"
       intro: "Različite uloge traže različit ritam prevoza."
     items:
       - { title: "Organizatori događaja", text: "Organizatori imaju pregled dolazaka, hotela, lokacija i grupa u jednom planu." }
@@ -43,12 +43,12 @@ sections:
       title: "Od dolaska do završne vožnje"
       intro: "Primer organizacije prevoza; konačan raspored pripremamo prema programu vašeg događaja."
     items:
-      - { title: "Dolazak", text: "Preuzimanje prema potvrđenom dolasku." }
+      - { title: "Dolazak", text: "Preuzimanje u terminu usaglašenom sa dolaskom gosta." }
       - { title: "Hotel", text: "Prevoz do hotela ili polazak iz hotela." }
       - { title: "Lokacija događaja", text: "Dolazak na glavnu lokaciju programa." }
       - { title: "Dodatna lokacija", text: "Sledeća potvrđena tačka događaja." }
       - { title: "Povratak u hotel", text: "Kada je deo rasporeda." }
-      - { title: "Završna vožnja", text: "Poslednje kretanje u dogovorenom planu." }
+      - { title: "Završna vožnja", text: "Poslednja vožnja u dogovorenom planu." }
 
   - key: passengerMovement
     heading:

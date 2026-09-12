@@ -2,12 +2,12 @@
 routeKey: conferenceCongressTransportation
 locale: en
 pageType: service
-status: in-review
+status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-12
 sourceLocale: sr
-sourceDigest: 89ad516a80d97102
-noindex: true
+sourceDigest: 1a4c9db5eaf946ac
+noindex: false
 
 seoTitle: "Conference Transport in Belgrade"
 seoDescription: "Conference and congress transport in Belgrade for airport arrivals, hotel transfers and venue shuttles. Request a quote based on your event schedule."
