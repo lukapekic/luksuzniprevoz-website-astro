@@ -1,0 +1,178 @@
+{
+  "pages": [
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/corporate-transportation/corporate-transportation.en.md",
+      "replacements": [
+        [
+          "Business transportation that works as part of your day",
+          "Transport for your company"
+        ],
+        [
+          "For people and teams whose working day does not stop at one address",
+          "For executives, guests and business teams"
+        ],
+        [
+          "One request or an ongoing corporate arrangement",
+          "One-off or regular transport"
+        ],
+        [
+          "Keep the working day connected",
+          "From the hotel to your last meeting"
+        ],
+        [
+          "Choose the vehicle around the passenger and schedule",
+          "Vehicles for executives and teams"
+        ],
+        [
+          "Send the schedule. We organise the corporate transportation.",
+          "Arrange your business journeys"
+        ],
+        [
+          "Send the date, time, locations, passenger count and preferred vehicle. We will check availability and confirm the appropriate engagement model.",
+          "Send the schedule, passenger count and preferred vehicle. Let us know whether you need transport for a specific date or an ongoing arrangement."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/corporate-transportation/corporate-transportation.ru.md",
+      "replacements": [
+        [
+          "Деловой транспорт как часть вашего рабочего дня",
+          "Транспорт для вашей компании"
+        ],
+        [
+          "Для людей и команд, чей рабочий день не заканчивается по одному адресу",
+          "Для руководителей, гостей и деловых команд"
+        ],
+        [
+          "Один запрос или постоянное корпоративное сотрудничество",
+          "Разовые или регулярные поездки"
+        ],
+        [
+          "Все поездки рабочего дня в одном плане",
+          "От отеля до последней встречи"
+        ],
+        [
+          "Автомобиль под роль пассажира и формат расписания",
+          "Автомобили для руководителей и команд"
+        ],
+        [
+          "Отправьте расписание. Мы организуем корпоративный транспорт.",
+          "Закажите деловые поездки"
+        ],
+        [
+          "Отправьте дату, время, адреса, количество пассажиров и предпочтительный автомобиль. Мы проверим наличие и подтвердим подходящий формат сотрудничества.",
+          "Пришлите расписание, число пассажиров и желаемый автомобиль. Уточните, нужен ли транспорт на определённую дату или регулярное сотрудничество."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/delegation-transportation/delegation-transportation.en.md",
+      "replacements": [
+        [
+          "Delegation transportation, coordinated as one plan",
+          "Delegation transport in Belgrade"
+        ],
+        [
+          "When several passengers need to move as one organised group",
+          "For delegations and visit organisers"
+        ],
+        [
+          "One delegation. Several movements.",
+          "From arrival to the end of the visit"
+        ],
+        [
+          "Send the delegation programme, not a series of separate rides",
+          "What we need for your quote"
+        ],
+        [
+          "The best basis for organisation is a view of the complete programme that affects transportation.",
+          "Send the visit programme, even if some timings are still provisional."
+        ],
+        [
+          "Choose the vehicle around each passenger's role",
+          "Vehicles for your delegation"
+        ],
+        [
+          "Organise your delegation transportation with us.",
+          "Arrange your delegation transport"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/delegation-transportation/delegation-transportation.ru.md",
+      "replacements": [
+        [
+          "Трансфер делегаций как единый координированный план",
+          "Транспорт для делегаций в Белграде"
+        ],
+        [
+          "Когда нескольким пассажирам нужно перемещаться как одной организованной группе",
+          "Для делегаций и организаторов визитов"
+        ],
+        [
+          "Одна делегация. Несколько перемещений.",
+          "От прибытия до завершения визита"
+        ],
+        [
+          "Отправьте программу делегации, а не набор отдельных поездок",
+          "Что нужно для расчёта стоимости"
+        ],
+        [
+          "Лучшей основой для организации служит полная программа, которая влияет на транспорт.",
+          "Пришлите программу визита, даже если некоторые сроки ещё предварительные."
+        ],
+        [
+          "Автомобиль в соответствии с ролью пассажира",
+          "Автомобили для вашей делегации"
+        ],
+        [
+          "Организуйте трансфер делегации вместе с нами.",
+          "Закажите транспорт для делегации"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/conference-congress-transportation/conference-congress-transportation.en.md",
+      "replacements": [
+        [
+          "One transport plan for the entire event schedule",
+          "Transport for your event programme"
+        ],
+        [
+          "For the people who lead, represent and attend the event",
+          "For your guests and participants"
+        ],
+        [
+          "Several vehicles. One event schedule.",
+          "How we assign vehicles"
+        ],
+        [
+          "Send the event schedule. We organise the transportation.",
+          "Arrange transport for your participants"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/conference-congress-transportation/conference-congress-transportation.ru.md",
+      "replacements": [
+        [
+          "Единый план для всего расписания мероприятия",
+          "Транспорт по программе мероприятия"
+        ],
+        [
+          "Для тех, кто руководит, представляет и посещает мероприятие",
+          "Для гостей и участников"
+        ],
+        [
+          "Несколько автомобилей. Одно расписание мероприятия.",
+          "Как распределяем автомобили"
+        ],
+        [
+          "Отправьте расписание мероприятия. Мы организуем транспорт.",
+          "Закажите транспорт для участников"
+        ]
+      ]
+    }
+  ]
+}

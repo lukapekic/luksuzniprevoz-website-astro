@@ -153,3 +153,13 @@ Do not infer that `lg` automatically means a design is acceptable.
 - Overlay content must maintain WCAG 2.2 AA contrast at each image crop.
 - Carousels require labels/controls; no autoplay.
 - Header-over-Hero state must preserve contrast.
+
+### Localized enlarged-text safeguard
+
+The site content area inherits emergency word wrapping from the global base
+layer. Whole words retain normal wrapping when they fit; oversized localized
+words and addresses may wrap within a word to prevent clipping at enlarged
+text sizes. This does not change semantic fonts, type sizes, spacing, source
+order, CTA roles, or the header/brand contract. Verify all five review widths
+in SR, EN and RU, including 200% text. A constrained component must still fix
+its own intrinsic sizing; this rule is not permission to hide overflow.

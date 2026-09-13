@@ -89,6 +89,12 @@ brand lockup
 
 The active theme determines the fonts and sizes.
 
+The global content-area base rule permits emergency wrapping of words that
+cannot fit at enlarged text sizes. Preserve whole-word wrapping otherwise;
+do not shrink semantic fonts or conceal overflowing content. Grid children
+and native controls must also respect their containing width. Verify this
+with SR, EN and RU at all five review widths and 200% text.
+
 ## 7. CTA hierarchy
 
 ```text

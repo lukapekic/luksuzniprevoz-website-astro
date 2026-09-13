@@ -1,0 +1,65 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/conference-congress-transportation/conference-congress-transportation.sr.md",
+  "replacements": [
+    [
+      "Prevoz za organizatore, govornike, rukovodioce, goste i grupe, usklađen sa rasporedom događaja — od dolaska na aerodrom do hotela i lokacija programa.",
+      "Prevoz za govornike, poslovne goste i grupe učesnika. Organizujemo dolaske sa aerodroma i vožnje između hotela i mesta održavanja, prema programu događaja."
+    ],
+    [
+      "Jedan plan prevoza za ceo raspored događaja",
+      "Prevoz prema programu događaja"
+    ],
+    [
+      "Konferencija ne počinje na vratima sale. Dolasci, hoteli, lokacije programa i različite grupe putnika treba da funkcionišu kao jedna celina.",
+      "Učesnici često stižu različitim letovima i odsedaju u različitim hotelima. Njihove vožnje dogovaramo u okviru istog plana."
+    ],
+    [
+      "Usklađujemo pojedinačne dolaske i grupni prevoz prema programu. Organizator dostavlja raspored, a naš tim proverava vozila i način povezivanja lokacija.",
+      "Organizator šalje raspored, a mi proveravamo koja vozila su potrebna za pojedinačne dolaske i zajedničke polaske učesnika."
+    ],
+    [
+      "Za organizatore, govornike, rukovodioce i učesnike",
+      "Za goste i učesnike vašeg događaja"
+    ],
+    [
+      "Različite uloge traže različit ritam prevoza.",
+      "Polaske dogovaramo prema obavezama govornika, gostiju i grupa."
+    ],
+    [
+      "Govornik ili rukovodilac ne mora da se kreće kao grupa učesnika. Obe potrebe mogu da budu deo istog rasporeda događaja.",
+      "Govornik može imati zaseban termin dolaska, dok ostali učesnici putuju zajedno. Obe vožnje možemo uključiti u isti plan prevoza."
+    ],
+    [
+      "Za govornike, rukovodioce i pozvane goste sa sopstvenim delom rasporeda.",
+      "Za govornike, rukovodioce i goste koji putuju odvojeno ili imaju drugačije termine."
+    ],
+    [
+      "Za organizatore, timove i učesnike koji se kreću zajedno između lokacija programa.",
+      "Za organizatore, timove i učesnike koji zajedno putuju između hotela i mesta održavanja."
+    ],
+    [
+      "Više vozila. Jedan raspored događaja.",
+      "Kako raspoređujemo vozila"
+    ],
+    [
+      "Individualno kretanje",
+      "Pojedinačne vožnje"
+    ],
+    [
+      "Za putnike sa sopstvenim delom programa.",
+      "Za putnike koji imaju zaseban raspored."
+    ],
+    [
+      "Pravo vozilo za svako kretanje",
+      "Vozila za govornike i grupe"
+    ],
+    [
+      "Pošaljite raspored događaja. Mi organizujemo prevoz.",
+      "Dogovorimo prevoz učesnika"
+    ],
+    [
+      "Pošaljite datum, ključne lokacije, broj putnika i raspored grupa. Proverićemo detalje i pripremiti individualnu ponudu.",
+      "Pošaljite datum, adrese, broj putnika i raspored grupa. Nakon provere vozila i termina pripremićemo ponudu za vaš događaj."
+    ]
+  ]
+}

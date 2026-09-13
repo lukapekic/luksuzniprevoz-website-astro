@@ -118,6 +118,9 @@ No unrelated sections were inserted.
 - [ ] no Airport-local storage convention invented.
 - [ ] no dead/non-submitting form ships.
 - [ ] secondary quote action remains subordinate.
+- [ ] At 200% text, grid children may shrink below native min-content width;
+      the Continue button remains within the panel without smaller text.
+      Field order, labels, date/time behavior and typed handoff are unchanged.
 - [ ] canonical contract is `src/lib/booking/airport-booking-intent.ts`.
 - [ ] query parameters are `service`, `flightNumber`, `date`, and `time`.
 - [ ] supported states are idle, invalid, submitting, handoff, error, and unavailable.

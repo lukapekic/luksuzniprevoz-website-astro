@@ -179,6 +179,28 @@ function generateTypographySection(tokens: ThemeTokens): string {
   for (const [key, value] of Object.entries(typo.measure ?? {})) {
     lines.push(`  --measure-${toKebab(key)}: ${value};`);
   }
+  for (const [recipe, roles] of Object.entries(typo.recipes ?? {})) {
+    for (const [role, token] of Object.entries(roles)) {
+      const prefix =
+        role === "font"
+          ? "font"
+          : role === "size"
+            ? "text"
+            : role === "weight"
+              ? "font-weight"
+              : role === "lineHeight"
+                ? "line-height"
+                : role === "letterSpacing"
+                  ? "letter-spacing"
+                  : role === "measure"
+                    ? "measure"
+                    : null;
+      if (prefix)
+        lines.push(
+          `  --recipe-${toKebab(recipe)}-${toKebab(role)}: var(--${prefix}-${toKebab(token)});`,
+        );
+    }
+  }
   return `  :root {\n${lines.join("\n")}\n  }`;
 }
 

@@ -4,7 +4,7 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Prevoz za konferencije u Beogradu"
@@ -12,7 +12,7 @@ seoDescription: "Organizacija prevoza za konferencije i kongrese u Beogradu: aer
 
 hero:
   title: "Prevoz za konferencije i kongrese"
-  description: "Prevoz za organizatore, govornike, rukovodioce, goste i grupe, usklađen sa rasporedom događaja — od dolaska na aerodrom do hotela i lokacija programa."
+  description: "Prevoz za govornike, poslovne goste i grupe učesnika. Organizujemo dolaske sa aerodroma i vožnje između hotela i mesta održavanja, prema programu događaja."
   primaryCta:
     label: "Započnite rezervaciju"
     target: { type: flow, flowKey: booking }
@@ -22,15 +22,15 @@ hero:
 
 overview:
   heading:
-    title: "Jedan plan prevoza za ceo raspored događaja"
-    intro: "Konferencija ne počinje na vratima sale. Dolasci, hoteli, lokacije programa i različite grupe putnika treba da funkcionišu kao jedna celina."
-  body: "Usklađujemo pojedinačne dolaske i grupni prevoz prema programu. Organizator dostavlja raspored, a naš tim proverava vozila i način povezivanja lokacija."
+    title: "Prevoz prema programu događaja"
+    intro: "Učesnici često stižu različitim letovima i odsedaju u različitim hotelima. Njihove vožnje dogovaramo u okviru istog plana."
+  body: "Organizator šalje raspored, a mi proveravamo koja vozila su potrebna za pojedinačne dolaske i zajedničke polaske učesnika."
 
 sections:
   - key: audience
     heading:
-      title: "Za organizatore, govornike, rukovodioce i učesnike"
-      intro: "Različite uloge traže različit ritam prevoza."
+      title: "Za goste i učesnike vašeg događaja"
+      intro: "Polaske dogovaramo prema obavezama govornika, gostiju i grupa."
     items:
       - { title: "Organizatori događaja", text: "Organizatori imaju pregled dolazaka, hotela, lokacija i grupa u jednom planu." }
       - { title: "Govornici", text: "Dolazak govornika usklađujemo sa njegovim učešćem u programu." }
@@ -53,17 +53,17 @@ sections:
   - key: passengerMovement
     heading:
       title: "Poseban raspored za pojedince i grupe"
-      intro: "Govornik ili rukovodilac ne mora da se kreće kao grupa učesnika. Obe potrebe mogu da budu deo istog rasporeda događaja."
+      intro: "Govornik može imati zaseban termin dolaska, dok ostali učesnici putuju zajedno. Obe vožnje možemo uključiti u isti plan prevoza."
     items:
-      - { title: "Individualni prevoz", text: "Za govornike, rukovodioce i pozvane goste sa sopstvenim delom rasporeda." }
-      - { title: "Grupni prevoz", text: "Za organizatore, timove i učesnike koji se kreću zajedno između lokacija programa." }
+      - { title: "Individualni prevoz", text: "Za govornike, rukovodioce i goste koji putuju odvojeno ili imaju drugačije termine." }
+      - { title: "Grupni prevoz", text: "Za organizatore, timove i učesnike koji zajedno putuju između hotela i mesta održavanja." }
 
   - key: multiVehicle
     heading:
-      title: "Više vozila. Jedan raspored događaja."
+      title: "Kako raspoređujemo vozila"
       intro: "Vozila raspoređujemo prema veličini grupe, vremenu polaska i odredištu."
     items:
-      - { title: "Individualno kretanje", text: "Za putnike sa sopstvenim delom programa." }
+      - { title: "Pojedinačne vožnje", text: "Za putnike koji imaju zaseban raspored." }
       - { title: "Manja grupa", text: "Za zajednički prevoz između lokacija programa." }
       - { title: "Veća grupa", text: "Za učesnike kojima je potrebno vozilo većeg kapaciteta." }
     cta:
@@ -72,7 +72,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "Pravo vozilo za svako kretanje"
+    title: "Vozila za govornike i grupe"
     intro: "Mercedes-Benz S-Class i E-Class za pojedinačne putnike, V-Class i Sprinter za grupe, prema planu događaja."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long, mercedes-sprinter]
   cta:
@@ -93,8 +93,8 @@ faq:
     - { question: "Da li je zahtev potvrđen odmah nakon slanja?", answer: "{confirmationAnswer}" }
 
 finalCta:
-  heading: "Pošaljite raspored događaja. Mi organizujemo prevoz."
-  text: "Pošaljite datum, ključne lokacije, broj putnika i raspored grupa. Proverićemo detalje i pripremiti individualnu ponudu."
+  heading: "Dogovorimo prevoz učesnika"
+  text: "Pošaljite datum, adrese, broj putnika i raspored grupa. Nakon provere vozila i termina pripremićemo ponudu za vaš događaj."
   primaryCta:
     label: "Započnite rezervaciju"
     target: { type: flow, flowKey: booking }

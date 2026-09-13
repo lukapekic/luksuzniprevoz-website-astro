@@ -76,10 +76,10 @@ test.describe("VIP Transportation", () => {
 
     const vehicleNames = await page.locator(".vehicle h3").allTextContents();
     expect(vehicleNames).toEqual([
-      "Mercedes S klasa",
-      "Mercedes E klasa",
-      "Mercedes V klasa",
-      "Mercedes Sprinter",
+      "Mercedes-Benz S-Class",
+      "Mercedes-Benz E-Class",
+      "Mercedes-Benz V-Class",
+      "Mercedes-Benz Sprinter",
     ]);
     await expect(page.locator(".vehicle").nth(2).locator(".vehicle__meta")).toHaveCount(0);
 

@@ -4,7 +4,7 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Korporativni prevoz u Beogradu"
@@ -22,51 +22,51 @@ hero:
 
 overview:
   heading:
-    title: "Poslovni prevoz koji funkcioniše kao deo vašeg dana"
-    intro: "Jasan raspored, odgovarajuće vozilo i unapred dogovorena organizacija za vašu kompaniju."
-  body: "Korporativni prevoz objedinjuje vožnje za poslovnog putnika ili kompaniju. Lokacije, vreme čekanja i izbor vozila usaglašavamo sa osobom koja organizuje putovanje."
+    title: "Prevoz za vašu kompaniju"
+    intro: "Dogovorite vožnje za jedan poslovni dan ili redovan prevoz za kompaniju."
+  body: "Sa osobom koja organizuje putovanje dogovaramo adrese, polaske, čekanje i izbor vozila. Prevoz možemo pripremiti za jednog putnika, poslovne goste ili kolege."
 
 sections:
   - key: audience
     heading:
-      title: "Za ljude i timove kojima poslovni dan ne staje na jednoj adresi"
-      intro: "Usluga je namenjena putnicima i organizatorima kojima je važan profesionalan, diskretan i unapred usaglašen prevoz."
+      title: "Za rukovodioce, goste i poslovne timove"
+      intro: "Možete rezervisati prevoz za sebe ili u ime kompanije."
     body: "Asistent ili koordinator može poslati plan u ime putnika. Za redovne vožnje korisno je navesti učestalost i očekivane relacije."
     items:
-      - { title: "Direktori i rukovodstvo", text: "Za poslovne obaveze u kojima su važni primeren dolazak, diskretna usluga i unapred usaglašen raspored." }
+      - { title: "Direktori i rukovodstvo", text: "Za odlazak na sastanke i druge poslovne obaveze, uz diskretnog vozača i unapred dogovorene polaske." }
       - { title: "Poslovni gosti i partneri", text: "Za goste kojima kompanija želi da obezbedi organizovan prevoz između hotela, kancelarije i planiranih sastanaka." }
       - { title: "Asistenti i koordinatori putovanja", text: "Za osobe koje vode raspored i žele da objedine više povezanih vožnji." }
-      - { title: "Kompanije kojima je prevoz potreban redovno", text: "Za firme kojima korporativni prevoz nije jednokratan zahtev već deo redovne poslovne organizacije." }
-      - { title: "Poslovni dani sa više lokacija", text: "Za rasporede u kojima se sastanci, kancelarije, hoteli i druge poslovne tačke povezuju u isti dan." }
+      - { title: "Kompanije kojima je prevoz potreban redovno", text: "Za kompanije kojima su potrebne redovne vožnje, uz dogovor o učestalosti i relacijama." }
+      - { title: "Poslovni dani sa više lokacija", text: "Za putnike koji tokom istog dana odlaze u kancelariju, na sastanke i druge poslovne adrese." }
 
   - key: engagementModel
     heading:
-      title: "Jedan zahtev ili kontinuirana korporativna saradnja"
-      intro: "Izaberite jednokratnu organizaciju ili razgovor o redovnim vožnjama."
-    body: "Za jedan poslovni dan potrebni su datum i plan kretanja. Za kontinuiranu saradnju dogovaramo učestalost, fakturisanje i komercijalne uslove."
+      title: "Jednokratni ili redovan prevoz"
+      intro: "Navedite da li vam je prevoz potreban za određeni datum ili redovno."
+    body: "Za pojedinačan zahtev pošaljite datum i raspored vožnji. Za redovnu saradnju dogovaramo i učestalost, fakturisanje i komercijalne uslove."
     items:
-      - { title: "Za konkretan poslovni zadatak", text: "Kada već znate datum, putnika i osnovni raspored i želite da prevoz bude organizovan kao jedna potvrđena usluga." }
-      - { title: "Za potrebe koje se ponavljaju", text: "Kada kompaniji treba ustaljen način organizovanja poslovnog prevoza tokom više vožnji ili dužeg perioda." }
+      - { title: "Za određeni datum", text: "Pošaljite ko putuje, kada i na koje adrese. Na osnovu toga proveravamo vozila i pripremamo prevoz." }
+      - { title: "Za redovne vožnje", text: "Dogovor za kompanije kojima je prevoz potreban više puta ili tokom dužeg perioda." }
 
   - key: workingDay
     heading:
-      title: "Poslovni dan ostaje povezan"
-      intro: "Sastanak retko završava poslovni dan. Prevoz treba da prati ono što dolazi posle njega."
-    body: "Hotel, kancelarija i sastanci mogu biti povezani u jednom dnevnom angažmanu. Isti vozač može ostati između lokacija kada je to deo potvrđenog dogovora."
+      title: "Od hotela do poslednjeg sastanka"
+      intro: "Ako tokom dana menjate više adresa, pošaljite ceo raspored."
+    body: "U jednu rezervaciju možete uključiti vožnje između hotela, kancelarije i sastanaka. Isti vozač može ostati na raspolaganju između vožnji kada to unapred dogovorimo i potvrdimo."
     items:
-      - { title: "Manje ponovnog dogovaranja", text: "Ne krećete od početka posle svake poslovne obaveze." }
-      - { title: "Sledeća lokacija je već dogovorena", text: "Sledeća lokacija već je deo istog plana prevoza." }
-      - { title: "Kontinuitet za putnika", text: "Direktor ili poslovni gost dobija mirniji prelaz između obaveza i lokacija." }
+      - { title: "Manje ponovnog dogovaranja", text: "Povezane vožnje dogovarate zajedno, umesto da svaku rezervišete zasebno." }
+      - { title: "Vozač zna sledeću adresu", text: "Redosled adresa i polazaka deo je potvrđenog rasporeda." }
+      - { title: "Manje organizacije tokom dana", text: "Putnik ne mora iznova da objašnjava plan posle svakog sastanka." }
 
   - key: coordination
     heading:
       title: "Dogovor sa osobom koja vodi putovanje"
       intro: "Objedinite podatke o putnicima, lokacijama i vremenu polaska."
-    body: "Kontakt iz kompanije usaglašava plan sa našim timom. Pre potvrde proveravamo vozilo i raspored; naknadne promene razmatramo prema dogovorenim uslovima."
+    body: "Osoba zadužena za putovanje usaglašava plan sa našim timom. Pre potvrde proveravamo vozilo i raspored. Naknadne promene razmatramo prema dogovorenim uslovima."
 
 vehicleRecommendations:
   heading:
-    title: "Vozilo prema ulozi putnika i rasporedu"
+    title: "Vozila za rukovodioce i timove"
     intro: "Limuzina za rukovodioca ili Mercedes-Benz V-Class za kolege i poslovne goste. Izbor zavisi od putnika, prtljaga i rasporeda."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long]
   cta:
@@ -81,14 +81,14 @@ faq:
     - { question: "Da li organizujete redovan korporativni prevoz?", answer: "{recurringAnswer}" }
     - { question: "Da li su dostupni fakturisanje i dogovoreni komercijalni uslovi?", answer: "{commercialAnswer}" }
     - { question: "Može li isti vozač ostati na raspolaganju između povezanih lokacija?", answer: "{dedicatedAnswer}" }
-    - { question: "Koje podatke treba da pošaljem za korporativni zahtev?", answer: "Pošaljite datum, vreme, lokacije, broj putnika i osnovnu strukturu rasporeda. Ako se zahtev ponavlja, navedite i očekivanu učestalost kako bi tim mogao da proceni odgovarajući model saradnje." }
+    - { question: "Koje podatke treba da pošaljem za korporativni zahtev?", answer: "Pošaljite datum, adrese, vreme polaska i broj putnika. Za redovan prevoz navedite koliko često biste koristili uslugu i na kojim relacijama." }
     - { question: "Da li organizujete korporativni prevoz van Beograda?", answer: "{outsideAreaAnswer}" }
     - { question: "Mogu li da izaberem konkretno vozilo?", answer: "{vehicleAnswer}" }
     - { question: "Da li je rezervacija potvrđena odmah nakon slanja zahteva?", answer: "{confirmationAnswer}" }
 
 finalCta:
-  heading: "Pošaljite raspored. Mi organizujemo korporativni prevoz."
-  text: "Pošaljite datum, vreme, lokacije, broj putnika i željeno vozilo. Proverićemo raspoloživost i potvrditi odgovarajući način angažovanja."
+  heading: "Dogovorimo poslovne vožnje"
+  text: "Pošaljite raspored, broj putnika i željeno vozilo. Navedite da li tražite prevoz za određeni datum ili redovnu saradnju."
   primaryCta:
     label: "Započnite rezervaciju"
     target: { type: flow, flowKey: booking }

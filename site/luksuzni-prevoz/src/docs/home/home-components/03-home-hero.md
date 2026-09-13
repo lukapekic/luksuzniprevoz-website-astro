@@ -80,6 +80,16 @@ Use Theme V2 page gutters/spacing.
 
 Top content spacing must account for the overlaid Header without creating a separate visible Header band.
 
+The production `HomePage` offset wrapper sets the layout-only custom property
+`--homepage-hero-header-clearance` to the same header-height role used for its
+negative offset. `HomepageHero` adds this clearance to its semantic top spacing.
+Other consumers (including `dev/ui`) retain zero additional clearance by default.
+This is an additive CSS integration contract, not a new visual variant or prop.
+At all five viewport states and 200% text, the H1 and actions must start below
+the actual header. Media remains full bleed behind it; content may increase the
+hero height instead of being obscured. Font roles, 7/5 placement, image crop,
+CTA destinations and DOM/focus order remain unchanged.
+
 ## Surface / image
 
 - Full-width approved `hero-example-2.jpg` S-Class contextual image.

@@ -18,7 +18,9 @@ Authority remains:
 - `config.schema.json` — strict schema for `config.json`.
 - `system.json` — generated snapshot of the active theme, token names, components, and document inventory. Do not hand-edit.
 - `system.schema.json` — lightweight schema for `system.json`.
-- `reviews/` — optional persistent design-review records.
+- `reviews/` — persistent accepted-decision records. `index.json` is validated;
+  records bind an approved contract to an evidence file and exact source hash.
+  Never create an accepted record without an independent review.
 
 Machine-readable severities, change profiles, viewport acceptance, and the
 generated shared-component consumer registry live in `.governance/`.

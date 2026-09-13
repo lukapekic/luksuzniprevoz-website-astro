@@ -43,6 +43,11 @@ At the active theme `lg` threshold, the region becomes the approved 5/7 desktop
 composition: contact details occupy five columns and the form occupies seven.
 Below `lg`, the regions stack without CSS reordering.
 
+Use the semantic desktop column-gap role for the 12-column split. Section
+spacing is not a grid gutter: repeated across eleven gaps, it can overflow
+the tablet-landscape viewport at 200% text. The 5/7 spans, DOM order and form
+behavior remain unchanged.
+
 ### Contact details
 
 - Sit directly on the open-dark page canvas.

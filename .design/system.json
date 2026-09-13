@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T18:09:29.511Z",
-  "sourceHash": "5e2aa4fa037dddcfa99a1feb2c3b44548056ad6a6eeea679048a54435eab7159",
+  "generatedAt": "2026-09-13T14:03:13.759Z",
+  "sourceHash": "042d21eb1debf58c39a07179ef37f14b3e8bf23c7b94a8dfec13d97da19f95ea",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -62,6 +62,7 @@
         "display": "clamp(3.25rem, 7vw, 6.25rem)",
         "ui": "0.875rem",
         "caption": "0.75rem",
+        "code": "0.9em",
         "brand": "1.375rem"
       },
       "lineHeight": {
@@ -78,7 +79,37 @@
       },
       "measure": {
         "body": "46rem",
-        "narrow": "38rem"
+        "narrow": "38rem",
+        "heading": "46rem",
+        "wide": "57.5rem",
+        "compact": "38rem"
+      },
+      "recipes": {
+        "sectionHeading": {
+          "font": "heading",
+          "size": "h2",
+          "weight": "semibold",
+          "lineHeight": "heading",
+          "letterSpacing": "heading"
+        },
+        "lead": {
+          "font": "body",
+          "size": "xl",
+          "lineHeight": "body",
+          "measure": "body"
+        },
+        "caption": {
+          "font": "body",
+          "size": "caption",
+          "lineHeight": "ui"
+        },
+        "control": {
+          "font": "body",
+          "size": "ui",
+          "weight": "medium",
+          "lineHeight": "ui",
+          "letterSpacing": "ui"
+        }
       }
     },
     "spacing": {
@@ -143,6 +174,9 @@
         "xlMax": "79.99rem",
         "2xl": "96rem"
       },
+      "containerThresholds": [
+        "16rem"
+      ],
       "approvedDesktopCompositions": [
         "12",
         "6/6",
@@ -211,6 +245,7 @@
     "--text-display": "clamp(3.25rem, 7vw, 6.25rem)",
     "--text-ui": "0.875rem",
     "--text-caption": "0.75rem",
+    "--text-code": "0.9em",
     "--text-brand": "1.375rem",
     "--font-weight-regular": "400",
     "--font-weight-medium": "500",
@@ -226,6 +261,26 @@
     "--letter-spacing-ui": "0.01em",
     "--measure-body": "46rem",
     "--measure-narrow": "38rem",
+    "--measure-heading": "46rem",
+    "--measure-wide": "57.5rem",
+    "--measure-compact": "38rem",
+    "--recipe-section-heading-font": "var(--font-heading)",
+    "--recipe-section-heading-size": "var(--text-h2)",
+    "--recipe-section-heading-weight": "var(--font-weight-semibold)",
+    "--recipe-section-heading-line-height": "var(--line-height-heading)",
+    "--recipe-section-heading-letter-spacing": "var(--letter-spacing-heading)",
+    "--recipe-lead-font": "var(--font-body)",
+    "--recipe-lead-size": "var(--text-xl)",
+    "--recipe-lead-line-height": "var(--line-height-body)",
+    "--recipe-lead-measure": "var(--measure-body)",
+    "--recipe-caption-font": "var(--font-body)",
+    "--recipe-caption-size": "var(--text-caption)",
+    "--recipe-caption-line-height": "var(--line-height-ui)",
+    "--recipe-control-font": "var(--font-body)",
+    "--recipe-control-size": "var(--text-ui)",
+    "--recipe-control-weight": "var(--font-weight-medium)",
+    "--recipe-control-line-height": "var(--line-height-ui)",
+    "--recipe-control-letter-spacing": "var(--letter-spacing-ui)",
     "--space-0": "0rem",
     "--space-1": "0.25rem",
     "--space-2": "0.5rem",
@@ -442,7 +497,9 @@
       "site/luksuzni-prevoz/src/docs/content-review/FINAL-REVIEW.md",
       "site/luksuzni-prevoz/src/docs/content-review/HANDOFF.md",
       "site/luksuzni-prevoz/src/docs/content-review/README.md",
+      "site/luksuzni-prevoz/src/docs/content-review/SERBIAN-REVIEW-WORKFLOW.md",
       "site/luksuzni-prevoz/src/docs/content-review/approval-pack.md",
+      "site/luksuzni-prevoz/src/docs/content-review/business-editorial-2026-09-13.md",
       "site/luksuzni-prevoz/src/docs/content-review/decisions-required.md",
       "site/luksuzni-prevoz/src/docs/content-review/execution-log.md",
       "site/luksuzni-prevoz/src/docs/content-review/pages/_template.md",
@@ -461,12 +518,15 @@
       "site/luksuzni-prevoz/src/docs/content-review/pages/special-events.md",
       "site/luksuzni-prevoz/src/docs/content-review/pages/vip-transportation.md",
       "site/luksuzni-prevoz/src/docs/content-review/pages/wedding-transportation.md",
+      "site/luksuzni-prevoz/src/docs/content-review/responsive-editorial-2026-09-13.md",
       "site/luksuzni-prevoz/src/docs/content-review/seo-decisions.md",
       "site/luksuzni-prevoz/src/docs/content-review/seo-market-research-2026-09-12.md",
       "site/luksuzni-prevoz/src/docs/content-review/seo-research.md",
       "site/luksuzni-prevoz/src/docs/content-review/serbian-corpus.md",
+      "site/luksuzni-prevoz/src/docs/content-review/serbian-editorial-checkpoint-2026-09-13.md",
       "site/luksuzni-prevoz/src/docs/content-review/serbian-language-final-review.md",
       "site/luksuzni-prevoz/src/docs/content-review/serbian-language-reference.md",
+      "site/luksuzni-prevoz/src/docs/content-review/wedding-browser-editorial-2026-09-13.md",
       "site/luksuzni-prevoz/src/docs/fleet/MANIFEST.md",
       "site/luksuzni-prevoz/src/docs/fleet/README.md",
       "site/luksuzni-prevoz/src/docs/fleet/acceptance.md",

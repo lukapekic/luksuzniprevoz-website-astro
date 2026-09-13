@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "contracts": [
+    {
+      "id": "home-hero-v1-2",
+      "surface": "home",
+      "source": "site/luksuzni-prevoz/src/docs/home/home-components/03-home-hero.md",
+      "state": "documented",
+      "revision": "V1.2",
+      "regions": ["media", "scrim", "content", "header"],
+      "ctaRoles": ["primary", "secondary"],
+      "typeRoles": ["heading", "body"],
+      "responsiveStates": [
+        "mobile",
+        "tablet-portrait",
+        "tablet-landscape",
+        "desktop",
+        "wide-desktop"
+      ],
+      "acceptanceTests": ["site/luksuzni-prevoz/tests/smoke/home-hero-clearance.spec.ts"]
+    },
+    {
+      "id": "final-cta-v1-2",
+      "surface": "shared-ui",
+      "source": "site/luksuzni-prevoz/src/docs/home/home-components/11-final-cta.md",
+      "state": "documented",
+      "revision": "V1.2",
+      "regions": ["panel", "content", "actions", "contacts", "media"],
+      "ctaRoles": ["primary", "secondary", "tertiary"],
+      "typeRoles": ["heading", "body"],
+      "responsiveStates": [
+        "mobile",
+        "tablet-portrait",
+        "tablet-landscape",
+        "desktop",
+        "wide-desktop"
+      ],
+      "acceptanceTests": ["site/luksuzni-prevoz/tests/smoke/final-cta-text.spec.ts"]
+    }
+  ]
+}

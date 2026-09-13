@@ -2,11 +2,11 @@
 routeKey: contact
 locale: ru
 sourceLocale: sr
-sourceDigest: dc9f72689b501d9d
+sourceDigest: a0c1b2e5337276a0
 pageType: contact
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Контакты – автомобиль с водителем"
@@ -23,5 +23,5 @@ introSection:
 contact:
   source: contact-data
   formHeading: "Задать вопрос"
-  formIntro: "Кратко опишите свой вопрос и оставьте контактные данные для ответа."
+  formIntro: "Напишите, что вас интересует, и оставьте адрес электронной почты для ответа."
 ---

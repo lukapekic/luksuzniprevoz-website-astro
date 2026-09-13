@@ -20,6 +20,7 @@
   "contentRoot": "site/luksuzni-prevoz/src/content",
   "legacyAllowedRoots": ["site/luksuzni-prevoz/src/theme/versions/version-1"],
   "generatedAllowedRoots": ["site/luksuzni-prevoz/src/theme/generated"],
+  "documentedComponentVariables": ["--homepage-hero-header-clearance", "--site-header-height"],
   "sharedComponents": [
     "SiteHeader",
     "SiteFooter",

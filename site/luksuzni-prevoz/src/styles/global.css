@@ -14,6 +14,16 @@
 @import "../theme/generated/theme.css";
 @import "@astro-foundation/core/theme/foundation.css";
 
+@layer base {
+  /* Preserve whole words when they fit; permit an emergency wrap for long
+   * localized words and addresses at enlarged text sizes. No clipping or
+   * font-size reduction: semantic typography and component geometry still own
+   * the normal layout. Header/brand behavior remains component-owned. */
+  main {
+    overflow-wrap: anywhere;
+  }
+}
+
 /*
  * Font-family utilities.
  *
@@ -46,4 +56,15 @@
 }
 @utility font-brand {
   font-family: var(--font-brand);
+}
+
+/* Semantic recipe emitted from the active theme. H2 SectionHeading is the
+ * pilot consumer; H3 retains its distinct approved token role. */
+@utility type-section-heading {
+  font-family: var(--recipe-section-heading-font);
+  font-size: var(--recipe-section-heading-size);
+  font-weight: var(--recipe-section-heading-weight);
+  line-height: var(--recipe-section-heading-line-height);
+  letter-spacing: var(--recipe-section-heading-letter-spacing);
+  font-synthesis: none;
 }

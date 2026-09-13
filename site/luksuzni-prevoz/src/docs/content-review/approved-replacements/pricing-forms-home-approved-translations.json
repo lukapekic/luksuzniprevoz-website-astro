@@ -1,0 +1,108 @@
+{
+  "pages": [
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/pricing/pricing.en.md",
+      "replacements": [
+        [
+          "Three clear ways a price is formed",
+          "How pricing works"
+        ],
+        [
+          "Complex schedules, multiple vehicles and coordinated events receive a price only after the actual service scope\n      is confirmed.",
+          "For complex schedules and multiple vehicles, we first check what the transport needs to include."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/pricing/pricing.ru.md",
+      "replacements": [
+        [
+          "Три понятных способа формирования цены",
+          "Как рассчитывается стоимость"
+        ],
+        [
+          "Сложные расписания, несколько автомобилей и координируемые мероприятия получают цену только после подтверждения\n      фактического объёма услуги.",
+          "Для сложного расписания и нескольких автомобилей сначала уточним, что должно входить в услугу."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/contact/contact.en.md",
+      "replacements": [
+        [
+          "Briefly describe your question and leave the contact details we can use to reply.",
+          "Tell us what you would like to know and leave an email address for our reply."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/contact/contact.ru.md",
+      "replacements": [
+        [
+          "Кратко опишите свой вопрос и оставьте контактные данные для ответа.",
+          "Напишите, что вас интересует, и оставьте адрес электронной почты для ответа."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/booking/booking.en.md",
+      "replacements": [
+        [
+          "We ask only for the details needed for your service. You can review and edit them before the final step.",
+          "We show the fields needed for your chosen service. You can review and edit your details before sending the request."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/booking/booking.ru.md",
+      "replacements": [
+        [
+          "Мы запрашиваем только сведения, необходимые для выбранной услуги. Перед последним шагом всё можно проверить и изменить.",
+          "Показываем поля для выбранной услуги. Перед отправкой заявки вы можете проверить и изменить введённые данные."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/home/home.en.md",
+      "replacements": [
+        [
+          "A consistent standard for every journey",
+          "How we prepare your journey"
+        ],
+        [
+          "Discreet coordination",
+          "Arrangements with our team"
+        ],
+        [
+          "A vehicle suited to your passengers and journey",
+          "Sedans and vehicles for groups"
+        ],
+        [
+          "Tell us where and when you are travelling",
+          "Where and when are you travelling?"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/home/home.ru.md",
+      "replacements": [
+        [
+          "Единый стандарт для каждой поездки",
+          "Как мы готовим вашу поездку"
+        ],
+        [
+          "Деликатная координация",
+          "Согласование с нашей командой"
+        ],
+        [
+          "Автомобиль под количество пассажиров и формат поездки",
+          "Седаны и автомобили для групп"
+        ],
+        [
+          "Расскажите, куда и когда вы едете",
+          "Куда и когда вы едете?"
+        ]
+      ]
+    }
+  ]
+}

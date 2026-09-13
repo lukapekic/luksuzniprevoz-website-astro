@@ -89,10 +89,10 @@ test.describe("Airport Transportation", () => {
     expect(bookingBox).not.toBeNull();
     expect(bookingBox!.y - (mediaBox!.y + mediaBox!.height)).toBeGreaterThan(32);
 
-    await expect(page.getByRole("heading", { name: "Mercedes V klasa", exact: true })).toHaveCount(
+    await expect(page.getByRole("heading", { name: "Mercedes-Benz V-Class", exact: true })).toHaveCount(
       1,
     );
-    await expect(page.getByRole("heading", { name: /Mercedes V klasa 6\+1/ })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: /Mercedes-Benz V-Class 6\+1/ })).toHaveCount(0);
   });
 
   test("FND-A11Y-01: passes the automated WCAG 2.2 floor", async ({ page }) => {

@@ -1,12 +1,12 @@
 ---
 routeKey: fleet
 locale: en
-sourceDigest: 628fb111ee2a6625
+sourceDigest: 2d9962b27c21cc8b
 sourceLocale: sr
 pageType: fleet
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Chauffeur Fleet in Belgrade"
@@ -41,10 +41,10 @@ fleetSection:
       vehicleIds:
         - mercedes-s-class
       summary: "An executive sedan for journeys where comfort and discreet service take priority."
-      bestFor: "VIP guests, executives, protocol engagements and special occasions where presentation matters as much as the journey itself."
+      bestFor: "VIP guests, executives, protocol engagements and special occasions."
       highlights:
         - "Centred on the rear-passenger experience."
-        - "The most representative sedan in the collection."
+        - "A sedan for business arrivals and special occasions."
         - "Suited to journeys that call for discreet service and a carefully coordinated schedule."
 
     - key: mercedesEClass
@@ -92,7 +92,7 @@ fleetSection:
       vehicleIds:
         - mercedes-sprinter
       summary: "The largest group format in the collection for moving a higher number of passengers as one organised transport plan."
-      bestFor: "Conferences, congresses, delegations, event guests and other situations where a larger group travels as one unit."
+      bestFor: "Conference and congress participants, event guests and other larger groups travelling together."
       highlights:
         - "Designed for larger groups and coordinated schedules."
         - "Keeps the group together instead of splitting passengers between several cars."

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   buildSystemSnapshot,
+  classifyTarget,
   existingPaths,
   findRepoRoot,
   loadConfig,
@@ -28,10 +29,12 @@ try {
   if (target && !targetExists && !parsed.planned)
     throw new Error(`Target does not exist: ${rel(root, target)}`);
   const active = resolveActiveTheme(root, config);
+  const targetClassification = target ? classifyTarget(root, config, target) : null;
+  const requiresSurface = ["production-ui", "dev-ui"].includes(targetClassification?.kind);
   const surface = resolveSurface(root, config, {
     target,
     surface: parsed.surface,
-    required: Boolean(target),
+    required: requiresSurface,
   });
   const surfaceInfo = surface ? config.surfaceMap?.[surface] : null;
   const system = loadSystem(root);
@@ -86,12 +89,27 @@ try {
       );
     return true;
   });
+  const contractIndexPath = path.join(root, ".governance", "contracts.json");
+  const contractRecords = fs.existsSync(contractIndexPath)
+    ? JSON.parse(fs.readFileSync(contractIndexPath, "utf8")).contracts.filter(
+        (contract) => contract.surface === surface,
+      )
+    : [];
+  const reviewIndexPath = path.join(root, ".design/reviews/index.json");
+  const acceptedReviews = fs.existsSync(reviewIndexPath)
+    ? JSON.parse(fs.readFileSync(reviewIndexPath, "utf8")).records.filter(
+        (review) =>
+          review.status === "accepted" &&
+          contractRecords.some((contract) => contract.id === review.contractId),
+      )
+    : [];
 
   const payload = {
     project: config.project,
     repoRoot: root,
     target: target ? rel(root, target) : null,
     targetStatus: target ? (targetExists ? "existing" : "planned") : null,
+    targetClassification,
     surface,
     activeTheme: {
       directory: active.directory,
@@ -115,6 +133,8 @@ try {
     authorities,
     blueprints,
     contracts,
+    contractRecords,
+    acceptedReviews,
     directImports,
     relevantData,
     requiredPreflight: [

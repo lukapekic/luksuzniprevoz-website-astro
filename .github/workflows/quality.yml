@@ -28,6 +28,12 @@ jobs:
           node-version-file: ".nvmrc"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Install pinned browser engines for UI evidence
+        run: pnpm --filter @luksuzni-prevoz/site exec playwright install --with-deps chromium firefox webkit
       - run: pnpm quality:page
+        env:
+          ASTRO_TELEMETRY_DISABLED: "1"
+      - name: Run browser accessibility evidence against the production build
+        run: pnpm test:a11y
         env:
           ASTRO_TELEMETRY_DISABLED: "1"

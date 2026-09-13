@@ -1,0 +1,30 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/ui/sr.json",
+  "replacements": [
+    ["contact.form.fullNameHint", "Unesite najmanje ime i prezime.", "Unesite ime i prezime."],
+    ["contact.form.emailHint", "Na ovu adresu možemo odgovoriti na vaše pitanje.", "Na ovu adresu šaljemo odgovor."],
+    ["contact.form.success", "Pitanje je primljeno. Naš tim će ga pregledati i odgovoriti putem podataka koje ste naveli.", "Primili smo vaše pitanje. Naš tim će ga pregledati i javiti vam se."],
+    ["airport.timeline.flight.text", "Vreme dolaska usklađuje se sa dostupnim informacijama o letu.", "Dolazak vozača usklađujemo sa dostupnim informacijama o letu."],
+    ["airport.timeline.meeting.text", "Vozač i mesto susreta definišu se u okviru potvrđene rezervacije.", "Vozača i mesto susreta potvrđujemo uz rezervaciju."],
+    ["airport.timeline.luggage.text", "Nakon susreta sa vozačem pružamo pomoć sa prtljagom i nastavljamo do vozila.", "Vozač vam pomaže sa prtljagom i vodi vas do vozila."],
+    ["airport.timeline.destination.text", "Nakon preuzimanja putovanje se nastavlja prema potvrđenoj destinaciji.", "Od aerodroma vas vozimo do dogovorene adrese."],
+    ["serviceStandards.heading", "Standard koji prati svaku vožnju", "Šta je uključeno u prevoz"],
+    ["operations.vehicle.cleanliness", "Vozilo pripremljeno po najvišem standardu čistoće", "Čisto i pripremljeno vozilo"],
+    ["privateChauffeur.overview.vehicleAndChauffeur.text", "Vozilo iz naše flote i profesionalni vozač čine jednu potvrđenu uslugu.", "Iznajmljujete vozilo iz naše flote zajedno sa profesionalnim vozačem."],
+    ["privateChauffeur.schedule.beyondOneDay.title", "Planovi duži od jednog dana", "Najam za više dana"],
+    ["privateChauffeur.standards.heading", "Šta dolazi uz svaki angažman", "Šta je uključeno u najam"],
+    ["privateChauffeur.custom.multiDay.title", "Višednevni angažman", "Višednevni najam"],
+    ["privateChauffeur.cta.customQuoteQuiet", "Treba vam duži ili složeniji raspored putovanja? Zatražite individualnu ponudu", "Za duže ili složenije putovanje zatražite ponudu"],
+    ["privateChauffeur.cta.complexItineraryQuiet", "Planirate složen raspored putovanja? Zatražite ponudu", "Zatražite ponudu za svoj raspored"],
+    ["booking.action.removeStop", "Uklonite stajanje", "Uklonite zaustavljanje"],
+    ["booking.service.businessHint", "Korporativni, izvršni, delegacijski ili kongresni prevoz.", "Prevoz za kompanije, delegacije, konferencije i kongrese."],
+    ["booking.field.plannedStops", "Planirana stajanja", "Planirana zaustavljanja"],
+    ["booking.field.addStop", "Dodajte još jedno stajanje", "Dodajte još jedno zaustavljanje"],
+    ["booking.airport.arrival", "Aerodrom do Beograda", "Sa aerodroma u Beograd"],
+    ["booking.airport.departure", "Beograd do aerodroma", "Iz Beograda na aerodrom"],
+    ["booking.confirmation.note", "Slanje formulara kreira zahtev, a ne trenutno potvrđenu rezervaciju.", "Poslat zahtev nije potvrda rezervacije."],
+    ["booking.quote.reason.airportReturn", "Cena povratnog aerodromskog prevoza zahteva pregled", "Cenu povratnog aerodromskog prevoza potvrđujemo pojedinačno"],
+    ["booking.quote.reason.businessPolicy", "Poslovna cena zahteva pregled plana", "Cenu poslovnog prevoza potvrđujemo prema rasporedu"],
+    ["booking.status.serviceUnavailable", "Izabrana usluga trenutno ne može da primi zahtev. Izmenite izbor ili nas kontaktirajte.", "Trenutno nije moguće poslati zahtev za ovu uslugu. Izmenite izbor ili nas kontaktirajte."]
+  ]
+}

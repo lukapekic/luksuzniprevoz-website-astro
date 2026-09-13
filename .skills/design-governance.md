@@ -47,6 +47,11 @@ Run at minimum:
 pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile>
 ```
 
+The gate resolves required profiles from the actual changed scope. When more
+than one UI file changed, use `--scope-complete`; completion also requires a
+fresh independent `--review <evidence.json>` record. The evidence schema and
+exception authority are owned by root `AGENTS.md`.
+
 For major/page work also run the existing required project gates from `AGENTS.md`.
 
 ## Core doctrine

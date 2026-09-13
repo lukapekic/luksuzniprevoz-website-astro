@@ -4,9 +4,9 @@ locale: en
 pageType: pricing
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: b96e93f848176995
+sourceDigest: ccf6375632161ea8
 noindex: false
 seoTitle: "Belgrade Chauffeur & Transfer Prices"
 seoDescription: "View Belgrade airport transfer fares per vehicle and chauffeur hire packages. Request a tailored quote for a complex itinerary or multiple vehicles."
@@ -39,8 +39,7 @@ sections:
 - key: individualPricing
   heading:
     title: "When your journey needs a tailored quote"
-    intro: Complex schedules, multiple vehicles and coordinated events receive a price only after the actual service scope
-      is confirmed.
+    intro: For complex schedules and multiple vehicles, we first check what the transport needs to include.
   body: "The schedule, routes, vehicle selection and coordination needs determine the price. Once we have these details, we prepare an estimate or a tailored quote for the selected service."
   items:
   - title: Business and corporate transportation
@@ -66,7 +65,7 @@ sections:
       flowKey: quote
 - key: pricingModels
   heading:
-    title: Three clear ways a price is formed
+    title: How pricing works
     intro: "Understand fixed transfer fares, time-based hire and pricing for a tailored itinerary."
   items:
   - title: Fixed fare

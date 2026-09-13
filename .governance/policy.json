@@ -10,16 +10,19 @@
   "changeProfiles": {
     "small-ui": [
       "design-context",
+      "contracts-validate",
       "design-sync-check",
       "design-doctor",
       "design-detect",
       "types-check",
       "check",
       "lint",
+      "browser-a11y",
       "site-build"
     ],
     "page": [
       "design-context",
+      "contracts-validate",
       "design-sync-check",
       "foundation-doctor",
       "theme-sync-check",
@@ -34,10 +37,12 @@
       "check",
       "lint",
       "unit-tests",
+      "browser-a11y",
       "site-build"
     ],
     "component": [
       "design-context",
+      "contracts-validate",
       "design-sync-check",
       "component-impact",
       "design-doctor",
@@ -46,6 +51,7 @@
       "check",
       "lint",
       "unit-tests",
+      "browser-a11y",
       "site-build"
     ],
     "theme": [
@@ -75,6 +81,7 @@
     ],
     "foundation": [
       "foundation-doctor",
+      "reviews-validate",
       "theme-sync-check",
       "theme-validate",
       "design-sync-check",

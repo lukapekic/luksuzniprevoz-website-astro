@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 1,
+  "updatedOn": "2026-09-13",
+  "reviewId": "serbian-browser-editorial-2026-09",
+  "scope": "New browser-first natural Serbian review, distinct from the earlier content/SEO pass",
+  "workflow": "SERBIAN-REVIEW-WORKFLOW.md",
+  "status": "blocked",
+  "sourceLocale": "sr",
+  "translationLocales": [
+    "en",
+    "ru"
+  ],
+  "summary": {
+    "total": 15,
+    "done": 0,
+    "remaining": 15,
+    "inProgress": 0,
+    "blocked": 15,
+    "applied": 15,
+    "serbianEditorialAccepted": 15,
+    "frozenBuildBrowserReviewed": 15
+  },
+  "authorization": {
+    "applyWithoutPageApproval": true,
+    "leadOwnsSerbianWriting": true,
+    "delegationPlan": "Use at most two lower-cost supporting agents for bounded tasks when execution resumes.",
+    "deploymentIncluded": false
+  },
+  "checkpoint": {
+    "nextRoute": "corpus",
+    "nextStage": "verification",
+    "action": "Editorial implementation and composed Serbian review complete for all 15 pages. Frozen-build browser corpus: 225 unique states, 90 axe runs, zero recorded errors/overflow/clipping/violations. Current-worktree final acceptance reopened: unrelated concurrent theme, shared LeafPage and governance edits appeared during this run; verify:ui now requires full changed-scope review. Preserve both workstreams and coordinate a stable handoff before reviewing that expanded scope, rebuilding and completing current-profile gates. Do not assert --scope-complete merely to bypass this stop. Eight remaining page/data/UI profile jobs were not completed under the new contract. No deployment or live enquiry.",
+    "waitingForUserApproval": false,
+    "requiresCoordination": true
+  },
+  "roles": {
+    "lead": {
+      "model": "current primary model",
+      "owns": [
+        "Serbian copy",
+        "claims and grammar review",
+        "shared dictionary edits",
+        "final browser acceptance",
+        "tracker updates"
+      ]
+    },
+    "browserSupport": {
+      "model": "gpt-5.6-luna",
+      "owns": [
+        "rendered text extraction",
+        "screenshots and measurements",
+        "bounded regression checks"
+      ]
+    },
+    "implementationSupport": {
+      "model": "gpt-5.6-luna",
+      "owns": [
+        "exact approved replacements",
+        "translation difference identification",
+        "bounded validation"
+      ],
+      "cannot": [
+        "invent Serbian replacements",
+        "add business facts",
+        "change shared components without lead decision",
+        "mark pages done"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "routeKey": "weddingTransportation",
+      "label": "Wedding transportation",
+      "batch": 0,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "wedding-browser-editorial-2026-09-13.md",
+        "wedding-browser-checks-2026-09-13.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "promTransportation",
+      "label": "Prom transportation",
+      "batch": 1,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/promTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/promTransportation/metrics-live.json",
+        "../../../../../../.design/.cache/serbian-batch1-prom.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "vipTransportation",
+      "label": "VIP transportation",
+      "batch": 1,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/vipTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/vipTransportation/metrics-live.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "specialEvents",
+      "label": "Special events hub",
+      "batch": 1,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/specialEvents/rendered-main.txt",
+        "/tmp/serbian-review-baseline/specialEvents/metrics-live.json",
+        "/tmp/serbian-corpus-final/specialEvents-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "corporateTransportation",
+      "label": "Corporate transportation",
+      "batch": 2,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/corporateTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/corporateTransportation/metrics-live.json",
+        "/tmp/serbian-corpus-final/corporateTransportation-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "delegationTransportation",
+      "label": "Delegation transportation",
+      "batch": 2,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/delegationTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/delegationTransportation/metrics-live.json",
+        "/tmp/serbian-corpus-final/delegationTransportation-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "conferenceCongressTransportation",
+      "label": "Conference and congress transportation",
+      "batch": 2,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/conferenceCongressTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/conferenceCongressTransportation/metrics-live.json",
+        "/tmp/serbian-corpus-final/conferenceCongressTransportation-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "businessTransportation",
+      "label": "Business transportation hub",
+      "batch": 2,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/businessTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/businessTransportation/metrics-live.json",
+        "/tmp/serbian-corpus-final/businessTransportation-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "privateChauffeur",
+      "label": "Private chauffeur",
+      "batch": 3,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/privateChauffeur/rendered-main.txt",
+        "/tmp/serbian-review-baseline/privateChauffeur/metrics-live.json",
+        "/tmp/serbian-corpus-final/privateChauffeur-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "done"
+    },
+    {
+      "routeKey": "airportTransportation",
+      "label": "Airport transportation",
+      "batch": 3,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/airportTransportation/rendered-main.txt",
+        "/tmp/serbian-review-baseline/airportTransportation/metrics-live.json",
+        "/tmp/serbian-corpus-final/airportTransportation-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "todo"
+    },
+    {
+      "routeKey": "fleet",
+      "label": "Fleet",
+      "batch": 3,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/fleet/rendered-main.txt",
+        "/tmp/serbian-review-baseline/fleet/metrics-live.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "todo"
+    },
+    {
+      "routeKey": "pricing",
+      "label": "Pricing",
+      "batch": 3,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/pricing/rendered-main.txt",
+        "/tmp/serbian-review-baseline/pricing/metrics-live.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "todo"
+    },
+    {
+      "routeKey": "contact",
+      "label": "Contact",
+      "batch": 4,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/contact/rendered-main.txt",
+        "/tmp/serbian-review-baseline/contact/metrics-live.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "todo"
+    },
+    {
+      "routeKey": "booking",
+      "label": "Booking",
+      "batch": 4,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/booking/rendered-main.txt",
+        "/tmp/serbian-review-baseline/booking/metrics-live.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "todo"
+    },
+    {
+      "routeKey": "home",
+      "label": "Homepage",
+      "batch": 4,
+      "status": "blocked",
+      "owner": "lead",
+      "stages": {
+        "browserBaseline": "done",
+        "serbianEditorial": "done",
+        "implementation": "done",
+        "translationAlignment": "done",
+        "verification": "blocked",
+        "leadBrowserReview": "done"
+      },
+      "evidence": [
+        "/tmp/serbian-review-baseline/home/rendered-main.txt",
+        "/tmp/serbian-review-baseline/home/metrics-live.json",
+        "/tmp/serbian-corpus-final/home-sr/metrics.json",
+        "serbian-browser-corpus-2026-09-13.json",
+        "serbian-editorial-checkpoint-2026-09-13.md"
+      ],
+      "blockers": [
+        "Concurrent theme/governance/shared-UI work must reach a stable handoff before final integrated verification."
+      ],
+      "notes": "Serbian content applied and read in composed form; EN/RU alignment reviewed. Five-width frozen-build visual review accepted. Final current-worktree acceptance reopened because concurrent theme/governance work changed verification scope.",
+      "priorVerificationStatus": "todo"
+    }
+  ],
+  "crossPage": [
+    {
+      "id": "shared-serbian-dictionary",
+      "status": "done",
+      "owner": "lead",
+      "notes": "Completed on frozen editorial corpus; see consolidated checkpoint and225-state evidence."
+    },
+    {
+      "id": "canonical-vehicle-labels",
+      "status": "done",
+      "owner": "lead",
+      "notes": "Completed on frozen editorial corpus; see consolidated checkpoint and225-state evidence."
+    },
+    {
+      "id": "final-corpus-consistency",
+      "status": "done",
+      "owner": "lead",
+      "notes": "Completed on frozen editorial corpus; see consolidated checkpoint and225-state evidence."
+    },
+    {
+      "id": "final-seo-and-locale-regression",
+      "status": "blocked",
+      "owner": "lead",
+      "notes": "Frozen rendered SEO:46 tests passed; current integrated final gate blocked by concurrent governance/theme work. No new paid research."
+    }
+  ],
+  "completion": {
+    "requires": [
+      "All 15 pages done with evidence",
+      "Cross-page tasks done",
+      "No unresolved required verification failures",
+      "Consolidated final report"
+    ],
+    "doesNotMean": [
+      "deployed",
+      "owner/native-speaker certified",
+      "fresh English/Russian market research completed"
+    ]
+  },
+  "knownOpenFindings": [
+    {
+      "priority": "P1",
+      "target": "FinalCTA enlarged contacts",
+      "status": "resolved",
+      "detail": "320px/200% text previously clipped e-mail. Intrinsic contact wrapping fix applied;13-gate component profiles passed before and after. New cross-consumer browser test added. Resolved by verified shared component corrections; 54 enlarged shared-control/CTA browser regressions passed, plus full-corpus enlarged-page tests."
+    },
+    {
+      "priority": "P1",
+      "target": "SiteHeader enlarged text",
+      "status": "resolved",
+      "detail": "Prom SR320/root32 header-actions right480.67 exceeds viewport320; Prom RU1440/root32 header-actions right1459.23 exceeds1440. Resolved by verified shared component corrections; 54 enlarged shared-control/CTA browser regressions passed, plus full-corpus enlarged-page tests."
+    },
+    {
+      "priority": "P1",
+      "target": "HorizontalCarousel enlarged controls",
+      "status": "resolved",
+      "detail": "Prom SR320/root32 control buttons right350 exceed viewport320. Offscreen cards inside overflow-x:auto are intentional and not the root cause. Resolved by verified shared component corrections; 54 enlarged shared-control/CTA browser regressions passed, plus full-corpus enlarged-page tests."
+    },
+    {
+      "priority": "procedure",
+      "target": "Batch2 preflight ordering",
+      "status": "documented",
+      "detail": "Supporting agent omitted pre-edit contexts. Lead performed post-edit authority checks; see business-editorial-2026-09-13.md. No retroactive preflight claim."
+    },
+    {
+      "priority": "coordination",
+      "target": "Current worktree integration",
+      "status": "open",
+      "detail": "Theme typography/layout, generated CSS, LeafPage, governance configuration and verify-ui tooling changed outside this lead run. Pricing profile now stops: Change scope contains12UI files; requires --scope-complete. Do not certify other work without review. Prior browser and profile passes apply to the recorded frozen build/earlier source state, not automatically to these new changes."
+    }
+  ]
+}

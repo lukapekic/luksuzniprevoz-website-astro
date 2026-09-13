@@ -1,0 +1,822 @@
+{
+  "date": "2026-09-13",
+  "scope": "Frozen editorial build; does not certify concurrent later theme/governance edits",
+  "build": "/tmp/serbian-reviewed-frozen.JxMH1S",
+  "earlierUnaffectedPrivateAirportBuild": "/tmp/serbian-final-frozen.oDbnyv",
+  "sourceArtifacts": "/tmp/serbian-corpus-final",
+  "states": 225,
+  "allPassed": true,
+  "axeRuns": 90,
+  "routeLocales": [
+    {
+      "routeLocale": "airportTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "airportTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "airportTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "booking-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "booking-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "booking-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "businessTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "businessTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "businessTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "conferenceCongressTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "conferenceCongressTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "conferenceCongressTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "contact-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "contact-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "contact-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "corporateTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "corporateTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "corporateTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "delegationTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "delegationTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "delegationTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "fleet-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "fleet-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "fleet-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "home-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "home-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "home-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "pricing-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "pricing-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "pricing-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "privateChauffeur-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "privateChauffeur-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "privateChauffeur-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "promTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "promTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "promTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "specialEvents-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "specialEvents-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "specialEvents-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "vipTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "vipTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "vipTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "weddingTransportation-en",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "weddingTransportation-ru",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    },
+    {
+      "routeLocale": "weddingTransportation-sr",
+      "states": 5,
+      "widths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "passed": true,
+      "axeRuns": 2
+    }
+  ],
+  "leadReviews": {
+    "home": {
+      "renderedText": true,
+      "ctaWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "pageWidthsReviewed": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "requiresRecheck": null,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "notes": "Reviewed post-clearance, scroll-painted full-page screenshots at all five widths. H1 clears header; all15 locale/width clearance tests passed at100/200percent text. CTA layout remains accepted."
+    },
+    "privateChauffeur": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "notes": "Composed full Serbian text read through final CTA; verified rental vs transfer distinction, canonical durations/distances and conditional changes, model choice and confirmation. Latest scroll-painted images show all media and readable heading topology."
+    },
+    "airportTransportation": {
+      "renderedText": true,
+      "notes": "Read full final composed SR; waiting60, one-way fixed fares, terminal-access conditions, handoff and confirmation retained; visual review pending.",
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ]
+    },
+    "delegationTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Full composed SR and all five full-page screenshots accepted, mobile CTA crop fits. Preserved conditional confirmation, model selection and NDA/security scope."
+    },
+    "conferenceCongressTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Full composed SR and all five full-page screenshots accepted, mobile CTA crop fits. Preserved conditional confirmation, model selection and NDA/security scope."
+    },
+    "corporateTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Full composed Serbian copy and five-width page screenshots reviewed; mobile CTA crop inspected. No remaining clipping or editorial blocker identified."
+    },
+    "businessTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Full composed Serbian copy and five-width page screenshots reviewed; mobile CTA crop inspected. No remaining clipping or editorial blocker identified."
+    },
+    "specialEvents": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ]
+    },
+    "weddingTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Final shared-fix screenshots rechecked; decorations, waiting and return conditional. Nine Wedding regression tests passed."
+    },
+    "promTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Final composed Serbian text, all five full-page layouts and mobile CTA crop reviewed. Exact vehicle availability, return/waiting and VIP security/terminal conditions retained. Automated batch completion tracked separately."
+    },
+    "vipTransportation": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Final composed Serbian text, all five full-page layouts and mobile CTA crop reviewed. Exact vehicle availability, return/waiting and VIP security/terminal conditions retained. Automated batch completion tracked separately."
+    },
+    "fleet": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Composed Serbian text and five-width page layouts reviewed; model labels, verified capacities, baggage qualification and unchanged published fares checked. CTA fits."
+    },
+    "pricing": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "ctaWidths": [
+        320
+      ],
+      "notes": "Composed Serbian text and five-width page layouts reviewed; model labels, verified capacities, baggage qualification and unchanged published fares checked. CTA fits."
+    },
+    "contact": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "notes": "Full composed Serbian initial page and five-width screenshots accepted on frozen build. Six locale-specific mocked Contact/Booking success flows reviewed separately; live delivery not tested."
+    },
+    "booking": {
+      "renderedText": true,
+      "pageWidths": [
+        320,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "notes": "Full composed Serbian initial page and five-width screenshots accepted on frozen build. Six locale-specific mocked Contact/Booking success flows reviewed separately; live delivery not tested."
+    }
+  }
+}

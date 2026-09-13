@@ -1,0 +1,92 @@
+{
+  "pages": [
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/private-chauffeur/private-chauffeur.en.md",
+      "replacements": [
+        [
+          "Choose the hire format around your schedule",
+          "How long do you need a chauffeur?"
+        ],
+        [
+          "Your time remains yours",
+          "Time to call, prepare or pause"
+        ],
+        [
+          "Travel without losing the day",
+          "Continue without another booking"
+        ],
+        [
+          "When your schedule does not fit a standard hire",
+          "Longer and multi-day journeys"
+        ],
+        [
+          "Tell us how your day is planned",
+          "Send us your plan for the day"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/private-chauffeur/private-chauffeur.ru.md",
+      "replacements": [
+        [
+          "Выберите формат под свой график",
+          "На какое время нужен водитель?"
+        ],
+        [
+          "Ваше время остаётся вашим",
+          "Время для звонка, подготовки или отдыха"
+        ],
+        [
+          "Не теряйте день в дороге",
+          "Продолжайте поездку без нового заказа"
+        ],
+        [
+          "Водитель берёт на себя логику прибытия и продолжения маршрута.",
+          "Водитель позаботится о прибытии, парковке и продолжении маршрута."
+        ],
+        [
+          "Когда ваш график не помещается в стандартный формат",
+          "Длительные и многодневные поездки"
+        ],
+        [
+          "Расскажите, как спланирован ваш день",
+          "Пришлите план на день"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/airport-transportation/airport-transportation.en.md",
+      "replacements": [
+        [
+          "Enter the flight number, date and time. These details carry into the next booking step, where you can add locations, passengers, luggage and vehicle preference.",
+          "Enter the date and time, and add the flight number if you know it. These details carry into the next step, where you add addresses, passengers, luggage and vehicle preference."
+        ],
+        [
+          "A vehicle suited to your passengers, luggage and journey",
+          "Choose your airport vehicle"
+        ],
+        [
+          "Planning an airport arrival or departure?",
+          "Arrange your airport transport"
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/airport-transportation/airport-transportation.ru.md",
+      "replacements": [
+        [
+          "Укажите номер рейса, дату и время. Эти данные переходят в следующий шаг бронирования, где можно добавить адреса, пассажиров, багаж и предпочтительный автомобиль.",
+          "Укажите дату и время, а также номер рейса, если он известен. Эти данные перейдут в следующий шаг, где вы добавите адреса, число пассажиров, багаж и желаемый автомобиль."
+        ],
+        [
+          "Автомобиль под пассажиров, багаж и формат поездки",
+          "Выберите автомобиль для трансфера"
+        ],
+        [
+          "Планируете прилёт или поездку в аэропорт?",
+          "Закажите трансфер из аэропорта"
+        ]
+      ]
+    }
+  ]
+}

@@ -2,11 +2,11 @@
 routeKey: booking
 locale: ru
 sourceLocale: sr
-sourceDigest: 3277dfdf46d5e4af
+sourceDigest: e947a0354be79977
 pageType: booking
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-11
+reviewedOn: 2026-09-13
 noindex: true
 
 seoTitle: "Запрос на бронирование автомобиля с водителем"
@@ -18,7 +18,7 @@ intro: "Выберите услугу, укажите даты и маршрут
 booking:
   heading:
     title: "Ваша заявка — шаг за шагом"
-    intro: "Мы запрашиваем только сведения, необходимые для выбранной услуги. Перед последним шагом всё можно проверить и изменить."
+    intro: "Показываем поля для выбранной услуги. Перед отправкой заявки вы можете проверить и изменить введённые данные."
   assuranceTitle: "Как мы подтверждаем заявку"
   assuranceBody: "Наша команда рассмотрит заявку, затем подтвердит наличие автомобиля, стоимость и окончательные условия поездки."
 ---

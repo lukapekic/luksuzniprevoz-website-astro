@@ -2,11 +2,11 @@
 routeKey: specialEvents
 locale: en
 sourceLocale: sr
-sourceDigest: def95f3a55fea7e1
+sourceDigest: 71ed807e62707dcc
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 
 seoTitle: "Special Occasion Transport in Belgrade"
 seoDescription: "Chauffeur transport for weddings, proms and VIP events in Belgrade. Choose the occasion and vehicle, then arrange arrival, waiting and the return journey."
@@ -70,7 +70,7 @@ sections:
 
   - key: serviceScope
     heading:
-      title: "One vehicle or coordinated transportation for the whole event"
+      title: "How many vehicles do you need?"
       intro: "Passenger numbers and pickup points determine how many vehicles are needed."
     body: "You do not need to decide the number of vehicles in advance. Send the basic schedule and passenger count, and we define the organisation around the selected service and confirmed availability."
     items:
@@ -98,13 +98,13 @@ sections:
 
   - key: standards
     heading:
-      title: "An important event requires more than a good car"
+      title: "How we prepare your transport"
       intro: "The vehicle matters, but so does the way the transportation is prepared, coordinated and confirmed."
-    body: "A professional chauffeur, discreet service, the right vehicle structure and clear confirmation of details together define the standard for special-event transportation."
+    body: "Professional chauffeurs and discreet service are part of the arrangement. Vehicle numbers, waiting and return journeys are agreed within the selected service."
 
   - key: process
     heading:
-      title: "From the event plan to confirmed transportation"
+      title: "How to arrange your transport"
       intro: "You do not need every detail to get started. The date, main locations, approximate timing, passenger count and type of event are enough to begin the organisation."
     items:
       - title: "Send the date and plan"
@@ -116,7 +116,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "The vehicle is chosen for its role in the event"
+    title: "Vehicles for individuals and groups"
     intro: "We select vehicles according to passengers, their role in the event and availability on the requested date."
   vehicleIds:
     - mercedes-s-class
@@ -146,7 +146,7 @@ faq:
       answer: "No. The team reviews the date, vehicle availability, schedule and operational details, then confirms the arrangements personally."
 
 finalCta:
-  heading: "Send the date and plan. We will propose the transportation."
+  heading: "Transport for your occasion"
   text: "Send the date, locations, approximate times, passenger count and occasion. If you are unsure which vehicle to choose, ask our team to recommend one."
   primaryCta:
     label: "Start your booking"

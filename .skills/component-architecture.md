@@ -27,7 +27,7 @@ Variants describe meaning or behavior, not arbitrary styling requests. Primitive
 
 ## Shared changes
 
-Before editing an approved shared component, run `pnpm components:check` and the `component` verification profile. Inspect every consumer reported by the impact gate. Preserve compatibility or document and implement the migration. A page-scoped task cannot silently change unrelated consumers.
+Before editing an approved shared component, run `pnpm components:check` and the `component` verification profile. Inspect every direct and transitive consumer and affected surface reported by the impact gate. Preserve compatibility or document and implement the migration. A page-scoped task cannot silently change unrelated consumers.
 
 ## Stop conditions
 

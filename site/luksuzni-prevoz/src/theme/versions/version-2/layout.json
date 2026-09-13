@@ -33,5 +33,7 @@
     "2xl": "96rem"
   },
 
+  "containerThresholds": ["16rem"],
+
   "approvedDesktopCompositions": ["12", "6/6", "5/7", "7/5", "4/4/4", "8/4", "3/3/3/3"]
 }

@@ -96,6 +96,18 @@ describe("generateThemeCss", () => {
     expect(css).toContain("--line-height-normal: 1.5");
   });
 
+  it("emits recipe variables as references to semantic tokens", () => {
+    const css = generateThemeCss({
+      ...minimalTokens,
+      typography: {
+        ...minimalTokens.typography,
+        recipes: { control: { font: "sans", size: "lg", weight: "bold", lineHeight: "normal" } },
+      },
+    });
+    expect(css).toContain("--recipe-control-font: var(--font-sans)");
+    expect(css).toContain("--recipe-control-size: var(--text-lg)");
+  });
+
   it("includes spacing variables", () => {
     const css = generateThemeCss(minimalTokens);
     expect(css).toContain("--space-1: 0.25rem");

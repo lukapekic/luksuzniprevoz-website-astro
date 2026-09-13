@@ -4,16 +4,16 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Prevoz za maturu u Beogradu"
 seoDescription: "Organizovan prevoz za maturu u Beogradu, za pojedinca, par ili društvo. Usaglasite vozilo, mesto polaska, fotografisanje i povratak sa vozačem."
-h1: "Prevoz za maturu, od preuzimanja do dolaska"
+h1: "Prevoz za matursko veče"
 
 hero:
-  title: "Prevoz za maturu, od preuzimanja do dolaska"
-  description: "Vozilo sa profesionalnim vozačem za individualni dolazak, par ili društvo. Mesto preuzimanja i vreme polaska dogovaramo prema maturskoj večeri."
+  title: "Prevoz za matursko veče"
+  description: "Na maturu sami, u paru ili sa društvom, uz profesionalnog vozača. Dogovaramo vozilo, adresu i vreme polaska prema početku večeri."
   primaryCta:
     label: "Započnite rezervaciju"
     target: { type: flow, flowKey: booking }
@@ -24,18 +24,18 @@ hero:
 overview:
   heading:
     title: "Šta dobijate uz prevoz za maturu"
-    intro: "Usluga povezuje vozilo, profesionalnog vozača i unapred dogovoreno preuzimanje u jednu potvrđenu organizaciju."
-  body: "Navedite datum, mesto preuzimanja, okvirno vreme i broj putnika. Možete navesti i željeno vozilo, a tim će proveriti raspoloživost i predložiti odgovarajuću organizaciju."
+    intro: "Rezervišete vozilo sa vozačem koji dolazi po vas na dogovorenu adresu."
+  body: "Pošaljite datum, adresu, vreme polaska i broj putnika. Ako već imate vozilo na umu, navedite model. Proverićemo da li je slobodno za vašu maturu."
   items:
     - "Vozilo sa profesionalnim vozačem i dogovorenim mestom i vremenom preuzimanja."
-    - "Individualni dolazak, dolazak u paru ili grupni prevoz kada odgovara broju putnika."
+    - "Prevoz za jednu osobu, par ili društvo, uz izbor vozila prema broju putnika."
     - "Povratak i čekanje mogu se uključiti kada su unapred navedeni i potvrđeni."
 
 sections:
   - key: serviceScope
     heading:
-      title: "Tri stvari dogovaramo pre večeri"
-      intro: "Jasan plan preuzimanja uklanja nepotrebna pitanja na sam dan događaja."
+      title: "Dogovor pre maturske večeri"
+      intro: "Pre polaska treba da znamo odakle krećete, koliko vas putuje i da li želite povratnu vožnju."
     body: "Za početak su dovoljni mesto i približno vreme preuzimanja, broj putnika i informacija da li vam je potreban povratak."
     items:
       - title: "Mesto i vreme preuzimanja"
@@ -43,67 +43,67 @@ sections:
       - title: "Ko putuje"
         text: "Broj putnika određuje da li je potrebna limuzina, kombi ili više vozila."
       - title: "Povratak ili čekanje"
-        text: "Ako vam je potreban povratak ili čekanje, navedite ga u zahtevu kako bi mogao biti proveren i potvrđen."
+        text: "Ako želite da vozač čeka ili dođe po vas posle mature, navedite to u zahtevu. Obe mogućnosti proveravamo i potvrđujemo unapred."
 
   - key: arrivalStory
     heading:
       title: "Dolazak je deo večeri"
-      intro: "Dobro organizovan dolazak počinje jasnim planom preuzimanja."
+      intro: "Vreme polaska dogovaramo prema adresi sa koje krećete i početku maturske večeri."
     body: "Vozač preuzima vožnju i brigu o parkingu. Vi i vaše društvo možete da se posvetite večeri."
     items:
       - title: "Preuzimanje"
-        text: "Vozilo dolazi na potvrđeno mesto u okviru dogovorenog plana."
+        text: "Vozač dolazi na dogovorenu adresu u dogovoreno vreme."
       - title: "Vožnja sa profesionalnim vozačem"
         text: "Putnici mogu da se posvete večeri dok vozač vodi računa o vožnji i parkingu."
       - title: "Dolazak"
-        text: "Dolazak se usklađuje sa vremenom događaja i potvrđenom destinacijom."
+        text: "Vozač vas vozi do mesta održavanja mature prema dogovorenom rasporedu."
       - title: "Dogovoreni povratak"
         text: "Povratna vožnja organizuje se kada je unapred navedena i potvrđena."
 
   - key: groupArrival
     heading:
-      title: "Jedno vozilo ili dolazak sa društvom"
-      intro: "Izbor prevoza zavisi od toga ko putuje zajedno, a ne samo od modela automobila."
-    body: "Možete organizovati individualni dolazak, dolazak u paru ili prevoz grupe. Kada jedna grupa ne može praktično da koristi jedno vozilo, proverava se kombinacija odgovarajućih klasa ili više vozila."
+      title: "Kako putuje vaše društvo?"
+      intro: "Dogovorite ko kreće zajedno i sa koje adrese."
+    body: "Za jednu osobu ili par možete izabrati limuzinu, a za društvo veće vozilo. Ako ne stajete u jedno vozilo ili krećete odvojeno, proverićemo raspoloživost više vozila."
     items:
       - title: "Individualno ili u paru"
         text: "Limuzina može biti odgovarajući izbor za jednu osobu ili par."
       - title: "Dolazak sa društvom"
         text: "Grupno vozilo omogućava zajednički polazak kada odgovara rasporedu i broju putnika."
       - title: "Više vozila"
-        text: "Za veće ili odvojene grupe može se proveriti organizacija nekoliko vozila u okviru istog potvrđenog zahteva."
+        text: "Za veće društvo ili polaske sa različitih adresa možemo dogovoriti više vozila."
 
   - key: presentation
     heading:
       title: "Vozilo spremno za vaš dolazak"
-      intro: "Pripremljeno vozilo i dogovoreni detalji važniji su od dodatnih efekata."
-    body: "Ako imate poseban zahtev vezan za izgled vozila, navedite ga u upitu. Takvi zahtevi se proveravaju individualno i smatraju se delom usluge samo kada su izričito potvrđeni. Dekoracija, cveće i drugi detalji nisu automatski uključeni."
+      intro: "Posebne želje za izgled vozila navedite kada nam šaljete zahtev."
+    body: "Fotografija je ilustrativna. Cveće, dekoracija i drugi dodaci nisu automatski uključeni. Svaku želju proveravamo zasebno i potvrđujemo šta možemo da obezbedimo."
     cta:
       label: "Navedite posebne zahteve"
       target: { type: flow, flowKey: booking }
 
   - key: standards
     heading:
-      title: "Jednostavan plan, profesionalna realizacija"
-      intro: "Na dan mature cilj je da prevoz bude jasan, pripremljen i potvrđen unapred."
+      title: "Priprema za vašu vožnju"
+      intro: "Vozilo i vozača pripremamo za dogovorene vožnje, a vreme polaska potvrđujemo sa vama."
     body: "Standard obuhvata profesionalnog vozača, pripremljeno vozilo i potvrdu dogovorenih detalja."
 
   - key: process
     heading:
-      title: "Od zahteva do potvrđenog preuzimanja"
-      intro: "Tri koraka su dovoljna da organizujemo osnovni plan."
+      title: "Kako da rezervišete prevoz"
+      intro: "Pošaljite osnovne podatke, a naš tim će proveriti vozila i javiti vam detalje."
     items:
       - title: "Pošaljite detalje"
         text: "Navedite datum, mesto i okvirno vreme preuzimanja, broj putnika i željeno vozilo ako ga imate."
       - title: "Dogovaramo prevoz"
         text: "Proveravamo raspoloživost i usklađujemo vozilo ili kombinaciju vozila sa brojem putnika i planom."
       - title: "Dobijate potvrdu"
-        text: "Nakon provere dobijate ručno potvrđene detalje preuzimanja i dogovorene organizacije."
+        text: "Naš tim potvrđuje vozilo, adresu i vreme polaska nakon provere raspoloživosti."
 
 vehicleRecommendations:
   heading:
-    title: "Izaberite vozilo prema načinu dolaska"
-    intro: "Individualni dolazak i dolazak sa društvom nemaju isti zahtev. Izbor vozila usklađuje se sa brojem putnika i potvrđenim planom."
+    title: "Vozila za vas i vaše društvo"
+    intro: "Pogledajte limuzine i vozila za više putnika. Izbor zavisi od toga koliko vas putuje i koja vozila su slobodna za traženi datum."
   vehicleIds:
     [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long, mercedes-sprinter]
   cta: { label: "Pogledajte sva vozila", target: { type: route, routeKey: fleet } }
@@ -120,13 +120,13 @@ faq:
     - question: "Da li možete da čekate i vratite nas posle događaja?"
       answer: "Čekanje i povratna vožnja mogu se organizovati kada su unapred navedeni i potvrđeni. Nisu automatski uključeni u svaki zahtev."
     - question: "Da li su dekoracija ili cveće uključeni?"
-      answer: "Ne automatski. Poseban zahtev za izgled vozila možete navesti u upitu, a tim će potvrditi šta može biti deo konkretnog aranžmana."
+      answer: "Ne automatski. Navedite šta želite, a naš tim će proveriti mogućnosti i posebno potvrditi dogovorene dodatke."
     - question: "Da li je rezervacija potvrđena čim pošaljem zahtev?"
-      answer: "Ne. Tim proverava datum, vozila, broj putnika i detalje organizacije, a zatim ručno potvrđuje organizaciju."
+      answer: "Ne. Slanjem zahteva započinjete dogovor. Naš tim proverava vozilo i detalje vožnje, pa vam zatim potvrđuje rezervaciju."
 
 finalCta:
-  heading: "Pošaljite datum, broj putnika i mesto preuzimanja"
-  text: "Navedite vreme, željeno vozilo i potrebe za povratkom ili čekanjem. Tim će proveriti raspoloživost i poslati predlog organizacije."
+  heading: "Dogovorite prevoz za maturu"
+  text: "Pošaljite datum, adresu, vreme polaska i broj putnika. Dodajte željeno vozilo i da li želite čekanje ili povratak."
   primaryCta: { label: "Započnite rezervaciju", target: { type: flow, flowKey: booking } }
   secondaryCta: { label: "Zatražite ponudu", target: { type: flow, flowKey: quote } }
 ---

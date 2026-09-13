@@ -541,7 +541,7 @@ pnpm --filter @luksuzni-prevoz/site check
 pnpm --filter @luksuzni-prevoz/site build
 ```
 
-The root `quality:*` scripts are foundation-wide gates and some still target the reference implementation internally. Until those scripts are deliberately retargeted, do not imply that a root `quality:fast/page/release` result alone proves the Luxury Transportation site page passed its own Astro check/build.
+The root `quality:*` scripts now include the Luxury Transportation site check/build through the root `check` and `build` commands. They remain repository-wide gates; page completion still requires the exact-target design context, applicable `verify:ui` evidence, and manual review required below.
 
 ## Existing root gates
 
@@ -960,6 +960,26 @@ structured evidence:
 ```bash
 pnpm verify:ui --target <exact-file> --surface <surface-id> --change <small-ui|page|component|theme|routing-content|foundation>
 ```
+
+`verify:ui` derives the final gate set from the actual changed files. The
+requested profile never removes a required theme, component, routing/content,
+or foundation gate. When more than one UI file changed, use
+`--scope-complete`; one target alone is partial evidence and cannot certify the
+whole change. CI change verification requires `DESIGN_GOVERNANCE_BASE`.
+
+Production UI completion also requires fresh independent review evidence:
+
+```bash
+pnpm verify:ui --target <exact-file> --surface <surface-id> --change <profile> --scope-complete --review <evidence.json>
+```
+
+The review evidence must bind to the current changed-file hash and cover all
+configured locales and the five required viewport states. Static tests, a
+successful browser runner, screenshots, and manual review are separately
+recorded; none substitutes for another. The validator rejects stale or partial
+evidence; independent-review authority remains a human governance decision.
+Approved FND exceptions remain governed only by
+`docs/exceptions.md`.
 
 Run `pnpm design:sync` only when the preflight reports a stale snapshot. The
 verification command uses check-only generators and never repairs drift.

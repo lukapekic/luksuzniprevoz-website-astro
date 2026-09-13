@@ -6,6 +6,10 @@
  * responsive item sizing, instance isolation, reduced motion, and progressive
  * enhancement. It does NOT know what a vehicle or a review is — callers supply
  * their own cards as slotted `<li>` children.
+ * The counter and navigation-button group wrap in DOM order when enlarged
+ * text cannot fit them on one row. The buttons stay together and right-aligned;
+ * the scrolling viewport and caller-owned cards are unchanged. This is a
+ * compatible layout correction with no prop or behavior migration.
  *
  * Future consumers: FleetShowcase (itemSize "compact"), GoogleReviews
  * (itemSize "standard"). The component imports neither.

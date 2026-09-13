@@ -68,14 +68,14 @@ test.describe("Private Chauffeur", () => {
       routePath("fleet", "en"),
     );
 
-    await expect(page.getByRole("heading", { name: "Mercedes S klasa", exact: true })).toHaveCount(
+    await expect(page.getByRole("heading", { name: "Mercedes-Benz S-Class", exact: true })).toHaveCount(
       1,
     );
-    await expect(page.getByRole("heading", { name: "Mercedes E klasa", exact: true })).toHaveCount(
+    await expect(page.getByRole("heading", { name: "Mercedes-Benz E-Class", exact: true })).toHaveCount(
       1,
     );
     await expect(page.getByRole("heading", { name: "Škoda Superb", exact: true })).toHaveCount(1);
-    await expect(page.getByRole("heading", { name: /Mercedes V klasa/ })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: /Mercedes-Benz V-Class/ })).toHaveCount(0);
 
     expect(await page.locator("body").innerText()).not.toMatch(
       /\{(?:minimumHours|halfDayHours|halfDayKm|fullDayHours|fullDayKm)\}/,

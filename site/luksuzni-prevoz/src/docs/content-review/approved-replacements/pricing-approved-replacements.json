@@ -1,0 +1,37 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/pricing/pricing.sr.md",
+  "replacements": [
+    [
+      "Jasno objavljene cene za standardne usluge, uz individualnu ponudu kada raspored, više vozila ili dodatna koordinacija\n    zahtevaju plan po meri.",
+      "Pogledajte cene aerodromskog prevoza i najma sa vozačem. Za više vozila, poslovne događaje i posebne prilike pripremamo ponudu prema vašem zahtevu."
+    ],
+    [
+      "Složeniji rasporedi, više vozila i koordinisani događaji dobijaju cenu tek kada je potvrđen stvarni obim usluge.",
+      "Za više vozila i složenije rasporede prvo proveravamo šta prevoz treba da obuhvati."
+    ],
+    [
+      "Cenu određuju raspored, relacije, izbor i broj vozila i potrebna koordinacija. Kada dobijemo te podatke, pripremamo procenu ili individualnu ponudu u skladu sa izabranom uslugom.",
+      "Pošaljite raspored, relacije i broj putnika. Cena zavisi i od izabranih vozila i potrebne koordinacije. Prema vrsti usluge pripremamo procenu ili individualnu ponudu."
+    ],
+    [
+      "Tri jasna načina formiranja cene",
+      "Kako se obračunava cena"
+    ],
+    [
+      "Cena i raspoloživost potvrđuju se zajedno",
+      "Kada su cena i rezervacija potvrđene?"
+    ],
+    [
+      "Slanje zahteva pokreće proveru; ne predstavlja automatski potvrđenu rezervaciju.",
+      "Slanje zahteva nije potvrda rezervacije."
+    ],
+    [
+      "Objavljena aerodromska tarifa prikazuje se po vozilu za definisani transfer između Aerodroma Nikola Tesla i Beograda.\n      Izbor vozila prilagođava se broju putnika i prtljagu pre potvrde rezervacije.",
+      "Cena je po vozilu, za navedenu vožnju između Aerodroma Nikola Tesla i Beograda. Pre potvrde proveravamo da li izabrano vozilo odgovara broju putnika i prtljagu."
+    ],
+    [
+      "Jednostavniji poslovni zahtevi mogu se proceniti kada su podaci dovoljni. Složeniji rasporedi, ponavljajući angažmani,\n      delegacije i konferencijski programi dobijaju cenu u individualnoj ponudi.",
+      "Za jednostavniju poslovnu vožnju možemo dati procenu kada imamo potrebne podatke. Za redovan prevoz, delegacije, konferencije i složenije rasporede pripremamo individualnu ponudu."
+    ]
+  ]
+}

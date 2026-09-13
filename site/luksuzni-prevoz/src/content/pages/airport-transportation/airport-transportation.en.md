@@ -4,9 +4,9 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: b374a6af2388acae
+sourceDigest: 5faed7ad67499f40
 
 seoTitle: "Belgrade Airport Transfers"
 seoDescription: "Private transfers to and from Belgrade Nikola Tesla Airport, with flight tracking, a name-sign welcome and luggage assistance. View fares per vehicle."
@@ -37,7 +37,7 @@ sections:
     heading:
       title: "Send the essential flight details"
       intro: "Start the booking with a few key details, then continue to the more detailed booking form."
-    body: "Enter the flight number, date and time. These details carry into the next booking step, where you can add locations, passengers, luggage and vehicle preference."
+    body: "Enter the date and time, and add the flight number if you know it. These details carry into the next step, where you add addresses, passengers, luggage and vehicle preference."
 
   - key: arrivalHandling
     heading:
@@ -62,7 +62,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "A vehicle suited to your passengers, luggage and journey"
+    title: "Choose your airport vehicle"
     intro: "Sedans, the Mercedes-Benz V-Class and Mercedes-Benz Sprinter for different passenger and luggage requirements."
   vehicleIds:
     - mercedes-s-class
@@ -96,7 +96,7 @@ faq:
       answer: "The published per-vehicle fare applies to a standard journey between Nikola Tesla Airport and Belgrade. Other destinations, return journeys and additional requirements are reviewed before a tailored quote."
 
 finalCta:
-  heading: "Planning an airport arrival or departure?"
+  heading: "Arrange your airport transport"
   text: "Send the date, time, locations, flight details and passenger count. We will check availability and confirm the appropriate transportation."
   primaryCta:
     label: "Start your booking"

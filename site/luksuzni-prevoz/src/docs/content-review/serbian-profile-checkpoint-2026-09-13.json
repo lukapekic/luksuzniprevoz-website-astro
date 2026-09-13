@@ -1,0 +1,154 @@
+[
+  {
+    "surface": "corporate-transportation",
+    "target": "site/luksuzni-prevoz/src/content/pages/corporate-transportation/corporate-transportation.sr.md",
+    "id": "corporate-transportation",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/corporate-transportation/corporate-transportation.sr.md",
+      "--surface",
+      "corporate-transportation",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-corporate-transportation.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-corporate-transportation.json"
+  },
+  {
+    "surface": "delegation-transportation",
+    "target": "site/luksuzni-prevoz/src/content/pages/delegation-transportation/delegation-transportation.sr.md",
+    "id": "delegation-transportation",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/delegation-transportation/delegation-transportation.sr.md",
+      "--surface",
+      "delegation-transportation",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-delegation-transportation.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-delegation-transportation.json"
+  },
+  {
+    "surface": "conference-congress-transportation",
+    "target": "site/luksuzni-prevoz/src/content/pages/conference-congress-transportation/conference-congress-transportation.sr.md",
+    "id": "conference-congress-transportation",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/conference-congress-transportation/conference-congress-transportation.sr.md",
+      "--surface",
+      "conference-congress-transportation",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-conference-congress-transportation.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-conference-congress-transportation.json"
+  },
+  {
+    "surface": "business-transportation",
+    "target": "site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.sr.md",
+    "id": "business-transportation",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.sr.md",
+      "--surface",
+      "business-transportation",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-business-transportation.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-business-transportation.json"
+  },
+  {
+    "surface": "private-chauffeur",
+    "target": "site/luksuzni-prevoz/src/content/pages/private-chauffeur/private-chauffeur.sr.md",
+    "id": "private-chauffeur",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/private-chauffeur/private-chauffeur.sr.md",
+      "--surface",
+      "private-chauffeur",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-private-chauffeur.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-private-chauffeur.json"
+  },
+  {
+    "surface": "airport-transportation",
+    "target": "site/luksuzni-prevoz/src/content/pages/airport-transportation/airport-transportation.sr.md",
+    "id": "airport-transportation",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/airport-transportation/airport-transportation.sr.md",
+      "--surface",
+      "airport-transportation",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-airport-transportation.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-airport-transportation.json"
+  },
+  {
+    "surface": "fleet",
+    "target": "site/luksuzni-prevoz/src/content/pages/fleet/fleet.sr.md",
+    "id": "fleet",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/fleet/fleet.sr.md",
+      "--surface",
+      "fleet",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-fleet.json"
+    ],
+    "exitCode": 0,
+    "evidence": ".design/.cache/serbian-final-fleet.json"
+  },
+  {
+    "surface": "pricing",
+    "target": "site/luksuzni-prevoz/src/content/pages/pricing/pricing.sr.md",
+    "id": "pricing",
+    "command": [
+      "pnpm",
+      "verify:ui",
+      "--target",
+      "site/luksuzni-prevoz/src/content/pages/pricing/pricing.sr.md",
+      "--surface",
+      "pricing",
+      "--change",
+      "routing-content",
+      "--evidence",
+      ".design/.cache/serbian-final-pricing.json"
+    ],
+    "exitCode": 1,
+    "evidence": ".design/.cache/serbian-final-pricing.json"
+  }
+]

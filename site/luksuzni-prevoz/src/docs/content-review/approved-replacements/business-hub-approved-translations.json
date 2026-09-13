@@ -1,0 +1,78 @@
+{
+  "pages": [
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.en.md",
+      "replacements": [
+        [
+          "Business transportation organised around your schedule",
+          "Business transport in Belgrade"
+        ],
+        [
+          "One request or an ongoing corporate arrangement",
+          "Occasional journeys or regular transport"
+        ],
+        [
+          "A one-off business assignment and recurring corporate transportation follow different commercial and operational paths.",
+          "Send a separate request for a one-off journey. For regular corporate transport, we agree on the terms of an ongoing arrangement."
+        ],
+        [
+          "The business transportation standard is more than the vehicle",
+          "Chauffeurs and journey preparation"
+        ],
+        [
+          "From schedule to organised transportation",
+          "How to arrange business transport"
+        ],
+        [
+          "The vehicle is chosen for its role in the schedule",
+          "Vehicles for business travellers and groups"
+        ],
+        [
+          "Send us the schedule. We will organise the transportation.",
+          "Planning business transport?"
+        ],
+        [
+          "One business journey, a recurring corporate engagement or a complex multi-vehicle schedule — send the core details and we will check the appropriate service and organisation.",
+          "Send the date, addresses and passenger count. Let us know whether you need a business journey, regular transport, delegation travel or event transport."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.ru.md",
+      "replacements": [
+        [
+          "Деловой транспорт по вашему расписанию",
+          "Деловой транспорт в Белграде"
+        ],
+        [
+          "Разовый запрос или постоянное корпоративное сотрудничество",
+          "Разовые поездки или регулярное сотрудничество"
+        ],
+        [
+          "Разовая деловая задача и регулярный корпоративный транспорт требуют разного коммерческого и операционного подхода.",
+          "Для разовой поездки отправьте отдельный запрос. Для регулярного корпоративного транспорта согласуем условия сотрудничества."
+        ],
+        [
+          "От расписания до организованного транспорта",
+          "Как заказать деловой транспорт"
+        ],
+        [
+          "Автомобиль выбирается по роли в расписании",
+          "Автомобили для деловых пассажиров и групп"
+        ],
+        [
+          "Профессиональный водитель, подходящие автомобили и заранее согласованные детали помогают организовать деловую поездку.",
+          "Профессиональные водители общаются ненавязчиво. Возможность использования нескольких автомобилей и другие требования проверяем в рамках выбранной деловой услуги."
+        ],
+        [
+          "Отправьте нам расписание. Мы организуем транспорт.",
+          "Планируете деловые поездки?"
+        ],
+        [
+          "Одна деловая поездка, регулярный корпоративный формат или сложный график с несколькими автомобилями — отправьте основные данные, и мы проверим подходящую услугу и организацию.",
+          "Пришлите дату, адреса и число пассажиров. Уточните, нужен ли транспорт для разовой деловой поездки, регулярных маршрутов, делегации или мероприятия."
+        ]
+      ]
+    }
+  ]
+}

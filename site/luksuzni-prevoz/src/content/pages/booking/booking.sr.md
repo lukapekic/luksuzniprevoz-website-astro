@@ -4,7 +4,7 @@ locale: sr
 pageType: booking
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: true
 
 seoTitle: "Zahtev za rezervaciju prevoza sa vozačem"
@@ -16,7 +16,7 @@ intro: "Izaberite uslugu, unesite kada i gde putujete i odaberite željeno vozil
 booking:
   heading:
     title: "Vaš zahtev, korak po korak"
-    intro: "Tražimo samo podatke potrebne za izabranu uslugu. Sve možete pregledati i izmeniti pre poslednjeg koraka."
+    intro: "Prikazujemo polja za izabranu uslugu. Unete podatke možete pregledati i izmeniti pre slanja zahteva."
   assuranceTitle: "Kako potvrđujemo zahtev"
-  assuranceBody: "Raspoloživost, izbor vozila, cena i konačna organizacija potvrđuju se nakon što naš tim pregleda zahtev."
+  assuranceBody: "Naš tim proverava vozilo, raspored i cenu. Rezervacija važi tek kada vam je potvrdimo."
 ---

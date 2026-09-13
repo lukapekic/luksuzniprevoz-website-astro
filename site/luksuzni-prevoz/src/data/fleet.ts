@@ -72,7 +72,7 @@ export interface Vehicle {
  * vocabulary rather than page-component copy.
  */
 export const fleetModelDisplayNames = {
-  mercedesVClass: "Mercedes V klasa",
+  mercedesVClass: "Mercedes-Benz V-Class",
 } as const;
 
 // --- Authoritative fleet facts --------------------------------------------
@@ -96,42 +96,42 @@ export const vehicles: Vehicle[] = [
   },
   {
     id: "mercedes-e-class",
-    displayName: "Mercedes E klasa",
+    displayName: "Mercedes-Benz E-Class",
     vehicleClass: "sedan",
     pricingStatus: "published",
     passengers: 3,
   },
   {
     id: "mercedes-v-class-6-plus-1-extra-long",
-    displayName: "Mercedes V klasa 6+1 Extra Long",
+    displayName: "Mercedes-Benz V-Class 6+1 Extra Long",
     vehicleClass: "van",
     pricingStatus: "published",
     passengers: 6,
   },
   {
     id: "mercedes-v-class-7-plus-1-extra-long",
-    displayName: "Mercedes V klasa 7+1 Extra Long",
+    displayName: "Mercedes-Benz V-Class 7+1 Extra Long",
     vehicleClass: "van",
     pricingStatus: "published",
     passengers: 7,
   },
   {
     id: "mercedes-vito-tourer-8-plus-1",
-    displayName: "Mercedes Vito Tourer 8+1",
+    displayName: "Mercedes-Benz Vito Tourer 8+1",
     vehicleClass: "minivan",
     pricingStatus: "published",
     passengers: 8,
   },
   {
     id: "mercedes-s-class",
-    displayName: "Mercedes S klasa",
+    displayName: "Mercedes-Benz S-Class",
     vehicleClass: "sedan",
     pricingStatus: "published",
     passengers: 3,
   },
   {
     id: "mercedes-sprinter",
-    displayName: "Mercedes Sprinter",
+    displayName: "Mercedes-Benz Sprinter",
     vehicleClass: "bus",
     pricingStatus: "published",
     passengers: 19,

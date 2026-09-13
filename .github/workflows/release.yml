@@ -26,9 +26,17 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
+      - name: Install pinned browser engines for the required UI evidence
+        run: pnpm --filter @luksuzni-prevoz/site exec playwright install --with-deps chromium firefox webkit
+
       # Static release gate: generated-artifact drift, design governance,
       # content/SEO, typing, lint, unit tests, build, secret scan, and dep audit.
       # Browser-based visual/responsive review remains a deliberate manual gate.
       - run: pnpm quality:release
+        env:
+          ASTRO_TELEMETRY_DISABLED: "1"
+
+      - name: Run browser accessibility evidence against the production build
+        run: pnpm test:a11y
         env:
           ASTRO_TELEMETRY_DISABLED: "1"

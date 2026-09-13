@@ -1,0 +1,46 @@
+{
+  "pages": [
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/fleet/fleet.en.md",
+      "replacements": [
+        [
+          "VIP guests, executives, protocol engagements and special occasions where presentation matters as much as the journey itself.",
+          "VIP guests, executives, protocol engagements and special occasions."
+        ],
+        [
+          "The most representative sedan in the collection.",
+          "A sedan for business arrivals and special occasions."
+        ],
+        [
+          "Conferences, congresses, delegations, event guests and other situations where a larger group travels as one unit.",
+          "Conference and congress participants, event guests and other larger groups travelling together."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/fleet/fleet.ru.md",
+      "replacements": [
+        [
+          "VIP-гостей, руководителей, протокольных мероприятий и особых случаев, где впечатление от подачи так же важно, как сама поездка.",
+          "VIP-гостей, руководителей, протокольных мероприятий и особых случаев."
+        ],
+        [
+          "Ориентирован на опыт пассажира на заднем сиденье.",
+          "Комфорт пассажира на заднем сиденье."
+        ],
+        [
+          "Самый представительский седан в коллекции.",
+          "Седан для деловых поездок и торжественных событий."
+        ],
+        [
+          "Конференций, конгрессов, делегаций, гостей мероприятий и других ситуаций, когда большая группа передвигается как единое целое.",
+          "Участников конференций и конгрессов, гостей мероприятий и других больших групп, которые едут вместе."
+        ],
+        [
+          "Расскажите, как вы планируете поездку",
+          "Расскажите о вашей поездке"
+        ]
+      ]
+    }
+  ]
+}

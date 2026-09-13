@@ -33,8 +33,12 @@ export const rule = {
 
       while ((match = arbitrary.exec(text))) {
         const value = match[1];
-        if (/var\(--[a-z0-9-_]+\)/i.test(value)) continue;
-        if (/^(?:calc|clamp|min|max)\(/i.test(value) && /var\(--/i.test(value)) continue;
+        const tokenReferences = [...value.matchAll(/var\((--[a-z0-9-_]+)/gi)].map(
+          (entry) => entry[1],
+        );
+        const rawDimension = /(?:^|[^-\w])\d*\.?\d+(?:px|rem|em|vw|vh)\b/i.test(value);
+        if (tokenReferences.length > 0 && !rawDimension && !/--(?:unknown|invented)/i.test(value))
+          continue;
         findings.push(
           makeFinding({
             ruleId: rule.id,

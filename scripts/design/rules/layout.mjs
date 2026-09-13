@@ -10,6 +10,15 @@ const spacingProperty =
 const radiusProperty = /(?:^|[;{]\s*)border-radius\s*:\s*([^;}]+)/gim;
 const dimension = /(?:^|[\s,(])(?:\d*\.)?\d+(?:px|rem|em|vw|vh|svw|svh)\b/i;
 
+function containsRawDimension(value) {
+  // Fluid interpolation between semantic endpoints is an approved structural
+  // expression. Any literal endpoint or added raw dimension is still a bypass.
+  const semanticClamp =
+    /clamp\(\s*var\(--(?:space|gutter|column-gap)-[^)]+\)\s*,\s*\d*\.?\d+vw\s*,\s*var\(--(?:space|gutter|column-gap)-[^)]+\)\s*\)/gi;
+  const remainder = value.replace(semanticClamp, "");
+  return dimension.test(remainder) && !/^\s*(?:var\([^)]*\)|0)\s*$/i.test(remainder);
+}
+
 export const rule = {
   id: "layout/semantic-values",
   description:
@@ -17,7 +26,10 @@ export const rule = {
   severity: "P1",
   scan({ root, files, system }) {
     const findings = [];
-    const breakpoints = new Set(Object.values(system?.tokens?.layout?.breakpoints ?? {}));
+    const breakpoints = new Set([
+      ...Object.values(system?.tokens?.layout?.breakpoints ?? {}),
+      ...(system?.tokens?.layout?.containerThresholds ?? []),
+    ]);
     for (const file of files) {
       if (!/\.(astro|css|ts|tsx|js|jsx)$/i.test(file)) continue;
       const original = fs.readFileSync(file, "utf8");
@@ -48,8 +60,8 @@ export const rule = {
         const value = match[2].trim();
         if (
           value === "0" ||
-          !dimension.test(value) ||
-          /var\(--(?:space|gutter|column-gap)-/.test(value)
+          !containsRawDimension(value) ||
+          /^\s*(?:var\(--(?:space|gutter|column-gap)-[^)]+\)|0)\s*$/i.test(value)
         )
           continue;
         findings.push(
@@ -71,7 +83,7 @@ export const rule = {
           value === "0" ||
           value.endsWith("%") ||
           /var\(--radius-/.test(value) ||
-          !dimension.test(value)
+          !containsRawDimension(value)
         )
           continue;
         findings.push(
@@ -86,16 +98,23 @@ export const rule = {
         );
       }
 
-      const media = /@media\s*\(\s*(?:min|max)-width\s*:\s*([^)\s]+)\s*\)/gim;
+      const media = /@(?:media|container)\s*\(([^)]+)\)/gim;
       while ((match = media.exec(text))) {
-        if (breakpoints.has(match[1])) continue;
+        const condition = match[1].trim();
+        const dimensions = [
+          ...condition.matchAll(
+            /(?:min|max-)?width\s*(?:[:<>]=?)\s*([0-9.]+(?:px|rem|em|vw|vh|svw|svh))/gi,
+          ),
+        ].map((entry) => entry[1]);
+        if (dimensions.length === 0 || dimensions.every((value) => breakpoints.has(value)))
+          continue;
         findings.push(
           makeFinding({
             ruleId: "layout/unregistered-breakpoint",
             severity: "P1",
             file: rel(root, file),
             line: lineNumber(text, match.index),
-            message: `Responsive threshold "${match[1]}" is not registered by the active theme.`,
+            message: `Responsive condition "${condition}" contains a threshold not registered by the active theme.`,
             recommendation:
               "Use a registered breakpoint or add a justified structural threshold to the theme source first.",
           }),

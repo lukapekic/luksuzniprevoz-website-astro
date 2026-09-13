@@ -12,12 +12,27 @@ try {
   loadConfig(root);
   loadSystem(root);
   const policy = JSON.parse(fs.readFileSync(path.join(root, ".governance/policy.json"), "utf8"));
+  const contracts = JSON.parse(
+    fs.readFileSync(path.join(root, ".governance/contracts.json"), "utf8"),
+  );
+  const reviews = JSON.parse(
+    fs.readFileSync(path.join(root, ".design/reviews/index.json"), "utf8"),
+  );
+  const evidenceSchema = JSON.parse(
+    fs.readFileSync(path.join(root, ".governance/review-evidence.schema.json"), "utf8"),
+  );
   const viewports = JSON.parse(
     fs.readFileSync(path.join(root, ".governance/viewports.json"), "utf8"),
   );
   const rules = JSON.parse(fs.readFileSync(path.join(root, ".governance/rules.json"), "utf8"));
   if (policy.schemaVersion !== 1 || viewports.schemaVersion !== 1 || rules.schemaVersion !== 1)
     fail("Unsupported governance schema version.");
+  if (
+    contracts.schemaVersion !== 1 ||
+    reviews.schemaVersion !== 1 ||
+    evidenceSchema.properties?.schemaVersion?.const !== 1
+  )
+    fail("Unsupported contract or review-evidence schema version.");
   if (JSON.stringify(policy.blockingSeverities) !== JSON.stringify(["P0", "P1"]))
     fail("P0 and P1 must remain blocking severities.");
   const requiredProfiles = [

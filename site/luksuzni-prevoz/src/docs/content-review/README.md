@@ -1,4 +1,4 @@
-> **Historical checkpoint, superseded 11 September 2026.** The owner authorized autonomous multilingual content application and SEO research. See [EXECUTION.md](EXECUTION.md), [execution-status.json](execution-status.json), and [FINAL-REVIEW.md](FINAL-REVIEW.md) for the current result. Approval pauses and unchanged-content statements below describe the earlier audit only.
+> **Active review — 13 September 2026:** Start with [SERBIAN-REVIEW-WORKFLOW.md](SERBIAN-REVIEW-WORKFLOW.md) and [serbian-review-status.json](serbian-review-status.json). They track the renewed browser-first Serbian pass. The earlier results below are historical; their approval pauses are not active.
 
 # Serbian Content Corpus Review
 

@@ -4,16 +4,16 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: 038ff1af1130f4bd
+sourceDigest: 1aba7e378221ff43
 noindex: false
 
 seoTitle: "Delegation Transport in Belgrade"
 seoDescription: "Delegation transport in Belgrade with a dedicated coordinator, multiple vehicles and an agreed schedule for airport arrivals, hotels and meetings."
 
 hero:
-  title: "Delegation transportation, coordinated as one plan"
+  title: "Delegation transport in Belgrade"
   description: "Transport for delegations and executives visiting several locations. Combine vehicle classes with one contact coordinating the travel plan."
   primaryCta:
     label: "Start your booking"
@@ -31,7 +31,7 @@ overview:
 sections:
   - key: audience
     heading:
-      title: "When several passengers need to move as one organised group"
+      title: "For delegations and visit organisers"
       intro: "The service is designed for organisations and hosts who need more than a series of separate vehicle bookings."
     body: "When different passengers have different roles, pickup points or programme requirements, one coordination structure gives the organiser a clearer view of the complete transport plan."
     items:
@@ -58,7 +58,7 @@ sections:
 
   - key: movement
     heading:
-      title: "One delegation. Several movements."
+      title: "From arrival to the end of the visit"
       intro: "Different groups can use different vehicles and follow different programme points while their transportation remains part of one plan."
     body: "The example illustrates coordination. We prepare the final plan from the programme, groups and locations you provide."
 
@@ -89,13 +89,13 @@ sections:
 
   - key: briefing
     heading:
-      title: "Send the delegation programme, not a series of separate rides"
-      intro: "The best basis for organisation is a view of the complete programme that affects transportation."
+      title: "What we need for your quote"
+      intro: "Send the visit programme, even if some timings are still provisional."
     body: "Send the key times, locations, passenger count, group structure, preferred vehicles and special requirements. We use this information to check availability and prepare an individual quote."
 
 vehicleRecommendations:
   heading:
-    title: "Choose the vehicle around each passenger's role"
+    title: "Vehicles for your delegation"
     intro: "Mercedes-Benz S-Class, E-Class and V-Class for individual travellers and smaller groups, according to the delegation’s programme."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long]
   cta:
@@ -133,7 +133,7 @@ faq:
       }
 
 finalCta:
-  heading: "Organise your delegation transportation with us."
+  heading: "Arrange your delegation transport"
   text: "Send the programme, passenger count, locations and special requirements. We will review the details and prepare an individual quote for the complete transport plan."
   primaryCta:
     label: "Start your booking"

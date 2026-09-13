@@ -1,0 +1,34 @@
+{
+  "pages": [
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/contact/contact.sr.md",
+      "replacements": [
+        [
+          "Za pitanja o uslugama i organizaciji prevoza obratite se našem timu u Beogradu.",
+          "Pitajte nas o uslugama, vozilima ili organizaciji prevoza."
+        ],
+        [
+          "Pozovite nas ili pošaljite e-mail za savet pri izboru usluge ili razgovor o poslovnoj saradnji.",
+          "Pozovite nas ili nam pišite e-mailom ako vam treba pomoć pri izboru prevoza ili želite da dogovorite poslovnu saradnju."
+        ],
+        [
+          "Opišite ukratko svoje pitanje i ostavite podatke putem kojih možemo da odgovorimo.",
+          "Napišite šta vas zanima i ostavite e-mail adresu za odgovor."
+        ]
+      ]
+    },
+    {
+      "file": "site/luksuzni-prevoz/src/content/pages/booking/booking.sr.md",
+      "replacements": [
+        [
+          "Tražimo samo podatke potrebne za izabranu uslugu. Sve možete pregledati i izmeniti pre poslednjeg koraka.",
+          "Prikazujemo polja za izabranu uslugu. Unete podatke možete pregledati i izmeniti pre slanja zahteva."
+        ],
+        [
+          "Raspoloživost, izbor vozila, cena i konačna organizacija potvrđuju se nakon što naš tim pregleda zahtev.",
+          "Naš tim proverava vozilo, raspored i cenu. Rezervacija važi tek kada vam je potvrdimo."
+        ]
+      ]
+    }
+  ]
+}

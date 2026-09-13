@@ -1,0 +1,117 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/corporate-transportation/corporate-transportation.sr.md",
+  "replacements": [
+    [
+      "Poslovni prevoz koji funkcioniše kao deo vašeg dana",
+      "Prevoz za vašu kompaniju"
+    ],
+    [
+      "Jasan raspored, odgovarajuće vozilo i unapred dogovorena organizacija za vašu kompaniju.",
+      "Dogovorite vožnje za jedan poslovni dan ili redovan prevoz za kompaniju."
+    ],
+    [
+      "Korporativni prevoz objedinjuje vožnje za poslovnog putnika ili kompaniju. Lokacije, vreme čekanja i izbor vozila usaglašavamo sa osobom koja organizuje putovanje.",
+      "Sa osobom koja organizuje putovanje dogovaramo adrese, polaske, čekanje i izbor vozila. Prevoz možemo pripremiti za jednog putnika, poslovne goste ili kolege."
+    ],
+    [
+      "Za ljude i timove kojima poslovni dan ne staje na jednoj adresi",
+      "Za rukovodioce, goste i poslovne timove"
+    ],
+    [
+      "Usluga je namenjena putnicima i organizatorima kojima je važan profesionalan, diskretan i unapred usaglašen prevoz.",
+      "Možete rezervisati prevoz za sebe ili u ime kompanije."
+    ],
+    [
+      "Za poslovne obaveze u kojima su važni primeren dolazak, diskretna usluga i unapred usaglašen raspored.",
+      "Za odlazak na sastanke i druge poslovne obaveze, uz diskretnog vozača i unapred dogovorene polaske."
+    ],
+    [
+      "Za firme kojima korporativni prevoz nije jednokratan zahtev već deo redovne poslovne organizacije.",
+      "Za kompanije kojima su potrebne redovne vožnje, uz dogovor o učestalosti i relacijama."
+    ],
+    [
+      "Za rasporede u kojima se sastanci, kancelarije, hoteli i druge poslovne tačke povezuju u isti dan.",
+      "Za putnike koji tokom istog dana odlaze u kancelariju, na sastanke i druge poslovne adrese."
+    ],
+    [
+      "Jedan zahtev ili kontinuirana korporativna saradnja",
+      "Jednokratni ili redovan prevoz"
+    ],
+    [
+      "Izaberite jednokratnu organizaciju ili razgovor o redovnim vožnjama.",
+      "Navedite da li vam je prevoz potreban za određeni datum ili redovno."
+    ],
+    [
+      "Za jedan poslovni dan potrebni su datum i plan kretanja. Za kontinuiranu saradnju dogovaramo učestalost, fakturisanje i komercijalne uslove.",
+      "Za pojedinačan zahtev pošaljite datum i raspored vožnji. Za redovnu saradnju dogovaramo i učestalost, fakturisanje i komercijalne uslove."
+    ],
+    [
+      "Za konkretan poslovni zadatak",
+      "Za određeni datum"
+    ],
+    [
+      "Kada već znate datum, putnika i osnovni raspored i želite da prevoz bude organizovan kao jedna potvrđena usluga.",
+      "Pošaljite ko putuje, kada i na koje adrese. Na osnovu toga proveravamo vozila i pripremamo prevoz."
+    ],
+    [
+      "Za potrebe koje se ponavljaju",
+      "Za redovne vožnje"
+    ],
+    [
+      "Kada kompaniji treba ustaljen način organizovanja poslovnog prevoza tokom više vožnji ili dužeg perioda.",
+      "Dogovor za kompanije kojima je prevoz potreban više puta ili tokom dužeg perioda."
+    ],
+    [
+      "Poslovni dan ostaje povezan",
+      "Od hotela do poslednjeg sastanka"
+    ],
+    [
+      "Sastanak retko završava poslovni dan. Prevoz treba da prati ono što dolazi posle njega.",
+      "Ako tokom dana menjate više adresa, pošaljite ceo raspored."
+    ],
+    [
+      "Hotel, kancelarija i sastanci mogu biti povezani u jednom dnevnom angažmanu. Isti vozač može ostati između lokacija kada je to deo potvrđenog dogovora.",
+      "U jednu rezervaciju možete uključiti vožnje između hotela, kancelarije i sastanaka. Isti vozač može ostati na raspolaganju između vožnji kada to unapred dogovorimo i potvrdimo."
+    ],
+    [
+      "Ne krećete od početka posle svake poslovne obaveze.",
+      "Povezane vožnje dogovarate zajedno, umesto da svaku rezervišete zasebno."
+    ],
+    [
+      "Sledeća lokacija je već dogovorena",
+      "Vozač zna sledeću adresu"
+    ],
+    [
+      "Sledeća lokacija već je deo istog plana prevoza.",
+      "Redosled adresa i polazaka deo je potvrđenog rasporeda."
+    ],
+    [
+      "Kontinuitet za putnika",
+      "Manje organizacije tokom dana"
+    ],
+    [
+      "Direktor ili poslovni gost dobija mirniji prelaz između obaveza i lokacija.",
+      "Putnik ne mora iznova da objašnjava plan posle svakog sastanka."
+    ],
+    [
+      "Kontakt iz kompanije usaglašava plan sa našim timom. Pre potvrde proveravamo vozilo i raspored; naknadne promene razmatramo prema dogovorenim uslovima.",
+      "Osoba zadužena za putovanje usaglašava plan sa našim timom. Pre potvrde proveravamo vozilo i raspored. Naknadne promene razmatramo prema dogovorenim uslovima."
+    ],
+    [
+      "Vozilo prema ulozi putnika i rasporedu",
+      "Vozila za rukovodioce i timove"
+    ],
+    [
+      "Pošaljite datum, vreme, lokacije, broj putnika i osnovnu strukturu rasporeda. Ako se zahtev ponavlja, navedite i očekivanu učestalost kako bi tim mogao da proceni odgovarajući model saradnje.",
+      "Pošaljite datum, adrese, vreme polaska i broj putnika. Za redovan prevoz navedite koliko često biste koristili uslugu i na kojim relacijama."
+    ],
+    [
+      "Pošaljite raspored. Mi organizujemo korporativni prevoz.",
+      "Dogovorimo poslovne vožnje"
+    ],
+    [
+      "Pošaljite datum, vreme, lokacije, broj putnika i željeno vozilo. Proverićemo raspoloživost i potvrditi odgovarajući način angažovanja.",
+      "Pošaljite raspored, broj putnika i željeno vozilo. Navedite da li tražite prevoz za određeni datum ili redovnu saradnju."
+    ]
+  ]
+}

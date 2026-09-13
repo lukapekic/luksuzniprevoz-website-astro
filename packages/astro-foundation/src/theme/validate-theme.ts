@@ -161,6 +161,36 @@ export function validateThemeSemantics(tokens: ThemeTokens): FoundationIssue[] {
     issues.push(...validateFlatPaletteContrast(tokens.palette));
   }
 
+  issues.push(...validateTypographyRecipes(tokens));
+
+  return issues;
+}
+
+/** Recipe values reference existing semantic roles; raw values remain in tokens. */
+export function validateTypographyRecipes(tokens: ThemeTokens): FoundationIssue[] {
+  const issues: FoundationIssue[] = [];
+  const typography = tokens.typography;
+  const valid = {
+    font: new Set(Object.keys(typography.families ?? typography.fontFamilies ?? {})),
+    size: new Set(Object.keys(typography.sizes ?? typography.fontSizes ?? {})),
+    weight: new Set(Object.keys(typography.weights ?? typography.fontWeights ?? {})),
+    lineHeight: new Set(Object.keys(typography.lineHeight ?? typography.lineHeights ?? {})),
+    letterSpacing: new Set(Object.keys(typography.letterSpacing ?? {})),
+    measure: new Set(Object.keys(typography.measure ?? {})),
+  };
+  for (const [recipe, roles] of Object.entries(typography.recipes ?? {})) {
+    for (const [role, reference] of Object.entries(roles)) {
+      if (!(role in valid) || !valid[role as keyof typeof valid].has(reference)) {
+        issues.push({
+          ruleId: "FND-THEME-03",
+          severity: "error",
+          offendingValue: `typography recipe ${recipe}.${role} references "${reference}"`,
+          expectedValue: "recipe roles must reference an existing semantic typography token",
+          docAnchor: "§8.3",
+        });
+      }
+    }
+  }
   return issues;
 }
 
@@ -247,6 +277,29 @@ export function validateFlatPaletteContrast(palette: FlatPalette): FoundationIss
       severity: "error",
     },
   ];
+
+  const optionalPairs: Array<[string, string, number, string, string]> = [
+    ["textPrimary", "surface", 4.5, "textPrimary on surface", "FND-A11Y-04"],
+    ["textPrimary", "surfaceElevated", 4.5, "textPrimary on surfaceElevated", "FND-A11Y-04"],
+    ["textMuted", "surface", 4.5, "textMuted on surface", "FND-A11Y-04"],
+    ["textMuted", "surfaceElevated", 4.5, "textMuted on surfaceElevated", "FND-A11Y-04"],
+    ["textOnLight", "inputSurface", 4.5, "textOnLight on inputSurface", "FND-A11Y-04"],
+    ["focusDark", "surface", 3, "focusDark on surface", "FND-THEME-06"],
+    ["focusDark", "surfaceElevated", 3, "focusDark on surfaceElevated", "FND-THEME-06"],
+    ["focusLight", "surfaceLight", 3, "focusLight on surfaceLight", "FND-THEME-06"],
+    ["focusLight", "inputSurface", 3, "focusLight on inputSurface", "FND-THEME-06"],
+  ];
+  for (const [fgKey, bgKey, minRatio, label, ruleId] of optionalPairs) {
+    if (!has(fgKey) || !has(bgKey)) continue;
+    checks.push({
+      fg: get(fgKey) ?? "",
+      bg: get(bgKey) ?? "",
+      minRatio,
+      label,
+      ruleId,
+      severity: "error",
+    });
+  }
 
   // Light-surface pair (only when the palette declares both halves).
   if (has("textOnLight") && has("surfaceLight")) {
