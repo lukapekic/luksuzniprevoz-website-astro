@@ -2,19 +2,19 @@
 routeKey: weddingTransportation
 locale: en
 sourceLocale: sr
-sourceDigest: d44081ab22ae7c45
+sourceDigest: 99f33ab067888928
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Wedding Car Hire in Belgrade"
 seoDescription: "Wedding car hire in Belgrade with a professional chauffeur. Plan the couple’s arrival, photo stops and travel between venues, with guest transport on request."
 
 hero:
-  title: "Wedding transportation organised around your day"
-  description: "From a principal vehicle for the couple to transportation for family and guests. We coordinate vehicles, timing and an agreed return around your wedding plan."
+  title: "Wedding transport for you and your guests"
+  description: "A chauffeur-driven car for your wedding day, from the ceremony to the reception. If your guests need transport too, we can arrange additional vehicles and separate departures."
   primaryCta:
     label: "Start your booking"
     target:
@@ -28,9 +28,9 @@ hero:
 
 overview:
   heading:
-    title: "What we organise for the wedding day"
-    intro: "Wedding transportation can mean one principal vehicle for the couple or a wider plan connecting family, guests and several important times."
-  body: "Send the date, locations, approximate times and passenger count. We align suitable vehicles and the transport organisation with the request, then confirm the final plan after checking availability."
+    title: "Transport to fit your wedding schedule"
+    intro: "You can request a car for the couple, transport for family and guests, or both."
+  body: "Tell us where you need to be and at what time. We will suggest vehicles for your passenger numbers and schedule, check availability and confirm the details with you."
   items:
     - "Chauffeur-driven transportation for the couple according to the agreed schedule."
     - "Family and guest transportation when included in the confirmed wedding plan."
@@ -39,7 +39,7 @@ overview:
 sections:
   - key: serviceScope
     heading:
-      title: "One vehicle or a plan for several passengers"
+      title: "One car or several vehicles"
       intro: "The transport arrangement follows the way you want to organise the day."
     body: "Some weddings need one car for the couple. Others include family and guest groups with different pickup points. We select vehicles around that plan."
     items:
@@ -52,7 +52,7 @@ sections:
 
   - key: weddingDay
     heading:
-      title: "The day has more than one important moment"
+      title: "From pickup to the return journey"
       intro: "Transport follows the ceremony, photographs and reception in your plan."
     body: "This is an example sequence of journeys. Send the locations and timings that matter for your wedding."
     items:
@@ -69,12 +69,12 @@ sections:
 
   - key: guestTransport
     heading:
-      title: "The couple and guests do not need the same transportation"
+      title: "Separate transport for your guests"
       intro: "The principal vehicle can remain dedicated to the couple while family and guests are organised separately."
     body: "We can plan extra vehicles and separate pickups for family and guests. The couple’s car follows their schedule while other passengers have their own arranged transport."
     items:
       - title: "The couple"
-        text: "The principal vehicle remains focused on their schedule and important movements during the day."
+        text: "The couple’s car follows their schedule throughout the day."
       - title: "Family and smaller groups"
         text: "An additional vehicle can connect family members or a smaller guest group with the agreed locations."
       - title: "Larger groups"
@@ -82,9 +82,9 @@ sections:
 
   - key: presentation
     heading:
-      title: "Special requests for vehicle presentation"
+      title: "Vehicle decoration by arrangement"
       intro: "Include your vehicle presentation preferences in the first enquiry."
-    body: "Decorations, flowers and ribbons are not automatically included. Each special request is checked and explicitly confirmed before becoming part of the arrangement."
+    body: "The photograph shows an example. Flowers, ribbons and other decorations are not included without a separate agreement. Send us your preferences and we will check what is possible and confirm it with you."
     cta:
       label: "Include special requirements"
       target:
@@ -93,14 +93,14 @@ sections:
 
   - key: standards
     heading:
-      title: "A day that calls for careful preparation"
-      intro: "The vehicle is only one part of the service. Vehicle preparation, a professional chauffeur and clear confirmation of the plan are equally important."
-    body: "A professional chauffeur, a prepared vehicle and departures agreed in advance are the basis of the service."
+      title: "What we agree before departure"
+      intro: "Alongside choosing a car, you need to know who will collect you and how the journeys will work."
+    body: "We check the schedule, vehicles and special requests before confirmation. Below are our service standards and the details that need a separate agreement."
 
   - key: process
     heading:
-      title: "From your wedding plan to confirmed transportation"
-      intro: "Three clear steps are enough to start the organisation."
+      title: "How to arrange your transport"
+      intro: "Start with the date and an outline of your schedule. We will work through the details with you."
     items:
       - title: "Send the plan"
         text: "Provide the date, locations, approximate times, passenger count and any special requirements."
@@ -141,8 +141,8 @@ faq:
       answer: "No. The team first checks the date, vehicle availability, schedule and operational details, then confirms the arrangements personally."
 
 finalCta:
-  heading: "Send the date and wedding plan. We will organise the transportation."
-  text: "Send the date, locations, timings and passenger count. Include guest transport, waiting, return and vehicle presentation requests."
+  heading: "Let’s plan your wedding transport"
+  text: "Send the date, pickup locations and passenger count. We will check vehicle availability and prepare a quote."
   primaryCta:
     label: "Start your booking"
     target:

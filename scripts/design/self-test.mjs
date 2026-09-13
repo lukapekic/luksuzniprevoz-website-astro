@@ -53,6 +53,18 @@ try {
     rejectedUnknownSurface = true;
   }
   if (!rejectedUnknownSurface) throw new Error("Unknown surface identifiers must be rejected.");
+  let rejectedSurfaceMismatch = false;
+  try {
+    resolveSurface(root, config, {
+      target: "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+      surface: "dev-ui",
+      required: true,
+    });
+  } catch {
+    rejectedSurfaceMismatch = true;
+  }
+  if (!rejectedSurfaceMismatch)
+    throw new Error("Explicit surfaces must be compatible with their target.");
   const plannedArgs = parseDesignArgs([
     "--planned",
     "--target",
@@ -144,6 +156,28 @@ try {
     for (const ruleId of expectedRules) {
       if (!fixtureFindings.some((finding) => finding.ruleId === ruleId))
         throw new Error(`Adversarial fixture did not trigger ${ruleId}.`);
+    }
+
+    const tokenBypassFixture = path.join(fixtureDir, "TokenBypass.astro");
+    fs.writeFileSync(
+      tokenBypassFixture,
+      `<div class="font-brand p-[calc(var(--space-4)+99px)]">Wrong role</div>\n<style>.probe { color: var(--invented-color); font-size: 99px; } @media (width >= 777px) { .probe { display: grid; } }</style>`,
+    );
+    const tokenBypassFindings = await runDetector({
+      root,
+      config,
+      files: [tokenBypassFixture],
+      system: loadSystem(root),
+    });
+    for (const ruleId of [
+      "theme/unknown-token-reference",
+      "typography/brand-role-ownership",
+      "typography/raw-type-size",
+      "tailwind/non-semantic-utility",
+      "layout/unregistered-breakpoint",
+    ]) {
+      if (!tokenBypassFindings.some((finding) => finding.ruleId === ruleId))
+        throw new Error(`Token-bypass fixture did not trigger ${ruleId}.`);
     }
 
     const fontFaceFixture = path.join(fixtureDir, "FontFaces.css");

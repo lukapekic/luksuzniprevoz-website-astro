@@ -33,6 +33,8 @@
     "verify:ui": "node scripts/governance/verify-ui.mjs",
     "components:sync": "node scripts/governance/components.mjs",
     "components:check": "node scripts/governance/components.mjs --check",
+    "contracts:validate": "node scripts/governance/contracts-validate.mjs",
+    "reviews:validate": "node scripts/governance/reviews-validate.mjs",
     "parse-waivers": "tsx scripts/parse-waivers.ts",
     "secret-scan": "tsx scripts/secret-scan.ts",
     "audit:deps": "pnpm audit --prod || (echo '⚠ Dependency audit found vulnerabilities (see above). Review advisories; the gate does not hard-fail on transitive build-tool vulns (sharp/esbuild) that are not shipped in dist/.' && exit 0)",

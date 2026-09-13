@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedOn": "2026-09-12",
+  "updatedOn": "2026-09-13",
   "site": "luksuzni-prevoz",
   "mode": "multilingual-content-seo-finalization",
   "sourceLocale": "sr",
@@ -9,14 +9,17 @@
     "en",
     "ru"
   ],
-  "stage": "complete-for-owner-review",
+  "stage": "renewed-serbian-review-ready",
+  "activeWorkflow": "SERBIAN-REVIEW-WORKFLOW.md",
+  "activeStatus": "serbian-review-status.json",
+  "historicalResultsNote": "The routes, corpusPass, validation and releaseState below describe the previous content/SEO pass. The renewed browser-first Serbian review is tracked separately in activeStatus.",
   "productionContentChanged": true,
   "releaseState": "all-content-routes-published-final-owner-review-pending",
   "checkpoint": {
-    "resumeFrom": "FINAL-REVIEW.md",
-    "nextAgentAction": "Await the owner's final manual editorial review, then deploy with production robots and generated legacy redirects.",
+    "resumeFrom": "SERBIAN-REVIEW-WORKFLOW.md",
+    "nextAgentAction": "Read serbian-review-status.json and continue with the Prom browser baseline. The lead writes Serbian content; bounded browser and implementation tasks may use lower-cost supporting agents. No page approval pause.",
     "doNotProceedWithoutApproval": false,
-    "authorization": "Owner delegated editorial approval and implementation on 2026-09-11. Final owner review remains before publication."
+    "authorization": "Owner authorized browser-first application without page approval on 2026-09-13 and requested this tracked workflow. Deployment is not included."
   },
   "order": [
     "fleet",
@@ -132,5 +135,6 @@
     "siteBuild": "passed-final-49-pages",
     "traceabilityCheck": "passed-final"
   },
-  "currentExecution": "execution-status.json"
+  "currentExecution": "serbian-review-status.json",
+  "previousExecution": "execution-status.json"
 }

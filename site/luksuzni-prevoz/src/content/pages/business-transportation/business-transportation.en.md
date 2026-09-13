@@ -4,14 +4,14 @@ locale: en
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: 8caed6a1127af526
+sourceDigest: a2772a50378dc3fd
 seoTitle: "Business Transport in Belgrade"
 seoDescription: "Business transport in Belgrade for companies, delegations and conferences. Coordinate passengers, schedules and multiple vehicles with a tailored quote."
 
 hero:
-  title: "Business transportation organised around your schedule"
+  title: "Business transport in Belgrade"
   description: "Professional chauffeurs and vehicles for business guests, companies and delegations. Arrangements begin with your times, locations and passenger numbers."
   primaryCta:
     label: "Choose a business service"
@@ -59,8 +59,8 @@ childServices:
 sections:
   - key: engagementModel
     heading:
-      title: "One request or an ongoing corporate arrangement"
-      intro: "A one-off business assignment and recurring corporate transportation follow different commercial and operational paths."
+      title: "Occasional journeys or regular transport"
+      intro: "Send a separate request for a one-off journey. For regular corporate transport, we agree on the terms of an ongoing arrangement."
     body: "For one defined request, send the schedule, locations and passenger numbers. For recurring requirements, Corporate Transportation supports a more consistent working model, including invoicing and negotiated commercial terms when they are confirmed for the specific arrangement."
     items:
       - title: "One-off request"
@@ -96,13 +96,13 @@ sections:
       intro: "Companies for which we have provided transportation services."
   - key: standards
     heading:
-      title: "The business transportation standard is more than the vehicle"
+      title: "Chauffeurs and journey preparation"
       intro: "Business clients depend on how the journey is prepared, coordinated and confirmed."
     body: "The vehicle is one part of the service. A professional chauffeur, discretion, the right vehicle structure and clear confirmation of the organisation together define the business standard."
 
   - key: process
     heading:
-      title: "From schedule to organised transportation"
+      title: "How to arrange business transport"
       intro: "Three clear steps from the business request to confirmed transport organisation."
     items:
       - title: "Send the schedule"
@@ -114,7 +114,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "The vehicle is chosen for its role in the schedule"
+    title: "Vehicles for business travellers and groups"
     intro: "Executives, business guests and groups have different needs. We select vehicles around passengers, luggage and the schedule."
   vehicleIds:
     - mercedes-s-class
@@ -144,8 +144,8 @@ faq:
       answer: "No. The team checks availability, the appropriate service, vehicles and operating details, then confirms the arrangements personally."
 
 finalCta:
-  heading: "Send us the schedule. We will organise the transportation."
-  text: "One business journey, a recurring corporate engagement or a complex multi-vehicle schedule — send the core details and we will check the appropriate service and organisation."
+  heading: "Planning business transport?"
+  text: "Send the date, addresses and passenger count. Let us know whether you need a business journey, regular transport, delegation travel or event transport."
   primaryCta:
     label: "Start your booking"
     target:

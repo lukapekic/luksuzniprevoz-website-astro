@@ -1,0 +1,57 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/home/home.sr.md",
+  "replacements": [
+    [
+      "Profesionalni prevoz sa vozačem iz Beograda za aerodromske transfere, poslovna putovanja i posebne prilike. Vozilo i raspored biramo prema vašem putovanju.",
+      "Prevoz sa profesionalnim vozačem u Beogradu, za aerodrom, poslovne obaveze i posebne prilike. Izaberite vozilo, a polaske i detalje dogovorite sa našim timom."
+    ],
+    [
+      "Od pojedinačne vožnje do koordinacije više vozila, izaberite uslugu prema načinu putovanja.",
+      "Izaberite prevoz za aerodrom, poslovni dan ili posebnu priliku."
+    ],
+    [
+      "Organizovan prevoz za venčanja, mature, VIP potrebe i privatne događaje.",
+      "Prevoz za venčanja, mature, VIP goste i privatne proslave."
+    ],
+    [
+      "Pošaljite zahtev za vozilo sa profesionalnim vozačem i navedite lokacije ili obaveze tokom dana. Najam se usklađuje sa vašim planom u okviru dogovorenog perioda.",
+      "Rezervišite naše vozilo i vozača na određeno vreme. U dogovorenom periodu možete obići više adresa, uz čekanje između obaveza prema potvrđenom rasporedu."
+    ],
+    [
+      "Standard koji ostaje isti za svaku vožnju",
+      "Kako pripremamo vašu vožnju"
+    ],
+    [
+      "Od prvog kontakta do dolaska vodimo računa o putniku, vozilu i dogovorenim detaljima.",
+      "Pre polaska brinemo o vozilu, rasporedu i potrebama putnika."
+    ],
+    [
+      "Diskretna koordinacija",
+      "Dogovor sa našim timom"
+    ],
+    [
+      "Jasna komunikacija, ručna potvrda rezervacije i podrška tima za složenije zahteve.",
+      "Naš tim proverava i potvrđuje rezervaciju, a sa vama usaglašava i složenije rasporede."
+    ],
+    [
+      "Vozilo prema broju putnika i vrsti vožnje",
+      "Limuzine i vozila za grupe"
+    ],
+    [
+      "Tri jednostavna koraka od vašeg zahteva do potvrđenog preuzimanja.",
+      "Od izbora usluge do dogovorenog polaska."
+    ],
+    [
+      "Dolazak je organizovan prema potvrđenom rasporedu i mestu preuzimanja.",
+      "Vozač dolazi na dogovorenu adresu u potvrđeno vreme."
+    ],
+    [
+      "Recite nam gde i kada putujete",
+      "Gde i kada putujete?"
+    ],
+    [
+      "Izaberite uslugu i pošaljite detalje. Jednostavne vožnje mogu imati prikaz cene, dok za složenije zahteve pripremamo ponudu.",
+      "Navedite datum, adrese i broj putnika. Za standardne vožnje proverite prikazanu cenu, a za složeniji raspored zatražite ponudu."
+    ]
+  ]
+}

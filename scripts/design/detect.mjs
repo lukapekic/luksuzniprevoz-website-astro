@@ -3,6 +3,7 @@ import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import {
   findRepoRoot,
+  classifyTarget,
   formatFinding,
   loadConfig,
   loadSystem,
@@ -44,13 +45,17 @@ async function main() {
     const parsed = parseDesignArgs(argv);
     const root = findRepoRoot();
     const config = loadConfig(root);
-    if (parsed.target)
+    const targetClassification = parsed.target ? classifyTarget(root, config, parsed.target) : null;
+    if (parsed.target && ["production-ui", "dev-ui"].includes(targetClassification.kind))
       resolveSurface(root, config, {
         target: parsed.target,
         surface: parsed.surface,
         required: true,
       });
-    const files = targetFiles(root, config, parsed.target);
+    const files =
+      parsed.target && !["production-ui", "dev-ui"].includes(targetClassification.kind)
+        ? []
+        : targetFiles(root, config, parsed.target);
     const system = loadSystem(root);
     const findings = await runDetector({ root, config, files, system });
 

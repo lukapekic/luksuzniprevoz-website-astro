@@ -1,5 +1,7 @@
 # Autonomous content and SEO execution
 
+> **Active review — 13 September 2026:** Start with [SERBIAN-REVIEW-WORKFLOW.md](SERBIAN-REVIEW-WORKFLOW.md) and [serbian-review-status.json](serbian-review-status.json). They track the renewed browser-first Serbian pass. The earlier results below are historical; their approval pauses are not active.
+
 ## Resume here
 
 Read this file, `execution-status.json`, and `execution-log.md` first. The earlier

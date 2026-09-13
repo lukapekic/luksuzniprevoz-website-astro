@@ -104,6 +104,17 @@ export function validateDesignConfig(config) {
       throw new Error(`.design/config.json contains duplicate entries in "${key}".`);
   }
   if (
+    config.documentedComponentVariables !== undefined &&
+    (!Array.isArray(config.documentedComponentVariables) ||
+      new Set(config.documentedComponentVariables).size !==
+        config.documentedComponentVariables.length ||
+      config.documentedComponentVariables.some((name) => !/^--[A-Za-z0-9_-]+$/.test(name)))
+  ) {
+    throw new Error(
+      ".design/config.json documentedComponentVariables must be unique CSS custom-property names.",
+    );
+  }
+  if (
     !config.surfaceMap ||
     typeof config.surfaceMap !== "object" ||
     Array.isArray(config.surfaceMap)
@@ -261,6 +272,35 @@ export function parseGeneratedCssVariables(css) {
   };
 }
 
+/**
+ * Return every design token emitted by the active generated theme. Rules use
+ * this inventory instead of accepting an arbitrary `var(--…)` as token-backed.
+ */
+export function generatedTokenNames(system) {
+  return new Set([
+    ...Object.keys(system?.cssVariables ?? {}),
+    ...Object.keys(system?.cssVariablesReducedMotion ?? {}),
+  ]);
+}
+
+/** Extract custom-property references and their source offsets. */
+export function customPropertyReferences(text) {
+  const references = [];
+  const re = /var\(\s*(--[A-Za-z0-9_-]+)/g;
+  let match;
+  while ((match = re.exec(text))) references.push({ name: match[1], index: match.index });
+  return references;
+}
+
+/** A component may own a local integration variable, but it must declare it. */
+export function locallyDeclaredCustomProperties(text) {
+  const declarations = new Set();
+  const re = /(--[A-Za-z0-9_-]+)\s*:/g;
+  let match;
+  while ((match = re.exec(text))) declarations.add(match[1]);
+  return declarations;
+}
+
 export function listComponents(root, config) {
   const componentRoots = [
     path.join(root, config.siteRoot, "src/components"),
@@ -322,6 +362,8 @@ export function buildSystemSnapshot(root, config) {
     path.join(root, ".governance", "rules.json"),
     path.join(root, ".governance", "viewports.json"),
     path.join(root, ".governance", "components.json"),
+    path.join(root, ".governance", "contracts.json"),
+    path.join(root, ".design", "reviews", "index.json"),
     path.join(root, config.siteRoot, "foundation.config.ts"),
     ...inventory.components.map((file) => path.join(root, file)),
     ...inventory.docs.map((file) => path.join(root, file)),
@@ -452,11 +494,24 @@ export function discoverSurface(root, config, target) {
   return null;
 }
 
+/** All surfaces whose configured match patterns own the target path. */
+export function discoverSurfaces(root, config, target) {
+  if (!target) return [];
+  const relative = rel(root, normalizeTarget(root, target)).toLowerCase();
+  return Object.entries(config.surfaceMap || {})
+    .filter(([, info]) =>
+      (info.match || []).some((needle) => relative.includes(String(needle).toLowerCase())),
+    )
+    .map(([name]) => name)
+    .sort();
+}
+
 export function resolveSurface(
   root,
   config,
   { target = null, surface = null, required = false } = {},
 ) {
+  const discovered = target ? discoverSurfaces(root, config, target) : [];
   if (surface) {
     if (!config.surfaceMap?.[surface]) {
       throw new Error(
@@ -465,15 +520,53 @@ export function resolveSurface(
           .join(", ")}`,
       );
     }
+    if (target && discovered.length > 0 && !discovered.includes(surface)) {
+      throw new Error(
+        `Surface "${surface}" does not own ${rel(root, normalizeTarget(root, target))}. ` +
+          `Expected one of: ${discovered.join(", ")}.`,
+      );
+    }
     return surface;
   }
-  const discovered = target ? discoverSurface(root, config, target) : null;
-  if (required && !discovered) {
+  if (required && discovered.length === 0) {
     throw new Error(
       "Could not resolve a design surface from the target. Pass --surface <surface-id> explicitly.",
     );
   }
-  return discovered;
+  if (discovered.length > 1) {
+    throw new Error(
+      `Target ${rel(root, normalizeTarget(root, target))} belongs to multiple surfaces: ${discovered.join(", ")}. Pass --surface explicitly.`,
+    );
+  }
+  return discovered[0] ?? null;
+}
+
+/**
+ * Classify a governance target before UI-only checks run. This prevents theme
+ * and contract work from pretending to be a page surface merely to pass a UI
+ * profile.
+ */
+export function classifyTarget(root, config, target) {
+  const absolute = normalizeTarget(root, target);
+  if (!absolute) return { kind: "repository", path: null };
+  const relative = rel(root, absolute);
+  if (isUnder(root, absolute, [config.theme.versionsDir, config.theme.generatedCss]))
+    return { kind: "theme", path: relative };
+  if (isUnder(root, absolute, config.docsRoots || [])) return { kind: "contract", path: relative };
+  if (isUnder(root, absolute, [config.contentRoot, config.dataRoot]))
+    return { kind: "routing-content", path: relative };
+  if (path.basename(absolute) === "foundation.config.ts") return { kind: "theme", path: relative };
+  if (isUnder(root, absolute, config.productionUiRoots || [])) {
+    const surfaces = discoverSurfaces(root, config, absolute);
+    return {
+      kind: surfaces.includes("dev-ui") ? "dev-ui" : "production-ui",
+      path: relative,
+      surfaces,
+    };
+  }
+  if (/^(?:scripts|packages|\.governance|\.design)\//.test(relative))
+    return { kind: "foundation", path: relative };
+  return { kind: "other", path: relative };
 }
 
 export function parseDesignArgs(argv) {

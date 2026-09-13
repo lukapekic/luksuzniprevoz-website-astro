@@ -53,7 +53,9 @@ const {
 
 const Tag: "h2" | "h3" = level === 3 ? "h3" : "h2";
 const sizeCls =
-  level === 3 ? "text-[length:var(--text-h3)]" : "text-[length:var(--text-h2)]";
+  level === 3
+    ? "font-heading text-[length:var(--text-h3)] font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)]"
+    : "type-section-heading";
 const headingColor =
   on === "light"
     ? "text-[var(--color-text-on-light)]"
@@ -73,7 +75,7 @@ const descColor =
   )}
   <Tag
     id={id}
-    class={`font-heading ${sizeCls} font-semibold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] ${headingColor}`}
+    class={`${sizeCls} ${headingColor}`}
   >
     {heading}
   </Tag>

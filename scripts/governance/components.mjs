@@ -8,6 +8,7 @@ import {
   loadConfig,
   parseLocalImports,
   rel,
+  discoverSurfaces,
   writeJson,
 } from "../design/lib.mjs";
 
@@ -20,6 +21,25 @@ export function buildComponentRegistry(root, config) {
       parseLocalImports(file).map((imported) => path.resolve(imported)),
     ]),
   );
+  const reverseImports = new Map();
+  for (const [consumer, imports] of importsByFile) {
+    for (const imported of imports) {
+      const key = path.resolve(imported);
+      if (!reverseImports.has(key)) reverseImports.set(key, new Set());
+      reverseImports.get(key).add(consumer);
+    }
+  }
+  const allConsumers = (componentPath) => {
+    const found = new Set();
+    const queue = [...(reverseImports.get(componentPath) ?? [])];
+    while (queue.length) {
+      const consumer = queue.shift();
+      if (found.has(consumer)) continue;
+      found.add(consumer);
+      for (const parent of reverseImports.get(consumer) ?? []) queue.push(parent);
+    }
+    return [...found].sort();
+  };
   const components = [];
   for (const name of [...config.sharedComponents].sort()) {
     const matches = componentFiles.filter(
@@ -30,11 +50,15 @@ export function buildComponentRegistry(root, config) {
         `Shared component "${name}" resolves to ${matches.length} files; expected exactly one.`,
       );
     const componentPath = path.resolve(root, matches[0]);
-    const consumers = implementationFiles
+    const directConsumers = implementationFiles
       .filter((file) => importsByFile.get(file)?.includes(componentPath))
       .map((file) => rel(root, file))
       .sort();
-    components.push({ name, path: matches[0], consumers });
+    const consumers = allConsumers(componentPath).map((file) => rel(root, file));
+    const surfaces = [
+      ...new Set(consumers.flatMap((consumer) => discoverSurfaces(root, config, consumer))),
+    ].sort();
+    components.push({ name, path: matches[0], directConsumers, consumers, surfaces });
   }
   return { schemaVersion: 1, components };
 }

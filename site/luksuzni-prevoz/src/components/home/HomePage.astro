@@ -448,6 +448,7 @@ const reviewsProfileUrl = import.meta.env.DEV
      instead of a hardcoded magic number. Scoped: this wrapper is rendered by
      the page, so the scope applies. */
   .home-hero-offset {
+    --homepage-hero-header-clearance: var(--site-header-height);
     margin-block-start: calc(-1 * var(--site-header-height));
   }
 </style>

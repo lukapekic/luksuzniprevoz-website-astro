@@ -2,19 +2,19 @@
 routeKey: promTransportation
 locale: en
 sourceLocale: sr
-sourceDigest: 77b1545a824e9e02
+sourceDigest: 47f49b23aade2e49
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Prom Car Hire in Belgrade"
 seoDescription: "Prom car hire in Belgrade for one passenger, a couple or a group of friends. Arrange a chauffeur, pickup point, photo stops and a planned return journey."
-h1: "Prom transport, from pickup to arrival"
+h1: "Transport for your prom night"
 
 hero:
-  title: "Prom transport, from pickup to arrival"
+  title: "Transport for your prom night"
   description: "A chauffeured vehicle for an individual, a couple or a group of friends. Pickup and departure time are arranged around your prom night."
   primaryCta: { label: "Start your booking", target: { type: flow, flowKey: booking } }
   secondaryCta: { label: "Request a quote", target: { type: flow, flowKey: quote } }
@@ -94,8 +94,8 @@ sections:
   - key: presentation
     heading:
       title: "A vehicle prepared for your arrival"
-      intro: "A prepared vehicle and agreed details matter more than added effects."
-    body: "If you have a special request related to vehicle presentation, include it in the enquiry. These requests are reviewed individually and form part of the service only when explicitly confirmed. Decorations, flowers and other details are not automatically included."
+    intro: "Include any preferences for the vehicle’s appearance when you send your request."
+    body: "The photograph is illustrative. Flowers, decorations and other extras are not automatically included. We review each request separately and confirm what we can provide."
     cta: { label: "Include special requirements", target: { type: flow, flowKey: booking } }
 
   - key: standards
@@ -159,8 +159,8 @@ faq:
       }
 
 finalCta:
-  heading: "Send the date, passenger count and pickup location"
-  text: "Include the time, preferred vehicle and any return or waiting requirements. Our team will check availability and send a proposed arrangement."
+  heading: "Arrange your prom transport"
+  text: "Send the date, pickup address, departure time and passenger count. Include your preferred vehicle and any waiting or return requirements."
   primaryCta: { label: "Start your booking", target: { type: flow, flowKey: booking } }
   secondaryCta: { label: "Request a quote", target: { type: flow, flowKey: quote } }
 ---

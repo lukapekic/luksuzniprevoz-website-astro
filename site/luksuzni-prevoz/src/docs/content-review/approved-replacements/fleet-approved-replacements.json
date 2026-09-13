@@ -1,0 +1,85 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/fleet/fleet.sr.md",
+  "replacements": [
+    [
+      "Izbor prema putnicima, prtljagu i rasporedu",
+      "Koje vozilo odgovara vašem putovanju?"
+    ],
+    [
+      "Nije svaki put isti, zato izbor vozila ne počinje samo od broja sedišta.",
+      "Pri izboru proveravamo i broj putnika i količinu prtljaga."
+    ],
+    [
+      "Broj putnika, količina prtljaga, trajanje vožnje, tip događaja i potreba za jednim ili više vozila zajedno određuju najbolji izbor. Recite nam kako putujete, a mi ćemo pre potvrde proveriti odgovarajuću konfiguraciju i raspoloživost konkretnog modela.",
+      "Navedite ko putuje, koliko prtljaga nosite i kakav je raspored. Predložićemo vozilo i proveriti raspoloživost željenog modela pre potvrde rezervacije."
+    ],
+    [
+      "VIP goste, rukovodioce, protokolarne obaveze i posebne prilike kada je nivo predstavljanja jednako važan kao i sama vožnja.",
+      "VIP goste, rukovodioce, protokolarne obaveze i posebne prilike."
+    ],
+    [
+      "Fokusiran na iskustvo putnika na zadnjem sedištu.",
+      "Udobnost putnika na zadnjem sedištu."
+    ],
+    [
+      "Najreprezentativnija limuzina u kolekciji.",
+      "Limuzina za dolazak na poslovne i svečane događaje."
+    ],
+    [
+      "Za putovanja koja zahtevaju diskretnu uslugu i pažljivo usklađen raspored.",
+      "Profesionalni vozač i diskretna usluga."
+    ],
+    [
+      "Uravnotežen izbor između udobnosti i poslovne praktičnosti.",
+      "Limuzina za poslovni dan i privatne obaveze."
+    ],
+    [
+      "Diskretan format za individualne putnike i rukovodioce.",
+      "Za pojedinačne putnike i poslovne goste."
+    ],
+    [
+      "Prirodno se uklapa u kraće i celodnevne rasporede sa vozačem.",
+      "Za kraće vožnje ili celodnevni najam sa vozačem."
+    ],
+    [
+      "Kombi vozilo Extra Long za manje grupe koje žele da putuju zajedno, bez prelaska na autobuski prevoz.",
+      "Kombi vozilo Extra Long za porodice i manje grupe koje putuju zajedno."
+    ],
+    [
+      "Poslovne timove, goste, porodice, delegacije i manje grupe kojima su zajednička vožnja i komfor važniji od odvojenih automobila.",
+      "Poslovne timove, goste, porodice i članove delegacija koji žele jedno zajedničko vozilo."
+    ],
+    [
+      "Praktičan za rasporede sa više putnika i zajedničkim dolaskom.",
+      "Za zajedničke polaske i dolaske grupe."
+    ],
+    [
+      "Najveći grupni format u kolekciji za organizovano kretanje većeg broja putnika u okviru jednog plana.",
+      "Vozilo sa najvećim brojem putničkih mesta u našoj ponudi, za grupne vožnje prema dogovorenom rasporedu."
+    ],
+    [
+      "Konferencije, kongrese, delegacije, goste događaja i druge situacije u kojima se veća grupa prevozi kao jedna celina.",
+      "Učesnike konferencija i kongresa, goste događaja i druge veće grupe koje putuju zajedno."
+    ],
+    [
+      "Prirodno se uklapa u višekratna grupna kretanja i događaje.",
+      "Za jednu ili više planiranih grupnih vožnji."
+    ],
+    [
+      "Broj putnika određuje početni izbor klase i raspoloživih konfiguracija.",
+      "Navedite ukupan broj putnika i ko treba da putuje zajedno."
+    ],
+    [
+      "Da. Navedite željeni model u zahtevu. Raspoloživost konkretnog vozila proverava se pre ručne potvrde rezervacije.",
+      "Da. Navedite željeni model. Naš tim proverava raspoloživost pre nego što potvrdi rezervaciju."
+    ],
+    [
+      "Ne. Tim proverava raspoloživost, izabrani model ili klasu, broj putnika, prtljag i detalje vožnje, a zatim ručno potvrđuje rezervaciju.",
+      "Ne. Prvo proveravamo vozilo, broj putnika, prtljag i detalje vožnje. Rezervacija važi tek kada vam je naš tim potvrdi."
+    ],
+    [
+      "Pošaljite datum, relaciju ili raspored, broj putnika, prtljag i željeno vozilo. Proverićemo odgovarajuću konfiguraciju i raspoloživost pre potvrde.",
+      "Pošaljite datum, relaciju, broj putnika i količinu prtljaga. Dodajte željeni model ili nam prepustite da predložimo vozilo."
+    ]
+  ]
+}

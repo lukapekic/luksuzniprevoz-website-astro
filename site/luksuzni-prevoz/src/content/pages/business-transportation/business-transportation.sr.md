@@ -4,13 +4,13 @@ locale: sr
 pageType: hub
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 
 seoTitle: "Poslovni prevoz putnika u Beogradu"
 seoDescription: "Poslovni prevoz putnika u Beogradu za kompanije, delegacije i konferencije. Koordinacija rasporeda i više vozila uz ponudu prema planu putovanja."
 
 hero:
-  title: "Poslovni prevoz putnika prema vašem rasporedu"
+  title: "Poslovni prevoz u Beogradu"
   description: "Profesionalni vozači i vozila za poslovne goste, kompanije i delegacije. Organizacija polazi od vaših termina, lokacija i broja putnika."
   primaryCta:
     label: "Izaberite poslovnu uslugu"
@@ -27,11 +27,11 @@ hero:
 overview:
   heading:
     title: "Prevoz kao deo poslovnog programa"
-    intro: "Poslovni prevoz postaje složen kada ljude, termine i više lokacija treba povezati u jedan pouzdan raspored."
-  body: "Prevoz organizujemo prema terminima, lokacijama i ulozi svakog vozila. Pre potvrde usaglašavamo ko putuje zajedno, gde su mesta preuzimanja i kakva je koordinacija potrebna."
+    intro: "Dogovorite prevoz za poslovni dan, posetu delegacije ili konferenciju."
+  body: "Pre potvrde dogovaramo ko putuje zajedno, sa kojih adresa i u koje vreme. Na osnovu toga predlažemo uslugu i vozila."
   items:
     - title: "Raspored na prvom mestu"
-      text: "Organizacija polazi od termina, lokacija, putnika i načina na koji se poslovni dan stvarno odvija."
+      text: "Polaske planiramo prema sastancima, dolascima gostiju i drugim obavezama."
     - title: "Jedno ili više vozila"
       text: "Od jedne vožnje za direktora do koordinacije više vozila kada izabrana poslovna usluga obuhvata takvu organizaciju."
     - title: "Diskretna profesionalna usluga"
@@ -40,15 +40,15 @@ overview:
 childServices:
   heading:
     title: "Izaberite poslovnu uslugu"
-    intro: "Izaberite uslugu prema vrsti rasporeda, broju putnika i nivou koordinacije koji je potreban."
+    intro: "Uporedite redovan prevoz za kompanije, prevoz delegacija i prevoz učesnika događaja."
   items:
     - routeKey: corporateTransportation
       title: "Korporativni prevoz"
-      text: "Za direktore, zaposlene i poslovne goste — od pojedinačnog zahteva do ponavljajuće saradnje i povezanih tačaka u istom rasporedu."
+      text: "Za direktore, zaposlene i poslovne goste. Dogovorite vožnje za određeni datum ili redovnu saradnju sa kompanijom."
       ctaLabel: "Pogledajte korporativni prevoz"
     - routeKey: delegationTransportation
       title: "Prevoz delegacija"
-      text: "Za dolaske i kretanje delegacija kada je potrebno uskladiti više vozila, različite klase vozila i centralnu koordinaciju."
+      text: "Za delegacije čiji članovi putuju u više vozila, sa različitih adresa ili u različito vreme. Jedna kontakt osoba usklađuje prevoz."
       ctaLabel: "Prevoz delegacija"
     - routeKey: conferenceCongressTransportation
       title: "Konferencije i kongresi"
@@ -58,16 +58,16 @@ childServices:
 sections:
   - key: engagementModel
     heading:
-      title: "Jedan zahtev ili kontinuirana korporativna saradnja"
-      intro: "Jednokratni poslovni zadaci i ponavljajući korporativni prevoz imaju različit komercijalni i operativni tok."
-    body: "Za jedan konkretan zahtev pošaljite raspored, lokacije i broj putnika. Za redovne potrebe možemo dogovoriti ustaljen model saradnje, fakturisanje i komercijalne uslove za konkretan aranžman."
+      title: "Povremene vožnje ili redovna saradnja"
+      intro: "Za pojedinačne vožnje dovoljan je zaseban zahtev. Za redovan korporativni prevoz dogovaramo uslove saradnje."
+    body: "Za određeni datum pošaljite raspored, adrese i broj putnika. Ako kompaniji treba redovan korporativni prevoz, možemo dogovoriti učestalost, fakturisanje i komercijalne uslove."
     items:
       - title: "Jednokratni zahtev"
         text: "Za sastanak, poslovnog gosta, delegaciju ili događaj sa jasno definisanim rasporedom."
-      - title: "Ponavljajući korporativni angažman"
+      - title: "Redovan korporativni prevoz"
         text: "Za kompanije kojima je potreban redovan korporativni prevoz tokom više vožnji ili dužeg perioda."
     cta:
-      label: "Istražite korporativnu saradnju"
+      label: "Pogledajte korporativni prevoz"
       target:
         type: route
         routeKey: corporateTransportation
@@ -95,25 +95,25 @@ sections:
       intro: "Kompanije za koje smo pružali usluge prevoza."
   - key: standards
     heading:
-      title: "Standard poslovnog prevoza nije samo automobil"
-      intro: "Poslovni klijenti zavise od načina na koji se vožnja priprema, koordinira i potvrđuje."
-    body: "Vozilo je samo jedan deo usluge. Profesionalan vozač, diskrecija, odgovarajuća struktura vozila i jasna potvrda organizacije zajedno čine poslovni standard."
+      title: "Vozači i priprema prevoza"
+      intro: "Pre polaska usaglašavamo vozila, raspored i potrebe putnika."
+    body: "Profesionalni vozači komuniciraju diskretno, a organizaciju više vozila i druge zahteve proveravamo u okviru izabrane poslovne usluge."
 
   - key: process
     heading:
-      title: "Od rasporeda do organizovanog prevoza"
-      intro: "Tri jasna koraka od poslovnog zahteva do potvrđene organizacije."
+      title: "Kako dogovaramo poslovni prevoz"
+      intro: "Naš tim proverava zahtev pre nego što potvrdi prevoz."
     items:
       - title: "Pošaljite raspored"
-        text: "Navedite lokacije, vreme, broj putnika i sve važne detalje poslovnog zadatka."
-      - title: "Predlažemo organizaciju"
+        text: "Navedite adrese, termine, broj putnika i posebne zahteve."
+      - title: "Predlažemo uslugu i vozila"
         text: "Predlažemo odgovarajuću uslugu, vozila i način koordinacije."
       - title: "Potvrđujemo prevoz"
-        text: "Nakon provere raspoloživosti i detalja dobijate ručno potvrđenu organizaciju."
+        text: "Posle provere raspoloživosti sa vama potvrđujemo vozila, termine i ostale detalje."
 
 vehicleRecommendations:
   heading:
-    title: "Vozilo se bira prema ulozi u rasporedu"
+    title: "Vozila za poslovne putnike i grupe"
     intro: "Rukovodioci, poslovni gosti i grupe imaju različite potrebe. Vozilo biramo prema putnicima, prtljagu i rasporedu."
   vehicleIds:
     - mercedes-s-class
@@ -134,17 +134,17 @@ faq:
     - question: "Može li isti vozač ostati na raspolaganju između povezanih sastanaka?"
       answer: "Da. U okviru korporativnog prevoza isti vozač može ostati na raspolaganju između povezanih lokacija kada je takav angažman potvrđen."
     - question: "Da li organizujete redovne vožnje i fakturisanje za kompanije?"
-      answer: "Da. Za redovan korporativni prevoz možemo dogovoriti ponavljajuće angažmane, fakturisanje poslovnih klijenata i komercijalne uslove za konkretan model saradnje."
+      answer: "Da. Za korporativni prevoz možemo dogovoriti redovne vožnje, fakturisanje i uslove saradnje sa kompanijom."
     - question: "Kako organizujete prevoz delegacije?"
       answer: "Pošaljite broj putnika, ključne termine i lokacije. Za delegaciju možemo uskladiti više vozila, različite klase vozila i jednu kontaktnu osobu za koordinaciju."
     - question: "Kako funkcioniše prevoz za konferencije i kongrese?"
       answer: "Pošaljite dolaske, hotele, lokacije događaja i strukturu grupa. U plan možemo uključiti dolaske sa aerodroma, prevoz do hotela i između lokacija, kao i raspored za više vozila."
     - question: "Da li je zahtev potvrđen odmah nakon slanja?"
-      answer: "Ne. Tim proverava raspoloživost, odgovarajuću uslugu, vozila i detalje organizacije, a zatim ručno potvrđuje organizaciju."
+      answer: "Ne. Naš tim prvo proverava uslugu, vozila i raspored. Rezervacija važi tek kada vam je potvrdimo."
 
 finalCta:
-  heading: "Pošaljite nam raspored. Mi ćemo organizovati prevoz."
-  text: "Jedna poslovna vožnja, ponavljajući korporativni angažman ili složen raspored sa više vozila — pošaljite osnovne informacije i proverićemo odgovarajuću uslugu i organizaciju."
+  heading: "Planirate poslovni prevoz?"
+  text: "Pošaljite datum, adrese i broj putnika. Navedite da li je reč o poslovnoj vožnji, redovnom prevozu, delegaciji ili događaju."
   primaryCta:
     label: "Započnite rezervaciju"
     target:

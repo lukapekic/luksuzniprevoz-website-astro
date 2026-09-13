@@ -4,14 +4,14 @@ locale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Prevoz delegacija u Beogradu"
 seoDescription: "Prevoz delegacija u Beogradu uz namenskog koordinatora, više vozila i usaglašen raspored. Aerodrom, hotel i sastanci prema planu vaše posete."
 
 hero:
-  title: "Prevoz delegacija, koordinisan kao jedan plan"
+  title: "Prevoz delegacija u Beogradu"
   description: "Prevoz za delegacije i rukovodioce sa više lokacija u programu. Različite klase vozila i jedna kontakt osoba za koordinaciju celog plana."
   primaryCta:
     label: "Započnite rezervaciju"
@@ -22,16 +22,16 @@ hero:
 
 overview:
   heading:
-    title: "Zajednička organizacija za odvojene vožnje"
-    intro: "Kada delegacija ne putuje kao jedna grupa, prevoz mora da ostane povezan iako se vozila, putnici i lokacije razlikuju."
+    title: "Jedan plan za sve vožnje delegacije"
+    intro: "Članovi delegacije mogu putovati odvojeno, sa različitih adresa i u različito vreme."
   body: "Svakoj grupi dodeljujemo odgovarajuće vozilo i vreme polaska. Koordinator prati kako se pojedinačne vožnje uklapaju u program delegacije."
 
 sections:
   - key: audience
     heading:
-      title: "Kada više putnika mora da se kreće kao jedna celina"
-      intro: "Usluga je namenjena organizacijama i domaćinima kojima nije dovoljno da rezervišu pojedinačna vozila."
-    body: "Kada različiti putnici imaju različite uloge, mesta preuzimanja ili delove programa, jedna koordinacija daje organizatoru jasniju sliku celog prevoza."
+      title: "Za delegacije i organizatore poseta"
+      intro: "Za posete u kojima je potrebno uskladiti više vozila sa programom delegacije."
+    body: "Organizator sa jednom kontakt osobom dogovara vozila, adrese i polaske za sve grupe. To olakšava planiranje kada članovi delegacije imaju različite obaveze."
     items:
       - {
           title: "Diplomatske misije i ambasade",
@@ -46,24 +46,24 @@ sections:
           text: "Za goste, predstavnike i timove kojima je potreban organizovan prevoz između tačaka programa.",
         }
       - {
-          title: "Korporativne i izvršne delegacije",
+          title: "Poslovne delegacije i rukovodstvo",
           text: "Za rukovodioce, partnere i poslovne grupe koje tokom posete koriste različite automobile ili putuju odvojeno.",
         }
       - {
           title: "Domaćini, asistenti i koordinatori",
-          text: "Za osobe koje vode program i žele jednu kontaktnu tačku za organizaciju prevoza umesto niza nepovezanih rezervacija.",
+          text: "Za osobe koje pripremaju posetu i žele da prevoz svih članova dogovaraju sa jednim koordinatorom.",
         }
 
   - key: movement
     heading:
-      title: "Jedna delegacija. Više kretanja."
-      intro: "Različite grupe mogu koristiti različita vozila i imati različite tačke programa, dok njihov prevoz i dalje ostaje deo istog plana."
+      title: "Od dolaska do završetka posete"
+      intro: "Neke vožnje mogu biti zajedničke, a druge odvojene. U rasporedu određujemo ko putuje, kojim vozilom i na koju adresu."
     body: "Primer prikazuje način koordinacije. Konačan plan pripremamo prema programu, grupama i lokacijama koje pošaljete."
 
   - key: mixedFleet
     heading:
-      title: "Vozila prema ulozi i veličini grupe"
-      intro: "Uloga vozila zavisi od toga ko putuje, koliko putnika treba da ostane zajedno i kako je program strukturiran."
+      title: "Limuzine i kombi za članove delegacije"
+      intro: "Izbor zavisi od broja putnika, njihovih obaveza i toga ko putuje zajedno."
     body: "Rukovodioci mogu putovati odvojeno, dok ostali članovi delegacije koriste zajedničko vozilo. Kombinaciju proveravamo prema broju putnika, prtljagu i programu."
     items:
       - {
@@ -72,11 +72,11 @@ sections:
         }
       - {
           title: "Poslovna limuzina",
-          text: "Za individualne putnike, odvojena kretanja i poslovne tačke programa.",
+          text: "Za članove delegacije koji na sastanke putuju odvojeno.",
         }
       - {
           title: "Mercedes-Benz V-Class",
-          text: "Za manju grupu koja treba da ostane zajedno tokom jednog ili više delova potvrđenog programa.",
+          text: "Za članove delegacije koji na dogovorena odredišta putuju zajedno.",
         }
 
   - key: discretion
@@ -87,13 +87,13 @@ sections:
 
   - key: briefing
     heading:
-      title: "Pošaljite program delegacije, ne niz odvojenih vožnji"
-      intro: "Najbolja osnova za organizaciju je pregled celog programa koji utiče na prevoz."
-    body: "Pošaljite ključna vremena, lokacije, broj putnika, strukturu grupa, željena vozila i posebne zahteve. Na osnovu toga proveravamo raspoloživost i pripremamo individualnu ponudu."
+      title: "Šta nam je potrebno za ponudu"
+      intro: "Pošaljite program posete, čak i ako pojedini termini još nisu konačni."
+    body: "Navedite adrese, termine, broj putnika i ko putuje zajedno. Dodajte željena vozila i posebne zahteve. Na osnovu toga proveravamo raspoloživost i pripremamo ponudu."
 
 vehicleRecommendations:
   heading:
-    title: "Vozilo prema ulozi putnika u delegaciji"
+    title: "Vozila za vašu delegaciju"
     intro: "Mercedes-Benz S-Class, E-Class i V-Class za pojedinačne putnike i manje grupe, prema programu delegacije."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long]
   cta:
@@ -117,7 +117,7 @@ faq:
         answer: "Pošaljite datume, vremena, lokacije, broj putnika, raspored grupa i željena vozila. Navedite sve posebne zahteve koji utiču na organizaciju ili poverljivost.",
       }
     - {
-        question: "Mogu li različite grupe imati različite tačke preuzimanja ili kretanja?",
+        question: "Mogu li grupe putovati sa različitih adresa?",
         answer: "{groupMovementAnswer}",
       }
     - {
@@ -131,8 +131,8 @@ faq:
       }
 
 finalCta:
-  heading: "Organizujte prevoz delegacije sa nama."
-  text: "Pošaljite program, broj putnika, lokacije i posebne zahteve. Proverićemo detalje i pripremiti individualnu ponudu za ceo plan prevoza."
+  heading: "Dogovorimo prevoz delegacije"
+  text: "Pošaljite program posete, broj putnika, adrese i posebne zahteve. Pripremićemo ponudu nakon provere rasporeda i vozila."
   primaryCta:
     label: "Započnite rezervaciju"
     target: { type: flow, flowKey: booking }

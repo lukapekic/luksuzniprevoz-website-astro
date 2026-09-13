@@ -4,9 +4,9 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: 1a4c9db5eaf946ac
+sourceDigest: 8ba22cf253d2b81b
 noindex: false
 
 seoTitle: "Conference Transport in Belgrade"
@@ -24,14 +24,14 @@ hero:
 
 overview:
   heading:
-    title: "One transport plan for the entire event schedule"
+    title: "Transport for your event programme"
     intro: "A conference does not begin at the meeting-room door. Arrivals, hotels, programme venues and different passenger groups need to work as one."
   body: "We coordinate individual arrivals and group transport around the programme. The organiser supplies the schedule; our team checks vehicles and connections between locations."
 
 sections:
   - key: audience
     heading:
-      title: "For the people who lead, represent and attend the event"
+      title: "For your guests and participants"
       intro: "Different roles call for a different pace of travel."
     items:
       - { title: "Event organisers", text: "Organisers can review arrivals, hotels, venues and groups in one plan." }
@@ -62,7 +62,7 @@ sections:
 
   - key: multiVehicle
     heading:
-      title: "Several vehicles. One event schedule."
+      title: "How we assign vehicles"
       intro: "Vehicles are assigned according to group size, departure time and destination."
     items:
       - { title: "Individual movement", text: "For passengers with their own part of the programme." }
@@ -95,7 +95,7 @@ faq:
     - { question: "Is the request confirmed immediately after submission?", answer: "{confirmationAnswer}" }
 
 finalCta:
-  heading: "Send the event schedule. We organise the transportation."
+  heading: "Arrange transport for your participants"
   text: "Send the date, key locations, passenger count and group schedule. We will review the details and prepare a tailored quote."
   primaryCta:
     label: "Start your booking"

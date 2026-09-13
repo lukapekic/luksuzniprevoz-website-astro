@@ -18,6 +18,7 @@ Review in this order: locked blueprint, `DESIGN.md`, active semantic tokens, rev
 - relevant interaction states;
 - localized Serbian, English, and Russian samples;
 - design detector output.
+- a fresh review-evidence record bound to the current change scope.
 
 ## Review dimensions
 

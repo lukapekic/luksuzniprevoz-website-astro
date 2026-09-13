@@ -33,7 +33,7 @@ test.describe("Business and Special Events hubs", () => {
     });
   }
 
-  test("hub selectors preserve published children and route gated services to an enquiry", async ({
+  test("hub selectors link to their published child pages", async ({
     page,
   }) => {
     await page.goto(routePath("businessTransportation", "en"));
@@ -42,10 +42,7 @@ test.describe("Business and Special Events hubs", () => {
       "delegationTransportation",
       "conferenceCongressTransportation",
     ] as const) {
-      const target =
-        key === "delegationTransportation"
-          ? routePath(key, "en")
-          : `${routePath("booking", "en")}?intent=quote&service=${key}`;
+      const target = routePath(key, "en");
       await expect(page.locator(`.service-grid a[href="${target}"]`)).toHaveCount(1);
     }
 

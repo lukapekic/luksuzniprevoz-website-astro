@@ -63,11 +63,15 @@ const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
 
 <style>
   .booking-grid { display: grid; gap: var(--space-8); }
+  /* Native controls must not impose their min-content width on the panel.
+   * Keep the existing one-/two-column topology and source-order focus flow. */
+  .booking-grid > *, .booking-form > :global(*) { min-inline-size: 0; }
   .section-label { display: flex; align-items: center; gap: var(--space-3); margin-block-end: var(--space-5); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-medium); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 35%); }
   .section-label span { inline-size: var(--space-8); block-size: 1px; background: var(--color-focus-light); }
   .booking-body { max-inline-size: var(--measure-body); margin-block-start: var(--space-5); font-family: var(--font-body); line-height: var(--line-height-body); }
   .booking-form { display: grid; gap: var(--space-5); }
   .booking-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4); }
+  .booking-actions > :global(button) { max-inline-size: 100%; }
   .booking-actions svg { inline-size: var(--space-5); block-size: var(--space-5); }
   .booking-notes { display: grid; gap: var(--space-2); padding-block-start: var(--space-4); border-block-start: 1px solid var(--color-input-border); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%); }
 </style>

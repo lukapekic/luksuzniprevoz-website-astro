@@ -2,6 +2,11 @@
 
 Use this directory only for accepted review state that future agents should know.
 
+`index.json` is the machine-readable registry. Each accepted record names a
+contract ID, 64-character source hash, reviewer, evidence path, and status.
+The evidence must remain available. A missing, stale, or self-created record
+does not approve a future UI change.
+
 Recommended file names:
 
 - `home.md`

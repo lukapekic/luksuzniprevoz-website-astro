@@ -292,7 +292,8 @@ const isDecorative = imageAlt === "";
   .homepage-hero__inner {
     position: relative;
     z-index: 2;
-    padding-block: clamp(var(--space-6), 4vw, var(--space-16)) clamp(var(--space-8), 6vw, var(--space-20));
+    padding-block-start: calc(var(--homepage-hero-header-clearance, 0px) + clamp(var(--space-6), 4vw, var(--space-16)));
+    padding-block-end: clamp(var(--space-8), 6vw, var(--space-20));
   }
 
   /* Content grid: single column by default; 7fr/5fr split (left copy / right

@@ -5,7 +5,7 @@
 Desktop:
 
 - minimum visual row height: about `4.25rem`
-- grid: `auto 1fr auto`
+- grid: `auto minmax(0, 1fr) auto`; the navigation track is shrinkable
 - horizontal gap: `space-4`
 - initial top inset: about `space-3`
 - inner horizontal alignment: main shell/gutter
@@ -31,6 +31,8 @@ Sticky:
 - no bottom border or shadow
 - no outer radius
 - preserve outer geometry while compacting the visual inner bar so the transition causes no layout jump
+- the translucent surface covers the complete header box so enlarged/wrapped
+  navigation never falls outside its contrast-providing background
 
 ## Content
 
@@ -57,6 +59,24 @@ Mobile:
 
 The Book CTA uses the localized Contact route with `intent=booking`; the Header
 must not hardcode the Contact route or ignore `navigation.headerPrimaryAction`.
+
+## Enlarged-text compatibility
+
+Normal mobile, tablet portrait, tablet landscape, desktop and wide-desktop
+layouts retain their current content and focus order. Navigation links may wrap
+within their desktop track when enlarged text requires another line. The action
+group remains width-constrained without hiding or shrinking controls.
+
+Explicit local structural exception: a shell container narrower than `16rem`
+uses one column in DOM order (brand, then booking/menu actions). This is a
+content-fit threshold, not a new viewport/theme breakpoint: a 320 CSS px screen
+at the normal font stays in the existing row, while a doubled root font allows
+the same controls to wrap. The shell remains gutter-constrained, no information
+is removed, and every target retains its minimum size. The sticky background
+may be taller than the former compact surface to cover wrapped controls.
+
+Compatibility decision: no public props, CTA targets, menu semantics or client
+dependencies change. Verify every header consumer and existing menu/focus tests.
 
 ## Dropdowns
 

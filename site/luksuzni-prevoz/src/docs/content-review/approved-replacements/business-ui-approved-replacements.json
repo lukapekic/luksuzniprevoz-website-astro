@@ -1,0 +1,200 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/ui/sr.json",
+  "replacements": [
+    [
+      "business.commercial.recurring",
+      "Ponavljajući aranžman",
+      "Redovna saradnja"
+    ],
+    [
+      "business.capability.recurringContracts",
+      "Ponavljajući ugovorni aranžmani",
+      "Ugovor za redovne vožnje"
+    ],
+    [
+      "business.coordination.dedicatedCoordinator",
+      "Posvećena koordinacija",
+      "Koordinator prevoza"
+    ],
+    [
+      "business.hero.trust.manualConfirmation",
+      "Lična potvrda našeg tima",
+      "Rezervaciju potvrđuje naš tim"
+    ],
+    [
+      "business.standard.scheduleContinuity.title",
+      "Kontinuitet rasporeda",
+      "Isti vozač između sastanaka"
+    ],
+    [
+      "business.standard.manualConfirmation.title",
+      "Potvrđena organizacija",
+      "Potvrda rezervacije"
+    ],
+    [
+      "corporateTransportation.overview.oneOff.text",
+      "Jasno definisan korporativni zahtev za potvrđeni poslovni raspored.",
+      "Vožnje za određeni datum i unapred dogovoren poslovni raspored."
+    ],
+    [
+      "corporateTransportation.overview.invoicing.text",
+      "Fakturisanje je dostupno poslovnim klijentima kada je deo potvrđenog komercijalnog aranžmana.",
+      "Fakturisanje dogovaramo sa kompanijom u okviru uslova saradnje."
+    ],
+    [
+      "corporateTransportation.cta.recurring",
+      "Razgovarajte o kontinuiranoj saradnji",
+      "Dogovorite redovnu saradnju"
+    ],
+    [
+      "corporateTransportation.coordination.companyContact.title",
+      "Kontakt iz kompanije",
+      "Osoba zadužena za putovanje"
+    ],
+    [
+      "corporateTransportation.coordination.itinerary.title",
+      "Potvrđen raspored putovanja",
+      "Dogovoreni polasci i adrese"
+    ],
+    [
+      "corporateTransportation.coordination.itinerary.text",
+      "Povezuje dogovorena vremena i lokacije u jedan jasan plan prevoza.",
+      "Vozač i organizator imaju isti raspored vožnji."
+    ],
+    [
+      "corporateTransportation.standards.intro",
+      "Profesionalan nastup, pripremljeno vozilo i dosledan standard usluge prema putniku prate svaki potvrđeni korporativni angažman.",
+      "Profesionalni vozač, pripremljeno vozilo i pomoć putniku deo su korporativnog prevoza."
+    ],
+    [
+      "corporateTransportation.faq.oneOffAnswer",
+      "Da. Organizujemo i jednokratni korporativni prevoz za jasno definisan poslovni raspored.",
+      "Da. Možete rezervisati vožnje za jedan datum, prema svom poslovnom rasporedu."
+    ],
+    [
+      "delegationTransportation.section.movement",
+      "Koordinisano kretanje",
+      "Raspored vožnji"
+    ],
+    [
+      "delegationTransportation.section.clients",
+      "Institucionalno poverenje",
+      "Naši klijenti"
+    ],
+    [
+      "delegationTransportation.overview.multipleVehicles.text",
+      "Više vozila može biti organizovano u okviru istog zahteva kada se delegacija ne kreće kao jedna grupa.",
+      "Možemo dogovoriti više vozila za članove delegacije koji putuju odvojeno."
+    ],
+    [
+      "delegationTransportation.overview.mixedClasses.text",
+      "Različite klase vozila mogu imati različite uloge prema strukturi putnika i potvrđenom programu.",
+      "Limuzine i kombi vozila kombinujemo prema broju putnika i programu posete."
+    ],
+    [
+      "delegationTransportation.overview.coordinator.text",
+      "Posvećena koordinacija povezuje vozila, grupe, lokacije i termine u jedan plan prevoza.",
+      "Koordinator usaglašava vozila, grupe, adrese i termine sa organizatorom."
+    ],
+    [
+      "delegationTransportation.overview.onePlan.title",
+      "Jedan koordinisan raspored",
+      "Zajednički raspored"
+    ],
+    [
+      "delegationTransportation.trust.confirmation.title",
+      "Potvrđena organizacija",
+      "Potvrda rezervacije"
+    ],
+    [
+      "delegationTransportation.briefing.times.text",
+      "Ključna vremena, tačke preuzimanja i potvrđene ili planirane destinacije.",
+      "Vreme polaska, adrese preuzimanja i planirana odredišta."
+    ],
+    [
+      "delegationTransportation.briefing.groups.text",
+      "Broj putnika i način na koji treba da budu raspoređeni tokom programa.",
+      "Broj putnika i podatak o tome ko putuje zajedno."
+    ],
+    [
+      "delegationTransportation.briefing.vehicles.title",
+      "Željena struktura vozila",
+      "Željena vozila"
+    ],
+    [
+      "delegationTransportation.briefing.vehicles.text",
+      "Navedite željene klase vozila ili podatke na osnovu kojih treba predložiti odgovarajuću kombinaciju.",
+      "Navedite željene modele ili broj putnika i prtljag, pa ćemo predložiti kombinaciju."
+    ],
+    [
+      "delegationTransportation.briefing.special.text",
+      "Navedite operativne, protokolarne ili formalne zahteve poverljivosti koji utiču na pripremu prevoza.",
+      "Navedite posebne zahteve za prevoz, protokol ili pisani dogovor o poverljivosti."
+    ],
+    [
+      "delegationTransportation.standards.heading",
+      "Standard koji prati potvrđen prevoz delegacije",
+      "Priprema za dolazak delegacije"
+    ],
+    [
+      "delegationTransportation.standards.intro",
+      "Profesionalan vozač, pripremljeno vozilo i dosledan nivo usluge prate svaki potvrđen angažman prevoza.",
+      "Vozači i vozila pripremaju se za dogovorene vožnje, uz pažnju prema putnicima i njihovom prtljagu."
+    ],
+    [
+      "delegationTransportation.faq.mixedClassesAnswer",
+      "Da. Različite klase vozila mogu se kombinovati kada struktura putnika i potvrđen program zahtevaju različite uloge vozila.",
+      "Da. Možemo kombinovati limuzine i kombi vozila prema broju putnika i programu delegacije."
+    ],
+    [
+      "delegationTransportation.faq.groupMovementAnswer",
+      "Da. U zahtevu navedite različite tačke preuzimanja, destinacije i strukturu grupa. Konačan raspored se proverava i potvrđuje kao jedna organizacija.",
+      "Da. Navedite polazne adrese, odredišta i ko putuje zajedno. Pre potvrde usklađujemo raspored svih grupa."
+    ],
+    [
+      "conferenceCongressTransportation.section.eventJourney",
+      "Raspored kretanja",
+      "Raspored vožnji"
+    ],
+    [
+      "conferenceCongressTransportation.overview.hotelVenue.text",
+      "Hoteli i lokacije programa povezani u jednu celinu prevoza.",
+      "Vožnje između hotela i mesta održavanja, prema programu."
+    ],
+    [
+      "conferenceCongressTransportation.overview.multiVehicle.text",
+      "Više uloga vozila usklađeno sa istim rasporedom.",
+      "Vozila za pojedince i grupe raspoređujemo prema dogovorenim polascima."
+    ],
+    [
+      "conferenceCongressTransportation.eventJourney.exampleLabel",
+      "Primer organizacije kretanja",
+      "Primer rasporeda vožnji"
+    ],
+    [
+      "conferenceCongressTransportation.multiVehicle.executive.label",
+      "Individualno kretanje",
+      "Pojedinačne vožnje"
+    ],
+    [
+      "conferenceCongressTransportation.standards.heading",
+      "Standard koji prati potvrđen prevoz za događaj",
+      "Priprema za prevoz učesnika"
+    ],
+    [
+      "conferenceCongressTransportation.standards.intro",
+      "Profesionalan vozač, pripremljeno vozilo i dosledan nivo usluge prate svako potvrđeno kretanje u okviru plana prevoza.",
+      "Profesionalni vozači i pripremljena vozila za dogovorene dolaske i polaske učesnika."
+    ],
+    [
+      "conferenceCongressTransportation.faq.multiVehicleAnswer",
+      "Da. Više vozila može biti organizovano u okviru istog potvrđenog rasporeda kada struktura događaja zahteva paralelna ili odvojena kretanja.",
+      "Da. Možemo uskladiti više vozila kada učesnici putuju odvojeno ili polaze u isto vreme sa različitih adresa."
+    ],
+    [
+      "conferenceCongressTransportation.faq.vehicleAnswer",
+      "Možete navesti željeni model vozila. Kada je konkretan model potvrđen u okviru zahteva, organizacija se zasniva na tom potvrđenom modelu.",
+      "Da. Navedite željeni model u zahtevu. Proverićemo raspoloživost, a ako ga potvrdimo u rezervaciji, obezbeđujemo taj model."
+    ]
+  ]
+}

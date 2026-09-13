@@ -23,12 +23,17 @@
  * intentionally NOT coupled to the content-model `Cta` union, so it stays
  * reusable on pages that don't use the editorial content model.
  *
- * `supportText` is OPTIONAL only because the editorial hero block does not
- * yet author a right-side statement (blueprint §20 — pending content pass).
- * When supplied, the desktop 7/5 split activates and the right-side support
+ * `supportText` is optional for presentation consumers. The production page
+ * supplies its reviewed editorial statement. When supplied, the desktop 7/5 split activates and the right-side support
  * statement renders (blueprint §7 / 03-home-hero §Desktop content grid);
  * when absent the hero degrades to a single left content column. The support
  * composition is fully implemented and exercised in /dev/ui.
+ *
+ * CSS layout contract: an overlaid-header consumer sets
+ * --homepage-hero-header-clearance to its own header-offset value. This adds
+ * safe top space for copy while keeping full-bleed media behind the header.
+ * Consumers without an overlaid header retain zero additional clearance;
+ * no prop or existing dev-preview migration is required.
  */
 // `ImageMetadata` is the type returned by ESM imports of image assets
 // (`import x from "./car.webp"`) and the `src` shape accepted by astro:assets
@@ -66,23 +71,13 @@ export interface HomepageHeroProps {
   primaryAction: HomepageHeroAction;
   /**
    * Secondary conversion action — the locked hero composition's "Request a Quote"
-   * (<Link variant="button">). Optional ONLY because the editorial hero block does
-   * not yet author the final secondary: the current `secondaryCta` is "View fleet"
-   * → fleet, which is NOT the final approved secondary hero action, and is wired
-   * only as temporary compatibility (see [locale]/index.astro). Do NOT treat "View
-   * fleet" as the final secondary.
-   *
-   * TODO(home-visual-lock): promote `secondaryAction` to required once the
-   *   editorial home content authors the final "Request a Quote" secondary.
+   * (<Link variant="button">). Optional for presentation-only consumers;
+   * the published homepage supplies the approved quote action.
    */
   secondaryAction?: HomepageHeroAction;
   /**
-   * Right-side supporting/trust statement (blueprint §7). Optional only while
-   * the editorial hero block does not author it (heroSchema has no support field;
-   * blueprint §20 — pending content pass); when supplied the 7/5 split activates.
-   *
-   * TODO(home-visual-lock): promote `supportText` to required once the editorial
-   *   home content authors the right-side support statement.
+   * Right-side supporting statement (blueprint §7). Optional for presentation
+   * consumers; supplied by published homepage content. Activates the 7/5 split.
    */
   supportText?: string;
   /** Full-bleed hero image — an imported ImageMetadata asset, rendered via astro:assets <Image>. */

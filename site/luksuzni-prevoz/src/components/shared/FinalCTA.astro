@@ -176,6 +176,9 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
      panel when it is the only child (no image). */
   .fcta-content {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
     gap: var(--space-4);
     align-content: center;
     padding: var(--space-8) var(--space-6);
@@ -193,6 +196,10 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+  }
+  .fcta-actions > :global(a) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
   }
 
   /* Narrow mobile (task 2C): primary + secondary stack full-width so both stay
@@ -222,6 +229,8 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
   .fcta-contact {
     display: inline-flex;
     align-items: center;
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
     min-block-size: 2.75rem;
     padding-inline: var(--space-2);
     font-family: var(--font-body);
@@ -229,6 +238,11 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     color: var(--color-text-muted);
     text-decoration: none;
     transition: color var(--duration-fast) var(--ease-standard);
+  }
+  /* Canonical e-mail addresses must remain readable with enlarged text. */
+  .fcta-contacts > li {
+    min-inline-size: 0;
+    max-inline-size: 100%;
   }
   .fcta-contact:hover {
     color: var(--color-accent-hover);
@@ -311,13 +325,12 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     }
   }
 
-  /* --- Desktop (>=64rem): 62/38 content/image, 22–26rem panel (11 §Desktop) --- */
+  /* Desktop: preserve the split; content determines height without clipping. */
   @media (min-width: 64rem) {
     .fcta-panel--media {
       display: grid;
-      grid-template-columns: 62fr 38fr;
+      grid-template-columns: minmax(0, 62fr) minmax(0, 38fr);
       min-block-size: 22rem;
-      max-block-size: 26rem;
     }
     .fcta-panel--media .fcta-content {
       min-block-size: 0;
@@ -326,9 +339,6 @@ const imgClass = imageFit === "cover" ? "fcta-img fcta-img--cover" : "fcta-img";
     }
     .fcta-media {
       min-block-size: 0;
-    }
-    .fcta-img {
-      position: static;
     }
     .fcta-media--integrated {
       -webkit-mask-image: linear-gradient(

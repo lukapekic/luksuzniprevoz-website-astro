@@ -1,0 +1,50 @@
+[
+  {
+    "key": "contact",
+    "locale": "sr",
+    "passed": true,
+    "error": "Unesite ime i prezime koristeći slova.",
+    "status": "Primili smo vaše pitanje. Naš tim će ga pregledati i javiti vam se. Referenca zahteva: LP-LOCAL-REVIEW",
+    "mockedPosts": 1
+  },
+  {
+    "key": "booking",
+    "locale": "sr",
+    "passed": true,
+    "reviewText": "Pregledajte zahtev\n\nProverite detalje putovanja i unesite podatke za kontakt. Raspoloživost i rezervaciju potvrđuje naš tim.\n\nUsluga\nAerodromski prevoz\nIzmenite\nTermin\n2099-12-31 · 12:00 (Europe/Belgrade)\nIzmenite\nPlan puta\nAerodrom Nikola Tesla → Beograd\nIzmenite\nPutnici\n2\nIzmenite\nVozilo\nPreporučite vozilo\nIzmenite\nCena\nIndividualna ponuda: Cena se potvrđuje nakon preporuke odgovarajućeg vozila\nIzmenite\nKontakt podaci\nIme i prezime *\nE-mail adresa *\nTelefon (nije obavezno)\nDodatna napomena (nije obavezno)\n\nPoslat zahtev nije potvrda rezervacije.",
+    "status": "Zahtev je primljen. Naš tim će proveriti raspoloživost i potvrditi detalje prevoza. Referenca zahteva: LP-LOCAL-REVIEW",
+    "mockedPosts": 1
+  },
+  {
+    "key": "contact",
+    "locale": "en",
+    "passed": true,
+    "error": "Enter a first and last name using letters.",
+    "status": "Question received. Our team will review it and reply using the details you provided. Request reference: LP-LOCAL-REVIEW",
+    "mockedPosts": 1
+  },
+  {
+    "key": "booking",
+    "locale": "en",
+    "passed": true,
+    "reviewText": "Review your request\n\nReview your journey details and add your contact information. Our team confirms availability and your booking.\n\nService\nAirport Transportation\nEdit\nSchedule\n2099-12-31 · 12:00 (Europe/Belgrade)\nEdit\nJourney\nAerodrom Nikola Tesla → Beograd\nEdit\nPassengers\n2\nEdit\nVehicle\nRecommend a vehicle\nEdit\nPrice\nCustom quote: The fare is confirmed after we recommend a suitable vehicle\nEdit\nContact details\nFull name *\nEmail address *\nPhone (optional)\nAdditional notes (optional)\n\nSubmitting a request does not confirm your booking.",
+    "status": "Request received. Our team will check availability and confirm your transport arrangements. Request reference: LP-LOCAL-REVIEW",
+    "mockedPosts": 1
+  },
+  {
+    "key": "contact",
+    "locale": "ru",
+    "passed": true,
+    "error": "Укажите имя и фамилию, используя буквы.",
+    "status": "Вопрос получен. Наша команда рассмотрит его и ответит по указанным вами контактным данным. Номер заявки: LP-LOCAL-REVIEW",
+    "mockedPosts": 1
+  },
+  {
+    "key": "booking",
+    "locale": "ru",
+    "passed": true,
+    "reviewText": "Проверьте заявку\n\nПроверьте детали поездки и укажите контактные данные. Наличие автомобиля и бронирование подтверждает наша команда.\n\nУслуга\nТрансфер из аэропорта\nИзменить\nВремя\n2099-12-31 · 12:00 (Europe/Belgrade)\nИзменить\nМаршрут\nAerodrom Nikola Tesla → Beograd\nИзменить\nПассажиры\n2\nИзменить\nАвтомобиль\nРекомендовать автомобиль\nИзменить\nСтоимость\nИндивидуальный расчет: Стоимость подтверждается после рекомендации подходящего автомобиля\nИзменить\nКонтактные данные\nИмя и фамилия *\nЭлектронная почта *\nТелефон (необязательно)\nДополнительная информация (необязательно)\n\nОтправленная заявка не является подтверждением бронирования.",
+    "status": "Заявка получена. Наша команда проверит наличие автомобилей и подтвердит детали поездки. Номер заявки: LP-LOCAL-REVIEW",
+    "mockedPosts": 1
+  }
+]

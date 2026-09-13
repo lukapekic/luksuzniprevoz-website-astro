@@ -1,0 +1,105 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/business-transportation/business-transportation.sr.md",
+  "replacements": [
+    [
+      "Poslovni prevoz putnika prema vašem rasporedu",
+      "Poslovni prevoz u Beogradu"
+    ],
+    [
+      "Poslovni prevoz postaje složen kada ljude, termine i više lokacija treba povezati u jedan pouzdan raspored.",
+      "Dogovorite prevoz za poslovni dan, posetu delegacije ili konferenciju."
+    ],
+    [
+      "Prevoz organizujemo prema terminima, lokacijama i ulozi svakog vozila. Pre potvrde usaglašavamo ko putuje zajedno, gde su mesta preuzimanja i kakva je koordinacija potrebna.",
+      "Pre potvrde dogovaramo ko putuje zajedno, sa kojih adresa i u koje vreme. Na osnovu toga predlažemo uslugu i vozila."
+    ],
+    [
+      "Organizacija polazi od termina, lokacija, putnika i načina na koji se poslovni dan stvarno odvija.",
+      "Polaske planiramo prema sastancima, dolascima gostiju i drugim obavezama."
+    ],
+    [
+      "Izaberite uslugu prema vrsti rasporeda, broju putnika i nivou koordinacije koji je potreban.",
+      "Uporedite redovan prevoz za kompanije, prevoz delegacija i prevoz učesnika događaja."
+    ],
+    [
+      "Za direktore, zaposlene i poslovne goste — od pojedinačnog zahteva do ponavljajuće saradnje i povezanih tačaka u istom rasporedu.",
+      "Za direktore, zaposlene i poslovne goste. Dogovorite vožnje za određeni datum ili redovnu saradnju sa kompanijom."
+    ],
+    [
+      "Za dolaske i kretanje delegacija kada je potrebno uskladiti više vozila, različite klase vozila i centralnu koordinaciju.",
+      "Za delegacije čiji članovi putuju u više vozila, sa različitih adresa ili u različito vreme. Jedna kontakt osoba usklađuje prevoz."
+    ],
+    [
+      "Jedan zahtev ili kontinuirana korporativna saradnja",
+      "Povremene vožnje ili redovna saradnja"
+    ],
+    [
+      "Jednokratni poslovni zadaci i ponavljajući korporativni prevoz imaju različit komercijalni i operativni tok.",
+      "Za pojedinačne vožnje dovoljan je zaseban zahtev. Za redovan korporativni prevoz dogovaramo uslove saradnje."
+    ],
+    [
+      "Za jedan konkretan zahtev pošaljite raspored, lokacije i broj putnika. Za redovne potrebe možemo dogovoriti ustaljen model saradnje, fakturisanje i komercijalne uslove za konkretan aranžman.",
+      "Za određeni datum pošaljite raspored, adrese i broj putnika. Ako kompaniji treba redovan korporativni prevoz, možemo dogovoriti učestalost, fakturisanje i komercijalne uslove."
+    ],
+    [
+      "Ponavljajući korporativni angažman",
+      "Redovan korporativni prevoz"
+    ],
+    [
+      "Istražite korporativnu saradnju",
+      "Pogledajte korporativni prevoz"
+    ],
+    [
+      "Standard poslovnog prevoza nije samo automobil",
+      "Vozači i priprema prevoza"
+    ],
+    [
+      "Poslovni klijenti zavise od načina na koji se vožnja priprema, koordinira i potvrđuje.",
+      "Pre polaska usaglašavamo vozila, raspored i potrebe putnika."
+    ],
+    [
+      "Vozilo je samo jedan deo usluge. Profesionalan vozač, diskrecija, odgovarajuća struktura vozila i jasna potvrda organizacije zajedno čine poslovni standard.",
+      "Profesionalni vozači komuniciraju diskretno, a organizaciju više vozila i druge zahteve proveravamo u okviru izabrane poslovne usluge."
+    ],
+    [
+      "Od rasporeda do organizovanog prevoza",
+      "Kako dogovaramo poslovni prevoz"
+    ],
+    [
+      "Tri jasna koraka od poslovnog zahteva do potvrđene organizacije.",
+      "Naš tim proverava zahtev pre nego što potvrdi prevoz."
+    ],
+    [
+      "Navedite lokacije, vreme, broj putnika i sve važne detalje poslovnog zadatka.",
+      "Navedite adrese, termine, broj putnika i posebne zahteve."
+    ],
+    [
+      "Predlažemo organizaciju",
+      "Predlažemo uslugu i vozila"
+    ],
+    [
+      "Nakon provere raspoloživosti i detalja dobijate ručno potvrđenu organizaciju.",
+      "Posle provere raspoloživosti sa vama potvrđujemo vozila, termine i ostale detalje."
+    ],
+    [
+      "Vozilo se bira prema ulozi u rasporedu",
+      "Vozila za poslovne putnike i grupe"
+    ],
+    [
+      "Da. Za redovan korporativni prevoz možemo dogovoriti ponavljajuće angažmane, fakturisanje poslovnih klijenata i komercijalne uslove za konkretan model saradnje.",
+      "Da. Za korporativni prevoz možemo dogovoriti redovne vožnje, fakturisanje i uslove saradnje sa kompanijom."
+    ],
+    [
+      "Ne. Tim proverava raspoloživost, odgovarajuću uslugu, vozila i detalje organizacije, a zatim ručno potvrđuje organizaciju.",
+      "Ne. Naš tim prvo proverava uslugu, vozila i raspored. Rezervacija važi tek kada vam je potvrdimo."
+    ],
+    [
+      "Pošaljite nam raspored. Mi ćemo organizovati prevoz.",
+      "Planirate poslovni prevoz?"
+    ],
+    [
+      "Jedna poslovna vožnja, ponavljajući korporativni angažman ili složen raspored sa više vozila — pošaljite osnovne informacije i proverićemo odgovarajuću uslugu i organizaciju.",
+      "Pošaljite datum, adrese i broj putnika. Navedite da li je reč o poslovnoj vožnji, redovnom prevozu, delegaciji ili događaju."
+    ]
+  ]
+}

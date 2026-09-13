@@ -71,10 +71,10 @@ test.describe("Wedding Transportation", () => {
 
     const vehicleNames = await page.locator(".vehicle h3").allTextContents();
     expect(vehicleNames).toEqual([
-      "Mercedes S klasa",
-      "Mercedes E klasa",
-      "Mercedes V klasa 7+1 Extra Long",
-      "Mercedes Sprinter",
+      "Mercedes-Benz S-Class",
+      "Mercedes-Benz E-Class",
+      "Mercedes-Benz V-Class 7+1 Extra Long",
+      "Mercedes-Benz Sprinter",
     ]);
 
     const bookingHref = `${flowPath("booking", "en")}&service=weddingTransportation`;
@@ -96,7 +96,9 @@ test.describe("Wedding Transportation", () => {
     );
     await expect(page.locator("main a:not([href])")).toHaveCount(0);
 
-    await expect(page.getByText(/Decorations, flowers and ribbons/)).toBeVisible();
+    await expect(
+      page.getByText(/Flowers, ribbons and other decorations are not included without a separate agreement/),
+    ).toBeVisible();
     await expect(page.getByText(/then confirms the arrangements personally/)).toBeAttached();
   });
 

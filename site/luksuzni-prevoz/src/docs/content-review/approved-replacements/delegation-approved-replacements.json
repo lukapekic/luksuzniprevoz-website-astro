@@ -1,0 +1,89 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/delegation-transportation/delegation-transportation.sr.md",
+  "replacements": [
+    [
+      "Prevoz delegacija, koordinisan kao jedan plan",
+      "Prevoz delegacija u Beogradu"
+    ],
+    [
+      "Zajednička organizacija za odvojene vožnje",
+      "Jedan plan za sve vožnje delegacije"
+    ],
+    [
+      "Kada delegacija ne putuje kao jedna grupa, prevoz mora da ostane povezan iako se vozila, putnici i lokacije razlikuju.",
+      "Članovi delegacije mogu putovati odvojeno, sa različitih adresa i u različito vreme."
+    ],
+    [
+      "Kada više putnika mora da se kreće kao jedna celina",
+      "Za delegacije i organizatore poseta"
+    ],
+    [
+      "Usluga je namenjena organizacijama i domaćinima kojima nije dovoljno da rezervišu pojedinačna vozila.",
+      "Za posete u kojima je potrebno uskladiti više vozila sa programom delegacije."
+    ],
+    [
+      "Kada različiti putnici imaju različite uloge, mesta preuzimanja ili delove programa, jedna koordinacija daje organizatoru jasniju sliku celog prevoza.",
+      "Organizator sa jednom kontakt osobom dogovara vozila, adrese i polaske za sve grupe. To olakšava planiranje kada članovi delegacije imaju različite obaveze."
+    ],
+    [
+      "Korporativne i izvršne delegacije",
+      "Poslovne delegacije i rukovodstvo"
+    ],
+    [
+      "Za osobe koje vode program i žele jednu kontaktnu tačku za organizaciju prevoza umesto niza nepovezanih rezervacija.",
+      "Za osobe koje pripremaju posetu i žele da prevoz svih članova dogovaraju sa jednim koordinatorom."
+    ],
+    [
+      "Jedna delegacija. Više kretanja.",
+      "Od dolaska do završetka posete"
+    ],
+    [
+      "Različite grupe mogu koristiti različita vozila i imati različite tačke programa, dok njihov prevoz i dalje ostaje deo istog plana.",
+      "Neke vožnje mogu biti zajedničke, a druge odvojene. U rasporedu određujemo ko putuje, kojim vozilom i na koju adresu."
+    ],
+    [
+      "Vozila prema ulozi i veličini grupe",
+      "Limuzine i kombi za članove delegacije"
+    ],
+    [
+      "Uloga vozila zavisi od toga ko putuje, koliko putnika treba da ostane zajedno i kako je program strukturiran.",
+      "Izbor zavisi od broja putnika, njihovih obaveza i toga ko putuje zajedno."
+    ],
+    [
+      "Za individualne putnike, odvojena kretanja i poslovne tačke programa.",
+      "Za članove delegacije koji na sastanke putuju odvojeno."
+    ],
+    [
+      "Za manju grupu koja treba da ostane zajedno tokom jednog ili više delova potvrđenog programa.",
+      "Za članove delegacije koji na dogovorena odredišta putuju zajedno."
+    ],
+    [
+      "Pošaljite program delegacije, ne niz odvojenih vožnji",
+      "Šta nam je potrebno za ponudu"
+    ],
+    [
+      "Najbolja osnova za organizaciju je pregled celog programa koji utiče na prevoz.",
+      "Pošaljite program posete, čak i ako pojedini termini još nisu konačni."
+    ],
+    [
+      "Pošaljite ključna vremena, lokacije, broj putnika, strukturu grupa, željena vozila i posebne zahteve. Na osnovu toga proveravamo raspoloživost i pripremamo individualnu ponudu.",
+      "Navedite adrese, termine, broj putnika i ko putuje zajedno. Dodajte željena vozila i posebne zahteve. Na osnovu toga proveravamo raspoloživost i pripremamo ponudu."
+    ],
+    [
+      "Vozilo prema ulozi putnika u delegaciji",
+      "Vozila za vašu delegaciju"
+    ],
+    [
+      "Mogu li različite grupe imati različite tačke preuzimanja ili kretanja?",
+      "Mogu li grupe putovati sa različitih adresa?"
+    ],
+    [
+      "Organizujte prevoz delegacije sa nama.",
+      "Dogovorimo prevoz delegacije"
+    ],
+    [
+      "Pošaljite program, broj putnika, lokacije i posebne zahteve. Proverićemo detalje i pripremiti individualnu ponudu za ceo plan prevoza.",
+      "Pošaljite program posete, broj putnika, adrese i posebne zahteve. Pripremićemo ponudu nakon provere rasporeda i vozila."
+    ]
+  ]
+}

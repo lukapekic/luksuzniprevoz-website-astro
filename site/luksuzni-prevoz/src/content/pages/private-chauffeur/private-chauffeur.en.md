@@ -4,9 +4,9 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: 0624a5c02326622c
+sourceDigest: 980b0265638448ec
 noindex: false
 
 seoTitle: "Private Chauffeur in Belgrade"
@@ -35,7 +35,7 @@ overview:
 sections:
   - key: hireOptions
     heading:
-      title: "Choose the hire format around your schedule"
+      title: "How long do you need a chauffeur?"
       intro: "From a shorter commitment to a full day with several stops, select the format that matches how you plan to use your time."
     body: "Compare the duration and included distance, then choose the option that fits your day."
     items:
@@ -48,7 +48,7 @@ sections:
 
   - key: timeRemainsYours
     heading:
-      title: "Your time remains yours"
+      title: "Time to call, prepare or pause"
       intro: "Continue with your day between appointments while your chauffeur handles the road."
     body: "Use the journey to prepare, take a call or pause between commitments."
     items:
@@ -67,7 +67,7 @@ sections:
 
   - key: travelWithoutLosingDay
     heading:
-      title: "Travel without losing the day"
+      title: "Continue without another booking"
     body: "An agreed plan makes it easier to continue after each appointment."
     items:
       - title: "No searching for the next car."
@@ -92,7 +92,7 @@ sections:
 
   - key: customEngagement
     heading:
-      title: "When your schedule does not fit a standard hire"
+      title: "Longer and multi-day journeys"
       intro: "Longer and multi-day journeys are planned around the individual route and schedule."
     body: "Send your dates, planned locations and expected duration. For journeys outside the standard area or more complex plans, our team checks what can be arranged and prepares a tailored quote."
 
@@ -135,7 +135,7 @@ faq:
       answer: "No. The team checks availability, selected vehicle, hire duration and schedule details, then confirms the booking manually."
 
 finalCta:
-  heading: "Tell us how your day is planned"
+  heading: "Send us your plan for the day"
   text: "Send the date, starting time, planned locations, passenger count and preferred vehicle. We will check availability and confirm the appropriate hire format."
   primaryCta:
     label: "Start your booking"

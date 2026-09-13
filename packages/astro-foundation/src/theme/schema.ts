@@ -126,6 +126,7 @@ export const TypographySchema = z
     lineHeight: StringOrNumberRecord.optional(),
     letterSpacing: z.record(z.string(), z.string()).optional(),
     measure: z.record(z.string(), z.string()).optional(),
+    recipes: z.record(z.string(), z.record(z.string(), z.string())).optional(),
   })
   .strict()
   .refine(
@@ -197,6 +198,7 @@ export const LayoutSchema = z
     grid: z.record(z.string(), z.number()).optional(),
     columnGap: z.record(z.string(), z.string()).optional(),
     breakpoints: z.record(z.string(), z.string()).optional(),
+    containerThresholds: z.array(z.string()).optional(),
     approvedDesktopCompositions: z.array(z.string()).optional(),
   })
   .strict();

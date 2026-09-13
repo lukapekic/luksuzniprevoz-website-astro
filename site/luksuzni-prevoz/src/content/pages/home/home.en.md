@@ -4,9 +4,9 @@ locale: en
 pageType: home
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: b87750ee365ce53a
+sourceDigest: f1abb78671cab74d
 
 seoTitle: "Luxury Chauffeur Service in Belgrade"
 seoDescription: "Luxury chauffeur service in Belgrade for airport transfers, business travel and special occasions. Explore the fleet and send us your travel plans."
@@ -64,21 +64,21 @@ flagshipFeature:
 
 trust:
   heading:
-    title: "A consistent standard for every journey"
+    title: "How we prepare your journey"
     intro: "From the first enquiry to arrival, we attend to the passenger, vehicle and agreed arrangements."
   items:
     - title: "Professional chauffeurs"
       text: "Chauffeurs wear a suit and tie and receive internal training in passenger service, discretion and route knowledge."
     - title: "Carefully maintained vehicles"
       text: "Vehicles are maintained by authorised or official service providers and additionally checked before important journeys."
-    - title: "Discreet coordination"
+    - title: "Arrangements with our team"
       text: "Clear communication, manual booking confirmation and team support for more complex requests."
     - title: "Backup arrangements"
       text: "A backup vehicle is available when needed."
 
 fleet:
   heading:
-    title: "A vehicle suited to your passengers and journey"
+    title: "Sedans and vehicles for groups"
     intro: "Business sedans, the Mercedes-Benz V-Class and Mercedes-Benz Sprinter for different travel needs."
   cta:
     label: "View fleet"
@@ -105,7 +105,7 @@ reviews:
   externalProfileLabel: "View Google reviews"
 
 finalCta:
-  heading: "Tell us where and when you are travelling"
+  heading: "Where and when are you travelling?"
   text: "Choose a service and send the details. Simple journeys may show a price, while more complex requests receive a tailored quote."
   primaryCta:
     label: "Start your booking"

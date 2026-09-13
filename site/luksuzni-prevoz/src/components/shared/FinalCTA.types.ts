@@ -8,7 +8,7 @@
  * (docs/home/home-components/11-final-cta.md, DESIGN.md §7/§8):
  *
  *   - contained architectural panel, content left, optional image right;
- *   - desktop 62/38 content/image, 22–26rem panel;
+ *   - desktop 62/38 content/image, content-driven height for enlarged text;
  *   - restrained graphite gradient (Final-CTA-only exception);
  *   - CTA hierarchy: primary Book (platinum accent cta link) > secondary Request a Quote
  *     (outlined button link) > tertiary phone/email (muted text links — ONE

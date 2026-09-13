@@ -391,7 +391,7 @@ const leafServices = servicesChildren.filter(isLeaf);
 
   /* Compact floating graphite plane on scroll. No divider or drop shadow. */
   .site-header[data-state="scrolled"]::before {
-    block-size: calc(var(--space-11) + var(--space-3));
+    block-size: 100%;
     background: color-mix(in oklab, var(--color-background) 88%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -399,13 +399,14 @@ const leafServices = servicesChildren.filter(isLeaf);
 
   .site-header__shell {
     position: relative;
+    container-type: inline-size;
     z-index: 1;
     width: min(calc(100% - (2 * var(--gutter-page))), var(--container-main));
     margin-inline: auto;
   }
   .site-header__row {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: var(--space-4);
     /* Tracks --site-header-height so the page-level hero-under-header offset
@@ -427,13 +428,15 @@ const leafServices = servicesChildren.filter(isLeaf);
   }
 
   /* --- Desktop nav -------------------------------------------------------- */
-  .nav-desktop { display: none; }
+  .nav-desktop { display: none; min-inline-size: 0; }
   @media (min-width: 64rem) {
     .nav-desktop { display: block; justify-self: center; }
   }
   .nav-list {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: var(--space-6);
     margin: 0;
     padding: 0;
@@ -544,9 +547,22 @@ const leafServices = servicesChildren.filter(isLeaf);
   /* --- Actions ------------------------------------------------------------ */
   .header-actions {
     display: flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
     align-items: center;
     gap: var(--space-3);
     justify-self: end;
+  }
+  .header-actions > :global(.book-cta) {
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
+  }
+  /* Structural text-fit threshold, not a viewport/theme breakpoint: at an
+     enlarged root font the available shell can be narrower than the action
+     group's minimum readable width. Normal 320px layout remains unchanged. */
+  @container (max-width: 16rem) {
+    .site-header__row { grid-template-columns: minmax(0, 1fr); }
+    .header-actions { justify-self: start; flex-wrap: wrap; }
   }
   /* Desktop (lg+) LanguageSwitcher visibility: hidden below lg (mobile uses the
      in-panel switcher), shown at lg+. display:flex avoids the inline-block

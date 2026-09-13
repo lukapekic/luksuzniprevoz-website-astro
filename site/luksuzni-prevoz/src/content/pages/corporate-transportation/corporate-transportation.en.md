@@ -4,9 +4,9 @@ locale: en
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 sourceLocale: sr
-sourceDigest: 7a5c1b1c01e87e2c
+sourceDigest: 5e43ab6082d7e027
 noindex: false
 
 seoTitle: "Corporate Chauffeur in Belgrade"
@@ -24,14 +24,14 @@ hero:
 
 overview:
   heading:
-    title: "Business transportation that works as part of your day"
+    title: "Transport for your company"
     intro: "A clear schedule, a suitable vehicle and arrangements agreed in advance for your company."
   body: "Corporate transport brings a business traveller’s or company’s journeys into one arrangement. We agree on locations, waiting times and vehicles with the person organising the travel."
 
 sections:
   - key: audience
     heading:
-      title: "For people and teams whose working day does not stop at one address"
+      title: "For executives, guests and business teams"
       intro: "The service is built for passengers and organisers who value professional, discreet and pre-arranged transportation."
     body: "An assistant or coordinator can submit the plan on behalf of the passenger. For recurring travel, include the frequency and expected routes."
     items:
@@ -43,7 +43,7 @@ sections:
 
   - key: engagementModel
     heading:
-      title: "One request or an ongoing corporate arrangement"
+      title: "One-off or regular transport"
       intro: "Arrange a single engagement or discuss regular journeys."
     body: "For a single business day, send the date and itinerary. For recurring work, we agree on frequency, invoicing and commercial terms."
     items:
@@ -52,7 +52,7 @@ sections:
 
   - key: workingDay
     heading:
-      title: "Keep the working day connected"
+      title: "From the hotel to your last meeting"
       intro: "A meeting rarely ends the working day. Transportation should follow what comes next."
     body: "The hotel, office and meetings can form one day’s engagement. The same chauffeur can remain between locations when this is part of the confirmed arrangement."
     items:
@@ -68,7 +68,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "Choose the vehicle around the passenger and schedule"
+    title: "Vehicles for executives and teams"
     intro: "A sedan for an executive or a Mercedes-Benz V-Class for colleagues and business guests. Choose according to passengers, luggage and schedule."
   vehicleIds: [mercedes-s-class, mercedes-e-class, mercedes-v-class-7-plus-1-extra-long]
   cta:
@@ -89,8 +89,8 @@ faq:
     - { question: "Is the booking confirmed immediately after I send the request?", answer: "{confirmationAnswer}" }
 
 finalCta:
-  heading: "Send the schedule. We organise the corporate transportation."
-  text: "Send the date, time, locations, passenger count and preferred vehicle. We will check availability and confirm the appropriate engagement model."
+  heading: "Arrange your business journeys"
+  text: "Send the schedule, passenger count and preferred vehicle. Let us know whether you need transport for a specific date or an ongoing arrangement."
   primaryCta:
     label: "Start your booking"
     target: { type: flow, flowKey: booking }

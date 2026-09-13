@@ -1,0 +1,129 @@
+{
+  "file": "site/luksuzni-prevoz/src/content/pages/private-chauffeur/private-chauffeur.sr.md",
+  "replacements": [
+    [
+      "Lični vozač je usluga za dan u kojem se sve ne završava na jednom odredištu.",
+      "Rezervišete naše vozilo i vozača na određeno vreme, a ne samo vožnju do jedne adrese."
+    ],
+    [
+      "Odaberite angažman prema svom rasporedu",
+      "Koliko dugo vam je potreban vozač?"
+    ],
+    [
+      "Od kraće obaveze do celog dana sa više lokacija, izaberite vrstu angažovanja koja odgovara vašem rasporedu.",
+      "Izaberite najam po satu, poludnevni ili celodnevni najam."
+    ],
+    [
+      "Uporedite trajanje i uključenu kilometražu, pa izaberite opciju koja najbolje prati vaš dan.",
+      "Uporedite trajanje i uključenu kilometražu sa svojim rasporedom."
+    ],
+    [
+      "Za organizovan deo dana",
+      "Za nekoliko obaveza"
+    ],
+    [
+      "Za gust dnevni raspored sa više lokacija, dužim pauzama i promenama tempa tokom dana.",
+      "Za više odredišta i pauze između obaveza tokom rezervisanog dana."
+    ],
+    [
+      "Vaše vreme ostaje vaše",
+      "Vreme za poziv, pripremu ili predah"
+    ],
+    [
+      "Između obaveza možete da nastavite sa svojim danom dok vozač vodi računa o putu.",
+      "Dok vozač brine o putu, ne morate da se bavite saobraćajem i parkingom."
+    ],
+    [
+      "Prepustite logistiku vozaču",
+      "Vozač brine o parkingu"
+    ],
+    [
+      "Stignite spremni za nastavak dana",
+      "Predahnite između obaveza"
+    ],
+    [
+      "Povežite sastanke, privatne obaveze i planirane lokacije u jedan potvrđeni angažman.",
+      "U jednu rezervaciju možete uključiti sastanke, privatne obaveze i druga planirana odredišta."
+    ],
+    [
+      "Putujte bez gubljenja dana",
+      "Nastavite put bez nove rezervacije"
+    ],
+    [
+      "Nema traženja sledećeg vozila.",
+      "Vozilo je već rezervisano"
+    ],
+    [
+      "Ne morate da tražite parking između obaveza.",
+      "Bez traženja parkinga"
+    ],
+    [
+      "Plan je unapred usaglašen.",
+      "Vozač zna vaš raspored"
+    ],
+    [
+      "Vratite se u vozilo i nastavite.",
+      "Nastavak prema dogovoru"
+    ],
+    [
+      "Kada ste spremni za sledeću tačku, putovanje se nastavlja prema dogovoru.",
+      "Kada završite obavezu, nastavljate put u okviru dogovorenog rasporeda i perioda najma."
+    ],
+    [
+      "Diskretna usluga tokom vašeg dana",
+      "Nenametljiv vozač, prostor za vas"
+    ],
+    [
+      "Pažnja prema putniku počinje profesionalnim i nenametljivim odnosom.",
+      "Razgovor, čitanje ili odmor tokom vožnje prepušteni su vama."
+    ],
+    [
+      "Vozač vodi računa o putu bez nepotrebnog zadiranja u vaš prostor i vreme.",
+      "Vozač je usmeren na vožnju, bez nametanja razgovora."
+    ],
+    [
+      "Kada vaš raspored ne staje u standardni najam",
+      "Duža i višednevna putovanja"
+    ],
+    [
+      "Kod transfera je fokus na vožnji od mesta preuzimanja do odredišta. Kod usluge ličnog vozača, vozilo i vozač ostaju povezani sa rezervisanim periodom i potvrđenim rasporedom, pa možete imati više planiranih lokacija bez nove rezervacije za svaki deo dana.",
+      "Transfer je vožnja od jedne adrese do odredišta. Kod usluge ličnog vozača rezervišete naše vozilo i vozača na određeno vreme. U tom periodu možete imati više dogovorenih vožnji, bez zasebne rezervacije za svaku."
+    ],
+    [
+      "Koje je minimalno trajanje angažmana?",
+      "Koliko najmanje traje najam?"
+    ],
+    [
+      "Minimalni angažman iznosi {minimumHours} h. Za duži raspored možete izabrati poludnevni ili celodnevni angažman, dok za složenije planove pripremamo individualnu ponudu.",
+      "Najkraći najam traje {minimumHours} h. Dostupni su i poludnevni i celodnevni najam, a za složenije rasporede pripremamo posebnu ponudu."
+    ],
+    [
+      "Šta obuhvata poludnevni angažman?",
+      "Šta obuhvata poludnevni najam?"
+    ],
+    [
+      "Poludnevni angažman traje {halfDayHours} h i obuhvata do {halfDayKm} km. Namenjen je rasporedu sa više sastanaka, obaveza ili lokacija tokom jednog organizovanog dela dana.",
+      "Poludnevni najam traje {halfDayHours} h i uključuje do {halfDayKm} km. Možete ga koristiti za više sastanaka ili privatnih obaveza u tom periodu."
+    ],
+    [
+      "Šta obuhvata celodnevni angažman?",
+      "Šta obuhvata celodnevni najam?"
+    ],
+    [
+      "Celodnevni angažman traje {fullDayHours} h i obuhvata do {fullDayKm} km. Namenjen je kompletnom dnevnom rasporedu putovanja sa više lokacija i dužim periodima između pojedinih obaveza.",
+      "Celodnevni najam traje {fullDayHours} h i uključuje do {fullDayKm} km. Namenjen je dnevnom rasporedu sa više odredišta i pauzama između obaveza."
+    ],
+    [
+      "Ne. Tim proverava raspoloživost, izabrano vozilo, trajanje i detalje rasporeda, a rezervacija se zatim potvrđuje ručno.",
+      "Ne. Naš tim prvo proverava vozilo, trajanje i raspored vožnji. Rezervacija važi tek kada vam je potvrdimo."
+    ],
+    [
+      "Recite nam kako izgleda vaš dan",
+      "Pošaljite nam plan za taj dan"
+    ],
+    [
+      "Pošaljite datum, početno vreme, planirane lokacije, broj putnika i željeno vozilo. Proverićemo raspoloživost i potvrditi odgovarajuću vrstu angažovanja.",
+      "Navedite datum, vreme polaska, adrese, broj putnika i željeno vozilo. Proverićemo raspoloživost i predložiti trajanje najma."
+    ]
+  ]
+}

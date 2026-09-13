@@ -74,10 +74,10 @@ test.describe("Prom Transportation", () => {
 
     const vehicleNames = await page.locator(".vehicle h3").allTextContents();
     expect(vehicleNames).toEqual([
-      "Mercedes S klasa",
-      "Mercedes E klasa",
-      "Mercedes V klasa 7+1 Extra Long",
-      "Mercedes Sprinter",
+      "Mercedes-Benz S-Class",
+      "Mercedes-Benz E-Class",
+      "Mercedes-Benz V-Class 7+1 Extra Long",
+      "Mercedes-Benz Sprinter",
     ]);
 
     const bookingHref = `${flowPath("booking", "en")}&service=promTransportation`;
@@ -100,7 +100,7 @@ test.describe("Prom Transportation", () => {
     await expect(page.locator("main a:not([href])")).toHaveCount(0);
 
     const presentationCopy = page.locator(".presentation-content");
-    await expect(presentationCopy.getByText(/reviewed individually/)).toBeVisible();
+    await expect(presentationCopy.getByText(/We review each request separately/)).toBeVisible();
     await expect(presentationCopy.getByText(/not automatically included/)).toBeVisible();
     await expect(page.getByText("We check the date, schedule, available vehicles and journey details before confirmation.")).toBeAttached();
   });

@@ -1,5 +1,7 @@
 # Content and SEO final review — 12 September 2026
 
+> **Active review — 13 September 2026:** Start with [SERBIAN-REVIEW-WORKFLOW.md](SERBIAN-REVIEW-WORKFLOW.md) and [serbian-review-status.json](serbian-review-status.json). They track the renewed browser-first Serbian pass. The earlier results below are historical; their approval pauses are not active.
+
 All 15 route families now have reviewed Serbian Latin, English and Russian
 content: 45 localized page entries plus the shared UI and navigation dictionaries.
 This is ready for the owner's final manual editorial review.

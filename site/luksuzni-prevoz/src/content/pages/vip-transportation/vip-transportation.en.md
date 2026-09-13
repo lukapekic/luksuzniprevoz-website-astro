@@ -1,19 +1,19 @@
 ---
 routeKey: vipTransportation
 locale: en
-sourceDigest: 08c8a7bbaa890752
+sourceDigest: d3ea6339d075ea3e
 sourceLocale: sr
 pageType: service
 status: published
 translationState: reviewed
-reviewedOn: 2026-09-12
+reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "VIP Chauffeur Service in Belgrade"
 seoDescription: "Discreet VIP chauffeur service in Belgrade for guests and special events. Choose a Mercedes-Benz S-Class or V-Class and agree your travel details in advance."
 
 hero:
-  title: "VIP transport tailored to your guest and itinerary"
+  title: "VIP transport with a chauffeur"
   description: "Discreet transport for important guests, private visits and complex itineraries. Vehicles and coordination are arranged individually around passenger needs."
   primaryCta:
     label: "Start your booking"
@@ -100,13 +100,13 @@ sections:
 
   - key: standards
     heading:
-      title: "Details matter more when the guest should not need to think about them"
+      title: "Preparing your vehicle and journeys"
       intro: "VIP Transportation combines the vehicle with the operating standards needed for calm, professional delivery."
     body: "A professional chauffeur, a prepared vehicle and discreet service, with coordination based on the agreed details."
 
   - key: process
     heading:
-      title: "Share your itinerary with our team"
+      title: "How we arrange VIP transport"
       intro: "Three clear steps are enough to begin the arrangement."
     items:
       - title: "Send the requirements"
@@ -118,7 +118,7 @@ sections:
 
 vehicleRecommendations:
   heading:
-    title: "The right vehicle for the guest and the engagement"
+    title: "Vehicles for guests and companions"
     intro: "Vehicle selection is aligned with passenger count, luggage, the character of the engagement and the wider transport plan."
   vehicleIds:
     - mercedes-s-class
@@ -152,8 +152,8 @@ faq:
       answer: "No. The team first reviews vehicle availability, the itinerary and operating details, then manually confirms the transportation arrangement and quote."
 
 finalCta:
-  heading: "Share the itinerary. We will organise the transportation."
-  text: "Send the date, principal locations, approximate schedule and passenger requirements. If the engagement includes an aviation arrival, several vehicles or more complex coordination, include those details in the request."
+  heading: "Arrange your VIP transport"
+  text: "Send the date, addresses, approximate schedule and passenger requirements. Add flight details and let us know if you need extra vehicles or a dedicated coordinator."
   primaryCta:
     label: "Start your booking"
     target:
