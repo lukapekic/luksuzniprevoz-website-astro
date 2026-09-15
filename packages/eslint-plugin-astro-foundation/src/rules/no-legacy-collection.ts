@@ -13,7 +13,7 @@ const rule: Rule.RuleModule = {
     messages: {
       legacyCollection:
         "FND-DATA-06  Legacy collection definition detected\n" +
-        '  Fix: Use the Astro 5 Content Layer: defineCollection({ loader: glob({ pattern: "**/*.md", base: "..." }) }).\n' +
+        '  Fix: Use the Astro Content Layer: defineCollection({ loader: glob({ pattern: "**/*.md", base: "..." }) }).\n' +
         "  → foundation/05-data-content.md#fnd-data-06",
     },
     schema: [],

@@ -11,7 +11,7 @@ const ruleTester = new RuleTester({
 
 ruleTester.run("no-legacy-collection", rule, {
   valid: [
-    // Astro 5 Content Layer style
+    // Astro Content Layer style
     {
       code: `import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
