@@ -133,20 +133,19 @@ export const AutocompleteTokenSchema = z.enum(AUTOCOMPLETE_TOKENS);
 export const AutocompleteSchema = z
   .string()
   .min(1, "autocomplete must not be empty — omit the attribute instead")
-  .refine(
-    (val) =>
-      val
-        .split(/\s+/)
-        .filter(Boolean)
-        .every((tok) => (AUTOCOMPLETE_TOKENS as readonly string[]).includes(tok)),
-    (val) => {
-      const bad = val
-        .split(/\s+/)
-        .filter(Boolean)
-        .find((tok) => !(AUTOCOMPLETE_TOKENS as readonly string[]).includes(tok));
-      return { message: `Invalid autocomplete token: "${bad}". Must be a WHATWG autofill token.` };
-    },
-  );
+  .superRefine((value, context) => {
+    const bad = value
+      .split(/\s+/)
+      .filter(Boolean)
+      .find((token) => !(AUTOCOMPLETE_TOKENS as readonly string[]).includes(token));
+
+    if (bad) {
+      context.addIssue({
+        code: "custom",
+        message: `Invalid autocomplete token: "${bad}". Must be a WHATWG autofill token.`,
+      });
+    }
+  });
 
 export type AutocompleteToken = z.infer<typeof AutocompleteTokenSchema>;
 
