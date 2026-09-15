@@ -6,6 +6,7 @@ import {
   defaultLocale,
   locales,
   routePath,
+  settleDocumentMotion,
 } from "../support/contracts";
 
 /**
@@ -18,18 +19,10 @@ test.describe("Accessibility (axe-core)", () => {
   for (const locale of locales) {
     test(`FND-A11Y-01: home page (${locale}) has no WCAG 2.2 axe violations`, async ({ page }) => {
       await page.goto(routePath("home", locale));
-      await page.evaluate(() => document.fonts.ready);
       // Keep motion enabled, reveal every section and inspect its settled state.
       // Sampling entrance opacity during axe's own scrolling produces transient
       // contrast measurements instead of the final visible content contrast.
-      for (const section of await page.locator("[data-home-reveal]").all()) {
-        await section.scrollIntoViewIfNeeded();
-        await expect.poll(() => section.evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
-      }
-      await page.evaluate(async () => {
-        await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
-        window.scrollTo(0, 0);
-      });
+      await settleDocumentMotion(page, "[data-home-reveal]");
       const results = await new AxeBuilder({ page })
         .withTags(axeWcag22Tags)
         .options({ rules: { "target-size": { enabled: true } } })
@@ -41,6 +34,7 @@ test.describe("Accessibility (axe-core)", () => {
 
   test("FND-A11Y-01: content page has no WCAG 2.2 axe violations", async ({ page }) => {
     await page.goto(routePath("airportTransportation", defaultLocale));
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page })
       .withTags(axeWcag22Tags)
       .options({ rules: { "target-size": { enabled: true } } })
