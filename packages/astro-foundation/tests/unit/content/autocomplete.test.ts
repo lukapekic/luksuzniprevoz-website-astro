@@ -20,15 +20,27 @@ describe("AutocompleteSchema (FND-A11Y-10)", () => {
   it("rejects a typo", () => {
     const r = AutocompleteSchema.safeParse("emial");
     expect(r.success).toBe(false);
+    if (!r.success) {
+      expect(r.error.issues[0]?.message).toContain('Invalid autocomplete token: "emial"');
+    }
   });
 
   it("rejects an unknown token in a composed value", () => {
     const r = AutocompleteSchema.safeParse("section-main shipping nonsense-token");
     expect(r.success).toBe(false);
+    if (!r.success) {
+      expect(r.error.issues[0]?.message).toContain('Invalid autocomplete token: "nonsense-token"');
+    }
   });
 
   it("rejects an empty string", () => {
-    expect(AutocompleteSchema.safeParse("").success).toBe(false);
+    const r = AutocompleteSchema.safeParse("");
+    expect(r.success).toBe(false);
+    if (!r.success) {
+      expect(r.error.issues[0]?.message).toBe(
+        "autocomplete must not be empty — omit the attribute instead",
+      );
+    }
   });
 
   it("AutocompleteTokenSchema is the enum of valid tokens", () => {

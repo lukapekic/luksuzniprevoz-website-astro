@@ -37,7 +37,7 @@
     "reviews:validate": "node scripts/governance/reviews-validate.mjs",
     "parse-waivers": "tsx scripts/parse-waivers.ts",
     "secret-scan": "tsx scripts/secret-scan.ts",
-    "audit:deps": "pnpm audit --prod || (echo '⚠ Dependency audit found vulnerabilities (see above). Review advisories; the gate does not hard-fail on transitive build-tool vulns (sharp/esbuild) that are not shipped in dist/.' && exit 0)",
+    "audit:deps": "pnpm audit --prod --audit-level high",
     "test:unit": "pnpm --filter @astro-foundation/core test:unit && pnpm --filter @astro-foundation/seo-research test:unit && pnpm --filter eslint-plugin-astro-foundation test:unit && pnpm --filter @luksuzni-prevoz/site test:unit",
     "test:e2e": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke",
     "test:a11y": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/accessibility.spec.ts",
@@ -76,8 +76,10 @@
   },
   "pnpm": {
     "overrides": {
+      "js-yaml@>=4.0.0 <4.3.2": "4.3.2",
       "lighthouse": "13.4.1",
-      "proxy-agent": "8.0.2"
+      "proxy-agent": "8.0.2",
+      "svgo@>=4.0.0 <4.1.0": "4.1.0"
     },
     "onlyBuiltDependencies": [
       "esbuild",

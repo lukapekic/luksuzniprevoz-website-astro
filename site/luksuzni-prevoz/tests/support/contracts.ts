@@ -25,6 +25,32 @@ export const reviewViewports = viewportContract.viewports.map((viewport) => ({
 
 export const axeWcag22Tags = ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa", "best-practice"];
 
+export async function settleDocumentMotion(page: Page, revealSelector?: string): Promise<void> {
+  await page.evaluate(() => document.fonts.ready);
+
+  if (revealSelector) {
+    const revealRegions = page.locator(revealSelector);
+    for (let index = 0; index < (await revealRegions.count()); index++) {
+      const region = revealRegions.nth(index);
+      await region.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() => region.evaluate((element) => getComputedStyle(element).opacity))
+        .toBe("1");
+    }
+  }
+
+  await page.evaluate(async () => {
+    const finiteAnimations = document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity);
+    await Promise.all(
+      finiteAnimations.map((animation) => animation.finished.catch(() => undefined)),
+    );
+    window.scrollTo(0, 0);
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  });
+}
+
 export async function assertNoHorizontalOverflow(page: Page): Promise<void> {
   const dimensions = await page.evaluate(() => {
     const clientWidth = document.documentElement.clientWidth;
@@ -65,9 +91,12 @@ export async function assertMinimumTargetSize(page: Page): Promise<void> {
   await page.evaluate(async () => {
     await document.fonts.ready;
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-    await Promise.all(document.getAnimations()
-      .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
-      .map((animation) => animation.finished.catch(() => undefined)));
+    await Promise.all(
+      document
+        .getAnimations()
+        .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
+        .map((animation) => animation.finished.catch(() => undefined)),
+    );
   });
   const undersized = await page
     .locator('a[href], button, input:not([type="hidden"]), select, textarea, [role="button"]')

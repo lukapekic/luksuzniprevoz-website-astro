@@ -37,8 +37,8 @@
  */
 // `ImageMetadata` is the type returned by ESM imports of image assets
 // (`import x from "./car.webp"`) and the `src` shape accepted by astro:assets
-// <Image> for imported assets (responsive srcset delivery). In this Astro
-// version (5.18.2) the canonical export lives on the `astro` package entry
+// <Image> for imported assets (responsive srcset delivery). The canonical
+// export lives on the `astro` package entry
 // (astro/dist/index.d.ts re-exports it from types/public → assets/types), NOT
 // on the `astro:assets` virtual module — so the type is imported from
 // `"astro"`. `import type` is erased at compile time — no runtime/bundle

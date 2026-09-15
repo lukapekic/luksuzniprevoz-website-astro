@@ -21,7 +21,7 @@
  * marker is purely decorative presentation, `aria-hidden` (see TrustStrip.astro).
  */
 
-import type { z } from "astro:content";
+import type { z } from "astro/zod";
 import type { textItemSchema } from "../../content/schemas/shared.ts";
 
 /** Canonical trust item — the single { title, text } shape owned by textItemSchema. */

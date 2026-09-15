@@ -17,7 +17,7 @@
  * editorial shape; the route declares its structural kind; the validator
  * asserts they agree.
  */
-import { z } from "astro:content";
+import { z } from "astro/zod";
 import { BaseContentSchema, BaseSeoSchema } from "@astro-foundation/core/content";
 import {
   ctaSchema,
@@ -41,7 +41,8 @@ import {
  * `h1` is optional: archetypes with a hero render `hero.title` as the page's
  * single <h1>, so hero-bearing pages omit `h1`. Pages without a hero set `h1`.
  */
-const pageBase = BaseContentSchema.merge(BaseSeoSchema).extend({
+const pageBase = BaseContentSchema.extend({
+  ...BaseSeoSchema.shape,
   h1: z.string().min(1).optional(),
   intro: z.string().optional(),
 });

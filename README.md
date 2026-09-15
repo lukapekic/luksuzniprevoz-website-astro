@@ -1,18 +1,18 @@
 # Astro Foundation Template
 
-A production-ready, opinionated Astro 5 template implementing a comprehensive web Foundation specification. Built for multilingual (i18n), accessible (a11y), and performant static sites.
+A production-ready, opinionated Astro 7 template implementing a comprehensive web Foundation specification. Built for multilingual (i18n), accessible (a11y), and performant static sites.
 
 ## Prerequisites
 
-| Requirement | Version                       |
-| ----------- | ----------------------------- |
-| Node.js     | ≥ 20 LTS (22 LTS recommended) |
-| pnpm        | ≥ 10                          |
+| Requirement | Version |
+| ----------- | ------- |
+| Node.js     | ≥ 22.19 |
+| pnpm        | ≥ 10    |
 
 Install the correct Node.js version:
 
 ```bash
-nvm install 22   # 20 LTS is also supported
+nvm install 22
 nvm use 22
 ```
 
