@@ -1,8 +1,9 @@
 # Astro 7 Migration — Implementation Plan
 
 Date: 2026-09-15  
-Status: Proposed and rehearsal-validated; no production implementation has been
-performed.  
+Status: Implemented on `chore/astro-7-migration`; local verification is complete
+except for the explicitly external acceptance items noted below. See
+`docs/astro-7-migration-verification-report.md` for the implementation evidence.
 Baseline commit used for the rehearsal:
 `a46b9af7ec68e18701470bec0425932dca989bea` (`master`).
 
@@ -912,33 +913,38 @@ contract as a rollback shortcut.
 
 ## 11. Completion checklist
 
-- [ ] Work performed on a clean dedicated branch.
-- [ ] Astro is exactly `7.3.2`.
-- [ ] Foundation schemas use the tested Zod 4 line.
-- [ ] Site content schemas/types import Zod from `astro/zod`.
-- [ ] No content entry data is inferred as `unknown`.
-- [ ] `AutocompleteSchema` preserves its validation behavior under Zod 4.
-- [ ] No new Zod/Astro migration deprecation hint remains.
-- [ ] SEO research remains isolated on Zod 3 unless separately justified.
-- [ ] Narrow js-yaml and SVGO overrides are present only if still required.
-- [ ] `pnpm audit --prod` reports no known vulnerabilities.
-- [ ] `audit:deps` blocks high and critical findings.
-- [ ] Generated files are current and were not hand-edited.
-- [ ] Theme and component registries remain unchanged/current.
-- [ ] All 45 content files pass.
-- [ ] Route and SEO validation pass.
-- [ ] All workspace checks and unit tests pass.
-- [ ] All 49 pages/endpoints build.
-- [ ] All expected optimized images build and load.
-- [ ] Formerly flaky accessibility test passes 10 repeated Chromium runs.
-- [ ] Full Chromium smoke suite passes.
-- [ ] Chromium, Firefox, and WebKit accessibility suites pass on Ubuntu.
-- [ ] Responsive tests pass at 320, 768, 1024, 1440, and 1920.
-- [ ] Production artifact comparison shows no unintended route/content/SEO change.
+- [x] Work performed on a clean dedicated branch.
+- [x] Astro is exactly `7.3.2`.
+- [x] Foundation schemas use the tested Zod 4 line.
+- [x] Site content schemas/types import Zod from `astro/zod`.
+- [x] No content entry data is inferred as `unknown`.
+- [x] `AutocompleteSchema` preserves its validation behavior under Zod 4.
+- [x] No new Zod/Astro migration deprecation hint remains.
+- [x] SEO research remains isolated on Zod 3 unless separately justified.
+- [x] Narrow js-yaml and SVGO overrides are present only if still required.
+- [x] `pnpm audit --prod` reports no known vulnerabilities.
+- [x] `audit:deps` blocks high and critical findings.
+- [x] Generated files are current and were not hand-edited.
+- [x] Theme and component registries remain unchanged/current.
+- [x] All 45 content files pass.
+- [x] Route and SEO validation pass.
+- [x] All workspace checks and unit tests pass.
+- [x] All 49 pages/endpoints build.
+- [x] All expected optimized images build and load.
+- [x] Formerly flaky accessibility test passes 10 repeated Chromium runs.
+- [x] Full Chromium smoke suite passes.
+- [ ] Chromium, Firefox, and WebKit accessibility suites pass on Ubuntu. Chromium
+      and Firefox pass locally; WebKit awaits the supported Ubuntu runner.
+- [x] Responsive tests pass at 320, 768, 1024, 1440, and 1920.
+- [x] Production artifact comparison shows no unintended route/content/SEO change.
 - [ ] Cold-build time/resource use is acceptable for the deployment environment.
-- [ ] `pnpm verify:ui --change foundation --scope-complete` passes.
-- [ ] `pnpm quality:release` passes with the enforceable audit.
-- [ ] PR reports exact automated and manual evidence plus unresolved items.
+      Local cold-build evidence is recorded; deployment limits await environment
+      verification.
+- [x] `pnpm verify:ui --change foundation --scope-complete` passes.
+- [x] `pnpm quality:release` passes with the enforceable audit.
+- [ ] PR reports exact automated and manual evidence plus unresolved items. The
+      pushed branch includes a ready-to-use verification report; no PR was opened
+      as part of this implementation request.
 
 ## 12. Estimated effort
 
