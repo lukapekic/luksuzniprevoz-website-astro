@@ -1,0 +1,67 @@
+name: Deep Checks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
+
+concurrency:
+  group: deep-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  full-smoke:
+    name: full-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install all supported browser engines and operating-system dependencies
+        run: pnpm --filter @luksuzni-prevoz/site exec playwright install --with-deps chromium firefox webkit
+      - run: pnpm test:e2e
+      - name: Upload Playwright failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deep-smoke-${{ github.run_id }}
+          path: |
+            site/luksuzni-prevoz/playwright-report/
+            site/luksuzni-prevoz/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  lighthouse:
+    name: lighthouse
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Verify Chrome is available
+        run: google-chrome --version
+      - run: pnpm test:lighthouse
+      - name: Upload Lighthouse evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ github.run_id }}
+          path: lhci-reports/
+          if-no-files-found: error
+          retention-days: 14
