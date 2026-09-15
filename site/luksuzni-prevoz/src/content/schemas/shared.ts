@@ -21,10 +21,10 @@
  * artifact consistency (pageType ↔ route kind, routeKey+locale uniqueness,
  * lifecycle, parity) is enforced by content:validate (see validate-content.ts).
  *
- * `z` is imported from "astro:content" (astro/zod) — the same zod instance the
- * foundation's BaseContentSchema is built from, so .merge/.extend compose.
+ * `z` is imported from "astro/zod" — Astro 7's Zod 4 instance. The foundation's
+ * BaseContentSchema uses the same Zod major, so schema composition remains safe.
  */
-import { z } from "astro:content";
+import { z } from "astro/zod";
 import { ContentImageSchema } from "@astro-foundation/core/content";
 import { routeMap } from "../../data/routes.ts";
 import { vehicleIds } from "../../data/fleet.ts";

@@ -17,7 +17,7 @@
  * editorial shape; the route declares its structural kind; the validator
  * asserts they agree.
  */
-import { z } from "astro:content";
+import { z } from "astro/zod";
 import { BaseContentSchema, BaseSeoSchema } from "@astro-foundation/core/content";
 import {
   ctaSchema,
