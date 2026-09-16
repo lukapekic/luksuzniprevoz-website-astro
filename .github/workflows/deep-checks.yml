@@ -62,6 +62,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-${{ github.run_id }}
-          path: lhci-reports/
+          path: |
+            lhci-reports/
+            .lighthouseci/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14

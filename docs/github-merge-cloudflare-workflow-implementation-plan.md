@@ -655,14 +655,25 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-${{ github.run_id }}
-          path: lhci-reports/
+          path: |
+            lhci-reports/
+            .lighthouseci/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
 ```
 
 The schedule is Monday at 03:17 UTC. The non-round minute reduces collision
 with common scheduled-workflow load. Scheduled workflows run from the default
 branch.
+
+Set `.lighthouserc.json` `startServerReadyTimeout` to `600000`. The first
+manual run measured a clean GitHub runner build beyond the previous 60-second
+window; LHCI otherwise started Chrome before Astro preview was listening. The
+10-minute bound matches the Playwright cold-start allowance without changing
+any Lighthouse URL, run count, or assertion threshold. Upload both the final
+filesystem reports and LHCI's hidden working reports so navigation/startup
+failures retain evidence as well.
 
 Before finalizing this workflow:
 
