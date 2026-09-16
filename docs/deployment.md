@@ -280,6 +280,11 @@ The required pull-request check identities are exactly `quality-fast` and `a11y-
 cannot drift between old and new check identities. Required workflows have no path filters and do
 not execute untrusted pull-request code with secrets.
 
+As verified on 2026-09-16, the active repository ruleset `Protect master` targets the default branch
+with no bypass actors. It requires a pull request, resolved conversations, an up-to-date branch,
+and the GitHub Actions checks `quality-fast` and `a11y-chromium`. It requires no approving reviews,
+restricts deletion, and blocks force pushes.
+
 Across pull-request, Release, and Deep Checks evidence, the pipeline covers:
 
 - install with frozen lockfile;
