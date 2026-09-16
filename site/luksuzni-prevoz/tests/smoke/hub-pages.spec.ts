@@ -6,6 +6,7 @@ import {
   assertNoHorizontalOverflow,
   reviewViewports,
   routePath,
+  settleDocumentMotion,
 } from "../support/contracts";
 
 const hubRoutes = [
@@ -431,6 +432,7 @@ test.describe("Business and Special Events hubs", () => {
   for (const key of ["businessTransportation", "specialEvents"] as const) {
     test(`${key} passes the automated WCAG 2.2 floor`, async ({ page }) => {
       await page.goto(routePath(key, "en"));
+      await settleDocumentMotion(page);
       const results = await new AxeBuilder({ page }).withTags(axeWcag22Tags).analyze();
       expect(results.violations).toEqual([]);
     });

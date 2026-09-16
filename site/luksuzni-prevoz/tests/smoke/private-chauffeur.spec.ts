@@ -7,6 +7,7 @@ import {
   flowPath,
   reviewViewports,
   routePath,
+  settleDocumentMotion,
 } from "../support/contracts";
 
 const routes = [
@@ -225,6 +226,7 @@ test.describe("Private Chauffeur", () => {
 
   test("passes the automated WCAG 2.2 floor", async ({ page }) => {
     await page.goto(routePath("privateChauffeur", "en"));
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page }).withTags(axeWcag22Tags).analyze();
     expect(results.violations).toEqual([]);
   });

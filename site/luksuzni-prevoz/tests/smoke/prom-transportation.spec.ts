@@ -7,6 +7,7 @@ import {
   flowPath,
   reviewViewports,
   routePath,
+  settleDocumentMotion,
 } from "../support/contracts";
 
 const routes = [
@@ -263,6 +264,7 @@ test.describe("Prom Transportation", () => {
     expect(fonts.body).toContain("Manrope");
     expect(fonts.control).toContain("Manrope");
 
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page })
       .withTags(axeWcag22Tags)
       .options({ rules: { "target-size": { enabled: true } } })
