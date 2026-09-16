@@ -45,6 +45,7 @@ test.describe("Accessibility (axe-core)", () => {
 
   test("404 page has no axe violations", async ({ page }) => {
     await page.goto("/nonexistent-page/");
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page }).withTags(axeWcag22Tags).analyze();
     expect(results.violations).toEqual([]);
   });

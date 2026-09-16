@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { axeWcag22Tags } from "../support/contracts";
+import { axeWcag22Tags, settleDocumentMotion } from "../support/contracts";
 
 const routes = [
   { locale: "sr", htmlLang: "sr-Latn", path: "/aerodromski-prevoz/" },
@@ -97,6 +97,7 @@ test.describe("Airport Transportation", () => {
 
   test("FND-A11Y-01: passes the automated WCAG 2.2 floor", async ({ page }) => {
     await page.goto("/aerodromski-prevoz/");
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page }).withTags(axeWcag22Tags).analyze();
     expect(results.violations).toEqual([]);
   });

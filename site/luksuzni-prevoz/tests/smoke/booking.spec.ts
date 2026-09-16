@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { settleDocumentMotion } from "../support/contracts";
 
 const routes = ["/rezervacija/", "/en/booking/", "/ru/bronirovanie/"];
 
@@ -89,6 +90,7 @@ test.describe("Booking page", () => {
 
   test("meets the page accessibility baseline", async ({ page }) => {
     await page.goto("/en/booking/");
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag22aa"]).analyze();
     expect(results.violations).toEqual([]);
   });

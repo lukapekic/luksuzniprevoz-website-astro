@@ -5,6 +5,7 @@ import {
   assertNoHorizontalOverflow,
   axeWcag22Tags,
   reviewViewports,
+  settleDocumentMotion,
 } from "../support/contracts";
 
 const routes = ["/vozila/", "/en/fleet/", "/ru/avtopark/"] as const;
@@ -88,6 +89,7 @@ test.describe("Fleet page", () => {
 
   test("meets the page accessibility baseline", async ({ page }) => {
     await page.goto(`${origin}/en/fleet/`);
+    await settleDocumentMotion(page);
     const results = await new AxeBuilder({ page })
       .withTags(axeWcag22Tags)
       .options({ rules: { "target-size": { enabled: true } } })
