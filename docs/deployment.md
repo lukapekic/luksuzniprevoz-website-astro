@@ -31,16 +31,24 @@ Build the production site explicitly when needed:
 pnpm --filter @luksuzni-prevoz/site build
 ```
 
-Before committing, refresh the generated contracts and run the same static page gate used by
-GitHub:
+Before committing, refresh generated contracts when their authoritative inputs changed, then run
+the same static release gate used by GitHub pull requests:
 
 ```bash
 pnpm quality:prepare
-pnpm quality:page
+pnpm quality:release
 ```
 
-GitHub runs `quality:page` without writing files. A stale generated contract therefore fails rather
-than being silently repaired in CI.
+GitHub runs `quality:release` without writing files. It includes generated drift, governance,
+localization/content, SEO, lint, types, unit tests, the production build, secret scanning, and the
+high-severity production dependency audit. A stale generated contract therefore fails rather than
+being silently repaired in CI.
+
+Pull requests also run the focused Chromium accessibility suite after the static gate succeeds:
+
+```bash
+pnpm test:a11y:chromium
+```
 
 For design-sensitive changes, the governance layer must also be green:
 
@@ -56,9 +64,9 @@ or the repository's combined gate when available:
 pnpm design:guard
 ```
 
-Automated browser testing is optional for focused investigations. Responsive layout, image crops,
-keyboard behavior, and rendered visual quality remain part of the required manual review described
-by the applicable page contract.
+Responsive layout, image crops, keyboard behavior, and rendered visual quality remain part of the
+required manual review described by the applicable page contract. Automated accessibility and deep
+browser checks supplement that review; they do not replace it.
 
 Never deploy from an obsolete example/reference application. Production commands and CI must target `@luksuzni-prevoz/site`.
 
@@ -164,11 +172,20 @@ build are visible.
 
 | Setting                | Value                                                                    |
 | ---------------------- | ------------------------------------------------------------------------ |
-| Production branch      | `master` (confirm before connecting Git)                                 |
+| Deployment method      | Cloudflare Pages Git integration                                         |
+| Production branch      | `master`                                                                 |
+| Framework preset       | None/custom                                                              |
+| Repository root        | Repository root; leave the advanced path empty                           |
 | Build command          | `pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site build` |
 | Build output directory | `site/luksuzni-prevoz/dist`                                              |
-| Node version           | `.nvmrc`                                                                 |
+| Node version           | `22.22.2` (matches `.nvmrc`)                                             |
+| pnpm version           | `10.14.0` (matches `packageManager`)                                     |
 | D1 binding name        | `FORM_DB`                                                                |
+
+Protect `master` with the required GitHub checks before enabling automatic Production deployments.
+Restrict automatic Preview deployments to the stable `staging` branch by default. The resulting
+stable Pages branch alias is the Preview acceptance hostname and must be configured exactly in the
+Turnstile/application host allowlists. Do not enable all-branch previews by default.
 
 Configure these separately for Preview and Production. Secrets must use encrypted
 bindings rather than plaintext repository files.
@@ -241,7 +258,34 @@ Production requirements:
 
 GitHub Actions is the repository CI system. CI must target the production site and shared foundation packages that remain part of the codebase.
 
-The release pipeline should cover, as applicable:
+The authoritative event and deployment topology is:
+
+1. A pull request (or future merge-group SHA) runs `quality-fast`, whose command is
+   `pnpm quality:release`.
+2. After `quality-fast` succeeds, `a11y-chromium` runs the focused Axe/WCAG suite in Chromium.
+3. Repository rules require both checks, a pull request, current branch state, and resolved
+   conversations before admitting a commit to `master`.
+4. The `master` push independently starts the single post-merge GitHub **Release** workflow and the
+   Cloudflare Pages Git deployment for the same commit. The pre-merge rules are the Production
+   admission gate; Release is confirmation and rollback evidence, not a dependency of the Pages
+   webhook.
+5. Release reruns `quality:release` and the focused accessibility suite in Chromium, Firefox, and
+   WebKit.
+6. **Deep Checks** runs the complete three-engine Playwright smoke suite and Lighthouse weekly on
+   Monday at 03:17 UTC or by manual dispatch. These deep checks are evidence, not required merge
+   statuses.
+
+The required pull-request check identities are exactly `quality-fast` and `a11y-chromium`.
+`quality-fast` keeps its historical name during this rollout so the workflow and repository rules
+cannot drift between old and new check identities. Required workflows have no path filters and do
+not execute untrusted pull-request code with secrets.
+
+As verified on 2026-09-16, the active repository ruleset `Protect master` targets the default branch
+with no bypass actors. It requires a pull request, resolved conversations, an up-to-date branch,
+and the GitHub Actions checks `quality-fast` and `a11y-chromium`. It requires no approving reviews,
+restricts deletion, and blocks force pushes.
+
+Across pull-request, Release, and Deep Checks evidence, the pipeline covers:
 
 - install with frozen lockfile;
 - generated types/theme synchronization and drift checks;
@@ -291,8 +335,8 @@ Keep these fields updated once infrastructure is finalized:
 | Decision                      | Value                                                                    |
 | ----------------------------- | ------------------------------------------------------------------------ |
 | Hosting provider / plan       | Cloudflare Pages approved; exact account plan/provisioning still pending |
-| Production deploy trigger     | Pages Git integration from `master`; external connection not configured  |
-| Preview/staging URL strategy  | Planned Pages branch previews; hostname policy still pending             |
+| Production deploy trigger     | Pages Git integration from protected `master`; connection not verified   |
+| Preview/staging URL strategy  | Automatic Preview builds restricted to stable `staging`; hostname TBD    |
 | Form submission endpoint      | Implemented same-origin `/api/forms/contact` and `/api/forms/booking`    |
 | Spam mitigation               | Managed Turnstile implemented; external WAF rate-limit rule pending      |
 | Form delivery provider        | Brevo adapter implemented; production sender not yet verified            |

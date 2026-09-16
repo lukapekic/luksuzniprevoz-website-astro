@@ -41,6 +41,7 @@
     "test:unit": "pnpm --filter @astro-foundation/core test:unit && pnpm --filter @astro-foundation/seo-research test:unit && pnpm --filter eslint-plugin-astro-foundation test:unit && pnpm --filter @luksuzni-prevoz/site test:unit",
     "test:e2e": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke",
     "test:a11y": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/accessibility.spec.ts",
+    "test:a11y:chromium": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/accessibility.spec.ts --project=chromium",
     "test:lighthouse": "lhci autorun",
     "generated:sync": "pnpm types:generate && pnpm theme:sync && pnpm components:sync && pnpm traceability && pnpm design:sync",
     "generated:check": "pnpm types:generate:check && pnpm theme:sync:check && pnpm components:check && pnpm design:sync:check && pnpm traceability --check",

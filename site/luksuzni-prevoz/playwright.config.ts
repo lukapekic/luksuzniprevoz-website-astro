@@ -40,10 +40,14 @@ export default defineConfig({
     // Build first, then preview the static output. The default locale is
     // intentionally unprefixed, so the health check targets the canonical
     // root because the configured default locale is unprefixed.
-    command: "PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm exec astro build && pnpm exec astro preview --port 4323",
+    command:
+      "PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm exec astro build && pnpm exec astro preview --port 4323",
     url: "http://localhost:4323/",
     reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    // Clean CI image generation currently takes about 5.5 minutes. Keep the
+    // startup budget below the surrounding job timeout while allowing a cold
+    // production build to complete before Playwright begins its assertions.
+    timeout: 600000,
     env: {
       ASTRO_TELEMETRY_DISABLED: "1",
     },
