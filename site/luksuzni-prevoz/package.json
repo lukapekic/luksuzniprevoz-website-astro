@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "fonts:subset": "node scripts/generate-font-subsets.mjs",
     "test:unit": "node --test tests/unit/*.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
@@ -26,6 +27,7 @@
     "@astrojs/check": "^0.9.10",
     "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.52.0",
+    "subset-font": "2.7.0",
     "typescript": "^5.9.3"
   }
 }
