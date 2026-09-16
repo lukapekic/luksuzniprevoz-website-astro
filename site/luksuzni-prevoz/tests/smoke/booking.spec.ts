@@ -19,7 +19,7 @@ test.describe("Booking page", () => {
     });
   }
 
-  test("consumes a validated Airport handoff and completes the client-only flow", async ({ page }) => {
+  test("consumes a validated Airport handoff and completes the client-only flow", async ({ page, browserName }) => {
     await page.addInitScript(() => {
       window.turnstile = {
         render: (_container, options) => { options.callback("test-token"); return "booking-widget"; },
@@ -53,7 +53,13 @@ test.describe("Booking page", () => {
     await expect(page.locator('[data-review-value="price"]')).toContainText("Custom quote");
     await page.locator('[name="fullName"]').fill("Jovana Petrović");
     await page.locator('[name="email"]').fill("jovana@example.com");
-    await page.locator('[data-booking-final] button').click();
+    const finalButton = page.locator('[data-booking-final] button');
+    // Playwright's headless WebKit can report a completed pointer click on a
+    // submit button without dispatching the form's submit event on Ubuntu
+    // 24.04. Keyboard activation exercises the same native button contract;
+    // Chromium and Firefox retain pointer coverage for the submission path.
+    if (browserName === "webkit") await finalButton.press("Enter");
+    else await finalButton.click();
     await expect(page.locator("#booking-form-status")).toContainText("LP-TEST-BOOKING");
   });
 
