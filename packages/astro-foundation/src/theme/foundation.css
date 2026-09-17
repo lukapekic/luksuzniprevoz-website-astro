@@ -9,7 +9,7 @@ html {
 }
 
 /* Focus visible fallback — ensures focus is always visible.
-   Chain: --focus-ring (reference site) → --color-focus-dark (Theme V2 sites)
+   Chain: --focus-ring (reference site) → --color-focus-dark (active theme sites)
    → dark neutral fallback. The old #0066cc blue is eliminated so no target
    project silently falls back to a non-semantic blue focus ring. */
 :focus-visible {

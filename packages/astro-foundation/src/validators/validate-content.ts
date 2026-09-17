@@ -65,18 +65,9 @@ export function computeSourceDigest(frontmatter: Record<string, unknown>, body: 
   return createHash("sha256").update(canonical, "utf8").digest("hex").slice(0, 16);
 }
 
-/**
- * Recursively canonicalize digest input. A JSON.stringify property-list
- * replacer only retains keys present in that one list at every nesting level,
- * which can silently omit editorial fields inside Hero/sections/FAQ objects.
- * Sorting object keys recursively makes YAML mapping order irrelevant while
- * preserving array order because editorial list order is meaningful.
- */
+/** Recursively sort mappings while preserving editorial array order. */
 function canonicalizeDigestValue(value: unknown): unknown {
-  if (Array.isArray(value)) {
-    return value.map(canonicalizeDigestValue);
-  }
-
+  if (Array.isArray(value)) return value.map(canonicalizeDigestValue);
   if (value !== null && typeof value === "object") {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>)
@@ -84,7 +75,6 @@ function canonicalizeDigestValue(value: unknown): unknown {
         .map(([key, nestedValue]) => [key, canonicalizeDigestValue(nestedValue)]),
     );
   }
-
   return value;
 }
 
@@ -134,14 +124,17 @@ export function parseFrontmatter(raw: string): Record<string, unknown> {
 /**
  * FND-DATA-09: maps a content `pageType` (the editorial archetype) to the
  * structural route `kind` it requires. Page archetypes (home/fleet/pricing/
- * contact/booking) bind to kind:"page"; service → kind:"service"; hub → kind:"hub".
+ * about/contact) bind to kind:"page"; service → kind:"service"; hub → kind:"hub".
  */
 const PAGE_TYPE_TO_KIND: Record<string, string> = {
   home: "page",
   fleet: "page",
   pricing: "page",
+  about: "page",
   contact: "page",
   booking: "page",
+  routes: "page",
+  destination: "page",
   service: "service",
   hub: "hub",
 };
@@ -272,7 +265,7 @@ export function validateContent(opts: ValidateContentOptions): FoundationIssue[]
 
     // FND-DATA-09: pageType ↔ route kind consistency. The content's pageType
     // (its editorial archetype) must match the route's structural kind: the
-    // page archetypes (home/fleet/pricing/contact/booking) → kind:"page";
+    // page archetypes (home/fleet/pricing/about/contact) → kind:"page";
     // service → kind:"service"; hub → kind:"hub". The schema declares the
     // editorial shape; the route declares the structural kind; this asserts
     // they agree (analogous to services.ts's kind-parity guard).

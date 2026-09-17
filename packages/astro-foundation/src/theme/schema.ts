@@ -19,6 +19,10 @@ export const ManifestSchema = z
     // Optional lifecycle status (e.g. "development"). Additive — not required by
     // the v1 reference theme, accepted when present.
     status: z.string().optional(),
+    // Flat palettes are single-mode. Declaring their browser color scheme in
+    // the manifest keeps the palette semantic and lets light- and dark-first
+    // products share the same generator without a site-local CSS patch.
+    colorScheme: z.enum(["light", "dark", "light dark"]).optional(),
   })
   .strict();
 

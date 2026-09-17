@@ -15,7 +15,7 @@ describe("buildHreflangSet", () => {
 
   describe("self-referencing link", () => {
     it("includes a link for the current locale", () => {
-      const links = buildHreflangSet("airport", "sr", ROUTES_2, LOCALES_2, DEFAULT_2);
+      const links = buildHreflangSet("destination", "sr", ROUTES_2, LOCALES_2, DEFAULT_2);
       expect(links.some((l) => l.hreflang === "sr")).toBe(true);
     });
   });
@@ -24,14 +24,14 @@ describe("buildHreflangSet", () => {
 
   describe("reciprocal links (FND-I18N-11)", () => {
     it("includes all locales for a 2-locale route", () => {
-      const links = buildHreflangSet("airport", "sr", ROUTES_2, LOCALES_2, DEFAULT_2);
+      const links = buildHreflangSet("destination", "sr", ROUTES_2, LOCALES_2, DEFAULT_2);
       const hreflangs = links.map((l) => l.hreflang);
       expect(hreflangs).toContain("sr");
       expect(hreflangs).toContain("en");
     });
 
     it("includes all locales for a 3-locale route", () => {
-      const links = buildHreflangSet("airport", "en", ROUTES_3, LOCALES_3, DEFAULT_3);
+      const links = buildHreflangSet("destination", "en", ROUTES_3, LOCALES_3, DEFAULT_3);
       const hreflangs = links.map((l) => l.hreflang);
       expect(hreflangs).toContain("sr");
       expect(hreflangs).toContain("en");
@@ -39,7 +39,7 @@ describe("buildHreflangSet", () => {
     });
 
     it("all links have trailing slashes", () => {
-      const links = buildHreflangSet("airport", "sr", ROUTES_3, LOCALES_3, DEFAULT_3);
+      const links = buildHreflangSet("destination", "sr", ROUTES_3, LOCALES_3, DEFAULT_3);
       for (const link of links) {
         expect(link.href.endsWith("/")).toBe(true);
       }
@@ -50,17 +50,17 @@ describe("buildHreflangSet", () => {
 
   describe("x-default", () => {
     it("includes x-default pointing to default locale's path", () => {
-      const links = buildHreflangSet("airport", "en", ROUTES_2, LOCALES_2, DEFAULT_2);
+      const links = buildHreflangSet("destination", "en", ROUTES_2, LOCALES_2, DEFAULT_2);
       const xDefault = links.find((l) => l.hreflang === "x-default");
       expect(xDefault).toBeDefined();
-      expect(xDefault!.href).toBe("/aerodrom/");
+      expect(xDefault!.href).toBe("/destinacija/");
     });
 
     it("x-default href matches the default locale's resolved path", () => {
-      const links = buildHreflangSet("airport", "en", ROUTES_3, LOCALES_3, DEFAULT_3);
+      const links = buildHreflangSet("destination", "en", ROUTES_3, LOCALES_3, DEFAULT_3);
       const xDefault = links.find((l) => l.hreflang === "x-default");
       expect(xDefault).toBeDefined();
-      expect(xDefault!.href).toBe("/aerodrom/");
+      expect(xDefault!.href).toBe("/destinacija/");
     });
   });
 

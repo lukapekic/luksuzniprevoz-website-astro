@@ -7,9 +7,11 @@ coverage
 playwright-report
 test-results
 lhci-reports
+.lighthouseci/
 .pnpm-store
 .vercel
 .netlify
+package-lock.json
 
 # Local Claude worktrees must never be committed as gitlinks/submodules.
 .claude/worktrees/

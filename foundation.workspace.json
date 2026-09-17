@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "siteRoot": "site/luksuzni-prevoz",
+  "sitePackage": "@luksuzni-prevoz/site",
+  "productionBranch": "master",
+  "platformVersion": "1.0.0",
+  "redirects": {
+    "enabled": false
+  }
+}

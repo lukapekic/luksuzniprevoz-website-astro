@@ -26,14 +26,13 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { FoundationIssue } from "../packages/astro-foundation/src/core/errors.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
+import { resolveWorkspaceProject } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg
-  ? resolve(ROOT, targetArg)
-  : resolve(ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = resolveWorkspaceProject(ROOT, targetArg);
 const exceptionsPath = resolve(resolvedTarget, "docs", "exceptions.md");
 // Fall back to the monorepo-root docs/exceptions.md (the canonical one).
 const rootExceptions = resolve(ROOT, "docs", "exceptions.md");

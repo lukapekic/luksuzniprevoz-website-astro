@@ -56,6 +56,7 @@ export const rule = {
       while ((match = brandUse.exec(text))) {
         if (
           /\bBrandLockup\.(?:astro|tsx?)$/i.test(file) ||
+          /[\\/]components[\\/]brand[\\/].*LogoType\.(?:astro|tsx?)$/i.test(file) ||
           /\/src\/styles\/global\.css$/i.test(file)
         )
           continue;

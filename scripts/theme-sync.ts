@@ -3,7 +3,7 @@
  * FND-THEME-07
  *
  * Usage: pnpm theme:sync [path/to/project]
- *   If no path is given, defaults to site/luksuzni-prevoz.
+ *   If no path is given, uses foundation.workspace.json.
  *   Writes to <project>/src/theme/generated/theme.css.
  */
 
@@ -13,11 +13,13 @@ import { loadThemeTokens } from "../packages/astro-foundation/src/theme/loader.t
 import { generateThemeCss } from "../packages/astro-foundation/src/theme/sync.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
 import { validateThemeSemantics } from "../packages/astro-foundation/src/theme/validate-theme.ts";
+import { loadWorkspaceConfig } from "./lib/workspace-config.mjs";
 
 const args = process.argv.slice(2);
 const check = args.includes("--check");
-const projectPath = args.find((arg) => !arg.startsWith("--")) || "site/luksuzni-prevoz";
 const rootDir = resolve(import.meta.dirname ?? ".", "..");
+const workspace = loadWorkspaceConfig(rootDir);
+const projectPath = args.find((arg) => !arg.startsWith("--")) || workspace.siteRoot;
 const absProjectPath = resolve(rootDir, projectPath);
 
 // Resolve the active theme version from the target project's foundation.config.ts.

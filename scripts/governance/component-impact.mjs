@@ -19,13 +19,21 @@ try {
     (component) => path.resolve(root, component.path) === target,
   );
   if (!shared) {
+    const targetPath = rel(root, target);
+    const classification = config.componentClassifications?.[targetPath];
+    if (classification) {
+      console.log(
+        `Component impact: ${targetPath} is explicitly ${classification.status} (${classification.reason})`,
+      );
+      process.exit(0);
+    }
     const knownComponent = /\.(astro|tsx?)$/i.test(target);
-    if (knownComponent && /(?:shared|foundation\/ui|components\/site)\//.test(rel(root, target))) {
+    if (knownComponent && /(?:shared|foundation\/ui|components\/site)\//.test(targetPath)) {
       throw new Error(
-        `Component ${rel(root, target)} appears shared but is absent from the approved registry. Register it or classify it explicitly before completion.`,
+        `Component ${targetPath} appears shared but is absent from the approved registry. Register it or classify it explicitly before completion.`,
       );
     }
-    console.log(`Component impact: ${rel(root, target)} is confirmed page-local.`);
+    console.log(`Component impact: ${targetPath} is confirmed page-local.`);
     process.exit(0);
   }
   console.log(

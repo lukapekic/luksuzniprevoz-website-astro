@@ -20,15 +20,15 @@ describe("resolveAllPaths", () => {
     expect(paths.size).toBe(6);
     expect(paths.get("/")).toEqual({ routeKey: "home", locale: "sr", path: "/" });
     expect(paths.get("/en/")).toEqual({ routeKey: "home", locale: "en", path: "/en/" });
-    expect(paths.get("/aerodrom/")).toEqual({
-      routeKey: "airport",
+    expect(paths.get("/destinacija/")).toEqual({
+      routeKey: "destination",
       locale: "sr",
-      path: "/aerodrom/",
+      path: "/destinacija/",
     });
-    expect(paths.get("/en/airport-transportation/")).toEqual({
-      routeKey: "airport",
+    expect(paths.get("/en/destination-transportation/")).toEqual({
+      routeKey: "destination",
       locale: "en",
-      path: "/en/airport-transportation/",
+      path: "/en/destination-transportation/",
     });
   });
 
@@ -75,9 +75,9 @@ describe("getBreadcrumbs", () => {
   });
 
   it("returns single item for route without parent", () => {
-    const crumbs = getBreadcrumbs(ROUTES_3, "airport", "sr", DEFAULT_3, UI_STRINGS_3);
+    const crumbs = getBreadcrumbs(ROUTES_3, "destination", "sr", DEFAULT_3, UI_STRINGS_3);
     expect(crumbs).toEqual([
-      { routeKey: "airport", label: "Aerodromski prevoz", path: "/aerodrom/" },
+      { routeKey: "destination", label: "Prevoz do destinacije", path: "/destinacija/" },
     ]);
   });
 

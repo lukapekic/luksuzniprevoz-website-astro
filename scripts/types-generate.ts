@@ -5,13 +5,14 @@
  * src/generated/types.ts with machine-owned type definitions.
  *
  * Usage: pnpm types:generate [path/to/project]
- *   If no path is given, defaults to site/luksuzni-prevoz.
+ *   If no path is given, uses foundation.workspace.json.
  */
 import { existsSync, readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { FoundationConfig, FoundationIssue } from "../packages/astro-foundation/src/index.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
+import { resolveWorkspaceProject } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
@@ -19,9 +20,7 @@ const MONO_ROOT = resolve(__dirname, "..");
 const cliArgs = process.argv.slice(2);
 const check = cliArgs.includes("--check");
 const targetArg = cliArgs.find((arg) => !arg.startsWith("--"));
-const resolvedTarget = targetArg
-  ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = resolveWorkspaceProject(MONO_ROOT, targetArg);
 
 const issues: FoundationIssue[] = [];
 

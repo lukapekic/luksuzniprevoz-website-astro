@@ -11,7 +11,12 @@ export {
 } from "./schema.ts";
 
 // Core routing
-export { getPath, type RouteRef } from "./get-path.ts";
+export {
+  getPath,
+  getRoutePathSegments,
+  resolveRoutePath,
+  type RouteRef,
+} from "./get-path.ts";
 
 // Helpers
 export {

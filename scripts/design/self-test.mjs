@@ -56,7 +56,7 @@ try {
   let rejectedSurfaceMismatch = false;
   try {
     resolveSurface(root, config, {
-      target: "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+      target: `${config.siteRoot}/src/components/home/HomePage.astro`,
       surface: "dev-ui",
       required: true,
     });
@@ -193,6 +193,21 @@ try {
     });
     if (fontFaceFindings.some((finding) => finding.ruleId === "typography/non-semantic-font")) {
       throw new Error("Font source registration must not be treated as production role usage.");
+    }
+
+    const structuralSpacingFixture = path.join(fixtureDir, "StructuralSpacing.astro");
+    fs.writeFileSync(
+      structuralSpacingFixture,
+      `<div class="shell"></div>\n<style>.shell { padding-inline: max(var(--gutter-page), calc((100vw - var(--container-main)) / 2 + var(--gutter-page))); }</style>`,
+    );
+    const structuralSpacingFindings = await runDetector({
+      root,
+      config,
+      files: [structuralSpacingFixture],
+      system: loadSystem(root),
+    });
+    if (structuralSpacingFindings.some((finding) => finding.ruleId === "layout/raw-spacing")) {
+      throw new Error("Token-owned full-bleed alignment must not be treated as raw spacing.");
     }
   } finally {
     fs.rmSync(fixtureDir, { recursive: true, force: true });

@@ -3,7 +3,7 @@
  * FND-THEME-06, FND-THEME-11
  *
  * Usage: pnpm theme:validate [path/to/project]
- *   If no path is given, defaults to site/luksuzni-prevoz.
+ *   If no path is given, uses foundation.workspace.json.
  *
  * Validates:
  *   - Schema conformance (FND-THEME-03) — hard failure
@@ -16,10 +16,12 @@ import { existsSync } from "node:fs";
 import { loadThemeTokens } from "../packages/astro-foundation/src/theme/loader.ts";
 import { validateThemeSemantics } from "../packages/astro-foundation/src/theme/validate-theme.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
+import { loadWorkspaceConfig } from "./lib/workspace-config.mjs";
 
 const args = process.argv.slice(2);
-const projectPath = args[0] || "site/luksuzni-prevoz";
 const rootDir = resolve(import.meta.dirname ?? ".", "..");
+const workspace = loadWorkspaceConfig(rootDir);
+const projectPath = args[0] || workspace.siteRoot;
 const absProjectPath = resolve(rootDir, projectPath);
 
 // Resolve the active theme version from the target project's foundation.config.ts.

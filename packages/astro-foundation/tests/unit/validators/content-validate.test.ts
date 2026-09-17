@@ -52,7 +52,7 @@ describe("validateContent", () => {
 
   const routes = [
     { key: "home", slugs: { en: "", fr: "" } },
-    { key: "airport", slugs: { en: "airport", fr: "aeroport" }, parent: "home" },
+    { key: "destination", slugs: { en: "destination", fr: "destination" }, parent: "home" },
   ];
 
   it("returns no issues for valid content files", () => {
@@ -75,8 +75,8 @@ describe("validateContent", () => {
           ),
         },
         ...["en", "fr"].map((locale) => {
-          const raw = `---\nrouteKey: airport\nlocale: ${locale}\npageType: scaffold\ntargetPageType: service\nscaffold: true\nstatus: draft\ntranslationState: missing\nnoindex: true\n---\n`;
-          return { filePath: `airport-${locale}.md`, raw, frontmatter: parseFrontmatter(raw) };
+          const raw = `---\nrouteKey: destination\nlocale: ${locale}\npageType: scaffold\ntargetPageType: service\nscaffold: true\nstatus: draft\ntranslationState: missing\nnoindex: true\n---\n`;
+          return { filePath: `destination-${locale}.md`, raw, frontmatter: parseFrontmatter(raw) };
         }),
       ],
     });
@@ -404,17 +404,7 @@ describe("content lifecycle (FND-LIFE-01 / FND-LIFE-07 / FND-I18N-10)", () => {
   it("computeSourceDigest excludes lifecycle metadata (a status change does not change the digest)", () => {
     const src = sourceFile("Body.");
     const d1 = computeSourceDigest(src.frontmatter, extractBody(src.raw));
-    const fm2 = {
-      ...src.frontmatter,
-      status: "draft",
-      translationState: "draft",
-      sourceLocale: "sr",
-      sourceDigest: "replaced",
-      reviewedOn: "2026-01-01",
-      noindex: true,
-      ogImage: "/changed.webp",
-      pageType: "service",
-    };
+    const fm2 = { ...src.frontmatter, status: "draft", reviewedOn: "2026-01-01" };
     const d2 = computeSourceDigest(fm2, extractBody(src.raw));
     expect(d1).toBe(d2);
   });
@@ -431,7 +421,6 @@ describe("content lifecycle (FND-LIFE-01 / FND-LIFE-07 / FND-I18N-10)", () => {
       ...base,
       sections: [{ key: "intro", heading: { title: "Changed heading" } }],
     };
-
     expect(computeSourceDigest(base, "Body")).not.toBe(computeSourceDigest(changed, "Body"));
   });
 
@@ -448,7 +437,6 @@ describe("content lifecycle (FND-LIFE-01 / FND-LIFE-07 / FND-I18N-10)", () => {
       locale: "en",
       routeKey: "home",
     };
-
     expect(computeSourceDigest(first, "Markdown")).toBe(computeSourceDigest(reordered, "Markdown"));
   });
 
@@ -461,12 +449,9 @@ describe("content lifecycle (FND-LIFE-01 / FND-LIFE-07 / FND-I18N-10)", () => {
         { key: "second", body: "Two" },
       ],
     };
-    const reordered = {
-      ...first,
-      sections: [...first.sections].reverse(),
-    };
-
-    expect(computeSourceDigest(first, "Body")).not.toBe(computeSourceDigest(reordered, "Body"));
+    expect(computeSourceDigest(first, "Body")).not.toBe(
+      computeSourceDigest({ ...first, sections: [...first.sections].reverse() }, "Body"),
+    );
   });
 });
 

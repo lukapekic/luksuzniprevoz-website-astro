@@ -1,5 +1,6 @@
 import type { FoundationIssue } from "../core/errors.ts";
 import type { FoundationConfig } from "../core/config.ts";
+import { resolveRoutePath } from "../i18n/get-path.ts";
 
 const ASCII_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ROUTE_CEILING = 30;
@@ -7,6 +8,7 @@ const ROUTE_CEILING = 30;
 export interface RouteDef {
   key: string;
   slugs: Record<string, string | undefined>;
+  pathSegments?: Record<string, readonly string[] | undefined>;
   parent?: string;
   noindex?: boolean;
   previousSlugs?: Record<string, string[]>;
@@ -26,7 +28,7 @@ export interface ValidateRoutesOptions {
 export function validateRoutes(opts: ValidateRoutesOptions): FoundationIssue[] {
   const { config, routes, filePath, routeCeiling } = opts;
   const issues: FoundationIssue[] = [];
-  const ceiling = routeCeiling ?? ROUTE_CEILING;
+  const ceiling = routeCeiling ?? config.scaleEnvelope?.maxRoutesPerLocale ?? ROUTE_CEILING;
   const warnAt = Math.floor(ceiling * 0.8);
 
   const localeCodes = config.locales.locales.map((l) => l.code);
@@ -47,6 +49,32 @@ export function validateRoutes(opts: ValidateRoutesOptions): FoundationIssue[] {
         });
       }
     }
+    for (const [locale, segments] of Object.entries(route.pathSegments ?? {})) {
+      if (!segments) continue;
+      const slug = route.slugs[locale];
+      if (slug === undefined || segments.length === 0 || segments.at(-1) !== slug) {
+        issues.push({
+          ruleId: "FND-I18N-05",
+          severity: "error",
+          filePath,
+          offendingValue: `Route "${route.key}", locale "${locale}" pathSegments must exist and end with its localized slug`,
+          expectedValue: "A non-empty segment array ending with route.slugs[locale]",
+          docAnchor: "#FND-I18N-05",
+        });
+      }
+      for (const segment of segments) {
+        if (!ASCII_SLUG_RE.test(segment)) {
+          issues.push({
+            ruleId: "FND-I18N-05",
+            severity: "error",
+            filePath,
+            offendingValue: `Route "${route.key}", locale "${locale}" has non-ASCII path segment: "${segment}"`,
+            expectedValue: "Lowercase ASCII, hyphen-separated path segments",
+            docAnchor: "#FND-I18N-05",
+          });
+        }
+      }
+    }
   }
 
   // FND-I18N-06: Full paths must be unique
@@ -56,9 +84,13 @@ export function validateRoutes(opts: ValidateRoutesOptions): FoundationIssue[] {
       for (const locale of localeCodes) {
         const slug = route.slugs[locale];
         if (slug === undefined) continue;
-        const prefix = locale === defaultLocale.code ? "" : `/${locale}`;
-        const segment = slug === "" ? "" : `/${slug}`;
-        const path = `${prefix}${segment}/`;
+        let path: string;
+        try {
+          path = resolveRoutePath(route, locale, defaultLocale.code);
+        } catch {
+          // Shape errors are reported by the pathSegments validation above.
+          continue;
+        }
         const existing = pathMap.get(path);
         if (existing) {
           issues.push({

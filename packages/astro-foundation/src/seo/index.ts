@@ -44,6 +44,7 @@ export {
 
 export {
   generateRedirects,
+  assertRedirectsValid,
   formatRedirectsJson,
   formatRedirectsCloudflare,
   formatRedirectsVercel,

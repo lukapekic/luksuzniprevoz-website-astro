@@ -10,6 +10,8 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { FoundationConfig, FoundationIssue } from "../packages/astro-foundation/src/index.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
+import { resolveRoutePath } from "../packages/astro-foundation/src/i18n/get-path.ts";
+import { resolveWorkspaceProject } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
@@ -17,9 +19,7 @@ const MONO_ROOT = resolve(__dirname, "..");
 const args = process.argv.slice(2);
 const jsonFlag = args.includes("--json");
 const targetArg = args.find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg
-  ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = resolveWorkspaceProject(MONO_ROOT, targetArg);
 
 const issues: FoundationIssue[] = [];
 const reportFilePath = resolvedTarget;
@@ -88,6 +88,7 @@ if (!defaultLocale) {
 type RouteInput = {
   key: string;
   slugs: Record<string, string | undefined>;
+  pathSegments?: Record<string, readonly string[] | undefined>;
   parent?: string;
   noindex?: boolean;
   previousSlugs?: Record<string, string[]>;
@@ -151,6 +152,32 @@ function validateAsciiSlugs() {
         });
       }
     }
+    for (const [locale, segments] of Object.entries(route.pathSegments ?? {})) {
+      if (!segments) continue;
+      const slug = route.slugs[locale];
+      if (slug === undefined || segments.length === 0 || segments.at(-1) !== slug) {
+        issues.push({
+          ruleId: "FND-I18N-05",
+          severity: "error",
+          filePath: reportFilePath,
+          offendingValue: `Route "${route.key}", locale "${locale}" pathSegments must end with its localized slug`,
+          expectedValue: "A non-empty segment array ending with route.slugs[locale]",
+          docAnchor: "#FND-I18N-05",
+        });
+      }
+      for (const segment of segments) {
+        if (!asciiRegex.test(segment)) {
+          issues.push({
+            ruleId: "FND-I18N-05",
+            severity: "error",
+            filePath: reportFilePath,
+            offendingValue: `Route "${route.key}", locale "${locale}" has non-ASCII path segment: "${segment}"`,
+            expectedValue: "Lowercase ASCII, hyphen-separated path segments",
+            docAnchor: "#FND-I18N-05",
+          });
+        }
+      }
+    }
   }
 }
 
@@ -162,9 +189,13 @@ function validateUniquePaths() {
       const slug = route.slugs[locale];
       if (slug === undefined) continue;
 
-      const prefix = locale === defaultLocale.code ? "" : `/${locale}`;
-      const segment = slug === "" ? "" : `/${slug}`;
-      const path = `${prefix}${segment}/`;
+      let path: string;
+      try {
+        path = resolveRoutePath(route, locale, defaultLocale.code);
+      } catch {
+        // Shape errors are already emitted by validateAsciiSlugs().
+        continue;
+      }
 
       const existing = pathMap.get(path);
       if (existing) {
@@ -193,9 +224,11 @@ function validatePreviousSlugs() {
     for (const locale of localeCodes) {
       const slug = route.slugs[locale];
       if (slug === undefined) continue;
-      const prefix = locale === defaultLocale.code ? "" : `/${locale}`;
-      const segment = slug === "" ? "" : `/${slug}`;
-      livePaths.add(`${prefix}${segment}/`);
+      try {
+        livePaths.add(resolveRoutePath(route, locale, defaultLocale.code));
+      } catch {
+        // Shape errors are already emitted by validateAsciiSlugs().
+      }
     }
   }
 
@@ -330,8 +363,8 @@ function validateHreflangReciprocity() {
   }
 }
 
-// FND-SCALE-01: Scale envelope — warn at 80% route ceiling, fail above 30 per locale
-const ROUTE_CEILING = 30;
+// FND-SCALE-01: Scale envelope is explicit per site configuration.
+const ROUTE_CEILING = config.scaleEnvelope.maxRoutesPerLocale;
 const WARN_THRESHOLD = Math.floor(ROUTE_CEILING * 0.8);
 function validateScaleEnvelope() {
   for (const locale of localeCodes) {

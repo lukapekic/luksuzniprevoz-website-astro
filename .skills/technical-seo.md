@@ -26,4 +26,4 @@ Noindex, unpublished, or unavailable pages must not leak into sitemap or hreflan
 
 ## Verification
 
-Run `pnpm seo:validate site/luksuzni-prevoz`, `pnpm routes:validate site/luksuzni-prevoz`, and the applicable `verify:ui` profile. Confirm the validator reports non-zero discovered and validated page counts. Inspect built head output for representative route/locale pairs and verify status codes/redirects where applicable.
+Run `pnpm seo:validate <project>`, `pnpm routes:validate <project>`, and the applicable `verify:ui` profile. Confirm the validator reports non-zero discovered and validated page counts. Inspect built head output for representative route/locale pairs and verify status codes/redirects where applicable.
