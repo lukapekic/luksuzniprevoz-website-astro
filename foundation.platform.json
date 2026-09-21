@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "platformVersion": "1.0.0",
-  "digest": "b3a4aa3cdcc01384ab3a0d78975c9e57f438b6f09249e5fca078f7592f7cf6f9",
+  "digest": "2fa3fa63d97533acd8acb75cfe7686025c1c0736b91142de5dcee571d1ba08e9",
   "ownedRoots": [
     ".skills",
     "packages/astro-foundation",
@@ -37,7 +37,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "sha256": "53d77ec581f0b654441081a6a4cf892af8358bb4eb5b7a5f1dde4cd9affda291",
+      "sha256": "fb015ba7c53565f573a0e158d7388b43ee0189549e3e0189b9b4616f86f8ad20",
       "template": true
     },
     {
