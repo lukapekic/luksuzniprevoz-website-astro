@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "PROD_ROBOTS=1 pnpm --filter @luksuzni-prevoz/site build && pnpm --filter @luksuzni-prevoz/site preview --host 127.0.0.1 --port 4328",
+      "startServerCommand": "PROD_ROBOTS=1 pnpm --filter @luksuzni-prevoz/site build && ASTRO_PREVIEW_BACKGROUND=0 pnpm --filter @luksuzni-prevoz/site preview --host 127.0.0.1 --port 4328",
       "startServerReadyPattern": "http://127.0.0.1:4328/",
       "startServerReadyTimeout": 600000,
       "url": [

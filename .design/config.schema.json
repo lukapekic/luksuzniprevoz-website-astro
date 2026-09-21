@@ -47,6 +47,18 @@
       "uniqueItems": true,
       "items": { "type": "string", "pattern": "^--[A-Za-z0-9_-]+$" }
     },
+    "componentClassifications": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "reason"],
+        "properties": {
+          "status": { "enum": ["page-local", "planned"] },
+          "reason": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
     "sharedComponents": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
     "surfaceMap": { "type": "object", "minProperties": 1 }
   },

@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T13:18:34.441Z",
-  "sourceHash": "14487d3c56cf17e0aafee7a8039a51a4573b92e233fd6fbd7758aad02fb9b523",
+  "generatedAt": "2026-09-17T07:22:04.094Z",
+  "sourceHash": "9507c022577fdb738beb1e6a001452ecda4be3d1bf80dfc6dcf0342fe98d6fe5",
   "theme": {
     "directory": "version-2",
     "version": "2",

@@ -158,7 +158,9 @@ export function validateThemeSemantics(tokens: ThemeTokens): FoundationIssue[] {
       issues.push(...modeIssues);
     }
   } else {
-    issues.push(...validateFlatPaletteContrast(tokens.palette));
+    issues.push(
+      ...validateFlatPaletteContrast(tokens.palette, tokens.manifest.colorScheme ?? "dark"),
+    );
   }
 
   issues.push(...validateTypographyRecipes(tokens));
@@ -208,18 +210,26 @@ interface FlatContrastCheck {
   severity: "error" | "warning";
 }
 
-export function validateFlatPaletteContrast(palette: FlatPalette): FoundationIssue[] {
+export function validateFlatPaletteContrast(
+  palette: FlatPalette,
+  colorScheme: "light" | "dark" | "light dark" = "dark",
+): FoundationIssue[] {
   const issues: FoundationIssue[] = [];
 
   const get = (key: string): string | undefined => palette[key];
   const has = (key: string): boolean => typeof palette[key] === "string";
+
+  // focusLight is the dark ring used on light surfaces; focusDark is the light
+  // ring used on dark surfaces. Single-mode flat themes validate the role that
+  // corresponds to their declared base color scheme.
+  const baseFocusKey = colorScheme === "light" ? "focusLight" : "focusDark";
 
   // Required semantic keys for contrast checking.
   const requiredKeys = [
     "background",
     "textPrimary",
     "textMuted",
-    "focusDark",
+    baseFocusKey,
     "borderSubtle",
     "accent",
   ];
@@ -253,10 +263,10 @@ export function validateFlatPaletteContrast(palette: FlatPalette): FoundationIss
       severity: "error",
     },
     {
-      fg: get("focusDark") ?? "",
+      fg: get(baseFocusKey) ?? "",
       bg: get("background") ?? "",
       minRatio: 3.0,
-      label: "focusDark on background",
+      label: `${baseFocusKey} on background`,
       ruleId: "FND-THEME-06",
       severity: "error",
     },
@@ -284,8 +294,14 @@ export function validateFlatPaletteContrast(palette: FlatPalette): FoundationIss
     ["textMuted", "surface", 4.5, "textMuted on surface", "FND-A11Y-04"],
     ["textMuted", "surfaceElevated", 4.5, "textMuted on surfaceElevated", "FND-A11Y-04"],
     ["textOnLight", "inputSurface", 4.5, "textOnLight on inputSurface", "FND-A11Y-04"],
-    ["focusDark", "surface", 3, "focusDark on surface", "FND-THEME-06"],
-    ["focusDark", "surfaceElevated", 3, "focusDark on surfaceElevated", "FND-THEME-06"],
+    [baseFocusKey, "surface", 3, `${baseFocusKey} on surface`, "FND-THEME-06"],
+    [
+      baseFocusKey,
+      "surfaceElevated",
+      3,
+      `${baseFocusKey} on surfaceElevated`,
+      "FND-THEME-06",
+    ],
     ["focusLight", "surfaceLight", 3, "focusLight on surfaceLight", "FND-THEME-06"],
     ["focusLight", "inputSurface", 3, "focusLight on inputSurface", "FND-THEME-06"],
   ];

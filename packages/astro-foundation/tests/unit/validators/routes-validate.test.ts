@@ -86,6 +86,21 @@ describe("validateRoutes", () => {
     expect(dupes[0]!.severity).toBe("error");
   });
 
+  it("accepts unique nested paths and rejects an invalid terminal segment", () => {
+    const routes: RouteDef[] = [
+      { key: "home", slugs: { en: "", fr: "" } },
+      {
+        key: "destination",
+        slugs: { en: "paris", fr: "paris" },
+        pathSegments: { en: ["routes", "paris"], fr: ["trajets", "wrong"] },
+      },
+    ];
+
+    const issues = validateRoutes({ config: makeConfig(), routes });
+    expect(issues.some((issue) => issue.ruleId === "FND-I18N-05")).toBe(true);
+    expect(issues.some((issue) => issue.ruleId === "FND-I18N-06")).toBe(false);
+  });
+
   it("detects previousSlugs with unknown locale (FND-I18N-07)", () => {
     const routes: RouteDef[] = [
       { key: "home", slugs: { en: "", fr: "" } },
@@ -165,6 +180,19 @@ describe("validateRoutes", () => {
     // At least one should be an error
     const errors = scaleIssues.filter((i) => i.severity === "error");
     expect(errors.length).toBeGreaterThan(0);
+  });
+
+  it("uses the site-configured route ceiling", () => {
+    const routes: RouteDef[] = [
+      { key: "home", slugs: { en: "", fr: "" } },
+      ...Array.from({ length: 30 }, (_, i) => ({
+        key: `page-${i + 1}`,
+        slugs: { en: `page-${i + 1}`, fr: `page-${i + 1}` } as Record<string, string | undefined>,
+      })),
+    ];
+    const config = makeConfig({ scaleEnvelope: { maxRoutesPerLocale: 40 } });
+    const issues = validateRoutes({ config, routes });
+    expect(issues.some((issue) => issue.ruleId === "FND-SCALE-01" && issue.severity === "error")).toBe(false);
   });
 
   it("allows empty slugs for home route", () => {

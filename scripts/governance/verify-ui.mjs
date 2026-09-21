@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { findRepoRoot, loadConfig } from "../design/lib.mjs";
 import { resolveChangeScope, targetMatchesScope, unionProfileGates } from "./change-scope.mjs";
 import { scopeSourceHash, validateReviewEvidence } from "./review-evidence.mjs";
+import { loadWorkspaceConfig } from "../lib/workspace-config.mjs";
 
 const argv = process.argv.slice(2);
 const valueAfter = (name) => {
@@ -17,6 +18,7 @@ const valueAfter = (name) => {
 
 try {
   const root = findRepoRoot();
+  const workspace = loadWorkspaceConfig(root);
   const config = loadConfig(root);
   const target = valueAfter("--target");
   const surface = valueAfter("--surface");
@@ -75,15 +77,15 @@ try {
       ? ["pnpm", "design:detect", "--strict"]
       : ["node", "scripts/design/detect.mjs", ...scoped("--strict")],
     "types-check": ["pnpm", "types:generate:check"],
-    "content-validate": ["pnpm", "content:validate", "site/luksuzni-prevoz"],
-    "routes-validate": ["pnpm", "routes:validate", "site/luksuzni-prevoz"],
-    "seo-validate": ["pnpm", "seo:validate", "site/luksuzni-prevoz"],
+    "content-validate": ["pnpm", "content:validate", workspace.siteRoot],
+    "routes-validate": ["pnpm", "routes:validate", workspace.siteRoot],
+    "seo-validate": ["pnpm", "seo:validate", workspace.siteRoot],
     "traceability-check": ["pnpm", "traceability", "--check"],
     "component-impact": ["node", "scripts/governance/component-impact.mjs", "--target", target],
     check: ["pnpm", "check"],
     lint: ["pnpm", "lint"],
     "unit-tests": ["pnpm", "test:unit"],
-    "site-build": ["pnpm", "--filter", "@luksuzni-prevoz/site", "build"],
+    "site-build": ["pnpm", "--filter", workspace.sitePackage, "build"],
     "browser-a11y": ["pnpm", "test:a11y"],
   };
 

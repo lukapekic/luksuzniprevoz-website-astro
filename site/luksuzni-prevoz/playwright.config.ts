@@ -50,6 +50,10 @@ export default defineConfig({
     timeout: 600000,
     env: {
       ASTRO_TELEMETRY_DISABLED: "1",
+      // Astro 7 auto-backgrounds preview servers in detected agent shells.
+      // Playwright must own a foreground process so it can track readiness and
+      // terminate the server reliably after the suite.
+      ASTRO_PREVIEW_BACKGROUND: "0",
     },
   },
 });

@@ -3,7 +3,7 @@ import { z } from "zod";
 /** FND-DATA-07: BaseContentSchema — identity and lifecycle */
 export const BaseContentSchema = z.object({
   // Route keys are programmatic identifiers. Some sites use camelCase
-  // (privateChauffeur, airportTransportation); others use lowercase single
+  // (privateChauffeur, destinationTransportation); others use lowercase single
   // words. This regex admits both camelCase and hyphenated forms. Slug-style
   // validation (lowercase, hyphens) lives on the slugs, not the key.
   routeKey: z.string().regex(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/),

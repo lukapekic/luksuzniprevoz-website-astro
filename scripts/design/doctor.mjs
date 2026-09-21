@@ -73,7 +73,7 @@ function scanDevUi(root, config) {
           line: lineNumber(text, match.index),
           message: `Dev UI preview still contains legacy design language "${match[0]}".`,
           recommendation:
-            "Make /dev/ui derive labels/examples from the active Theme V2 tokens and current component contracts.",
+            "Make /dev/ui derive labels/examples from the active theme tokens and current component contracts.",
         }),
       );
     }

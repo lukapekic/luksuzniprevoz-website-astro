@@ -6,6 +6,11 @@
     "create-astro-foundation": "index.ts"
   },
   "scripts": {
-    "build": "echo stub: build"
+    "build": "echo source-only CLI",
+    "check": "tsc --noEmit --allowImportingTsExtensions --moduleResolution bundler --module preserve --target ES2022 index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
   }
 }

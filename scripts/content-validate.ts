@@ -9,7 +9,7 @@
  * source of truth. UI-string completeness (FND-I18N-08) is checked here, as it
  * reads JSON dictionaries.
  *
- * Defaults to the luksuzni-prevoz site; pass a path to target another project.
+ * Defaults to the site selected by foundation.workspace.json.
  *
  * Usage: pnpm content:validate [path/to/project] [--json]
  */
@@ -23,6 +23,7 @@ import {
   type ContentFile,
 } from "../packages/astro-foundation/src/validators/validate-content.ts";
 import { formatIssues } from "../packages/astro-foundation/src/core/errors.ts";
+import { resolveWorkspaceProject } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
@@ -30,9 +31,7 @@ const MONO_ROOT = resolve(__dirname, "..");
 const args = process.argv.slice(2);
 const jsonFlag = args.includes("--json");
 const targetArg = args.find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg
-  ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = resolveWorkspaceProject(MONO_ROOT, targetArg);
 
 const issues: FoundationIssue[] = [];
 
@@ -84,7 +83,6 @@ let routes: {
   slugs: Record<string, string | undefined>;
   parent?: string;
   kind?: string;
-  availability?: string;
 }[] = [];
 if (existsSync(routesPath)) {
   try {
@@ -208,28 +206,6 @@ issues.push(
     ...(clientIds ? { clientIds } : {}),
   }),
 );
-
-// A route marked as scaffold is not, by itself, an SEO/lifecycle barrier.
-// Reject the dangerous cross-artifact state where authored content is both
-// published and indexable while its route has not been published.
-const routesByKey = new Map(routes.map((route) => [route.key, route]));
-for (const file of contentFiles) {
-  const routeKey = String(file.frontmatter["routeKey"] ?? "");
-  const status = String(file.frontmatter["status"] ?? "draft");
-  const noindex = file.frontmatter["noindex"] === true;
-  const route = routesByKey.get(routeKey);
-  if (status === "published" && !noindex && route?.availability !== "published") {
-    issues.push({
-      ruleId: "FND-LIFE-02",
-      severity: "error",
-      filePath: file.filePath,
-      offendingValue: `Indexable published content is bound to route "${routeKey}" with availability "${route?.availability ?? "missing"}"`,
-      expectedValue: "Publish content/noindex and route availability atomically",
-      fix: "Keep content in-review/noindex until its dedicated renderer and route are ready, or publish the route in the same change.",
-      docAnchor: "#FND-LIFE-02",
-    });
-  }
-}
 
 validateUiStrings();
 

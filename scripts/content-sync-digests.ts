@@ -20,14 +20,13 @@ import {
   extractBody,
   parseFrontmatter,
 } from "../packages/astro-foundation/src/validators/validate-content.ts";
+import { resolveWorkspaceProject } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
 
 const targetArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg
-  ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = resolveWorkspaceProject(MONO_ROOT, targetArg);
 
 const pagesDir = resolve(resolvedTarget, "src/content/pages");
 if (!existsSync(pagesDir)) {

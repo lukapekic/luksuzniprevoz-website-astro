@@ -6,7 +6,7 @@
  * (a gitleaks integration is the optional upgrade for larger orgs).
  *
  * Scans:
- *  - site/luksuzni-prevoz/dist/** (the shipped artifact) — always
+ *  - the configured site's dist/** (the shipped artifact) — always
  *  - source files NOT in dist, only when --source is passed (dev guard)
  *
  * Fails the gate on any match. Patterns cover the common leak classes:
@@ -20,12 +20,14 @@
 import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import { resolve, dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadWorkspaceConfig } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
+const workspace = loadWorkspaceConfig(ROOT);
 const includeSource = process.argv.includes("--source");
 
-const DIST = resolve(ROOT, "site", "luksuzni-prevoz", "dist");
+const DIST = resolve(workspace.siteRootAbsolute, "dist");
 
 const PATTERNS: { name: string; re: RegExp }[] = [
   { name: "OpenAI key", re: /\bsk-[A-Za-z0-9-]{20,}\b/ },
@@ -96,7 +98,7 @@ if (!existsSync(DIST)) {
 for (const f of walk(DIST)) scanFile(f);
 
 if (includeSource) {
-  for (const f of walk(resolve(ROOT, "site", "luksuzni-prevoz", "src"))) {
+  for (const f of walk(resolve(workspace.siteRootAbsolute, "src"))) {
     if (/\.(ts|astro|json|mjs|js)$/.test(f)) scanFile(f);
   }
   for (const f of walk(resolve(ROOT, "scripts")).filter((f) => f.endsWith(".ts"))) scanFile(f);

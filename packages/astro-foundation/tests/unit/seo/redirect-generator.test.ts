@@ -4,6 +4,7 @@
 import { describe, it, expect } from "vitest";
 import {
   generateRedirects,
+  assertRedirectsValid,
   formatRedirectsJson,
   formatRedirectsCloudflare,
   formatRedirectsVercel,
@@ -76,6 +77,22 @@ describe("generateRedirects", () => {
     expect(result).toHaveLength(2);
   });
 
+  it("targets locale-owned multi-segment canonical paths", () => {
+    const routes = [
+      {
+        key: "budapest",
+        slugs: { sr: "prevoz-beograd-budimpesta", en: "belgrade-to-budapest-transfer" },
+        pathSegments: {
+          sr: ["international", "prevoz-beograd-budimpesta"],
+          en: ["international", "belgrade-to-budapest-transfer"],
+        },
+        previousSlugs: { sr: ["taxi-prevoz-beograd-budimpesta"] },
+      },
+    ];
+    const result = generateRedirects(routes, "https://example.com", ["sr", "en"], "sr");
+    expect(result[0]?.to).toBe("/international/prevoz-beograd-budimpesta/");
+  });
+
   it("skips locales that don't have current slugs", () => {
     const routes = [
       {
@@ -95,6 +112,32 @@ describe("formatRedirectsJson", () => {
     const result = JSON.parse(formatRedirectsJson(redirects));
     expect(result.redirects).toHaveLength(1);
     expect(result.redirects[0]).toEqual({ from: "/old/", to: "/new/", status: 301 });
+  });
+});
+
+describe("assertRedirectsValid", () => {
+  it("accepts direct redirects and slash variants", () => {
+    expect(() => assertRedirectsValid([
+      { from: "/old/", to: "/new/", status: 301 },
+      { from: "/old", to: "/new/", status: 301 },
+    ])).not.toThrow();
+  });
+
+  it("rejects duplicate sources and slash-equivalent loops", () => {
+    expect(() => assertRedirectsValid([
+      { from: "/old/", to: "/new/", status: 301 },
+      { from: "/old/", to: "/other/", status: 301 },
+    ])).toThrow("Duplicate redirect source");
+    expect(() => assertRedirectsValid([
+      { from: "/old", to: "/old/#route", status: 301 },
+    ])).toThrow("Redirect loop");
+  });
+
+  it("rejects redirect chains", () => {
+    expect(() => assertRedirectsValid([
+      { from: "/first/", to: "/second/", status: 301 },
+      { from: "/second", to: "/final/", status: 301 },
+    ])).toThrow("Redirect chain");
   });
 });
 

@@ -20,6 +20,7 @@ import type { FoundationConfig } from "../packages/astro-foundation/src/index.ts
 import { getPath } from "../packages/astro-foundation/src/i18n/get-path.ts";
 import { discoverMarkdownFiles } from "./lib/discover-content.ts";
 import { composeTitle } from "../packages/astro-foundation/src/seo/seo-data.ts";
+import { resolveWorkspaceProject } from "./lib/workspace-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MONO_ROOT = resolve(__dirname, "..");
@@ -27,9 +28,7 @@ const MONO_ROOT = resolve(__dirname, "..");
 const args = process.argv.slice(2);
 const jsonFlag = args.includes("--json");
 const targetArg = args.find((a) => !a.startsWith("--"));
-const resolvedTarget = targetArg
-  ? resolve(MONO_ROOT, targetArg)
-  : resolve(MONO_ROOT, "site", "luksuzni-prevoz");
+const resolvedTarget = resolveWorkspaceProject(MONO_ROOT, targetArg);
 
 // --- Load config ---
 let configFilePath: string | undefined;
@@ -82,6 +81,7 @@ const routesPath = resolve(resolvedTarget, "src/data/routes.ts");
 let routes: Array<{
   key: string;
   slugs: Record<string, string | undefined>;
+  pathSegments?: Record<string, readonly string[] | undefined>;
   parent?: string;
   noindex?: boolean;
   sitemap?: { include: boolean; priority?: number };
@@ -147,6 +147,18 @@ if (existsSync(navigationPath)) {
     }
   };
   visit(navigationModule.navigation);
+}
+
+// Site-owned route catalogs can declare internal links rendered by a hub
+// component without duplicating all destination keys in global navigation.
+const routeCatalogPath = resolve(resolvedTarget, "src/data/route-catalog.ts");
+if (existsSync(routeCatalogPath)) {
+  const routeCatalogModule = await import(routeCatalogPath);
+  for (const coveredRoute of routeCatalogModule.coveredRoutes ?? []) {
+    if (typeof coveredRoute?.dedicatedRouteKey === "string") {
+      navigationRouteKeys.add(coveredRoute.dedicatedRouteKey);
+    }
+  }
 }
 
 // --- Build page data from content files ---

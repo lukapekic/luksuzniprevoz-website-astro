@@ -23,4 +23,4 @@ Structured-data capabilities come from `foundation.config.ts`. Real entity facts
 
 ## Verification
 
-Run `pnpm seo:validate site/luksuzni-prevoz`, unit tests for the relevant builder/schema, and the applicable `verify:ui` profile. Compare built JSON-LD with visible content and authoritative data. Validation success alone does not prove factual eligibility.
+Run `pnpm seo:validate <project>`, unit tests for the relevant builder/schema, and the applicable `verify:ui` profile. Compare built JSON-LD with visible content and authoritative data. Validation success alone does not prove factual eligibility.

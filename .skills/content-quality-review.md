@@ -25,7 +25,7 @@ Read the smallest relevant chain:
 1. `AGENTS.md`
 2. `docs/content-authoring.md`
 3. approved page blueprint/content contract
-4. relevant verified `site/luksuzni-prevoz/src/data/*`
+4. relevant verified `<project>/src/data/*`
 5. content schema, renderer, interpolation source, and UI keys used by the surface
 6. current localized content
 7. this skill
@@ -81,10 +81,10 @@ For apply mode, additionally report files changed, strongest improvements, claim
 Run applicable checks and report only commands actually executed:
 
 ```bash
-pnpm content:validate site/luksuzni-prevoz
-pnpm seo:validate site/luksuzni-prevoz
-pnpm --filter @luksuzni-prevoz/site check
-pnpm --filter @luksuzni-prevoz/site build
+pnpm content:validate <project>
+pnpm seo:validate <project>
+pnpm --filter <site-package> check
+pnpm --filter <site-package> build
 ```
 
 Run `pnpm content:sync-digests` only in the reviewed-translation case above. `seo:validate` is a regression gate, not the final SEO review.

@@ -4,7 +4,7 @@ source-of-truth: DESIGN.md
 description: Final project-specific quality floor to load immediately before production UI editing.
 ---
 
-# Luxury Transportation — Craft Floor
+# Design Craft Floor
 
 Apply after direction is settled. It is a floor, not a new design direction.
 

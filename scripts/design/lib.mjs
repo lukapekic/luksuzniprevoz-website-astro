@@ -114,6 +114,30 @@ export function validateDesignConfig(config) {
       ".design/config.json documentedComponentVariables must be unique CSS custom-property names.",
     );
   }
+  if (config.componentClassifications !== undefined) {
+    if (
+      !config.componentClassifications ||
+      typeof config.componentClassifications !== "object" ||
+      Array.isArray(config.componentClassifications)
+    ) {
+      throw new Error(".design/config.json componentClassifications must be an object.");
+    }
+    for (const [componentPath, classification] of Object.entries(
+      config.componentClassifications,
+    )) {
+      if (
+        !componentPath ||
+        !classification ||
+        !["page-local", "planned"].includes(classification.status) ||
+        typeof classification.reason !== "string" ||
+        !classification.reason.trim()
+      ) {
+        throw new Error(
+          `.design/config.json component classification "${componentPath}" requires a supported status and reason.`,
+        );
+      }
+    }
+  }
   if (
     !config.surfaceMap ||
     typeof config.surfaceMap !== "object" ||

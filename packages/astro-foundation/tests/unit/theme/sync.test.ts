@@ -62,6 +62,23 @@ describe("generateThemeCss", () => {
     expect(css).toContain("color-scheme: light dark");
   });
 
+  it("uses the manifest color scheme for a flat palette", () => {
+    const css = generateThemeCss({
+      ...minimalTokens,
+      manifest: { ...minimalTokens.manifest, colorScheme: "light" },
+      palette: { background: "#F2F1ED", textPrimary: "#111412" },
+    });
+    expect(css).toContain("color-scheme: light");
+  });
+
+  it("keeps dark as the compatibility default for flat palettes", () => {
+    const css = generateThemeCss({
+      ...minimalTokens,
+      palette: { background: "#101010", textPrimary: "#F5F5F5" },
+    });
+    expect(css).toContain("color-scheme: dark");
+  });
+
   it("includes [data-theme=light] and [data-theme=dark] selectors", () => {
     const css = generateThemeCss(minimalTokens);
     expect(css).toContain('[data-theme="light"]');

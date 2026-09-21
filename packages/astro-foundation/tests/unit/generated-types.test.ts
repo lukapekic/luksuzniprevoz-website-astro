@@ -29,7 +29,7 @@ describe("generated/types.ts (FND-TYPE-01/03/04)", () => {
   });
 
   // Site-agnostic: the generated types are regenerated per target site
-  // (default site/luksuzni-prevoz), so this test asserts STRUCTURAL invariants
+  // (default site/transferi), so this test asserts STRUCTURAL invariants
   // (unions exist, are non-empty, "home" is always a route, every token name is
   // a valid CSS-ident stem) rather than a specific site's keys/tokens. This
   // keeps the gate green regardless of which site the types were generated from.

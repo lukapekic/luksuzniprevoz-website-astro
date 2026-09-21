@@ -15,18 +15,18 @@ describe("SEO content discovery", () => {
     const root = mkdtempSync(join(tmpdir(), "seo-discovery-"));
     temporaryDirectories.push(root);
     mkdirSync(join(root, "home"));
-    mkdirSync(join(root, "services", "airport"), { recursive: true });
+    mkdirSync(join(root, "services", "destination"), { recursive: true });
     writeFileSync(join(root, "home", "home.sr.md"), "---\nrouteKey: home\nlocale: sr\n---\n");
     writeFileSync(
-      join(root, "services", "airport", "airport.en.md"),
-      "---\nrouteKey: airport\nlocale: en\n---\n",
+      join(root, "services", "destination", "destination.en.md"),
+      "---\nrouteKey: destination\nlocale: en\n---\n",
     );
     writeFileSync(join(root, "ignored.txt"), "not content");
     symlinkSync(join(root, "home"), join(root, "linked-home"));
 
     expect(discoverMarkdownFiles(root).map((file) => file.slice(root.length + 1))).toEqual([
       "home/home.sr.md",
-      "services/airport/airport.en.md",
+      "services/destination/destination.en.md",
     ]);
   });
 

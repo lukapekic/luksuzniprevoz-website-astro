@@ -32,8 +32,8 @@ export const ROUTES_2: Route[] = [
     sitemap: { include: true },
   },
   {
-    key: "airport",
-    slugs: { sr: "aerodrom", en: "airport-transportation" },
+    key: "destination",
+    slugs: { sr: "destinacija", en: "destination-transportation" },
     sitemap: { include: true },
   },
   {
@@ -68,8 +68,8 @@ export const ROUTES_3: Route[] = [
     sitemap: { include: true, priority: 1.0 },
   },
   {
-    key: "airport",
-    slugs: { sr: "aerodrom", en: "airport-transportation", ru: "aehroport" },
+    key: "destination",
+    slugs: { sr: "destinacija", en: "destination-transportation", ru: "napravlenie" },
     sitemap: { include: true, priority: 0.8 },
   },
   {
@@ -156,7 +156,7 @@ export const ROUTES_CYCLE: Route[] = [
 
 export const UI_STRINGS_3 = new Map<string, string>([
   ["home", "Početna"],
-  ["airport", "Aerodromski prevoz"],
+  ["destination", "Prevoz do destinacije"],
   ["about", "O nama"],
   ["contact", "Kontakt"],
   ["services", "Usluge"],

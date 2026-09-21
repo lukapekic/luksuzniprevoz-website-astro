@@ -1,0 +1,805 @@
+{
+  "schemaVersion": 1,
+  "platformVersion": "1.0.0",
+  "digest": "2fa3fa63d97533acd8acb75cfe7686025c1c0736b91142de5dcee571d1ba08e9",
+  "ownedRoots": [
+    ".skills",
+    "packages/astro-foundation",
+    "packages/eslint-plugin-astro-foundation",
+    "packages/create-astro-foundation",
+    "scripts/design",
+    "scripts/governance",
+    "scripts/lib",
+    "scripts/tests"
+  ],
+  "excludedPaths": [
+    ".skills/skills-manifest.json",
+    "packages/astro-foundation/src/generated/types.ts"
+  ],
+  "templatePaths": [
+    ".github/workflows/deep-checks.yml",
+    ".github/workflows/quality.yml",
+    ".github/workflows/release.yml"
+  ],
+  "files": [
+    {
+      "path": ".design/config.schema.json",
+      "sha256": "f017bb6271523bd3702edbd5ece199810728796ae5f6bd12e0a51de76e84a7e2"
+    },
+    {
+      "path": ".design/system.schema.json",
+      "sha256": "109c056c9b54f1a23bd77cec91566b0e34a3c958116e7c1ee998404f1e6473bd"
+    },
+    {
+      "path": ".github/workflows/deep-checks.yml",
+      "sha256": "7553f9e2674dcee229dd5d6f0fa159067676ca60412516febfd2bbc5b40722ac",
+      "template": true
+    },
+    {
+      "path": ".github/workflows/quality.yml",
+      "sha256": "fb015ba7c53565f573a0e158d7388b43ee0189549e3e0189b9b4616f86f8ad20",
+      "template": true
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "sha256": "8cb194462d82487b33dcc160c151982128d1f3b6dc7aaacfe360cbac08a8d752",
+      "template": true
+    },
+    {
+      "path": ".governance/policy.json",
+      "sha256": "829967aa95ac6f6ba6f71454143a56d602c76394463861e89fa420eb3c269c49"
+    },
+    {
+      "path": ".governance/review-evidence.schema.json",
+      "sha256": "890c5f2cec0e9a8bc79789859b0836e2a75bc5949d48ec8650e493943165bd63"
+    },
+    {
+      "path": ".skills/accessibility-wcag.md",
+      "sha256": "a6e54094500b123c9946148d04cc940717d11869db4ea359b6872fe5031a1313"
+    },
+    {
+      "path": ".skills/astro-architecture.md",
+      "sha256": "024f847bde244073a63fcfb8611fe03f1487583f299aad414143c03c221a56be"
+    },
+    {
+      "path": ".skills/blueprint-to-ui.md",
+      "sha256": "af7b273c681f3876fb5fd19928ac0c3d785de09ff6e4a00f40230f7d4df8b68f"
+    },
+    {
+      "path": ".skills/component-architecture.md",
+      "sha256": "2105ee033e05197a99496b5a751673d9dd2ca8799021284d6f7eeaec093dbe48"
+    },
+    {
+      "path": ".skills/content-quality-review.md",
+      "sha256": "636fd9ea7d252c1765d0854db0fe05f00b96b8df369ee2d1e8c32b8fc486af2a"
+    },
+    {
+      "path": ".skills/design-adapt.md",
+      "sha256": "bf54e22b2ee13b8859c89495efbb7210ed07adb8f4092fd7b9cc74c900047720"
+    },
+    {
+      "path": ".skills/design-audit.md",
+      "sha256": "ede571fe9f14e00978c3b197e8af6c626142ec70035c1c5c922313782cacbf40"
+    },
+    {
+      "path": ".skills/design-craft-floor.md",
+      "sha256": "5a67be8f8f5c814bd350e37d06fb1d46eec02b483d300032d95acdf0b1a13014"
+    },
+    {
+      "path": ".skills/design-critique.md",
+      "sha256": "c4b6178bdf48053f0cf946ee8ba7157bdd32c98766ed78b8886ce99b29f3735d"
+    },
+    {
+      "path": ".skills/design-foundation-governance.md",
+      "sha256": "d643ffcb7fb76689ab571e8afd35b01613180427ae51622788bdfe12c42f95a7"
+    },
+    {
+      "path": ".skills/design-governance.md",
+      "sha256": "3d827e767901fcfd2ac1da74e541a1274103214123545b4ec861f58690cd78b9"
+    },
+    {
+      "path": ".skills/design-harden.md",
+      "sha256": "bcb0e439921ecf375e568459b4f251ef8f6d67d8fde71c643f62e383aec4f3a5"
+    },
+    {
+      "path": ".skills/design-polish.md",
+      "sha256": "78af7d573032a09c772d39c7787bb7c353f8a43c553251fff71b2a8b71dccb08"
+    },
+    {
+      "path": ".skills/design-review.md",
+      "sha256": "9e9139c28b32b3e38f5684856488a4239128782a0ccaa592bdb0feb31bb9f04c"
+    },
+    {
+      "path": ".skills/design-shape.md",
+      "sha256": "46a4116fc8a2368ae90adbd9e6641349f5845a2566a089604993d5c28c3a1e32"
+    },
+    {
+      "path": ".skills/functional-ui.md",
+      "sha256": "a90974ed1416cef5d43520d5db437006a7474ca8872bc46403b1104ad29575d1"
+    },
+    {
+      "path": ".skills/high-value-visual-execution.md",
+      "sha256": "fb23dc43693908b1e07398e657cc138d3b3ca9379d917b5fe35738c03c07e9f4"
+    },
+    {
+      "path": ".skills/imagery-art-direction.md",
+      "sha256": "a4e9e45a37032dfa6d8572d7fb6e5578de9f6f001543bf47ce8a69ee3ff2cf53"
+    },
+    {
+      "path": ".skills/multilingual-routing.md",
+      "sha256": "5333eda352ac12dbed84bde5e950145578c48445b7b7fc1bd5b56e8602fc879d"
+    },
+    {
+      "path": ".skills/responsive-images-performance.md",
+      "sha256": "c9b5ab3ac7f2da49ab7d288888ce3c89f8ca9718ab032643c4afb5a7a38e6713"
+    },
+    {
+      "path": ".skills/responsive-layout.md",
+      "sha256": "2bea411505637c1a37019cc7404c74cc5e0e94175928426ab153404068b435a9"
+    },
+    {
+      "path": ".skills/responsive-ui.md",
+      "sha256": "27abd5d0eb366f9e82cd918146c95ca897e069c7e761a50e4d98fa111ad5ed3a"
+    },
+    {
+      "path": ".skills/structured-data.md",
+      "sha256": "be77825e69ea0f02c3c960a19a9e5eee0ff354d5254883b1b2d5262a5eb64002"
+    },
+    {
+      "path": ".skills/tailwind-v4.md",
+      "sha256": "70c76c413d1c6be512b6d21db795ecb042945688485a74ae29fea8788a6fe0aa"
+    },
+    {
+      "path": ".skills/technical-page-review.md",
+      "sha256": "07b684698328eeec8baee1b66b82fa0c3a8d95d77a37fba816df1f8b2cab5fa2"
+    },
+    {
+      "path": ".skills/technical-seo.md",
+      "sha256": "a6f4d0334c61c0295b864c80314c4d6a814439711bdc30f5f460b99340d73e97"
+    },
+    {
+      "path": ".skills/typography-system.md",
+      "sha256": "36e14b48391553947e9a2729fa9c8175ec5abeca99ff06cfce4e4fe0bfbb145c"
+    },
+    {
+      "path": "packages/astro-foundation/package.json",
+      "sha256": "25d4cf5ea4ce274b1c7a4dd9b57829dcc77b856cd63eeeaf9b20539182d6c8bc"
+    },
+    {
+      "path": "packages/astro-foundation/src/content/index.ts",
+      "sha256": "bc0bd70c9aae8ce77618a12367f6fa405f1489bb868e94b895db45868560406b"
+    },
+    {
+      "path": "packages/astro-foundation/src/content/schemas.ts",
+      "sha256": "ef3d06173deae82b1ed89909940f62c6443000c2edb6d05e1b373f416428164e"
+    },
+    {
+      "path": "packages/astro-foundation/src/core/config.ts",
+      "sha256": "cc8987b40638e52536b53df9a40a38baeddac6d0bf7349199b202987631c21a0"
+    },
+    {
+      "path": "packages/astro-foundation/src/core/errors.ts",
+      "sha256": "7fbcf651af99ea653c0d5ac9184356e8381cc77d8fea118964c828fccdc39258"
+    },
+    {
+      "path": "packages/astro-foundation/src/core/index.ts",
+      "sha256": "234dbec83cb9db6b49fb8d52c95093aae27b8a6674e5d8e073bf0541c86d2901"
+    },
+    {
+      "path": "packages/astro-foundation/src/i18n/format.ts",
+      "sha256": "c15e8e42dc880956f69d5eda7a8dffbe2585bd042f29c22adcfb452f07f11772"
+    },
+    {
+      "path": "packages/astro-foundation/src/i18n/get-path.ts",
+      "sha256": "6104125f1665fafb4545fc2b13ebfbe956f6b858fa5f46e30730fd3380c5d0b2"
+    },
+    {
+      "path": "packages/astro-foundation/src/i18n/helpers.ts",
+      "sha256": "6aa0228eab827f08601ef2c5068c88f8fd55391671e5a079129f90fb79f199fa"
+    },
+    {
+      "path": "packages/astro-foundation/src/i18n/index.ts",
+      "sha256": "008ca78ff7d5fa743ad8bbed9df106d5d188078136c00e2ac68b2ee31ed8e25b"
+    },
+    {
+      "path": "packages/astro-foundation/src/i18n/schema.ts",
+      "sha256": "1d002f2a3d901e96f4db110199b8a93a757c43216154906551f311d9e7fe2e13"
+    },
+    {
+      "path": "packages/astro-foundation/src/index.ts",
+      "sha256": "cfddcf9164820cec9f805453021f63778f75b158cbe50d9ed2be09e557f0cc04"
+    },
+    {
+      "path": "packages/astro-foundation/src/seo/index.ts",
+      "sha256": "87b5f9c475be830ee9f6b4c76af1051f924e6fb19aea7dbc7ffcfb912765f7bb"
+    },
+    {
+      "path": "packages/astro-foundation/src/seo/og.ts",
+      "sha256": "f33c3d13f8b11630eaeae37ceb0bc6eda5be61706b3bae18821ac874376db22a"
+    },
+    {
+      "path": "packages/astro-foundation/src/seo/redirects.ts",
+      "sha256": "fb78a95a93aaef89afd474f7d8779b373b37add43151d227ffdb3d259d49433c"
+    },
+    {
+      "path": "packages/astro-foundation/src/seo/seo-data.ts",
+      "sha256": "5065a2a40a74bfa574830aeb7d53eb359a191f014597b5b5951ff3a4bfb1b337"
+    },
+    {
+      "path": "packages/astro-foundation/src/seo/structured-data.ts",
+      "sha256": "7dce5ea464647ce05afa8d85aec52aaa9108f5723c76c096072c8247768afd5e"
+    },
+    {
+      "path": "packages/astro-foundation/src/seo/validate-seo.ts",
+      "sha256": "a3326e24ed3b435c84ed161f761d85f4987e6b45781de746d36f977b690863c1"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/foundation.css",
+      "sha256": "962c145b486098fdf4ccce0d35ba022e25eaf1c0d9b6067412235839d16fe393"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/generated/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/index.ts",
+      "sha256": "54111730565aee254ab4375fd6a4113f2c19a2801a30d1af08697849c00f76f6"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/loader.ts",
+      "sha256": "821beccbf18e334647c9090ea5ab9438f7758cbe5c97e6e2cb735a6fdb168d0e"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/schema.ts",
+      "sha256": "5c4923a4af64a5518a94a909929013e2ee712ba20aa25eb74a1b1762639ccdc1"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/sync.ts",
+      "sha256": "3a161d281000a178a86f7b69f5355b3198e8dd071eb3518ce97f2bd155d58582"
+    },
+    {
+      "path": "packages/astro-foundation/src/theme/validate-theme.ts",
+      "sha256": "5c1974b5ee7b7992849eba5e3a4164d56ebbdc6bad496622017a42d0152e3ad1"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/button.variants.ts",
+      "sha256": "8753552c1ed4f26f607df78a6ad654ecf9bb820a5b0773038927e9f1b5cdfbb7"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/container.variants.ts",
+      "sha256": "e346dfb055791dd7d5952973529626a1a865856a3d7fb108b6d0ab2387a61c6c"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/dialog.variants.ts",
+      "sha256": "d47f57aeb4bd3d0cea2feca81b6e36c2cff58d274f1565b71f222f0c03ff4338"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/field.variants.ts",
+      "sha256": "0e6d7113eb695a0caf7943e5c1c82ed87a63f046fc94b38d3265d2043cfb0392"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/index.ts",
+      "sha256": "fe412139a1240f7ce9a8859ecb1a5026708244f55faf28ad28437f6d09211f97"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/input.variants.ts",
+      "sha256": "9f3059179bb167051fd3b76b4eb8708c91d8474475be96b9954cb404a4a5002f"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/link.variants.ts",
+      "sha256": "cd9f0a23b61d0822b07ef737fe947e119477a97dfeb499345e794d32e0864681"
+    },
+    {
+      "path": "packages/astro-foundation/src/ui/variants.ts",
+      "sha256": "5f427d61eae9b571a9da94f03d2423525f370937e6e5c51399df328757d35328"
+    },
+    {
+      "path": "packages/astro-foundation/src/validators/index.ts",
+      "sha256": "146b72ad4751bde1ea1ee59e3d842f84d6bee3366bf3ff8c9d42ba184cd7a052"
+    },
+    {
+      "path": "packages/astro-foundation/src/validators/validate-content.ts",
+      "sha256": "221e15fde3df24f8c33fb55323514d06dfe9b2f913cc18b4be7386a56ae999bc"
+    },
+    {
+      "path": "packages/astro-foundation/src/validators/validate-routes.ts",
+      "sha256": "025279377b1efd86dfe65dbf0a169e62db01941f933f623b4ab6fa37bbf56859"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/invalid/bad-locale.md",
+      "sha256": "e1ce3394bd34e26e6272f4a81b5b345a8b509e9179d59ac55d226bd81764d79b"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/invalid/missing-required-field.md",
+      "sha256": "0bc5e705a5f754e902532e62e9778a44016727b6c3e5ef2da54be7e853494ebf"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/invalid/missing-route-key.md",
+      "sha256": "e57c6fdac6562a7dcd997e42a0112859b8a04d64d247c9aa09c5be7dbf6f8c61"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/invalid/unknown-route-ref.md",
+      "sha256": "07077aa031086ccbffe4dc71a1b1ba3142616749253c42534e86c1aa95fecaf8"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/valid/airport-en.md",
+      "sha256": "b7c843bf55aca20646aa36c3344bc2d11ae0681df599c845d3b1ed29765b92a0"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/valid/destination-en.md",
+      "sha256": "840e17b147c5ce0fcde00be45d066697fad38a04491c5194004fcc4b511a54fc"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/content/valid/home-sr.md",
+      "sha256": "c20acbf39fa6976c65bdb85ad779059d492f686e3aa58bd0d9393dc59e07162e"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/invalid/breadcrumb-bad-url.json",
+      "sha256": "f30623611ab1cab42d8a3b539557ddf86c1615bedaac7a5202ccbab13c7c675e"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/invalid/local-business-bad-url.json",
+      "sha256": "a3607c92ad3023ec6e6973b80d7edc70f9b75806f7c0af934374be4ea33f2d0d"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/invalid/missing-required-fields.json",
+      "sha256": "6fb6cfd157f9875559ba3c9c64fb2a0131871d3145b89c26b8d6ae735763a2a9"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/invalid/wrong-type.json",
+      "sha256": "4c6a825cfc320e4fa9c15df26e8b7e520da7a8779a158fd432362f4d6f58890c"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/valid/breadcrumb-list.json",
+      "sha256": "7edd21d4373fffd15f055419529ca325d2e2391ca94555cb6f1c14818676039a"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/valid/faq-page.json",
+      "sha256": "299b040bb130104171ce89a8d258adc9a95f202f23af7835cfdfaea7a05b58b0"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/valid/local-business.json",
+      "sha256": "60a287ca26838dd274b61f7581dda014b34f6cf93700fc8bcea41b6d2dd6a1dd"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/valid/organization.json",
+      "sha256": "0a3e3d2cc7ef06c0a5d279fab0c31fc4f2a36cba04833055f56ae350af9ff158"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/structured-data/valid/website.json",
+      "sha256": "49c852994c05c40be2f8e2a375b593215ff61f8b8a0b96b2c286adc39ce51238"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/layout.json",
+      "sha256": "1921121a32120a1e532a2d7b228c8d17da5a51bd1420b2d64a043f4a1af341d8"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/manifest.json",
+      "sha256": "fb00dd5feefb3b8166bcae12b6b9deaea3a9f0bba8034a2e36e3450c8be14e51"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/motion.json",
+      "sha256": "dad9a285eca9e2c40d6be220e626e849eb2b594d219f9955f93b602c2bf3f569"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/palette.json",
+      "sha256": "6bdcb3eb04835c66e53efe6beeb268a5122895d2e31df17f3bbfc3ee0ae44245"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/radii.json",
+      "sha256": "d4832a488777019b5c99127b23d5b1d7708f2956102ab24588934df02ecf80fe"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/spacing.json",
+      "sha256": "a66d5fd6d4a03099f7ba2de4527d5aa0466226cef42422cb23d3dd62649937b7"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-bad-schema/typography.json",
+      "sha256": "02b658bf0085ad8cdca6c6bf32cbee8aee979e2206f7d412d1dac9d5ff7d89ef"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/layout.json",
+      "sha256": "1921121a32120a1e532a2d7b228c8d17da5a51bd1420b2d64a043f4a1af341d8"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/manifest.json",
+      "sha256": "2aec695483d7165b1f79b5bdf5502cfb36ca24f85e0a1fceccdd7936e369639c"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/motion.json",
+      "sha256": "dad9a285eca9e2c40d6be220e626e849eb2b594d219f9955f93b602c2bf3f569"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/palette.json",
+      "sha256": "c5738d44f5f3de9a2dfe9a29da686f8b30fe65f8b29485563a21a16c945b1b76"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/radii.json",
+      "sha256": "d4832a488777019b5c99127b23d5b1d7708f2956102ab24588934df02ecf80fe"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/spacing.json",
+      "sha256": "a66d5fd6d4a03099f7ba2de4527d5aa0466226cef42422cb23d3dd62649937b7"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-missing-modes/typography.json",
+      "sha256": "5baf79f63a5b89e4426be39f53109f41caabcf916a4e87ba3090d088d08c8492"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/layout.json",
+      "sha256": "9ceef4c792e6b97d8bcb661de7b48a0ca140ddbc3217baf43a0823cebcdfb2c7"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/manifest.json",
+      "sha256": "6a1756bc072a2968fa360fb870da1874da98481a9f265b26e7419b2d11f30105"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/motion.json",
+      "sha256": "3512e02f5b005bce818528d8a782f3eb981b95606f5c063e23bc9508684f104e"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/palette.json",
+      "sha256": "253574bc9fcee9e40db13c524b621702c776545373256e34ff1db49ef1ce6799"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/radii.json",
+      "sha256": "76e3360f1f9871764e4aaffe1d15866d3da4ef31fac1d56ac7690397a9ff9962"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/spacing.json",
+      "sha256": "1db4377ecaee036b8f665a88f0d2544c9ed898d8f1524b2cf0d2c2e434f491e9"
+    },
+    {
+      "path": "packages/astro-foundation/tests/fixtures/theme/version-valid/typography.json",
+      "sha256": "6115ad79a2813abfa06a8bc76aec35f0aa2688c1b880cd479333ae61a3c10fc6"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/content/autocomplete.test.ts",
+      "sha256": "3488d38a6f52fae21e9a77339eddbe736e440586c13b1178ffcaddd3975c3927"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/generated-types.test.ts",
+      "sha256": "521575ac207bde601c54f6b371a09c7533e7faf265e67050014356e12fc05f15"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/i18n/fixtures.ts",
+      "sha256": "6b4430150126f5b075b11e1ec86fc5b08b20d878e31703dbc618a536d2348282"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/i18n/get-path.test.ts",
+      "sha256": "d8b5b3ebbca0557d0dc0ca5bf4e5af3625fd907efd484a51ca4512329e12920f"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/i18n/helpers.test.ts",
+      "sha256": "b1c29964f0091ebb007aa921f8dc1f6d7b94ac120314fa0f95b5f1227d83250a"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/i18n/hreflang.test.ts",
+      "sha256": "1018ede00b16fd6b3bca32881db4a1d5643eb36083f42f2e3dbb7be827908408"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/scripts/seo-discovery.test.ts",
+      "sha256": "b06e51f9355b5ed9a91d277ec354e10588c6bdd5c01466815b7dafa08f5762c7"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/seo/breadcrumb-jsonld.test.ts",
+      "sha256": "72f73ad69753f53b3101be956c5ba43c5381a3921f49a7489f26dc70fa36ae6f"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/seo/redirect-generator.test.ts",
+      "sha256": "861a5eec557be27a2ffa30b2adbd8719a85731e415cf14bb25cb1ea6b223a8c8"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/seo/seo-data.test.ts",
+      "sha256": "c2b41db5c4fcdccd4ee4c2d61802dcb04be8c40121650bb67829456a301cf5f4"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/seo/seo-validator.test.ts",
+      "sha256": "83d2bf45d6ad8eaf37f713df28143a47ff354523bb60c892d40f62fd4ef7b6a1"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/seo/structured-data.test.ts",
+      "sha256": "8d464fc99d65c26b50971714a112073a474abf13956b13c12e7b6d975d5e7800"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/theme/contrast.test.ts",
+      "sha256": "1064c09b77ec4f41ace9ffb08f4c39a30f00851b125996d8d6afd244a80bdf34"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/theme/loader.test.ts",
+      "sha256": "de4a9270fbc1e034014c9487aa6fd3b6de99f8c575b4a7a5823cec35038fa149"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/theme/schema.test.ts",
+      "sha256": "c17ec0f12b8c28c7321ab28de0145cc4ca803024638c3a8fff6f907f30b7812f"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/theme/sync.test.ts",
+      "sha256": "b0af8f2e0fa63c55360fc6ab0c9dc5a4a9acd3254d97b88ca333615b47dd3146"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/ui/seo-data.test.ts",
+      "sha256": "fdad45e897b837a23c78cf7a63d3bc2fc82239f5be8bf87b726b4997a1f0854e"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/ui/variants.test.ts",
+      "sha256": "111016b9037e75133f0cec8a994966cdce2ff1e3de7121a460c7ac50a9cb4286"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/validators/content-validate.test.ts",
+      "sha256": "8d66e402a40a1c256f43c17198d42ff1313dc201bab6364610cf22c823f7085a"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/validators/routes-validate.test.ts",
+      "sha256": "d325d1259464a4c84b9860b169d377d6ecc1fa718e308ffe4d02960fcf1d7bb8"
+    },
+    {
+      "path": "packages/astro-foundation/tests/unit/validators/schema-validation.test.ts",
+      "sha256": "26409987662778fdd813d9a2601f46f0b01cfc36ce66479148c9e79315632990"
+    },
+    {
+      "path": "packages/astro-foundation/tsconfig.json",
+      "sha256": "8fe82823f39a9a165e8f5127bf342e1556e5015a5283b853a780323f6dc45983"
+    },
+    {
+      "path": "packages/astro-foundation/vitest.config.ts",
+      "sha256": "e9ae92a53caf71a7fd50e9e25db5a029c8eb2b93ee1a0229c0e9bc52279491a9"
+    },
+    {
+      "path": "packages/create-astro-foundation/index.ts",
+      "sha256": "92b5397234c7c5217098ed60de0f5f5b5e55b4f10621df5befbb05cfd3fd51ae"
+    },
+    {
+      "path": "packages/create-astro-foundation/package.json",
+      "sha256": "93f524d6aeefa0104fdf4b9db2f388581390d67619149414705c3c8aac1899be"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/package.json",
+      "sha256": "1b84e030d488ac946afe34901a6fc8175c9f46734610eaed890658ec8c542a2c"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/ast-types.ts",
+      "sha256": "04bc99b1bba37a8d6313f9669ab25e9892c1f51fbff83575510f6d43e58bfa58"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/index.ts",
+      "sha256": "0cf6fdd972fb647bdc7e12836596d5da026e6adb75baa905e52aed86e992ccea"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-appearance-class-passthrough.test.ts",
+      "sha256": "567d8326692b593a472086c4a9622f683d74b3f3d67fda268b43998b0087bb5a"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-client-directive-without-justification.test.ts",
+      "sha256": "79985a71fc23640606b54a8bef92416e880c3011551fe9290d93b06ea033151b"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-dynamic-variant-class.test.ts",
+      "sha256": "7e249ff77aa8fbb37f1283d08426cfef05185e0aa7410f644b38ccf288cfd5aa"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-hardcoded-ui-string.test.ts",
+      "sha256": "69e553be15cfcda411383f265e01be67675776563e36a0832bcbfe3fa88e65da"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-legacy-collection.test.ts",
+      "sha256": "8c9b8c1465e6a5d3627d18072e5421662552f616dab58e33b22d166e0768a399"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-manual-internal-url.test.ts",
+      "sha256": "86acfddf44f68611883abe8c68e3859373ae24ee4aa33d6fd99c9b55880dd7af"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-physical-direction-property.test.ts",
+      "sha256": "c923df326fd150f524fcc9ca4da77467a082c7f150aabeed73bbd55d6ae9611b"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-raw-design-value.test.ts",
+      "sha256": "3f19f56576becda694b1ae18295d98b17a20af5b710ac1b583c06bcee52a1bcb"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/__tests__/no-raw-img-element.test.ts",
+      "sha256": "2ae86b4a73ff95b7627cda9370c8e8dee5090a1023e9e3003112505dca2b3074"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-appearance-class-passthrough.ts",
+      "sha256": "574906aeb4ad4306fa484af3f96bb94a6687a1251134c330a80346fe6b266dde"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-client-directive-without-justification.ts",
+      "sha256": "7208063b7af753d6237ea71f8d4d65b45d83b5f2e41fe350087214de7a75c6e7"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-dynamic-variant-class.ts",
+      "sha256": "2b2cb7260983f385413f5ed7ede5acb2dea32c003d5b1646be05172c8debb5a8"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-hardcoded-ui-string.ts",
+      "sha256": "1bc5c1a4858b96e9ffb849d17d128c2a5ed108ac7f3e88b713f472906f9a83ed"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-legacy-collection.ts",
+      "sha256": "f2e684cb91742d351c094bd74810a197b5f0add4d4a107a294e77d8e50a20a97"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-manual-internal-url.ts",
+      "sha256": "42afb5e95e9140c27ccb5a7eafb71053d84208428e484162157e9bdb2fbc0c21"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-physical-direction-property.ts",
+      "sha256": "ff046df17f36af2f492148e0c7007f0810a815e5a1152d0fa86ad3e76eed4131"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-raw-design-value.ts",
+      "sha256": "9756e6e1a2256bae2d488387bab515f43375005fd700357bf2940486109b6ac1"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/src/rules/no-raw-img-element.ts",
+      "sha256": "facb7d57792b3fba5e613d512b9c8f5555e823d105629355fd3d76f6d55dff0d"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/tsconfig.json",
+      "sha256": "bfcb9a133ad336ca6d06d2cfa76ba78cd24b480247d65934df1718fdff60080f"
+    },
+    {
+      "path": "packages/eslint-plugin-astro-foundation/vitest.config.ts",
+      "sha256": "4b3bf39ee2ef5d1e2583dbd65edb186a35ea54140eda1863e0e560e7881657d9"
+    },
+    {
+      "path": "scripts/content-sync-digests.ts",
+      "sha256": "ce5a2dea4ee072bfb989b3998526861520a9be0e78b41757af66859f9863cfe0"
+    },
+    {
+      "path": "scripts/content-validate.ts",
+      "sha256": "c772ac209fbe21e3bf4bc42341ac15cf6c2fa288090da6e4b450157193b8e9a8"
+    },
+    {
+      "path": "scripts/design/context.mjs",
+      "sha256": "ec86139f995266e02e57ebd7cb6fb988057455f927a0924b7c622f0ddc58872f"
+    },
+    {
+      "path": "scripts/design/detect.mjs",
+      "sha256": "6780e795475b6c3b18dfd2f60400b234ec2b7075b1ab2e42c1caf868aed1ef6d"
+    },
+    {
+      "path": "scripts/design/doctor.mjs",
+      "sha256": "db2758b4c82b0c4aceab7d32e031d09bbf2d0ea29a2997485809bf9bef06e8cb"
+    },
+    {
+      "path": "scripts/design/hook.mjs",
+      "sha256": "e625b90aa995f2200e6802cd0a2f15f43f2440b6672fe691dcb37cd7fbc25bf2"
+    },
+    {
+      "path": "scripts/design/lib.mjs",
+      "sha256": "345ff2e5317a648dc96307aec33e924aa5a2c4de8ff1cd1ee32a5b7d03f9b908"
+    },
+    {
+      "path": "scripts/design/rules/accessibility.mjs",
+      "sha256": "e76cbeda76615cd27a6904ef0d6a339dd0b23082a9cd76bcdfbced0ca22c1f57"
+    },
+    {
+      "path": "scripts/design/rules/components.mjs",
+      "sha256": "cc73c11e425d8da926fd167e22cda74b8c07d23174f2ac7eadd41c40c3ff4e5e"
+    },
+    {
+      "path": "scripts/design/rules/layout.mjs",
+      "sha256": "37ed24c078b1e001d507bfa9a01a81d9bf58192630c30f6b62c158cb80d96f58"
+    },
+    {
+      "path": "scripts/design/rules/legacy.mjs",
+      "sha256": "e6caff0713caa3ac1de1b11154a9f0d96199b372cf8f2e5eecff07dc7f46fb5a"
+    },
+    {
+      "path": "scripts/design/rules/routing.mjs",
+      "sha256": "3eca8802fd9d56963fe78947d51f9cba74f8be2966b49bbc6dcbe59e750c1a8e"
+    },
+    {
+      "path": "scripts/design/rules/tailwind.mjs",
+      "sha256": "dd7472c1b8e4306bb50aad343d43506341fe351c594a99e29ff87817ae7a8a9a"
+    },
+    {
+      "path": "scripts/design/rules/theme-values.mjs",
+      "sha256": "66b8db6660bafe1514d8a29b9df4444ebb7848af016d966055001cac50e95898"
+    },
+    {
+      "path": "scripts/design/rules/typography.mjs",
+      "sha256": "450c73351c8de788201059ddc5fc304bf3a0b6183cc7f0065cb587b05402bafe"
+    },
+    {
+      "path": "scripts/design/self-test.mjs",
+      "sha256": "211929fa483e040d7c9b14343185eb4ceaf70f7e29bbdb6c7e80cb67da02624b"
+    },
+    {
+      "path": "scripts/design/sync.mjs",
+      "sha256": "c62a168f239bd339492a29f6674bd58b2c436882ce03cc868cdc3fc6909238e7"
+    },
+    {
+      "path": "scripts/generate-redirects.ts",
+      "sha256": "55206baaa16bfe39c75ab0a12aba87a7e99d178694cfdc6dbe9d6fd5b74ae595"
+    },
+    {
+      "path": "scripts/governance/change-scope.mjs",
+      "sha256": "0d592b429af936e859c82de474d4308f8241f26b95479449aeff298170a27622"
+    },
+    {
+      "path": "scripts/governance/component-impact.mjs",
+      "sha256": "fe937bf07d8545496cfe6f2e01b393379256efb0530d62989f93d9798f96b981"
+    },
+    {
+      "path": "scripts/governance/components.mjs",
+      "sha256": "b2968c6dc47df8de17416a0319bc5339e87a1c7b93d8058e26299ba773d04317"
+    },
+    {
+      "path": "scripts/governance/contracts-validate.mjs",
+      "sha256": "4602c0bd4272d5a1c5c817284b1adea51ff68aca18585a3631de784bc4625c02"
+    },
+    {
+      "path": "scripts/governance/review-evidence.mjs",
+      "sha256": "2385b52e40aa0c6bd8a6d280a15ef850ad680ccf68b49db40308ae717eb35e72"
+    },
+    {
+      "path": "scripts/governance/reviews-validate.mjs",
+      "sha256": "67f2b819cb7aef526d458e4c6a1167a389a8f8f4904b4c147aeb7f34900859d4"
+    },
+    {
+      "path": "scripts/governance/skills-validate.mjs",
+      "sha256": "55f72094eea508c974cf7188868247f5354d381e20b0faf9845c5d6b813c2f73"
+    },
+    {
+      "path": "scripts/governance/validate.mjs",
+      "sha256": "d6cea6bcde2e6490b4eb2cf6c52823b2194f45b3dc58a659bbade6aad12183be"
+    },
+    {
+      "path": "scripts/governance/verify-ui.mjs",
+      "sha256": "dbe9c6d5badce6540c6c195d2491abb9c51c523b6f9aa2338c34a1079c8a91c3"
+    },
+    {
+      "path": "scripts/lib/discover-content.ts",
+      "sha256": "738896eb54ddbc7e5b193a695c1dd5aef2c172d44227bfaa3b83baef2590d1ea"
+    },
+    {
+      "path": "scripts/lib/workspace-config.mjs",
+      "sha256": "3e9da144a1ef2a3477ceb097c4e5f415213217c2a545e1dab6b11224fcbb7318"
+    },
+    {
+      "path": "scripts/og-generate.ts",
+      "sha256": "ecbb1f77b091173a7e2ff17d4030669633997a16d1eca31c325015aae6c7f506"
+    },
+    {
+      "path": "scripts/parse-waivers.ts",
+      "sha256": "9779bab7afd6086178dff867b379f5fd4fbb6fd95e874e535ea463f4b08c0587"
+    },
+    {
+      "path": "scripts/routes-validate.ts",
+      "sha256": "e8c3499f3ca01136f1a9bdd0d3b62e4f6bb533ccc1ee3d6e6fbc294e0d6c3d32"
+    },
+    {
+      "path": "scripts/secret-scan.ts",
+      "sha256": "96aa31324029febc220a869c8c76fa89baeb6cc899505c729923cfe8c964fc9f"
+    },
+    {
+      "path": "scripts/seo-validate.ts",
+      "sha256": "ef04208feccab9752e1c6a80d3f970ff4d1b8e7d5ee79b572a516567a4353469"
+    },
+    {
+      "path": "scripts/tests/workspace-config.test.mjs",
+      "sha256": "0d6cb786f190b01c84f18fdc079b9017c3c35a6eadca780829c06589a6874c1e"
+    },
+    {
+      "path": "scripts/theme-sync.ts",
+      "sha256": "1b1db23d630906acdf92b3328c2e2ef3555811d969c7e7c5f1ee1c72cf17d1da"
+    },
+    {
+      "path": "scripts/theme-validate.ts",
+      "sha256": "b57142726f1ba75bc192b267c0d5ce2ef87aa1d64de5cb522fd04a1a8e7ef951"
+    },
+    {
+      "path": "scripts/types-generate.ts",
+      "sha256": "28e8a461e704fd0f7694c58d4f0000dec3966ea1777a8aa20575b5c55b9e2363"
+    },
+    {
+      "path": "scripts/workspace-validate.mjs",
+      "sha256": "3aed5339bbd0c77de0f1865ef7708119877e8cf9a35d46a96252368c301eb406"
+    }
+  ]
+}

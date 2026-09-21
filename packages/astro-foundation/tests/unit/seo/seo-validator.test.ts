@@ -395,14 +395,18 @@ describe("FND-SEO-09: Link graph", () => {
           makePage({
             routeKey: "home",
             url: "https://example.com/",
-            internalLinks: ["https://example.com/airport/"],
+            internalLinks: ["https://example.com/destination/"],
             breadcrumbs: [{ name: "Home", url: "https://example.com/", routeKey: "home" }],
           }),
           makePage({
-            routeKey: "airport",
-            url: "https://example.com/airport/",
+            routeKey: "destination",
+            url: "https://example.com/destination/",
             breadcrumbs: [
-              { name: "Airport", url: "https://example.com/airport/", routeKey: "airport" },
+              {
+                name: "Destination",
+                url: "https://example.com/destination/",
+                routeKey: "destination",
+              },
             ],
           }),
         ],

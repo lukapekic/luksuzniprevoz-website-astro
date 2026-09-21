@@ -31,6 +31,18 @@ describe("Theme schema", () => {
       expect(result.success).toBe(true);
     });
 
+    it("accepts an explicit flat-palette color scheme", () => {
+      const result = ManifestSchema.safeParse({
+        name: "Light theme",
+        themeVersion: "3",
+        schemaVersion: CURRENT_SCHEMA_VERSION,
+        description: "A light-first flat theme",
+        created: "2026-08-28",
+        colorScheme: "light",
+      });
+      expect(result.success).toBe(true);
+    });
+
     it("rejects missing fields", () => {
       const result = ManifestSchema.safeParse({
         name: "Default",

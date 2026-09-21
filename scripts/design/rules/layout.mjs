@@ -11,6 +11,17 @@ const radiusProperty = /(?:^|[;{]\s*)border-radius\s*:\s*([^;}]+)/gim;
 const dimension = /(?:^|[\s,(])(?:\d*\.)?\d+(?:px|rem|em|vw|vh|svw|svh)\b/i;
 
 function containsRawDimension(value) {
+  // Full-bleed alignment may derive an inner gutter from the viewport and
+  // semantic container/gutter tokens. `100vw` is structural geometry, not a
+  // spacing scale value; every other dimension in the expression must remain
+  // token-owned.
+  const structuralRemainder = value
+    .replace(/var\(--[A-Za-z0-9_-]+\)/g, "")
+    .replace(/\b100vw\b/gi, "")
+    .replace(/\b(?:calc|max|min)\b/gi, "")
+    .replace(/[\d.\s(),+*/-]/g, "");
+  if (structuralRemainder === "") return false;
+
   // Fluid interpolation between semantic endpoints is an approved structural
   // expression. Any literal endpoint or added raw dimension is still a bypass.
   const semanticClamp =

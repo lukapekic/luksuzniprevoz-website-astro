@@ -56,6 +56,9 @@ export const SlugSegmentSchema = z
 export const RouteSchema = z.object({
   key: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   slugs: z.record(LocaleCodeSchema, SlugSegmentSchema),
+  pathSegments: z
+    .record(LocaleCodeSchema, z.array(SlugSegmentSchema).min(1))
+    .optional(),
   parent: z.string().optional(),
   noindex: z.boolean().default(false),
   sitemap: z
@@ -102,6 +105,13 @@ type PerformanceBudgetOutput = z.output<typeof PerformanceBudgetSchema>;
 const performanceBudgetDefault: () => PerformanceBudgetOutput = () =>
   PerformanceBudgetSchema.parse({});
 
+const ScaleEnvelopeSchema = z.object({
+  maxRoutesPerLocale: z.number().int().min(1).max(200).default(30),
+});
+
+type ScaleEnvelopeOutput = z.output<typeof ScaleEnvelopeSchema>;
+const scaleEnvelopeDefault: () => ScaleEnvelopeOutput = () => ScaleEnvelopeSchema.parse({});
+
 export const FoundationConfigSchema = z
   .object({
     foundationVersion: z.string(),
@@ -109,14 +119,10 @@ export const FoundationConfigSchema = z
     brand: z.string().min(1),
     locales: LocaleConfigSchema,
     capabilities: CapabilitiesSchema.default(capabilitiesDefault),
-    activeThemeVersion: z
-      .string()
-      .min(
-        1,
-        "activeThemeVersion is required — each site must select its theme in foundation.config.ts",
-      ),
+    activeThemeVersion: z.string().min(1, "activeThemeVersion is required — each site must select its theme in foundation.config.ts"),
     reviewStalenessWindowMonths: z.number().min(1).default(12),
     performanceBudget: PerformanceBudgetSchema.default(performanceBudgetDefault),
+    scaleEnvelope: ScaleEnvelopeSchema.default(scaleEnvelopeDefault),
   })
   .readonly();
 

@@ -136,13 +136,13 @@ function generateStructuredPaletteSections(palette: Palette, tokens: ThemeTokens
   return sections;
 }
 
-// ── Flat palette — dark-first, single :root, --color-{kebab(key)} ──
+// ── Flat palette — single :root, --color-{kebab(key)} ──
 function generateFlatPaletteSections(palette: FlatPalette, tokens: ThemeTokens): string[] {
   const firstFamilyKey =
     Object.keys(tokens.typography.families ?? tokens.typography.fontFamilies ?? {})[0] ?? "body";
 
   const lines: string[] = [
-    "  color-scheme: dark;",
+    `  color-scheme: ${tokens.manifest.colorScheme ?? "dark"};`,
     `  font-family: var(--font-${toKebab(firstFamilyKey)}, system-ui, sans-serif);`,
     "  font-size: var(--text-base, 1rem);",
     "  line-height: var(--line-height-body, 1.6);",
@@ -195,10 +195,11 @@ function generateTypographySection(tokens: ThemeTokens): string {
                   : role === "measure"
                     ? "measure"
                     : null;
-      if (prefix)
+      if (prefix) {
         lines.push(
           `  --recipe-${toKebab(recipe)}-${toKebab(role)}: var(--${prefix}-${toKebab(token)});`,
         );
+      }
     }
   }
   return `  :root {\n${lines.join("\n")}\n  }`;

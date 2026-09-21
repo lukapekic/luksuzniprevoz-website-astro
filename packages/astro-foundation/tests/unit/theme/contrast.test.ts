@@ -3,6 +3,7 @@ import {
   hexToRgb,
   relativeLuminance,
   contrastRatio,
+  validateFlatPaletteContrast,
   validateModeContrast,
 } from "../../../src/theme/validate-theme.ts";
 import type { ModeColors } from "../../../src/theme/schema.ts";
@@ -134,6 +135,33 @@ describe("WCAG contrast calculations", () => {
       };
       const issues = validateModeContrast("dark", validDark);
       expect(issues).toHaveLength(0);
+    });
+  });
+
+  describe("validateFlatPaletteContrast", () => {
+    const lightPalette = {
+      background: "#F2F1ED",
+      textPrimary: "#111412",
+      textMuted: "#606560",
+      focusDark: "#C6D9CE",
+      focusLight: "#2F624C",
+      borderSubtle: "#777873",
+      accent: "#2F624C",
+      surfaceLight: "#EDEDE8",
+      textOnLight: "#111412",
+    };
+
+    it("checks the dark focus role for a light-first flat palette", () => {
+      const issues = validateFlatPaletteContrast(lightPalette, "light");
+      expect(issues.some((issue) => issue.offendingValue?.includes("focusLight"))).toBe(false);
+      expect(issues.some((issue) => issue.offendingValue?.includes("focusDark"))).toBe(false);
+    });
+
+    it("keeps the dark-first focus role as the flat-palette default", () => {
+      const issues = validateFlatPaletteContrast(
+        { ...lightPalette, background: "#101411" },
+      );
+      expect(issues.some((issue) => issue.offendingValue?.includes("focusDark"))).toBe(false);
     });
   });
 });

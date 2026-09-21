@@ -4,6 +4,7 @@
  * Generates redirects from routes with previousSlugs.
  * Supports multiple output formats: JSON, _redirects (Cloudflare), vercel.json.
  */
+import { resolveRoutePath } from "../i18n/get-path.ts";
 
 export interface RedirectEntry {
   /** Source path (old URL) */
@@ -17,7 +18,40 @@ export interface RedirectEntry {
 export interface RouteWithPreviousSlugs {
   key: string;
   slugs: Record<string, string | undefined>;
+  pathSegments?: Record<string, readonly string[] | undefined>;
   previousSlugs?: Record<string, string[]>;
+}
+
+const canonicalRedirectPath = (value: string): string => {
+  const path = value.split(/[?#]/, 1)[0] ?? value;
+  if (path === "/") return path;
+  return `${path.replace(/\/+$/, "")}/`;
+};
+
+/**
+ * Rejects ambiguous or inefficient redirect sets before deployment.
+ * Slash/no-slash source variants are treated as the same URL when checking
+ * self-loops and chains, while exact duplicate Cloudflare rules remain errors.
+ */
+export function assertRedirectsValid(redirects: readonly RedirectEntry[]): void {
+  const exactSources = new Set<string>();
+  const canonicalSources = new Set(redirects.map((redirect) => canonicalRedirectPath(redirect.from)));
+
+  for (const redirect of redirects) {
+    if (exactSources.has(redirect.from)) {
+      throw new Error(`Duplicate redirect source: ${redirect.from}`);
+    }
+    exactSources.add(redirect.from);
+
+    const sourcePath = canonicalRedirectPath(redirect.from);
+    const targetPath = canonicalRedirectPath(redirect.to);
+    if (sourcePath === targetPath) {
+      throw new Error(`Redirect loop: ${redirect.from} → ${redirect.to}`);
+    }
+    if (canonicalSources.has(targetPath)) {
+      throw new Error(`Redirect chain: ${redirect.from} → ${redirect.to}`);
+    }
+  }
 }
 
 /**
@@ -34,6 +68,7 @@ export function generateRedirects(
   localeCodes: string[],
   defaultLocaleCode: string,
 ): RedirectEntry[] {
+  void site;
   const redirects: RedirectEntry[] = [];
 
   for (const route of routes) {
@@ -46,10 +81,8 @@ export function generateRedirects(
       const prevSlugs = route.previousSlugs[locale];
       if (!prevSlugs || prevSlugs.length === 0) continue;
 
-      // Build current URL
+      const toUrl = resolveRoutePath(route, locale, defaultLocaleCode);
       const prefix = locale === defaultLocaleCode ? "" : `/${locale}`;
-      const currentSegment = currentSlug === "" ? "" : `/${currentSlug}`;
-      const toUrl = `${prefix}${currentSegment}/`;
 
       for (const prevSlug of prevSlugs) {
         const prevSegment = prevSlug === "" ? "" : `/${prevSlug}`;

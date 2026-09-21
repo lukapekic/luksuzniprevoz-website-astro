@@ -17,6 +17,8 @@ export {
   type Locale,
   type Route,
   getPath,
+  getRoutePathSegments,
+  resolveRoutePath,
   resolveAllPaths,
   buildHreflangSet,
   getBreadcrumbs,
