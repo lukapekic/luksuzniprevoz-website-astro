@@ -83,14 +83,11 @@
       "name": "Button",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Button.astro",
       "directConsumers": [
-        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"
       ],
       "consumers": [
-        "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
-        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
@@ -186,6 +183,7 @@
       "name": "Field",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Field.astro",
       "directConsumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingScheduleControls.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
@@ -193,6 +191,7 @@
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
+        "site/luksuzni-prevoz/src/components/booking/BookingScheduleControls.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
@@ -426,6 +425,7 @@
       "name": "Link",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Link.astro",
       "directConsumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetNavigator.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",

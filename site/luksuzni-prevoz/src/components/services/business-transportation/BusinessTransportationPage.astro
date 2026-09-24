@@ -33,7 +33,6 @@ import heroImage from "../../../assets/services/business-transport-card.webp";
 import corporateServiceImage from "../../../assets/pages/business-hub/corporate-service-card.jpg";
 import delegationServiceImage from "../../../assets/pages/business-hub/delegation-service-card.jpg";
 import conferenceServiceImage from "../../../assets/pages/business-hub/conference-service-card.jpg";
-import finalCtaImage from "../../../assets/final-cta-bg.webp";
 
 interface Props {
   routeKey: "businessTransportation";
@@ -361,10 +360,6 @@ const seo = buildPageSeo({
     primaryAction={finalPrimaryAction}
     secondaryAction={finalSecondaryAction}
     {contacts}
-    image={finalCtaImage}
-    imageAlt=""
-    imageFit="cover"
-    mediaTreatment="integrated"
     {locale}
   />
 </BaseLayout>

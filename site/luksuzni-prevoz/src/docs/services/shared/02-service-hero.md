@@ -87,3 +87,5 @@ Use active semantic tokens for surface, text, spacing, radius, typography, and m
 ## Responsive requirement
 
 Image focal point/scrim strength are reviewed independently at mobile, tablet portrait, tablet landscape, desktop, and wide desktop.
+
+DR-10 adds an opt-in `natural` image treatment for the selected Corporate and Special Events heroes and the VIP hero: no image-wide exposure filter, a separate copy/header scrim, and an explicit caller-owned focal point. The default hero treatment remains available to existing consumers. DR-11 uses eager/high-priority source-capped AVIF hero candidates at quality 55, with `sizes` matched to the full-bleed or split geometry.

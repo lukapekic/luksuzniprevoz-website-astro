@@ -114,7 +114,7 @@ const groups = [
   { id: "open-split-section", href: "#open-split-section", heading: "Open Split Section", description: "Production OpenSplitSection: open content|image composition — canonical 5/7, reverse 5/7, balanced 6/6, wider-content 7/5. DOM always content-first; desktop reversal is grid-based." },
   { id: "horizontal-carousel", href: "#horizontal-carousel", heading: "Horizontal Carousel", description: "Production HorizontalCarousel: two independent instances — Fleet-like visual carousel (compact preset) and Review-like content carousel (standard preset). Instance isolation, scroll snapping, controls, responsive item sizing, progressive enhancement." },
   { id: "homepage-hero", href: "#homepage-hero", heading: "Homepage Hero", description: "Production HomepageHero: one contained cinematic feature panel — full-bleed S-Class image, directional color-mix overlay, left H1 + Book/Request-a-quote CTAs, right support statement. Static, not 100vh." },
-  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: the locked CTA hierarchy (Book / Request a Quote / one phone + one email) on the gradient panel, with the real final-cta-bg vehicle image wired. Mobile: content-first stacked media + full-width buttons." },
+  { id: "final-cta", href: "#final-cta", heading: "Final CTA", description: "Production Final CTA: one full-width interior photograph, a separate localized scrim, and the locked Book / Request a Quote / verified contact hierarchy. Mobile: visible interior above content and full-width buttons." },
   { id: "reusable-patterns", href: "#reusable-patterns", heading: "Reusable Patterns", description: "Shared composition patterns." },
   { id: "larger-components", href: "#larger-components", heading: "Larger Components", description: "Hero, splits, FAQ, and Final CTA." },
   { id: "site-footer", href: "#site-footer", heading: "Site Footer", description: "Production SiteFooter: global chrome, 3-column desktop, real route/contact gating. Rendered near the end as the page footer." },
@@ -285,7 +285,7 @@ const samples = {
   trustDarkLabel: "Dark · canonical",
   trustDarkNote: "four compact trust items · short title + one concise supporting line · restrained platinum accent check marker · one shared surface, not nested cards.",
   // ── Final CTA ──
-  finalCtaDesc: "Production Final CTA — the locked CTA hierarchy on a restrained graphite gradient panel (Final-CTA-only gradient exception). Primary Book (platinum accent) → secondary Request a Quote (outlined) → tertiary phone/email (ONE phone + ONE email only). The real final-cta-bg.webp vehicle image is wired (right-zone on desktop, dedicated lower media area on mobile — content first, image second). Mobile buttons stack full-width. Contact channels use the SAME verified-only canonical gating as the production home/FinalCTA + SiteFooter (contact.ts isVerified). Exactly one verified phone + one verified email appear here and in production. Booking flow routes to the contact page as the interim target.",
+  finalCtaDesc: "Production Final CTA — one full-width interior photograph with an independent scrim and container-aligned content. Primary Book → secondary Request a Quote → verified phone/email. Mobile preserves visible interior above the copy and full-width actions. Contact channels use the same verified-only canonical gating as the production home and footer; absent channels are omitted.",
   finalCtaHeading: "Zakazite sledeći prevoz sa nama",
   finalCtaText: "Izaberite uslugu i pošaljite detalje — jednostavne vožnje mogu imati prikaz cene, a za složenije zahteve pripremamo ponudu.",
   finalCtaPrimaryLabel: "Rezerviši",
@@ -1902,9 +1902,6 @@ const reviewFixtureItems: ReviewFixture[] = [
         primaryAction={{ label: samples.finalCtaPrimaryLabel, to: "contact" }}
         secondaryAction={{ label: samples.finalCtaSecondaryLabel, to: "contact" }}
         contacts={fctaContacts}
-        image={finalCtaBg}
-        imageFit="cover"
-        imageAlt=""
         locale="sr"
       />
     </section>

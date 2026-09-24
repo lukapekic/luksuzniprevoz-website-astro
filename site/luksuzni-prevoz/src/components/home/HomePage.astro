@@ -61,8 +61,7 @@ import { homepageFleetEntries, homepageFleetMedia } from "../../data/fleet-media
 import { fleetFamilyName, fleetFamilyPassengers, uniqueFleetFamilies } from "../../data/fleet-presentation.ts";
 import { getReviewsSummary } from "../../data/reviews.ts";
 import heroImg from "../../assets/hero-example-2.jpg";
-import finalCtaImg from "../../assets/final-cta-bg.webp";
-import privateChauffeurSectionImg from "../../assets/sections/home/private-chauffeur.webp";
+import { selectedMedia } from "../../data/selected-media.ts";
 import type { LocaleCode } from "@astro-foundation/core";
 
 interface Props {
@@ -147,9 +146,8 @@ const heroSecondaryAction = hero.secondaryCta
 // approved in /dev/ui — the legacy home/FinalCTA.astro adapter is deleted.
 // The editorial `finalCta` block (heading/text/primaryCta/secondaryCta) maps
 // straight onto the shared component's presentation-only props; CTA hrefs
-// resolve via resolveCtaHref (FND-I18N-03 — never manual URLs). The image is
-// the approved final-cta-bg.webp, wired via the component's <Image> API with
-// imageFit="cover" (contextual photo, right-zone) — matching /dev/ui.
+// resolve via resolveCtaHref (FND-I18N-03 — never manual URLs). The shared
+// closer selects its approved interior image through closing-media.ts.
 //
 // Contacts use the SAME verified-only canonical gating as /dev/ui + SiteFooter
 // (contact.ts isVerified): one phone + one email only.
@@ -219,7 +217,7 @@ const flagshipPackages = [
 ];
 // Dedicated contextual image for the Private Chauffeur feature. It is
 // decorative because the authored heading and body carry the service meaning.
-const flagshipImage = privateChauffeurSectionImg;
+const flagshipImage = selectedMedia.homePassengerFeature.image;
 
 // --- Fleet showcase (blueprint §11 / 08-fleet-showcase) ---------------------
 // Three concerns kept separate (08 §Content/data boundaries), mirroring the
@@ -355,6 +353,7 @@ const reviewsProfileUrl = import.meta.env.DEV
       packages={flagshipPackages}
       image={flagshipImage}
       imageAlt=""
+      imagePosition={selectedMedia.homePassengerFeature.position}
       locale={currentLocale}
     />
 
@@ -427,10 +426,6 @@ const reviewsProfileUrl = import.meta.env.DEV
       primaryAction={finalCtaPrimaryAction}
       secondaryAction={finalCtaSecondaryAction}
       contacts={finalCtaContacts}
-      image={finalCtaImg}
-      imageFit="cover"
-      mediaTreatment="integrated"
-      imageAlt=""
       locale={currentLocale}
     />
   </main>

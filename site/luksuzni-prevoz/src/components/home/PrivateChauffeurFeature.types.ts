@@ -45,6 +45,7 @@ export interface PrivateChauffeurFeatureProps {
   image: ImageMetadata;
   /** Alt text; empty string = decorative (blueprint split role). */
   imageAlt: string;
+  imagePosition?: string;
   /** Current locale (forwarded to <Link> for routing/hreflang). */
   locale: LocaleCode;
 }

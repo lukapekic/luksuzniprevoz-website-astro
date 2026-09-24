@@ -28,7 +28,6 @@ import { interpolateTokens } from "../../../lib/interpolate.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
 import heroImage from "../../../assets/shared/other/s-class-hotel-entrance-night.webp";
 import journeyImage from "../../../assets/fleet/original/sprinter/interior-entrance.webp";
-import finalCtaImage from "../../../assets/shared/other/v-class-parked-outside.webp";
 
 interface Props {
   routeKey: "conferenceCongressTransportation";
@@ -471,10 +470,6 @@ const seo = buildPageSeo({
     primaryAction={finalPrimaryAction}
     secondaryAction={finalSecondaryAction}
     {contacts}
-    image={finalCtaImage}
-    imageAlt=""
-    imageFit="cover"
-    mediaTreatment="integrated"
     {locale}
   />
 </BaseLayout>

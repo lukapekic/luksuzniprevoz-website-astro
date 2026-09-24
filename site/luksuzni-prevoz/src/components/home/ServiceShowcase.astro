@@ -71,7 +71,8 @@ import PageContainer from "../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import ServiceCard from "../shared/ServiceCard.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
-import privateChauffeurCard from "../../assets/services/private-chauffeur-card.webp";
+import { selectedMedia } from "../../data/selected-media.ts";
+import { imageSizes } from "../../data/image-delivery.ts";
 import airportTransportationCard from "../../assets/services/airport-transfer-card.webp";
 import businessTransportationCard from "../../assets/services/business-transport-card.webp";
 import specialEventsCard from "../../assets/services/special-events-card.webp";
@@ -102,8 +103,8 @@ const { heading, items, locale } = Astro.props;
 
 const headingId = "home-services-heading";
 
-const imageFor: Record<string, typeof privateChauffeurCard> = {
-  privateChauffeur: privateChauffeurCard,
+const imageFor: Record<string, typeof airportTransportationCard> = {
+  privateChauffeur: selectedMedia.privateChauffeurCard.image,
   airportTransportation: airportTransportationCard,
   businessTransportation: businessTransportationCard,
   specialEvents: specialEventsCard,
@@ -126,6 +127,11 @@ const card = (item: HomeServiceItem, className: string) => ({
   title: item.title,
   description: item.text ?? "",
   image: imageFor[item.routeKey],
+  imagePosition: item.routeKey === "privateChauffeur" ? selectedMedia.privateChauffeurCard.position : undefined,
+  imageTreatment: item.routeKey === "privateChauffeur" ? "open-chauffeur" as const : "standard" as const,
+  imageSizes: item.routeKey === "privateChauffeur" ? imageSizes.serviceMosaic.privateChauffeur
+    : item.routeKey === "airportTransportation" ? imageSizes.serviceMosaic.airportTransportation
+    : imageSizes.serviceMosaic.stacked,
   imageAlt: "",
   action: { label: item.ctaLabel, to: item.routeKey as RouteKey },
   locale,

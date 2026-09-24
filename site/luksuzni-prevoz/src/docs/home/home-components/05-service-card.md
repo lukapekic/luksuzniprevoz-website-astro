@@ -1,4 +1,4 @@
-# ServiceCard — Exact V1.1 Contract
+# ServiceCard — shared photographic card contract
 
 Status: **Aligned to Homepage Blueprint v1.1 + active Theme V2**
 
@@ -49,11 +49,11 @@ Do not duplicate literal inset/gap values in this contract. Use the active spaci
 
 ## Typography / color
 
-- title uses semantic heading typography (`font-heading` → Inter Tight);
+- title uses the compact Manrope card-title role (`font-body`), subordinate to section headings;
 - support/CTA UI uses Manrope through the shared type system;
 - title uses `textPrimary` or the equivalent semantic high-contrast role;
 - support uses `textMuted` where contrast remains compliant;
-- no local font-family declarations;
+- no raw font-family declarations;
 - no raw palette values.
 
 ## Interaction
@@ -72,6 +72,8 @@ Do not duplicate literal inset/gap values in this contract. Use the active spaci
 - image remains edge-to-edge;
 - image role/crop follows `.skills/imagery-art-direction.md`;
 - responsive delivery follows `.skills/responsive-images-performance.md` when production assets are wired.
+- DR-10's Homepage Private Chauffeur card uses the owner-confirmed existing `private-chauffeur.webp` at a composition-owned focal position. Its `open-chauffeur` image treatment retains exposure above the lower text scrim; other cards retain the standard treatment.
+- DR-11 uses source-capped card candidates, WebP quality 85, and caller geometry-specific `sizes`.
 
 ## Accessibility
 

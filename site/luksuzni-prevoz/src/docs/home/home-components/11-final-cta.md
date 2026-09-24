@@ -6,6 +6,8 @@ Status: **DR-12 approved direction**. This replaces the former contained rounded
 
 One continuous photographic section spans the viewport. A decorative optimized Astro image sits behind an independent semantic-background scrim and the content. The content stays in the normal main container. The shared component owns the structure; the site's media data layer selects `src/assets/shared/final-cta-interior-v2.webp`; localized page content owns heading, description, and action labels; route helpers and verified contact data own destinations and contacts. Existing page-specific CTA meanings and optional actions remain intact. A missing image yields a readable dark closer with the same actions.
 
+Migration note: the old per-consumer `image`, `imageAlt`, `imageFit`, and `mediaTreatment` props were removed from the shared API. All 13 existing production consumers now use the same approved interior through `closing-media.ts`; no page-specific closing image is inferred from its vehicle content.
+
 The section has no outer card radius or extra feature-sized spacer. It remains a medium-height conversion closer with an H2, Inter Tight heading, Manrope body/actions/contacts, clear primary and secondary action hierarchy, then one compact phone/email row. It never becomes a second Hero or a booking form.
 
 ## Responsive contract

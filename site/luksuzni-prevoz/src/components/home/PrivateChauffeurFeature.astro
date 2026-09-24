@@ -44,7 +44,7 @@ import Link from "../../foundation/ui/Link.astro";
 
 type Props = PrivateChauffeurFeatureProps;
 
-const { heading, body, cta, packages, image, imageAlt, locale } = Astro.props;
+const { heading, body, cta, packages, image, imageAlt, imagePosition, locale } = Astro.props;
 
 // Stable single-instance heading id → aria-labelledby on the <Section> (the
 // Section owns the landmark, not OpenSplitSection — FND-A11Y landmarks).
@@ -73,6 +73,7 @@ const SUMMARY_CELL_CLASSES = [
     <OpenSplitSection
       image={image}
       imageAlt={imageAlt}
+      imagePosition={imagePosition}
       layout="content-image"
       ratio="5-7"
     >

@@ -4,6 +4,7 @@ import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import Link from "../../../foundation/ui/Link.astro";
 import type { ImageMetadata } from "astro";
 import type { LocaleCode } from "@astro-foundation/core";
+import { imageQuality, imageSizes, imageWidths } from "../../../data/image-delivery.ts";
 
 interface Action { label: string; href: string }
 interface Props {
@@ -17,6 +18,8 @@ interface Props {
   variant?: "contained" | "responsive-split" | "full-bleed";
   image?: ImageMetadata;
   imageAlt?: string;
+  imagePosition?: string;
+  imageTreatment?: "default" | "natural";
   supportText?: string;
 }
 
@@ -31,20 +34,18 @@ const {
   variant = "contained",
   image,
   imageAlt = "",
+  imagePosition,
+  imageTreatment = "default",
   supportText,
 } = Astro.props;
 
 const isFullBleed = variant === "full-bleed";
 const isResponsiveSplit = variant === "responsive-split";
-const imageSizes = isFullBleed
-  ? "100vw"
-  : isResponsiveSplit
-    ? "(min-width: 80rem) 58vw, calc(100vw - 2rem)"
-  : "(min-width: 80rem) 80rem, calc(100vw - 2rem)";
+const sourceSizes = isFullBleed ? imageSizes.hero : isResponsiveSplit ? imageSizes.split : imageSizes.supporting;
 const hasActions = Boolean(primaryAction || secondaryAction);
 ---
 
-<section class="service-hero" data-variant={variant} aria-labelledby="service-hero-title">
+<section class="service-hero" data-variant={variant} data-image-treatment={imageTreatment} aria-labelledby="service-hero-title">
   <div class="service-hero__panel">
       <div class="service-hero__inner">
         <PageContainer>
@@ -83,9 +84,10 @@ const hasActions = Boolean(primaryAction || secondaryAction);
           fetchpriority="high"
           decoding="async"
           format="avif"
-          quality={40}
-          widths={[640, 768, 1024, 1536, 1920]}
-          sizes={imageSizes}
+          quality={imageQuality.heroAvif}
+          widths={imageWidths(image, "hero")}
+          sizes={sourceSizes}
+          style={imagePosition ? `object-position: ${imagePosition}` : undefined}
         />
       ) : <div class="service-hero__media service-hero__placeholder" aria-hidden="true" />}
       <div class="service-hero__scrim" aria-hidden="true"></div>
@@ -121,6 +123,7 @@ const hasActions = Boolean(primaryAction || secondaryAction);
     transform-origin: center;
     animation: service-hero-image-settle calc(var(--duration-cinematic) + var(--duration-cinematic)) var(--ease-entrance) both;
   }
+  .service-hero[data-image-treatment="natural"] .service-hero__media { filter: none; animation: none; }
   .service-hero[data-variant="full-bleed"] .service-hero__scrim {
     z-index: 1;
     background:
@@ -145,6 +148,9 @@ const hasActions = Boolean(primaryAction || secondaryAction);
         color-mix(in oklab, var(--color-background), transparent 82%) 70%,
         color-mix(in oklab, var(--color-background), transparent 64%) 100%
       );
+  }
+  .service-hero[data-image-treatment="natural"] .service-hero__scrim {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 62%, transparent) 0%, transparent 23%, transparent 100%), linear-gradient(90deg, color-mix(in srgb, var(--color-background) 80%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 15%, transparent) 76%, transparent 100%);
   }
   .service-hero[data-variant="full-bleed"] .service-hero__inner {
     z-index: 2;

@@ -86,6 +86,7 @@
  * reused in /dev/ui where the hero is not the first element under a header.
  */
 import { Image } from "astro:assets";
+import { imageQuality, imageSizes, imageWidths } from "../../data/image-delivery.ts";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
 import Link from "../../foundation/ui/Link.astro";
 import type { HomepageHeroProps } from "./HomepageHero.types.ts";
@@ -130,9 +131,9 @@ const isDecorative = imageAlt === "";
       fetchpriority="high"
       decoding="async"
       format="avif"
-      quality={40}
-      widths={[640, 768, 1024, 1536, 1920]}
-      sizes="100vw"
+      quality={imageQuality.heroAvif}
+      widths={imageWidths(image, "hero")}
+      sizes={imageSizes.hero}
     />
   </div>
 
@@ -248,41 +249,17 @@ const isDecorative = imageAlt === "";
     block-size: 100%;
     object-fit: cover;
     object-position: 28% 55%;
-    filter: brightness(0.68) contrast(1.08) saturate(0.72);
     z-index: 0;
     transform-origin: center;
     animation: homepage-hero-image-settle calc(var(--duration-cinematic) + var(--duration-cinematic)) var(--ease-entrance) both;
   }
 
-  /* Low-key art direction: radial edge vignette preserves the vehicle center;
-     vertical settle protects Header/foreground; directional layer protects
-     the primary copy. Semantic graphite only—no fake blue night tint. */
+  /* Separate top/header and text-side scrims retain natural vehicle exposure. */
   .homepage-hero__scrim {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background:
-      radial-gradient(
-        ellipse 78% 70% at 62% 72%,
-        transparent 0%,
-        transparent 36%,
-        color-mix(in oklab, var(--color-background), transparent 56%) 76%,
-        color-mix(in oklab, var(--color-background), transparent 28%) 100%
-      ),
-      linear-gradient(
-        180deg,
-        color-mix(in oklab, var(--color-background), transparent 12%) 0%,
-        transparent 30%,
-        transparent 64%,
-        color-mix(in oklab, var(--color-background), transparent 18%) 100%
-      ),
-      linear-gradient(
-        90deg,
-        color-mix(in oklab, var(--color-background), transparent 5%) 0%,
-        color-mix(in oklab, var(--color-background), transparent 20%) 43%,
-        color-mix(in oklab, var(--color-background), transparent 62%) 76%,
-        color-mix(in oklab, var(--color-background), transparent 52%) 100%
-      );
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%), linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 12%, transparent) 78%, transparent 100%);
   }
 
   /* Inner content shell (PageContainer root): container-aligned copy grid. As

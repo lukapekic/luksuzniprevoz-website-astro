@@ -91,6 +91,12 @@ export interface ServiceCardProps {
   image?: ServiceCardImage;
   /** Alt text; empty string = decorative (alt="" + role="presentation"). */
   imageAlt: string;
+  /** Caller-owned responsive slot hint; shared cards cannot assume the homepage mosaic. */
+  imageSizes?: string;
+  /** Approved media-data focal position (not a style/class passthrough). */
+  imagePosition?: string;
+  /** Localized DR-10 exposure treatment for the owner chauffeur card only. */
+  imageTreatment?: "standard" | "open-chauffeur";
   /**
    * Neutral placeholder variant used when `image` is absent (asset-gap phase).
    * Ignored when `image` is supplied. Defaults to "graphite".

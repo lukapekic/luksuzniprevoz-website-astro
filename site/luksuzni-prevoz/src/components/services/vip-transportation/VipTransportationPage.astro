@@ -26,10 +26,9 @@ import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
 import heroImage from "../../../assets/pages/vip-transportation/hero.png";
 import passengerImage from "../../../assets/shared/other/passenger-experience-alternate.webp";
-import discretionImage from "../../../assets/shared/other/s-class-hotel-front-winter.webp";
+import { selectedMedia } from "../../../data/selected-media.ts";
 import aviationPrimaryImage from "../../../assets/shared/other/mercedes-sprint-next-to-private-jet.webp";
 import aviationSupportingImage from "../../../assets/shared/other/private-jet-parked-outside-of-hangar.webp";
-import finalCtaImage from "../../../assets/final-cta-bg.webp";
 import mercedesSClassFront from "../../../assets/fleet/original/s-class/front-facing.webp";
 import mercedesEClassFront from "../../../assets/fleet/original/e-class/front-facing.webp";
 import mercedesVClassFront from "../../../assets/fleet/original/v-class/front-facing.webp";
@@ -263,6 +262,7 @@ const seo = buildPageSeo({
     {locale}
     variant="full-bleed"
     image={heroImage}
+    imageTreatment="natural"
     imageAlt=""
   />
 
@@ -290,7 +290,8 @@ const seo = buildPageSeo({
     body={discretion.body}
     label={ui("vip.section.discretion")}
     items={[discretion.items[0], discretion.items[1], discretion.items[2]]}
-    image={discretionImage}
+    image={selectedMedia.vipDiscretion.image}
+    imagePosition={selectedMedia.vipDiscretion.position}
   />
 
   <VipAviation
@@ -363,10 +364,6 @@ const seo = buildPageSeo({
     primaryAction={finalPrimaryAction}
     secondaryAction={finalSecondaryAction}
     {contacts}
-    image={finalCtaImage}
-    imageAlt=""
-    imageFit="cover"
-    mediaTreatment="integrated"
     {locale}
   />
 </BaseLayout>
