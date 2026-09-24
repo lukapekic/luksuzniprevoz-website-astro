@@ -457,7 +457,7 @@ Standardized vehicle presentation; transparent vehicle cutouts use containment r
 
 ## Final CTA
 
-Vehicle/image integrated into its allocated media region; no hard edge if the approved component calls for blending.
+One full-width photographic closing section uses the approved interior image behind a separate legibility scrim. Copy stays aligned to the normal main container; the section remains a compact conversion closer, not another Hero. The locked FinalCTA contract owns its responsive image and action treatment.
 
 Missing assets do not authorize redesign.
 

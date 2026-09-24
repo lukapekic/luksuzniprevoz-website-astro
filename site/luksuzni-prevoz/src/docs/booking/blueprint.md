@@ -1,10 +1,10 @@
-# Luxury Transportation — Booking Page Blueprint V1
+# Luksuzni transport — Booking Page Blueprint V2
 
 Status: **LOCKED FOR IMPLEMENTATION**  
 Route key: `booking`  
-Delivery phase: **public validation-only page; submission deferred**
+Delivery phase: **production request submission with manual confirmation**
 
-This blueprint owns the required page regions, form behavior, commercial-result behavior, responsive topology, CTA roles, and the public-testing release posture. Root `AGENTS.md`, `DESIGN.md`, canonical data, and the active theme remain higher authorities in their respective domains.
+This blueprint owns the required page regions, form behavior, commercial-result behavior, responsive topology, and CTA roles. DR-07 in the design-refinement handoff supersedes the former passive progress, work/summary split, and validation-only language in older supporting documents. The existing Turnstile-backed `/api/forms/booking` submission remains in production. Root `AGENTS.md`, `DESIGN.md`, canonical data, and the active theme remain higher authorities in their respective domains.
 
 ## 1. Product objective
 
@@ -14,26 +14,26 @@ Create one localized, first-class booking/request planner that:
 - accepts a small, validated handoff from a concrete service page;
 - progressively collects only the facts needed for the selected service;
 - shows fixed, calculated, estimated, or quote-required commercial context without implying confirmation;
-- remains usable as a public test page before server submission exists;
-- provides a verified direct-contact recovery path while online submission is unavailable.
+- submits a request through the existing verified server path without implying an immediate confirmed reservation;
+- provides a verified direct-contact recovery path when online submission is unavailable.
 
 The page is not checkout, payment, instant confirmation, a public dispatch manifest, or a general pricing table.
 
 ## 2. Locked page identity
 
-The design direction is **Service-First Concierge / Platinum Concierge Split**.
+The design direction is **Service-First Concierge / compact single-panel wizard**.
 
 The page has no marketing Hero, FAQ, reviews, fleet carousel, FinalCTA, or public tariff table. Functional clarity is the page identity.
 
 Required page order:
 
 1. reviewed `SiteHeader`;
-2. compact booking introduction and passive four-step progress;
-3. one four-step booking form with work area and request summary;
-4. compact operational assurance row;
+2. one H1 and short introduction directly above a centered light booking panel;
+3. within that panel: readable four-step progress, contextual compact summary on Steps 02–03, current work/review, and Back/Continue or Submit actions;
+4. compact manual-confirmation assurance and quiet direct-contact route below the panel;
 5. reviewed `SiteFooter`.
 
-One H1 appears in the booking introduction. Step headings use H2.
+One H1 appears in the booking introduction. Step headings use H2. The old duplicate middle introductory heading and desktop summary sidebar are removed.
 
 ## 3. Canonical sources
 
@@ -129,7 +129,7 @@ The four steps are exactly:
 04 Review & contact
 ```
 
-Progress is a passive ordered list. The active item uses `aria-current="step"`. Back and Edit are real buttons. Only the active panel is exposed; inactive panels use `hidden`. On successful step movement, focus the next H2 with `tabindex="-1"`. Invalid movement focuses a localized error summary, then preserves logical field order.
+Progress is an ordered navigation list inside the panel. The active item uses `aria-current="step"`; completed items are buttons that return to their panels, while future items cannot bypass validation. Back and Edit are real buttons. Only the active panel is exposed; inactive panels use `hidden`. On successful step movement, focus the next H2 with `tabindex="-1"`. Invalid Continue focuses the first invalid field after announcing concise guidance.
 
 ## 6. Step 01 — Service
 
@@ -141,7 +141,7 @@ Use native fieldsets, legends, labels, and radios. Categories are organizational
 
 ## 7. Step 02 — Journey
 
-All branches collect the requested date and start time. These values are interpreted in `contact.bookingLeadTime.timeZone`, locked to `Europe/Belgrade`, never in the browser's local time zone. A localized note exposes the time-zone name.
+All branches collect the requested date and start time. Serbian visible dates are zero-padded `DD/MM/YYYY`; grouped hour/minute controls display 24-hour `HH:mm`. Canonical request and draft values remain `YYYY-MM-DD` and `HH:mm`. Validate actual dates, leap years, complete time selections, return chronology, and daylight-saving edges. These values are interpreted in `contact.bookingLeadTime.timeZone`, locked to `Europe/Belgrade`, never in the browser's local time zone. A localized note exposes the time-zone name. Manual date typing/paste remains available even if an optional native calendar picker is unsupported.
 
 ### Private Chauffeur
 
@@ -201,23 +201,13 @@ Trusted provider outputs belong to a resolver context, never `BookingRequest`. C
 
 ## 11. Intent and action behavior
 
-The future final primary action label is Request quote when incoming intent is `quote`, Request quote when result is `quote-required`, and Request booking otherwise. There is never Pay or Confirm booking copy.
-
-For the current public-testing phase:
-
-- the form has no `action` and no submission `method`;
-- no network request is made;
-- the intended final primary action is rendered as `type="button"` and disabled;
-- a localized status states that online sending is not yet enabled;
-- a verified direct contact route/channel is available as the active recovery action.
-
-Validation, review, edit, pricing preview, query handoff, and draft recovery remain fully testable.
+The final primary action label is Request quote when incoming intent is `quote`, Request quote when result is `quote-required`, and Request booking otherwise. There is never Pay or Confirm booking copy. The existing controller submits a validated request through the same-origin endpoint with Turnstile verification, pending protection, server validation, failure recovery, and genuine success feedback. A verified direct-contact route/channel remains available when online sending is unavailable. Validation, review, edit, pricing preview, query handoff, and draft recovery remain fully operable.
 
 ## 12. Lead time and confirmation
 
-The current minimum lead time comes from `contact.bookingLeadTime.publicMinimumHours`. Client validation computes the requested instant in `Europe/Belgrade`; the future server repeats the same check authoritatively. A query string cannot bypass the rule.
+The current minimum lead time comes from `contact.bookingLeadTime.publicMinimumHours`. Client and server validation compute the requested instant in `Europe/Belgrade`. A query string cannot bypass the rule.
 
-All copy states that a future submission creates a request pending manual confirmation. No vehicle, fare, or booking is guaranteed by the client UI.
+All copy states that submission creates a request pending manual confirmation. No vehicle, fare, or booking is guaranteed by the client UI.
 
 ## 13. Draft persistence and privacy
 
@@ -244,43 +234,39 @@ Without JavaScript, render the introduction, Step 01 service choices, a localize
 
 ## 15. Responsive contract
 
-DOM and focus order remain progress → work → summary → actions. CSS must not reorder meaningful content.
+At every width the single panel's DOM and focus order is progress → optional compact summary → current work/review → actions. CSS must not reorder meaningful content. The panel uses a booking-local capped measure, while the page keeps the active main container and gutters.
 
 ### Mobile — 320
 
 - one column;
 - progress remains readable without horizontal page overflow;
 - work surface fills the content width;
-- on Steps 01–03 the persistent summary follows the work surface and precedes navigation actions;
-- on Step 04 the complete review lives inside the work surface and the duplicate persistent summary is hidden;
-- native date/time controls and all actions fit; all targets are at least 44×44.
+- Step 01 has no summary; Steps 02–03 have a compact expandable summary directly below progress; Step 04 has a complete review before contact fields and no duplicate summary;
+- the Serbian date field displays `DD/MM/YYYY`, and grouped native hour/minute selects display `HH:mm` in 24-hour time; all controls and actions fit with 44×44 minimum targets.
 
 ### Tablet portrait — 768
 
 - one column with constrained readable measure;
 - same source and focus order as mobile;
 - fields may use bounded two-column rows only where labels and localized values fit without reordering;
-- persistent summary behavior matches mobile.
+- compact summary behavior matches mobile.
 
 ### Tablet landscape — 1024
 
-- switch at the active `lg` design token to the 7/5 work/summary split;
-- progress spans the container;
-- summary is sticky only if it remains fully reachable at zoom and does not hide focused content;
-- Step 04 hides the duplicate summary.
+- retain the centered single-panel topology; progress has four readable labels and numbered/completed/future states;
+- no sticky sidebar or split work/summary composition.
 
 ### Desktop — 1440
 
-- capped PageContainer;
-- 7/5 split with one dominant light work surface and an open dark summary region;
-- actions stay owned by the work column;
+- capped PageContainer with one centered light panel;
+- progress, summary, work, and actions stay in that panel;
 - no dashboard-card repetition.
 
 ### Wide desktop — 1920
 
 - same capped topology as desktop;
 - no uncontrolled measure growth or inflated whitespace;
-- header, form, summary, and footer remain visually connected.
+- header, panel, assurance, and footer remain visually connected.
 
 At every state: no accidental horizontal overflow, no clipped SR/EN/RU strings, logical properties for direction-sensitive styling, visible focus, and reduced-motion support.
 
@@ -290,21 +276,10 @@ Use the configured active theme, reviewed shared chrome, and semantic tokens onl
 
 No gold, blue corporate palette, glow, glass, metallic gradients, dashboard cards, or decorative motion. The wireframe owns geometry only and is not production CSS or a shared-component mock.
 
-## 17. Deferred Cloudflare submission phase
+## 17. Existing production submission
 
-The following are intentionally outside this implementation phase:
-
-- same-origin Cloudflare Pages Function/Worker endpoint;
-- Managed Turnstile and server Siteverify;
-- server schema validation and pricing recomputation;
-- body limits, origin checks, rate limiting, and delivery/storage integration;
-- submitting, success, failure, and request-reference UI states;
-- analytics for completed submission.
-
-When authorized, these requirements are added without converting the static site to SSR and without trusting client amounts or client qualification flags.
+The current same-origin booking endpoint, Managed Turnstile, server validation, payload contract, pending/double-submit protection, unavailable/failure recovery, and genuine success response are retained. The form never claims a reservation is confirmed before manual confirmation. Do not substitute the standalone preview's demo success state or simplified validation for production behavior.
 
 ## 18. Release posture
 
-V1 is allowed to publish for public testing only when the route, localized content, all booking/quote CTA handoffs, query handling, validation, pricing-result behavior, direct-contact fallback, accessibility, responsive states, and noindex posture pass acceptance.
-
-Cloudflare submission is a separate follow-up release gate. The public-testing page must not imply that its disabled final action sent or reserved anything.
+Release requires all configured locales, booking/quote handoffs, state preservation, service branches, pricing-result qualification, date/time parsing and Belgrade timezone rules, actual submission states, direct-contact recovery, accessibility, responsive states, and the existing noindex posture to pass acceptance. Automated and browser evidence are recorded separately.

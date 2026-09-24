@@ -38,8 +38,8 @@ Sticky:
 
 Left:
 
-- GS vector mark only
-- the home link keeps the public brand name as its accessible name
+- approved Luksuzni transport symbol and canonical public identity; no GS artwork
+- the home link keeps **Luksuzni transport** as its accessible name
 
 Center desktop:
 
@@ -52,13 +52,13 @@ Right:
 
 Mobile:
 
-- GS vector mark
+- approved own-brand symbol
 - Book CTA
 - menu trigger
 - language selector may move into menu
 
-The Book CTA uses the localized Contact route with `intent=booking`; the Header
-must not hardcode the Contact route or ignore `navigation.headerPrimaryAction`.
+The Book CTA uses the canonical localized booking flow. The Header must not
+hardcode a route or ignore `navigation.headerPrimaryAction`.
 
 ## Enlarged-text compatibility
 

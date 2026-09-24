@@ -8,7 +8,7 @@ Use after implementation and before final technical review.
 - [ ] no opaque strip above Hero
 - [ ] sticky scrolled state is compact/stable
 - [ ] no decorative Header bottom border or shadow
-- [ ] Header uses the GS vector mark without a visible wordmark
+- [ ] Header uses the approved own-brand symbol with a canonical accessible name
 - [ ] Book CTA visible desktop/mobile
 - [ ] mobile menu accessible
 - [ ] Header remains above Hero layers
@@ -37,6 +37,7 @@ Use after implementation and before final technical review.
 - [ ] 2×2 tablet portrait
 - [ ] 1-column mobile
 - [ ] full-card images
+- [ ] own chauffeur-at-wheel photo is on the Private Chauffeur card with a localized lower scrim and natural image exposure
 - [ ] no routine hover lift
 
 ## Private Chauffeur
@@ -44,6 +45,7 @@ Use after implementation and before final technical review.
 - [ ] open 5/7 desktop
 - [ ] no text card/panel
 - [ ] contextual 4:3-ish image
+- [ ] feature uses passenger-at-work image, distinct from the chauffeur card
 - [ ] package summary is informational, not pricing cards
 - [ ] package summary is one compact elevated-graphite inset, never a white pricing panel
 - [ ] mobile content first
@@ -57,8 +59,8 @@ Use after implementation and before final technical review.
 ## Fleet
 
 - [ ] horizontal continuation visible
-- [ ] vehicle PNGs use contain
-- [ ] 16:9 studio photographs fill the stage without distortion
+- [ ] shared FleetCard uses a natural-colour 4:3 photo above a graphite details panel
+- [ ] no fleet overlay, filter, fade, hover darkening, or arbitrary V-Class capacity
 - [ ] unresolved vehicle imagery retains a truthful placeholder
 - [ ] no autoplay
 - [ ] no unverified facts/prices
@@ -82,24 +84,23 @@ Use after implementation and before final technical review.
 
 ## FinalCTA
 
-- [ ] contained medium-height closer
-- [ ] ~62/38 desktop split
-- [ ] vehicle stays within ~35–40% footprint
-- [ ] neutral graphite gradient only
+- [ ] full-width interior image with copy aligned to the main container
+- [ ] independent semantic-background scrim provides contrast without fading the image
 - [ ] not second-Hero sized
 - [ ] no glow/hard media edge
-- [ ] integrated Homepage media uses a restrained veil and responsive edge fade
+- [ ] dashboard detail remains recognizable at all five viewport states
 - [ ] mobile Book full width
 - [ ] mobile Request Quote full width
 - [ ] contacts shown only when canonical data is verified
-- [ ] image is dedicated media area below mobile content
+- [ ] mobile uses one continuous background with visible upper photo detail
 
 ## Footer
 
 - [ ] verified production SiteFooter reused
-- [ ] GS mark is visible without the public wordmark; accessible home-link name remains intact
-- [ ] compact desktop layout
+- [ ] approved Luksuzni transport symbol/name, no parent-company attribution
+- [ ] compact three-tier layout with four route-derived navigation groups
 - [ ] phone, email, office hours, and address share one coherent body/UI text treatment
 - [ ] stacked mobile
 - [ ] no newsletter/social bloat
 - [ ] canonical contact data only
+- [ ] route-preserving inline locale links and no unavailable legal/social placeholders

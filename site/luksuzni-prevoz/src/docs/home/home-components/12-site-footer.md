@@ -1,129 +1,15 @@
-# SiteFooter — Exact V1.1 Contract
+# SiteFooter — three-tier shared contract
 
-Status: **Aligned to Homepage Blueprint v1.1 + active Theme V2**
+Status: **DR-08 and DR-09 approved direction**. This replaces the former three-column/GS-mark-only footer and parent-company attribution. The public identity is exactly **Luksuzni transport** across locales.
 
-## Authority
+The full-width dark footer uses Theme V2 semantic surfaces, dividers, spacing, Manrope UI text, and the capped main container. It follows FinalCTA without an oversized blank band, glow, heavy shadow, newsletter, or additional primary CTA.
 
-`SiteFooter` is approved shared infrastructure.
+## Tiers
 
-Homepage work reuses it; the Homepage does not create a page-specific Footer variant.
+1. Utility: approved own-brand symbol/lockup, verified phone and email, and quiet verified office hours. Omit unverified social/WhatsApp slots entirely.
+2. Navigation: four route-data groups in order—Services (`privateChauffeur`, `airportTransportation`), Business transport (`businessTransportation`, `corporateTransportation`, `delegationTransportation`, `conferenceCongressTransportation`), Special occasions (`specialEvents`, `weddingTransportation`, `promTransportation`, `vipTransportation`), Information (`fleet`, `pricing`, `contact`). Labels are localized through approved sources; unavailable routes/groups are omitted.
+3. Bottom: current-year canonical copyright and localized rights text, verified location, route-preserving inline SR/EN/RU language links, and legal links only where published destinations exist. Use one semantic DOM tree.
 
-Relevant skills:
+At widths below `md`, stack utility, navigation, and bottom content in logical order. From `md` to below `xl`, use two utility columns, a 2×2 navigation grid, and a two-column bottom region. At `xl` and wider, use horizontal utility rows, four navigation columns, and naturally wrapping bottom groups. Review 320/768/1024/1440/1920 and both sides of `md`/`xl`; no duplicate landmarks, clipped translations, or page overflow. Every interactive target is at least 44×44 with visible focus. The shared LanguageSwitcher gains an inline presentation without changing its header dropdown default.
 
-```text
-.skills/component-architecture.md
-.skills/responsive-layout.md
-.skills/responsive-ui.md
-.skills/tailwind-v4.md
-.skills/accessibility-wcag.md
-.skills/multilingual-routing.md
-```
-
-Theme values are consumed from active Theme V2 and must not be copied into this contract.
-
-## Surface
-
-- full-width dark footer surface using the appropriate Theme V2 background/surface role;
-- optional subtle structural top divider using the semantic divider/border role;
-- no rounded outer Footer panel;
-- no glow or heavy shadow.
-
-## Relationship to FinalCTA
-
-Footer follows the strong contained FinalCTA as a compact site ending.
-
-Use the blueprint-approved semantic spacing relationship. Do not create an oversized blank band between FinalCTA and Footer.
-
-## Desktop inner layout
-
-Contained inner shell aligned to the Theme V2 main container.
-
-Approximate composition:
-
-```text
-Brand | Services / Company | Contact / Hours
-```
-
-The first column may carry slightly more visual weight, while all gaps/padding use Theme V2 spacing roles.
-
-## Content groups
-
-### 1. Brand
-
-- approved BrandLockup using its mark-only visual variant; the hidden wordmark
-  continues to provide the accessible home-link name;
-- concise brand line where canonical localized content exists;
-- parent-company relationship may be referenced quietly when appropriate.
-
-### 2. Services / Company
-
-- route-derived navigation only;
-- localized labels from canonical navigation/i18n sources;
-- no hand-built internal URL strings.
-
-### 3. Contact / Hours
-
-Render only canonical business/contact data allowed by verification status:
-
-- address;
-- phone;
-- email;
-- office hours.
-
-Absence of an unverified contact method is not a visual bug.
-
-## Bottom row
-
-May contain:
-
-- legal links;
-- copyright;
-- restrained locale shortcuts if useful and supported by routing architecture.
-
-Use semantic divider/spacing roles rather than copied literal values.
-
-## Mobile
-
-- stack content groups cleanly;
-- preserve comfortable touch targets;
-- bottom row may stack;
-- no horizontal overflow;
-- maintain clear group hierarchy without turning each group into a card.
-
-## Data ownership
-
-All internal links are route-derived.
-
-All contact and office-hour values are business/contact-data-derived.
-
-Do not hardcode:
-
-- phone;
-- email;
-- address;
-- office hours;
-- locale paths.
-
-## Typography / color
-
-Use Theme V2 semantic roles and project typography:
-
-```text
-headings / strong labels → Inter Tight or approved semantic heading role
-body / links / UI        → Manrope
-brand wordmark           → visually hidden in the Footer's mark-only BrandLockup
-```
-
-Phone, email, office hours, and the verified address use one consistent
-body/UI text treatment. The response-time note remains subordinate.
-
-Do not introduce local font-family or palette declarations.
-
-## Forbidden
-
-- newsletter signup;
-- giant sitemap treatment;
-- oversized social-media section;
-- Homepage-specific Footer redesign;
-- raw theme values;
-- old V1 gold/Fraunces styling.
+The approved logo package's full artwork says “LUKSUZNI PREVOZ,” which differs from the canonical public name. Use its approved symbol with the canonical BrandLockup text unless corrected artwork is supplied. Do not copy Belgrade Transfers branding, palette, contact data, routes, or placeholder links.
