@@ -6,9 +6,12 @@ interface Props {
   timeName: "time" | "returnTime";
   dateLabel: string;
   timeLabel: string;
+  dateFormatHint: string;
+  hourFormatHint: string;
+  minuteFormatHint: string;
   required?: boolean;
 }
-const { dateName, timeName, dateLabel, timeLabel, required = false } = Astro.props;
+const { dateName, timeName, dateLabel, timeLabel, dateFormatHint, hourFormatHint, minuteFormatHint, required = false } = Astro.props;
 const dateId = `booking-${dateName}-display`;
 const hours = Array.from({ length: 24 }, (_, hour) => String(hour).padStart(2, "0"));
 const minutes = Array.from({ length: 60 }, (_, minute) => String(minute).padStart(2, "0"));
@@ -16,8 +19,8 @@ const minutes = Array.from({ length: 60 }, (_, minute) => String(minute).padStar
 
 <div class="booking-schedule-controls">
   <div>
-    <Field label={dateLabel} htmlFor={dateId} hint="DD/MM/YYYY" {required}>
-      <input slot="control" id={dateId} name={`${dateName}Display`} type="text" inputmode="numeric" autocomplete="off" placeholder="DD/MM/YYYY" aria-describedby={`${dateId}-hint`} data-booking-date-display data-canonical-name={dateName} class="booking-schedule-controls__input" />
+    <Field label={dateLabel} htmlFor={dateId} hint={dateFormatHint} {required}>
+      <input slot="control" id={dateId} name={`${dateName}Display`} type="text" inputmode="numeric" autocomplete="off" placeholder={dateFormatHint} aria-describedby={`${dateId}-hint`} data-booking-date-display data-canonical-name={dateName} class="booking-schedule-controls__input" />
     </Field>
     <input type="hidden" name={dateName} />
   </div>
@@ -25,12 +28,12 @@ const minutes = Array.from({ length: 60 }, (_, minute) => String(minute).padStar
     <legend>{timeLabel}{required && <span aria-hidden="true"> *</span>}</legend>
     <div class="booking-schedule-controls__time">
       <select name={`${timeName}Hour`} data-booking-hour data-time-for={timeName} aria-label={`${timeLabel} (00–23)`}>
-        <option value="">HH</option>
+        <option value="">{hourFormatHint}</option>
         {hours.map((hour) => <option value={hour}>{hour}</option>)}
       </select>
       <span aria-hidden="true">:</span>
       <select name={`${timeName}Minute`} data-booking-minute data-time-for={timeName} aria-label={`${timeLabel} (00–59)`}>
-        <option value="">mm</option>
+        <option value="">{minuteFormatHint}</option>
         {minutes.map((minute) => <option value={minute}>{minute}</option>)}
       </select>
     </div>

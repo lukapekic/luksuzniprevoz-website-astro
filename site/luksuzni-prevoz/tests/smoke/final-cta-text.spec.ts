@@ -19,11 +19,11 @@ for (const route of consumers) for (const locale of locales) {
         await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       });
       await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).fontSize)).toBe("32px");
-      const panels = page.locator(".fcta-panel");
+      const panels = page.locator(".final-cta");
       await expect(panels).toHaveCount(1);
       const failures = await panels.evaluateAll((elements) => elements.flatMap((panel) => {
         const bounds = panel.getBoundingClientRect();
-        return [...panel.querySelectorAll<HTMLElement>(".fcta-contact")].flatMap((link) => {
+        return [...panel.querySelectorAll<HTMLElement>(".final-cta__contacts a")].flatMap((link) => {
           const box = link.getBoundingClientRect();
           const valid = box.left >= bounds.left && box.right <= bounds.right + 1 &&
             box.bottom <= bounds.bottom + 1 && link.scrollWidth <= link.clientWidth + 1 &&

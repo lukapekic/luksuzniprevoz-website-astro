@@ -25,11 +25,20 @@ const md = layout.breakpoints.md;
 const lg = layout.breakpoints.lg;
 
 export const imageSizes = {
-  hero: "100vw",
-  fullWidthCta: "100vw",
+  // Below tablet landscape, full-bleed media is taller than its 3:2 source.
+  // The cover crop is height-limited, so the browser needs source pixels for
+  // roughly 60rem of image width even when the visible box is much narrower.
+  // This matches the current mobile crop without fetching the 2560px candidate
+  // for the 412px Lighthouse viewport.
+  hero: `(max-width: ${md}) max(100vw, 60rem), 100vw`,
+  // The compact closer becomes content-tall only below xs; other states are
+  // width-limited. This hint avoids selecting a soft 640px mobile background.
+  fullWidthCta: `(max-width: ${layout.breakpoints.xs}) max(100vw, 70rem), 100vw`,
   serviceMosaic: {
-    privateChauffeur: `(min-width: ${lg}) min(35vw, 26rem), (min-width: ${md}) min(50vw, 38rem), ${contentWidth}`,
-    airportTransportation: `(min-width: ${lg}) min(30vw, 23rem), (min-width: ${md}) min(50vw, 38rem), ${contentWidth}`,
+    // Both dominant desktop cards are much taller than 3:2; cover scaling is
+    // driven by the mosaic height, not their narrow 35/30% column width.
+    privateChauffeur: `(min-width: ${lg}) min(70vw, 55rem), (min-width: ${md}) min(50vw, 38rem), ${contentWidth}`,
+    airportTransportation: `(min-width: ${lg}) min(70vw, 55rem), (min-width: ${md}) min(50vw, 38rem), ${contentWidth}`,
     stacked: `(min-width: ${lg}) min(35vw, 26rem), (min-width: ${md}) min(50vw, 38rem), ${contentWidth}`,
   },
   fleetCard: `(min-width: ${lg}) min(31vw, 24rem), (min-width: ${md}) min(56vw, 44rem), 88vw`,

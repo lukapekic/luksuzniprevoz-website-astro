@@ -162,7 +162,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
       <p class="booking-time-note">{interpolate("booking.timeZone.note", { timeZone })}</p>
 
       <div class="booking-fields md:grid-cols-2">
-        <BookingScheduleControls dateName="date" timeName="time" dateLabel={ui("booking.field.date")} timeLabel={ui("booking.field.time")} required />
+        <BookingScheduleControls dateName="date" timeName="time" dateLabel={ui("booking.field.date")} timeLabel={ui("booking.field.time")} dateFormatHint={ui("booking.field.dateFormatHint")} hourFormatHint={ui("booking.field.hourFormatHint")} minuteFormatHint={ui("booking.field.minuteFormatHint")} required />
         <p class={`${groupErrorClass} md:col-span-2`} data-error-for="dateTime" hidden></p>
         <Field label={ui("booking.field.pickup")} htmlFor="booking-pickup" required class="md:col-span-2">
           <Input slot="control" id="booking-pickup" name="pickup" autocomplete="off" required />
@@ -219,7 +219,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
           </Field>
           <Checkbox id="booking-return" name="returnRequested" label={ui("booking.field.return")} />
           <div class="booking-fields md:grid-cols-2" data-return-fields hidden>
-            <BookingScheduleControls dateName="returnDate" timeName="returnTime" dateLabel={ui("booking.field.returnDate")} timeLabel={ui("booking.field.returnTime")} />
+            <BookingScheduleControls dateName="returnDate" timeName="returnTime" dateLabel={ui("booking.field.returnDate")} timeLabel={ui("booking.field.returnTime")} dateFormatHint={ui("booking.field.dateFormatHint")} hourFormatHint={ui("booking.field.hourFormatHint")} minuteFormatHint={ui("booking.field.minuteFormatHint")} />
             <p class={`${groupErrorClass} md:col-span-2`} data-error-for="return" hidden></p>
           </div>
         </div>
@@ -399,8 +399,8 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
   .booking-back { border: 1px solid var(--color-input-border); background: transparent; color: var(--color-text-on-light); }
   .booking-back:hover { border-color: var(--color-focus-light); }
   .booking-primary:focus-visible, .booking-back:focus-visible, .booking-summary button:focus-visible, .booking-review button:focus-visible { outline: 2px solid var(--color-focus-light); outline-offset: 2px; }
-  @media (max-width: 47.99rem) { .booking-actions { flex-direction: column-reverse; align-items: stretch; } .booking-actions > div, .booking-primary, .booking-back { inline-size: 100%; } }
-  @media (max-width: 35rem) { .booking-summary dl > div, .booking-review dl > div { grid-template-columns: minmax(0, 1fr) auto; } .booking-summary dd, .booking-review dd { grid-column: 1 / -1; grid-row: 2; } }
+  @media (max-width: 48rem) { .booking-actions { flex-direction: column-reverse; align-items: stretch; } .booking-actions > div, .booking-primary, .booking-back { inline-size: 100%; } }
+  @media (max-width: 40rem) { .booking-summary dl > div, .booking-review dl > div { grid-template-columns: minmax(0, 1fr) auto; } .booking-summary dd, .booking-review dd { grid-column: 1 / -1; grid-row: 2; } }
   .booking-noscript { display: grid; gap: var(--space-4); padding: var(--space-5); border: 1px solid var(--color-divider); border-radius: var(--radius-card); }
   @media (prefers-reduced-motion: reduce) { .booking-form * { scroll-behavior: auto !important; } }
 </style>

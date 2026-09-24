@@ -92,11 +92,11 @@ test.describe("Pricing page", () => {
     await expect(page.locator("main")).not.toContainText("PUTEVI IZ BEOGRADA");
     await expect(page.locator("main")).not.toContainText("Novi Sad");
 
-    await expect(page.locator(".fcta-actions a").nth(0)).toHaveAttribute(
+    await expect(page.locator(".final-cta__actions a").nth(0)).toHaveAttribute(
       "href",
       flowPath("booking", "en"),
     );
-    await expect(page.locator(".fcta-actions a").nth(1)).toHaveAttribute(
+    await expect(page.locator(".final-cta__actions a").nth(1)).toHaveAttribute(
       "href",
       flowPath("quote", "en"),
     );

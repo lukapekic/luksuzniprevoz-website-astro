@@ -407,7 +407,7 @@ test.describe("Business and Special Events hubs", () => {
       });
       const positiveTabindex = focusable.filter((element) => Number(element.tabIndex) > 0);
       const engagementCta = document.querySelector<HTMLElement>(".engagement-copy a");
-      const finalCta = document.querySelector<HTMLElement>(".fcta-panel a");
+      const finalCta = document.querySelector<HTMLElement>(".final-cta a");
       return {
         positiveTabindex: positiveTabindex.length,
         engagementBeforeFinal:
@@ -423,7 +423,7 @@ test.describe("Business and Special Events hubs", () => {
       page.locator('.service-hero[data-variant="full-bleed"] .service-hero__media'),
     ).toHaveCSS("animation-name", "none");
     const reducedTransitionDuration = await page
-      .locator(".vehicle__image")
+      .locator(".fleet-card__image")
       .first()
       .evaluate((image) => Number.parseFloat(getComputedStyle(image).transitionDuration));
     expect(reducedTransitionDuration).toBeLessThanOrEqual(0.001);

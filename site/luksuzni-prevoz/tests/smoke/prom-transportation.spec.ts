@@ -73,11 +73,11 @@ test.describe("Prom Transportation", () => {
       "Individual quote",
     ]);
 
-    const vehicleNames = await page.locator(".vehicle h3").allTextContents();
+    const vehicleNames = await page.locator(".fleet-card h3").allTextContents();
     expect(vehicleNames).toEqual([
       "Mercedes-Benz S-Class",
       "Mercedes-Benz E-Class",
-      "Mercedes-Benz V-Class 7+1 Extra Long",
+      "Mercedes-Benz V-Class",
       "Mercedes-Benz Sprinter",
     ]);
 
@@ -92,8 +92,8 @@ test.describe("Prom Transportation", () => {
       quoteHref,
     );
     await expect(page.locator(".presentation-action a")).toHaveAttribute("href", bookingHref);
-    await expect(page.locator(".fcta-actions a").nth(0)).toHaveAttribute("href", bookingHref);
-    await expect(page.locator(".fcta-actions a").nth(1)).toHaveAttribute("href", quoteHref);
+    await expect(page.locator(".final-cta__actions a").nth(0)).toHaveAttribute("href", bookingHref);
+    await expect(page.locator(".final-cta__actions a").nth(1)).toHaveAttribute("href", quoteHref);
     await expect(page.getByRole("link", { name: "View all vehicles" })).toHaveAttribute(
       "href",
       routePath("fleet", "en"),

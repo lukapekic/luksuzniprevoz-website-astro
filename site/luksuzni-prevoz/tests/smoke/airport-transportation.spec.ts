@@ -42,7 +42,7 @@ test.describe("Airport Transportation", () => {
     await expect(form.locator('input[name="service"]')).toHaveValue("airportTransportation");
     await expect(page.getByText("Airport fare")).toHaveCount(4);
     await expect(page.getByText("Fare coming soon")).toHaveCount(0);
-    await expect(page.locator(".vehicle__meta").getByText(/€/)).toHaveCount(4);
+    await expect(page.locator(".fleet-card__fare strong").filter({ hasText: /€/ })).toHaveCount(4);
     await expect(page.locator("[data-carousel-current]")).toHaveText("01");
     await page.locator("[data-carousel-next]").click();
     await expect(page.locator("[data-carousel-current]")).toHaveText("02");

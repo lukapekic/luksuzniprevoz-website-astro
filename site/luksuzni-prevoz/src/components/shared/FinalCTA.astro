@@ -39,7 +39,7 @@ const image = closingMedia.finalCtaInterior;
   .final-cta { position: relative; isolation: isolate; min-block-size: 26.25rem; overflow: hidden; background: var(--color-background); }
   .final-cta__image { position: absolute; inset: 0; z-index: -2; display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 70% 0%; }
   .final-cta__scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 4%, transparent) 0%, color-mix(in srgb, var(--color-background) 6%, transparent) 23%, color-mix(in srgb, var(--color-background) 80%, transparent) 42%, color-mix(in srgb, var(--color-background) 96%, transparent) 60%, color-mix(in srgb, var(--color-background) 99%, transparent) 100%); }
-  .final-cta__content { display: grid; gap: var(--space-4); max-inline-size: 32rem; min-block-size: 26.25rem; align-content: end; padding-block: 14rem var(--space-12); overflow-wrap: anywhere; }
+  .final-cta__content { display: grid; gap: var(--space-4); max-inline-size: 32rem; min-block-size: 26.25rem; align-content: end; padding-block: calc(var(--space-24) + var(--space-20) + var(--space-12)) var(--space-12); overflow-wrap: anywhere; }
   .final-cta__actions, .final-cta__contacts { display: flex; flex-wrap: wrap; gap: var(--space-3); }
   .final-cta__actions > :global(a) { min-inline-size: 0; max-inline-size: 100%; }
   .final-cta__contacts { margin: 0; padding: 0; list-style: none; }
@@ -47,8 +47,8 @@ const image = closingMedia.finalCtaInterior;
   .final-cta__contacts a { display: inline-flex; align-items: center; min-block-size: 2.75rem; padding-inline: var(--space-2); color: var(--color-text-primary); font-family: var(--font-body); font-size: var(--text-sm); overflow-wrap: anywhere; text-decoration: none; }
   .final-cta__contacts a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   .final-cta__contacts a:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
-  @media (max-width: 29.99rem) { .final-cta__actions, .final-cta__contacts { flex-direction: column; } .final-cta__actions > :global(a) { inline-size: 100%; justify-content: center; } }
-  @media (min-width: 30rem) and (max-width: 63.99rem) { .final-cta__content { padding-block-start: 16rem; } }
+  @media (max-width: 30rem) { .final-cta__actions, .final-cta__contacts { flex-direction: column; } .final-cta__actions > :global(a) { inline-size: 100%; justify-content: center; } }
+  @media (min-width: 30rem) and (max-width: 63.98rem) { .final-cta__content { padding-block-start: calc(var(--space-24) + var(--space-24) + var(--space-16)); } }
   @media (min-width: 64rem) {
     .final-cta__image { object-position: 50% 14%; }
     .final-cta__scrim { background: linear-gradient(90deg, color-mix(in srgb, var(--color-background) 96%, transparent) 0%, color-mix(in srgb, var(--color-background) 85%, transparent) 25%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 12%, transparent) 66%, color-mix(in srgb, var(--color-background) 3%, transparent) 100%); }
