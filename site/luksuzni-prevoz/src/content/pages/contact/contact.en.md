@@ -10,7 +10,7 @@ reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Contact Our Chauffeur Team in Belgrade"
-seoDescription: "Contact Luxury Transportation in Belgrade about chauffeur services, vehicle selection and quotes. Find our phone, email, office address and opening hours."
+seoDescription: "Contact Luksuzni transport in Belgrade about chauffeur services, vehicle selection and quotes. Find our phone, email, office address and opening hours."
 
 h1: "Contact"
 intro: "Contact our Belgrade team with questions about our services or your travel arrangements."

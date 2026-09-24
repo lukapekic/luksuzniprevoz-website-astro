@@ -30,6 +30,8 @@ interface Props {
   idPrefix?: string;
   /** Force open state for dev preview */
   forceOpen?: boolean;
+  /** Inline links for footer; dropdown remains the default header presentation. */
+  presentation?: "dropdown" | "inline";
 }
 
 const {
@@ -39,6 +41,7 @@ const {
   ariaLabel,
   idPrefix = "lang",
   forceOpen = false,
+  presentation = "dropdown",
 } = Astro.props;
 
 const switcherLabel = ariaLabel ?? t("nav.language", currentLocale);
@@ -80,6 +83,24 @@ const panelId = `${idPrefix}-panel`;
 const triggerId = `${idPrefix}-btn`;
 ---
 
+{presentation === "inline" ? (
+  <nav class={`lang-switcher-inline ${className ?? ""}`} aria-label={switcherLabel}>
+    <ul class="m-0 flex flex-wrap items-center gap-[var(--space-1)] p-0 list-none" role="list">
+      {allLocales.map((loc) => (
+        <li>
+          <a
+            href={getPath(currentRouteKey, loc.code, routes, defaultLocale)}
+            hreflang={loc.hreflang}
+            lang={loc.htmlLang}
+            aria-label={loc.langName}
+            aria-current={loc.code === currentLocale ? "page" : undefined}
+            class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-control)] px-[var(--space-2)] font-body text-[length:var(--text-xs)] font-semibold no-underline text-[var(--color-text-muted)] hover:text-[var(--color-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] aria-[current=page]:text-[var(--color-accent)] aria-[current=page]:underline"
+          >{loc.shortCode}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+) : (
 <div class={`lang-switcher-root relative inline-block ${className ?? ""}`} data-dropdown data-dropdown-static={forceOpen ? "" : undefined}>
   <button
     id={triggerId}
@@ -181,6 +202,7 @@ const triggerId = `${idPrefix}-btn`;
     </ul>
   </div>
 </div>
+)}
 
 <style>
   [data-dropdown-trigger][aria-expanded="true"] .lang-trigger__chevron {

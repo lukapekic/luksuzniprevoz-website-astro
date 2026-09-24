@@ -2,7 +2,7 @@
  * Business identity + operational facts — FND-ARCH-03 / FND-TYPE-02.
  *
  * Language-independent structural facts live here as typed TS: brand identity,
- * parent-company relationship, headquarters, service area, customer groups,
+ * headquarters, service area, customer groups,
  * payment methods, support model. Enums are typed unions so consuming
  * components branch on known values (a typo is a compile error).
  *
@@ -13,12 +13,9 @@
  * agent refines the text later; the keys are stable.
  *
  * JSON-LD: `businessData` is the compat export consumed by
- * `buildLocalBusiness()` in @astro-foundation/core/seo. Phone/email are NOT
- * wired here — they live in contact.ts and are unverified (null) until the
- * owner confirms them; telephone/email are omitted from JSON-LD while null
- * (better to omit than emit empty). Wire + enrich JSON-LD when contact lands.
+ * `buildLocalBusiness()` in @astro-foundation/core/seo. Contact channels are
+ * owned by contact.ts and must remain verification-gated.
  */
-import type { UiStringKey } from "@astro-foundation/core";
 
 // --- Enum vocabularies (typed unions — branch safely in components) --------
 
@@ -43,14 +40,6 @@ export type VerificationStatus = "verified" | "owner-confirmation-required";
 
 // --- Structural types ------------------------------------------------------
 
-export interface ParentCompany {
-  name: string;
-  operatingSince: number;
-  /** UiStringKey into content/ui/*.json for the translated description. */
-  relationshipDescriptionKey: UiStringKey;
-  publicPlacement: "footer"[];
-}
-
 export interface Headquarters {
   city: string;
   country: string;
@@ -74,7 +63,6 @@ export interface SupportModel {
 
 export interface Business {
   publicBrand: string;
-  parentCompany: ParentCompany;
   headquarters: Headquarters;
   serviceArea: ServiceArea;
   customerGroups: CustomerGroup[];
@@ -85,13 +73,7 @@ export interface Business {
 // --- Authoritative business facts -----------------------------------------
 
 export const business: Business = {
-  publicBrand: "Luxury Transportation",
-  parentCompany: {
-    name: "GrandSolution",
-    operatingSince: 2014,
-    relationshipDescriptionKey: "business.parentCompanyDescription",
-    publicPlacement: ["footer"],
-  },
+  publicBrand: "Luksuzni transport",
   headquarters: {
     city: "Belgrade",
     country: "Serbia",
@@ -125,11 +107,8 @@ export const business: Business = {
 
 // --- JSON-LD compat export (consumed by buildLocalBusiness) ---------------
 //
-// Address comes from the VERIFIED headquarters. telephone/email are left empty
-// — they are owned by contact.ts and unverified until the owner confirms them.
-// buildLocalBusiness treats telephone/email as optional, so omitting (empty)
-// keeps JSON-LD valid without emitting fake contact points. Revisit when
-// contact.ts carries verified phone/email (FND-SEO-06).
+// Address comes from the verified headquarters. Contact channels remain
+// separately owned by contact.ts (FND-SEO-06).
 
 export const businessData = {
   name: business.publicBrand,

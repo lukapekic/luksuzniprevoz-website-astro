@@ -25,8 +25,7 @@ describe("SEO output safety and public destinations", () => {
       if ("children" in item) item.children.forEach(visit);
     };
     navigation.header.forEach(visit);
-    navigation.footer.services.forEach(visit);
-    navigation.footer.company.forEach(visit);
+    navigation.footer.forEach(visit);
     assert.deepEqual(getService("businessTransportation").children, [
       "corporateTransportation",
       "delegationTransportation",

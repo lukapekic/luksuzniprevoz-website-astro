@@ -7,11 +7,13 @@ The owner confirmed that the chauffeur photograph is `site/luksuzni-prevoz/src/a
 
 | Phase | Scope | Status | Commit |
 | --- | --- | --- | --- |
-| 0 | Authority/contract and asset reconciliation | Complete; contract migration and corrected chauffeur path recorded | Phase 0 commit |
-| 1 | Public identity and three-tier footer | Pending | — |
+| 0 | Authority/contract and asset reconciliation | Complete; contract migration and corrected chauffeur path recorded | `8b0bd82` |
+| 1 | Public identity and three-tier footer | Complete; canonical brand, approved symbol, four navigation groups, inline locales, shared footer and assertions updated | Phase 1 commit |
 | 2 | Universal fleet card and family adapter | Pending | — |
 | 3 | Booking panel, progress, summary, and date/time | Pending | — |
 | 4 | Image assignments, delivery policy, and full-width Final CTA | Pending | — |
 | 5 | Final automated tests, browser review, fixes, and governance evidence | Pending | — |
 
 Test cases and automated browser testing are deferred to phase 5 at the owner's request. Design-context preflight for Home, Booking, SiteFooter, and FinalCTA reported a current Theme V2 snapshot; `components:check` reported 31 current shared components. Each completed phase gets a scoped commit and push; pre-existing Lighthouse outputs remain outside this branch.
+
+Phase 1 generated localization types after removing obsolete parent-brand keys and preserved the existing verified contact gating. The retired GS mark component and GS favicon source were removed from tracked production assets; git history retains both. Final quality gates and rendered/browser evidence remain deferred to phase 5.
