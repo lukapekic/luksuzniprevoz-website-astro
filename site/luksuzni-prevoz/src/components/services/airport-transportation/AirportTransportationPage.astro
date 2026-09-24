@@ -68,6 +68,7 @@ const vehicleRecommendations=data.vehicleRecommendations.vehicleIds.map((id)=>{
     displayName:showcaseEntry?.displayName,
     showPassengerCapacity:showcaseEntry?.showPassengerCapacity,
     meta:{label:ui("airport.fare.label"),value:new Intl.NumberFormat(locale,{style:"currency",currency:vehiclePricing.airportTransfer.currency}).format(vehiclePricing.airportTransfer.amount)},
+    fareScope: "airport" as const,
   };
 });
 ---

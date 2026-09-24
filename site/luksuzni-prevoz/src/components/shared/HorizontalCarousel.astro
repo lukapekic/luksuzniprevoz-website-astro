@@ -185,10 +185,12 @@ const buttonClass = [
   .carousel {
     --carousel-item-size: min(82vw, 20rem);
   }
+  .carousel[data-item-size="fleet"] { --carousel-item-size: 88%; }
   @media (min-width: 48rem) {
     .carousel {
       --carousel-item-size: clamp(22rem, 38vw, 26rem);
     }
+    .carousel[data-item-size="fleet"] { --carousel-item-size: calc((100% - var(--space-4)) / 1.8); }
   }
   @media (min-width: 64rem) {
     .carousel {
@@ -197,6 +199,7 @@ const buttonClass = [
     .carousel[data-item-size="compact"] {
       --carousel-item-size: clamp(18rem, 29vw, 23.5rem);
     }
+    .carousel[data-item-size="fleet"] { --carousel-item-size: calc((100% - 3 * var(--space-4)) / 3.2); }
   }
 
   /* Control row: hidden by default (no-JS + no-overflow). JS reveals it via

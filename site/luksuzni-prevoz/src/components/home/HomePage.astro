@@ -58,6 +58,7 @@ import { contact, isVerified } from "../../data/contact.ts";
 import { getService } from "../../data/services.ts";
 import { getVehicle, type VehicleClass } from "../../data/fleet.ts";
 import { homepageFleetEntries, homepageFleetMedia } from "../../data/fleet-media.ts";
+import { fleetFamilyName, fleetFamilyPassengers, uniqueFleetFamilies } from "../../data/fleet-presentation.ts";
 import { getReviewsSummary } from "../../data/reviews.ts";
 import heroImg from "../../assets/hero-example-2.jpg";
 import finalCtaImg from "../../assets/final-cta-bg.webp";
@@ -256,16 +257,13 @@ const fleetCarouselLabels = {
   previous: t("fleet.carousel.previous", currentLocale),
   next: t("fleet.carousel.next", currentLocale),
 };
-const fleetVehicles = homepageFleetEntries.map((entry) => {
-  const vehicle = getVehicle(entry.vehicleId);
+const fleetVehicles = uniqueFleetFamilies(homepageFleetEntries.map((entry) => ({ vehicle: getVehicle(entry.vehicleId) }))).map(({ vehicle }) => {
+  const passengers = fleetFamilyPassengers(vehicle);
   return {
     id: vehicle.id,
-    name: entry.displayName ?? vehicle.displayName,
+    name: fleetFamilyName(vehicle),
     classLabel: fleetClassLabels[vehicle.vehicleClass],
-    passengerText:
-      entry.showPassengerCapacity !== false && vehicle.passengers !== null
-        ? `${vehicle.passengers} ${fleetPassengersWord}`
-        : undefined,
+    passengerText: passengers !== null ? `${passengers} ${fleetPassengersWord}` : undefined,
     image: homepageFleetMedia[vehicle.id] ?? undefined,
   };
 });

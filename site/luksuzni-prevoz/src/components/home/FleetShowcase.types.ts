@@ -50,11 +50,11 @@ export interface FleetShowcaseCta {
  * One vehicle card's presentation facts — the page's projection of a
  * canonical `Vehicle` (src/data/fleet.ts) into display-only strings.
  *
- * `name` is `vehicle.displayName` verbatim (display names are NOT translated —
- * fleet.ts vocabulary). `classLabel` is the localized `vehicleClass` label from
+ * `name` is the canonical family display name (brand/model names are not translated).
+ * `classLabel` is the localized `vehicleClass` label from
  * the UI dictionary (`fleet.class.{sedan|van|minivan|bus}`). `passengerText` is
  * the localized capacity chip text and is set ONLY where
- * `vehicle.passengers !== null` — null capacities are omitted, never
+ * `vehicle.passengers !== null` and the family is not the generic V-Class — null capacities are omitted, never
  * fabricated as "0"/"N/A"/"unknown" (08-fleet-showcase §Forbidden; fleet.ts
  * comment).
  */

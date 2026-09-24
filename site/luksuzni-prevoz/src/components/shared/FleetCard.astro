@@ -1,0 +1,49 @@
+---
+/** Shared non-interactive showcase card; facts and localized labels arrive resolved. */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+interface Props {
+  name: string;
+  categoryLabel: string;
+  image?: ImageMetadata | null;
+  passengerText?: string;
+  fare?: { label: string; value: string } | null;
+}
+const { name, categoryLabel, image, passengerText, fare } = Astro.props;
+---
+
+<article class="fleet-card">
+  <div class="fleet-card__media">
+    {image && <Image
+      src={image}
+      alt=""
+      loading="lazy"
+      widths={[400, 640, 800, 960]}
+      sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 55vw, 88vw"
+      quality={75}
+      class="fleet-card__image"
+    />}
+  </div>
+  <div class="fleet-card__body">
+    <h3>{name}</h3>
+    <p class="fleet-card__category">{categoryLabel}</p>
+    {(passengerText || fare) && <div class="fleet-card__meta">
+      {passengerText && <span>{passengerText}</span>}
+      {fare && <span class="fleet-card__fare"><small>{fare.label}</small><strong>{fare.value}</strong></span>}
+    </div>}
+  </div>
+</article>
+
+<style>
+  .fleet-card { display: flex; flex-direction: column; block-size: 100%; min-inline-size: 0; container-type: inline-size; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); }
+  .fleet-card__media { inline-size: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: var(--color-surface-elevated); }
+  .fleet-card__image { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; }
+  .fleet-card__body { display: flex; flex: 1; flex-direction: column; gap: var(--space-2); padding: var(--space-5); }
+  h3 { margin: 0; font-family: var(--font-heading); font-size: var(--text-lg); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); color: var(--color-text-primary); }
+  .fleet-card__category { margin: 0; font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: var(--color-text-muted); }
+  .fleet-card__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2) var(--space-4); margin-block-start: auto; padding-block-start: var(--space-3); border-block-start: 1px solid var(--color-divider); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: var(--color-text-primary); }
+  .fleet-card__fare { display: grid; gap: var(--space-1); margin-inline-start: auto; text-align: end; }
+  .fleet-card__fare small { color: var(--color-text-muted); font-size: var(--text-xs); }
+  .fleet-card__fare strong { font-weight: var(--font-weight-semibold); }
+  @container (max-width: 16rem) { .fleet-card__meta { display: grid; } .fleet-card__fare { margin-inline-start: 0; text-align: start; } }
+</style>
