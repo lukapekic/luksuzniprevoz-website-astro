@@ -1,0 +1,49 @@
+---
+/** Visible DD/MM/YYYY and 24-hour controls; hidden values preserve API format. */
+import Field from "../../foundation/ui/Field.astro";
+interface Props {
+  dateName: "date" | "returnDate";
+  timeName: "time" | "returnTime";
+  dateLabel: string;
+  timeLabel: string;
+  required?: boolean;
+}
+const { dateName, timeName, dateLabel, timeLabel, required = false } = Astro.props;
+const dateId = `booking-${dateName}-display`;
+const hours = Array.from({ length: 24 }, (_, hour) => String(hour).padStart(2, "0"));
+const minutes = Array.from({ length: 60 }, (_, minute) => String(minute).padStart(2, "0"));
+---
+
+<div class="booking-schedule-controls">
+  <div>
+    <Field label={dateLabel} htmlFor={dateId} hint="DD/MM/YYYY" {required}>
+      <input slot="control" id={dateId} name={`${dateName}Display`} type="text" inputmode="numeric" autocomplete="off" placeholder="DD/MM/YYYY" aria-describedby={`${dateId}-hint`} data-booking-date-display data-canonical-name={dateName} class="booking-schedule-controls__input" />
+    </Field>
+    <input type="hidden" name={dateName} />
+  </div>
+  <fieldset>
+    <legend>{timeLabel}{required && <span aria-hidden="true"> *</span>}</legend>
+    <div class="booking-schedule-controls__time">
+      <select name={`${timeName}Hour`} data-booking-hour data-time-for={timeName} aria-label={`${timeLabel} (00–23)`}>
+        <option value="">HH</option>
+        {hours.map((hour) => <option value={hour}>{hour}</option>)}
+      </select>
+      <span aria-hidden="true">:</span>
+      <select name={`${timeName}Minute`} data-booking-minute data-time-for={timeName} aria-label={`${timeLabel} (00–59)`}>
+        <option value="">mm</option>
+        {minutes.map((minute) => <option value={minute}>{minute}</option>)}
+      </select>
+    </div>
+    <input type="hidden" name={timeName} />
+  </fieldset>
+</div>
+
+<style>
+  .booking-schedule-controls { display: contents; }
+  fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+  legend { margin-block-end: var(--space-2); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-medium); color: var(--color-text-on-light); }
+  legend span { color: var(--color-accent); }
+  .booking-schedule-controls__input, select { inline-size: 100%; min-block-size: 2.75rem; padding-inline: var(--space-3); border: 1px solid var(--color-input-border); border-radius: var(--radius-control); background: var(--color-input-surface); color: var(--color-text-on-light); font-family: var(--font-body); font-size: var(--text-ui); }
+  .booking-schedule-controls__time { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--space-2); }
+  .booking-schedule-controls__input:focus-visible, select:focus-visible { outline: 2px solid var(--color-focus-light); outline-offset: 2px; }
+</style>

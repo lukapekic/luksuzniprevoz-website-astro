@@ -1,6 +1,5 @@
 ---
 import type { UiStringKey } from "@astro-foundation/core";
-
 interface Props { copy: Record<string, string> }
 const { copy } = Astro.props;
 const ui = (key: UiStringKey): string => {
@@ -14,20 +13,43 @@ const steps = [
   ["vehicle", ui("booking.step.vehicle")],
   ["review", ui("booking.step.review")],
 ] as const;
+const firstStepCount = `${ui("booking.step.label").replace("{step}", "1")} / ${steps.length}`;
 ---
 
-<nav aria-label={ui("booking.progress.ariaLabel")} data-booking-progress>
-  <ol class="grid grid-cols-4 gap-[var(--space-2)]" role="list">
+<nav class="booking-progress" aria-label={ui("booking.progress.ariaLabel")} data-booking-progress data-step-template={ui("booking.step.label")}>
+  <p class="booking-progress__count" data-progress-count>{firstStepCount}</p>
+  <p class="booking-progress__mobile-label" data-progress-current-label>{steps[0][1]}</p>
+  <ol role="list">
     {steps.map(([id, label], index) => (
-      <li
-        class="min-w-0 border-t border-solid border-[var(--color-divider)] pt-[var(--space-3)] font-body text-[length:var(--text-sm)] leading-[var(--line-height-ui)] text-[var(--color-text-muted)] data-[active=true]:border-[var(--color-accent)] data-[active=true]:text-[var(--color-text-primary)]"
-        data-progress-step={id}
-        data-active={index === 0 ? "true" : "false"}
-        aria-current={index === 0 ? "step" : undefined}
-      >
-        <span class="block text-[length:var(--text-xs)]" aria-hidden="true">0{index + 1}</span>
-        <span class="block break-words">{label}</span>
+      <li data-progress-step={id} data-active={index === 0 ? "true" : "false"} data-complete="false" aria-current={index === 0 ? "step" : undefined}>
+        <button type="button" data-progress-go={id} disabled={index === 0} aria-label={`${index + 1}. ${label}`}>
+          <span class="booking-progress__number" aria-hidden="true"><span data-step-number>{index + 1}</span><span data-step-check hidden>✓</span></span>
+          <span class="booking-progress__label" aria-hidden="true">{label}</span>
+        </button>
       </li>
     ))}
   </ol>
 </nav>
+
+<style>
+  .booking-progress { margin-block-end: var(--space-7); }
+  .booking-progress__count { margin: 0 0 var(--space-3); font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-on-light); }
+  .booking-progress__mobile-label { margin: 0 0 var(--space-3); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-semibold); color: var(--color-text-on-light); }
+  ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+  li { min-inline-size: 0; }
+  button { display: flex; align-items: center; justify-content: center; gap: var(--space-2); inline-size: 100%; min-block-size: 2.75rem; padding: var(--space-1); border: 0; background: transparent; color: var(--color-text-on-light); text-align: start; font-family: var(--font-body); font-size: var(--text-sm); }
+  button:disabled { cursor: default; }
+  button:not(:disabled) { cursor: pointer; }
+  button:not(:disabled):hover .booking-progress__number { border-color: var(--color-focus-light); }
+  button:focus-visible { outline: 2px solid var(--color-focus-light); outline-offset: 2px; }
+  .booking-progress__number { display: grid; place-items: center; flex: none; inline-size: var(--space-8); block-size: var(--space-8); border: 1px solid var(--color-input-border); border-radius: 50%; font-weight: var(--font-weight-semibold); }
+  li[data-active="true"] .booking-progress__number { border-color: var(--color-text-on-light); background: var(--color-text-on-light); color: var(--color-surface-light); }
+  li[data-complete="true"] .booking-progress__number { border-color: var(--color-text-on-light); }
+  li[data-complete="true"] .booking-progress__label { text-decoration: underline; text-underline-offset: var(--space-1); }
+  .booking-progress__label { display: none; min-inline-size: 0; overflow-wrap: anywhere; }
+  @media (min-width: 48rem) {
+    .booking-progress__mobile-label { display: none; }
+    button { justify-content: flex-start; }
+    .booking-progress__label { display: inline; }
+  }
+</style>

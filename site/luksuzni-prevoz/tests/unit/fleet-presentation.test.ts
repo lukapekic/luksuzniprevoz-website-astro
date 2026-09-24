@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import { getVehicle } from "../../src/data/fleet.ts";
 import { airportFamilyFare, fleetFamilyKey, fleetFamilyName, fleetFamilyPassengers, uniqueFleetFamilies } from "../../src/data/fleet-presentation.ts";
 
@@ -8,15 +9,15 @@ describe("fleet presentation families", () => {
 
   it("keeps one V-Class card in first-family order without changing configuration records", () => {
     const cards = uniqueFleetFamilies([{ vehicle: six }, { vehicle: getVehicle("mercedes-s-class") }, { vehicle: seven }]);
-    expect(cards.map(({ vehicle }) => fleetFamilyKey(vehicle.id))).toEqual(["mercedes-v-class", "mercedes-s-class"]);
-    expect(fleetFamilyName(cards[0]!.vehicle)).toBe("Mercedes-Benz V-Class");
-    expect(fleetFamilyPassengers(cards[0]!.vehicle)).toBeNull();
-    expect(six.passengers).toBe(6);
-    expect(seven.passengers).toBe(7);
+    assert.deepEqual(cards.map(({ vehicle }) => fleetFamilyKey(vehicle.id)), ["mercedes-v-class", "mercedes-s-class"]);
+    assert.equal(fleetFamilyName(cards[0]!.vehicle), "Mercedes-Benz V-Class");
+    assert.equal(fleetFamilyPassengers(cards[0]!.vehicle), null);
+    assert.equal(six.passengers, 6);
+    assert.equal(seven.passengers, 7);
   });
 
   it("only projects an exact airport fare when the family configurations agree", () => {
-    expect(airportFamilyFare("mercedes-v-class")).toEqual({ amount: 60, currency: "EUR" });
-    expect(airportFamilyFare("skoda-kodiaq")).toBeNull();
+    assert.deepEqual(airportFamilyFare("mercedes-v-class"), { amount: 60, currency: "EUR" });
+    assert.equal(airportFamilyFare("skoda-kodiaq"), null);
   });
 });

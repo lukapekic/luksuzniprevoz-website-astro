@@ -9,8 +9,8 @@ The owner confirmed that the chauffeur photograph is `site/luksuzni-prevoz/src/a
 | --- | --- | --- | --- |
 | 0 | Authority/contract and asset reconciliation | Complete; contract migration and corrected chauffeur path recorded | `8b0bd82` |
 | 1 | Public identity and three-tier footer | Complete; canonical brand, approved symbol, four navigation groups, inline locales, shared footer and assertions updated | `7e32401` |
-| 2 | Universal fleet card and family adapter | Complete; shared card in Home/services, typed family and airport fare projection, updated carousel sizing and focused unit assertions | Phase 2 commit |
-| 3 | Booking panel, progress, summary, and date/time | Pending | — |
+| 2 | Universal fleet card and family adapter | Complete; shared card in Home/services, typed family and airport fare projection, updated carousel sizing and focused unit assertions | `61b2880` |
+| 3 | Booking panel, progress, summary, and date/time | Implemented; single panel, validated step controls, compact review, explicit date/time adapter and return chronology; final verification pending | Phase 3 commit |
 | 4 | Image assignments, delivery policy, and full-width Final CTA | Pending | — |
 | 5 | Final automated tests, browser review, fixes, and governance evidence | Pending | — |
 
@@ -19,3 +19,5 @@ Test cases and automated browser testing are deferred to phase 5 at the owner's 
 Phase 1 generated localization types after removing obsolete parent-brand keys and preserved the existing verified contact gating. The retired GS mark component and GS favicon source were removed from tracked production assets; git history retains both. Final quality gates and rendered/browser evidence remain deferred to phase 5.
 
 Phase 2 registered `FleetCard` as a new shared component (32 registry entries), refreshed the design snapshot after the brand/config change, and retained service suitability prose in a labelled section-level list. `VehicleRecommendations` accepts its prior `displayName` and `showPassengerCapacity` input shape for compatibility with existing callers, but canonical family names/capacity now come from the shared adapter. Existing Fleet detail, pricing, and booking configuration records remain unchanged.
+
+Phase 3 retained the existing `/api/forms/booking` controller, Turnstile protection, handoff/draft flow, and canonical date/time payload. The visible date is typed as `DD/MM/YYYY`; hour/minute selects span all 24 hours and 60 minutes. Native calendar popup enhancement was not added because manual entry is the guaranteed path and the handoff treats the popup as optional. Browser/automation and locale review remain in Phase 5.

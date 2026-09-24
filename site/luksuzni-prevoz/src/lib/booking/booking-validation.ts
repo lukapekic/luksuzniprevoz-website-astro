@@ -146,6 +146,12 @@ export function validateBookingDraft(
     if (!draft.airportScope) issues.push({ field: "airportScope", code: "airport-scope" });
     if (draft.returnRequested && (!draft.returnDate || !draft.returnTime)) {
       issues.push({ field: "return", code: "return-fields" });
+    } else if (draft.returnRequested && draft.returnDate && draft.returnTime && draft.date && draft.time) {
+      const outbound = zonedLocalDateTimeToDate(draft.date, draft.time, options.timeZone);
+      const inbound = zonedLocalDateTimeToDate(draft.returnDate, draft.returnTime, options.timeZone);
+      if (!outbound || !inbound || inbound.getTime() <= outbound.getTime()) {
+        issues.push({ field: "return", code: "date-time" });
+      }
     }
   }
   if (businessServices.includes(draft.serviceKey)) {

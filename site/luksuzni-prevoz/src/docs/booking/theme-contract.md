@@ -6,6 +6,8 @@ The page has one H1 and short introduction on the dark canvas. A centered bookin
 
 At mobile and tablet portrait widths the panel is one column with a full current-step label, count, and four accessible progress segments. At tablet landscape, desktop, and wide desktop it remains one centered panel with four readable step labels. Use active layout tokens for thresholds and the normal page gutters; cap the panel locally without widening the global container. The panel height is content-driven. All translated labels wrap and all targets remain at least 44×44.
 
+The booking-local cap is `container-reading` minus `space-12`, yielding an approximately 864–880px panel in the current active theme; it is a composition relationship, not a new global container or a literal component value. The introductory measure stays `measure-body`.
+
 Completed progress steps are buttons, current progress uses `aria-current="step"`, and future steps cannot bypass validation. Selection, hover, focus, invalid, pending, unavailable, and success states are distinct. Back/Edit preserves valid state, Continue validates before advancing, and each step change focuses the next H2. A compact disclosure shows known facts only on Steps 02–03; the final complete review replaces it on Step 04.
 
 The Serbian visible date uses `DD/MM/YYYY` and time uses grouped native hour/minute controls for 24-hour `HH:mm`, independent of browser locale. Canonical values remain `YYYY-MM-DD` and `HH:mm`; timezone-dependent rules use `Europe/Belgrade`. An optional native calendar picker is an enhancement, not the sole input method. Return fields follow the same format and validation.
