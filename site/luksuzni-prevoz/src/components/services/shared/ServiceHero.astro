@@ -20,6 +20,8 @@ interface Props {
   imageAlt?: string;
   imagePosition?: string;
   imageTreatment?: "default" | "natural";
+  /** Full-bleed scrim geometry; independent from image exposure. */
+  scrimTreatment?: "standard" | "center-reveal";
   supportText?: string;
 }
 
@@ -36,6 +38,7 @@ const {
   imageAlt = "",
   imagePosition,
   imageTreatment = "default",
+  scrimTreatment = "standard",
   supportText,
 } = Astro.props;
 
@@ -45,7 +48,7 @@ const sourceSizes = isFullBleed ? imageSizes.hero : isResponsiveSplit ? imageSiz
 const hasActions = Boolean(primaryAction || secondaryAction);
 ---
 
-<section class="service-hero" data-variant={variant} data-image-treatment={imageTreatment} aria-labelledby="service-hero-title">
+<section class="service-hero" data-variant={variant} data-image-treatment={imageTreatment} data-scrim-treatment={scrimTreatment} aria-labelledby="service-hero-title">
   <div class="service-hero__panel">
       <div class="service-hero__inner">
         <PageContainer>
@@ -149,8 +152,13 @@ const hasActions = Boolean(primaryAction || secondaryAction);
         color-mix(in oklab, var(--color-background), transparent 64%) 100%
       );
   }
-  .service-hero[data-image-treatment="natural"] .service-hero__scrim {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 62%, transparent) 0%, transparent 23%, transparent 100%), linear-gradient(90deg, color-mix(in srgb, var(--color-background) 80%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 15%, transparent) 76%, transparent 100%);
+  /* Only opted-in full-bleed heroes open the centre of the existing layer model.
+     Header, copy-side and bottom protection stay separate from image exposure. */
+  .service-hero[data-variant="full-bleed"][data-scrim-treatment="center-reveal"] .service-hero__scrim {
+    background:
+      radial-gradient(ellipse 72% 68% at 68% 56%, transparent 0%, transparent 48%, color-mix(in oklab, var(--color-background), transparent 78%) 82%, color-mix(in oklab, var(--color-background), transparent 45%) 100%),
+      linear-gradient(180deg, color-mix(in oklab, var(--color-background), transparent 18%) 0%, transparent 23%, transparent 74%, color-mix(in oklab, var(--color-background), transparent 28%) 100%),
+      linear-gradient(90deg, color-mix(in oklab, var(--color-background), transparent 12%) 0%, color-mix(in oklab, var(--color-background), transparent 34%) 35%, color-mix(in oklab, var(--color-background), transparent 90%) 62%, transparent 78%);
   }
   .service-hero[data-variant="full-bleed"] .service-hero__inner {
     z-index: 2;

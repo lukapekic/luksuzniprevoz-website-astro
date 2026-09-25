@@ -406,7 +406,8 @@ Reading-focused information, normally divider-led.
 
 ## Final CTA
 
-Medium-height conversion closer.
+Wide, contained, compact photographic conversion closer. Its media may fill the
+contained panel, while copy remains aligned with the normal main container.
 
 **Final CTA must not become Hero #2.**
 
@@ -457,7 +458,10 @@ Standardized vehicle presentation; transparent vehicle cutouts use containment r
 
 ## Final CTA
 
-One full-width photographic closing section uses the approved interior image behind a separate legibility scrim. Copy stays aligned to the normal main container; the section remains a compact conversion closer, not another Hero. The locked FinalCTA contract owns its responsive image and action treatment.
+One wide, contained photographic closing panel uses the approved interior image
+behind a separate legibility scrim. Copy stays aligned to the normal main
+container; the panel remains a compact conversion closer, not another Hero. The
+locked FinalCTA contract owns its responsive image and action treatment.
 
 Missing assets do not authorize redesign.
 

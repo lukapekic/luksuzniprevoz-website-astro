@@ -1,5 +1,5 @@
 ---
-/** Shared full-width photographic closing CTA; page copy/actions remain caller-owned. */
+/** Shared wide compact photographic closer; page copy/actions remain caller-owned. */
 import PageContainer from "../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../foundation/ui/SectionHeading.astro";
 import Link from "../../foundation/ui/Link.astro";
@@ -18,28 +18,31 @@ const image = closingMedia.finalCtaInterior;
 ---
 
 <section class:list={["final-cta", className]} aria-labelledby={headingId}>
-  <Image class="final-cta__image" src={image} alt="" loading="lazy" decoding="async" format="webp" quality={imageQuality.photoWebp} widths={imageWidths(image, "hero")} sizes={imageSizes.fullWidthCta} />
-  <div class="final-cta__scrim" aria-hidden="true"></div>
   <PageContainer>
-    <div class="final-cta__content">
-      <SectionHeading id={headingId} heading={heading} description={description} />
-      {(primaryAction || secondaryAction) && <div class="final-cta__actions">
-        {primaryAction && <Link variant="cta" to={primaryAction.to} href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>}
-        {secondaryAction && <Link variant="button" to={secondaryAction.to} href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
-      </div>}
-      {(phoneHref || emailHref) && <ul class="final-cta__contacts" role="list">
-        {phoneHref && <li><a href={phoneHref}>{phone}</a></li>}
-        {emailHref && <li><a href={emailHref}>{email}</a></li>}
-      </ul>}
+    <div class="final-cta__panel">
+      <Image class="final-cta__image" src={image} alt="" loading="lazy" decoding="async" format="webp" quality={imageQuality.photoWebp} widths={imageWidths(image, "hero")} sizes={imageSizes.compactCta} />
+      <div class="final-cta__scrim" aria-hidden="true"></div>
+      <div class="final-cta__content">
+        <SectionHeading id={headingId} heading={heading} description={description} />
+        {(primaryAction || secondaryAction) && <div class="final-cta__actions">
+          {primaryAction && <Link variant="cta" to={primaryAction.to} href={primaryAction.href} locale={locale}>{primaryAction.label}</Link>}
+          {secondaryAction && <Link variant="button" to={secondaryAction.to} href={secondaryAction.href} locale={locale}>{secondaryAction.label}</Link>}
+        </div>}
+        {(phoneHref || emailHref) && <ul class="final-cta__contacts" role="list">
+          {phoneHref && <li><a href={phoneHref}>{phone}</a></li>}
+          {emailHref && <li><a href={emailHref}>{email}</a></li>}
+        </ul>}
+      </div>
     </div>
   </PageContainer>
 </section>
 
 <style>
-  .final-cta { position: relative; isolation: isolate; min-block-size: 26.25rem; overflow: hidden; background: var(--color-background); }
-  .final-cta__image { position: absolute; inset: 0; z-index: -2; display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 70% 0%; }
-  .final-cta__scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 4%, transparent) 0%, color-mix(in srgb, var(--color-background) 6%, transparent) 23%, color-mix(in srgb, var(--color-background) 80%, transparent) 42%, color-mix(in srgb, var(--color-background) 96%, transparent) 60%, color-mix(in srgb, var(--color-background) 99%, transparent) 100%); }
-  .final-cta__content { display: grid; gap: var(--space-4); max-inline-size: 32rem; min-block-size: 26.25rem; align-content: end; padding-block: calc(var(--space-24) + var(--space-20) + var(--space-12)) var(--space-12); overflow-wrap: anywhere; }
+  .final-cta { padding-block: var(--space-8); background: var(--color-background); }
+  .final-cta__panel { position: relative; isolation: isolate; min-block-size: 20rem; overflow: hidden; border-radius: var(--radius-section); background: var(--color-surface); }
+  .final-cta__image { position: absolute; inset: 0; z-index: -2; display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 62% 0%; }
+  .final-cta__scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 4%, transparent) 0%, color-mix(in srgb, var(--color-background) 10%, transparent) 22%, color-mix(in srgb, var(--color-background) 88%, transparent) 45%, color-mix(in srgb, var(--color-background) 98%, transparent) 62%, var(--color-background) 100%); }
+  .final-cta__content { display: grid; gap: var(--space-4); max-inline-size: 40rem; min-block-size: 20rem; align-content: end; padding-block: calc(var(--space-24) + var(--space-16)) var(--space-8); padding-inline: var(--space-6); overflow-wrap: anywhere; }
   .final-cta__actions, .final-cta__contacts { display: flex; flex-wrap: wrap; gap: var(--space-3); }
   .final-cta__actions > :global(a) { min-inline-size: 0; max-inline-size: 100%; }
   .final-cta__contacts { margin: 0; padding: 0; list-style: none; }
@@ -48,10 +51,10 @@ const image = closingMedia.finalCtaInterior;
   .final-cta__contacts a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   .final-cta__contacts a:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
   @media (max-width: 30rem) { .final-cta__actions, .final-cta__contacts { flex-direction: column; } .final-cta__actions > :global(a) { inline-size: 100%; justify-content: center; } }
-  @media (min-width: 30rem) and (max-width: 63.98rem) { .final-cta__content { padding-block-start: calc(var(--space-24) + var(--space-24) + var(--space-16)); } }
+  @media (min-width: 30rem) and (max-width: 63.98rem) { .final-cta__content { padding-block-start: calc(var(--space-24) + var(--space-24)); } }
   @media (min-width: 64rem) {
     .final-cta__image { object-position: 50% 14%; }
-    .final-cta__scrim { background: linear-gradient(90deg, color-mix(in srgb, var(--color-background) 96%, transparent) 0%, color-mix(in srgb, var(--color-background) 85%, transparent) 25%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 12%, transparent) 66%, color-mix(in srgb, var(--color-background) 3%, transparent) 100%); }
-    .final-cta__content { align-content: center; padding-block: var(--space-16); }
+    .final-cta__scrim { background: linear-gradient(90deg, color-mix(in srgb, var(--color-background) 98%, transparent) 0%, color-mix(in srgb, var(--color-background) 92%, transparent) 28%, color-mix(in srgb, var(--color-background) 68%, transparent) 47%, color-mix(in srgb, var(--color-background) 10%, transparent) 73%, transparent 100%); }
+    .final-cta__content { align-content: center; padding-block: var(--space-10); padding-inline: var(--space-10); }
   }
 </style>

@@ -7,7 +7,7 @@ Purpose: Source of truth for Homepage structure, component selection, surface rh
 
 > This blueprint defines structure and behavior. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content remain subject to their verified data/content sources.
 >
-> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, image assignments/delivery, and full-width FinalCTA. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/sections/home/private-chauffeur.webp` for the service card; the larger feature uses `assets/shared/chauffeur-service/productivity-backseat.webp`.
+> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, and image assignments/delivery. The later owner refinement selects the centre-reveal Hero scrim, symbol-only three-tier footer, and wide compact contained FinalCTA with the DR-12 interior photo. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/sections/home/private-chauffeur.webp` for the service card; the larger feature uses `assets/shared/chauffeur-service/productivity-backseat.webp`.
 
 ---
 
@@ -606,7 +606,7 @@ It must not feel like a second Hero.
 
 ## Layout
 
-One full-width interior photographic section spans the viewport. Its copy stays in the normal capped main content container. The closing section remains compact and content-driven; it must not become a second Hero.
+One wide, contained interior photographic panel fills the normal capped main content container. Its copy stays aligned with other sections. The closing panel remains compact and content-driven; it must not become a second Hero.
 
 ## Content
 
@@ -626,7 +626,7 @@ Use the common approved `assets/shared/final-cta-interior-v2.webp` as a decorati
 
 ## Visual treatment
 
-- No outer card radius or split media frame.
+- Semantic section radius; no separate split media frame.
 - Medium-height desktop target.
 - Mobile height is content-defined.
 - Use the Theme V2 semantic background in the copy-side scrim, without filtering the image itself.
@@ -640,7 +640,7 @@ Use the common approved `assets/shared/final-cta-interior-v2.webp` as a decorati
 
 ### Desktop
 
-- At `lg` and wider, content is left-aligned in the main container with dashboard detail exposed opposite; the section has a compact content-driven minimum height.
+- At `lg` and wider, content is left-aligned in the main-container-wide panel with dashboard detail exposed opposite; the panel has a compact content-driven minimum height.
 
 ### Mobile
 
@@ -652,7 +652,7 @@ Use the common approved `assets/shared/final-cta-interior-v2.webp` as a decorati
 
 ## Spacing
 
-Use the preceding section's rhythm. Do not add a feature-sized outer band between this full-width section and the compact footer.
+Use the preceding section's rhythm. Do not add a feature-sized outer band between this compact panel and the footer.
 
 ---
 
@@ -668,7 +668,7 @@ Do not create a giant sitemap footer.
 
 ## Desktop
 
-Three semantic tiers: own-brand symbol and verified contacts/office hours; four route-driven navigation groups; copyright, location, and inline route-preserving locales. Use four navigation columns from `xl` and a 2×2 group grid from `md` to below `xl`.
+Three semantic tiers: an accessibly named symbol-only home link and verified contacts/office hours; four route-driven navigation groups; copyright, one location cluster, and inline route-preserving locales. Use four navigation columns from `xl` and a 2×2 group grid from `md` to below `xl`.
 
 Bottom row may contain:
 
@@ -713,7 +713,7 @@ Intended Homepage rhythm:
 5. **Fleet** — open image-led section.
 6. **How It Works** — contained light surface.
 7. **Google Reviews** — open dark canvas with contained review cards.
-8. **FinalCTA** — full-width interior photographic closer with contained copy.
+8. **FinalCTA** — wide compact interior photographic panel with contained copy.
 9. **Footer** — compact dark ending.
 
 Do not mechanically alternate dark/light surfaces.
@@ -826,7 +826,7 @@ Presentation components are not data authorities.
 - ServiceShowcase: one contextual image per primary service.
 - Private Chauffeur service card: owner-confirmed chauffeur-at-wheel image; larger feature: passenger-at-work image.
 - Fleet: approved opaque three-quarter vehicle photographs in universal cards.
-- FinalCTA: shared full-width interior photograph.
+- FinalCTA: shared interior photograph in the wide compact panel.
 
 Missing assets do not authorize structural redesign.
 
@@ -844,7 +844,7 @@ Approved Homepage v1.1 exceptions:
 2. Hero desktop content uses the approved 7/5 two-column relationship; this does not create a separate image column.
 3. `ServiceShowcase` uses a 35/30/35 asymmetric composition instead of standard grid spans.
 4. ServiceShowcase cards use overlaid title/action treatment instead of generic below-image ServiceCard content.
-5. FinalCTA uses the shared full-width interior image and independent semantic-background scrim.
+5. FinalCTA uses the shared interior image in a wide compact panel and an independent semantic-background scrim.
 6. How It Works intentionally uses a light contained surface inside the dark-first Homepage.
 
 These exceptions are Homepage-local.

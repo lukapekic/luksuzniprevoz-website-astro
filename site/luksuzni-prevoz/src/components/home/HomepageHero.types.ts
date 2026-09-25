@@ -84,6 +84,8 @@ export interface HomepageHeroProps {
   image: HomepageHeroImage;
   /** Alt text; empty string (default) = decorative atmosphere behind the H1/copy. */
   imageAlt?: string;
+  /** Keep the standard full-bleed scrim or reveal more of the central vehicle. */
+  scrimTreatment?: "standard" | "center-reveal";
   /** Current locale — passed to <Link> for localized route resolution. */
   locale?: LocaleCode;
   /** Layout-only class passthrough (FND-UI-06). */

@@ -9,6 +9,8 @@ test.describe("SiteFooter three-tier contract", () => {
       const footer = page.locator(".site-footer");
       await expect(footer).toBeVisible();
       await expect(footer.getByRole("link", { name: "Luksuzni transport" })).toBeVisible();
+      await expect(footer.locator("[data-brand-wordmark]")).toHaveClass(/sr-only/);
+      await expect(footer.locator(".site-footer__place span")).toHaveCount(1);
       await expect(footer.locator(".site-footer__group")).toHaveCount(4);
       await expect(footer.getByRole("navigation")).toHaveCount(2);
       await expect(footer.locator(".lang-switcher-inline [aria-current='page']")).toHaveText("SR");

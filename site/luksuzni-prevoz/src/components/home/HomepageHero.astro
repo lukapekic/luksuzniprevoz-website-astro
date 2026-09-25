@@ -101,6 +101,7 @@ const {
   supportText,
   image,
   imageAlt = "",
+  scrimTreatment = "standard",
   locale,
   class: className,
 } = Astro.props;
@@ -113,7 +114,7 @@ const hasSupport = Boolean(supportText);
 const isDecorative = imageAlt === "";
 ---
 
-<section class:list={["homepage-hero", className]} aria-labelledby={titleId}>
+<section class:list={["homepage-hero", className]} data-scrim-treatment={scrimTreatment} aria-labelledby={titleId}>
   {/* Full-bleed S-Class background (blueprint §7). The section IS the media
       canvas — no contained panel, no radius, full page width behind the
       overlaid sticky SiteHeader. Decorative atmosphere behind the H1/copy but
@@ -260,6 +261,22 @@ const isDecorative = imageAlt === "";
     inset: 0;
     z-index: 1;
     background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%), linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 12%, transparent) 78%, transparent 100%);
+  }
+  .homepage-hero[data-scrim-treatment="center-reveal"] .homepage-hero__scrim {
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%),
+      linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--color-background) 32%, transparent) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 35%, color-mix(in srgb, var(--color-background) 6%, transparent) 59%, transparent 74%);
+  }
+  /* Single-column copy crosses the photographic centre. Keep the brighter
+     reveal for the xl 7/5 layout, but protect the H1 over pale mobile sky. */
+  @media (max-width: 79.99rem) {
+    .homepage-hero[data-scrim-treatment="center-reveal"] .homepage-hero__scrim {
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%),
+        linear-gradient(180deg, transparent 68%, color-mix(in srgb, var(--color-background) 48%, transparent) 100%),
+        linear-gradient(90deg, color-mix(in srgb, var(--color-background) 86%, transparent) 0%, color-mix(in srgb, var(--color-background) 76%, transparent) 68%, color-mix(in srgb, var(--color-background) 42%, transparent) 100%);
+    }
   }
 
   /* Inner content shell (PageContainer root): container-aligned copy grid. As

@@ -16,7 +16,7 @@ describe("source-capped photographic delivery", () => {
   it("keeps approved format quality and height-aware cover hints", () => {
     assert.deepEqual(imageQuality, { heroAvif: 55, fleetAvif: 60, photoWebp: 85 });
     assert.match(imageSizes.hero, /max\(100vw, 60rem\)/);
-    assert.match(imageSizes.fullWidthCta, /max\(100vw, 70rem\)/);
+    assert.match(imageSizes.compactCta, /max\(100vw, 60rem\)/);
     assert.match(imageSizes.serviceMosaic.privateChauffeur, /min\(70vw, 55rem\)/);
   });
 });

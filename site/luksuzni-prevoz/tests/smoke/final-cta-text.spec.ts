@@ -1,6 +1,18 @@
 import { test, expect } from "@playwright/test";
 import { locales, routePath } from "../support/contracts";
 
+test("the shared closer is contained and shorter than the Hero at desktop", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(routePath("home", "sr"));
+  const geometry = await page.evaluate(() => {
+    const hero = document.querySelector<HTMLElement>(".homepage-hero")!.getBoundingClientRect();
+    const panel = document.querySelector<HTMLElement>(".final-cta__panel")!.getBoundingClientRect();
+    return { heroHeight: hero.height, panelHeight: panel.height, panelWidth: panel.width, viewportWidth: innerWidth };
+  });
+  expect(geometry.panelHeight).toBeLessThan(geometry.heroHeight);
+  expect(geometry.panelWidth).toBeLessThan(geometry.viewportWidth);
+});
+
 const consumers = [
   "home", "fleet", "pricing", "airportTransportation", "privateChauffeur",
   "businessTransportation", "corporateTransportation", "delegationTransportation",
@@ -21,6 +33,7 @@ for (const route of consumers) for (const locale of locales) {
       await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).fontSize)).toBe("32px");
       const panels = page.locator(".final-cta");
       await expect(panels).toHaveCount(1);
+      await expect(panels.locator(".final-cta__panel")).toHaveCount(1);
       const failures = await panels.evaluateAll((elements) => elements.flatMap((panel) => {
         const bounds = panel.getBoundingClientRect();
         return [...panel.querySelectorAll<HTMLElement>(".final-cta__contacts a")].flatMap((link) => {

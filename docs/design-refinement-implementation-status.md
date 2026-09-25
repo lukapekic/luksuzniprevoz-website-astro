@@ -3,6 +3,12 @@
 Branch: `codex/design-refinement-dr06-dr12`
 Source: `docs/project-starter/luksuzniprevoz-design-refinement-handoff/luksuzniprevoz-design-refinements/luksuzniprevoz-design-refinement-backlog.md` (DR-06–DR-12)
 
+## Owner-directed follow-up refinement
+
+Status: Implemented and locally verified, subject to the outstanding review/environment limits below. The latest owner direction keeps the full-bleed Hero overlay as the default, adds an opt-in brighter-centre scrim for Home/Corporate/VIP/Special Events, uses only the approved symbol in the three-tier footer, and returns FinalCTA to a wide compact contained panel while retaining the new interior photo. The earlier DR-12 viewport-wide CTA and footer wordmark instructions are superseded for these surfaces. Shared component impact was checked before editing; four untracked reserve photographs remain untouched.
+
+Follow-up verification: `pnpm components:check`, `pnpm theme:sync`, `pnpm theme:validate`, `pnpm design:sync`, `pnpm design:doctor`, `pnpm quality:release`, the site build, and `git diff --check` passed. Focused Hero/footer/CTA browser checks passed in Chromium (64/64) and Firefox (64/64); Chromium accessibility passed (8/8). The final scope-complete `verify:ui` run passed static and Chromium/Firefox accessibility gates, but could not complete WebKit because this host lacks `libicu74` and `libjpeg-turbo8`. Fresh independent human review evidence is also outstanding and cannot be self-certified. Implementer screenshots covered five Home viewport widths and selected service/footer widths; automated assertions covered all three locales. The screenshot review is not a substitute for independent review. No new Lighthouse run was performed for this follow-up; the earlier unstable Home performance result remains open.
+
 The owner confirmed that the chauffeur photograph is `site/luksuzni-prevoz/src/assets/sections/home/private-chauffeur.webp`. This replaces the handoff's unavailable `b58da850-396c-46da-a528-4143ea28d859.webp` filename. The source is 1200×800 WebP and currently appears in the larger homepage chauffeur feature; implementation moves it to the service card and uses the approved passenger-at-work photo for that feature.
 
 | Phase | Scope | Status | Commit |

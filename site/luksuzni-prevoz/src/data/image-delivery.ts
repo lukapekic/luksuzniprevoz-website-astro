@@ -31,9 +31,9 @@ export const imageSizes = {
   // This matches the current mobile crop without fetching the 2560px candidate
   // for the 412px Lighthouse viewport.
   hero: `(max-width: ${md}) max(100vw, 60rem), 100vw`,
-  // The compact closer becomes content-tall only below xs; other states are
-  // width-limited. This hint avoids selecting a soft 640px mobile background.
-  fullWidthCta: `(max-width: ${layout.breakpoints.xs}) max(100vw, 70rem), 100vw`,
+  // The contained closer is height-limited on small screens and capped by the
+  // active main container on desktop. The source ladder remains source-capped.
+  compactCta: `(max-width: ${layout.breakpoints.xs}) max(100vw, 60rem), (max-width: ${lg}) max(100vw, 64rem), ${contentWidth}`,
   serviceMosaic: {
     // Both dominant desktop cards are much taller than 3:2; cover scaling is
     // driven by the mosaic height, not their narrow 35/30% column width.

@@ -26,6 +26,7 @@ Use after implementation and before final technical review.
 - [ ] mobile/tablet/desktop crops reviewed
 - [ ] mobile crop preserves the vehicle front rather than the rear quarter
 - [ ] low-key treatment preserves vehicle highlights without pretending to be literal night
+- [ ] opt-in centre reveal retains the header/copy/bottom scrim while exposing the S-Class subject
 - [ ] exactly 2 prominent CTAs: Book + Request Quote
 - [ ] no badges/forms/stats
 - [ ] computed H1 font is Inter Tight
@@ -84,7 +85,7 @@ Use after implementation and before final technical review.
 
 ## FinalCTA
 
-- [ ] full-width interior image with copy aligned to the main container
+- [ ] compact main-container-wide panel retains the interior image and aligned copy
 - [ ] independent semantic-background scrim provides contrast without fading the image
 - [ ] not second-Hero sized
 - [ ] no glow/hard media edge
@@ -97,7 +98,7 @@ Use after implementation and before final technical review.
 ## Footer
 
 - [ ] verified production SiteFooter reused
-- [ ] approved Luksuzni transport symbol/name, no parent-company attribution
+- [ ] approved symbol-only home link with accessible Luksuzni transport name; copyright retains the public name
 - [ ] compact three-tier layout with four route-derived navigation groups
 - [ ] phone, email, office hours, and address share one coherent body/UI text treatment
 - [ ] stacked mobile

@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Structural archive: DR-06/08/09/12 and the amended Homepage blueprint supersede old FleetCard, brand, footer, and FinalCTA drawings. Use the owner-approved refinement previews for those structures; active theme tokens govern production styling. -->
+<!-- Structural wireframe only: the latest owner refinement selects a centre-reveal Hero scrim, symbol-only three-tier footer, and wide compact contained FinalCTA. Active contracts/theme tokens govern production styling. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -344,41 +344,37 @@
     </section>
 
     <!-- FINAL CTA -->
-    <section class="wf-shell wf-feature-space" aria-label="Final CTA wireframe">
-      <div class="grid overflow-hidden rounded-wf-section bg-[linear-gradient(110deg,#303336_0%,#383c40_60%,#41464b_100%)] lg:min-h-[22rem] lg:grid-cols-[62fr_38fr]">
-        <div class="grid content-center gap-5 p-6 md:p-10 lg:p-16">
-          <p class="wf-label">Final CTA / 60–65% content</p>
-          <div class="h-16 w-[82%] rounded bg-wf-block"></div>
+    <section class="wf-shell py-8" aria-label="Final CTA wireframe">
+      <div class="relative grid min-h-80 overflow-hidden rounded-wf-section bg-wf-elevated">
+        <div class="absolute inset-0 bg-wf-block-dark" aria-hidden="true"></div>
+        <div class="relative grid max-w-xl content-end gap-5 px-6 pb-8 pt-40 md:pt-48 lg:content-center lg:px-16 lg:py-10">
+          <p class="wf-label">Final CTA / compact interior photo behind copy</p>
+          <div class="h-10 w-[82%] rounded bg-wf-block"></div>
           <div class="grid gap-2"><div class="wf-line w-[85%]"></div><div class="wf-line w-[65%]"></div></div>
-
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <div class="wf-button w-full sm:w-auto"></div>
-            <div class="wf-button-secondary w-full sm:w-auto"></div>
-          </div>
-
-          <div class="flex flex-wrap gap-3">
-            <div class="h-8 w-28 rounded-wf-control border border-wf-line"></div>
-            <div class="h-8 w-28 rounded-wf-control border border-wf-line"></div>
-          </div>
-        </div>
-
-        <div class="min-h-52 border-t border-dashed border-wf-line lg:m-6 lg:ms-0 lg:min-h-0 lg:rounded-wf-card lg:border" aria-label="Final CTA vehicle media placeholder">
-          <div class="grid h-full place-items-center text-xs font-bold tracking-[0.08em] text-wf-muted">FRONT S-CLASS / 35–40%</div>
+          <div class="flex flex-col gap-3 sm:flex-row"><div class="wf-button w-full sm:w-auto"></div><div class="wf-button-secondary w-full sm:w-auto"></div></div>
+          <div class="flex flex-wrap gap-3"><div class="h-8 w-28 rounded-wf-control border border-wf-line"></div><div class="h-8 w-28 rounded-wf-control border border-wf-line"></div></div>
         </div>
       </div>
     </section>
   </main>
 
   <!-- FOOTER -->
-  <footer class="mt-16 border-t border-wf-line/50 bg-[#191b1d]" aria-label="Footer wireframe">
-    <div class="wf-shell grid grid-cols-1 gap-8 py-12 md:grid-cols-[1.2fr_1fr_1fr] md:gap-10">
-      <div class="grid content-start gap-3"><p class="wf-label">Brand</p><div class="wf-line w-[75%]"></div><div class="wf-line w-full"></div><div class="wf-line w-[65%]"></div></div>
-      <div class="grid content-start gap-3"><p class="wf-label">Services / Company</p><div class="wf-line w-[65%]"></div><div class="wf-line w-[55%]"></div><div class="wf-line w-[75%]"></div></div>
-      <div class="grid content-start gap-3"><p class="wf-label">Contact / Hours</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[85%]"></div><div class="wf-line w-[65%]"></div></div>
-    </div>
-    <div class="wf-shell flex flex-col gap-3 border-t border-wf-line/50 py-5 md:flex-row md:justify-between">
-      <div class="wf-line w-48"></div>
-      <div class="wf-line w-48"></div>
+  <footer class="border-t border-wf-line/50 bg-wf-page" aria-label="Footer wireframe">
+    <div class="wf-shell">
+      <div class="grid gap-4 py-8 md:grid-cols-[auto_1fr] xl:grid-cols-[auto_1fr_auto]">
+        <div class="h-11 w-11 rounded-wf-control bg-wf-block" aria-label="Symbol-only home link placeholder"></div>
+        <div class="grid gap-2 md:flex md:flex-wrap md:items-center md:gap-6"><div class="wf-line w-40"></div><div class="wf-line w-48"></div></div>
+        <div class="wf-line w-36 md:col-start-2 xl:col-auto"></div>
+      </div>
+      <div class="grid gap-8 border-y border-wf-line/50 py-8 md:grid-cols-2 xl:grid-cols-4">
+        <div class="grid content-start gap-3"><p class="wf-label">Services</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[65%]"></div></div>
+        <div class="grid content-start gap-3"><p class="wf-label">Business transport</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[65%]"></div><div class="wf-line w-[80%]"></div><div class="wf-line w-[70%]"></div></div>
+        <div class="grid content-start gap-3"><p class="wf-label">Special occasions</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[65%]"></div><div class="wf-line w-[80%]"></div><div class="wf-line w-[70%]"></div></div>
+        <div class="grid content-start gap-3"><p class="wf-label">Information</p><div class="wf-line w-[75%]"></div><div class="wf-line w-[65%]"></div><div class="wf-line w-[80%]"></div></div>
+      </div>
+      <div class="grid gap-4 py-6 md:grid-cols-2 xl:grid-cols-[1fr_1fr_auto]">
+        <div class="wf-line w-48"></div><div class="wf-line w-56"></div><div class="wf-line w-28"></div>
+      </div>
     </div>
   </footer>
 </body>

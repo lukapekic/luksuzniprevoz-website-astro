@@ -5,6 +5,7 @@ for (const locale of locales) for (const width of [320, 768, 1024, 1440, 1920]) 
   test(`Homepage hero clears header: ${locale}/${width}`, async ({ page }) => {
     await page.setViewportSize({ width, height: width === 320 ? 568 : 900 });
     await page.goto(routePath("home", locale));
+    await expect(page.locator(".homepage-hero")).toHaveAttribute("data-scrim-treatment", "center-reveal");
     for (const fontSize of ["100%", "200%"]) {
       await page.evaluate(async (size) => {
         document.documentElement.style.fontSize = size;
@@ -22,3 +23,13 @@ for (const locale of locales) for (const width of [320, 768, 1024, 1440, 1920]) 
     }
   });
 }
+
+test("selected service heroes reveal the centre without changing the default", async ({ page }) => {
+  for (const route of ["corporateTransportation", "vipTransportation", "specialEvents"]) {
+    await page.goto(routePath(route, "sr"));
+    await expect(page.locator(".service-hero")).toHaveAttribute("data-scrim-treatment", "center-reveal");
+    await expect(page.locator(".service-hero")).toHaveAttribute("data-image-treatment", "natural");
+  }
+  await page.goto(routePath("airportTransportation", "sr"));
+  await expect(page.locator(".service-hero")).toHaveAttribute("data-scrim-treatment", "standard");
+});
