@@ -75,7 +75,7 @@ export const contact: Contact = {
     verificationStatus: "verified",
   },
   email: {
-    value: "office@luksuzniprevoz.rs",
+    value: "reservations@luksuzniprevoz.rs",
     verificationStatus: "verified",
   },
   officeHours: {

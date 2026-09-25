@@ -698,25 +698,36 @@ Complete this table when provisioning is finished:
 
 | Decision                     | Final value                          |
 | ---------------------------- | ------------------------------------ |
-| Cloudflare Pages project     | TBD                                  |
-| Production Pages hostname    | TBD                                  |
-| Stable Preview hostname      | TBD                                  |
+| Cloudflare Pages project     | `luksuzniprevoz-website-astro` (API verified) |
+| Production Pages hostname    | `luksuzniprevoz-website-astro.pages.dev` |
+| Stable Preview hostname      | `staging.luksuzniprevoz-website-astro.pages.dev` |
 | Production branch            | `master`                             |
-| Preview branch               | TBD, recommended `staging`           |
-| Preview D1 database          | TBD                                  |
+| Preview branch               | `staging`                             |
+| Preview D1 database          | `luksuzni-prevoz-forms-preview`; migrations applied and `FORM_DB` bound |
 | Production D1 database       | TBD                                  |
 | D1 binding                   | `FORM_DB`                            |
-| Turnstile widget strategy    | TBD: separate or shared              |
+| Turnstile widget strategy    | Separate Managed Preview widget; Production pending |
+| Preview allowed host         | `staging.luksuzniprevoz-website-astro.pages.dev` |
 | Production allowed hosts     | TBD                                  |
-| Preview Brevo recipient      | Canonical office inbox; binding not configured |
-| Production Brevo recipient   | Canonical office inbox; binding not configured |
-| Brevo sender/domain verified | Canonical office address selected; Brevo verification pending |
+| Preview Brevo recipient      | `reservations@luksuzniprevoz.rs`; encrypted Cloudflare binding configured |
+| Production Brevo recipient   | `reservations@luksuzniprevoz.rs`; binding not configured |
+| Brevo sender/domain verified | `reservations@luksuzniprevoz.rs` active; domain authentication pending |
 | WAF threshold/action         | TBD after Preview test               |
 | Ledger retention period      | TBD                                  |
 | Brevo log/content retention  | TBD                                  |
 | CSP enforcement date         | TBD after clean report-only evidence |
 | Operational owner            | TBD                                  |
 | Production smoke-test date   | TBD                                  |
+
+Preview deployed from `44314e0` on 2026-09-25. Both form pages published the
+Preview Turnstile site key and `X-Robots-Tag: noindex`; both API routes returned
+`405` for `GET`. Invalid `POST` requests returned `503 service_unavailable` before
+the Brevo API key was configured. The Preview Brevo key, sender, and recipient
+are now configured, but a fresh deployment and end-to-end delivery test remain
+pending. Brevo accepted a controlled transactional email API request from
+`reservations@luksuzniprevoz.rs` to the same inbox on 2026-09-25. The Brevo API
+does not yet list `luksuzniprevoz.rs` as an authenticated sender domain. Inbox
+receipt and Pages Functions egress still require verification.
 
 ## 21. External documentation
 

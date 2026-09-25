@@ -34,8 +34,8 @@ test.describe("Contact", () => {
     await page.goto(routePath("contact", "en"));
 
     await expect(page.locator('main a[href="tel:+38163380970"]')).toHaveText("+38163380970");
-    await expect(page.locator('main a[href="mailto:office@luksuzniprevoz.rs"]')).toHaveText(
-      "office@luksuzniprevoz.rs",
+    await expect(page.locator('main a[href="mailto:reservations@luksuzniprevoz.rs"]')).toHaveText(
+      "reservations@luksuzniprevoz.rs",
     );
     await expect(page.locator("main address")).toContainText("Antifašističke borbe 25");
     await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
