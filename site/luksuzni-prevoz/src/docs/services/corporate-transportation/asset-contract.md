@@ -38,7 +38,7 @@ watermarks
 Locked source:
 
 ```text
-src/assets/shared/other/s-class-driving-forest-intheback.webp
+src/assets/shared/other/executive-working-in-rear-seat.webp
 ```
 
 Required character:

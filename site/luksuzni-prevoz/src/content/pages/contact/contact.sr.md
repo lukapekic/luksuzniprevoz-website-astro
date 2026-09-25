@@ -8,7 +8,7 @@ reviewedOn: 2026-09-13
 noindex: false
 
 seoTitle: "Kontakt za prevoz u Beogradu"
-seoDescription: "Kontaktirajte Luksuzni transport u Beogradu za informacije o prevozu, izboru vozila i ponudi. Telefon, e-mail, adresa kancelarije i radno vreme."
+seoDescription: "Kontaktirajte Luksuzni prevoz u Beogradu za informacije o prevozu, izboru vozila i ponudi. Telefon, e-mail, adresa kancelarije i radno vreme."
 
 h1: "Kontakt"
 intro: "Pitajte nas o uslugama, vozilima ili organizaciji prevoza."

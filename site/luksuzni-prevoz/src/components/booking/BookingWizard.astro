@@ -343,7 +343,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
       <div data-booking-continue><button type="button" class="booking-primary">{ui("booking.action.continue")}</button></div>
       <div data-booking-final hidden>
         <div class="mb-[var(--space-3)]" data-booking-turnstile></div>
-        <button type="submit" class="booking-primary"><span data-booking-final-label>{ui("booking.action.requestBooking")}</span></button>
+        <button type="submit" class="booking-primary" disabled><span data-booking-final-label>{ui("booking.action.requestBooking")}</span></button>
         <FormStatus id="booking-form-status" type="info" on="light" class="mt-[var(--space-3)]" />
       </div>
       <p class="sr-only" aria-live="polite" aria-atomic="true" data-booking-live></p>

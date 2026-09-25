@@ -158,9 +158,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     <div class="grid gap-[var(--space-3)]">
       <div data-contact-turnstile></div>
       <div data-contact-submit class="justify-self-start">
-        <Button type="submit"><span data-contact-submit-label>{copy.submitAction}</span></Button>
+        <Button type="submit" disabled><span data-contact-submit-label>{copy.submitAction}</span></Button>
       </div>
       <FormStatus id={statusId} type="info" on="light" />
+      <noscript><p class="font-body text-[length:var(--text-sm)] text-[var(--color-text-on-light)]">{copy.serviceUnavailableStatus}</p></noscript>
     </div>
   </form>
 </section>

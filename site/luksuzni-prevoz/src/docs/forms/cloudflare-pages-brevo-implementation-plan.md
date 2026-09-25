@@ -474,6 +474,7 @@ Bindings/variables must be configured independently for Preview and Production:
 
 ```text
 FORM_DB                     D1 binding
+FORM_IDEMPOTENCY_SECRET     encrypted runtime secret (unique per environment)
 PUBLIC_TURNSTILE_SITE_KEY   public build variable
 TURNSTILE_SECRET_KEY        encrypted runtime secret
 TURNSTILE_ALLOWED_HOSTS     environment variable
@@ -484,10 +485,10 @@ BREVO_TO_EMAIL              secret if operational policy requires
 FORM_ENVIRONMENT            production | preview | local
 ```
 
-Preview must not email the production office inbox by accident. Use a separate
-test destination or an explicitly injected non-delivery adapter for automated
-tests. Production must reject test Turnstile keys and non-production delivery
-mode.
+Preview must not email the production office inbox by accident. The owner has
+explicitly selected the canonical office inbox for controlled Preview acceptance;
+routine automated tests still use an injected non-delivery adapter. Production
+must reject test Turnstile keys and non-production delivery mode.
 
 ## 14. Headers, CSP, routes, and caching
 
@@ -541,7 +542,7 @@ mode.
 1. Create the Pages project and D1 database in the user's Cloudflare account.
 2. Download/review the generated Pages Wrangler configuration.
 3. Apply the D1 migration to preview first.
-4. Configure preview variables, test Turnstile, and non-production email
+4. Configure preview variables, idempotency secret, test Turnstile, and non-production email
    destination.
 5. Add the WAF rate-limiting rule.
 6. Verify Functions routing and static-route exclusions.

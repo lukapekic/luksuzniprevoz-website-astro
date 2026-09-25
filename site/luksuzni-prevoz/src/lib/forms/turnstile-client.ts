@@ -6,7 +6,11 @@ interface TurnstileApi {
     size: "compact" | "normal";
     callback: (token: string) => void;
     "expired-callback": () => void;
+    "timeout-callback": () => void;
     "error-callback": () => void;
+    "refresh-expired": "auto";
+    "refresh-timeout": "auto";
+    retry: "auto";
   }): string;
   reset(widgetId: string): void;
   remove(widgetId: string): void;
@@ -23,7 +27,7 @@ let scriptPromise: Promise<TurnstileApi> | null = null;
 function loadApi(): Promise<TurnstileApi> {
   if (window.turnstile) return Promise.resolve(window.turnstile);
   if (scriptPromise) return scriptPromise;
-  scriptPromise = new Promise((resolve, reject) => {
+  const pending = new Promise<TurnstileApi>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>('script[data-turnstile-script]');
     const script = existing ?? document.createElement("script");
     const timeout = window.setTimeout(() => reject(new Error("turnstile-timeout")), 10_000);
@@ -41,8 +45,13 @@ function loadApi(): Promise<TurnstileApi> {
       script.dataset.turnstileScript = "true";
       document.head.append(script);
     }
+  }).catch((error: unknown) => {
+    scriptPromise = null;
+    document.querySelector('script[data-turnstile-script]')?.remove();
+    throw error;
   });
-  return scriptPromise;
+  scriptPromise = pending;
+  return pending;
 }
 
 export interface TurnstileController {
@@ -74,7 +83,11 @@ export function createTurnstileController(input: {
         size: input.size ?? "compact",
         callback: (nextToken) => { token = nextToken; },
         "expired-callback": () => { token = null; },
+        "timeout-callback": () => { token = null; },
         "error-callback": () => { token = null; },
+        "refresh-expired": "auto",
+        "refresh-timeout": "auto",
+        retry: "auto",
       });
     },
     getToken: () => token,

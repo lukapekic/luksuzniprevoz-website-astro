@@ -17,7 +17,7 @@ Use after implementation and before final technical review.
 
 - [ ] media is full viewport width
 - [ ] inner content aligns to main container
-- [ ] near-viewport-height desktop feel
+- [ ] viewport-minimum desktop Hero with content-safe growth
 - [ ] no rounded contained Hero panel
 - [ ] no separate image column
 - [ ] desktop content preserves approved 7/5 relationship
@@ -98,8 +98,8 @@ Use after implementation and before final technical review.
 ## Footer
 
 - [ ] verified production SiteFooter reused
-- [ ] approved symbol-only home link with accessible Luksuzni transport name; copyright retains the public name
-- [ ] compact three-tier layout with four route-derived navigation groups
+- [ ] approved symbol-only home link with accessible Luksuzni prevoz name; copyright retains the public name
+- [ ] compact four-tier layout with four route-derived navigation groups and a partner-logo row
 - [ ] phone, email, office hours, and address share one coherent body/UI text treatment
 - [ ] stacked mobile
 - [ ] no newsletter/social bloat

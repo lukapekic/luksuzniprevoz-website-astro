@@ -19,5 +19,14 @@
   "warning": "#C7A66A",
   "error": "#C87B78",
   "info": "#8796A6",
-  "disabled": "#7A7F86"
+  "disabled": "#7A7F86",
+  "footerSurfaceStart": "#1B1B1E",
+  "footerSurfaceMiddle": "#121214",
+  "footerSurfaceEnd": "#09090B",
+  "footerBackground": "linear-gradient(160deg, var(--color-footer-surface-start) 0%, var(--color-footer-surface-middle) 48%, var(--color-footer-surface-end) 100%)",
+  "footerTextStrong": "#F2F0EB",
+  "footerTextLink": "#C6C4BF",
+  "footerTextMuted": "#A6A5A2",
+  "footerDivider": "#F2F0EB1F",
+  "footerBoundary": "#F2F0EB14"
 }

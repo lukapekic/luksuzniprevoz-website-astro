@@ -21,7 +21,7 @@ interface Props {
   imagePosition?: string;
   imageTreatment?: "default" | "natural";
   /** Full-bleed scrim geometry; independent from image exposure. */
-  scrimTreatment?: "standard" | "center-reveal";
+  scrimTreatment?: "standard" | "center-reveal" | "soft-reveal";
   supportText?: string;
 }
 
@@ -101,7 +101,7 @@ const hasActions = Boolean(primaryAction || secondaryAction);
   .service-hero { padding-block: var(--space-section-compact); }
   .service-hero[data-variant="full-bleed"] { padding-block: 0; }
   .service-hero__panel { position: relative; isolation: isolate; min-block-size: clamp(29rem, 66svh, 43rem); overflow: hidden; border-radius: var(--radius-section); background: var(--color-surface); }
-  .service-hero[data-variant="full-bleed"] .service-hero__panel { display: grid; align-items: end; min-block-size: 78vh; min-block-size: 78svh; border-radius: 0; }
+  .service-hero[data-variant="full-bleed"] .service-hero__panel { display: grid; align-items: end; min-block-size: 100vh; min-block-size: 100svh; border-radius: 0; }
   .service-hero__media { position: absolute; inset: 0; z-index: -3; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; }
   .service-hero__placeholder { background: linear-gradient(145deg, var(--color-surface-elevated), var(--color-background)); }
   .service-hero__scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, color-mix(in oklab, var(--color-background), transparent 4%) 0%, color-mix(in oklab, var(--color-background), transparent 28%) 55%, color-mix(in oklab, var(--color-background), transparent 70%) 100%); }
@@ -157,6 +157,34 @@ const hasActions = Boolean(primaryAction || secondaryAction);
   .service-hero[data-variant="full-bleed"][data-scrim-treatment="center-reveal"] .service-hero__scrim {
     --service-hero-center-scrim: color-mix(in oklab, var(--color-background), transparent 92%);
   }
+  /* An opt-in, continuous dark treatment: open the photographic subject while
+     retaining copy/header protection and an opaque handoff to the next section. */
+  .service-hero[data-variant="full-bleed"][data-scrim-treatment="soft-reveal"] .service-hero__scrim {
+    background-color: color-mix(in oklab, var(--color-background) 8%, transparent);
+    background-image:
+      radial-gradient(
+        ellipse 76% 74% at 68% 58%,
+        transparent 0%,
+        transparent 40%,
+        color-mix(in oklab, var(--color-background) 20%, transparent) 75%,
+        color-mix(in oklab, var(--color-background) 55%, transparent) 100%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--color-background) 92%, transparent) 0%,
+        transparent 30%,
+        transparent 55%,
+        color-mix(in oklab, var(--color-background) 45%, transparent) 80%,
+        var(--color-background) 100%
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--color-background) 97%, transparent) 0%,
+        color-mix(in oklab, var(--color-background) 60%, transparent) 42%,
+        color-mix(in oklab, var(--color-background) 3%, transparent) 70%,
+        color-mix(in oklab, var(--color-background) 5%, transparent) 100%
+      );
+  }
   .service-hero[data-variant="full-bleed"] .service-hero__inner {
     z-index: 2;
     min-block-size: auto;
@@ -174,7 +202,6 @@ const hasActions = Boolean(primaryAction || secondaryAction);
     .service-hero[data-variant="full-bleed"] .service-hero__media { object-position: 58% center; }
   }
   @media (min-width: 64rem) {
-    .service-hero[data-variant="full-bleed"] .service-hero__panel { min-block-size: 84vh; min-block-size: 84svh; }
     .service-hero[data-variant="full-bleed"] .service-hero__media { object-position: center; }
   }
   @media (min-width: 80rem) {

@@ -7,6 +7,7 @@ import {
   type ContactValidationSchema,
 } from "./contact-form-validation.ts";
 import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
+import { lockSubmissionControls } from "../../lib/forms/submission-controls.ts";
 
 export interface ContactFieldState {
   touched: boolean;
@@ -219,16 +220,24 @@ export function mountContactForms(root: ParentNode = document): void {
       siteKey,
       action: "contact_submit",
     });
-    void turnstile.render().catch(() => {
+    void turnstile.render().then(() => {
+      submit.disabled = false;
+    }).catch(() => {
       status.textContent = statusMessage(form, "statusServiceUnavailable");
       submit.disabled = true;
     });
 
     let submissionId: string | null = null;
     let completed = false;
+    let submitting = false;
+    const invalidateSubmissionId = (): void => {
+      if (!submitting) submissionId = null;
+    };
+    form.addEventListener("input", invalidateSubmissionId);
+    form.addEventListener("change", invalidateSubmissionId);
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (completed) return;
+      if (completed || submitting) return;
       renderSummary(form, []);
       const validation = controller.validateAll();
       if (!validation.isValid) {
@@ -243,7 +252,9 @@ export function mountContactForms(root: ParentNode = document): void {
       }
 
       submissionId ??= crypto.randomUUID();
+      submitting = true;
       submit.disabled = true;
+      const unlockControls = lockSubmissionControls(form);
       submitLabel.textContent = statusMessage(form, "statusSubmitting");
       status.textContent = statusMessage(form, "statusSubmitting");
       try {
@@ -276,6 +287,8 @@ export function mountContactForms(root: ParentNode = document): void {
         status.textContent = statusMessage(form, "statusServerError");
       } finally {
         turnstile.reset();
+        unlockControls();
+        submitting = false;
         submit.disabled = completed;
         submitLabel.textContent = statusMessage(form, "submitAction");
       }

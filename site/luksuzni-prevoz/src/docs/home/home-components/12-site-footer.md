@@ -1,15 +1,30 @@
-# SiteFooter — three-tier shared contract
+# SiteFooter — four-tier shared contract
 
-Status: **DR-08 and DR-09 approved direction**. This replaces the former three-column/GS-mark-only footer and parent-company attribution. The public identity is exactly **Luksuzni transport** across locales.
+Status: **approved footer refinement**. The public identity is **Luksuzni prevoz** in every locale. The footer follows the FinalCTA directly and remains a compact site ending.
 
-The full-width dark footer uses Theme V2 semantic surfaces, dividers, spacing, Manrope UI text, and the capped main container. It follows FinalCTA without an oversized blank band, glow, heavy shadow, newsletter, or additional primary CTA.
+## Surface and hierarchy
+
+The full-width footer uses one continuous `footerBackground` graphite-to-black gradient from the active theme. Its content stays aligned to `container.main` and `gutter.page`. `footerBoundary` marks the top edge; `footerDivider` separates the four regions. Navigation groups have no card surfaces. No glow, texture, animation, or container opacity is used.
+
+Use `footerTextStrong` for the brand and navigation headings, `footerTextLink` for contact and route links, and `footerTextMuted` for hours, copyright, and address. Hovered links brighten toward the strong text role and gain a small-offset underline; focus keeps the visible `focusDark` ring. All footer text uses Manrope. Headings and navigation links use the semantic small UI size, with semibold headings and regular links. Supporting information uses the semantic extra-small size. Contrast is checked against `footerSurfaceStart`, the lightest gradient stop.
 
 ## Tiers
 
-1. Utility: the approved own-brand symbol only, as an accessibly named home link, beside verified phone and email; quiet verified office hours form the counterpart. Do not render the visible wordmark beside the symbol. Omit unverified social/WhatsApp slots entirely.
-2. Navigation: four route-data groups in order—Services (`privateChauffeur`, `airportTransportation`), Business transport (`businessTransportation`, `corporateTransportation`, `delegationTransportation`, `conferenceCongressTransportation`), Special occasions (`specialEvents`, `weddingTransportation`, `promTransportation`, `vipTransportation`), Information (`fleet`, `pricing`, `contact`). Labels are localized through approved sources; unavailable routes/groups are omitted.
-3. Bottom: current-year canonical copyright and localized rights text, one verified location cluster with a restrained outline icon, route-preserving inline SR/EN/RU language links, and legal links only where published destinations exist. Do not repeat the address and city as competing items. Use one semantic DOM tree. Copyright retains the canonical public name; symbol-only applies to the visual logo.
+1. **Utility:** the approved owner-supplied car symbol is the only visible content of the home link. The link retains the canonical public name for assistive technology. The `BrandLockup` footer variant crops only empty symbol artboard space. Verified phone and email follow as `tel:` and `mailto:` links. Verified office hours close the row. Unverified social and WhatsApp slots remain absent.
+2. **Navigation:** four route-data groups in order—Services (`privateChauffeur`, `airportTransportation`), Business transport (`businessTransportation`, `corporateTransportation`, `delegationTransportation`, `conferenceCongressTransportation`), Special occasions (`specialEvents`, `weddingTransportation`, `promTransportation`, `vipTransportation`), Information (`fleet`, `pricing`, `contact`). Headings and labels use approved localized sources; destinations use `getPath()`. Unavailable routes/groups are omitted. Each group is a heading and link list within one footer navigation landmark.
+3. **Partners:** a localized “Our partners” heading at the start of one horizontal row, followed by two linked SVG logos in order: Belgrade Transfers, then Transferi. Both logos have the same rendered height and use the semantic platinum accent. Their URLs and accessible names come from `src/data/partners.ts`; the heading comes from localized UI content. The row uses the same divider and block padding as the bottom row. Logo links retain a visible focus ring and at least a 44×44 target.
+4. **Bottom:** current-year copyright with the canonical public name and localized rights text, one verified address cluster, and route-preserving inline SR/EN/RU links with the active locale underlined. The address becomes a link only when `contact.office.googleMapsUrl` is verified and present; otherwise it remains readable text. Legal links appear only where published destinations exist.
 
-At widths below `md`, stack utility, navigation, and bottom content in logical order. From `md` to below `xl`, use two utility columns, a 2×2 navigation grid, and a two-column bottom region. At `xl` and wider, use horizontal utility rows, four navigation columns, and naturally wrapping bottom groups. Review 320/768/1024/1440/1920 and both sides of `md`/`xl`; no duplicate landmarks, clipped translations, or page overflow. Every interactive target is at least 44×44 with visible focus. The shared LanguageSwitcher gains an inline presentation without changing its header dropdown default.
+## Responsive contract
 
-The approved logo package's full artwork says “LUKSUZNI PREVOZ,” which differs from the canonical public name. Use the shared BrandLockup's `mark-only` presentation with its screen-reader name; keep the existing full/responsive presentations for header consumers. Do not copy Belgrade Transfers branding, palette, contact data, routes, or placeholder links.
+The DOM order is brand → phone → email → hours → four navigation groups → partners heading → Belgrade Transfers → Transferi → copyright → address → languages at every width. The site container limits measure; labels, email, and address wrap without truncation. All links have at least a 44×44 CSS-pixel target and visible focus. No accidental horizontal overflow is permitted.
+
+| State | Topology and placement |
+| --- | --- |
+| Mobile, 320px and 390px, below `md` | Brand first; phone and email in separate rows; hours below. Navigation uses two columns. The partners heading may wrap within its own narrow column; both equal-height logos stay beside it on the same row. Bottom information and languages stack in DOM order. |
+| Tablet portrait, 768px, `md` to below `lg` | Brand occupies its own row. Contacts may wrap in the first column, with hours beside or below them as content requires. Navigation remains two columns. The partners heading and equal-height logos share one row. Bottom items wrap in DOM order. |
+| Tablet landscape, 1024px, `lg` to below `xl` | Brand remains on its own row above contacts and hours. Four navigation columns. The partners heading and equal-height logos share one row. Bottom items wrap in DOM order if translated content needs space. |
+| Desktop, 1440px, `xl` and wider | Brand, contacts, and far-end hours form one balanced row. Four navigation columns. The partners heading and equal-height logos share one row aligned to the container start. Bottom information forms a horizontal row when it fits. |
+| Wide desktop, 1920px, `xl` and wider | Same topology as desktop; the capped main container prevents the regions from spreading across the viewport. The partners row stays aligned to the container start. |
+
+Compatibility decision: `BrandLockup.variant="footer"` and `LanguageSwitcher.tone="footer"` are additive opt-ins used only by `SiteFooter`. Existing header, full, responsive, mark-only, and inline-default presentations keep their prior behavior; no consumer migration is required. No client-side behavior is added.

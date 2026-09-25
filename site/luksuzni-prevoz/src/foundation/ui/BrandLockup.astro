@@ -10,13 +10,19 @@ interface Props {
   /** Layout-only class (FND-UI-06). */
   class?: string;
   /** Keep the existing header/mobile API. */
-  variant?: "full" | "responsive" | "mark-only";
+  variant?: "full" | "responsive" | "mark-only" | "footer";
+  /** Opt-in mark size for the SiteHeader; the default preserves other consumers. */
+  markSize?: "default" | "header";
 }
 
-const { href, class: className, variant = "full" } = Astro.props;
+const { href, class: className, variant = "full", markSize = "default" } = Astro.props;
 const Tag: "a" | "span" = href ? "a" : "span";
 const wordmarkDisplay =
   variant === "mark-only" ? "sr-only" : variant === "responsive" ? "max-lg:sr-only" : "";
+const isFooter = variant === "footer";
+// The supplied symbol has a wide, shallow drawing inside a square artboard.
+// Crop only empty artboard space for the larger header and footer presentations.
+const markViewBox = markSize === "header" || isFooter ? "30 210 980 540" : "0 0 1000 1000";
 ---
 
 <Tag
@@ -24,8 +30,8 @@ const wordmarkDisplay =
   class={`group inline-flex min-h-11 min-w-11 items-center justify-center gap-[var(--space-3)] rounded-[var(--radius-control)] no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] ${className ?? ""}`}
 >
   {/* Geometry follows assets/symbol-dark.svg in the owner-approved logo package.
-      currentColor maps the supplied artwork to the active semantic accent. */}
-  <svg class="h-8 w-8 shrink-0 text-[var(--color-accent)]" viewBox="0 0 1000 1000" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      currentColor maps the supplied artwork to the active semantic role. */}
+  <svg class:list={["shrink-0", isFooter ? "text-[var(--color-footer-text-strong)]" : "text-[var(--color-accent)]", markSize === "header" || isFooter ? "h-10 w-14" : "h-8 w-8"]} viewBox={markViewBox} fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M 300 350 L 500 265 L 700 350 L 700 470" stroke-width="28" />
     <path d="M 355 610 Q 500 770 645 610" stroke-width="28" />
     <path d="M 180 495 C 280 438 382 412 530 420 C 648 427 703 485 758 512" stroke-width="26" />
@@ -39,6 +45,8 @@ const wordmarkDisplay =
   </svg>
   <span
     data-brand-wordmark
-    class={`select-none font-brand text-[length:var(--text-brand)] font-normal italic leading-none tracking-normal text-[var(--color-accent)] ${wordmarkDisplay}`}
+    class={isFooter
+      ? "sr-only"
+      : `select-none font-brand text-[length:var(--text-brand)] font-normal italic leading-none tracking-normal text-[var(--color-accent)] ${wordmarkDisplay}`}
   >{business.publicBrand}</span>
 </Tag>

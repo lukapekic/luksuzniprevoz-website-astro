@@ -1,6 +1,6 @@
 import { sendBrevoEmail } from "./brevo.ts";
 import { jsonResponse, readJsonBody, RequestBodyError, requestHostnameAllowed } from "./http.ts";
-import { createD1Ledger } from "./submission-ledger.ts";
+import { createD1Ledger, SubmissionIdentityError } from "./submission-ledger.ts";
 import { verifyTurnstile } from "./turnstile.ts";
 import type {
   FormEnvironment,
@@ -12,7 +12,11 @@ import type {
 } from "./types.ts";
 import { decodeEnvelope } from "./validation.ts";
 
-const TURNSTILE_ALWAYS_PASSES_TEST_SECRET = "1x0000000000000000000000000000000AA";
+const TURNSTILE_TEST_SECRETS = new Set([
+  "1x0000000000000000000000000000000AA",
+  "2x0000000000000000000000000000000AA",
+  "3x0000000000000000000000000000000AA",
+]);
 
 type PayloadValidator = (
   payload: unknown,
@@ -29,7 +33,8 @@ function configuredHosts(env: FormEnvironment): string[] {
 function isConfigured(env: FormEnvironment): boolean {
   return Boolean(
     env.FORM_DB &&
-    env.FORM_ENVIRONMENT &&
+    (env.FORM_ENVIRONMENT === "production" || env.FORM_ENVIRONMENT === "preview" || env.FORM_ENVIRONMENT === "local") &&
+    env.FORM_IDEMPOTENCY_SECRET && env.FORM_IDEMPOTENCY_SECRET.length >= 32 &&
     env.TURNSTILE_SECRET_KEY &&
     env.TURNSTILE_ALLOWED_HOSTS &&
     env.BREVO_API_KEY &&
@@ -37,6 +42,16 @@ function isConfigured(env: FormEnvironment): boolean {
     env.BREVO_SENDER_NAME &&
     env.BREVO_TO_EMAIL,
   );
+}
+
+async function payloadDigest(secret: string, submission: ValidatedSubmission): Promise<string> {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey("raw", encoder.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const stableInput = submission.kind === "booking"
+    ? { kind: submission.kind, locale: submission.locale, draft: submission.draft }
+    : { kind: submission.kind, locale: submission.locale, values: submission.values };
+  const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(JSON.stringify(stableInput)));
+  return Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 function referenceFor(submissionId: string, now = new Date()): string {
@@ -61,10 +76,10 @@ export async function handleFormSubmission(
 ): Promise<Response> {
   const { request, env } = context;
   if (request.method !== "POST") {
-    return new Response(null, { status: 405, headers: { allow: "POST", "cache-control": "no-store" } });
+    return new Response(null, { status: 405, headers: { allow: "POST", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
   }
   if (!isConfigured(env)) return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
-  if (env.FORM_ENVIRONMENT === "production" && env.TURNSTILE_SECRET_KEY === TURNSTILE_ALWAYS_PASSES_TEST_SECRET) {
+  if (env.FORM_ENVIRONMENT === "production" && TURNSTILE_TEST_SECRETS.has(env.TURNSTILE_SECRET_KEY!)) {
     return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
   }
   if (!requestHostnameAllowed(request, env.TURNSTILE_ALLOWED_HOSTS!)) {
@@ -103,33 +118,47 @@ export async function handleFormSubmission(
   const proposedReference = referenceFor(envelope.submissionId, new Date(now));
   let claim;
   try {
+    const digest = await payloadDigest(env.FORM_IDEMPOTENCY_SECRET!, validated.value);
     claim = await ledger.begin({
       submissionId: envelope.submissionId,
       reference: proposedReference,
       kind: options.kind,
       locale: envelope.locale,
+      payloadDigest: digest,
       now,
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof SubmissionIdentityError) return jsonResponse({ ok: false, code: "bad_request" }, 409);
     return jsonResponse({ ok: false, code: "server_error" }, 500);
   }
 
   if (!claim.created) {
-    return jsonResponse({ ok: true, status: "pending", reference: claim.record.reference }, 202);
+    if (claim.record.status === "accepted") {
+      return jsonResponse({ ok: true, status: "pending", reference: claim.record.reference }, 202);
+    }
+    return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
   }
 
-  const delivery = await (options.deliver ?? sendBrevoEmail)({
-    env,
-    submission: validated.value,
-    submissionId: envelope.submissionId,
-    reference: claim.record.reference,
-  });
+  let delivery;
+  try {
+    delivery = await (options.deliver ?? sendBrevoEmail)({
+      env,
+      submission: validated.value,
+      submissionId: envelope.submissionId,
+      reference: claim.record.reference,
+    });
+  } catch {
+    // An interrupted provider request may have been accepted; retain processing
+    // for operational reconciliation rather than automatically sending again.
+    return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
+  }
   if (!delivery.ok || !delivery.messageId) {
-    try {
-      await ledger.failed(envelope.submissionId, delivery.retryable ? "brevo-retryable" : "brevo-rejected", Date.now());
-    } catch {
-      // Delivery failed and the ledger could not be updated; report a retryable
-      // service failure without exposing internal details.
+    if (!delivery.uncertain) {
+      try {
+        await ledger.failed(envelope.submissionId, delivery.retryable ? "brevo-retryable" : "brevo-rejected", Date.now());
+      } catch {
+        // A failed ledger update must not expose internal details.
+      }
     }
     return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
   }

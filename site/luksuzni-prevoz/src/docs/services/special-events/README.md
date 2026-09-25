@@ -89,7 +89,7 @@ e-class-outside-weeding-day.webp
 v-class-interior.webp
   role: temporary Prom service destination card
 
-s-class-interior-driver-side.webp
+vip-rear-cabin.webp
   role: VIP service destination card
 
 v-class-outisde-weeding-day.webp

@@ -7,7 +7,7 @@ Purpose: Source of truth for Homepage structure, component selection, surface rh
 
 > This blueprint defines structure and behavior. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content remain subject to their verified data/content sources.
 >
-> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, and image assignments/delivery. The later owner refinement selects the centre-reveal Hero scrim, symbol-only three-tier footer, and wide compact contained FinalCTA with the DR-12 interior photo. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/sections/home/private-chauffeur.webp` for the service card; the larger feature uses `assets/shared/chauffeur-service/productivity-backseat.webp`.
+> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, and image assignments/delivery. The later owner refinement selects the soft-reveal Hero scrim, symbol-only four-tier footer with a partner-logo row, and wide compact contained FinalCTA with the DR-12 interior photo. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/sections/home/private-chauffeur.webp` for the service card; the larger feature uses `assets/shared/other/passenger-working-in-backseat.webp`.
 
 ---
 
@@ -79,7 +79,7 @@ Component: verified production `SiteHeader`.
 ## Desktop
 
 - Compact single row.
-- Left: the approved own-brand symbol with accessible canonical **Luksuzni transport** name; no GS mark or parent-company attribution.
+- Left: the approved own-brand symbol with accessible canonical **Luksuzni prevoz** name; no GS mark or parent-company attribution.
 - Main navigation.
 - `SR / EN / RU` language switcher.
 - Visible Book CTA.
@@ -139,7 +139,7 @@ Establish the premium chauffeur positioning immediately and present the two conv
 The Hero is a **full-bleed photographic section**.
 
 - Hero media/scrim spans the full viewport width.
-- Hero is near-viewport-height on desktop.
+- Hero has a content-safe `100svh` minimum (`100vh` fallback) at every viewport.
 - Hero inner content remains aligned to the active main container.
 - Desktop content preserves the approved two-column relationship:
   - left: primary message and CTAs;
@@ -161,7 +161,7 @@ Do not add badges, rating chips, feature-icon rows, fleet specs, pricing, or a b
 ## Desktop geometry
 
 - Full viewport-width outer Hero.
-- Near-viewport-height; content must never be clipped to preserve a fixed ratio.
+- At least one small viewport high; content must never be clipped to preserve a fixed ratio.
 - Inner content aligns to the Theme V2 main container and page gutter.
 - Desktop content grid approximately **7/5**.
 - Left copy is vertically/optically centered in the primary reading region.
@@ -360,7 +360,7 @@ The text side has no enclosing card/panel; only the compact package-summary inse
 
 ## Image
 
-- Approved passenger-at-work photography (`assets/shared/chauffeur-service/productivity-backseat.webp`); the owner-confirmed chauffeur-at-wheel image belongs to the service card.
+- Approved passenger-at-work photography (`assets/shared/other/passenger-working-in-backseat.webp`); the owner-confirmed chauffeur-at-wheel image belongs to the service card.
 - Typical ratio around `4:3`.
 - Use Theme V2 card/media radius.
 - `object-cover` with explicit focal positioning.
@@ -668,7 +668,7 @@ Do not create a giant sitemap footer.
 
 ## Desktop
 
-Three semantic tiers: an accessibly named symbol-only home link and verified contacts/office hours; four route-driven navigation groups; copyright, one location cluster, and inline route-preserving locales. Use four navigation columns from `xl` and a 2×2 group grid from `md` to below `xl`.
+Four semantic tiers: an accessibly named symbol-only home link and verified contacts/office hours; four route-driven navigation groups; a start-aligned heading with linked, equal-height Belgrade Transfers and Transferi SVG logos beside it in one row; copyright, one location cluster, and inline route-preserving locales. Use four navigation columns from `xl` and a 2×2 group grid from `md` to below `xl`.
 
 Bottom row may contain:
 
@@ -749,7 +749,7 @@ Do not mechanically alternate dark/light surfaces.
 
 ## Desktop
 
-- Full-bleed near-viewport Hero + contained 7/5 content.
+- Full-bleed viewport-minimum Hero + contained 7/5 content.
 - Asymmetric Services mosaic.
 - 5/7 Private Chauffeur split.
 - 4-up Trust.

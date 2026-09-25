@@ -29,7 +29,7 @@ Every applicable item MUST pass.
 - [ ] Hero uses `s-class-driving-forest-intheback.webp`.
 - [ ] Wedding card uses `e-class-outside-weeding-day.webp`.
 - [ ] Prom card uses temporary `v-class-interior.webp` until a dedicated Prom asset is supplied.
-- [ ] VIP card uses `s-class-interior-driver-side.webp`.
+- [ ] VIP card uses `vip-rear-cabin.webp`.
 - [ ] Event Coordination uses `v-class-outisde-weeding-day.webp`.
 - [ ] `s-class-with-flowers-special-occasion.webp` does not render on the hub.
 - [ ] `weeding-day-kissing.webp` does not render on the hub.

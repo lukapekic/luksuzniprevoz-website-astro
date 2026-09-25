@@ -1,7 +1,7 @@
 {
   "$schema": "./config.schema.json",
   "schemaVersion": 1,
-  "project": "Luksuzni transport",
+  "project": "Luksuzni prevoz",
   "siteRoot": "site/luksuzni-prevoz",
   "theme": {
     "versionsDir": "site/luksuzni-prevoz/src/theme/versions",

@@ -2,7 +2,7 @@
 routeKey: contact
 locale: ru
 sourceLocale: sr
-sourceDigest: 92c2d598ea0c7ad1
+sourceDigest: e7c0b7416cb8070c
 pageType: contact
 status: published
 translationState: reviewed
@@ -10,7 +10,7 @@ reviewedOn: 2026-09-24
 noindex: false
 
 seoTitle: "Контакты – автомобиль с водителем"
-seoDescription: "Свяжитесь с Luksuzni transport в Белграде по вопросам поездки, выбора автомобиля и стоимости. Телефон, email, адрес офиса и часы работы."
+seoDescription: "Свяжитесь с Luksuzni prevoz в Белграде по вопросам поездки, выбора автомобиля и стоимости. Телефон, email, адрес офиса и часы работы."
 
 h1: "Контакты"
 intro: "Обратитесь к нашей команде в Белграде с вопросами об услугах и организации поездки."

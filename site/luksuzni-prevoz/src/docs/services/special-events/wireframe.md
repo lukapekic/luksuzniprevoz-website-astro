@@ -305,7 +305,7 @@ assets/shared/other/e-class-outside-weeding-day.webp
 assets/shared/other/v-class-interior.webp
 
 03 VIP
-assets/shared/other/s-class-interior-driver-side.webp
+assets/shared/other/vip-rear-cabin.webp
 ```
 
 Do not use the Wedding couple image or red/white flower-detail image on the hub.

@@ -32,16 +32,16 @@ export async function sendBrevoEmail(input: {
         textContent: rendered.text,
         htmlContent: rendered.html,
         tags: [rendered.tag, env.FORM_ENVIRONMENT ?? "unknown"],
-        headers: { "Idempotency-Key": input.submissionId },
+        headers: { "X-Submission-Id": input.submissionId },
       }),
       signal: AbortSignal.timeout(10_000),
     });
     if (response.status !== 201) {
-      return { ok: false, retryable: response.status === 429 || response.status >= 500 };
+      return { ok: false, retryable: response.status === 429, uncertain: response.status >= 500 };
     }
     const body = (await response.json()) as { messageId?: string };
-    return body.messageId ? { ok: true, messageId: body.messageId } : { ok: false, retryable: true };
+    return body.messageId ? { ok: true, messageId: body.messageId } : { ok: false, uncertain: true };
   } catch {
-    return { ok: false, retryable: true };
+    return { ok: false, uncertain: true };
   }
 }

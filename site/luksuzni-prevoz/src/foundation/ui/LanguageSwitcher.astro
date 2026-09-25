@@ -32,6 +32,8 @@ interface Props {
   forceOpen?: boolean;
   /** Inline links for footer; dropdown remains the default header presentation. */
   presentation?: "dropdown" | "inline";
+  /** Footer-only color hierarchy for the inline presentation. */
+  tone?: "default" | "footer";
 }
 
 const {
@@ -42,6 +44,7 @@ const {
   idPrefix = "lang",
   forceOpen = false,
   presentation = "dropdown",
+  tone = "default",
 } = Astro.props;
 
 const switcherLabel = ariaLabel ?? t("nav.language", currentLocale);
@@ -94,7 +97,9 @@ const triggerId = `${idPrefix}-btn`;
             lang={loc.htmlLang}
             aria-label={loc.langName}
             aria-current={loc.code === currentLocale ? "page" : undefined}
-            class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-control)] px-[var(--space-2)] font-body text-[length:var(--text-xs)] font-semibold no-underline text-[var(--color-text-muted)] hover:text-[var(--color-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] aria-[current=page]:text-[var(--color-accent)] aria-[current=page]:underline"
+            class={tone === "footer"
+              ? "inline-flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-control)] px-[var(--space-2)] font-body text-[length:var(--text-xs)] font-semibold no-underline text-[var(--color-footer-text-link)] hover:text-[var(--color-footer-text-strong)] hover:underline [text-underline-offset:0.2em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] aria-[current=page]:text-[var(--color-footer-text-strong)] aria-[current=page]:underline"
+              : "inline-flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-control)] px-[var(--space-2)] font-body text-[length:var(--text-xs)] font-semibold no-underline text-[var(--color-text-muted)] hover:text-[var(--color-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-dark)] aria-[current=page]:text-[var(--color-accent)] aria-[current=page]:underline"}
           >{loc.shortCode}</a>
         </li>
       ))}

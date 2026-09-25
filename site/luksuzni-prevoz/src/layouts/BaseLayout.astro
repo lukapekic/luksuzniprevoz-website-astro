@@ -60,9 +60,16 @@ const fullSeo: SeoData = {
 <Page seo={fullSeo} titleTemplate={titleTemplate} locale={currentLocale} class="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-text-primary)]">
   <SiteHeader currentRouteKey={currentRouteKey} currentLocale={currentLocale} overHero={overHero} />
 
-  <main id="main-content" class="flex-1">
+  <main id="main-content" class:list={["flex-1", overHero && "base-layout__hero-overlap"]}>
     <slot />
   </main>
 
   <SiteFooter currentRouteKey={currentRouteKey} currentLocale={currentLocale} />
 </Page>
+
+<style>
+  /* The in-flow sticky header overlays the first full-bleed Hero canvas. */
+  .base-layout__hero-overlap {
+    margin-block-start: calc(-1 * var(--site-header-height));
+  }
+</style>

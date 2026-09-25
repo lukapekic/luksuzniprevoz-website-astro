@@ -66,10 +66,10 @@ const { heading, intro, body, label, items, image, imagePosition } = Astro.props
   .discretion-list li > span { font-family: var(--font-body); font-size: var(--text-caption); font-weight: var(--font-weight-semibold); color: var(--color-accent); }
   h3 { font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); }
   .discretion-list p { margin-block: var(--space-2) 0; overflow-wrap: anywhere; font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: var(--color-text-muted); }
-  .discretion-media { min-block-size: 22rem; overflow: hidden; border-radius: var(--radius-section); background: var(--color-surface); }
-  .discretion-media :global(img) { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; }
+  .discretion-media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-section); background: var(--color-surface); }
+  .discretion-media :global(img) { position: absolute; inset: 0; display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; }
   @media (min-width: 64rem) {
     .discretion-layout { grid-template-columns: 5fr 7fr; gap: var(--column-gap-desktop); }
-    .discretion-media { min-block-size: 38rem; }
+    .discretion-media { aspect-ratio: auto; }
   }
 </style>

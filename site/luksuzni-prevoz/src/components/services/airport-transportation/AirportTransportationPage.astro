@@ -72,19 +72,17 @@ const vehicleRecommendations=data.vehicleRecommendations.vehicleIds.map((id)=>{
 });
 ---
 <BaseLayout seo={seo} currentRouteKey={routeKey} currentLocale={locale} overHero>
-  <div class="airport-hero-offset">
-    <ServiceHero
-      title={data.hero.title}
-      description={data.hero.description}
-      supportText={data.hero.supportText}
-      primaryAction={primaryAction}
-      secondaryAction={secondaryAction}
-      locale={locale}
-      variant="full-bleed"
-      image={heroImage}
-      imageAlt=""
-    />
-  </div>
+  <ServiceHero
+    title={data.hero.title}
+    description={data.hero.description}
+    supportText={data.hero.supportText}
+    primaryAction={primaryAction}
+    secondaryAction={secondaryAction}
+    locale={locale}
+    variant="full-bleed"
+    image={heroImage}
+    imageAlt=""
+  />
 
   <ServiceOverview
     heading={data.overview.heading.title}
@@ -214,10 +212,6 @@ const vehicleRecommendations=data.vehicleRecommendations.vehicleIds.map((id)=>{
 </BaseLayout>
 
 <style>
-  .airport-hero-offset {
-    margin-block-start: calc(-1 * var(--site-header-height));
-  }
-
   .section-label {
     display: flex;
     align-items: center;

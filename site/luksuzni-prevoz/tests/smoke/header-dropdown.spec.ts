@@ -144,6 +144,39 @@ const barWordmark = ".site-header__row [data-brand-wordmark]";
 const panelWordmark = ".mobile-panel__header [data-brand-wordmark]";
 
 test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
+  test("header marks are larger while the footer keeps its default size", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 800 });
+    await page.goto(homePath);
+    await page.locator("[data-menu-toggle]").first().click();
+    const sizes = await page.evaluate(() => {
+      const measure = (selector: string) => {
+        const mark = document.querySelector<SVGSVGElement>(selector);
+        const link = mark?.closest("a");
+        if (!mark || !link) throw new Error(`Missing brand mark: ${selector}`);
+        const drawing = mark.getBBox();
+        const scale = mark.getScreenCTM()?.a ?? 0;
+        return {
+          mark: mark.getBoundingClientRect().width,
+          drawingWidth: drawing.width * scale,
+          drawingHeight: drawing.height * scale,
+          target: link.getBoundingClientRect().width,
+        };
+      };
+      return {
+        bar: measure(".site-header__row a svg"),
+        panel: measure(".mobile-panel__header a svg"),
+        footer: measure("footer a svg"),
+      };
+    });
+    expect(sizes.bar.mark).toBe(56);
+    expect(sizes.panel.mark).toBe(56);
+    expect(sizes.bar.drawingWidth).toBeGreaterThanOrEqual(50);
+    expect(sizes.bar.drawingHeight).toBeGreaterThanOrEqual(24);
+    expect(sizes.footer.mark).toBe(32);
+    expect(sizes.bar.target).toBeGreaterThanOrEqual(44);
+    expect(sizes.panel.target).toBeGreaterThanOrEqual(44);
+  });
+
   test("desktop: mobile panel is hidden and the bar remains mark-only", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(homePath);

@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T06:36:29.919Z",
-  "sourceHash": "40985f278596993af5b6f3780bc76018b697ed964727a8fd93bff4aba543b222",
+  "generatedAt": "2026-09-25T16:22:45.538Z",
+  "sourceHash": "c87ceaf30688e93554434ae3c62ceee36e5d6da522fe932974669b370c6ca7f9",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -32,7 +32,16 @@
       "warning": "#C7A66A",
       "error": "#C87B78",
       "info": "#8796A6",
-      "disabled": "#7A7F86"
+      "disabled": "#7A7F86",
+      "footerSurfaceStart": "#1B1B1E",
+      "footerSurfaceMiddle": "#121214",
+      "footerSurfaceEnd": "#09090B",
+      "footerBackground": "linear-gradient(160deg, var(--color-footer-surface-start) 0%, var(--color-footer-surface-middle) 48%, var(--color-footer-surface-end) 100%)",
+      "footerTextStrong": "#F2F0EB",
+      "footerTextLink": "#C6C4BF",
+      "footerTextMuted": "#A6A5A2",
+      "footerDivider": "#F2F0EB1F",
+      "footerBoundary": "#F2F0EB14"
     },
     "typography": {
       "families": {
@@ -231,6 +240,15 @@
     "--color-error": "#C87B78",
     "--color-info": "#8796A6",
     "--color-disabled": "#7A7F86",
+    "--color-footer-surface-start": "#1B1B1E",
+    "--color-footer-surface-middle": "#121214",
+    "--color-footer-surface-end": "#09090B",
+    "--color-footer-background": "linear-gradient(160deg, var(--color-footer-surface-start) 0%, var(--color-footer-surface-middle) 48%, var(--color-footer-surface-end) 100%)",
+    "--color-footer-text-strong": "#F2F0EB",
+    "--color-footer-text-link": "#C6C4BF",
+    "--color-footer-text-muted": "#A6A5A2",
+    "--color-footer-divider": "#F2F0EB1F",
+    "--color-footer-boundary": "#F2F0EB14",
     "--font-heading": "Inter Tight Variable, system-ui, sans-serif",
     "--font-body": "Manrope Variable, system-ui, sans-serif",
     "--font-brand": "Cormorant Garamond Variable, Cormorant Garamond, Georgia, serif",
@@ -702,6 +720,7 @@
       "site/luksuzni-prevoz/src/data/navigation-labels.json",
       "site/luksuzni-prevoz/src/data/navigation.ts",
       "site/luksuzni-prevoz/src/data/operations.ts",
+      "site/luksuzni-prevoz/src/data/partners.ts",
       "site/luksuzni-prevoz/src/data/pricing.ts",
       "site/luksuzni-prevoz/src/data/reviews.ts",
       "site/luksuzni-prevoz/src/data/routes.ts",

@@ -1,5 +1,5 @@
 ---
-/** Three-tier public footer: utility, route-derived navigation, and bottom metadata. */
+/** Public footer: utility, route-derived navigation, partners, and bottom metadata. */
 import { getPath } from "@astro-foundation/core/i18n";
 import { routes } from "../../data/routes.ts";
 import { navigation, getNavLabel } from "../../data/navigation.ts";
@@ -10,6 +10,9 @@ import BrandLockup from "../../foundation/ui/BrandLockup.astro";
 import LanguageSwitcher from "../../foundation/ui/LanguageSwitcher.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { defaultLocale } from "../../data/locales.ts";
+import { partners } from "../../data/partners.ts";
+import BelgradeTransfersLogo from "../../assets/partners/belgrade-transfers-horizontal-on-dark.svg";
+import TransferiLogo from "../../assets/partners/transferi.svg";
 
 interface Props {
   currentRouteKey: RouteKey;
@@ -19,11 +22,12 @@ const { currentRouteKey, currentLocale } = Astro.props;
 const href = (key: RouteKey): string => getPath(key, currentLocale, routes, defaultLocale);
 const phone = isVerified(contact.phone) ? contact.phone.value : null;
 const email = isVerified(contact.email) ? contact.email.value : null;
-const phoneHref = phone ? `tel:${phone}` : null;
+const phoneHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : null;
 const emailHref = email ? `mailto:${email}` : null;
 const location = contact.office.verificationStatus === "verified" && contact.office.address
   ? `${contact.office.address}, ${contact.office.postalCode} ${t("location.belgrade", currentLocale)}, ${t("location.serbia", currentLocale)}`
   : null;
+const locationHref = location ? contact.office.googleMapsUrl : null;
 const hours = `${t("footer.hoursDays", currentLocale)} · ${business.supportModel.officeHours}`;
 const year = new Date().getFullYear();
 ---
@@ -31,7 +35,7 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="site-footer__shell">
     <div class="site-footer__tier site-footer__utility">
-      <BrandLockup locale={currentLocale} href={href("home")} variant="mark-only" />
+      <BrandLockup locale={currentLocale} href={href("home")} variant="footer" />
       <div class="site-footer__channels">
         {phoneHref && <a class="site-footer__contact" href={phoneHref}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.7l.4 2.8a2 2 0 0 1-.6 1.8l-1.4 1.4a16 16 0 0 0 4.8 4.8l1.4-1.4a2 2 0 0 1 1.8-.6l2.8.4a2 2 0 0 1 1.7 2Z"/></svg>
@@ -58,53 +62,71 @@ const year = new Date().getFullYear();
       ))}
     </nav>
 
+    <div class="site-footer__tier site-footer__partners" aria-labelledby="footer-partners-heading">
+      <h2 id="footer-partners-heading" class="site-footer__heading">{t("footer.partners", currentLocale)}</h2>
+      <div class="site-footer__partner-links">
+        <a class="site-footer__partner-link" href={partners.belgradeTransfers.href} aria-label={partners.belgradeTransfers.name}>
+          <BelgradeTransfersLogo aria-hidden="true" focusable="false" />
+        </a>
+        <a class="site-footer__partner-link" href={partners.transferi.href} aria-label={partners.transferi.name}>
+          <TransferiLogo aria-hidden="true" focusable="false" />
+        </a>
+      </div>
+    </div>
+
     <div class="site-footer__tier site-footer__bottom">
       <p>© {year} {business.publicBrand} · {t("footer.rights", currentLocale)}</p>
       {location && <p class="site-footer__place">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        <span>{location}</span>
+        {locationHref ? <a href={locationHref}>{location}</a> : <span>{location}</span>}
       </p>}
-      <LanguageSwitcher currentLocale={currentLocale} currentRouteKey={currentRouteKey} presentation="inline" idPrefix="footer-lang" />
+      <LanguageSwitcher currentLocale={currentLocale} currentRouteKey={currentRouteKey} presentation="inline" tone="footer" idPrefix="footer-lang" />
     </div>
   </div>
 </footer>
 
 <style>
-  .site-footer { border-block-start: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text-primary); }
+  .site-footer { border-block-start: 1px solid var(--color-footer-boundary); background: var(--color-footer-background); color: var(--color-footer-text-strong); }
   .site-footer__shell { inline-size: min(calc(100% - 2 * var(--gutter-page)), var(--container-main)); margin-inline: auto; }
   .site-footer__tier { padding-block: var(--space-8); }
-  .site-footer__tier + .site-footer__tier { border-block-start: 1px solid var(--color-divider); }
+  .site-footer__tier + .site-footer__tier { border-block-start: 1px solid var(--color-footer-divider); }
   .site-footer__utility { display: grid; gap: var(--space-3); min-inline-size: 0; }
   .site-footer__utility > :global(a:first-child) { justify-self: start; }
-  .site-footer__channels { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-6); min-inline-size: 0; }
-  .site-footer__contact { display: inline-flex; align-items: center; gap: var(--space-2); min-block-size: 2.75rem; color: var(--color-text-primary); font-family: var(--font-body); font-size: var(--text-sm); text-decoration: none; overflow-wrap: anywhere; }
-  .site-footer__contact svg { inline-size: var(--space-4); block-size: var(--space-4); flex: none; color: var(--color-accent); }
-  .site-footer__hours { margin: 0; font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-muted); }
-  .site-footer__nav { display: grid; gap: var(--space-6); }
+  .site-footer__channels { display: grid; gap: 0; min-inline-size: 0; }
+  .site-footer__contact { display: inline-flex; align-items: center; gap: var(--space-2); min-inline-size: 0; min-block-size: var(--space-11); color: var(--color-footer-text-link); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-ui); text-decoration: none; overflow-wrap: anywhere; }
+  .site-footer__contact svg { inline-size: var(--space-4); block-size: var(--space-4); flex: none; color: var(--color-footer-text-link); }
+  .site-footer__hours { margin: 0; font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--line-height-ui); color: var(--color-footer-text-muted); }
+  .site-footer__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-4); }
   .site-footer__group { min-inline-size: 0; }
-  .site-footer__heading { margin: 0 0 var(--space-3); font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); color: var(--color-accent); }
-  .site-footer__group ul { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
-  .site-footer__group a { display: flex; align-items: center; min-block-size: 2.75rem; color: var(--color-text-primary); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); text-decoration: none; }
-  .site-footer__group a[aria-current="page"] { color: var(--color-accent); text-decoration: underline; text-underline-offset: .2em; }
-  .site-footer a:hover { color: var(--color-accent-hover); }
+  .site-footer__heading { margin: 0 0 var(--space-2); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-ui); font-weight: var(--font-weight-semibold); color: var(--color-footer-text-strong); }
+  .site-footer__group ul { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .site-footer__group a { display: flex; align-items: center; min-block-size: var(--space-11); color: var(--color-footer-text-link); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-ui); text-decoration: none; overflow-wrap: anywhere; }
+  .site-footer__group a[aria-current="page"] { color: var(--color-footer-text-strong); text-decoration: underline; text-underline-offset: .2em; }
+  .site-footer a:hover { color: var(--color-footer-text-strong); text-decoration: underline; text-underline-offset: .2em; }
   .site-footer a:focus-visible { outline: 2px solid var(--color-focus-dark); outline-offset: 2px; }
-  .site-footer__bottom { display: grid; gap: var(--space-3); align-items: center; font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-muted); }
+  .site-footer__partners { display: flex; align-items: center; gap: clamp(var(--space-2), 2vw, var(--space-6)); padding-block: var(--space-4); }
+  .site-footer__partners .site-footer__heading { flex: 0 1 var(--space-20); margin: 0; }
+  .site-footer__partner-links { display: flex; align-items: center; gap: clamp(var(--space-2), 2vw, var(--space-6)); min-inline-size: 0; }
+  .site-footer__partner-link { display: inline-flex; align-items: center; justify-content: center; min-inline-size: var(--space-11); min-block-size: var(--space-11); color: var(--color-accent); }
+  .site-footer__partner-link :global(svg) { display: block; inline-size: auto; block-size: clamp(var(--space-4), 4vw, var(--space-8)); }
+  .site-footer__bottom { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); padding-block: var(--space-4); font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--line-height-ui); color: var(--color-footer-text-muted); }
   .site-footer__bottom p { margin: 0; }
   .site-footer__place { display: flex; align-items: center; gap: var(--space-2); min-inline-size: 0; margin: 0; overflow-wrap: anywhere; }
-  .site-footer__place svg { inline-size: var(--space-4); block-size: var(--space-4); flex: none; color: var(--color-accent); }
+  .site-footer__place svg { inline-size: var(--space-4); block-size: var(--space-4); flex: none; color: var(--color-footer-text-muted); }
+  .site-footer__place a { display: inline-flex; align-items: center; min-block-size: var(--space-11); color: var(--color-footer-text-link); text-decoration: none; }
   @media (min-width: 48rem) {
-    .site-footer__utility { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--space-8); }
-    .site-footer__hours { grid-column: 2; }
-    .site-footer__nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .site-footer__bottom { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .site-footer__bottom > :global(nav) { grid-column: 2; justify-self: end; }
+    .site-footer__partners .site-footer__heading { flex-basis: auto; }
+    .site-footer__utility { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--space-8); }
+    .site-footer__utility > :global(a:first-child) { grid-column: 1 / -1; }
+    .site-footer__channels { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-6); }
+    .site-footer__bottom { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-6); justify-content: space-between; }
+  }
+  @media (min-width: 64rem) {
+    .site-footer__nav { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-8); }
   }
   @media (min-width: 80rem) {
     .site-footer__utility { grid-template-columns: auto minmax(0, 1fr) auto; }
+    .site-footer__utility > :global(a:first-child) { grid-column: auto; }
     .site-footer__hours { grid-column: auto; }
-    .site-footer__nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .site-footer__bottom { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
-    .site-footer__place { justify-self: end; }
-    .site-footer__bottom > :global(nav) { grid-column: auto; }
   }
 </style>

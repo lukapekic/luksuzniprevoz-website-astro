@@ -1,8 +1,8 @@
 # Special Events Hub — Locked Blueprint V2
 
-> **Hero visibility refinement:** Preserve the approved full-bleed composition and natural image exposure; opt into the shared `center-reveal` scrim. Header, copy-side, and bottom contrast protection remains. Other service Heroes retain their standard treatment.
+> **Hero visibility refinement:** Preserve the approved full-bleed composition and natural image exposure; opt into the shared `soft-reveal` scrim. Its continuous dark veil keeps header and copy protection, reveals more of the subject, and fades fully to the dark section surface at the bottom. Other service Heroes retain their standard treatment.
 
-> **Approved DR-06/DR-08/DR-09/DR-12 amendment (2026-09-24), with later owner refinement:** Public identity is **Luksuzni transport**. Where this page uses VehicleRecommendations, it renders the universal natural-colour 4:3 FleetCard with details below the photo; configuration-specific booking and pricing remain intact. Its existing FinalCTA uses the shared wide compact main-container interior-photo panel with the page's existing localized action meaning and verified contacts. The shared three-tier footer uses route-derived links and an accessibly named symbol-only logo. These approved shared contracts supersede older card overlays, split or viewport-wide CTA media, GS/parent branding, and footer geometry below; all other page-specific regions, content, and CTA destinations remain locked.
+> **Approved DR-06/DR-08/DR-09/DR-12 amendment (2026-09-24), with later owner refinement:** Public identity is **Luksuzni prevoz**. Where this page uses VehicleRecommendations, it renders the universal natural-colour 4:3 FleetCard with details below the photo; configuration-specific booking and pricing remain intact. Its existing FinalCTA uses the shared wide compact main-container interior-photo panel with the page's existing localized action meaning and verified contacts. The shared four-tier footer uses route-derived links, a centered partner-logo row, and an accessibly named symbol-only logo. These approved shared contracts supersede older card overlays, split or viewport-wide CTA media, GS/parent branding, and footer geometry below; all other page-specific regions, content, and CTA destinations remain locked.
 
 **Status:** LOCKED  
 **Route key:** `specialEvents`  
@@ -114,7 +114,7 @@ e-class-outside-weeding-day.webp
 v-class-interior.webp
 → Prom service card TEMPORARY BACKUP
 
-s-class-interior-driver-side.webp
+vip-rear-cabin.webp
 → VIP service card
 
 v-class-outisde-weeding-day.webp
@@ -270,7 +270,7 @@ pricingMode includes "quote" → specialEvents.capability.individualQuote
 
 Card media:
 
-`s-class-interior-driver-side.webp`
+`vip-rear-cabin.webp`
 
 Security, guards, bodyguards, close protection, escort services, and security-service implications are PROHIBITED.
 

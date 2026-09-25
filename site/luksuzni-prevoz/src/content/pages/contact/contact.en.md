@@ -2,7 +2,7 @@
 routeKey: contact
 locale: en
 sourceLocale: sr
-sourceDigest: 92c2d598ea0c7ad1
+sourceDigest: e7c0b7416cb8070c
 pageType: contact
 status: published
 translationState: reviewed
@@ -10,7 +10,7 @@ reviewedOn: 2026-09-24
 noindex: false
 
 seoTitle: "Contact Our Chauffeur Team in Belgrade"
-seoDescription: "Contact Luksuzni transport in Belgrade about chauffeur services, vehicle selection and quotes. Find our phone, email, office address and opening hours."
+seoDescription: "Contact Luksuzni prevoz in Belgrade about chauffeur services, vehicle selection and quotes. Find our phone, email, office address and opening hours."
 
 h1: "Contact"
 intro: "Contact our Belgrade team with questions about our services or your travel arrangements."

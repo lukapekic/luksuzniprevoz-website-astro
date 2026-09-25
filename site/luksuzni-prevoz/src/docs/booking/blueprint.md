@@ -1,4 +1,4 @@
-# Luksuzni transport — Booking Page Blueprint V2
+# Luksuzni prevoz — Booking Page Blueprint V2
 
 Status: **LOCKED FOR IMPLEMENTATION**  
 Route key: `booking`  

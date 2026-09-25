@@ -1,6 +1,6 @@
 # Luxury Transportation — Private Chauffeur Blueprint v3
 
-> **Approved DR-06/DR-08/DR-09/DR-12 amendment (2026-09-24), with later owner refinement:** Public identity is **Luksuzni transport**. Where this page uses VehicleRecommendations, it renders the universal natural-colour 4:3 FleetCard with details below the photo; configuration-specific booking and pricing remain intact. Its existing FinalCTA uses the shared wide compact main-container interior-photo panel with the page's existing localized action meaning and verified contacts. The shared three-tier footer uses route-derived links and an accessibly named symbol-only logo. These approved shared contracts supersede older card overlays, split or viewport-wide CTA media, GS/parent branding, and footer geometry below; all other page-specific regions, content, and CTA destinations remain locked.
+> **Approved DR-06/DR-08/DR-09/DR-12 amendment (2026-09-24), with later owner refinement:** Public identity is **Luksuzni prevoz**. Where this page uses VehicleRecommendations, it renders the universal natural-colour 4:3 FleetCard with details below the photo; configuration-specific booking and pricing remain intact. Its existing FinalCTA uses the shared wide compact main-container interior-photo panel with the page's existing localized action meaning and verified contacts. The shared four-tier footer uses route-derived links, a centered partner-logo row, and an accessibly named symbol-only logo. These approved shared contracts supersede older card overlays, split or viewport-wide CTA media, GS/parent branding, and footer geometry below; all other page-specific regions, content, and CTA destinations remain locked.
 
 Status: **LOCKED STRUCTURAL BLUEPRINT**
 Route key: `privateChauffeur`
@@ -248,17 +248,21 @@ Required repository destination:
 
 ```text
 src/assets/shared/chauffeur-service/
-  hero-chauffeur-wheel.jpg
-  productivity-backseat.jpg
-  schedule-backseat-view.jpg
-  editorial-workspace-vertical.jpg
-  passenger-experience-reading.jpg
-  passenger-experience-alternate.jpg
+  hero-chauffeur-wheel.webp
+  schedule-backseat-view.webp
+  passenger-experience-alternate.webp
+
+src/assets/shared/other/
+  passenger-working-in-backseat.webp
+  passenger-laptop-portrait.webp
+  passenger-reading-in-rear-seat.webp
 ```
 
-Move the existing owner-supplied files; do not create duplicate copies. Update
-every existing consumer import as part of the same atomic asset move. The asset
-move does not authorize image substitution.
+The three WebP assets are higher-resolution sources of the approved Your Time,
+Editorial Statement, and Passenger Experience photographs respectively. Use
+them in those existing roles; their selection does not change the section
+composition. Keep the remaining shared chauffeur-service assets in their
+approved roles.
 
 If an asset is missing, use the repository-approved neutral placeholder and report:
 
@@ -280,7 +284,7 @@ variant = full-bleed
 ```
 
 Reuse the approved shared full-bleed architecture and Homepage Hero visual
-language. The Hero is a full viewport-width, near-viewport photographic canvas
+language. The Hero is a full viewport-width, viewport-minimum photographic canvas
 with the SiteHeader in its approved over-Hero state. Content aligns to the
 shared page container/grid; the image remains the immersive background at every
 state rather than becoming a split media column.
@@ -1541,7 +1545,7 @@ FAQ / FinalCTA       retain their shared contained contracts
 
 ## Desktop
 
-At desktop the Hero preserves the full-bleed near-viewport composition:
+At desktop the Hero preserves the full-bleed viewport-minimum composition:
 
 ```text
 Hero                     full-bleed media canvas; container-aligned content

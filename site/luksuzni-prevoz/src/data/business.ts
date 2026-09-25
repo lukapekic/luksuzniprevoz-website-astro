@@ -73,7 +73,7 @@ export interface Business {
 // --- Authoritative business facts -----------------------------------------
 
 export const business: Business = {
-  publicBrand: "Luksuzni transport",
+  publicBrand: "Luksuzni prevoz",
   headquarters: {
     city: "Belgrade",
     country: "Serbia",
