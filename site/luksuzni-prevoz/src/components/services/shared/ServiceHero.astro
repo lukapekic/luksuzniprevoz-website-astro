@@ -148,17 +148,14 @@ const hasActions = Boolean(primaryAction || secondaryAction);
         90deg,
         color-mix(in oklab, var(--color-background), transparent 3%) 0%,
         color-mix(in oklab, var(--color-background), transparent 28%) 42%,
-        color-mix(in oklab, var(--color-background), transparent 82%) 70%,
+        var(--service-hero-center-scrim, color-mix(in oklab, var(--color-background), transparent 82%)) 70%,
         color-mix(in oklab, var(--color-background), transparent 64%) 100%
       );
   }
-  /* Only opted-in full-bleed heroes open the centre of the existing layer model.
-     Header, copy-side and bottom protection stay separate from image exposure. */
+  /* The opt-in changes one centre stop only; every other layer and edge of the
+     approved full-bleed scrim remains identical to the standard treatment. */
   .service-hero[data-variant="full-bleed"][data-scrim-treatment="center-reveal"] .service-hero__scrim {
-    background:
-      radial-gradient(ellipse 72% 68% at 68% 56%, transparent 0%, transparent 48%, color-mix(in oklab, var(--color-background), transparent 78%) 82%, color-mix(in oklab, var(--color-background), transparent 45%) 100%),
-      linear-gradient(180deg, color-mix(in oklab, var(--color-background), transparent 18%) 0%, transparent 23%, transparent 74%, color-mix(in oklab, var(--color-background), transparent 28%) 100%),
-      linear-gradient(90deg, color-mix(in oklab, var(--color-background), transparent 12%) 0%, color-mix(in oklab, var(--color-background), transparent 34%) 35%, color-mix(in oklab, var(--color-background), transparent 90%) 62%, transparent 78%);
+    --service-hero-center-scrim: color-mix(in oklab, var(--color-background), transparent 92%);
   }
   .service-hero[data-variant="full-bleed"] .service-hero__inner {
     z-index: 2;

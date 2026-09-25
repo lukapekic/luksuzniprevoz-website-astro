@@ -24,6 +24,24 @@ for (const locale of locales) for (const width of [320, 768, 1024, 1440, 1920]) 
   });
 }
 
+test("Homepage centre reveal retains a full-bleed overlay", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(routePath("home", "sr"));
+  const overlay = await page.locator(".homepage-hero__scrim").evaluate((element) => {
+    const hero = element.closest(".homepage-hero")!.getBoundingClientRect();
+    const scrim = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    return {
+      coversHero: scrim.x === hero.x && scrim.y === hero.y && scrim.width === hero.width && scrim.height === hero.height,
+      backgroundColor: style.backgroundColor,
+      hasDirectionalLayers: style.backgroundImage.includes("linear-gradient"),
+    };
+  });
+  expect(overlay.coversHero).toBe(true);
+  expect(overlay.backgroundColor).not.toMatch(/^(transparent|rgba\(0, 0, 0, 0\))$/);
+  expect(overlay.hasDirectionalLayers).toBe(true);
+});
+
 test("selected service heroes reveal the centre without changing the default", async ({ page }) => {
   for (const route of ["corporateTransportation", "vipTransportation", "specialEvents"]) {
     await page.goto(routePath(route, "sr"));

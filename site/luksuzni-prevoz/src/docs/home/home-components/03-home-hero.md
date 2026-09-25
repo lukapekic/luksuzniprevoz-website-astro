@@ -103,8 +103,11 @@ CTA destinations and DOM/focus order remain unchanged.
 - No gold/platinum tint over the whole image.
 - Preserve vehicle focal subject.
 - The opt-in `center-reveal` scrim keeps the existing full-bleed header,
-  text-side, and bottom protection while opening the centre of the S-Class
-  photograph. The default scrim remains available and unchanged. This is an
+  text-side, and bottom protection while making only a modest reduction in
+  darkness over the centre of the S-Class photograph. A low-opacity base veil
+  covers the entire frame, including the far edge where the directional scrim
+  fades. The centre remains visibly overlaid; it is not a transparent opening.
+  The default scrim remains available and unchanged. This is an
   image-legibility treatment, not a new Hero composition or CTA variant.
 - Below `xl` (80rem), content occupies one reading column across the image;
   the reveal therefore keeps stronger localized copy protection over pale sky.

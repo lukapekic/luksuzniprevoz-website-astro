@@ -266,7 +266,9 @@ const isDecorative = imageAlt === "";
     background:
       linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%),
       linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--color-background) 32%, transparent) 100%),
-      linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 35%, color-mix(in srgb, var(--color-background) 6%, transparent) 59%, transparent 74%);
+      linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 15%, transparent) 62%, color-mix(in srgb, var(--color-background) 12%, transparent) 78%, transparent 100%);
+    /* A real full-bleed veil remains even where the directional gradient fades. */
+    background-color: color-mix(in srgb, var(--color-background) 15%, transparent);
   }
   /* Single-column copy crosses the photographic centre. Keep the brighter
      reveal for the xl 7/5 layout, but protect the H1 over pale mobile sky. */
