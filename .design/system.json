@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T16:22:45.538Z",
-  "sourceHash": "c87ceaf30688e93554434ae3c62ceee36e5d6da522fe932974669b370c6ca7f9",
+  "generatedAt": "2026-09-25T16:25:22.104Z",
+  "sourceHash": "5ae5e9f8424f9b6c931535938beb4c285383e3a9fb4b9d0bcfe095855d43cfa7",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -510,6 +510,7 @@
       "site/luksuzni-prevoz/src/docs/booking/proposed-code/routing-flow-changes.md",
       "site/luksuzni-prevoz/src/docs/booking/theme-contract.md",
       "site/luksuzni-prevoz/src/docs/booking/wireframe.html",
+      "site/luksuzni-prevoz/src/docs/contact/acceptance.md",
       "site/luksuzni-prevoz/src/docs/contact/blueprint.md",
       "site/luksuzni-prevoz/src/docs/contact/wireframe.html",
       "site/luksuzni-prevoz/src/docs/content-review/EXECUTION.md",

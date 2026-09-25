@@ -7,16 +7,16 @@
 > verification, live Preview acceptance, and production activation remain
 > external rollout gates. See `docs/deployment.md` for the binding checklist.
 
-Status: **READY FOR PHASED IMPLEMENTATION — infrastructure not provisioned**
+Status: **REPOSITORY IMPLEMENTATION COMPLETE — infrastructure not provisioned**
 
 Scope: production submission for both the general Contact question form and the
 Booking/quote request form while preserving static Astro output, the locked page
 structures, manual confirmation, localization, accessibility, and the current
 Black & Platinum visual system.
 
-This plan supersedes the deferred-submission notes only after Phase 0 updates the
-Contact and Booking blueprints and acceptance contracts. Until then, both forms
-remain validation-only and must not claim that a request was sent.
+The Contact and Booking blueprints now authorize submission through the
+same-origin Functions. Until external resources pass Preview acceptance, the
+forms must fail closed and must not claim that a request was sent.
 
 ## 1. Authority and applied procedures
 
