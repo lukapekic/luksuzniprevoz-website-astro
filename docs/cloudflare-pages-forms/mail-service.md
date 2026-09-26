@@ -220,6 +220,37 @@ spot checks covered the Serbian desktop and Russian mobile success state and
 desktop/mobile email previews. There is no new shared UI primitive, translation,
 missing asset, or page-structure deviation in this patch.
 
+## Staging refinement release — 2026-09-26
+
+- Source commit: `c85c1b2`; clean isolated checkout at that commit.
+- Live review URL: https://staging.luksuzniprevoz-website-astro.pages.dev/kontakt/
+- Preview deployment: `4fbca127` (Wrangler upload, staging branch).
+- Build used the real Preview Turnstile site key; no local test key was uploaded.
+- Earlier Git builds failed because the hosted Functions compiler did not parse
+  JSON import attributes. The compatibility fix uses generated `.design/tokens.ts`
+  from `scripts/design/sync.mjs`; it preserves the configured theme and adds the
+  TypeScript artifact to synchronization/check-only checks. Never hand-edit it.
+- Both esbuild 0.17.19 and Wrangler 4.75.0 compiled the Functions successfully.
+- Live Serbian, English and Russian Contact routes returned HTTP 200 with the
+  new success panel, no public reference field, and the real Preview widget key.
+- Live API smoke checks: GET `/api/forms/contact` → 405; an empty JSON POST → 400
+  `bad_request`. These checks do not send email.
+- `pnpm theme:sync`, `pnpm theme:validate`, clean `pnpm design:sync` and
+  `pnpm design:sync:check` ran successfully. No theme values or selector changed.
+- Final clean-checkout theme profile ran with `DESIGN_GOVERNANCE_BASE=38660f2`.
+  Governance, skills, components, context, theme/snapshot checks, design doctor,
+  design detection, types, check, lint, unit tests, build, foundation doctor,
+  review-record validation, traceability and contracts passed. Unit totals:
+  foundation 286, SEO research 26, ESLint plugin 80, site 50.
+- Full browser accessibility gate: 8 Chromium passed; 16 Firefox/WebKit failed
+  to launch due to unavailable runtime support. Fresh independent human review
+  evidence remains required. This is a staging review release, not certification
+  that the full production completion gate passed.
+- Final evidence: `/tmp/lp-contact-staging-snapshot/.design/.cache/verify-ui-1790411215934.json`.
+- No additional live Contact submission or email-client inbox rendering test was
+  performed after this template update. The owner should submit a fresh staging
+  question to confirm the email appearance in their actual mail client.
+
 ## References
 
 - [Brevo domain authentication and existing DMARC updates](https://help.brevo.com/hc/en-us/articles/12163873383186-Authenticate-your-domain-with-Brevo-Brevo-code-DKIM-DMARC)
