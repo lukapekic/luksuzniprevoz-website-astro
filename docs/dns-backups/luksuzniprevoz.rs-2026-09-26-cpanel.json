@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "domain": "luksuzniprevoz.rs",
+  "backup_created_on": "2026-09-26",
+  "source": {
+    "kind": "user-provided cPanel Zone Editor HTML",
+    "reported_table_record_count": 32,
+    "extracted_table_record_count": 32,
+    "live_dns_verified": false
+  },
+  "coverage": {
+    "all_displayed_table_rows_captured": true,
+    "complete_authoritative_zone_export": false,
+    "missing_zone_details": [
+      "SOA record and serial",
+      "NS record TTLs",
+      "registrar delegation and DS records"
+    ]
+  },
+  "configured_nameservers_as_displayed": ["cpanel29.beotel.net", "ns.beotel.net", "ns.beotel.rs"],
+  "format_notes": [
+    "Record owner names and displayed target/content spelling are preserved. Domain targets without trailing dots in content are absolute DNS hostnames, not relative names.",
+    "content is the IPv4 address, TXT value, CNAME target, MX destination, or SRV target. MX priority and SRV priority/weight/port are separate numeric fields.",
+    "TXT text_segments preserves displayed segments; content concatenates segments with no inserted spaces. Surrounding HTML indentation is removed.",
+    "Configured nameservers came from the page header, not table rows; no NS TTL was supplied.",
+    "This JSON is an inventory backup, not a provider-specific import file or a complete BIND zone file.",
+    "cPanel session tokens, account metadata, links, scripts and empty Angular templates were excluded."
+  ],
+  "records": [
+    {
+      "source_row_id": "zone_rec_row_0",
+      "name": "luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_1",
+      "name": "luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "MX",
+      "content": "luksuzniprevoz.rs",
+      "priority": 0
+    },
+    {
+      "source_row_id": "zone_rec_row_2",
+      "name": "mail.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "CNAME",
+      "content": "luksuzniprevoz.rs"
+    },
+    {
+      "source_row_id": "zone_rec_row_3",
+      "name": "www.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "CNAME",
+      "content": "luksuzniprevoz.rs"
+    },
+    {
+      "source_row_id": "zone_rec_row_4",
+      "name": "ftp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "CNAME",
+      "content": "luksuzniprevoz.rs"
+    },
+    {
+      "source_row_id": "zone_rec_row_5",
+      "name": "luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "v=spf1 ip4:195.252.110.238 ip4:195.252.110.239 a ip4:195.252.110.240 mx ~all",
+      "text_segments": [
+        "v=spf1 ip4:195.252.110.238 ip4:195.252.110.239 a ip4:195.252.110.240 mx ~all"
+      ]
+    },
+    {
+      "source_row_id": "zone_rec_row_6",
+      "name": "cpcalendars.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_7",
+      "name": "whm.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_8",
+      "name": "cpcontacts.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_9",
+      "name": "cpanel.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_10",
+      "name": "webmail.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_11",
+      "name": "webdisk.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_12",
+      "name": "default._domainkey.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwrIbWylgSUpqBKbPTPGBNhgDOhwXA4wc0M51SBaI+SWWPt8aepKQQpP35WS527lWRjBWsv0xpkG1bDPt4byGIWsdHQ1+/J1oZ7R9bQGjxOT5aTw8WNNVkx0P4RiMu1WO2Y18smtHMiJGkHQNQsgcTOSfg5Jh+SzgKHXGbGnE0DnwRgydHS9PmQ2DtQoVrrlXkSuQ4N6AoV6/piy8nKb580hPJC8Vgpi0OITWraK4QG+HSTI/Uu2ngda+jw/u5d+Hui0X62ULWq1Xu3jDErUH456/GBGD9WSWn9DDxi0PhhFUDQ2C6zXVotj3BC9A8EWsJlm/fZ1RpXIlfZJLPmRIOQIDAQAB;",
+      "text_segments": [
+        "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwrIbWylgSUpqBKbPTPGBNhgDOhwXA4wc0M51SBaI+SWWPt8aepKQQpP35WS527lWRjBWsv0xpkG1bDPt4byGIWsdHQ1+/J1oZ7R9bQGjxOT5aTw8WNNVkx0P4RiMu1WO2Y18smtHMiJGkHQNQsgcTOSfg5Jh+SzgKHXGbGnE0DnwRgydHS9PmQ2DtQoVrrlXk",
+        "SuQ4N6AoV6/piy8nKb580hPJC8Vgpi0OITWraK4QG+HSTI/Uu2ngda+jw/u5d+Hui0X62ULWq1Xu3jDErUH456/GBGD9WSWn9DDxi0PhhFUDQ2C6zXVotj3BC9A8EWsJlm/fZ1RpXIlfZJLPmRIOQIDAQAB;"
+      ]
+    },
+    {
+      "source_row_id": "zone_rec_row_13",
+      "name": "_dmarc.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "v=DMARC1;p=none;sp=none;adkim=r;aspf=r;pct=100;fo=0;rf=afrf;ri=86400;rua=mailto:rua@dmarc.brevo.com",
+      "text_segments": [
+        "v=DMARC1;p=none;sp=none;adkim=r;aspf=r;pct=100;fo=0;rf=afrf;ri=86400;rua=mailto:rua@dmarc.brevo.com"
+      ]
+    },
+    {
+      "source_row_id": "zone_rec_row_14",
+      "name": "_cpanel-dcv-test-record.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "_cpanel-dcv-test-record=Mgd_cMIKnlAZ2F5pKovxfXjppT76vZvljQsLhNG_v6wRIGmzWcchvUqzS_aMWCCf",
+      "text_segments": [
+        "_cpanel-dcv-test-record=Mgd_cMIKnlAZ2F5pKovxfXjppT76vZvljQsLhNG_v6wRIGmzWcchvUqzS_aMWCCf"
+      ]
+    },
+    {
+      "source_row_id": "zone_rec_row_15",
+      "name": "luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "google-site-verification=JFxE2K9-8I4cqG2pBtDa-jkJ79gdYlOQ7eeRQ62k8Ew",
+      "text_segments": ["google-site-verification=JFxE2K9-8I4cqG2pBtDa-jkJ79gdYlOQ7eeRQ62k8Ew"]
+    },
+    {
+      "source_row_id": "zone_rec_row_16",
+      "name": "autodiscover.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_17",
+      "name": "_caldavs._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "SRV",
+      "content": "luksuzniprevoz.rs",
+      "priority": 0,
+      "weight": 0,
+      "port": 2080
+    },
+    {
+      "source_row_id": "zone_rec_row_18",
+      "name": "_caldavs._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "path=/",
+      "text_segments": ["path=/"]
+    },
+    {
+      "source_row_id": "zone_rec_row_19",
+      "name": "_carddav._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "SRV",
+      "content": "luksuzniprevoz.rs",
+      "priority": 0,
+      "weight": 0,
+      "port": 2079
+    },
+    {
+      "source_row_id": "zone_rec_row_20",
+      "name": "_carddav._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "path=/",
+      "text_segments": ["path=/"]
+    },
+    {
+      "source_row_id": "zone_rec_row_21",
+      "name": "_carddavs._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "SRV",
+      "content": "luksuzniprevoz.rs",
+      "priority": 0,
+      "weight": 0,
+      "port": 2080
+    },
+    {
+      "source_row_id": "zone_rec_row_22",
+      "name": "_carddavs._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "path=/",
+      "text_segments": ["path=/"]
+    },
+    {
+      "source_row_id": "zone_rec_row_23",
+      "name": "autoconfig.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "A",
+      "content": "195.252.110.238"
+    },
+    {
+      "source_row_id": "zone_rec_row_24",
+      "name": "_caldav._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "SRV",
+      "content": "luksuzniprevoz.rs",
+      "priority": 0,
+      "weight": 0,
+      "port": 2079
+    },
+    {
+      "source_row_id": "zone_rec_row_25",
+      "name": "_caldav._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "path=/",
+      "text_segments": ["path=/"]
+    },
+    {
+      "source_row_id": "zone_rec_row_26",
+      "name": "_autodiscover._tcp.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "SRV",
+      "content": "cpanelemaildiscovery.cpanel.net",
+      "priority": 0,
+      "weight": 0,
+      "port": 443
+    },
+    {
+      "source_row_id": "zone_rec_row_27",
+      "name": "_acme-challenge.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "FC6yQm3G6QE0ipPz6UWQu-g3zyjpUgF_EiDTVCxUP1w",
+      "text_segments": ["FC6yQm3G6QE0ipPz6UWQu-g3zyjpUgF_EiDTVCxUP1w"]
+    },
+    {
+      "source_row_id": "zone_rec_row_28",
+      "name": "_acme-challenge.autodiscover.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "7dq_2OEfu0D6B8aqQmPD6ksfX9QgZ0RKDjwt17NlBKk",
+      "text_segments": ["7dq_2OEfu0D6B8aqQmPD6ksfX9QgZ0RKDjwt17NlBKk"]
+    },
+    {
+      "source_row_id": "zone_rec_row_29",
+      "name": "luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "TXT",
+      "content": "brevo-code:4230b148a1a2ba471ed41772ba6384cb",
+      "text_segments": ["brevo-code:4230b148a1a2ba471ed41772ba6384cb"]
+    },
+    {
+      "source_row_id": "zone_rec_row_30",
+      "name": "brevo1._domainkey.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "CNAME",
+      "content": "b1.luksuzniprevoz-rs.dkim.brevo.com"
+    },
+    {
+      "source_row_id": "zone_rec_row_31",
+      "name": "brevo2._domainkey.luksuzniprevoz.rs.",
+      "ttl_seconds": 14400,
+      "type": "CNAME",
+      "content": "b2.luksuzniprevoz-rs.dkim.brevo.com"
+    }
+  ]
+}

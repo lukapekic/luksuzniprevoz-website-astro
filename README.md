@@ -135,6 +135,19 @@ Browser-based responsive, keyboard, and visual review remains a deliberate manua
 configured Playwright and Lighthouse commands remain available for focused use but are not part of
 the automatic GitHub gate.
 
+## Cloudflare deployment and DNS
+
+Start with the standalone [Cloudflare deployment, DNS and migration guide](docs/cloudflare/README.md).
+It explains service ownership, staging and production, DNS backups, cPanel email
+preservation, deployment configuration, safe cutover, verification and rollback.
+Its examples are neutral and can be adapted to other projects.
+
+For this repository's implementation, also read the
+[Pages forms runbook](docs/cloudflare-pages-forms/README.md) and
+[deployment requirements](docs/deployment.md). Actual resource IDs, rollout
+status and verification evidence belong in dated operational records, rather
+than in the reusable guide.
+
 ## Out of Scope
 
 This template is a **starting point for marketing/company sites**, not a
@@ -202,18 +215,19 @@ npm.
 
 ## Documentation
 
-| Document                        | Description                                                              |
-| ------------------------------- | ------------------------------------------------------------------------ |
-| `docs/init-checklist.md`        | Bootstrap checklist for new projects (FND-META-07)                       |
-| `docs/a11y-manual-checklist.md` | Manual accessibility testing guide (FND-A11Y-09)                         |
-| `docs/deployment.md`            | Deployment configuration guide (FND-ENV-01)                              |
-| `docs/exceptions.md`            | Waiver tracking (FND-META-10)                                            |
-| `docs/content-authoring.md`     | Content authoring and translation guide                                  |
-| `docs/scale-envelope.md`        | Architecture boundaries & in-memory/whole-build rationale (FND-SCALE-02) |
-| `docs/optional-vrt.md`          | Optional Visual Regression Testing recipe (FND-UI-08..12)                |
-| `docs/rule-traceability.md`     | Generated rule → enforcer matrix (FND-META-09, auto-generated)           |
-| `docs/spec-amendments.md`       | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12)      |
-| `AGENTS.md`                     | AI agent development guidelines                                          |
+| Document                                      | Description                                                              |
+| --------------------------------------------- | ------------------------------------------------------------------------ |
+| `docs/init-checklist.md`                      | Bootstrap checklist for new projects (FND-META-07)                       |
+| `docs/a11y-manual-checklist.md`               | Manual accessibility testing guide (FND-A11Y-09)                         |
+| `docs/deployment.md`                          | Deployment configuration guide (FND-ENV-01)                              |
+| [Cloudflare guide](docs/cloudflare/README.md) | Portable staging, production, DNS, email, migration and rollback guide   |
+| `docs/exceptions.md`                          | Waiver tracking (FND-META-10)                                            |
+| `docs/content-authoring.md`                   | Content authoring and translation guide                                  |
+| `docs/scale-envelope.md`                      | Architecture boundaries & in-memory/whole-build rationale (FND-SCALE-02) |
+| `docs/optional-vrt.md`                        | Optional Visual Regression Testing recipe (FND-UI-08..12)                |
+| `docs/rule-traceability.md`                   | Generated rule → enforcer matrix (FND-META-09, auto-generated)           |
+| `docs/spec-amendments.md`                     | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12)      |
+| `AGENTS.md`                                   | AI agent development guidelines                                          |
 
 ## License
 
