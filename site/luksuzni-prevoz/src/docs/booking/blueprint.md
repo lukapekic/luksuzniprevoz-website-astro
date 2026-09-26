@@ -276,6 +276,12 @@ Use the configured active theme, reviewed shared chrome, and semantic tokens onl
 
 No gold, blue corporate palette, glow, glass, metallic gradients, dashboard cards, or decorative motion. The wireframe owns geometry only and is not production CSS or a shared-component mock.
 
+### Final-step feedback and reset refinement
+
+Contact field errors remain directly below their own controls, within the same grid cell. Managed Turnstile uses flexible sizing in a full-width region above a dedicated action row. At 320 CSS px the actions stack in DOM order (Back, submit) with full-width targets; at 768, 1024, 1440, and 1920 CSS px Back and submit share a row. Contact fields use one column at 320 and two at the remaining reference widths; notes span the available width. Verification, feedback, and controls remain inside the panel without horizontal overflow; this region has no imagery.
+
+Only an acknowledged successful server response with a request reference clears the form and session draft, resets schedule controls, conditional branches, summaries and progress, and returns to Service. Focus moves to the visible localized success feedback above the step content. Feedback retains the request reference and manual-confirmation language until the next edit. Failure preserves values for retry; pending submission locks controls and prevents duplicates. Existing native labels, associated field errors, focus indicators and 44×44 targets remain required in Serbian Latin, English and Russian.
+
 ## 17. Existing production submission
 
 The current same-origin booking endpoint, Managed Turnstile, server validation, payload contract, pending/double-submit protection, unavailable/failure recovery, and genuine success response are retained. The form never claims a reservation is confirmed before manual confirmation. Do not substitute the standalone preview's demo success state or simplified validation for production behavior.

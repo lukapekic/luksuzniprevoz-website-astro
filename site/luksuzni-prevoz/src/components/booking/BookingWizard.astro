@@ -34,7 +34,7 @@ const interpolate = (key: UiStringKey, values: Record<string, string | number>) 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const choiceClass = "booking-choice";
-const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium leading-[var(--line-height-body)] text-[var(--color-error)]";
+const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium leading-[var(--line-height-body)] text-[var(--color-text-on-light)] border-s-[var(--space-1)] border-[var(--color-error)] ps-[var(--space-3)]";
 ---
 
 <form
@@ -105,14 +105,18 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
         <span data-summary-head-schedule hidden></span>
       </summary>
       <dl>
-        <div><dt>{ui("booking.summary.service")}</dt><dd data-summary-value="service"></dd><button type="button" data-edit-step="service" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.service")}`}>{ui("booking.action.edit")}</button></div>
-        <div><dt>{ui("booking.summary.schedule")}</dt><dd data-summary-value="schedule"></dd><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></div>
-        <div><dt>{ui("booking.summary.journey")}</dt><dd data-summary-value="journey"></dd><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></div>
-        <div><dt>{ui("booking.summary.passengers")}</dt><dd data-summary-value="passengers"></dd><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></div>
-        <div><dt>{ui("booking.summary.vehicle")}</dt><dd data-summary-value="vehicle"></dd><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></div>
-        <div><dt>{ui("booking.summary.price")}</dt><dd data-summary-value="price"></dd><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></div>
+        <div><dt>{ui("booking.summary.service")}</dt><dd data-summary-value="service"></dd><dd class="booking-edit"><button type="button" data-edit-step="service" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.service")}`}>{ui("booking.action.edit")}</button></dd></div>
+        <div><dt>{ui("booking.summary.schedule")}</dt><dd data-summary-value="schedule"></dd><dd class="booking-edit"><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></dd></div>
+        <div><dt>{ui("booking.summary.journey")}</dt><dd data-summary-value="journey"></dd><dd class="booking-edit"><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></dd></div>
+        <div><dt>{ui("booking.summary.passengers")}</dt><dd data-summary-value="passengers"></dd><dd class="booking-edit"><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></dd></div>
+        <div><dt>{ui("booking.summary.vehicle")}</dt><dd data-summary-value="vehicle"></dd><dd class="booking-edit"><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></dd></div>
+        <div><dt>{ui("booking.summary.price")}</dt><dd data-summary-value="price"></dd><dd class="booking-edit"><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></dd></div>
       </dl>
     </details>
+    <div class="booking-feedback" data-booking-feedback tabindex="-1">
+      <svg class="booking-feedback-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6" /></svg>
+      <FormStatus id="booking-form-status" type="info" on="light" />
+    </div>
     <div class="booking-error-summary" data-error-summary hidden tabindex="-1" role="alert">
       <h2 class="font-heading text-[length:var(--text-h3)] font-bold leading-[var(--line-height-heading)]">
         {ui("booking.error.summaryHeading")}
@@ -305,48 +309,59 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
       <p class="booking-step-intro">{ui("booking.review.intro")}</p>
       <div class="booking-review" data-booking-review>
         <dl>
-          <div><dt>{ui("booking.summary.service")}</dt><dd data-review-value="service"></dd><button type="button" data-edit-step="service" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.service")}`}>{ui("booking.action.edit")}</button></div>
-          <div><dt>{ui("booking.summary.schedule")}</dt><dd data-review-value="schedule"></dd><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></div>
-          <div><dt>{ui("booking.summary.journey")}</dt><dd data-review-value="journey"></dd><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></div>
-          <div><dt>{ui("booking.summary.passengers")}</dt><dd data-review-value="passengers"></dd><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></div>
-          <div><dt>{ui("booking.summary.vehicle")}</dt><dd data-review-value="vehicle"></dd><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></div>
-          <div><dt>{ui("booking.summary.price")}</dt><dd data-review-value="price"></dd><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></div>
+          <div><dt>{ui("booking.summary.service")}</dt><dd data-review-value="service"></dd><dd class="booking-edit"><button type="button" data-edit-step="service" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.service")}`}>{ui("booking.action.edit")}</button></dd></div>
+          <div><dt>{ui("booking.summary.schedule")}</dt><dd data-review-value="schedule"></dd><dd class="booking-edit"><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></dd></div>
+          <div><dt>{ui("booking.summary.journey")}</dt><dd data-review-value="journey"></dd><dd class="booking-edit"><button type="button" data-edit-step="journey" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.journey")}`}>{ui("booking.action.edit")}</button></dd></div>
+          <div><dt>{ui("booking.summary.passengers")}</dt><dd data-review-value="passengers"></dd><dd class="booking-edit"><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></dd></div>
+          <div><dt>{ui("booking.summary.vehicle")}</dt><dd data-review-value="vehicle"></dd><dd class="booking-edit"><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></dd></div>
+          <div><dt>{ui("booking.summary.price")}</dt><dd data-review-value="price"></dd><dd class="booking-edit"><button type="button" data-edit-step="vehicle" aria-label={`${ui("booking.action.edit")}: ${ui("booking.step.vehicle")}`}>{ui("booking.action.edit")}</button></dd></div>
         </dl>
       </div>
       <h3 class="mt-[var(--space-10)] font-heading text-[length:var(--text-h3)] font-bold leading-[var(--line-height-heading)]">{ui("booking.contact.heading")}</h3>
       <div class="booking-fields mt-[var(--space-6)] md:grid-cols-2">
-        <Field label={ui("booking.field.fullName")} htmlFor="booking-full-name" required>
-          <Input slot="control" id="booking-full-name" name="fullName" autocomplete="name" maxlength={100} required />
-        </Field>
-        <Field label={ui("booking.field.email")} htmlFor="booking-email" required>
-          <Input slot="control" id="booking-email" name="email" type="email" autocomplete="email" maxlength={254} required />
-        </Field>
-        <p class={groupErrorClass} data-error-for="fullName" hidden></p>
-        <p class={groupErrorClass} data-error-for="email" hidden></p>
-        <Field label={ui("booking.field.phone")} htmlFor="booking-phone">
-          <Input slot="control" id="booking-phone" name="phone" type="tel" autocomplete="tel" maxlength={32} />
-        </Field>
+        <div class="grid min-w-0 gap-[var(--space-2)]">
+          <Field label={ui("booking.field.fullName")} htmlFor="booking-full-name" required>
+            <Input slot="control" id="booking-full-name" name="fullName" autocomplete="name" maxlength={100} required />
+          </Field>
+          <p id="booking-contact-fullName-error" role="alert" class={groupErrorClass} data-error-for="fullName" hidden></p>
+        </div>
+        <div class="grid min-w-0 gap-[var(--space-2)]">
+          <Field label={ui("booking.field.email")} htmlFor="booking-email" required>
+            <Input slot="control" id="booking-email" name="email" type="email" autocomplete="email" maxlength={254} required />
+          </Field>
+          <p id="booking-contact-email-error" role="alert" class={groupErrorClass} data-error-for="email" hidden></p>
+        </div>
+        <div class="grid min-w-0 gap-[var(--space-2)]">
+          <Field label={ui("booking.field.phone")} htmlFor="booking-phone">
+            <Input slot="control" id="booking-phone" name="phone" type="tel" autocomplete="tel" maxlength={32} />
+          </Field>
+          <p id="booking-contact-phone-error" role="alert" class={groupErrorClass} data-error-for="phone" hidden></p>
+        </div>
         <div data-company-field hidden>
           <Field label={ui("booking.field.company")} htmlFor="booking-company" required>
             <Input slot="control" id="booking-company" name="company" autocomplete="organization" maxlength={200} />
           </Field>
-          <p class={groupErrorClass} data-error-for="company" hidden></p>
+          <p id="booking-contact-company-error" role="alert" class={groupErrorClass} data-error-for="company" hidden></p>
         </div>
-        <p class={groupErrorClass} data-error-for="phone" hidden></p>
-        <Field label={ui("booking.field.notes")} htmlFor="booking-notes" class="md:col-span-2">
-          <Textarea slot="control" id="booking-notes" name="notes" rows={4} autocomplete="off" maxlength={1000} />
-        </Field>
-        <p class={`${groupErrorClass} md:col-span-2`} data-error-for="notes" hidden></p>
+
+        <div class="grid min-w-0 gap-[var(--space-2)] md:col-span-2">
+          <Field label={ui("booking.field.notes")} htmlFor="booking-notes">
+            <Textarea slot="control" id="booking-notes" name="notes" rows={4} autocomplete="off" maxlength={1000} />
+          </Field>
+          <p id="booking-contact-notes-error" role="alert" class={groupErrorClass} data-error-for="notes" hidden></p>
+        </div>
+
       </div>
       <p class="booking-time-note">{ui("booking.confirmation.note")}</p>
     </section>
     <div class="booking-actions" data-booking-actions hidden>
+      <div class="min-w-0" data-booking-verification hidden><div data-booking-turnstile></div></div>
+      <div class="booking-action-row">
       <div data-booking-back hidden><button type="button" class="booking-back">{ui("booking.action.back")}</button></div>
       <div data-booking-continue><button type="button" class="booking-primary">{ui("booking.action.continue")}</button></div>
       <div data-booking-final hidden>
-        <div class="mb-[var(--space-3)]" data-booking-turnstile></div>
         <button type="submit" class="booking-primary" disabled><span data-booking-final-label>{ui("booking.action.requestBooking")}</span></button>
-        <FormStatus id="booking-form-status" type="info" on="light" class="mt-[var(--space-3)]" />
+      </div>
       </div>
       <p class="sr-only" aria-live="polite" aria-atomic="true" data-booking-live></p>
     </div>
@@ -393,7 +408,14 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
   .booking-summary dd, .booking-review dd { margin: 0; overflow-wrap: anywhere; }
   .booking-summary button, .booking-review button { min-block-size: 2.75rem; min-inline-size: 2.75rem; border: 0; background: transparent; color: var(--color-text-on-light); font-family: var(--font-body); text-decoration: underline; text-underline-offset: var(--space-1); cursor: pointer; }
   .booking-review { margin-block-start: var(--space-7); }
-  .booking-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin-block-start: var(--space-8); padding-block-start: var(--space-5); border-block-start: 1px solid var(--color-input-border); }
+  .booking-actions { display: grid; min-inline-size: 0; gap: var(--space-3); margin-block-start: var(--space-8); padding-block-start: var(--space-5); border-block-start: 1px solid var(--color-input-border); }
+  .booking-action-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); }
+  .booking-action-row > :last-child { margin-inline-start: auto; }
+  .booking-feedback:has([role="status"]:empty) { display: none; }
+  .booking-feedback { margin-block-end: var(--space-6); }
+  .booking-feedback[data-success="true"] { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--color-border-subtle); border-inline-start: var(--space-1) solid var(--color-success); border-radius: var(--radius-control); background: var(--color-input-surface); color: var(--color-text-on-light); }
+  .booking-feedback-icon { display: none; flex: none; inline-size: var(--space-6); block-size: var(--space-6); }
+  .booking-feedback[data-success="true"] .booking-feedback-icon { display: block; }
   .booking-primary, .booking-back { min-block-size: 2.75rem; padding-inline: var(--space-5); border-radius: var(--radius-control); font-family: var(--font-body); font-size: var(--text-ui); font-weight: var(--font-weight-semibold); cursor: pointer; }
   .booking-primary { border: 1px solid var(--color-text-on-light); background: var(--color-text-on-light); color: var(--color-surface-light); }
   .booking-primary:hover { background: var(--color-surface-elevated); color: var(--color-text-primary); }
@@ -401,8 +423,8 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
   .booking-back { border: 1px solid var(--color-input-border); background: transparent; color: var(--color-text-on-light); }
   .booking-back:hover { border-color: var(--color-focus-light); }
   .booking-primary:focus-visible, .booking-back:focus-visible, .booking-summary button:focus-visible, .booking-review button:focus-visible { outline: 2px solid var(--color-focus-light); outline-offset: 2px; }
-  @media (max-width: 48rem) { .booking-actions { flex-direction: column-reverse; align-items: stretch; } .booking-actions > div, .booking-primary, .booking-back { inline-size: 100%; } }
-  @media (max-width: 40rem) { .booking-summary dl > div, .booking-review dl > div { grid-template-columns: minmax(0, 1fr) auto; } .booking-summary dd, .booking-review dd { grid-column: 1 / -1; grid-row: 2; } }
+  @media (max-width: 48rem) { .booking-action-row { flex-direction: column; align-items: stretch; } .booking-action-row > div, .booking-primary, .booking-back { inline-size: 100%; } }
+  @media (max-width: 40rem) { .booking-summary dl > div, .booking-review dl > div { grid-template-columns: minmax(0, 1fr) auto; } .booking-summary dd:not(.booking-edit), .booking-review dd:not(.booking-edit) { grid-column: 1 / -1; grid-row: 2; } }
   .booking-noscript { display: grid; gap: var(--space-4); padding: var(--space-5); border: 1px solid var(--color-divider); border-radius: var(--radius-card); }
   @media (prefers-reduced-motion: reduce) { .booking-form * { scroll-behavior: auto !important; } }
 </style>
