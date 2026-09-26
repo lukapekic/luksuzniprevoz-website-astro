@@ -10,6 +10,15 @@ The booking-local cap is `container-reading` minus `space-12`, yielding an appro
 
 Completed progress steps are buttons, current progress uses `aria-current="step"`, and future steps cannot bypass validation. Selection, hover, focus, invalid, pending, unavailable, and success states are distinct. Back/Edit preserves valid state, Continue validates before advancing, and each step change focuses the next H2. A compact disclosure shows known facts only on Steps 02–03; the final complete review replaces it on Step 04.
 
-The Serbian visible date uses `DD/MM/YYYY` and time uses grouped native hour/minute controls for 24-hour `HH:mm`, independent of browser locale. Canonical values remain `YYYY-MM-DD` and `HH:mm`; timezone-dependent rules use `Europe/Belgrade`. An optional native calendar picker is an enhancement, not the sole input method. Return fields follow the same format and validation.
+Across Serbian Latin, English, and Russian, the visible date uses `DD/MM/YYYY` and time uses grouped native hour/minute controls for 24-hour `HH:mm`, independent of browser locale. Canonical values remain `YYYY-MM-DD` and `HH:mm`; timezone-dependent rules use `Europe/Belgrade`. An optional native calendar picker is an enhancement, not the sole input method. Return fields follow the same format and validation.
 
 Use semantic tokens and restrained motion only. Reduced motion removes nonessential transitions. Verify all five viewport states, Serbian/English/Russian content, text zoom, keyboard and screen-reader flow, and zero horizontal overflow. Do not use gold, blue corporate styling, glow, glass, metallic gradients, oversized radius, or decorative dashboard patterns.
+
+
+## Schedule controls shared with Airport booking start
+
+`BookingScheduleControls.astro` is consumed by the Booking wizard (outbound and return) and Airport booking start. Its existing API remains compatible: `idPrefix` defaults to `booking`; `nativeValidation` defaults to false for the wizard's controlled validation. Airport uses prefix `airport` and native validation. One calendar parser and one canonical/display synchronization helper serve both consumers. Visible dates must be complete `DD/MM/YYYY`; impossible calendar dates are rejected. Hour options are `00–23`, minute options `00–59`, with canonical `HH:mm`. API/query dates remain `YYYY-MM-DD`.
+
+At 320 the date precedes the grouped time controls in one column; at 768, 1024, 1440, and 1920 the date and time occupy the existing two-column field grid. Each pair follows source order, all controls retain 44px targets and visible focus, and grid children can shrink without page overflow. The return pair follows the outbound pair when requested. No imagery or CTA ordering changes. Empty, filled, invalid, recovered draft, and incoming query states use the same conversion rules.
+
+Phone is optional in both final forms. The shared phone validator accepts international `+` and `00` dialing prefixes, Serbian local mobile/landline numbers beginning with `0`, and spaces, parentheses, periods, hyphens, or slashes. Numbers retain the user's display formatting; no country code is guessed. Shape validation applies on the client and server with 7–15 dialing digits and at most 32 displayed characters.

@@ -17,8 +17,8 @@ test.describe("Airport Transportation", () => {
       await expect(page.locator("main h1")).toHaveCount(1);
       await expect(page.locator("main section")).toHaveCount(9);
       await expect(page.locator('input[name="flightNumber"]')).toHaveCount(1);
-      await expect(page.locator('input[name="date"][type="date"]')).toHaveCount(1);
-      await expect(page.locator('input[name="time"][type="time"]')).toHaveCount(1);
+      await expect(page.locator('input[name="dateDisplay"][type="text"]')).toHaveCount(1);
+      await expect(page.locator('select[name="timeHour"]')).toHaveCount(1);
     });
   }
 
@@ -33,8 +33,8 @@ test.describe("Airport Transportation", () => {
       ),
     ).toBeVisible();
     await expect(page.getByText("Driving licence held for at least 5 yr")).toBeVisible();
-    await expect(page.locator('input[name="date"]')).toHaveAttribute("required", "");
-    await expect(page.locator('input[name="time"]')).toHaveAttribute("required", "");
+    await expect(page.locator('input[name="dateDisplay"]')).toHaveAttribute("required", "");
+    await expect(page.locator('select[name="timeHour"]')).toHaveAttribute("required", "");
     const form = page.locator("#airport-booking form");
     await expect(form).toHaveAttribute("method", "get");
     await expect(form).toHaveAttribute("action", "/en/booking/?intent=booking&service=airportTransportation");

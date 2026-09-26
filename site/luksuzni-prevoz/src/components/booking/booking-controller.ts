@@ -1,3 +1,4 @@
+import { syncCanonicalSchedule, syncDisplaySchedule } from "../../lib/booking/booking-schedule-controls.ts";
 import { vehicles, type Vehicle } from "../../data/fleet.ts";
 import {
   isBookingServiceKey,
@@ -12,7 +13,7 @@ import { loadBookingDraft, saveBookingDraft } from "../../lib/booking/booking-st
 import { BOOKING_STORAGE_KEY } from "../../lib/booking/booking-storage.ts";
 import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
 import { lockSubmissionControls } from "../../lib/forms/submission-controls.ts";
-import { combineHourMinute, formatDisplayDate, formatDisplaySchedule, parseDisplayDate } from "../../lib/booking/booking-date-time.ts";
+import { formatDisplayDate, formatDisplaySchedule, parseDisplayDate } from "../../lib/booking/booking-date-time.ts";
 import {
   buildBookingRequest,
   validateBookingDraft,
@@ -143,33 +144,6 @@ function applyDraft(form: HTMLFormElement, draft: Partial<BookingDraft>): void {
     const item = control(form, name);
     const value = draft[name];
     if (item && value !== undefined) item.value = String(value);
-  }
-}
-
-function syncDisplaySchedule(form: HTMLFormElement): void {
-  for (const input of form.querySelectorAll<HTMLInputElement>("[data-booking-date-display]")) {
-    const canonical = control(form, input.dataset.canonicalName ?? "")?.value ?? "";
-    input.value = formatDisplayDate(canonical);
-  }
-  for (const timeName of ["time", "returnTime"] as const) {
-    const [hour = "", minute = ""] = (control(form, timeName)?.value ?? "").split(":");
-    const hourSelect = form.querySelector<HTMLSelectElement>(`[data-booking-hour][data-time-for="${timeName}"]`);
-    const minuteSelect = form.querySelector<HTMLSelectElement>(`[data-booking-minute][data-time-for="${timeName}"]`);
-    if (hourSelect) hourSelect.value = hour;
-    if (minuteSelect) minuteSelect.value = minute;
-  }
-}
-
-function syncCanonicalSchedule(form: HTMLFormElement): void {
-  for (const input of form.querySelectorAll<HTMLInputElement>("[data-booking-date-display]")) {
-    const canonical = control(form, input.dataset.canonicalName ?? "");
-    if (canonical) canonical.value = parseDisplayDate(input.value) ?? "";
-  }
-  for (const timeName of ["time", "returnTime"] as const) {
-    const hour = form.querySelector<HTMLSelectElement>(`[data-booking-hour][data-time-for="${timeName}"]`)?.value ?? "";
-    const minute = form.querySelector<HTMLSelectElement>(`[data-booking-minute][data-time-for="${timeName}"]`)?.value ?? "";
-    const canonical = control(form, timeName);
-    if (canonical) canonical.value = combineHourMinute(hour, minute);
   }
 }
 

@@ -26,5 +26,10 @@ export function combineHourMinute(hour: string, minute: string): string {
 
 export function formatDisplaySchedule(date: string | undefined, time: string | undefined): string | null {
   const displayDate = date ? formatDisplayDate(date) : "";
-  return displayDate && time && /^\d{2}:\d{2}$/.test(time) ? `${displayDate} · ${time}` : null;
+  return displayDate && time && isCanonicalTime(time) ? `${displayDate} · ${time}` : null;
+}
+
+export function isCanonicalTime(value: string): boolean {
+  const [hour = "", minute = ""] = value.split(":");
+  return combineHourMinute(hour, minute) === value && value.length === 5;
 }

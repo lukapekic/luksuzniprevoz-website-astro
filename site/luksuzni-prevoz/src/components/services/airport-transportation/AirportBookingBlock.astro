@@ -6,6 +6,9 @@ import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
 import Link from "../../../foundation/ui/Link.astro";
 import Field from "../../../foundation/ui/Field.astro";
 import Input from "../../../foundation/ui/Input.astro";
+import { AIRPORT_FLIGHT_NUMBER_MAX } from "../../../lib/booking/airport-booking-intent.ts";
+import BookingScheduleControls from "../../booking/BookingScheduleControls.astro";
+import { t } from "../../../lib/i18n.ts";
 import Button from "../../../foundation/ui/Button.astro";
 
 interface Props {
@@ -30,19 +33,19 @@ const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
         {body && <p class="booking-body">{body}</p>}
       </div>
       <form class="booking-form md:grid-cols-2" action={action} method="get" accept-charset="UTF-8" autocomplete="on"
+        data-airport-booking-start data-date-error={t("booking.error.dateTime", locale)}
         aria-labelledby="airport-booking-heading"
         aria-describedby="airport-booking-handoff airport-booking-confirmation">
         <input type="hidden" name="service" value="airportTransportation" />
         <input type="hidden" name="intent" value="booking" />
         <Field label={flightLabel} htmlFor="airport-flight-number" class="md:col-span-full">
-          <Input slot="control" id="airport-flight-number" name="flightNumber" type="text" autocomplete="off" />
+          <Input slot="control" id="airport-flight-number" name="flightNumber" type="text" autocomplete="off" maxlength={AIRPORT_FLIGHT_NUMBER_MAX} />
         </Field>
-        <Field label={dateLabel} htmlFor="airport-date" required>
-          <Input slot="control" id="airport-date" name="date" type="date" required />
-        </Field>
-        <Field label={timeLabel} htmlFor="airport-time" required>
-          <Input slot="control" id="airport-time" name="time" type="time" required />
-        </Field>
+        <BookingScheduleControls dateName="date" timeName="time" {dateLabel} {timeLabel}
+          dateFormatHint={t("booking.field.dateFormatHint", locale)}
+          hourFormatHint={t("booking.field.hourFormatHint", locale)}
+          minuteFormatHint={t("booking.field.minuteFormatHint", locale)}
+          idPrefix="airport" required nativeValidation />
         <div class="booking-actions md:col-span-full">
           <Button type="submit" variant="primary" size="lg">
             {continueLabel}
@@ -75,3 +78,9 @@ const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
   .booking-actions svg { inline-size: var(--space-5); block-size: var(--space-5); }
   .booking-notes { display: grid; gap: var(--space-2); padding-block-start: var(--space-4); border-block-start: 1px solid var(--color-input-border); font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--line-height-body); color: color-mix(in oklab, var(--color-text-on-light), var(--color-surface-light) 30%); }
 </style>
+
+<script>
+  import { mountAirportBookingStarts } from "../../../lib/booking/airport-booking-controller.ts";
+  mountAirportBookingStarts();
+  document.addEventListener("astro:page-load", () => mountAirportBookingStarts());
+</script>

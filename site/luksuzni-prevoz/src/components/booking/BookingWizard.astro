@@ -10,6 +10,7 @@ import Link from "../../foundation/ui/Link.astro";
 import Textarea from "../../foundation/ui/Textarea.astro";
 import { interpolateTokens } from "../../lib/interpolate.ts";
 import BookingProgress from "./BookingProgress.astro";
+import { AIRPORT_FLIGHT_NUMBER_MAX } from "../../lib/booking/airport-booking-intent.ts";
 import BookingScheduleControls from "./BookingScheduleControls.astro";
 
 interface Props {
@@ -215,7 +216,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
         <p id="booking-airport-scope-error" class={groupErrorClass} data-error-for="airportScope" hidden></p>
         <div class="booking-fields">
           <Field label={ui("booking.field.flightNumber")} htmlFor="booking-flight-number">
-            <Input slot="control" id="booking-flight-number" name="flightNumber" autocomplete="off" />
+            <Input slot="control" id="booking-flight-number" name="flightNumber" maxlength={AIRPORT_FLIGHT_NUMBER_MAX} autocomplete="off" />
           </Field>
           <Checkbox id="booking-return" name="returnRequested" label={ui("booking.field.return")} />
           <div class="booking-fields md:grid-cols-2" data-return-fields hidden>

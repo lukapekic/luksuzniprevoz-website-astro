@@ -3,7 +3,7 @@
  *
  * Route targets resolve to localized URLs via getPath (FND-I18N-03 — never
  * manual slug concatenation). Flow targets resolve through the canonical flow
- * map to the localized Contact route plus a stable request-intent query.
+ * map to the localized Booking route plus a stable request-intent query.
  */
 import { getPath } from "@astro-foundation/core/i18n";
 import { routes } from "../data/routes.ts";
@@ -31,7 +31,7 @@ export function resolveFlowHref(
  * Resolve a CTA's href for the current locale.
  * - route target → getPath (localized, never a raw URL).
  * - anchor target → a same-document fragment identifier.
- * - flow target → canonical localized Contact route + request intent.
+ * - flow target → canonical localized Booking route + request intent.
  * - unknown runtime flow + `unresolvedFlow:"omit"` → null.
  */
 export interface ResolveCtaOptions {

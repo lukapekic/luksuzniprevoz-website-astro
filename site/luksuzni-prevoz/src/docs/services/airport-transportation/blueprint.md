@@ -303,7 +303,7 @@ time
 Rules:
 
 - visible labels; placeholder never substitutes for label;
-- date/time use appropriate native or approved form primitives;
+- date/time reuse the Booking schedule controls: explicit `DD/MM/YYYY` calendar validation and grouped 24-hour `HH:mm`, independent of browser locale;
 - flight number may be optional when the detailed flow permits;
 - one strong `Continue booking` action;
 - secondary quote action may appear as a quiet text/link action;

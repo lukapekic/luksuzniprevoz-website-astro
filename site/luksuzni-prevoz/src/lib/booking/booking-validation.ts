@@ -1,3 +1,4 @@
+import { isValidPhoneNumber } from "../forms/phone-validation.ts";
 import type { Vehicle } from "../../data/fleet.ts";
 import {
   isBookingServiceKey,
@@ -104,7 +105,6 @@ const businessServices: BookingServiceKey[] = [
 ];
 
 const FULL_NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M}'’.-]*(?:[ \t]+[\p{L}\p{M}][\p{L}\p{M}'’.-]*)+$/u;
-const PHONE_PATTERN = /^[+\d][\d\s()./-]{5,31}$/u;
 
 export interface BookingValidationOptions {
   publicMinimumHours: number;
@@ -181,7 +181,7 @@ export function validateBookingDraft(
     if (!draft.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.email)) {
       issues.push({ field: "email", code: "email" });
     }
-    if (draft.phone && !PHONE_PATTERN.test(draft.phone.trim())) {
+    if (draft.phone && !isValidPhoneNumber(draft.phone)) {
       issues.push({ field: "phone", code: "phone" });
     }
     if (draft.notes && draft.notes.trim().length > 1000) {

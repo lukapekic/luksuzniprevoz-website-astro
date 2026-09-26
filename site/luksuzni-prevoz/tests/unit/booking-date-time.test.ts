@@ -18,6 +18,8 @@ describe("explicit booking date and time presentation", () => {
     assert.equal(combineHourMinute("18", "30"), "18:30");
     assert.equal(combineHourMinute("23", "59"), "23:59");
     assert.equal(combineHourMinute("24", "00"), "");
+    assert.equal(formatDisplaySchedule("2026-09-24", "24:00"), null);
+    assert.equal(formatDisplaySchedule("2026-09-24", "12:60"), null);
     assert.equal(combineHourMinute("09", ""), "");
     assert.equal(formatDisplaySchedule("2026-09-24", "18:30"), "24/09/2026 · 18:30");
   });
