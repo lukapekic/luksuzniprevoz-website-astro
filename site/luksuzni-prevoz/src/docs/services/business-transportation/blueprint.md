@@ -194,7 +194,7 @@ Heading: `Kada jedan automobil više nije dovoljan`
 
 Use an editorial split with contextual media.
 
-The contextual media is the repository asset `src/assets/hero-example.jpg`,
+The contextual media is the repository asset `src/assets/images/pages/business-transportation/coordination.jpg`,
 rendered through Astro's asset pipeline with an `object-cover` crop, the normal
 semantic section radius, no text overlay, and no additional surrounding card.
 The image is decorative because the adjacent localized copy carries the full

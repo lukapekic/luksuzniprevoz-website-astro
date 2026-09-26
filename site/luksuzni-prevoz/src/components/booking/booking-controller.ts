@@ -445,9 +445,11 @@ function goToStep(form: HTMLFormElement, step: BookingStep, focus = true): void 
   const back = form.querySelector<HTMLElement>("[data-booking-back]");
   const next = form.querySelector<HTMLElement>("[data-booking-continue]");
   const final = form.querySelector<HTMLElement>("[data-booking-final]");
+  const verification = form.querySelector<HTMLElement>("[data-booking-verification]");
   if (back) back.hidden = step === "service";
   if (next) next.hidden = step === "review";
   if (final) final.hidden = step !== "review";
+  if (verification) verification.hidden = step !== "review";
   const summary = form.querySelector<HTMLElement>("[data-booking-summary]");
   if (summary) {
     summary.hidden = step === "service" || step === "review";
@@ -494,11 +496,12 @@ export function mountBookingWizards(root: ParentNode = document): void {
     goToStep(form, handoff.initialStep, false);
 
     const status = form.querySelector<HTMLElement>("#booking-form-status");
+    const feedback = form.querySelector<HTMLElement>("[data-booking-feedback]");
     const finalButton = form.querySelector<HTMLButtonElement>("[data-booking-final] button");
     const turnstileContainer = form.querySelector<HTMLElement>("[data-booking-turnstile]");
     const siteKey = form.dataset.turnstileSiteKey ?? "";
     const turnstile = turnstileContainer && siteKey
-      ? createTurnstileController({ container: turnstileContainer, siteKey, action: "booking_submit" })
+      ? createTurnstileController({ container: turnstileContainer, siteKey, action: "booking_submit", size: "flexible" })
       : null;
     if (!turnstile) {
       if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
@@ -513,11 +516,12 @@ export function mountBookingWizards(root: ParentNode = document): void {
     }
 
     let submissionId: string | null = null;
-    let completed = false;
+    let succeeded = false;
     let submitting = false;
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || completed || submitting) return;
+      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || submitting) return;
+      feedback?.removeAttribute("data-success");
       const issues = issuesForStep(form, "review");
       if (issues.length > 0) return renderErrors(form, issues);
       const token = turnstile.getToken();
@@ -545,7 +549,7 @@ export function mountBookingWizards(root: ParentNode = document): void {
         const body = await response.json() as FormApiResponse;
         if (response.ok && body.ok && body.reference) {
           status.textContent = `${form.dataset.statusSuccess ?? ""} ${(form.dataset.statusReference ?? "").replace("{reference}", body.reference)}`;
-          completed = true;
+          succeeded = true;
           submissionId = null;
           try { sessionStorage.removeItem(BOOKING_STORAGE_KEY); } catch { /* storage may be blocked */ }
           return;
@@ -564,11 +568,33 @@ export function mountBookingWizards(root: ParentNode = document): void {
         turnstile.reset();
         unlockControls();
         submitting = false;
-        finalButton.disabled = completed;
+        finalButton.disabled = false;
+        if (succeeded) {
+          form.reset();
+          // Clear literal whitespace/default text as well as any browser-filled values.
+          for (const field of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+            'textarea, input:not([type="radio"]):not([type="checkbox"]):not([type="number"])',
+          )) field.value = "";
+          form.dataset.intent = "booking";
+          syncDisplaySchedule(form);
+          updateVehicleEligibility(form);
+          goToStep(form, "service", false);
+          if (feedback) {
+            feedback.dataset.success = "true";
+            feedback.focus();
+          }
+          succeeded = false;
+        }
       }
     });
     form.addEventListener("change", (event) => {
-      if (!submitting) submissionId = null;
+      if (!submitting) {
+        submissionId = null;
+        if (feedback?.dataset.success === "true") {
+          feedback.removeAttribute("data-success");
+          if (status) status.textContent = "";
+        }
+      }
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "serviceCategory") {
         for (const item of form.querySelectorAll<HTMLInputElement>('input[name="service"]')) item.checked = false;
@@ -581,7 +607,13 @@ export function mountBookingWizards(root: ParentNode = document): void {
       try { saveBookingDraft(sessionStorage, readDraft(form)); } catch { /* fail open */ }
     });
     form.addEventListener("input", (event) => {
-      if (!submitting) submissionId = null;
+      if (!submitting) {
+        submissionId = null;
+        if (feedback?.dataset.success === "true") {
+          feedback.removeAttribute("data-success");
+          if (status) status.textContent = "";
+        }
+      }
       syncCanonicalSchedule(form);
       updateVehicleEligibility(form);
       clearEditedError(form, event.target);

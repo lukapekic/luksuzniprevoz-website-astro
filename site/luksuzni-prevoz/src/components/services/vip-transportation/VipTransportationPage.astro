@@ -24,15 +24,18 @@ import { contact, isVerified } from "../../../data/contact.ts";
 import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import heroImage from "../../../assets/pages/vip-transportation/hero.png";
-import passengerImage from "../../../assets/shared/other/passenger-experience-alternate.webp";
+import { vipTransportation } from "../../../data/media/vipTransportation";
+const heroImage = vipTransportation.hero;
+import { shared } from "../../../data/media/shared";
+const passengerImage = shared.passengerExperience.passengerExperienceAlternate;
 import { selectedMedia } from "../../../data/selected-media.ts";
-import aviationPrimaryImage from "../../../assets/shared/other/mercedes-sprint-next-to-private-jet.webp";
-import aviationSupportingImage from "../../../assets/shared/other/private-jet-parked-outside-of-hangar.webp";
-import mercedesSClassFront from "../../../assets/fleet/original/s-class/front-facing.webp";
-import mercedesEClassFront from "../../../assets/fleet/original/e-class/front-facing.webp";
-import mercedesVClassFront from "../../../assets/fleet/original/v-class/front-facing.webp";
-import mercedesSprinterFront from "../../../assets/fleet/original/sprinter/front-facing.webp";
+const aviationPrimaryImage = shared.aviation.mercedesSprinterNextToPrivateJet;
+const aviationSupportingImage = shared.aviation.privateJetParkedOutsideOfHangar;
+import { fleet } from "../../../data/media/fleet";
+const mercedesSClassFront = fleet.sClass.frontFacing;
+const mercedesEClassFront = fleet.eClass.frontFacing;
+const mercedesVClassFront = fleet.vClass.frontFacing;
+const mercedesSprinterFront = fleet.sprinter.frontFacing;
 
 interface Props {
   routeKey: "vipTransportation";

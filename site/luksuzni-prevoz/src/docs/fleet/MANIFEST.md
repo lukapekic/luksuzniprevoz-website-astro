@@ -9,7 +9,7 @@ Prepared: **2026-08-30**
 
 - Fleet page is a dedicated page implementation.
 - Hero is full bleed.
-- Hero asset: `site/luksuzni-prevoz/src/assets/pages/fleet/hero.webp`.
+- Hero asset: `site/luksuzni-prevoz/src/assets/images/pages/fleet/hero.webp`.
 - Header integrates over the full-bleed Hero through the existing over-Hero contract.
 - Vehicle presentation is open, product-led, and chapter-based.
 - Fleet navigation is a contained three-category row: Sedans, SUV, and Group Transport.

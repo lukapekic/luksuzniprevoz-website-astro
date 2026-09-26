@@ -209,7 +209,7 @@ Every applicable blocking item must pass before publication.
 - [ ] localized heading/text
 - [ ] booking button visible
 - [ ] quote button visible
-- [ ] caller passes `src/assets/shared/other/s-class-interior-driver-side.webp`
+- [ ] caller passes `src/assets/images/shared/interiors/s-class-interior-driver-side.webp`
 - [ ] final CTA image is present
 - [ ] `imageAlt=""`
 - [ ] `imageFit="cover"`
@@ -290,8 +290,8 @@ Shared:
 
 # R. Image contract
 
-- [ ] Hero uses `src/assets/shared/other/chauffeur-inside-grayedout.webp`
-- [ ] Working Day uses `src/assets/shared/other/executive-working-in-rear-seat.webp`
+- [ ] Hero uses `src/assets/images/shared/chauffeur/chauffeur-inside-grayedout.webp`
+- [ ] Working Day uses `src/assets/images/shared/passenger-experience/executive-working-in-rear-seat.webp`
 - [ ] no remote stock hotlink
 - [ ] no autonomous stock substitution
 - [ ] Astro image pipeline

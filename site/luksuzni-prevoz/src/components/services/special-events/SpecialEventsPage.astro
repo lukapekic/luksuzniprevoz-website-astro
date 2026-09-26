@@ -34,10 +34,11 @@ import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
 import { selectedMedia } from "../../../data/selected-media.ts";
-import weddingServiceImage from "../../../assets/shared/other/e-class-outside-weeding-day.webp";
-import promServiceImage from "../../../assets/shared/other/v-class-interior.webp";
-import vipServiceImage from "../../../assets/shared/other/vip-rear-cabin.webp";
-import coordinationImage from "../../../assets/shared/other/v-class-outisde-weeding-day.webp";
+import { shared } from "../../../data/media/shared";
+const weddingServiceImage = shared.occasions.eClassOutsideWeddingDay;
+const promServiceImage = shared.interiors.vClassInterior;
+const vipServiceImage = shared.interiors.vipRearCabin;
+const coordinationImage = shared.occasions.vClassOutsideWeddingDay;
 
 interface Props {
   routeKey: "specialEvents";

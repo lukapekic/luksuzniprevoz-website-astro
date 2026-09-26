@@ -9,7 +9,7 @@ into a Corporate-specific directory.
 Locked source:
 
 ```text
-src/assets/shared/other/chauffeur-inside-grayedout.webp
+src/assets/images/shared/chauffeur/chauffeur-inside-grayedout.webp
 ```
 
 Required character:
@@ -38,7 +38,7 @@ watermarks
 Locked source:
 
 ```text
-src/assets/shared/other/executive-working-in-rear-seat.webp
+src/assets/images/shared/passenger-experience/executive-working-in-rear-seat.webp
 ```
 
 Required character:
@@ -54,7 +54,7 @@ credible premium corporate context
 Locked source:
 
 ```text
-src/assets/shared/other/s-class-interior-driver-side.webp
+src/assets/images/shared/interiors/s-class-interior-driver-side.webp
 ```
 
 Use through shared `FinalCTA` with:
@@ -79,8 +79,8 @@ The following shared images remain reserved for later Business-family work and
 are not additional Corporate sections:
 
 ```text
-src/assets/shared/other/v-class-interior.webp
-src/assets/shared/other/v-class-on-the-move-veertical.webp
+src/assets/images/shared/interiors/v-class-interior.webp
+src/assets/images/shared/driving/v-class-on-the-move-vertical.webp
 ```
 
 Do not use the restricted Maybach-like, third-party-branded or London-context

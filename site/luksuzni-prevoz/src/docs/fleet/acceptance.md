@@ -39,7 +39,7 @@ Every applicable item MUST pass.
 ## D. Hero
 
 - [ ] Hero is full bleed.
-- [ ] Hero uses `src/assets/pages/fleet/hero.webp`.
+- [ ] Hero uses `src/assets/images/pages/fleet/hero.webp`.
 - [ ] `BaseLayout overHero={true}` is active.
 - [ ] Header visually integrates with Hero at page top.
 - [ ] Hero has exactly one H1.

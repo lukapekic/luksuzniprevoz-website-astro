@@ -143,7 +143,7 @@ wedding.hero.trust.customPlan
 Required asset:
 
 ```text
-src/assets/shared/other/weeding-day-kissing.webp
+src/assets/images/shared/occasions/wedding-day-kissing.webp
 ```
 
 The image establishes unmistakable Wedding context while retaining the vehicle as part of the scene. It is decorative because adjacent copy carries the complete service meaning.
@@ -194,7 +194,7 @@ Purpose: explain why Wedding Transportation differs from an ordinary point-to-po
 Asset:
 
 ```text
-src/assets/shared/other/e-class-outside-weeding-day.webp
+src/assets/images/shared/occasions/e-class-outside-wedding-day.webp
 ```
 
 Render an editorial split with five illustrative stages:
@@ -243,7 +243,7 @@ Core message: **The couple and guests do not need the same vehicle.**
 Asset:
 
 ```text
-src/assets/shared/other/v-class-outisde-weeding-day.webp
+src/assets/images/shared/occasions/v-class-outside-wedding-day.webp
 ```
 
 Exactly three groups:
@@ -262,7 +262,7 @@ Source: `sections[key=presentation]`.
 Asset:
 
 ```text
-src/assets/shared/other/s-class-with-flowers-special-occasion.webp
+src/assets/images/shared/occasions/s-class-with-flowers-special-occasion.webp
 ```
 
 Gate: `customPresentationRequest === true`.

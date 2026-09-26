@@ -45,10 +45,10 @@ wedding-transportation-v2/
 The implementation MUST use the following existing repository assets exactly as named:
 
 ```text
-src/assets/shared/other/weeding-day-kissing.webp
-src/assets/shared/other/e-class-outside-weeding-day.webp
-src/assets/shared/other/v-class-outisde-weeding-day.webp
-src/assets/shared/other/s-class-with-flowers-special-occasion.webp
+src/assets/images/shared/occasions/wedding-day-kissing.webp
+src/assets/images/shared/occasions/e-class-outside-wedding-day.webp
+src/assets/images/shared/occasions/v-class-outside-wedding-day.webp
+src/assets/images/shared/occasions/s-class-with-flowers-special-occasion.webp
 ```
 
 The spelling above intentionally matches the current repository filenames. Do not silently rename assets as part of this page task.

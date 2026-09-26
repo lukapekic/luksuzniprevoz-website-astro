@@ -173,7 +173,7 @@ Use shared `ServiceHero` with `variant="full-bleed"` and `BaseLayout overHero={t
 Required page-specific editorial asset:
 
 ```text
-src/assets/pages/vip-transportation/hero.png
+src/assets/images/pages/vip-transportation/hero.png
 ```
 
 Render:
@@ -212,7 +212,7 @@ Purpose: answer **what makes this different from simply booking a premium car?**
 Required asset:
 
 ```text
-src/assets/shared/other/passenger-experience-alternate.webp
+src/assets/images/shared/passenger-experience/passenger-experience-alternate.webp
 ```
 
 Render localized heading, intro, body and exactly three principles:
@@ -277,7 +277,7 @@ Present when needed. Invisible when not.
 Required asset:
 
 ```text
-src/assets/shared/other/s-class-hotel-front-winter.webp
+src/assets/images/shared/hotels/s-class-hotel-front-winter.webp
 ```
 
 This is the signature VIP editorial section.
@@ -305,13 +305,13 @@ Core message: **From arrival to the next engagement.**
 Primary asset:
 
 ```text
-src/assets/shared/other/mercedes-sprint-next-to-private-jet.webp
+src/assets/images/shared/aviation/mercedes-sprinter-next-to-private-jet.webp
 ```
 
 Supporting asset:
 
 ```text
-src/assets/shared/other/private-jet-parked-outside-of-hangar.webp
+src/assets/images/shared/aviation/private-jet-parked-outside-of-hangar.webp
 ```
 
 Exactly three authored items:

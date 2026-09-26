@@ -25,10 +25,15 @@ test.describe("Booking page", () => {
     });
   }
 
-  test("consumes a validated Airport handoff and completes the client-only flow", async ({ page, browserName }) => {
+  for (const path of routes) for (const width of [320, 768, 1024, 1440, 1920]) {
+  test(`${path} final-step validation, layout and success reset at ${width}px`, async ({ page, browserName }) => {
+    await page.setViewportSize({ width, height: 900 });
     await page.addInitScript(() => {
       window.turnstile = {
-        render: (_container, options) => { options.callback("test-token"); return "booking-widget"; },
+        render: (container, options) => {
+          container.dataset.widgetSize = options.size;
+          options.callback("test-token"); return "booking-widget";
+        },
         reset: () => undefined,
         remove: () => undefined,
       };
@@ -36,8 +41,8 @@ test.describe("Booking page", () => {
     await page.route("**/api/forms/booking", async (route) => {
       await route.fulfill({ status: 202, contentType: "application/json", body: JSON.stringify({ ok: true, status: "pending", reference: "LP-TEST-BOOKING" }) });
     });
-    await page.goto("/en/booking/?intent=booking&service=airportTransportation&date=2026-10-10&time=12%3A00&flightNumber=JU123");
-    await expect(page).toHaveURL(/\/en\/booking\/$/);
+    await page.goto(`${path}?intent=booking&service=airportTransportation&date=2026-10-10&time=12%3A00&flightNumber=JU123`);
+    await expect(page).toHaveURL(new RegExp(`${path}$`));
     await expect(page.locator('[data-step-panel="journey"]')).toBeVisible();
     await expect(page.locator('[data-journey-branch="airportTransportation"]')).toBeVisible();
     await expect(page.locator('[name="date"]')).toHaveValue("2026-10-10");
@@ -59,7 +64,33 @@ test.describe("Booking page", () => {
     await expect(page.locator("#booking-review-heading")).toBeFocused();
     await expect(page.locator('[data-booking-summary]')).toBeHidden();
     await expect(page.locator('[data-booking-final] button')).toBeEnabled();
-    await expect(page.locator('[data-review-value="price"]')).toContainText("Custom quote");
+    const widget = page.locator('[data-booking-turnstile]');
+    const widgetWidth = await widget.evaluate(element => element.clientWidth);
+    await expect(widget).toHaveAttribute("data-widget-size", widgetWidth >= 300 ? "flexible" : "compact");
+    const verification = await page.locator('[data-booking-verification]').boundingBox();
+    const actions = await page.locator('[data-booking-actions]').boundingBox();
+    const row = await page.locator('.booking-action-row').boundingBox();
+    expect(verification!.width).toBeCloseTo(actions!.width, 0);
+    expect(row!.y).toBeGreaterThanOrEqual(verification!.y + verification!.height);
+    await page.locator('[name="fullName"]').fill("Jovana Petrović");
+    await page.locator('[name="email"]').fill("invalid");
+    await page.locator('[name="email"]').blur();
+    const emailError = page.locator('[data-error-for="email"]');
+    await expect(emailError).toBeVisible();
+    await expect(page.locator('[data-error-for="fullName"]')).toBeHidden();
+    const emailBox = await page.locator('[name="email"]').boundingBox();
+    const errorBox = await emailError.boundingBox();
+    expect(errorBox!.x).toBeCloseTo(emailBox!.x, 0);
+    expect(errorBox!.y).toBeGreaterThanOrEqual(emailBox!.y + emailBox!.height);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+    for (const button of await page.locator('.booking-action-row button:visible').all()) {
+      const box = await button.boundingBox();
+      expect(box!.height).toBeGreaterThanOrEqual(44);
+    }
+    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag22aa"]).analyze();
+    expect(results.violations).toEqual([]);
+    await page.screenshot({ path: test.info().outputPath("booking-final-step.png"), fullPage: true });
     await page.locator('[name="fullName"]').fill("Jovana Petrović");
     await page.locator('[name="email"]').fill("jovana@example.com");
     const finalButton = page.locator('[data-booking-final] button');
@@ -70,7 +101,20 @@ test.describe("Booking page", () => {
     if (browserName === "webkit") await finalButton.press("Enter");
     else await finalButton.click();
     await expect(page.locator("#booking-form-status")).toContainText("LP-TEST-BOOKING");
+    await expect(page.locator('[data-booking-feedback]')).toHaveAttribute("data-success", "true");
+    await expect(page.locator('[data-booking-feedback]')).toBeFocused();
+    await expect(page.locator('[data-step-panel="service"]')).toBeVisible();
+    for (const name of ["fullName", "email", "phone", "company", "notes", "date", "time", "pickup", "destination", "flightNumber"]) {
+      await expect(page.locator(`[name="${name}"]`)).toHaveValue("");
+    }
+    expect(await page.evaluate(() => sessionStorage.getItem("lp.booking.v1"))).toBeNull();
+    await page.locator('[name="serviceCategory"][value="airportTransportation"]').check();
+    await expect(page.locator("#booking-form-status")).toBeEmpty();
+    await page.locator('[data-booking-continue] button').click();
+    await expect(page.locator('[data-step-panel="journey"]')).toBeVisible();
   });
+
+  }
 
   test("generic and concrete CTA handoffs stay distinct", async ({ page }) => {
     await page.goto("/en/");
