@@ -48,12 +48,12 @@
 // type-only import of a representative asset. `import type` is erased at
 // compile time — there is no runtime or bundle coupling to this file; only its
 // inferred type (`ImageMetadata`) is used. Mirrors shared/FinalCTA.types.ts.
-import type sampleAsset from "../../assets/hero.webp";
+import type { shared as sampleAssetMedia } from "../../data/media/shared";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 
 // `ImageMetadata` (typeof an imported image asset) — see the comment above the
 // import. `import type` is erased at compile time; only the inferred type is used.
-type ServiceCardImage = typeof sampleAsset;
+type ServiceCardImage = typeof sampleAssetMedia.driving.genericHero;
 
 /**
  * Neutral Black & Platinum placeholder media — used when no photographic asset

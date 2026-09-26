@@ -366,7 +366,7 @@ image 7 | content 5
 Asset:
 
 ```text
-src/assets/shared/other/executive-working-in-rear-seat.webp
+src/assets/images/shared/passenger-experience/executive-working-in-rear-seat.webp
 ```
 
 Below the split, render static itinerary:
@@ -571,9 +571,9 @@ No component emits `<head>`.
 Locked shared assets:
 
 ```text
-Hero        → src/assets/shared/other/chauffeur-inside-grayedout.webp
-Working Day → src/assets/shared/other/executive-working-in-rear-seat.webp
-Final CTA   → src/assets/shared/other/s-class-interior-driver-side.webp
+Hero        → src/assets/images/shared/chauffeur/chauffeur-inside-grayedout.webp
+Working Day → src/assets/images/shared/passenger-experience/executive-working-in-rear-seat.webp
+Final CTA   → src/assets/images/shared/interiors/s-class-interior-driver-side.webp
 ```
 
 Import all three existing WebP files directly. Do not copy them into a page-local

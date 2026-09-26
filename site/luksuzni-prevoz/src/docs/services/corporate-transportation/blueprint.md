@@ -180,7 +180,7 @@ report a data-contract blocker. Do not silently hide it.
 Locked shared asset:
 
 ```text
-src/assets/shared/other/chauffeur-inside-grayedout.webp
+src/assets/images/shared/chauffeur/chauffeur-inside-grayedout.webp
 ```
 
 Required visual character:
@@ -372,7 +372,7 @@ image 7 | copy 5
 Image target:
 
 ```text
-src/assets/shared/other/executive-working-in-rear-seat.webp
+src/assets/images/shared/passenger-experience/executive-working-in-rear-seat.webp
 ```
 
 Required image character:
@@ -600,7 +600,7 @@ Both buttons MUST render through canonical `resolveCtaHref()` behavior.
 The shared component receives its required Corporate media from the caller:
 
 ```text
-image          → src/assets/shared/other/s-class-interior-driver-side.webp
+image          → src/assets/images/shared/interiors/s-class-interior-driver-side.webp
 imageAlt       → ""
 imageFit       → cover
 mediaTreatment → integrated

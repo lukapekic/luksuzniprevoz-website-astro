@@ -87,7 +87,7 @@ Every applicable item MUST pass.
 - [ ] Hero secondary action uses quote flow.
 - [ ] Hero eyebrow comes from UI localization.
 - [ ] `content.data.hero.supportText` is rendered through the existing support-text contract.
-- [ ] Hero image is `src/assets/s-class-wheel-interior.webp` or an explicitly reported neutral placeholder blocker.
+- [ ] Hero image is `src/assets/images/shared/interiors/s-class-wheel-interior.webp` or an explicitly reported neutral placeholder blocker.
 - [ ] Hero image is decorative with empty alt.
 - [ ] No trust-marker badge row was added.
 

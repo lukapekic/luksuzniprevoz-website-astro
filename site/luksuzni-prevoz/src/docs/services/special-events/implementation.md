@@ -166,7 +166,7 @@ BaseLayout overHero={true}
 
 Image:
 
-`src/assets/shared/other/s-class-driving-forest-intheback.webp`
+`src/assets/images/shared/driving/s-class-driving-forest-background.webp`
 
 Render:
 
@@ -361,7 +361,7 @@ Require exactly five items.
 
 Use:
 
-`src/assets/shared/other/v-class-outisde-weeding-day.webp`
+`src/assets/images/shared/occasions/v-class-outside-wedding-day.webp`
 
 Render the semantic ordered event flow inline in `SpecialEventCoordinationStory`.
 

@@ -11,7 +11,7 @@ Do not rename, duplicate, convert, regenerate, hotlink or substitute assets in t
 ## Hero
 
 ```text
-src/assets/shared/other/v-class-embassy-entrance.webp
+src/assets/images/shared/business/v-class-embassy-entrance.webp
 ```
 
 Use through shared `ServiceHero`, `imageAlt=""`.
@@ -25,7 +25,7 @@ Use the reviewed shared `ServiceHero` crop behavior. If the vehicle cannot remai
 ## Audience
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-vertical.webp
+src/assets/images/shared/hotels/s-class-hotel-entrance-vertical.webp
 ```
 
 Decorative alt. Use through `OpenSplitSection`.
@@ -35,7 +35,7 @@ Use the shared 4:3 cover frame with a centered crop at every responsive state. C
 ## Movement signature supporting media
 
 ```text
-src/assets/shared/other/emplyoee-group-outside.webp
+src/assets/images/shared/business/employee-group-outside.webp
 ```
 
 Decorative alt. Secondary to the semantic movement sequence. Do not identify photographed people or vehicles as company staff/fleet.
@@ -49,7 +49,7 @@ information source.
 ## Mixed-fleet section
 
 ```text
-src/assets/shared/other/v-class-on-the-move-veertical.webp
+src/assets/images/shared/driving/v-class-on-the-move-vertical.webp
 ```
 
 Decorative alt. Use through `OpenSplitSection`.
@@ -66,9 +66,9 @@ asset is reassigned to the Final CTA below.
 Exactly:
 
 ```text
-src/assets/clients/chinesee-embassy.png
-src/assets/clients/osce.png
-src/assets/clients/serbian-swimming-association.png
+src/assets/logos/clients/chinese-embassy.png
+src/assets/logos/clients/osce.png
+src/assets/logos/clients/serbian-swimming-association.png
 ```
 
 Rules:
@@ -100,7 +100,7 @@ Use canonical repository fleet media for S-Class, E-Class and V-Class.
 ## Final CTA
 
 ```text
-src/assets/shared/other/s-class-interior-1.webp
+src/assets/images/shared/interiors/s-class-interior-1.webp
 ```
 
 Decorative alt. Do not infer exact vehicle specifications from the photo.

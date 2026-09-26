@@ -13,7 +13,7 @@ Do not copy, rename, convert or duplicate these assets for this page.
 ## 1. Hero — owner approved
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-night.webp
+src/assets/images/shared/hotels/s-class-hotel-entrance-night.webp
 ```
 
 Role: full-bleed Conference Hero.
@@ -45,7 +45,7 @@ The crop MUST retain the hotel/venue arrival context and keep the vehicle visibl
 ## 2. Event Journey
 
 ```text
-src/assets/fleet/original/sprinter/interior-entrance.webp
+src/assets/images/fleet/sprinter/interior-entrance.webp
 ```
 
 Role: supporting right-side image in the contained six-stage Business movement sequence.
@@ -91,7 +91,7 @@ No new image. Reuse the shared `ServiceStandards` presentation.
 ## 8. Final CTA
 
 ```text
-src/assets/shared/other/v-class-parked-outside.webp
+src/assets/images/shared/driving/v-class-parked-outside.webp
 ```
 
 Role: integrated decorative media in shared `FinalCTA`.

@@ -56,7 +56,7 @@ Every applicable item MUST pass. Keep every item unchecked until there is concre
 - [x] Shared ServiceHero full-bleed variant renders first.
 - [x] BaseLayout uses `overHero={true}`.
 - [x] Exactly one H1 renders from localized Hero content.
-- [x] Hero uses page-specific `src/assets/pages/vip-transportation/hero.png`.
+- [x] Hero uses page-specific `src/assets/images/pages/vip-transportation/hero.png`.
 - [x] Crop preserves chauffeur/passenger context and usable copy space.
 - [x] Approved dark scrim maintains WCAG contrast.
 - [x] Image colors do not create new UI accent colors.

@@ -85,7 +85,7 @@ Primary CTA resolves the anchor target. Secondary CTA resolves quote flow.
 No client JavaScript is required for anchor navigation.
 
 Use `ServiceHero variant="full-bleed"` and `BaseLayout overHero={true}`. The
-Business-specific image is `assets/services/business-transport-card.webp`.
+Business-specific image is `assets/images/pages/home/business-transport-card.webp`.
 
 ## 6. Proposition
 
@@ -158,7 +158,7 @@ Lookup `sections[key=coordination]`.
 
 Render five items as a semantic schedule. Use a page-local timeline component for chronology only.
 
-Import `src/assets/hero-example.jpg` and render it through `astro:assets` as a
+Import `src/assets/images/pages/business-transportation/coordination.jpg` and render it through `astro:assets` as a
 lazy, responsive, decorative image. It fills the existing media geometry using
 `object-fit: cover`, the semantic section radius, and no text overlay or outer
 card.

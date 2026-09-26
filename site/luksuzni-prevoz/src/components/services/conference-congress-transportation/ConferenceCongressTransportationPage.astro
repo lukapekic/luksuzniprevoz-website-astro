@@ -26,8 +26,10 @@ import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { interpolateTokens } from "../../../lib/interpolate.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import heroImage from "../../../assets/shared/other/s-class-hotel-entrance-night.webp";
-import journeyImage from "../../../assets/fleet/original/sprinter/interior-entrance.webp";
+import { shared } from "../../../data/media/shared";
+const heroImage = shared.hotels.sClassHotelEntranceNight;
+import { fleet } from "../../../data/media/fleet";
+const journeyImage = fleet.sprinter.interiorEntrance;
 
 interface Props {
   routeKey: "conferenceCongressTransportation";

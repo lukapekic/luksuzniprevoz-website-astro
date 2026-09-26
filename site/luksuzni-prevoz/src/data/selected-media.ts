@@ -1,9 +1,11 @@
 /** DR-10 image roles and starting focal positions; reviewed crop in phase 5. */
-import privateChauffeur from "../assets/sections/home/private-chauffeur.webp";
-import passengerAtWork from "../assets/shared/other/passenger-working-in-backseat.webp";
-import corporateRoad from "../assets/shared/pexels-georgesultan-11877375.webp";
-import vipDetail from "../assets/shared/pexels-triemli-32897253.webp";
-import specialEmblem from "../assets/shared/pexels-vishal-makwana-984383-31040135.webp";
+import { home } from "./media/home";
+const privateChauffeur = home.services.chauffeur;
+import { shared } from "./media/shared";
+const passengerAtWork = shared.passengerExperience.passengerWorkingInBackseat;
+const corporateRoad = shared.driving.pexelsGeorgesultan11877375;
+const vipDetail = shared.driving.pexelsTriemli32897253;
+const specialEmblem = shared.driving.pexelsVishalMakwana98438331040135;
 
 export const selectedMedia = {
   privateChauffeurCard: { image: privateChauffeur, position: "40% 42%" },

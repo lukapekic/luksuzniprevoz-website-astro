@@ -25,10 +25,11 @@ import { contact, isVerified } from "../../../data/contact.ts";
 import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import heroImage from "../../../assets/shared/other/weeding-day-kissing.webp";
-import weddingDayImage from "../../../assets/shared/other/e-class-outside-weeding-day.webp";
-import guestTransportImage from "../../../assets/shared/other/v-class-outisde-weeding-day.webp";
-import presentationImage from "../../../assets/shared/other/s-class-with-flowers-special-occasion.webp";
+import { shared } from "../../../data/media/shared";
+const heroImage = shared.occasions.weddingDayKissing;
+const weddingDayImage = shared.occasions.eClassOutsideWeddingDay;
+const guestTransportImage = shared.occasions.vClassOutsideWeddingDay;
+const presentationImage = shared.occasions.sClassWithFlowersSpecialOccasion;
 
 interface Props {
   routeKey: "weddingTransportation";

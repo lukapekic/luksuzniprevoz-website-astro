@@ -27,9 +27,11 @@ import { interpolateTokens } from "../../../lib/interpolate.ts";
 import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import heroImage from "../../../assets/pages/airport-transfer/hero.webp";
-import arrivalImage from "../../../assets/rear-seat.webp";
-import aviationImage from "../../../assets/private-flight.webp";
+import { airportTransportation } from "../../../data/media/airportTransportation";
+const heroImage = airportTransportation.hero;
+import { shared } from "../../../data/media/shared";
+const arrivalImage = shared.interiors.rearSeat;
+const aviationImage = shared.aviation.privateFlight;
 
 interface Props { routeKey:"airportTransportation"; locale:LocaleCode; content:CollectionEntry<"pages"> }
 const { routeKey,locale,content }=Astro.props;
