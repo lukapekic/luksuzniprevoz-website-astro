@@ -1,5 +1,6 @@
 import type { BookingIntent, BookingPricingResult, BookingServiceKey, QuoteReason } from "../../data/booking.ts";
-import sr from "./sr.json" with { type: "json" };
+// Pages' Wrangler 3 bundler supports JSON imports but cannot parse import attributes.
+import sr from "./sr.json";
 
 /** Internal notifications always use Serbian Latin, regardless of the visitor's locale. */
 export const staffEmail = {
