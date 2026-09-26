@@ -49,6 +49,13 @@ All src/test paths above are relative to `site/luksuzni-prevoz/`.
 - Airport screenshots captured at all 15 locale/viewport combinations in `/tmp/lp-forms-review/`; manual visual spot checks: Serbian 320, Russian 768, English 1440. Screenshots and manual inspection do not constitute independent review evidence.
 - Full `verify:ui --change component --scope-complete` passed governance, skill/component/contracts checks, design checks, generated types, repository type checks, lint, and all unit suites (286 foundation + 26 SEO research + 80 lint plugin + 53 site). It stopped at browser accessibility: eight Chromium tests passed; eight Firefox tests could not launch and eight WebKit tests lacked system dependencies. Independent human review evidence remains required. This is not full production UI approval.
 
-Local logs: `/tmp/lp-forms-unit-final.log`, `/tmp/lp-forms-check-final.log`, `/tmp/lp-forms-lint-final.log`, `/tmp/lp-forms-build.log`, `/tmp/lp-forms-browser-verified.log`, `/tmp/lp-forms-audit-rerun.log`, `/tmp/lp-forms-verify-final.log`.
+Local logs: `/tmp/lp-forms-unit-final.log`, `/tmp/lp-forms-check-final.log`, `/tmp/lp-forms-lint-final.log`, `/tmp/lp-forms-build.log`, `/tmp/lp-forms-browser-verified.log`, `/tmp/lp-forms-audit-rerun.log`, `/tmp/lp-forms-isolated-verify-clean.log`.
 
 No live booking/contact submission or notification email was sent by this audit. Provider delivery was already owner-confirmed; automated submission tests mock delivery.
+
+
+## Staging release
+
+Deployed source `11ffe2c` from a clean isolated checkout with the actual Preview Turnstile key. Cloudflare direct deployment succeeded: `ed695cc2`, stable alias https://staging.luksuzniprevoz-website-astro.pages.dev/.
+
+A read-only live Chromium check confirmed HTTP 200 and numeric date formatting (`31122099` → `31/12/2099`, canonical `2099-12-31`) plus `23:59` time synchronization on all three localized Airport pages. No request was submitted and no email was sent.
