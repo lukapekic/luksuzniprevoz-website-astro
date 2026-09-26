@@ -59,7 +59,7 @@ import { getService } from "../../data/services.ts";
 import { getVehicle, type VehicleClass } from "../../data/fleet.ts";
 import { homepageFleetEntries, homepageFleetMedia } from "../../data/fleet-media.ts";
 import { fleetFamilyName, fleetFamilyPassengers, uniqueFleetFamilies } from "../../data/fleet-presentation.ts";
-import { getReviewsSummary } from "../../data/reviews.ts";
+import { getReviewsSummary, reviewsSourceVerified } from "../../data/reviews.ts";
 import heroImg from "../../assets/hero-example-2.jpg";
 import { selectedMedia } from "../../data/selected-media.ts";
 import type { LocaleCode } from "@astro-foundation/core";
@@ -267,23 +267,10 @@ const fleetVehicles = uniqueFleetFamilies(homepageFleetEntries.map((entry) => ({
 });
 
 // --- Google Reviews (blueprint §13 / 10-reviews) -----------------------------
-// The local Places fixture is development-only. Production gates the whole
-// region on the verified Google profile/data boundary so fabricated review
-// text and cross-locale fixture copy can never ship.
-const reviewsSummary = getReviewsSummary();
-const verifiedReviewsProfileUrl =
-  contact.office.verificationStatus === "verified" &&
-  contact.office.googleMapsUrl
-    ? contact.office.googleMapsUrl
-    : null;
-// Synthetic reviews are a development fixture, never production content. This
-// also prevents Serbian fixture copy from leaking onto English/Russian pages.
-// Production enables the section only after the verified Google profile/data
-// boundary is available; development retains the fixture for component work.
-const showReviews = import.meta.env.DEV || Boolean(verifiedReviewsProfileUrl);
-const reviewsProfileUrl = import.meta.env.DEV
-  ? verifiedReviewsProfileUrl ?? reviewsSummary.googleMapsUrl
-  : verifiedReviewsProfileUrl;
+// Verified owner-supplied snapshot; unrelated office facts do not certify reviews.
+const reviewsSummary = getReviewsSummary(currentLocale);
+const reviewsProfileUrl = reviewsSourceVerified ? reviewsSummary.googleMapsUrl : null;
+const showReviews = Boolean(reviewsProfileUrl) && reviewsSummary.reviews.length > 0;
 ---
 
 <Page
@@ -407,9 +394,8 @@ const reviewsProfileUrl = import.meta.env.DEV
     <HowItWorks heading={process.heading} steps={process.steps} />
 
     {/*
-      §8 Google Reviews — development fixture only until the production Google
-        profile and review data are verified. The section is omitted from
-        production rather than shipping fabricated or cross-locale review copy.
+      §8 Google Reviews — verified manual snapshot from the owner’s screenshots.
+        Review text resolves from the matching locale’s content file.
     */}
     {showReviews ? (
       <ReviewsShowcase

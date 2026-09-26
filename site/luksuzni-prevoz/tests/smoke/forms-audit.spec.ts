@@ -1,7 +1,12 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, relative } from "node:path";
 import { bookingServiceKeys } from "../../src/data/booking";
+
+test.beforeEach(async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-09-26T10:00:00Z"));
+});
 
 const dist = resolve("dist");
 const pages = readdirSync(dist, { recursive: true }).filter((file): file is string =>
@@ -67,8 +72,8 @@ for (const route of locales) {
     await form.locator('button[type="submit"]').click();
     await expect(page).toHaveURL(new RegExp(`${route.airport}$`));
     await expect(form.locator('[name="date"]')).toHaveValue("");
-    await date.fill("31122099");
-    await expect(date).toHaveValue("31/12/2099");
+    await date.fill("10102026");
+    await expect(date).toHaveValue("10/10/2026");
     await form.locator('[name="flightNumber"]').fill("JU 123");
     await expect(form.locator('[name="timeHour"] option[value="24"]')).toHaveCount(0);
     await expect(form.locator('[name="timeMinute"] option[value="60"]')).toHaveCount(0);
@@ -78,13 +83,86 @@ for (const route of locales) {
     await expect(page.locator('[data-step-panel="journey"]')).toBeVisible();
     const params = new URL(handoff).searchParams;
     expect([...params.keys()].sort()).toEqual(["date", "flightNumber", "intent", "service", "time"]);
-    expect(params.get("date")).toBe("2099-12-31");
+    expect(params.get("date")).toBe("2026-10-10");
     expect(params.get("time")).toBe("23:59");
-    await expect(page.locator('[name="dateDisplay"]')).toHaveValue("31/12/2099");
+    await expect(page.locator('[name="dateDisplay"]')).toHaveValue("10/10/2026");
     await expect(page.locator('[name="timeHour"]')).toHaveValue("23");
     await expect(page.locator('[name="timeMinute"]')).toHaveValue("59");
     await expect(page.locator('[name="flightNumber"]')).toHaveValue("JU 123");
     await expect(page).toHaveURL(new RegExp(`${route.booking}$`));
+  });
+
+
+  test(`${route.locale}: date mask, calendar action and bounded dates stay synchronized`, async ({ page }) => {
+    await page.goto(route.airport);
+    const form = page.locator("[data-airport-booking-start]");
+    const date = form.locator('[name="dateDisplay"]');
+    const picker = form.locator('[data-booking-calendar]');
+    const button = form.locator('[data-booking-calendar-button]');
+    await expect(button).toBeVisible();
+    await expect(picker).toHaveAttribute("min", "2026-09-26");
+    await expect(picker).toHaveAttribute("max", "2027-09-26");
+    await date.pressSequentially("01092026");
+    await expect(date).toHaveValue("01/09/2026");
+    await expect(date).toHaveAttribute("aria-invalid", "true");
+    await date.fill("27092027");
+    await expect(date).toHaveValue("27/09/2027");
+    await expect(date).toHaveAttribute("aria-invalid", "true");
+    await date.fill("26092027");
+    await expect(date).toHaveAttribute("aria-invalid", "false");
+    await expect(picker).toHaveValue("2027-09-26");
+    await date.fill("");
+    await expect(form.locator('[name="date"]')).toHaveValue("");
+    await expect(picker).toHaveValue("");
+    await date.pressSequentially("10102026");
+    await expect(date).toHaveValue("10/10/2026");
+    // Replace a day in the middle; caret must remain usable instead of jumping to the end.
+    await date.evaluate((input: HTMLInputElement) => input.setSelectionRange(0, 2));
+    await date.press("1");
+    await date.press("1");
+    await expect(date).toHaveValue("11/10/2026");
+    await date.evaluate((input: HTMLInputElement) => input.setSelectionRange(3, 3));
+    await date.press("Backspace");
+    await expect(date).toHaveValue("11/02/026");
+    await date.fill("10102026");
+    await date.press("Tab");
+    await expect(button).toBeFocused();
+    await picker.evaluate((input: HTMLInputElement) => {
+      const nativeShow = input.showPicker.bind(input);
+      input.showPicker = () => { input.dataset.opened = "true"; nativeShow(); };
+    });
+    await button.press("Enter");
+    await expect(picker).toHaveAttribute("data-opened", "true");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("Enter");
+    await expect(date).toHaveValue("11/10/2026");
+    await expect(form.locator('[name="date"]')).toHaveValue("2026-10-11");
+    // Native picker selection emits a change event; verify its application-side result.
+    await picker.evaluate((input: HTMLInputElement) => { input.value = "2026-10-12"; input.dispatchEvent(new Event("input", { bubbles: true })); input.dispatchEvent(new Event("change", { bubbles: true })); });
+    await expect(date).toHaveValue("12/10/2026");
+    await expect(form.locator('[name="date"]')).toHaveValue("2026-10-12");
+    await expect(date).toBeFocused();
+    await picker.evaluate((input: HTMLInputElement) => { input.showPicker = () => { throw new DOMException("Unavailable"); }; });
+    await button.click();
+    await expect(date).toBeFocused();
+
+    await page.goto(`${route.booking}?service=airportTransportation&date=2032-01-01&time=12:00`);
+    await expect(page.locator('[name="dateDisplay"]')).toHaveValue("");
+    await page.locator('[name="dateDisplay"]').fill("10102026");
+    await page.locator('[name="timeHour"]').selectOption("12");
+    await page.locator('[name="timeMinute"]').selectOption("00");
+    await page.locator('[name="returnRequested"]').check();
+    const returnPicker = page.locator('[data-booking-calendar][data-date-for="returnDate"]');
+    await expect(returnPicker).toHaveAttribute("min", "2026-10-10");
+    await expect(returnPicker).toHaveAttribute("max", "2027-09-26");
+    const accessibility = await new AxeBuilder({ page }).include("[data-booking-wizard]").withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+    expect(accessibility.violations).toEqual([]);
+    await page.locator('[name="returnDateDisplay"]').pressSequentially("01012032");
+    await expect(page.locator('[name="returnDateDisplay"]')).toHaveValue("01/01/2032");
+    await page.locator('[name="returnTimeHour"]').selectOption("12");
+    await page.locator('[name="returnTimeMinute"]').selectOption("00");
+    await page.locator('[data-booking-continue] button').click();
+    await expect(page.locator('[name="returnDateDisplay"]')).toHaveAttribute("aria-invalid", "true");
   });
 
   test(`${route.locale}: schedule controls fit all five viewport states`, async ({ page }) => {
@@ -94,7 +172,7 @@ for (const route of locales) {
       for (const width of [320, 768, 1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${path} at ${width}`).toBe(true);
-        for (const control of await page.locator('[data-booking-date-display]:visible, [data-booking-hour]:visible, [data-booking-minute]:visible').all()) {
+        for (const control of await page.locator('[data-booking-date-display]:visible, [data-booking-calendar-button]:visible, [data-booking-hour]:visible, [data-booking-minute]:visible').all()) {
           const bounds = await control.boundingBox();
           expect(bounds!.height).toBeGreaterThanOrEqual(44);
           expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
@@ -103,3 +181,13 @@ for (const route of locales) {
     }
   });
 }
+
+
+test("manual date entry remains available without native picker support", async ({ page }) => {
+  await page.addInitScript(() => { Object.defineProperty(HTMLInputElement.prototype, "showPicker", { value: undefined, configurable: true }); });
+  await page.goto("/en/airport-transportation/");
+  await expect(page.locator("[data-booking-calendar-button]")).toBeHidden();
+  await page.locator('[name="dateDisplay"]').pressSequentially("10102026");
+  await expect(page.locator('[name="dateDisplay"]')).toHaveValue("10/10/2026");
+  await expect(page.locator('[name="date"]')).toHaveValue("2026-10-10");
+});

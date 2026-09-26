@@ -540,6 +540,8 @@
   "booking.journey.intro": "Unesite termin i osnovne podatke o putu za izabranu uslugu.",
   "booking.field.date": "Datum",
   "booking.field.dateFormatHint": "DD/MM/YYYY",
+  "booking.field.openCalendar": "Otvori kalendar",
+  "booking.error.dateRange": "Izaberite datum od danas do godinu dana unapred.",
   "booking.field.hourFormatHint": "HH",
   "booking.field.minuteFormatHint": "mm",
   "booking.field.time": "Vreme početka",

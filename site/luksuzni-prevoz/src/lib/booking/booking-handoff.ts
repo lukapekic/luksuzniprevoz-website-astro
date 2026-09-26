@@ -14,7 +14,7 @@ export interface BookingHandoff {
   patch: Pick<BookingDraft, "intent" | "serviceKey" | "flightNumber" | "date" | "time">;
 }
 
-export function parseBookingHandoff(params: URLSearchParams): BookingHandoff {
+export function parseBookingHandoff(params: URLSearchParams, now = new Date()): BookingHandoff {
   const rawIntent = params.get("intent") ?? "";
   const intent: BookingIntent = isBookingIntent(rawIntent) ? rawIntent : "booking";
   const rawService = params.get("service") ?? "";
@@ -25,7 +25,7 @@ export function parseBookingHandoff(params: URLSearchParams): BookingHandoff {
 
   const patch: BookingHandoff["patch"] = { intent, serviceKey: rawService };
   if (rawService === "airportTransportation") {
-    const airport = parseAirportBookingIntent(params);
+    const airport = parseAirportBookingIntent(params, now);
     if (airport) {
       patch.date = airport.date;
       patch.time = airport.time;

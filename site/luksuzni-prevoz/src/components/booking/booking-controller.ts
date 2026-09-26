@@ -1,4 +1,4 @@
-import { syncCanonicalSchedule, syncDisplaySchedule } from "../../lib/booking/booking-schedule-controls.ts";
+import { mountScheduleControls, syncCanonicalSchedule, syncDisplaySchedule } from "../../lib/booking/booking-schedule-controls.ts";
 import { vehicles, type Vehicle } from "../../data/fleet.ts";
 import {
   isBookingServiceKey,
@@ -294,6 +294,7 @@ function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft:
     required: form.dataset.errorRequired,
     service: form.dataset.errorService,
     "date-time": form.dataset.errorDateTime,
+    "date-range": form.dataset.errorDateRange,
     "lead-time": form.dataset.errorLeadTime,
     "hourly-minimum": form.dataset.errorHourlyMinimum,
     "airport-scope": form.dataset.errorAirportScope,
@@ -481,6 +482,7 @@ export function mountBookingWizards(root: ParentNode = document): void {
     const handoff = parseBookingHandoff(url.searchParams);
     applyDraft(form, handoff.patch);
     syncDisplaySchedule(form);
+    mountScheduleControls(form);
     if (["intent", "service", "flightNumber", "date", "time"].some((key) => url.searchParams.has(key))) {
       history.replaceState(history.state, "", cleanBookingHandoffUrl(url));
     }

@@ -13,6 +13,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      '@astro-foundation/form-kit':
+        specifier: workspace:*
+        version: link:packages/form-kit
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.5
@@ -96,6 +100,12 @@ importers:
         specifier: ^3.2.1
         version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.33.0)(tsx@4.23.12)(yaml@2.9.0)
 
+  packages/form-kit:
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+
   packages/seo-research:
     dependencies:
       '@astro-foundation/core':
@@ -129,6 +139,9 @@ importers:
       '@astro-foundation/core':
         specifier: workspace:*
         version: link:../../packages/astro-foundation
+      '@astro-foundation/form-kit':
+        specifier: workspace:*
+        version: link:../../packages/form-kit
       '@fontsource-variable/cormorant-garamond':
         specifier: ^5.3.0
         version: 5.3.0

@@ -1,0 +1,37 @@
+; DNS record import baseline from owner-supplied cPanel HTML, 2026-09-26.
+; Preserves existing provider routing. Does NOT switch the website to Pages.
+; SOA and apex NS are omitted: the destination DNS provider owns those.
+$ORIGIN luksuzniprevoz.rs.
+$TTL 14400
+luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+luksuzniprevoz.rs. 14400 IN MX 0 luksuzniprevoz.rs.
+mail.luksuzniprevoz.rs. 14400 IN CNAME luksuzniprevoz.rs.
+www.luksuzniprevoz.rs. 14400 IN CNAME luksuzniprevoz.rs.
+ftp.luksuzniprevoz.rs. 14400 IN CNAME luksuzniprevoz.rs.
+luksuzniprevoz.rs. 14400 IN TXT "v=spf1 ip4:195.252.110.238 ip4:195.252.110.239 a ip4:195.252.110.240 mx ~all"
+cpcalendars.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+whm.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+cpcontacts.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+cpanel.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+webmail.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+webdisk.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+default._domainkey.luksuzniprevoz.rs. 14400 IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwrIbWylgSUpqBKbPTPGBNhgDOhwXA4wc0M51SBaI+SWWPt8aepKQQpP35WS527lWRjBWsv0xpkG1bDPt4byGIWsdHQ1+/J1oZ7R9bQGjxOT5aTw8WNNVkx0P4RiMu1WO2Y18smtHMiJGkHQNQsgcTOSfg5Jh+SzgKHXGbGnE0DnwRgydHS9PmQ2DtQoVrrlXk" "SuQ4N6AoV6/piy8nKb580hPJC8Vgpi0OITWraK4QG+HSTI/Uu2ngda+jw/u5d+Hui0X62ULWq1Xu3jDErUH456/GBGD9WSWn9DDxi0PhhFUDQ2C6zXVotj3BC9A8EWsJlm/fZ1RpXIlfZJLPmRIOQIDAQAB;"
+_dmarc.luksuzniprevoz.rs. 14400 IN TXT "v=DMARC1;p=none;sp=none;adkim=r;aspf=r;pct=100;fo=0;rf=afrf;ri=86400;rua=mailto:rua@dmarc.brevo.com"
+_cpanel-dcv-test-record.luksuzniprevoz.rs. 14400 IN TXT "_cpanel-dcv-test-record=Mgd_cMIKnlAZ2F5pKovxfXjppT76vZvljQsLhNG_v6wRIGmzWcchvUqzS_aMWCCf"
+luksuzniprevoz.rs. 14400 IN TXT "google-site-verification=JFxE2K9-8I4cqG2pBtDa-jkJ79gdYlOQ7eeRQ62k8Ew"
+autodiscover.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+_caldavs._tcp.luksuzniprevoz.rs. 14400 IN SRV 0 0 2080 luksuzniprevoz.rs.
+_caldavs._tcp.luksuzniprevoz.rs. 14400 IN TXT "path=/"
+_carddav._tcp.luksuzniprevoz.rs. 14400 IN SRV 0 0 2079 luksuzniprevoz.rs.
+_carddav._tcp.luksuzniprevoz.rs. 14400 IN TXT "path=/"
+_carddavs._tcp.luksuzniprevoz.rs. 14400 IN SRV 0 0 2080 luksuzniprevoz.rs.
+_carddavs._tcp.luksuzniprevoz.rs. 14400 IN TXT "path=/"
+autoconfig.luksuzniprevoz.rs. 14400 IN A 195.252.110.238
+_caldav._tcp.luksuzniprevoz.rs. 14400 IN SRV 0 0 2079 luksuzniprevoz.rs.
+_caldav._tcp.luksuzniprevoz.rs. 14400 IN TXT "path=/"
+_autodiscover._tcp.luksuzniprevoz.rs. 14400 IN SRV 0 0 443 cpanelemaildiscovery.cpanel.net.
+_acme-challenge.luksuzniprevoz.rs. 14400 IN TXT "FC6yQm3G6QE0ipPz6UWQu-g3zyjpUgF_EiDTVCxUP1w"
+_acme-challenge.autodiscover.luksuzniprevoz.rs. 14400 IN TXT "7dq_2OEfu0D6B8aqQmPD6ksfX9QgZ0RKDjwt17NlBKk"
+luksuzniprevoz.rs. 14400 IN TXT "brevo-code:4230b148a1a2ba471ed41772ba6384cb"
+brevo1._domainkey.luksuzniprevoz.rs. 14400 IN CNAME b1.luksuzniprevoz-rs.dkim.brevo.com.
+brevo2._domainkey.luksuzniprevoz.rs. 14400 IN CNAME b2.luksuzniprevoz-rs.dkim.brevo.com.

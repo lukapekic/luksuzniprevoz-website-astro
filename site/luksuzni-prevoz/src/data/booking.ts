@@ -1,6 +1,9 @@
 import type { VehicleId } from "./fleet.ts";
 import type { PricingCurrency } from "./pricing.ts";
 
+/** Owner-approved online booking horizon; dates use the service's time zone. */
+export const bookingDatePolicy = { maximumYearsAhead: 1 } as const;
+
 export const bookingServiceKeys = [
   "privateChauffeur",
   "airportTransportation",

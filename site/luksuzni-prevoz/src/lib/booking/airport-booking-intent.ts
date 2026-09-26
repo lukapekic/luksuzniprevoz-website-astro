@@ -1,4 +1,5 @@
 import { formatDisplayDate, isCanonicalTime } from "./booking-date-time.ts";
+import { isBookingDateInRange } from "./booking-date-policy.ts";
 
 /**
  * Canonical Airport booking-start contract.
@@ -26,11 +27,11 @@ export type AirportBookingIntent = {
 
 export const airportBookingService = "airportTransportation" as const;
 
-export function parseAirportBookingIntent(params: URLSearchParams): AirportBookingIntent | null {
+export function parseAirportBookingIntent(params: URLSearchParams, now = new Date()): AirportBookingIntent | null {
   if (params.get(airportBookingFields.service) !== airportBookingService) return null;
   const date = params.get(airportBookingFields.date);
   const time = params.get(airportBookingFields.time);
-  if (!date || !formatDisplayDate(date) || !time || !isCanonicalTime(time))
+  if (!date || !formatDisplayDate(date) || !isBookingDateInRange(date, now) || !time || !isCanonicalTime(time))
     return null;
 
   const flightNumber = params.get(airportBookingFields.flightNumber)?.trim();

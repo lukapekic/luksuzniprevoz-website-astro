@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "pnpm --filter @luksuzni-prevoz/site dev",
     "build": "pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site build",
-    "check": "pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site check && pnpm --filter @astro-foundation/core check",
+    "check": "pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site check && pnpm --filter @astro-foundation/core check && pnpm --filter @astro-foundation/form-kit check",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -38,7 +38,7 @@
     "parse-waivers": "tsx scripts/parse-waivers.ts",
     "secret-scan": "tsx scripts/secret-scan.ts",
     "audit:deps": "pnpm audit --prod --audit-level high",
-    "test:unit": "pnpm --filter @astro-foundation/core test:unit && pnpm --filter @astro-foundation/seo-research test:unit && pnpm --filter eslint-plugin-astro-foundation test:unit && pnpm --filter @luksuzni-prevoz/site test:unit",
+    "test:unit": "pnpm --filter @astro-foundation/core test:unit && pnpm --filter @astro-foundation/seo-research test:unit && pnpm --filter eslint-plugin-astro-foundation test:unit && pnpm --filter @luksuzni-prevoz/site test:unit && pnpm --filter @astro-foundation/form-kit test:unit",
     "test:e2e": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke",
     "test:a11y": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/accessibility.spec.ts",
     "test:a11y:chromium": "pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/accessibility.spec.ts --project=chromium",
@@ -92,5 +92,8 @@
     "not dead",
     "not op_mini all",
     "Firefox ESR"
-  ]
+  ],
+  "dependencies": {
+    "@astro-foundation/form-kit": "workspace:*"
+  }
 }

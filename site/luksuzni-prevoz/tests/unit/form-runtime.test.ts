@@ -122,7 +122,7 @@ function bookingRequest(): Request {
       payload: {
         intent: "booking",
         serviceKey: "airportTransportation",
-        date: "2099-12-31",
+        date: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
         time: "12:00",
         pickup: "Belgrade Airport",
         destination: "Belgrade city",

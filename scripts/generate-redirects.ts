@@ -61,13 +61,18 @@ let routes: Array<{
   previousSlugs?: Record<string, string[]>;
 }> = [];
 
-if (existsSync(routesPath)) {
-  try {
-    const mod = await import(routesPath);
-    routes = (mod.routes ?? []) as typeof routes;
-  } catch {
-    // routes not found
-  }
+if (!existsSync(routesPath)) {
+  console.error(`✖ No routes file found: ${routesPath}`);
+  process.exit(1);
+}
+try {
+  const mod = await import(routesPath);
+  if (!Array.isArray(mod.routes)) throw new Error("No routes array exported");
+  routes = mod.routes as typeof routes;
+} catch (err: unknown) {
+  const msg = String((err as Error)?.message || err);
+  console.error(`✖ Failed to load routes: ${msg.slice(0, 200)}`);
+  process.exit(1);
 }
 
 // --- Generate redirects ---
@@ -104,12 +109,15 @@ switch (formatArg) {
 }
 
 const outputPath = resolve(distDir, fileName);
-writeFileSync(outputPath, output, "utf-8");
+writeFileSync(outputPath, output && !output.endsWith("\n") ? `${output}\n` : output, "utf-8");
 
 if (redirects.length === 0) {
   console.log(`✓ generate:redirects — no previousSlugs found, empty ${fileName} written`);
 } else {
-  console.log(`✓ generate:redirects — ${redirects.length} redirect(s) written to ${fileName}`);
+  const ruleCount = output.split("\n").length;
+  console.log(
+    `✓ generate:redirects — ${redirects.length} migration redirect(s), ${ruleCount} rule(s) written to ${fileName}`,
+  );
   for (const r of redirects) {
     console.log(`  ${r.from} → ${r.to} (${r.status})`);
   }

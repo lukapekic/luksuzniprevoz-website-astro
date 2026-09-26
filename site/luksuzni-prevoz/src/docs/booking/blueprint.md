@@ -141,7 +141,7 @@ Use native fieldsets, legends, labels, and radios. Categories are organizational
 
 ## 7. Step 02 — Journey
 
-All branches collect the requested date and start time. Serbian visible dates are zero-padded `DD/MM/YYYY`; grouped hour/minute controls display 24-hour `HH:mm`. Canonical request and draft values remain `YYYY-MM-DD` and `HH:mm`. Validate actual dates, leap years, complete time selections, return chronology, and daylight-saving edges. These values are interpreted in `contact.bookingLeadTime.timeZone`, locked to `Europe/Belgrade`, never in the browser's local time zone. A localized note exposes the time-zone name. Manual date typing/paste remains available even if an optional native calendar picker is unsupported.
+All branches collect the requested date and start time. Serbian visible dates are zero-padded `DD/MM/YYYY`; grouped hour/minute controls display 24-hour `HH:mm`. Canonical request and draft values remain `YYYY-MM-DD` and `HH:mm`. Validate actual dates, leap years, complete time selections, return chronology, and daylight-saving edges. These values are interpreted in `contact.bookingLeadTime.timeZone`, locked to `Europe/Belgrade`, never in the browser's local time zone. A localized note exposes the time-zone name. Manual date typing/paste remains available even if an optional native calendar picker is unsupported. Owner-approved refinement (2026-09-26): insert slashes during entry, provide a trailing calendar action when the native picker is supported, and restrict outbound/return dates to today through the next calendar-year anniversary in Belgrade. The configured minimum lead time still applies; return instants must follow departure. The leap-day anniversary clamps to February 28.
 
 ### Private Chauffeur
 

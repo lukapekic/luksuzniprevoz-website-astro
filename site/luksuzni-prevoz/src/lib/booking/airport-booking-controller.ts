@@ -1,5 +1,6 @@
 import { parseDisplayDate } from "./booking-date-time.ts";
-import { syncCanonicalSchedule } from "./booking-schedule-controls.ts";
+import { mountScheduleControls, syncCanonicalSchedule } from "./booking-schedule-controls.ts";
+import { isBookingDateInRange } from "./booking-date-policy.ts";
 import { serializeAirportBookingIntent } from "./airport-booking-intent.ts";
 
 const mounted = new WeakSet<HTMLFormElement>();
@@ -11,13 +12,17 @@ export function mountAirportBookingStarts(root: ParentNode = document): void {
     mounted.add(form);
     const date = form.querySelector<HTMLInputElement>("[data-booking-date-display]");
     if (!date) continue;
+    mountScheduleControls(form);
     const sync = () => {
       syncCanonicalSchedule(form);
-      const invalid = date.value !== "" && !parseDisplayDate(date.value);
-      date.setCustomValidity(invalid ? form.dataset.dateError ?? "" : "");
+      const canonical = parseDisplayDate(date.value);
+      const message = date.value === "" ? "" : !canonical ? form.dataset.dateError ?? ""
+        : !isBookingDateInRange(canonical) ? form.dataset.errorDateRange ?? "" : "";
+      const invalid = message !== "";
+      date.setCustomValidity(message);
       date.setAttribute("aria-invalid", String(invalid));
       const error = form.querySelector<HTMLElement>(`#${date.id}-error`);
-      if (error) { error.textContent = invalid ? form.dataset.dateError ?? "" : ""; error.hidden = !invalid; }
+      if (error) { error.textContent = message; error.hidden = !invalid; }
     };
     form.addEventListener("input", sync);
     form.addEventListener("change", sync);

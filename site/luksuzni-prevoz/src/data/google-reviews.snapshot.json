@@ -1,0 +1,138 @@
+{
+  "id": "0xaae106b889442773:0x6f0e3d452fd9f306",
+  "displayName": {
+    "text": "Limo Service Grand Solutions"
+  },
+  "rating": 5.0,
+  "userRatingCount": 11,
+  "googleMapsUri": "https://maps.app.goo.gl/R1aaqTjVA8fUxFbi6",
+  "source": {
+    "kind": "owner-provided-google-maps-screenshots",
+    "verificationStatus": "verified",
+    "transcribedAt": "2026-09-26",
+    "summaryScreenshot": 5,
+    "notes": "Manual snapshot, not an API response. Screenshot capture dates and exact publication dates are unknown. Relative times are retained as source evidence only, not displayed as current dates. Seven complete text reviews selected from eleven total ratings. Biljana Drača has no visible text; Tatjana Marjanovic is truncated and excluded."
+  },
+  "reviews": [
+    {
+      "name": "screenshot-review-victor-ramin-jahanhiri",
+      "text": {
+        "text": "Super good service. Good English and I can vouch for them as I have used them.",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Victor Ramin Jahanhiri"
+      },
+      "source": {
+        "screenshot": 1,
+        "relativeTimeShown": "3 weeks ago",
+        "translatedByGoogle": false,
+        "originalLanguageCode": null
+      }
+    },
+    {
+      "name": "screenshot-review-milena-neskovic",
+      "text": {
+        "text": "Outstanding service from start to finish! Grand Solutions Limo service is a real treat – the vehicle was luxurious, clean and comfortable, and the driver was professional, punctual and extremely friendly. The ride was stress-free and in a top-notch atmosphere. An ideal choice for business trips, formal occasions or any important occasion where you want to make an impression. Highly recommended to anyone looking for top-notch service and reliability. Well done!",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Milena Neskovic"
+      },
+      "source": {
+        "screenshot": 1,
+        "relativeTimeShown": "a year ago",
+        "translatedByGoogle": true,
+        "originalLanguageCode": "bs"
+      },
+      "displayExcerpt": "Outstanding service from start to finish! Grand Solutions Limo service is a real treat – the vehicle was luxurious, clean and comfortable, and the driver was professional, punctual and extremely friendly."
+    },
+    {
+      "name": "screenshot-review-zorica-mladenovic",
+      "text": {
+        "text": "Top professional service. I used them several times for trips around Serbia.",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Zorica Mladenovic"
+      },
+      "source": {
+        "screenshot": 2,
+        "relativeTimeShown": "8 months ago",
+        "translatedByGoogle": true,
+        "originalLanguageCode": "bs"
+      }
+    },
+    {
+      "name": "screenshot-review-irena-matic",
+      "text": {
+        "text": "Pleasantly surprised, high-level service, all praise and recommendations. Fast agreement, pleasant staff, really well done.",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Irena Matic"
+      },
+      "source": {
+        "screenshot": 2,
+        "relativeTimeShown": "a year ago",
+        "translatedByGoogle": true,
+        "originalLanguageCode": "bs"
+      }
+    },
+    {
+      "name": "screenshot-review-milutin-filipovic",
+      "text": {
+        "text": "Without a single complaint!",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Milutin Filipovic"
+      },
+      "source": {
+        "screenshot": 3,
+        "relativeTimeShown": "a week ago",
+        "translatedByGoogle": true,
+        "originalLanguageCode": "bs"
+      }
+    },
+    {
+      "name": "screenshot-review-luka",
+      "text": {
+        "text": "Excellent organization. Driver Sasa is a great person and professional.\n\nWe will definitely cooperate again",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Luka"
+      },
+      "source": {
+        "screenshot": 3,
+        "relativeTimeShown": "2 weeks ago",
+        "translatedByGoogle": true,
+        "originalLanguageCode": "bs"
+      }
+    },
+    {
+      "name": "screenshot-review-katarina-jovanovic",
+      "text": {
+        "text": "All recommendations for Limo Service Grand Solution.\nMaximum professional, kind, correct, my warm recommendation",
+        "languageCode": "en"
+      },
+      "rating": 5,
+      "authorAttribution": {
+        "displayName": "Katarina Jovanovic"
+      },
+      "source": {
+        "screenshot": 4,
+        "relativeTimeShown": "4 weeks ago",
+        "translatedByGoogle": true,
+        "originalLanguageCode": "hr"
+      }
+    }
+  ]
+}

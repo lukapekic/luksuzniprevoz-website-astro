@@ -5,11 +5,20 @@ Cloudflare Pages and activate the Contact and Booking forms with Cloudflare
 Pages Functions, Turnstile, D1, edge rate limiting, and Brevo transactional
 email.
 
-The repository implementation is complete. Cloudflare and Brevo account
-provisioning is intentionally not stored in source control and still has to be
-performed by an account owner.
+For service ownership, DNS backups, staging/production separation, email
+preservation and a portable migration procedure, start with the standalone
+[Cloudflare deployment, DNS and migration guide](../cloudflare/README.md).
+
+This runbook describes the repository's implementation and required configuration.
+It is not a live provisioning-status report. Consult the dated
+[production setup record](production-setup.md) and its verification evidence for
+actual resources, deployment state and unresolved rollout steps. Secret values
+must remain outside source control.
 
 Last infrastructure and free-plan review: **2026-08-30**.
+
+For the extracted reusable helpers and a portable end-to-end setup checklist, see
+[reusable-setup.md](reusable-setup.md) and the [form-kit package](../../packages/form-kit/README.md).
 
 ## 1. What is already implemented
 
@@ -94,7 +103,7 @@ The current table is deliberately metadata-only:
 | Column                     | Purpose                                    | Contains form PII? |
 | -------------------------- | ------------------------------------------ | ------------------ |
 | `submission_id`            | Browser-generated UUID and idempotency key | No                 |
-| `payload_digest`           | Keyed digest of validated content           | No raw content     |
+| `payload_digest`           | Keyed digest of validated content          | No raw content     |
 | `reference`                | Short support correlation reference        | No                 |
 | `form_kind`                | `contact` or `booking`                     | No                 |
 | `locale`                   | `sr`, `en`, or `ru`                        | No                 |
@@ -413,17 +422,17 @@ Official Cloudflare email references:
 Configure values separately for Preview and Production under the Pages
 project's **Settings > Variables and Secrets**. Encrypt API keys and tokens.
 
-| Name                      | Type               | Preview example               | Production example                                            |
-| ------------------------- | ------------------ | ----------------------------- | ------------------------------------------------------------- |
-| `FORM_ENVIRONMENT`        | Plain variable     | `preview`                     | `production`                                                  |
-| `FORM_IDEMPOTENCY_SECRET` | Encrypted secret   | Unique random value, 32+ chars | Different unique random value, 32+ chars                     |
-| `TURNSTILE_ALLOWED_HOSTS` | Plain variable     | `staging.<project>.pages.dev` | `luksuzniprevoz.rs,www.luksuzniprevoz.rs,<project>.pages.dev` |
-| `TURNSTILE_SECRET_KEY`    | Encrypted secret   | Preview widget secret         | Production widget secret                                      |
-| `BREVO_API_KEY`           | Encrypted secret   | Site-specific Brevo key       | Site-specific Brevo key                                       |
-| `BREVO_SENDER_EMAIL`      | Plain or encrypted | Verified sender               | Verified sender                                               |
-| `BREVO_SENDER_NAME`       | Plain variable     | Approved brand name           | Approved brand name                                           |
-| `BREVO_TO_EMAIL`          | Prefer encrypted   | Test recipient                | Office recipient(s)                                           |
-| `FORM_DB`                 | D1 binding         | Preview database              | Production database                                           |
+| Name                      | Type               | Preview example                | Production example                                            |
+| ------------------------- | ------------------ | ------------------------------ | ------------------------------------------------------------- |
+| `FORM_ENVIRONMENT`        | Plain variable     | `preview`                      | `production`                                                  |
+| `FORM_IDEMPOTENCY_SECRET` | Encrypted secret   | Unique random value, 32+ chars | Different unique random value, 32+ chars                      |
+| `TURNSTILE_ALLOWED_HOSTS` | Plain variable     | `staging.<project>.pages.dev`  | `luksuzniprevoz.rs,www.luksuzniprevoz.rs,<project>.pages.dev` |
+| `TURNSTILE_SECRET_KEY`    | Encrypted secret   | Preview widget secret          | Production widget secret                                      |
+| `BREVO_API_KEY`           | Encrypted secret   | Site-specific Brevo key        | Site-specific Brevo key                                       |
+| `BREVO_SENDER_EMAIL`      | Plain or encrypted | Verified sender                | Verified sender                                               |
+| `BREVO_SENDER_NAME`       | Plain variable     | Approved brand name            | Approved brand name                                           |
+| `BREVO_TO_EMAIL`          | Prefer encrypted   | Test recipient                 | Office recipient(s)                                           |
+| `FORM_DB`                 | D1 binding         | Preview database               | Production database                                           |
 
 `BREVO_TO_EMAIL` accepts comma-separated recipients. Hostname values never
 include schemes, ports, paths, or wildcards.
@@ -696,28 +705,28 @@ verified target, and reviewed recovery plan.
 
 Complete this table when provisioning is finished:
 
-| Decision                     | Final value                          |
-| ---------------------------- | ------------------------------------ |
-| Cloudflare Pages project     | `luksuzniprevoz-website-astro` (API verified) |
-| Production Pages hostname    | `luksuzniprevoz-website-astro.pages.dev` |
-| Stable Preview hostname      | `staging.luksuzniprevoz-website-astro.pages.dev` |
-| Production branch            | `master`                             |
-| Preview branch               | `staging`                             |
-| Preview D1 database          | `luksuzni-prevoz-forms-preview`; migrations applied and `FORM_DB` bound |
-| Production D1 database       | TBD                                  |
-| D1 binding                   | `FORM_DB`                            |
-| Turnstile widget strategy    | Separate Managed Preview widget; Production pending |
-| Preview allowed host         | `staging.luksuzniprevoz-website-astro.pages.dev` |
-| Production allowed hosts     | TBD                                  |
+| Decision                     | Final value                                                               |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| Cloudflare Pages project     | `luksuzniprevoz-website-astro` (API verified)                             |
+| Production Pages hostname    | `luksuzniprevoz-website-astro.pages.dev`                                  |
+| Stable Preview hostname      | `staging.luksuzniprevoz-website-astro.pages.dev`                          |
+| Production branch            | `master`                                                                  |
+| Preview branch               | `staging`                                                                 |
+| Preview D1 database          | `luksuzni-prevoz-forms-preview`; migrations applied and `FORM_DB` bound   |
+| Production D1 database       | TBD                                                                       |
+| D1 binding                   | `FORM_DB`                                                                 |
+| Turnstile widget strategy    | Separate Managed Preview widget; Production pending                       |
+| Preview allowed host         | `staging.luksuzniprevoz-website-astro.pages.dev`                          |
+| Production allowed hosts     | TBD                                                                       |
 | Preview Brevo recipient      | `reservations@luksuzniprevoz.rs`; encrypted Cloudflare binding configured |
-| Production Brevo recipient   | `reservations@luksuzniprevoz.rs`; binding not configured |
-| Brevo sender/domain verified | `reservations@luksuzniprevoz.rs` active; domain authentication pending |
-| WAF threshold/action         | TBD after Preview test               |
-| Ledger retention period      | TBD                                  |
-| Brevo log/content retention  | TBD                                  |
-| CSP enforcement date         | TBD after clean report-only evidence |
-| Operational owner            | TBD                                  |
-| Production smoke-test date   | TBD                                  |
+| Production Brevo recipient   | `reservations@luksuzniprevoz.rs`; binding not configured                  |
+| Brevo sender/domain verified | `reservations@luksuzniprevoz.rs` active; domain authentication pending    |
+| WAF threshold/action         | TBD after Preview test                                                    |
+| Ledger retention period      | TBD                                                                       |
+| Brevo log/content retention  | TBD                                                                       |
+| CSP enforcement date         | TBD after clean report-only evidence                                      |
+| Operational owner            | TBD                                                                       |
+| Production smoke-test date   | TBD                                                                       |
 
 Preview deployed from `44314e0` on 2026-09-25. Both form pages published the
 Preview Turnstile site key and `X-Robots-Tag: noindex`; both API routes returned

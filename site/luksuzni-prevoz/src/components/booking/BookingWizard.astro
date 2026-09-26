@@ -62,6 +62,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
   data-error-required={ui("booking.error.required")}
   data-error-service={ui("booking.error.service")}
   data-error-date-time={ui("booking.error.dateTime")}
+  data-error-date-range={ui("booking.error.dateRange")}
   data-error-lead-time={interpolate("booking.error.leadTime", { hours: publicMinimumHours })}
   data-error-hourly-minimum={interpolate("booking.error.hourlyMinimum", { hours: privateOptions.hourly.minimumHours })}
   data-error-airport-scope={ui("booking.error.airportScope")}
@@ -163,7 +164,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
       <p class="booking-time-note">{interpolate("booking.timeZone.note", { timeZone })}</p>
 
       <div class="booking-fields md:grid-cols-2">
-        <BookingScheduleControls dateName="date" timeName="time" dateLabel={ui("booking.field.date")} timeLabel={ui("booking.field.time")} dateFormatHint={ui("booking.field.dateFormatHint")} hourFormatHint={ui("booking.field.hourFormatHint")} minuteFormatHint={ui("booking.field.minuteFormatHint")} required />
+        <BookingScheduleControls dateName="date" timeName="time" dateLabel={ui("booking.field.date")} timeLabel={ui("booking.field.time")} dateFormatHint={ui("booking.field.dateFormatHint")} hourFormatHint={ui("booking.field.hourFormatHint")} minuteFormatHint={ui("booking.field.minuteFormatHint")} openCalendarLabel={ui("booking.field.openCalendar")} required />
         <p class={`${groupErrorClass} md:col-span-2`} data-error-for="dateTime" hidden></p>
         <Field label={ui("booking.field.pickup")} htmlFor="booking-pickup" required class="md:col-span-2">
           <Input slot="control" id="booking-pickup" name="pickup" autocomplete="off" required />
@@ -220,7 +221,7 @@ const groupErrorClass = "font-body text-[length:var(--text-sm)] font-medium lead
           </Field>
           <Checkbox id="booking-return" name="returnRequested" label={ui("booking.field.return")} />
           <div class="booking-fields md:grid-cols-2" data-return-fields hidden>
-            <BookingScheduleControls dateName="returnDate" timeName="returnTime" dateLabel={ui("booking.field.returnDate")} timeLabel={ui("booking.field.returnTime")} dateFormatHint={ui("booking.field.dateFormatHint")} hourFormatHint={ui("booking.field.hourFormatHint")} minuteFormatHint={ui("booking.field.minuteFormatHint")} />
+            <BookingScheduleControls dateName="returnDate" timeName="returnTime" dateLabel={ui("booking.field.returnDate")} timeLabel={ui("booking.field.returnTime")} dateFormatHint={ui("booking.field.dateFormatHint")} hourFormatHint={ui("booking.field.hourFormatHint")} minuteFormatHint={ui("booking.field.minuteFormatHint")} openCalendarLabel={ui("booking.field.openCalendar")} />
             <p class={`${groupErrorClass} md:col-span-2`} data-error-for="return" hidden></p>
           </div>
         </div>
