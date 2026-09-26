@@ -11,8 +11,9 @@ import LanguageSwitcher from "../../foundation/ui/LanguageSwitcher.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { defaultLocale } from "../../data/locales.ts";
 import { partners } from "../../data/partners.ts";
-import BelgradeTransfersLogo from "../../assets/partners/belgrade-transfers-horizontal-on-dark.svg";
-import TransferiLogo from "../../assets/partners/transferi.svg";
+import { logos } from "../../data/media/logos";
+const BelgradeTransfersLogo = logos.partners.belgradeTransfersHorizontalOnDark;
+const TransferiLogo = logos.partners.transferi;
 
 interface Props {
   currentRouteKey: RouteKey;

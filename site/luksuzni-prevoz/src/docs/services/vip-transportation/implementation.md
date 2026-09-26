@@ -94,12 +94,12 @@ Wedding and Prom are architectural references for shared Occasion contracts. The
 Resolve these exact files before code:
 
 ```text
-src/assets/pages/vip-transportation/hero.png
-src/assets/shared/other/passenger-experience-alternate.webp
-src/assets/shared/other/s-class-hotel-front-winter.webp
-src/assets/shared/other/mercedes-sprint-next-to-private-jet.webp
-src/assets/shared/other/private-jet-parked-outside-of-hangar.webp
-src/assets/final-cta-bg.webp
+src/assets/images/pages/vip-transportation/hero.png
+src/assets/images/shared/passenger-experience/passenger-experience-alternate.webp
+src/assets/images/shared/hotels/s-class-hotel-front-winter.webp
+src/assets/images/shared/aviation/mercedes-sprinter-next-to-private-jet.webp
+src/assets/images/shared/aviation/private-jet-parked-outside-of-hangar.webp
+src/assets/images/shared/interiors/final-cta-bg.webp
 ```
 
 If any locked asset is missing, STOP. Do not substitute unrelated Wedding/Prom imagery or an unverified vehicle.
@@ -237,7 +237,7 @@ BaseLayout overHero={true}
 Import:
 
 ```ts
-import heroImage from "../../../assets/pages/vip-transportation/hero.png";
+import heroImage from "../../../assets/images/pages/vip-transportation/hero.png";
 ```
 
 Resolve localized eyebrow, Hero title/description, booking CTA, quote CTA and exactly three UI trust markers:
@@ -259,7 +259,7 @@ Source: `data.overview`.
 Require exactly three overview strings. Import:
 
 ```ts
-import passengerImage from "../../../assets/shared/other/passenger-experience-alternate.webp";
+import passengerImage from "../../../assets/images/shared/passenger-experience/passenger-experience-alternate.webp";
 ```
 
 Composition requirements:
@@ -308,7 +308,7 @@ Source: `sections[key=discretion]`.
 Import:
 
 ```ts
-import discretionImage from "../../../assets/shared/other/s-class-hotel-front-winter.webp";
+import discretionImage from "../../../assets/images/shared/hotels/s-class-hotel-front-winter.webp";
 ```
 
 Require exactly three principles. Render a cinematic dark editorial split with content-first DOM order.
@@ -335,8 +335,8 @@ aviation.cta exists
 Import:
 
 ```ts
-import aviationPrimaryImage from "../../../assets/shared/other/mercedes-sprint-next-to-private-jet.webp";
-import aviationSupportingImage from "../../../assets/shared/other/private-jet-parked-outside-of-hangar.webp";
+import aviationPrimaryImage from "../../../assets/images/shared/aviation/mercedes-sprinter-next-to-private-jet.webp";
+import aviationSupportingImage from "../../../assets/images/shared/aviation/private-jet-parked-outside-of-hangar.webp";
 ```
 
 Resolve the CTA through the booking flow helper.

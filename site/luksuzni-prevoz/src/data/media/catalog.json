@@ -1,0 +1,584 @@
+[
+  {
+    "path": "src/assets/brand/symbol-dark.webp",
+    "previousPaths": [
+      "src/assets/brand/symbol-dark.webp"
+    ],
+    "sha256": "06a11c68d99426bb61814e43a50e4974f9a7b59829be7fb7ec1c85d88364fd5a"
+  },
+  {
+    "path": "src/assets/images/fleet/e-class/front-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/e-class/front-facing.webp"
+    ],
+    "sha256": "1a93b4f27d46492321a64e3957055aa983fd47f2378a67dad4e58966f5456e39"
+  },
+  {
+    "path": "src/assets/images/fleet/e-class/left-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/e-class/left-facing.webp"
+    ],
+    "sha256": "fba80b33da8498eeef18c75edb172de3005300f5cde196bbd85013e9207f2daf"
+  },
+  {
+    "path": "src/assets/images/fleet/kodiaq/front-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/kodiaq/front-facing.webp"
+    ],
+    "sha256": "800949a5450a901fa2236f05d3599a3e46a2ad6fcd394d33fb62f4a9ba4db4c4"
+  },
+  {
+    "path": "src/assets/images/fleet/kodiaq/left-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/kodiaq/left-facing.webp"
+    ],
+    "sha256": "0670e26a5841f45491b498699faec02d24761eb284e92a10e684f82528ef0b27"
+  },
+  {
+    "path": "src/assets/images/fleet/s-class/front-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/s-class/front-facing.webp"
+    ],
+    "sha256": "8aeff5330cf20b2ab13df46e684432e5d76313d3963211ea672557cecc6909f0"
+  },
+  {
+    "path": "src/assets/images/fleet/s-class/left-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/s-class/left-facing.webp"
+    ],
+    "sha256": "dcd5c6955aa8825b0122b9518bf8304884ff5922ec7d194acf12c155608d27fb"
+  },
+  {
+    "path": "src/assets/images/fleet/sprinter/front-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/sprinter/front-facing.webp"
+    ],
+    "sha256": "e92d5fd735187f419784d73da6053340ceab23d2a48fffa891b592c7e62680e4"
+  },
+  {
+    "path": "src/assets/images/fleet/sprinter/interior-entrance.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/sprinter/interior-entrance.webp"
+    ],
+    "sha256": "c8a9299ec2c472974b8852c8130d6abbb3b6a54a1689a13fb7dfc29e689af17d"
+  },
+  {
+    "path": "src/assets/images/fleet/sprinter/left-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/sprinter/left-facing.webp"
+    ],
+    "sha256": "5cae5dded30b932c3f509d14103cba7a5ad5cb733db5da9e955a1bfb5fab57e5"
+  },
+  {
+    "path": "src/assets/images/fleet/superb/front-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/superb/front-facing.webp"
+    ],
+    "sha256": "d6bcd2e3ed610572a1e9f600e8f21c8738bd4b5c4088130df3e938dfd09be81f"
+  },
+  {
+    "path": "src/assets/images/fleet/superb/left-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/superb/left-facing.webp"
+    ],
+    "sha256": "52dbb0d6fd4644439539cfa7165ef97f799167c73fb660e89769d0944b383619"
+  },
+  {
+    "path": "src/assets/images/fleet/v-class/front-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/v-class/front-facing.webp"
+    ],
+    "sha256": "958e6f39e2c977212808eb60b150dfc67206fc46d222653a976028b36ce6aac3"
+  },
+  {
+    "path": "src/assets/images/fleet/v-class/left-facing.webp",
+    "previousPaths": [
+      "src/assets/fleet/original/v-class/left-facing.webp"
+    ],
+    "sha256": "d3723622d205f9dcaced838669eb8dea439e652bc3fb3520d3a187c7c54e4a86"
+  },
+  {
+    "path": "src/assets/images/pages/airport-transportation/hero.webp",
+    "previousPaths": [
+      "src/assets/pages/airport-transfer/hero.webp"
+    ],
+    "sha256": "7b4870497bfe1dfa3d0cb1532efadb8b8863a435a474f4d81e7799052afffc2a"
+  },
+  {
+    "path": "src/assets/images/pages/business-transportation/conference-service-card.jpg",
+    "previousPaths": [
+      "src/assets/pages/business-hub/conference-service-card.jpg"
+    ],
+    "sha256": "fdb6a03fc731246693231f3c5e9276c5cebbf7eed783c001f8e7dd5cc4d09a26"
+  },
+  {
+    "path": "src/assets/images/pages/business-transportation/coordination.jpg",
+    "previousPaths": [
+      "src/assets/hero-example.jpg"
+    ],
+    "sha256": "6fc2156f756ac7b4fd547107bba27679639a1a1f7a7eb76c9a2771e7e1715f3b"
+  },
+  {
+    "path": "src/assets/images/pages/business-transportation/corporate-service-card.jpg",
+    "previousPaths": [
+      "src/assets/pages/business-hub/corporate-service-card.jpg"
+    ],
+    "sha256": "e8d7843f645f73419bb15ac5fad676740b78f29e391b500d95c2b59291e76c32"
+  },
+  {
+    "path": "src/assets/images/pages/business-transportation/delegation-service-card.jpg",
+    "previousPaths": [
+      "src/assets/pages/business-hub/delegation-service-card.jpg"
+    ],
+    "sha256": "7dc09b74ab988ef589a579e73ceb5971e3bee29fa7724107a1400fd83519e40c"
+  },
+  {
+    "path": "src/assets/images/pages/fleet/hero.webp",
+    "previousPaths": [
+      "src/assets/pages/fleet/hero.webp"
+    ],
+    "sha256": "d051e694ecc29d3f4ad12a3266c94a45b456dba010a982637b400fd06a64878f"
+  },
+  {
+    "path": "src/assets/images/pages/home/airport-transfer-card.webp",
+    "previousPaths": [
+      "src/assets/services/airport-transfer-card.webp"
+    ],
+    "sha256": "25bcf968b39e3406ee73c613737e0a14d7a001fcaaf8425ba96bd59985ac1858"
+  },
+  {
+    "path": "src/assets/images/pages/home/business-transport-card.webp",
+    "previousPaths": [
+      "src/assets/services/business-transport-card.webp"
+    ],
+    "sha256": "afad508a473059f8439dc3ad2b8e6c4ea5aa90b6d5032122f0ae86b717f20c86"
+  },
+  {
+    "path": "src/assets/images/pages/home/hero.jpg",
+    "previousPaths": [
+      "src/assets/hero-example-2.jpg"
+    ],
+    "sha256": "4b0ba15b4e917398160fc3ff2a89a69c88d33982c118fc68229ad298b03947aa"
+  },
+  {
+    "path": "src/assets/images/pages/home/private-chauffeur-alternate-card.webp",
+    "previousPaths": [
+      "src/assets/services/private-chauffeur-card.webp"
+    ],
+    "sha256": "a653f3fae16daf0240e951762bdd9537ebe30165b5fd0f8fb0913f620c372545"
+  },
+  {
+    "path": "src/assets/images/pages/home/private-chauffeur-card.webp",
+    "previousPaths": [
+      "src/assets/sections/home/private-chauffeur.webp"
+    ],
+    "sha256": "0bf9a32cb19ec20212b5ed02ab638667522c1eda6dbb98875e42aa977840e43e"
+  },
+  {
+    "path": "src/assets/images/pages/home/special-events-card.webp",
+    "previousPaths": [
+      "src/assets/services/special-events-card.webp"
+    ],
+    "sha256": "afffc598af9609139398d3ae0970677fa782be7c29de5daec7f6446628c4eb72"
+  },
+  {
+    "path": "src/assets/images/pages/vip-transportation/hero.png",
+    "previousPaths": [
+      "src/assets/pages/vip-transportation/hero.png"
+    ],
+    "sha256": "e5e7c3e5382a4885ea05f2aea97f8c23948c9c2c4bb13b28063f5f80a3220cdf"
+  },
+  {
+    "path": "src/assets/images/shared/aviation/mercedes-outside-of-airstrip.webp",
+    "previousPaths": [
+      "src/assets/shared/other/mercedes-outside-of-airstrip.webp"
+    ],
+    "sha256": "2a401aee456a5ddfc081247ed0fb905d4e119df26466cee9d21dc3fb897fa833"
+  },
+  {
+    "path": "src/assets/images/shared/aviation/mercedes-sprinter-next-to-private-jet.webp",
+    "previousPaths": [
+      "src/assets/shared/other/mercedes-sprint-next-to-private-jet.webp"
+    ],
+    "sha256": "51ee3d6d8a4c879bf9740c3351fe83afb468a0df803f1bdded4431ac3f8a7055"
+  },
+  {
+    "path": "src/assets/images/shared/aviation/private-flight.webp",
+    "previousPaths": [
+      "src/assets/private-flight.webp"
+    ],
+    "sha256": "a0d48142cce208f7656c9b5d3c3986cbae88a2c5910111a34cd496f7f18b91e1"
+  },
+  {
+    "path": "src/assets/images/shared/aviation/private-jet-parked-outside-of-hangar.webp",
+    "previousPaths": [
+      "src/assets/shared/other/private-jet-parked-outside-of-hangar.webp"
+    ],
+    "sha256": "1f5670d8f51e944a23b784b892906acd506a44d00e41b782557346499a4e3c30"
+  },
+  {
+    "path": "src/assets/images/shared/business/embassy-flags.webp",
+    "previousPaths": [
+      "src/assets/shared/other/embasy-flags.webp"
+    ],
+    "sha256": "2938e84697d81f6e43fac78f95632efd8d686c26493873280a9d323be49a50ba"
+  },
+  {
+    "path": "src/assets/images/shared/business/employee-group-outside.webp",
+    "previousPaths": [
+      "src/assets/shared/other/emplyoee-group-outside.webp"
+    ],
+    "sha256": "7b8baa57e5a7b0a0e6ece664d87c0c8306272cde04c34d9583c3d78ff34fc2b3"
+  },
+  {
+    "path": "src/assets/images/shared/business/v-class-embassy-entrance.webp",
+    "previousPaths": [
+      "src/assets/shared/other/v-class-embassy-entrance.webp"
+    ],
+    "sha256": "aaec08b4d5e1b0c72c6f5e7c7602643fc27ffbcc06cc410ec0a2ca5db0591c87"
+  },
+  {
+    "path": "src/assets/images/shared/chauffeur/chauffeur-inside-grayedout.webp",
+    "previousPaths": [
+      "src/assets/shared/other/chauffeur-inside-grayedout.webp"
+    ],
+    "sha256": "17fa7fa42aec639ffbfab9f740016458b5ef07aaf82ec0f6f6836e2bb25c4308"
+  },
+  {
+    "path": "src/assets/images/shared/chauffeur/hero-chauffeur-wheel.webp",
+    "previousPaths": [
+      "src/assets/shared/chauffeur-service/hero-chauffeur-wheel.webp"
+    ],
+    "sha256": "5373837a4cc0a885a3a3ddcb58513a18aa606fc02373ee627cf04ba9f6223f97"
+  },
+  {
+    "path": "src/assets/images/shared/chauffeur/schedule-backseat-view.webp",
+    "previousPaths": [
+      "src/assets/shared/chauffeur-service/schedule-backseat-view.webp"
+    ],
+    "sha256": "8000376d9cbc5025ad62de4a201ace62e67d60b2bbbfb0b2d4f2029a55e1d696"
+  },
+  {
+    "path": "src/assets/images/shared/driving/generic-hero.webp",
+    "previousPaths": [
+      "src/assets/hero.webp"
+    ],
+    "sha256": "9304ab279df0cea2060a3fd7affba14e7037a222d8f31101960247e80abb7b02"
+  },
+  {
+    "path": "src/assets/images/shared/driving/pexels-georgesultan-11877375.webp",
+    "previousPaths": [
+      "src/assets/shared/pexels-georgesultan-11877375.webp"
+    ],
+    "sha256": "a21692c2f1af75b0986870072636c8e8444efe58c12679768d1c0bb4ab66918b"
+  },
+  {
+    "path": "src/assets/images/shared/driving/pexels-oneilgonzales-11373655.webp",
+    "previousPaths": [
+      "src/assets/shared/pexels-oneilgonzales-11373655.webp"
+    ],
+    "sha256": "948a9cdb0022f13d923bff3cfdf1b74fbcea9e042160670eefe7bbd8f7dfb797"
+  },
+  {
+    "path": "src/assets/images/shared/driving/pexels-triemli-32897253.webp",
+    "previousPaths": [
+      "src/assets/shared/pexels-triemli-32897253.webp"
+    ],
+    "sha256": "342bed437d159732cd052ca40bbe8e9bdf6129673b29f9844a46e479f6d0bf02"
+  },
+  {
+    "path": "src/assets/images/shared/driving/pexels-vishal-makwana-984383-31040135.webp",
+    "previousPaths": [
+      "src/assets/shared/pexels-vishal-makwana-984383-31040135.webp"
+    ],
+    "sha256": "fd063b335034df1d1776e3819bcf0e6349be142e3d8a8bb341b228074b2897e4"
+  },
+  {
+    "path": "src/assets/images/shared/driving/s-class-driving-forest-background.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-driving-forest-intheback.webp"
+    ],
+    "sha256": "374919b68c97a5befd2707da94fb914e9871ddb8045ec65395d9b350c47e5fd7"
+  },
+  {
+    "path": "src/assets/images/shared/driving/s-class-move-highway-2.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-move-highway-2.webp"
+    ],
+    "sha256": "6088579dc05dae7cc028fa86e25c4c55e95e139c648885b209649c096e2d2d8c"
+  },
+  {
+    "path": "src/assets/images/shared/driving/s-class-move-highway.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-move-highway.webp"
+    ],
+    "sha256": "6bd66c5743b4cc4befb36066d0c91506fb63c9e1c9c631c775bd65c171d19722"
+  },
+  {
+    "path": "src/assets/images/shared/driving/v-class-on-the-move-vertical.webp",
+    "previousPaths": [
+      "src/assets/shared/other/v-class-on-the-move-veertical.webp"
+    ],
+    "sha256": "0ca4d7ce636f0b2e85b3d361b8cedef92a467a4c3f236e24ba178d14e21e986f"
+  },
+  {
+    "path": "src/assets/images/shared/driving/v-class-parked-outside.webp",
+    "previousPaths": [
+      "src/assets/shared/other/v-class-parked-outside.webp"
+    ],
+    "sha256": "802dec67fe0f8e56e46dcd544aae7d9154cf354646bbb38b130ef88ce7b8a54d"
+  },
+  {
+    "path": "src/assets/images/shared/driving/vadym-kudriavtsev-4uCykQ0fNhY-unsplash.webp",
+    "previousPaths": [
+      "src/assets/shared/vadym-kudriavtsev-4uCykQ0fNhY-unsplash.webp"
+    ],
+    "sha256": "80729a3e229291c9d13af28ea7090bcde3cd1a7c34a7b059b0e836ab6bbe28c4"
+  },
+  {
+    "path": "src/assets/images/shared/hotels/s-class-hotel-entrance-night.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-hotel-entrance-night.webp"
+    ],
+    "sha256": "dac32f53f85e6d2d5b87c2fff7b5c7010e346acc78efed55714b28cb4ebe2712"
+  },
+  {
+    "path": "src/assets/images/shared/hotels/s-class-hotel-entrance-vertical.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-hotel-entrance-vertical.webp"
+    ],
+    "sha256": "cece0a33e0211a6cc21acdc93721b63f80dae306e326440017e1a75bd9060a7e"
+  },
+  {
+    "path": "src/assets/images/shared/hotels/s-class-hotel-front-winter.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-hotel-front-winter.webp"
+    ],
+    "sha256": "6372adc286f7b23cab1751c65d78843b043ec15d6a0c8fc87d650d6f9b090388"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/final-cta-bg.webp",
+    "previousPaths": [
+      "src/assets/final-cta-bg.webp"
+    ],
+    "sha256": "91000ab5c5b8e53472e686573daf96156546dc80d9da17b530d21676d2551fa7"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/final-cta-interior.webp",
+    "previousPaths": [
+      "src/assets/shared/final-cta-interior-v2.webp"
+    ],
+    "sha256": "0095698df32da899647bf5881a8aeae20ec59c0b66e2c4f0201b205f4591ba4a"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/rear-seat.webp",
+    "previousPaths": [
+      "src/assets/rear-seat.webp"
+    ],
+    "sha256": "fde8112da4b99b7aff5c26eb5d5683ff3b2d37ed4b8609f59d747879a4b9b555"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/s-class-interior-1.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-interior-1.webp"
+    ],
+    "sha256": "b7f685b26da2555f1873d6c8af9f56329d93234f9d3a81bd38b693c218cc3372"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/s-class-interior-2.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-interior-2.webp"
+    ],
+    "sha256": "c815d1504b24bf03a426b96e0d89e728b85ee211151630e50d966b11bbb77fed"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/s-class-interior-driver-side.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-interior-driver-side.webp"
+    ],
+    "sha256": "346183768fb304be43cf26c79592eca964d439ed2b6cf6eb5f8f0cfe3f7b59f4"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/s-class-wheel-interior.webp",
+    "previousPaths": [
+      "src/assets/s-class-wheel-interior.webp"
+    ],
+    "sha256": "3013c61452f61b3356132f9aeb1649fd9661d2674fa9ab7162359e3767f6b6ad"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/v-class-interior-1.webp",
+    "previousPaths": [
+      "src/assets/shared/other/v-class-interior-1.webp"
+    ],
+    "sha256": "8f6945eef233cf62289ee3933fafb5bc5ffaa70c7ab4bf89c8258887af9ecc77"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/v-class-interior.webp",
+    "previousPaths": [
+      "src/assets/shared/other/v-class-interior.webp"
+    ],
+    "sha256": "477b80328a442275de3381cc6d99b546d7a0caeafae88ae09ee0d647f1940be7"
+  },
+  {
+    "path": "src/assets/images/shared/interiors/vip-rear-cabin.webp",
+    "previousPaths": [
+      "src/assets/shared/other/vip-rear-cabin.webp"
+    ],
+    "sha256": "acb9249772194aa8b5123162604e278f859555e3d2437cfb11893a5333ca4323"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/e-class-outside-wedding-day.webp",
+    "previousPaths": [
+      "src/assets/shared/other/e-class-outside-weeding-day.webp"
+    ],
+    "sha256": "b1caac1f2232efc189a537abe7be1d64c5bf01bb282e4ef3d3c7357cbeccfb2e"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/flowers-on-console.webp",
+    "previousPaths": [
+      "src/assets/shared/other/flowers-on-console.webp"
+    ],
+    "sha256": "0419ad367ce60e4e21e46178e854cd2a3b19056cd012123dd62333c01812ca81"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/prom-closeup-mercedes-background.webp",
+    "previousPaths": [
+      "src/assets/shared/other/prom-closeup-mercedes-background.webp"
+    ],
+    "sha256": "d496315f0e694ca9d0ec16337c884edb6e10ecd13c4553b118379f5904a15502"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/prom-holding-flowers-mercedes-bg.webp",
+    "previousPaths": [
+      "src/assets/shared/other/prom-holding-flowers-mercedes-bg.webp"
+    ],
+    "sha256": "4df8371ed69625e5d5f8413e956c9b9468be10d0b8bc4dfc86cb1f232eb92ae2"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/s-class-with-flowers-special-occasion.webp",
+    "previousPaths": [
+      "src/assets/shared/other/s-class-with-flowers-special-occasion.webp"
+    ],
+    "sha256": "384de0064583d7e3cc4296bdd23c8bba9a7b50906552d1398a89ed0e46f4957a"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/v-class-outside-wedding-day.webp",
+    "previousPaths": [
+      "src/assets/shared/other/v-class-outisde-weeding-day.webp"
+    ],
+    "sha256": "8b76cfaaae209d4e9087764d6571dd3343a0dab135e9d7c474a0e656e5ac8f10"
+  },
+  {
+    "path": "src/assets/images/shared/occasions/wedding-day-kissing.webp",
+    "previousPaths": [
+      "src/assets/shared/other/weeding-day-kissing.webp"
+    ],
+    "sha256": "886a7dea5a57ee86665006c2d033affc3a1206f99ed7de464a33c4dde595c4ce"
+  },
+  {
+    "path": "src/assets/images/shared/passenger-experience/executive-working-in-rear-seat.webp",
+    "previousPaths": [
+      "src/assets/shared/other/executive-working-in-rear-seat.webp"
+    ],
+    "sha256": "54e7be9a463241d96b04f2c00c41cb850791d5724b534e25ec12192305e24ff1"
+  },
+  {
+    "path": "src/assets/images/shared/passenger-experience/passenger-experience-alternate.webp",
+    "previousPaths": [
+      "src/assets/shared/chauffeur-service/passenger-experience-alternate.webp",
+      "src/assets/shared/other/passenger-experience-alternate.webp"
+    ],
+    "sha256": "c84fd8d7cbd1bdee4b3ab71c3b1e382008e1bdbaa625fd6300a9f79a5f654d2f"
+  },
+  {
+    "path": "src/assets/images/shared/passenger-experience/passenger-laptop-portrait.webp",
+    "previousPaths": [
+      "src/assets/shared/other/passenger-laptop-portrait.webp"
+    ],
+    "sha256": "3dfe475c361deb209b0245c906d72feccfd88c0ce21ad13bd7dfab95076aa784"
+  },
+  {
+    "path": "src/assets/images/shared/passenger-experience/passenger-reading-in-rear-seat.webp",
+    "previousPaths": [
+      "src/assets/shared/other/passenger-reading-in-rear-seat.webp"
+    ],
+    "sha256": "61902e124c97e6e25741568cb987543a68591e4ee2376f5b2d7586665631ce5e"
+  },
+  {
+    "path": "src/assets/images/shared/passenger-experience/passenger-working-in-backseat.webp",
+    "previousPaths": [
+      "src/assets/shared/other/passenger-working-in-backseat.webp"
+    ],
+    "sha256": "66f3d6546b5e4e7f7a125c60b3dc2ebdc6f42242a751600410cd058bc88c82c9"
+  },
+  {
+    "path": "src/assets/images/shared/passenger-experience/productivity-backseat.webp",
+    "previousPaths": [
+      "src/assets/shared/chauffeur-service/productivity-backseat.webp"
+    ],
+    "sha256": "dcff80f00297e55b43c335c0d9e41647c9a3d1c6d7ce2bd56caf48e0683377d8"
+  },
+  {
+    "path": "src/assets/logos/clients/chinese-embassy.png",
+    "previousPaths": [
+      "src/assets/clients/chinesee-embassy.png"
+    ],
+    "sha256": "f39b9418d75ce182ed2c477dc5b853f6f5f02fbffe2449d87b50e691c084ddff"
+  },
+  {
+    "path": "src/assets/logos/clients/hyatt-regency.png",
+    "previousPaths": [
+      "src/assets/clients/hyatt-regency.png"
+    ],
+    "sha256": "0ee18a6646f1cd127481d00714b4b10fb4bbb83bb35290772f132c3039c44529"
+  },
+  {
+    "path": "src/assets/logos/clients/osce.png",
+    "previousPaths": [
+      "src/assets/clients/osce.png"
+    ],
+    "sha256": "f308f1b4af6fb133ea62462fb02509ff209fb9ce2411c92525dcaba2c76109f5"
+  },
+  {
+    "path": "src/assets/logos/clients/prezident-palace-hotel.png",
+    "previousPaths": [
+      "src/assets/clients/prezident-palace-hotel.png"
+    ],
+    "sha256": "848b0c201566c045ba3a167ab926493ee8e4462a5cee58635e6ea3a203883adf"
+  },
+  {
+    "path": "src/assets/logos/clients/qatar-airways.png",
+    "previousPaths": [
+      "src/assets/clients/qatar-airways.png"
+    ],
+    "sha256": "7baef56de24a7b528be385c8c0e80800d753c0dc13315fdb9034cbb3978514f2"
+  },
+  {
+    "path": "src/assets/logos/clients/serbian-swimming-association.png",
+    "previousPaths": [
+      "src/assets/clients/serbian-swimming-association.png"
+    ],
+    "sha256": "4a2ad3b296b7a47b5a00010106dceaab172d6944b297913515a50d0e0122f01e"
+  },
+  {
+    "path": "src/assets/logos/clients/square-nine-hotels.png",
+    "previousPaths": [
+      "src/assets/clients/square-nine-hotels.png"
+    ],
+    "sha256": "403147ccafc64014f978878ab919b4a5517080c21327079eba8767d918647310"
+  },
+  {
+    "path": "src/assets/logos/partners/belgrade-transfers-horizontal-on-dark.svg",
+    "previousPaths": [
+      "src/assets/partners/belgrade-transfers-horizontal-on-dark.svg"
+    ],
+    "sha256": "5ec2cc9e1ef1ca990ea873465a3f26793ac258e2545f01a524376fb28fc0fbb2"
+  },
+  {
+    "path": "src/assets/logos/partners/transferi.svg",
+    "previousPaths": [
+      "src/assets/partners/transferi.svg"
+    ],
+    "sha256": "e9f25e5bf9251c954dd4458c495d16eb9bba1ada5dee6e165cb6f98f5910fdcb"
+  }
+]

@@ -331,7 +331,7 @@ Do not construct URLs, locale prefixes, contact paths or `intent` query strings 
 Import:
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-night.webp
+src/assets/images/shared/hotels/s-class-hotel-entrance-night.webp
 ```
 
 Render:
@@ -451,7 +451,7 @@ heading/intro/optional body from eventJourney
 label from conferenceCongressTransportation.section.eventJourney
 exampleLabel from conferenceCongressTransportation.eventJourney.exampleLabel
 stages from eventJourney.items
-image from src/assets/fleet/original/sprinter/interior-entrance.webp
+image from src/assets/images/fleet/sprinter/interior-entrance.webp
 default contained open-split treatment
 desktop media height resolved from the adjacent stepped-sequence content, not
 from the portrait asset's intrinsic aspect ratio
@@ -659,7 +659,7 @@ FAQ section uses light surface and `ReadingContainer`.
 Import:
 
 ```text
-src/assets/shared/other/v-class-parked-outside.webp
+src/assets/images/shared/driving/v-class-parked-outside.webp
 ```
 
 Render existing `FinalCTA` with:

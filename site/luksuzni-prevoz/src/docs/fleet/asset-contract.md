@@ -7,7 +7,7 @@
 Exact required source:
 
 ```text
-site/luksuzni-prevoz/src/assets/pages/fleet/hero.webp
+site/luksuzni-prevoz/src/assets/images/pages/fleet/hero.webp
 ```
 
 Role:
@@ -28,22 +28,22 @@ their separate left-facing presentation set.
 
 ```text
 Mercedes S-Class
-site/luksuzni-prevoz/src/assets/fleet/original/s-class/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/s-class/left-facing.webp
 
 Mercedes E-Class
-site/luksuzni-prevoz/src/assets/fleet/original/e-class/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/e-class/left-facing.webp
 
 Škoda Superb
-site/luksuzni-prevoz/src/assets/fleet/original/superb/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/superb/left-facing.webp
 
 Škoda Kodiaq
-site/luksuzni-prevoz/src/assets/fleet/original/kodiaq/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/kodiaq/left-facing.webp
 
 Mercedes V-Class Extra Long
-site/luksuzni-prevoz/src/assets/fleet/original/v-class/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/v-class/left-facing.webp
 
 Mercedes Sprinter
-site/luksuzni-prevoz/src/assets/fleet/original/sprinter/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/sprinter/left-facing.webp
 ```
 
 The V-Class asset represents both canonical V-Class passenger configurations.
@@ -59,7 +59,7 @@ The current local repository contains:
 - `superb/`
 - `v-class/`
 
-It also contains `src/assets/pages/fleet/hero.webp`. No Vito Fleet-page source image exists, so Vito is deliberately excluded from the showcase through page-specific presentation data while remaining canonical and priced.
+It also contains `src/assets/images/pages/fleet/hero.webp`. No Vito Fleet-page source image exists, so Vito is deliberately excluded from the showcase through page-specific presentation data while remaining canonical and priced.
 
 Implementation MUST verify the exact files before production completion.
 
