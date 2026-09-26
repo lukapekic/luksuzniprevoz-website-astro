@@ -11,6 +11,7 @@ Applied root AGENTS.md, DESIGN.md, Airport and Booking blueprints/contracts, and
 - 493 Booking/Contact links, with 60 distinct destinations, resolved successfully in the built site.
 - Actual generic and contextual links hydrated their approved booking/quote intent and service in all locales. Consumed handoff fields were removed from the address bar.
 - Airport now reuses BookingScheduleControls for DD/MM/YYYY and grouped 24-hour HH:mm. The same calendar parser and canonical/display sync helper serve Airport, outbound Booking, and return Booking.
+- Eight digits typed on a numeric mobile keyboard become DD/MM/YYYY automatically in every schedule control; calendar validity is still enforced.
 - Canonical transport values remain YYYY-MM-DD and HH:mm. Airport transfers only intent, service, flightNumber, date, and time. Display-only fields are not serialized into the JavaScript handoff.
 - Impossible dates, out-of-range time parts, and oversized flight numbers are rejected when parsing incoming Airport queries. Flight inputs share the existing server limit of 40 characters.
 - Contact and Booking use a shared optional-phone validator on both client and server. Accepted examples: `060-123-4567`, `063 123 456`, `064/123-4567`, `011 234 5678`, `+381 60 123 4567`, `00381 (60) 123-4567`, `+44 20 7946 0958`.
@@ -46,8 +47,8 @@ All src/test paths above are relative to `site/luksuzni-prevoz/`.
 - Dedicated localized audit rerun: 10 passed.
 - Automated schedule responsive checks: SR/EN/RU at 320, 768, 1024, 1440, 1920.
 - Airport screenshots captured at all 15 locale/viewport combinations in `/tmp/lp-forms-review/`; manual visual spot checks: Serbian 320, Russian 768, English 1440. Screenshots and manual inspection do not constitute independent review evidence.
-- Full `verify:ui --change component --scope-complete` is run separately. Independent human review evidence remains required; Firefox/WebKit runtime support previously blocked browser completion. Do not describe this as full production UI approval.
+- Full `verify:ui --change component --scope-complete` passed governance, skill/component/contracts checks, design checks, generated types, repository type checks, lint, and all unit suites (286 foundation + 26 SEO research + 80 lint plugin + 53 site). It stopped at browser accessibility: eight Chromium tests passed; eight Firefox tests could not launch and eight WebKit tests lacked system dependencies. Independent human review evidence remains required. This is not full production UI approval.
 
-Local logs: `/tmp/lp-forms-unit-final.log`, `/tmp/lp-forms-check-final.log`, `/tmp/lp-forms-lint-final.log`, `/tmp/lp-forms-build.log`, `/tmp/lp-forms-browser-final.log`, `/tmp/lp-forms-audit-rerun.log`, `/tmp/lp-forms-verify-final.log`.
+Local logs: `/tmp/lp-forms-unit-final.log`, `/tmp/lp-forms-check-final.log`, `/tmp/lp-forms-lint-final.log`, `/tmp/lp-forms-build.log`, `/tmp/lp-forms-browser-verified.log`, `/tmp/lp-forms-audit-rerun.log`, `/tmp/lp-forms-verify-final.log`.
 
 No live booking/contact submission or notification email was sent by this audit. Provider delivery was already owner-confirmed; automated submission tests mock delivery.

@@ -67,7 +67,8 @@ for (const route of locales) {
     await form.locator('button[type="submit"]').click();
     await expect(page).toHaveURL(new RegExp(`${route.airport}$`));
     await expect(form.locator('[name="date"]')).toHaveValue("");
-    await date.fill("31/12/2099");
+    await date.fill("31122099");
+    await expect(date).toHaveValue("31/12/2099");
     await form.locator('[name="flightNumber"]').fill("JU 123");
     await expect(form.locator('[name="timeHour"] option[value="24"]')).toHaveCount(0);
     await expect(form.locator('[name="timeMinute"] option[value="60"]')).toHaveCount(0);

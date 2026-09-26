@@ -20,6 +20,10 @@ export function syncDisplaySchedule(form: HTMLFormElement): void {
 
 export function syncCanonicalSchedule(form: HTMLFormElement): void {
   for (const input of form.querySelectorAll<HTMLInputElement>("[data-booking-date-display]")) {
+    // Numeric mobile keyboards need no slash key: eight digits become DD/MM/YYYY.
+    if (/^\d{8}$/.test(input.value)) {
+      input.value = `${input.value.slice(0, 2)}/${input.value.slice(2, 4)}/${input.value.slice(4)}`;
+    }
     const canonical = canonicalControl(form, input.dataset.canonicalName ?? "");
     if (canonical) canonical.value = parseDisplayDate(input.value) ?? "";
   }
