@@ -1,8 +1,8 @@
 {
   "$schema": "./system.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-26T11:46:36.400Z",
-  "sourceHash": "6ffbcd224fc80f10923e4e1324f3d8bf1a990d99e7988894822663c63cf70c82",
+  "generatedAt": "2026-09-26T14:44:27.133Z",
+  "sourceHash": "f65ca2d07a9e8944e70378278cedc2d6ea87b49d0d54cc5cb8a4bdfc8e64ace4",
   "theme": {
     "directory": "version-2",
     "version": "2",
@@ -578,6 +578,7 @@
       "site/luksuzni-prevoz/src/docs/home/home-components/14-visual-compliance-checklist.md",
       "site/luksuzni-prevoz/src/docs/home/reference/blueprint.md",
       "site/luksuzni-prevoz/src/docs/home/reference/wireframe.html",
+      "site/luksuzni-prevoz/src/docs/home/reviews-source.md",
       "site/luksuzni-prevoz/src/docs/pricing/MANIFEST.md",
       "site/luksuzni-prevoz/src/docs/pricing/README.md",
       "site/luksuzni-prevoz/src/docs/pricing/VALIDATION.md",
@@ -716,6 +717,7 @@
       "site/luksuzni-prevoz/src/data/fleet-presentation.ts",
       "site/luksuzni-prevoz/src/data/fleet.ts",
       "site/luksuzni-prevoz/src/data/flows.ts",
+      "site/luksuzni-prevoz/src/data/google-reviews.snapshot.json",
       "site/luksuzni-prevoz/src/data/image-delivery.ts",
       "site/luksuzni-prevoz/src/data/locales.ts",
       "site/luksuzni-prevoz/src/data/navigation-labels.json",
