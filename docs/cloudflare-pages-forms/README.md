@@ -11,7 +11,7 @@ preservation and a portable migration procedure, start with the standalone
 
 This runbook describes the repository's implementation and required configuration.
 It is not a live provisioning-status report. Consult the dated
-[production setup record](production-setup.md) and its verification evidence for
+[production cutover record](production-cutover.md) and its verification evidence for
 actual resources, deployment state and unresolved rollout steps. Secret values
 must remain outside source control.
 

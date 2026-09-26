@@ -481,6 +481,17 @@ application route history. Test the first response as well as the final destinat
 Edge redirects require traffic to reach the applicable Cloudflare proxy/rules.
 See [Single Redirects](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-api/).
 
+Keep the certificate validation path `/.well-known/acme-challenge/` reachable
+on each Pages hostname. Redirects, Access policies or Workers that intercept
+this path can prevent custom-domain validation. Exclude that specific path
+from hostname/HTTPS redirect expressions, then retry Pages validation and
+read back its status. Ruleset rule updates require the full desired rule
+definition, including unchanged action and parameters; preserve other rules.
+See [rule update requirements](https://developers.cloudflare.com/ruleset-engine/rulesets-api/update-rule/). Check normal redirects again after the change. A random
+challenge-path probe should reach the destination without a redirect; its
+404 response does not mean an actual certificate challenge has failed.
+See [Pages HTTP validation troubleshooting](https://developers.cloudflare.com/pages/configuration/debugging-pages/#blocked-http-validation).
+
 Saving a setting is not proof that it operates on the live website. Record an
 alternative HTTPS rule honestly if the desired settings endpoint was unavailable;
 verify the resulting behavior rather than claiming a rejected toggle succeeded.
@@ -560,6 +571,7 @@ Record the reason, operator, time and resulting verification.
 | Brevo works locally but fails in Pages | Runtime IP policy, runtime key, sender authorization and actual response                       |
 | Notification is accepted but absent    | Provider delivery events, mailbox routing and spam handling                                    |
 | Pages custom domain returns 522        | Pages domain association and required DNS destination                                          |
+| Pages domain remains in validation     | Redirects, Access or Workers intercepting the ACME HTTP validation path                        |
 | TLS issuance or proxy handshake fails  | Domain validation, CAA, origin certificate and chosen TLS mode                                 |
 | Production serves the wrong version    | Production branch, deployment environment, commit and custom-domain mapping                    |
 | Rate limit misses requests             | Proxy status, rule path, plan fields, alternate `pages.dev` hostname and rule activation       |

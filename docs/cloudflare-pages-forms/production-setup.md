@@ -2,6 +2,8 @@
 
 ## Status
 
+**Rollout update:** Cloudflare activation and the latest master deployment are now verified. See [production cutover](./production-cutover.md) for current website routing, delivery evidence and remaining acceptance. The observations below describe initial provisioning and are retained as historical evidence.
+
 **Cloudflare Production form resources are provisioned and verified. The production launch is incomplete.** The zone and Pages custom-domain associations now exist; DNS is prepared but registrar activation, reviewed code deployment and real production submission tests remain pending. Security rules are configured and read back; their runtime tests await proxied web traffic.
 
 This record supersedes earlier “Production pending” statements for the resources below. It does not claim the custom domain or website launch is complete. See [sanitised API evidence](./production-setup-evidence.json).

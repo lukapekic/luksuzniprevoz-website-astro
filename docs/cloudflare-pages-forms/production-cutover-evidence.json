@@ -1,0 +1,808 @@
+{
+  "checked_at": "2026-09-26T16:46:32.252421+00:00",
+  "phase": "cutover",
+  "zone_status": "active",
+  "production_deployment": {
+    "id": "3e29c509-e7c3-49f1-a900-52534caf88f3",
+    "url": "https://3e29c509.luksuzniprevoz-website-astro.pages.dev",
+    "commit": "2ff6b389c3e4ca49054b56b942b3d45bb2ecd455",
+    "status": "success"
+  },
+  "production_turnstile_sitekey": "0x4AAAAAAFEWAifejXhFJsH1",
+  "production_database_id": "b2f8d3a9-f0fb-492a-a25d-7d8ef10b334c",
+  "production_secret_names": [
+    "BREVO_API_KEY",
+    "BREVO_TO_EMAIL",
+    "FORM_IDEMPOTENCY_SECRET",
+    "TURNSTILE_SECRET_KEY"
+  ],
+  "static_probes": {
+    "home_locales": ["sr", "en", "ru"],
+    "home_http_status": 200,
+    "contact_locales_http_status": 200,
+    "booking_locales_http_status": 200,
+    "form_pages_contain_production_widget_key": true,
+    "legacy_redirects_checked": ["/limo-servis-beograd/", "/en/about-us/"]
+  },
+  "form_negative_probes": {
+    "contact": {
+      "malformed_payload": 400,
+      "invalid_turnstile": 403
+    },
+    "booking": {
+      "malformed_payload": 400,
+      "invalid_turnstile": 403
+    },
+    "no_email_sent": true
+  },
+  "edge_certificate_status": "active",
+  "ssl_mode": "strict",
+  "minimum_tls_version": "1.2",
+  "provider_mail_owner_confirmation": "Owner confirmed sending and receipt of production Contact/Booking notifications before website cutover",
+  "production_form_delivery_verified": true,
+  "website_cutover_performed": true,
+  "security_note": "Existing deployed CSP is report-only; no enforced CSP header/meta observed in preflight. No security policy changed.",
+  "production_ledger_counts": [
+    {
+      "form_kind": "booking",
+      "status": "accepted",
+      "count": 1
+    },
+    {
+      "form_kind": "contact",
+      "status": "accepted",
+      "count": 1
+    }
+  ],
+  "production_brevo_events": [
+    {
+      "date": "2026-09-26T18:52:40.000+02:00",
+      "event": "delivered",
+      "tag": "contact-form,production"
+    },
+    {
+      "date": "2026-09-26T18:52:13.584+02:00",
+      "event": "requests",
+      "tag": "contact-form,production"
+    },
+    {
+      "date": "2026-09-26T18:46:29.000+02:00",
+      "event": "delivered",
+      "tag": "booking-form,production"
+    },
+    {
+      "date": "2026-09-26T18:46:03.018+02:00",
+      "event": "requests",
+      "tag": "booking-form,production"
+    }
+  ],
+  "cutover_at": "2026-09-26T16:53:17.307693+00:00",
+  "owner_confirmed_both_form_emails": true,
+  "production_accepted_forms": [
+    {
+      "form_kind": "booking",
+      "count": 1
+    },
+    {
+      "form_kind": "contact",
+      "count": 1
+    }
+  ],
+  "non_web_records_unchanged": 30,
+  "web_dns": [
+    {
+      "id": "bfe8d34f461ef25ec274a3f92a37b861",
+      "name": "luksuzniprevoz.rs",
+      "type": "CNAME",
+      "content": "luksuzniprevoz-website-astro.pages.dev",
+      "ttl": 1,
+      "proxied": true,
+      "priority": null,
+      "data": null
+    },
+    {
+      "id": "61e02e03029bea49f766568e46c714ac",
+      "name": "www.luksuzniprevoz.rs",
+      "type": "CNAME",
+      "content": "luksuzniprevoz-website-astro.pages.dev",
+      "ttl": 1,
+      "proxied": true,
+      "priority": null,
+      "data": null
+    }
+  ],
+  "direct_cloudflare_edge_checks": {
+    "checked_at": "2026-09-26T16:55:45.118662+00:00",
+    "edge_ip": "104.21.20.224",
+    "curl_resolve_used": true,
+    "tls_verification_enabled": true,
+    "reason": "Workspace resolver still caches old provider IP",
+    "results": [
+      {
+        "url": "https://luksuzniprevoz.rs/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/",
+        "redirects": 0,
+        "location": null,
+        "title": ["Luksuzni prevoz u Beogradu sa voza\u010dem"],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc45184818ce-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/en/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/en/",
+        "redirects": 0,
+        "location": null,
+        "title": ["Luxury Chauffeur Service in Belgrade | Luksuzni prevoz"],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc451de4e37c-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/ru/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/ru/",
+        "redirects": 0,
+        "location": null,
+        "title": [
+          "\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044c \u0441 \u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u043c \u0432 \u0411\u0435\u043b\u0433\u0440\u0430\u0434\u0435 | Luksuzni prevoz"
+        ],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc450dda74b1-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/kontakt/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/kontakt/",
+        "redirects": 0,
+        "location": null,
+        "title": ["Kontakt za prevoz u Beogradu | Luksuzni prevoz"],
+        "production_widget": true,
+        "server": "cloudflare",
+        "ray": "a413cc451b3fd77f-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/en/contact/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/en/contact/",
+        "redirects": 0,
+        "location": null,
+        "title": ["Contact Our Chauffeur Team in Belgrade | Luksuzni prevoz"],
+        "production_widget": true,
+        "server": "cloudflare",
+        "ray": "a413cc450b2ae399-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/ru/kontakty/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/ru/kontakty/",
+        "redirects": 0,
+        "location": null,
+        "title": [
+          "\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b \u2013 \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044c \u0441 \u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u043c | Luksuzni prevoz"
+        ],
+        "production_widget": true,
+        "server": "cloudflare",
+        "ray": "a413cc45ec28d541-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/rezervacija/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/rezervacija/",
+        "redirects": 0,
+        "location": null,
+        "title": ["Zahtev za rezervaciju prevoza sa voza\u010dem | Luksuzni prevoz"],
+        "production_widget": true,
+        "server": "cloudflare",
+        "ray": "a413cc460963deb5-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/en/booking/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/en/booking/",
+        "redirects": 0,
+        "location": null,
+        "title": ["Request a Chauffeur Booking or Quote | Luksuzni prevoz"],
+        "production_widget": true,
+        "server": "cloudflare",
+        "ray": "a413cc46193ed775-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/ru/bronirovanie/",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/ru/bronirovanie/",
+        "redirects": 0,
+        "location": null,
+        "title": [
+          "\u0417\u0430\u043f\u0440\u043e\u0441 \u043d\u0430 \u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044f \u0441 \u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u043c | Luksuzni prevoz"
+        ],
+        "production_widget": true,
+        "server": "cloudflare",
+        "ray": "a413cc461fc1e375-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/sitemap-index.xml",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/sitemap-index.xml",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc461ab11314-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/robots.txt",
+        "status": 200,
+        "effective_url": "https://luksuzniprevoz.rs/robots.txt",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc46e918fd47-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/limo-servis-beograd/",
+        "status": 301,
+        "effective_url": "https://luksuzniprevoz.rs/limo-servis-beograd/",
+        "redirects": 0,
+        "location": "/",
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc4708aa8eb8-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/en/about-us/",
+        "status": 301,
+        "effective_url": "https://luksuzniprevoz.rs/en/about-us/",
+        "redirects": 0,
+        "location": "/en/",
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc47195a8ec0-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()",
+          "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+          "content-security-policy-report-only": "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      },
+      {
+        "url": "http://luksuzniprevoz.rs/en/contact/?launch=1",
+        "status": 301,
+        "effective_url": "http://luksuzniprevoz.rs/en/contact/?launch=1",
+        "redirects": 0,
+        "location": "https://luksuzniprevoz.rs/en/contact/?launch=1",
+        "title": ["301 Moved Permanently"],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc470bd033e3-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": null,
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://www.luksuzniprevoz.rs/en/contact/?launch=1",
+        "status": 301,
+        "effective_url": "https://www.luksuzniprevoz.rs/en/contact/?launch=1",
+        "redirects": 0,
+        "location": "https://luksuzniprevoz.rs/en/contact/?launch=1",
+        "title": ["301 Moved Permanently"],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc472fc89801-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": null,
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "http://www.luksuzniprevoz.rs/en/contact/?launch=1",
+        "status": 301,
+        "effective_url": "http://www.luksuzniprevoz.rs/en/contact/?launch=1",
+        "redirects": 0,
+        "location": "https://luksuzniprevoz.rs/en/contact/?launch=1",
+        "title": ["301 Moved Permanently"],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc472d43da78-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": null,
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/api/forms/contact",
+        "status": 405,
+        "effective_url": "https://luksuzniprevoz.rs/api/forms/contact",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc479ca6afd3-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/api/forms/contact",
+        "status": 400,
+        "effective_url": "https://luksuzniprevoz.rs/api/forms/contact",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc484d3c7e4d-NRT",
+        "body_json": {
+          "ok": false,
+          "code": "bad_request"
+        },
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/api/forms/contact",
+        "status": 403,
+        "effective_url": "https://luksuzniprevoz.rs/api/forms/contact",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc48dc738eb8-NRT",
+        "body_json": {
+          "ok": false,
+          "code": "bot_verification"
+        },
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/api/forms/booking",
+        "status": 405,
+        "effective_url": "https://luksuzniprevoz.rs/api/forms/booking",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc494a29c368-NRT",
+        "body_json": null,
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/api/forms/booking",
+        "status": 400,
+        "effective_url": "https://luksuzniprevoz.rs/api/forms/booking",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc49ce99dee3-NRT",
+        "body_json": {
+          "ok": false,
+          "code": "bad_request"
+        },
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      },
+      {
+        "url": "https://luksuzniprevoz.rs/api/forms/booking",
+        "status": 403,
+        "effective_url": "https://luksuzniprevoz.rs/api/forms/booking",
+        "redirects": 0,
+        "location": null,
+        "title": [],
+        "production_widget": false,
+        "server": "cloudflare",
+        "ray": "a413cc4a781ceb78-NRT",
+        "body_json": {
+          "ok": false,
+          "code": "bot_verification"
+        },
+        "security_headers": {
+          "x-content-type-options": "nosniff",
+          "referrer-policy": null,
+          "permissions-policy": null,
+          "strict-transport-security": null,
+          "content-security-policy-report-only": null
+        }
+      }
+    ]
+  },
+  "form_rate_limit_runtime": {
+    "checked_at": "2026-09-26T16:55:45.343057+00:00",
+    "request_count": 14,
+    "method": "GET",
+    "email_sent": false,
+    "responses": [
+      {
+        "status": 405,
+        "ray": "a413cc4b5bbbeb92-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 405,
+        "ray": "a413cc4b5eeae36f-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 405,
+        "ray": "a413cc4b580dd55f-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 405,
+        "ray": "a413cc4b5f1925ff-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 405,
+        "ray": "a413cc4b5dca1c12-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 405,
+        "ray": "a413cc4b587ba0be-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4bdce5b200-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4bda29481b-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4bf867ae17-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4beeeed49b-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4bfd3cb200-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4c3871e87a-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4c2c20d770-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      },
+      {
+        "status": 429,
+        "ray": "a413cc4c4fa2a5e1-NRT",
+        "server": "cloudflare",
+        "curl_exit": null
+      }
+    ],
+    "blocking_observed": true,
+    "recovery_status": 405,
+    "earlier_function_probes_in_same_window": 6
+  },
+  "public_dns": {
+    "luksuzniprevoz.rs A": [
+      {
+        "name": "luksuzniprevoz.rs.",
+        "type": 1,
+        "TTL": 300,
+        "data": "172.67.194.182"
+      },
+      {
+        "name": "luksuzniprevoz.rs.",
+        "type": 1,
+        "TTL": 300,
+        "data": "104.21.20.224"
+      }
+    ],
+    "www.luksuzniprevoz.rs A": [
+      {
+        "name": "www.luksuzniprevoz.rs.",
+        "type": 1,
+        "TTL": 300,
+        "data": "104.21.20.224"
+      },
+      {
+        "name": "www.luksuzniprevoz.rs.",
+        "type": 1,
+        "TTL": 300,
+        "data": "172.67.194.182"
+      }
+    ],
+    "mail.luksuzniprevoz.rs A": [
+      {
+        "name": "mail.luksuzniprevoz.rs.",
+        "type": 1,
+        "TTL": 14400,
+        "data": "195.252.110.238"
+      }
+    ],
+    "luksuzniprevoz.rs MX": [
+      {
+        "name": "luksuzniprevoz.rs.",
+        "type": 15,
+        "TTL": 14400,
+        "data": "0 mail.luksuzniprevoz.rs."
+      }
+    ]
+  },
+  "provider_imap_tls": {
+    "port": 993,
+    "trusted_tls": true,
+    "certificate_expires": "Nov 14 00:56:19 2026 GMT"
+  },
+  "custom_domains": [
+    {
+      "name": "luksuzniprevoz.rs",
+      "status": "active",
+      "validation_data": {
+        "status": "active",
+        "method": "http"
+      },
+      "verification_data": {
+        "status": "active"
+      }
+    },
+    {
+      "name": "www.luksuzniprevoz.rs",
+      "status": "active",
+      "validation_data": {
+        "status": "active",
+        "method": "http"
+      },
+      "verification_data": {
+        "status": "active"
+      }
+    }
+  ],
+  "provider_smtp_tls": {
+    "port": 465,
+    "trusted_tls": true,
+    "certificate_expires": "Nov 14 00:56:19 2026 GMT"
+  },
+  "post_cutover_checked_at": "2026-09-26T16:56:38.978447+00:00",
+  "final_domain_browser_checks": {
+    "forced_edge_dns": true,
+    "paths": ["/en/contact/", "/en/booking/", "/ru/"],
+    "http_status": 200,
+    "uncaught_page_errors": [],
+    "broken_images_observed": 0
+  },
+  "final_domain_owner_form_confirmation_pending": true,
+  "custom_domains_last_checked_at": "2026-09-26T17:01:52.538378+00:00",
+  "owner_reports_old_website_after_cutover": true,
+  "certificate_validation_redirect_fix": {
+    "at": "2026-09-26T17:00:24.810016+00:00",
+    "reason": "HTTP www ACME validation path returned canonical 301; Pages docs identify redirects as validation blockers",
+    "before": [
+      {
+        "id": "69563c866ba540a59f6efd2f7afaa30b",
+        "ref": "www_to_canonical_apex",
+        "expression": "http.host eq \"www.luksuzniprevoz.rs\"",
+        "enabled": true
+      },
+      {
+        "id": "cee90d71bd0146c297f14ea51303e27c",
+        "ref": "canonical_apex_https",
+        "expression": "(http.host eq \"luksuzniprevoz.rs\") and (not ssl)",
+        "enabled": true
+      }
+    ],
+    "after": [
+      {
+        "id": "69563c866ba540a59f6efd2f7afaa30b",
+        "ref": "www_to_canonical_apex",
+        "expression": "(http.host eq \"www.luksuzniprevoz.rs\") and (not starts_with(http.request.uri.path, \"/.well-known/acme-challenge/\"))",
+        "enabled": true
+      },
+      {
+        "id": "cee90d71bd0146c297f14ea51303e27c",
+        "ref": "canonical_apex_https",
+        "expression": "((http.host eq \"luksuzniprevoz.rs\") and (not ssl)) and (not starts_with(http.request.uri.path, \"/.well-known/acme-challenge/\"))",
+        "enabled": true
+      }
+    ],
+    "runtime_checks": [
+      {
+        "url": "http://www.luksuzniprevoz.rs/.well-known/acme-challenge/production-validation-check",
+        "status": 404,
+        "location": null
+      },
+      {
+        "url": "https://www.luksuzniprevoz.rs/.well-known/acme-challenge/production-validation-check",
+        "status": 404,
+        "location": null
+      },
+      {
+        "url": "http://luksuzniprevoz.rs/.well-known/acme-challenge/production-validation-check",
+        "status": 404,
+        "location": null
+      },
+      {
+        "url": "http://www.luksuzniprevoz.rs/en/contact/?launch=1",
+        "status": 301,
+        "location": "https://luksuzniprevoz.rs/en/contact/?launch=1"
+      },
+      {
+        "url": "http://luksuzniprevoz.rs/en/contact/?launch=1",
+        "status": 301,
+        "location": "https://luksuzniprevoz.rs/en/contact/?launch=1"
+      }
+    ],
+    "both_domains_active_after_fix": true,
+    "initial_expression_only_patch_rejected": true,
+    "full_rule_definition_patch_succeeded": true,
+    "retry_transient_error_resolved": true
+  }
+}
