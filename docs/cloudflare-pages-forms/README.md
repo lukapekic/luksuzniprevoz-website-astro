@@ -17,6 +17,9 @@ must remain outside source control.
 
 Last infrastructure and free-plan review: **2026-08-30**.
 
+For the extracted reusable helpers and a portable end-to-end setup checklist, see
+[reusable-setup.md](reusable-setup.md) and the [form-kit package](../../packages/form-kit/README.md).
+
 ## 1. What is already implemented
 
 The production site remains a statically generated Astro application. Only the

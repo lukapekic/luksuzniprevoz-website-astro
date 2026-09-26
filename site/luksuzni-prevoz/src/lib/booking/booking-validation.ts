@@ -1,4 +1,6 @@
 import { isValidPhoneNumber } from "../forms/phone-validation.ts";
+import { formatDisplayDate } from "./booking-date-time.ts";
+import { isBookingDateInRange } from "./booking-date-policy.ts";
 import type { Vehicle } from "../../data/fleet.ts";
 import {
   isBookingServiceKey,
@@ -11,6 +13,7 @@ export type BookingValidationCode =
   | "required"
   | "service"
   | "date-time"
+  | "date-range"
   | "lead-time"
   | "hourly-minimum"
   | "airport-scope"
@@ -123,8 +126,10 @@ export function validateBookingDraft(
   if (!draft.serviceKey || !isBookingServiceKey(draft.serviceKey)) {
     return [{ field: "service", code: "service" }];
   }
-  if (!draft.date || !draft.time) {
+  if (!draft.date || !draft.time || !formatDisplayDate(draft.date)) {
     issues.push({ field: "dateTime", code: "date-time" });
+  } else if (!isBookingDateInRange(draft.date, options.now)) {
+    issues.push({ field: "dateTime", code: "date-range" });
   } else if (!validateBookingLeadTime(
     draft.date, draft.time, options.publicMinimumHours, options.timeZone, options.now,
   )) {
@@ -149,7 +154,9 @@ export function validateBookingDraft(
     } else if (draft.returnRequested && draft.returnDate && draft.returnTime && draft.date && draft.time) {
       const outbound = zonedLocalDateTimeToDate(draft.date, draft.time, options.timeZone);
       const inbound = zonedLocalDateTimeToDate(draft.returnDate, draft.returnTime, options.timeZone);
-      if (!outbound || !inbound || inbound.getTime() <= outbound.getTime()) {
+      if (!isBookingDateInRange(draft.returnDate, options.now)) {
+        issues.push({ field: "return", code: "date-range" });
+      } else if (!outbound || !inbound || inbound.getTime() <= outbound.getTime()) {
         issues.push({ field: "return", code: "date-time" });
       }
     }

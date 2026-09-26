@@ -86,6 +86,11 @@ not accepted as evidence; the affected critical profiles were rerun in isolation
 
 ## Remaining external release items
 
+Migration update (2026-09-25): `/news/` and `/o-nama/` now redirect to `/`,
+and `/en/about-us/` redirects to `/en/` per the owner's instruction. The current
+Cloudflare build generates 72 rules from 36 legacy paths; the 33-rule verification
+record above describes the earlier review.
+
 - Production deployment must set `PROD_ROBOTS=1`; local builds intentionally
   disallow crawling by default.
 - The selected host/deployment pipeline must generate and publish the supported

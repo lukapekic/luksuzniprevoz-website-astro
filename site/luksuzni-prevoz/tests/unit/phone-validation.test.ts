@@ -7,7 +7,7 @@ import { validateContactPayload, validateBookingPayload } from "../../../../func
 
 const contact = { fullName: "Jovana Petrović", email: "jovana@example.com", message: "A sufficiently long question." };
 const journey = { intent: "booking" as const, serviceKey: "airportTransportation" as const,
-  date: "2099-12-31", time: "18:30", pickup: "Airport", destination: "Belgrade",
+  date: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10), time: "18:30", pickup: "Airport", destination: "Belgrade",
   airportDirection: "airport-to-city" as const, airportScope: "belgrade-city" as const,
   passengerCount: 2, vehiclePreference: "recommend" as const, fullName: contact.fullName, email: contact.email };
 const options = { publicMinimumHours: 24, hourlyMinimumHours: 2, timeZone: "Europe/Belgrade" as const, selectedVehicle: null, includeContact: true };

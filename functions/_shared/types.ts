@@ -90,9 +90,4 @@ export interface SubmissionLedger {
   failed(submissionId: string, code: string, now: number): Promise<void>;
 }
 
-export interface EmailDeliveryResult {
-  ok: boolean;
-  messageId?: string;
-  retryable?: boolean;
-  uncertain?: boolean;
-}
+export type { EmailDeliveryResult } from "@astro-foundation/form-kit/brevo";

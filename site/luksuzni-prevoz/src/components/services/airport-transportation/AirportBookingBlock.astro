@@ -33,7 +33,7 @@ const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
         {body && <p class="booking-body">{body}</p>}
       </div>
       <form class="booking-form md:grid-cols-2" action={action} method="get" accept-charset="UTF-8" autocomplete="on"
-        data-airport-booking-start data-date-error={t("booking.error.dateTime", locale)}
+        data-airport-booking-start data-date-error={t("booking.error.dateTime", locale)} data-error-date-range={t("booking.error.dateRange", locale)}
         aria-labelledby="airport-booking-heading"
         aria-describedby="airport-booking-handoff airport-booking-confirmation">
         <input type="hidden" name="service" value="airportTransportation" />
@@ -45,6 +45,7 @@ const { heading, intro, body, label, flightLabel, dateLabel, timeLabel,
           dateFormatHint={t("booking.field.dateFormatHint", locale)}
           hourFormatHint={t("booking.field.hourFormatHint", locale)}
           minuteFormatHint={t("booking.field.minuteFormatHint", locale)}
+          openCalendarLabel={t("booking.field.openCalendar", locale)}
           idPrefix="airport" required nativeValidation />
         <div class="booking-actions md:col-span-full">
           <Button type="submit" variant="primary" size="lg">

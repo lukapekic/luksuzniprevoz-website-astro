@@ -540,6 +540,8 @@
   "booking.journey.intro": "Укажите время и основные детали маршрута для выбранной услуги.",
   "booking.field.date": "Дата",
   "booking.field.dateFormatHint": "DD/MM/YYYY",
+  "booking.field.openCalendar": "Открыть календарь",
+  "booking.error.dateRange": "Выберите дату от сегодняшнего дня до одного года вперёд.",
   "booking.field.hourFormatHint": "HH",
   "booking.field.minuteFormatHint": "mm",
   "booking.field.time": "Время начала",

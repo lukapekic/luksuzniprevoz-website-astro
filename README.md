@@ -148,6 +148,52 @@ For this repository's implementation, also read the
 status and verification evidence belong in dated operational records, rather
 than in the reusable guide.
 
+## Cloudflare Pages migration redirects
+
+Legacy URL mappings live in `site/luksuzni-prevoz/src/data/routes.ts` as
+`previousSlugs`. The site build generates `site/luksuzni-prevoz/dist/_redirects`
+automatically: 36 legacy paths produce 72 direct 301 rules because each path is
+covered with and without a trailing slash. Do not edit the generated file.
+
+For Cloudflare Pages, use the repository root as the project root, run
+`pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site build`, and
+publish `site/luksuzni-prevoz/dist`. Confirm `_redirects` is present in that
+build output before deploying. The site's `_routes.json` limits Pages Functions
+to the two form API paths, so page redirects use Cloudflare's static asset path.
+
+After deploying to a Pages Preview URL, replace the example origin below and
+inspect the response headers **without following redirects**:
+
+```bash
+redirect_origin="https://staging.YOUR-PROJECT.pages.dev"
+curl -sSI "$redirect_origin/news/"
+curl -sSI "$redirect_origin/news"
+curl -sSI "$redirect_origin/o-nama"
+curl -sSI "$redirect_origin/en/about-us/"
+curl -sSI "$redirect_origin/cenovnik-usluga-prevoza/"
+curl -sSI "$redirect_origin/en/chauffeur-service/"
+```
+
+Each request should return `301` directly to the expected path on the same
+host: `/news/` and `/o-nama` → `/`, `/en/about-us/` → `/en/`, the old pricing
+path → `/cene/`, and the old English chauffeur path →
+`/en/private-chauffeur/`. Follow a rule to confirm one redirect and a `200` destination:
+
+```bash
+curl -sSL -o /dev/null -w '%{http_code} %{num_redirects} %{url_effective}\n' "$redirect_origin/news/"
+```
+
+This should print `200`, `1`, and the Preview homepage URL. After the production
+cutover, repeat the checks on `https://luksuzniprevoz.rs` to confirm the new
+deployment, rather than WordPress, is serving the domain.
+
+The `_redirects` file handles paths, not hostnames. Configure and test the
+`www.luksuzniprevoz.rs` → `luksuzniprevoz.rs` redirect separately in
+Cloudflare. Removed category, tag, and author archives have no migration rules;
+verify they return a real `404` unless a specific replacement is approved.
+See [the deployment guide](docs/deployment.md#redirects-fnd-env-10) and
+[Cloudflare Pages redirect documentation](https://developers.cloudflare.com/pages/configuration/redirects/).
+
 ## Out of Scope
 
 This template is a **starting point for marketing/company sites**, not a
