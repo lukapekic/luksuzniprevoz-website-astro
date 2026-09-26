@@ -22,7 +22,7 @@ function renderEmailHtml(title: string, rows: Array<[string, string]>): string {
   const detailRows = rows.filter(([label]) => label !== "Reference" && label !== "Locale");
   const metadataRows = rows.filter(([label]) => label === "Reference" || label === "Locale");
   const renderRows = (entries: Array<[string, string]>): string => entries.map(([label, value]) => `
-    <tr><th scope="row" style="padding:${spacing.scale[3]} ${spacing.scale[4]} ${spacing.scale[3]} 0;border-bottom:1px solid ${palette.accent};text-align:left;vertical-align:top;font-size:${typography.sizes.sm};font-weight:${typography.weights.medium};width:30%">${escapeHtml(label)}</th>
+    <tr><th scope="row" style="padding:${spacing.scale[3]} ${spacing.scale[4]} ${spacing.scale[3]} 0;border-bottom:1px solid ${palette.accent};text-align:left;vertical-align:top;overflow-wrap:anywhere;word-break:break-word;font-size:${typography.sizes.sm};font-weight:${typography.weights.medium};width:30%">${escapeHtml(label)}</th>
     <td style="padding:${spacing.scale[3]} 0;border-bottom:1px solid ${palette.accent};vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word">${escapeHtml(value)}</td></tr>`).join("");
 
   // This is an internal notification, so the existing operational English copy

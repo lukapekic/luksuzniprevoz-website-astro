@@ -176,6 +176,50 @@ not launch in this environment; independent review evidence is also pending.
 Email appearance was checked in Chromium at desktop and mobile widths, not in
 every mail client. Preview deployment status is recorded after publication.
 
+### Refinement implementation record
+
+Authority: root `AGENTS.md`, `DESIGN.md`, Contact blueprint/acceptance contract,
+and the generated tokens for the configured theme. Procedures applied:
+`design-foundation-governance`, `tailwind-v4`, and `functional-ui`.
+
+Files changed in commit `8c01781` (paths relative to repository root):
+
+- `.design/system.json` — regenerated snapshot; no palette or theme change.
+- `functions/_shared/email-rendering.ts` — shared Contact/Booking email template.
+- `site/luksuzni-prevoz/src/components/contact/ContactForm.astro` — success panel and width constraints.
+- `site/luksuzni-prevoz/src/components/contact/ContactPage.astro` — form column sizing and copy wiring.
+- `site/luksuzni-prevoz/src/components/contact/contact-form-controller.ts` — reset and success lifecycle.
+- `site/luksuzni-prevoz/src/components/contact/contact-form.types.ts` — remove unused public reference copy contract.
+- `site/luksuzni-prevoz/src/lib/forms/turnstile-client.ts` — optional responsive widget size.
+- `site/luksuzni-prevoz/src/docs/contact/blueprint.md` — authorized feedback behavior.
+- `site/luksuzni-prevoz/src/docs/contact/acceptance.md` — acceptance criteria.
+- `site/luksuzni-prevoz/tests/smoke/contact.spec.ts` — reset, timer, retry and sizing checks.
+- `site/luksuzni-prevoz/tests/unit/form-runtime.test.ts` — email escaping and plain-text checks.
+- `docs/cloudflare-pages-forms/mail-service.md` — DNS backup and operational record.
+
+Commands actually run:
+
+| Command | Result |
+| --- | --- |
+| `pnpm design:context --target site/luksuzni-prevoz/src/components/contact/ContactForm.astro --surface contact` | Passed |
+| `pnpm design:sync` and `pnpm design:sync:check` | Snapshot regenerated after reported drift; check passed |
+| `pnpm --filter @luksuzni-prevoz/site check` | 0 errors, 0 warnings, 6 existing hints |
+| `pnpm --filter @luksuzni-prevoz/site test:unit` | 50 passed |
+| `pnpm lint` | Passed |
+| `PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm --filter @luksuzni-prevoz/site build` | Passed; test key used only in local artifact |
+| `pnpm --filter @luksuzni-prevoz/site exec playwright test tests/smoke/contact.spec.ts tests/smoke/booking.spec.ts --project=chromium --reporter=line` | 24 passed |
+| `pnpm exec esbuild functions/api/forms/contact.ts --bundle --format=esm --platform=browser --outfile=/tmp/lp-mail-preview/contact-function.js` | Passed |
+| `pnpm verify:ui --target site/luksuzni-prevoz/src/components/contact/ContactForm.astro --surface contact --change small-ui --scope-complete` | Incomplete: full browser-a11y gate failed to launch Firefox/WebKit; independent review still required |
+| `git diff --cached --check` | Passed before commit |
+
+Additional browser script checked the accepted Contact state in Serbian Latin,
+English, and Russian at 320, 768, 1024, 1440 and 1920 CSS px and saved screenshots
+under `/tmp/lp-mail-preview/contact-review/`. It used mocked Turnstile/API
+responses, so it is UI evidence rather than a real delivery test. Manual visual
+spot checks covered the Serbian desktop and Russian mobile success state and
+desktop/mobile email previews. There is no new shared UI primitive, translation,
+missing asset, or page-structure deviation in this patch.
+
 ## References
 
 - [Brevo domain authentication and existing DMARC updates](https://help.brevo.com/hc/en-us/articles/12163873383186-Authenticate-your-domain-with-Brevo-Brevo-code-DKIM-DMARC)
