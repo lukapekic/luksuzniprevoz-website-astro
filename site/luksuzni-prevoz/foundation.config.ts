@@ -1,14 +1,14 @@
 import { defineFoundationConfig } from "@astro-foundation/core";
 
 /**
- * Luksuzni Prevoz — site configuration.
+ * Luksuzni prevoz — site configuration.
  *
  * Identity (brand, site, locales) is authoritative here.
  */
 export const config = defineFoundationConfig({
   foundationVersion: "0.1.0",
   site: "https://luksuzniprevoz.rs",
-  brand: "Luksuzni Prevoz",
+  brand: "Luksuzni prevoz",
   locales: {
     locales: [
       {

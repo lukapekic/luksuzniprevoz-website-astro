@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { parseBookingHandoff, cleanBookingHandoffUrl } from "../../src/lib/booking/booking-handoff.ts";
+import { parseBookingHandoff as parseBookingHandoffAt, cleanBookingHandoffUrl } from "../../src/lib/booking/booking-handoff.ts";
 import { resolveBookingPricing } from "../../src/lib/booking/booking-pricing.ts";
 import { zonedLocalDateTimeToDate, validateBookingLeadTime } from "../../src/lib/booking/booking-validation.ts";
 import { loadBookingDraft, saveBookingDraft, selectPersistedBookingDraft } from "../../src/lib/booking/booking-storage.ts";
 import type { PrivateChauffeurBooking, AirportBooking } from "../../src/data/booking.ts";
+
+const parseBookingHandoff = (params: URLSearchParams) => parseBookingHandoffAt(params, new Date("2026-09-26T10:00:00Z"));
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -43,6 +45,16 @@ describe("booking handoff", () => {
       parseBookingHandoff(new URLSearchParams({ service: "unknown", date: "2026-10-10" })),
       { initialStep: "service", patch: { intent: "booking" } },
     );
+  });
+
+  it("ignores impossible Airport dates, out-of-range times, and oversized flight values", () => {
+    const invalidValues: Record<string, string>[] = [{ date: "2026-02-31" }, { time: "24:00" }, { time: "12:60" }, { flightNumber: "A".repeat(41) }];
+    for (const invalid of invalidValues) {
+      const result = parseBookingHandoff(new URLSearchParams({
+        service: "airportTransportation", intent: "quote", date: "2026-10-10", time: "12:30", ...invalid,
+      }));
+      assert.deepEqual(result.patch, { intent: "quote", serviceKey: "airportTransportation" });
+    }
   });
 
   it("cleans only consumed handoff keys", () => {

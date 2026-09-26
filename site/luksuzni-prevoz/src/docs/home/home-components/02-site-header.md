@@ -38,8 +38,12 @@ Sticky:
 
 Left:
 
-- GS vector mark only
-- the home link keeps the public brand name as its accessible name
+- approved Luksuzni prevoz symbol and canonical public identity; no GS artwork
+- the home link keeps **Luksuzni prevoz** as its accessible name
+- the bar and mobile menu use a wider header mark with the empty space around
+  the supplied car artwork cropped inside its SVG viewBox. The shared
+  BrandLockup's default artboard and size remain unchanged for the footer and
+  other consumers. The 44×44 home-link target and focus treatment remain intact.
 
 Center desktop:
 
@@ -52,13 +56,13 @@ Right:
 
 Mobile:
 
-- GS vector mark
+- approved own-brand symbol
 - Book CTA
 - menu trigger
 - language selector may move into menu
 
-The Book CTA uses the localized Contact route with `intent=booking`; the Header
-must not hardcode the Contact route or ignore `navigation.headerPrimaryAction`.
+The Book CTA uses the canonical localized booking flow. The Header must not
+hardcode a route or ignore `navigation.headerPrimaryAction`.
 
 ## Enlarged-text compatibility
 
@@ -75,8 +79,10 @@ the same controls to wrap. The shell remains gutter-constrained, no information
 is removed, and every target retains its minimum size. The sticky background
 may be taller than the former compact surface to cover wrapped controls.
 
-Compatibility decision: no public props, CTA targets, menu semantics or client
-dependencies change. Verify every header consumer and existing menu/focus tests.
+Compatibility decision: the shared BrandLockup gains an optional `markSize`
+presentation prop. Its default remains the former size; only SiteHeader opts
+into `header`. CTA targets, menu semantics and client dependencies do not
+change. Verify every header consumer and existing menu/focus tests.
 
 ## Dropdowns
 

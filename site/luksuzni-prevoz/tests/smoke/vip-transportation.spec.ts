@@ -75,16 +75,16 @@ test.describe("VIP Transportation", () => {
       await expect(page.getByText(capability, { exact: true })).toBeVisible();
     }
 
-    const vehicleNames = await page.locator(".vehicle h3").allTextContents();
+    const vehicleNames = await page.locator(".fleet-card h3").allTextContents();
     expect(vehicleNames).toEqual([
       "Mercedes-Benz S-Class",
       "Mercedes-Benz E-Class",
       "Mercedes-Benz V-Class",
       "Mercedes-Benz Sprinter",
     ]);
-    await expect(page.locator(".vehicle").nth(2).locator(".vehicle__meta")).toHaveCount(0);
+    await expect(page.locator(".fleet-card").nth(2).locator(".fleet-card__meta")).toHaveCount(0);
 
-    for (const selector of [".service-hero__actions", ".aviation-action", ".fcta-actions"]) {
+    for (const selector of [".service-hero__actions", ".aviation-action", ".final-cta__actions"]) {
       const hrefs = await page
         .locator(`${selector} a`)
         .evaluateAll((links) =>

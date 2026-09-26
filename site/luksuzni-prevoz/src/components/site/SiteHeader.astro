@@ -1,12 +1,12 @@
 ---
 /**
- * SiteHeader — premium site chrome for Luxury Transportation (Theme V2).
+ * SiteHeader — premium site chrome for Luksuzni prevoz (Theme V2).
  *
  * Contract: docs/home/home-components/02-site-header.md
  * Blueprint: docs/home/reference/blueprint.md §6 (Header)
  * Tokens: active Theme V2 semantic color/space/radius roles
  *
- *   - Supplied GS mark with an accessible product name via BrandLockup
+ *   - Approved car symbol with an accessible product name via BrandLockup
  *   - Transparent over the hero; compact translucent graphite surface on scroll
  *   - Clean PageContainer-spanning geometry without large card shell
  *   - Compact globe + locale dropdown for language switcher
@@ -111,8 +111,8 @@ const leafServices = servicesChildren.filter(isLeaf);
 >
   <div class="site-header__shell">
     <div class="site-header__row">
-      <!-- Brand: supplied GS mark; the hidden wordmark preserves the link name. -->
-      <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" />
+      <!-- Brand: approved car symbol; the hidden wordmark preserves the link name. -->
+      <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" markSize="header" />
 
       <!-- Desktop navigation (lg+): Services▾ + top leaves -->
       <nav class="nav-desktop" aria-label={mainNavLabel}>
@@ -266,7 +266,7 @@ const leafServices = servicesChildren.filter(isLeaf);
 <div id={mobilePanelId} class="mobile-panel" data-mobile-panel role="dialog" aria-modal="true" aria-label={mainNavLabel}>
     <div class="mobile-panel__inner">
       <div class="mobile-panel__header">
-        <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" />
+        <BrandLockup locale={currentLocale} href={homeHref} variant="mark-only" markSize="header" />
         <button
           type="button"
           class="menu-close-btn"

@@ -83,14 +83,11 @@
       "name": "Button",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Button.astro",
       "directConsumers": [
-        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
         "site/luksuzni-prevoz/src/pages/dev/ui.astro"
       ],
       "consumers": [
-        "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
-        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
@@ -186,6 +183,7 @@
       "name": "Field",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Field.astro",
       "directConsumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingScheduleControls.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
@@ -193,6 +191,7 @@
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
+        "site/luksuzni-prevoz/src/components/booking/BookingScheduleControls.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
@@ -261,6 +260,48 @@
         "fleet",
         "home",
         "pricing",
+        "private-chauffeur",
+        "prom-transportation",
+        "shared-ui",
+        "special-events",
+        "vip-transportation",
+        "wedding-transportation"
+      ]
+    },
+    {
+      "name": "FleetCard",
+      "path": "site/luksuzni-prevoz/src/components/shared/FleetCard.astro",
+      "directConsumers": [
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro"
+      ],
+      "consumers": [
+        "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/business-transportation/BusinessTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/conference-congress-transportation/ConferenceCongressTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/corporate-transportation/CorporateTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/delegation-transportation/DelegationTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/private-chauffeur/PrivateChauffeurPage.astro",
+        "site/luksuzni-prevoz/src/components/services/prom-transportation/PromTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
+        "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro",
+        "site/luksuzni-prevoz/src/components/services/vip-transportation/VipTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
+        "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
+        "site/luksuzni-prevoz/src/pages/[...slug].astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
+        "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
+        "site/luksuzni-prevoz/src/pages/index.astro"
+      ],
+      "surfaces": [
+        "airport-transportation",
+        "business-transportation",
+        "conference-congress-transportation",
+        "corporate-transportation",
+        "delegation-transportation",
+        "home",
         "private-chauffeur",
         "prom-transportation",
         "shared-ui",
@@ -384,6 +425,7 @@
       "name": "Link",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Link.astro",
       "directConsumers": [
+        "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetNavigator.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
@@ -915,7 +957,6 @@
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingGuestTransport.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingPresentation.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
-        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
         "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
         "site/luksuzni-prevoz/src/components/site/ScaffoldPage.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
@@ -987,7 +1028,6 @@
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingGuestTransport.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingPresentation.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
-        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
         "site/luksuzni-prevoz/src/components/site/ScaffoldPage.astro",

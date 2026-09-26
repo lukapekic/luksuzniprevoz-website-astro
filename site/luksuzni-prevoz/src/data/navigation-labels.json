@@ -1,6 +1,7 @@
 {
   "sr": {
     "services": "Usluge",
+    "information": "Informacije",
     "privateChauffeur": "Privatni vozač",
     "airportTransportation": "Aerodromski prevoz",
     "businessTransportation": "Poslovni prevoz",
@@ -18,6 +19,7 @@
   },
   "en": {
     "services": "Services",
+    "information": "Information",
     "privateChauffeur": "Privatni vozač",
     "airportTransportation": "Airport Transportation",
     "businessTransportation": "Business Transportation",
@@ -35,6 +37,7 @@
   },
   "ru": {
     "services": "Услуги",
+    "information": "Информация",
     "privateChauffeur": "Личный водитель",
     "airportTransportation": "Трансфер из аэропорта",
     "businessTransportation": "Бизнес-трансфер",

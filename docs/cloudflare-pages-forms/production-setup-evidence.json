@@ -1,0 +1,269 @@
+{
+  "verified_at": "2026-09-26T13:32:33.638677+00:00",
+  "project": "luksuzniprevoz-website-astro",
+  "production_branch": "master",
+  "preview_branch_includes": ["staging"],
+  "production_database": {
+    "name": "luksuzni-prevoz-forms-production",
+    "id": "b2f8d3a9-f0fb-492a-a25d-7d8ef10b334c",
+    "columns": [
+      "submission_id",
+      "reference",
+      "form_kind",
+      "locale",
+      "status",
+      "attempt_count",
+      "brevo_message_id",
+      "last_error_code",
+      "created_at",
+      "updated_at",
+      "payload_digest"
+    ],
+    "migrations": ["0001_form_submission_ledger.sql", "0002_form_submission_digest.sql"]
+  },
+  "production_turnstile": {
+    "sitekey": "0x4AAAAAAFEWAifejXhFJsH1",
+    "name": "Luksuzni Prevoz \u2014 Production",
+    "domains": [
+      "luksuzniprevoz-website-astro.pages.dev",
+      "luksuzniprevoz.rs",
+      "www.luksuzniprevoz.rs"
+    ],
+    "mode": "managed",
+    "clearance_level": "no_clearance"
+  },
+  "production_form_variables": {
+    "FORM_ENVIRONMENT": {
+      "present": true,
+      "type": "plain_text"
+    },
+    "FORM_IDEMPOTENCY_SECRET": {
+      "present": true,
+      "type": "secret_text"
+    },
+    "PUBLIC_TURNSTILE_SITE_KEY": {
+      "present": true,
+      "type": "plain_text"
+    },
+    "TURNSTILE_SECRET_KEY": {
+      "present": true,
+      "type": "secret_text"
+    },
+    "TURNSTILE_ALLOWED_HOSTS": {
+      "present": true,
+      "type": "plain_text"
+    },
+    "BREVO_API_KEY": {
+      "present": true,
+      "type": "secret_text"
+    },
+    "BREVO_SENDER_EMAIL": {
+      "present": true,
+      "type": "plain_text"
+    },
+    "BREVO_SENDER_NAME": {
+      "present": true,
+      "type": "plain_text"
+    },
+    "BREVO_TO_EMAIL": {
+      "present": true,
+      "type": "secret_text"
+    }
+  },
+  "sender": "reservations@luksuzniprevoz.rs",
+  "recipient": "reservations@luksuzniprevoz.rs",
+  "brevo_sender_active": true,
+  "brevo_domain_verified": true,
+  "brevo_domain_authenticated": true,
+  "preview_configuration_unchanged": true,
+  "domain_zone_status": "pending",
+  "production_deployment_during_setup": false,
+  "real_production_form_submission_verified": false,
+  "provider_mail_routing_changed": false,
+  "dns_verified_at": "2026-09-26T13:54:37.686537+00:00",
+  "zone_id": "399747565761008f614acbb411f27efe",
+  "assigned_nameservers": ["cartman.ns.cloudflare.com", "kenia.ns.cloudflare.com"],
+  "dns_record_count": 32,
+  "all_records_dns_only": true,
+  "original_inventory_reconciled_before_routing_changes": true,
+  "missing_records_restored": [
+    "default._domainkey.luksuzniprevoz.rs",
+    "_acme-challenge.autodiscover.luksuzniprevoz.rs"
+  ],
+  "pending_zone_mail_routing_prepared": true,
+  "root_website_ip_preserved": true,
+  "pages_custom_domains": [
+    {
+      "name": "luksuzniprevoz.rs",
+      "status": "pending",
+      "validation_data": {
+        "status": "pending",
+        "method": "http"
+      },
+      "verification_data": {
+        "status": "pending",
+        "error_message": "CNAME record not set"
+      }
+    },
+    {
+      "name": "www.luksuzniprevoz.rs",
+      "status": "pending",
+      "validation_data": {
+        "status": "pending",
+        "method": "http"
+      },
+      "verification_data": {
+        "status": "pending",
+        "error_message": "CNAME record not set"
+      }
+    }
+  ],
+  "dnssec_enabled": false,
+  "parent_ds_observed": false,
+  "smtp_imap_tls_verified_hosts": ["mail.luksuzniprevoz.rs", "cpanel29.beotel.net"],
+  "security_write_failures": {
+    "always_use_https_toggle": "HTTP 403; website HTTPS enforcement configured using Single Redirect instead"
+  },
+  "final_dns_inventory_verified_at": "2026-09-26T13:56:30.009482+00:00",
+  "prepared_record_counts": {
+    "A": 10,
+    "CNAME": 4,
+    "MX": 1,
+    "SRV": 5,
+    "TXT": 12
+  },
+  "all_unchanged_record_values_verified": true,
+  "calendar_tls_verified": false,
+  "calendar_tls_check_result": "port 2080 connection timed out",
+  "mail_client_server_names_confirmed": "not applicable: owner uses browser webmail",
+  "zone_security_verified_at": "2026-09-26T14:03:33.796171+00:00",
+  "zone_security": {
+    "ssl": {
+      "value": "strict",
+      "verified": true
+    },
+    "always_use_https": {
+      "value": "off",
+      "toggle_write_rejected": true,
+      "equivalent_web_https_redirect": "Single Redirect for HTTP apex; www redirect always targets HTTPS"
+    },
+    "min_tls_version": {
+      "value": "1.2",
+      "verified": true
+    },
+    "rate_limit": {
+      "id": "7f22a6cc09b44e939b87c1c259b47a63",
+      "rules": [
+        {
+          "action": "block",
+          "description": "Protect contact and booking form endpoints",
+          "enabled": true,
+          "expression": "(http.request.uri.path eq \"/api/forms/contact\") or (http.request.uri.path eq \"/api/forms/booking\")",
+          "id": "2c4fe177711a46a78d57f3ae5131759a",
+          "last_updated": "2026-09-26T13:57:05.072207Z",
+          "ratelimit": {
+            "characteristics": ["cf.colo.id", "ip.src"],
+            "mitigation_timeout": 10,
+            "period": 10,
+            "requests_per_period": 10
+          },
+          "ref": "2c4fe177711a46a78d57f3ae5131759a",
+          "version": "1"
+        }
+      ],
+      "verified": true
+    }
+  },
+  "canonical_redirect": {
+    "verified": true,
+    "id": "c5a8c143300e4aa595e4b01a55b84e9f",
+    "rules": [
+      {
+        "action": "redirect",
+        "action_parameters": {
+          "from_value": {
+            "preserve_query_string": true,
+            "status_code": 301,
+            "target_url": {
+              "expression": "concat(\"https://luksuzniprevoz.rs\", http.request.uri.path)"
+            }
+          }
+        },
+        "description": "Redirect www to canonical apex, preserving path and query",
+        "enabled": true,
+        "expression": "http.host eq \"www.luksuzniprevoz.rs\"",
+        "id": "69563c866ba540a59f6efd2f7afaa30b",
+        "last_updated": "2026-09-26T14:01:20.025218Z",
+        "ref": "www_to_canonical_apex",
+        "version": "1"
+      },
+      {
+        "action": "redirect",
+        "action_parameters": {
+          "from_value": {
+            "preserve_query_string": true,
+            "status_code": 301,
+            "target_url": {
+              "expression": "concat(\"https://luksuzniprevoz.rs\", http.request.uri.path)"
+            }
+          }
+        },
+        "description": "Redirect HTTP apex requests to HTTPS, preserving path and query",
+        "enabled": true,
+        "expression": "(http.host eq \"luksuzniprevoz.rs\") and (not ssl)",
+        "id": "cee90d71bd0146c297f14ea51303e27c",
+        "last_updated": "2026-09-26T14:02:32.678073Z",
+        "ref": "canonical_apex_https",
+        "version": "1"
+      }
+    ]
+  },
+  "webmail_access": {
+    "owner_uses_browser_webmail": true,
+    "mail_app_settings_not_applicable": true,
+    "checked_urls": [
+      {
+        "url": "https://webmail.luksuzniprevoz.rs/",
+        "http_status": 200,
+        "tls_verified": true
+      },
+      {
+        "url": "https://cpanel29.beotel.net:2096",
+        "http_status": 200,
+        "tls_verified": true
+      }
+    ],
+    "mailbox_login_tested": false
+  },
+  "production_endpoint_read_test": {
+    "contact": 403,
+    "booking": 403,
+    "method": "GET",
+    "conclusion": "HTTP access from workspace rejected; no functional runtime claim"
+  },
+  "remaining_security_permissions_needed": false,
+  "web_https_redirect_configured": true,
+  "registrar_activation_pending": true,
+  "new_website_cutover_performed": false,
+  "edge_rules_runtime_tested": false,
+  "registrar_change_owner_confirmed": true,
+  "activation_check_triggered": true,
+  "activation_observation": {
+    "checked_at": "2026-09-26T14:09:26.166987+00:00",
+    "cloudflare_zone_status": "pending",
+    "cloudflare_resolver_nameservers": ["cpanel29.beotel.net", "ns.beotel.net", "ns.beotel.rs"],
+    "google_resolver_nameservers": ["cpanel29.beotel.net", "ns.beotel.net", "ns.beotel.rs"],
+    "parent_ds_observed": false,
+    "website_http_status": 200,
+    "webmail_http_status": 200,
+    "new_website_cutover_performed": false,
+    "last_zone_recheck_at": "2026-09-26T14:10:20.636868+00:00",
+    "activation_check_retriggered_after_registry_confirmation": true
+  },
+  "registry_delegation_verified": {
+    "checked_at": "2026-09-26T14:21:50.389168+00:00",
+    "source": "whois.rnids.rs",
+    "nameservers": ["cartman.ns.cloudflare.com", "kenia.ns.cloudflare.com"],
+    "old_beotel_nameserver_listed": false
+  }
+}

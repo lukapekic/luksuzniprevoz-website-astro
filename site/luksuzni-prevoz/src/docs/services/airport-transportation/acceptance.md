@@ -122,7 +122,8 @@ No unrelated sections were inserted.
       the Continue button remains within the panel without smaller text.
       Field order, labels, date/time behavior and typed handoff are unchanged.
 - [ ] canonical contract is `src/lib/booking/airport-booking-intent.ts`.
-- [ ] query parameters are `service`, `flightNumber`, `date`, and `time`.
+- [ ] query parameters are `intent`, `service`, `flightNumber`, `date`, and `time`; display-only controls do not leak into the handoff.
+- [ ] outbound/return and Airport dates share DD/MM/YYYY calendar validation and 24-hour HH:mm; flight number is limited to the server-supported 40 characters.
 - [ ] supported states are idle, invalid, submitting, handoff, error, and unavailable.
 
 ## 7. Pricing hard gate

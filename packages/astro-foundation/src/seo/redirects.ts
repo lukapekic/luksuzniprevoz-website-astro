@@ -80,7 +80,15 @@ export function formatRedirectsJson(redirects: RedirectEntry[]): string {
  * Format: /from /to 301
  */
 export function formatRedirectsCloudflare(redirects: RedirectEntry[]): string {
-  return redirects.map((r) => `${r.from} ${r.to} ${r.status}`).join("\n");
+  return redirects
+    .flatMap((r) => {
+      const canonical = `${r.from} ${r.to} ${r.status}`;
+      // Pages matches source paths literally. Cover WordPress links without a trailing slash too.
+      return r.from !== "/" && r.from.endsWith("/")
+        ? [canonical, `${r.from.slice(0, -1)} ${r.to} ${r.status}`]
+        : [canonical];
+    })
+    .join("\n");
 }
 
 /**

@@ -42,7 +42,7 @@ Use their existing production names. Do not rename or duplicate shared assets:
 s-class-driving-forest-intheback.webp
 e-class-outside-weeding-day.webp
 v-class-interior.webp
-s-class-interior-driver-side.webp
+vip-rear-cabin.webp
 v-class-outisde-weeding-day.webp
 s-class-with-flowers-special-occasion.webp
 weeding-day-kissing.webp
@@ -284,7 +284,7 @@ pricingMode.includes("quote")
 
 Media:
 
-`s-class-interior-driver-side.webp`
+`vip-rear-cabin.webp`
 
 Never infer or render security/protection services.
 

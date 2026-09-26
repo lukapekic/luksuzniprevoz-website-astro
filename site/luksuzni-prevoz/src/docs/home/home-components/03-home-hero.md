@@ -28,13 +28,13 @@ At page top:
 
 Desktop:
 
-- near-viewport-height;
+- at least one small viewport in height (`100svh`, with a `100vh` fallback);
 - content must determine minimum safe height;
 - never clip copy to preserve a visual ratio.
 
 Mobile:
 
-- content-defined/tall cinematic height is acceptable;
+- at least one small viewport in height; content may make it taller;
 - both CTAs must remain discoverable;
 - image crop must preserve readable negative space.
 
@@ -102,6 +102,28 @@ CTA destinations and DOM/focus order remain unchanged.
 - No glow.
 - No gold/platinum tint over the whole image.
 - Preserve vehicle focal subject.
+- The opt-in `center-reveal` scrim keeps the existing full-bleed header,
+  text-side, and bottom protection while making only a modest reduction in
+  darkness over the centre of the S-Class photograph. A low-opacity base veil
+  covers the entire frame, including the far edge where the directional scrim
+  fades. The centre remains visibly overlaid; it is not a transparent opening.
+  The default scrim remains available and unchanged. This is an
+  image-legibility treatment, not a new Hero composition or CTA variant.
+- Below `xl` (80rem), content occupies one reading column across the image;
+  the reveal therefore keeps stronger localized copy protection over pale sky.
+  At `xl` and wider, the 7/5 composition permits the brighter central reveal.
+  Both states preserve source and focus order, focal vehicle visibility, and
+  text-on-photo contrast at 320/768/1024/1440/1920 CSS px.
+- The new production `soft-reveal` scrim keeps a continuous dark veil across
+  the photograph, protects the actual copy and header regions, and opens the
+  vehicle region modestly. Its bottom gradient ends at the exact page
+  background, giving the next dark section a smooth join. Mobile retains
+  localized copy contrast without darkening most of the frame. The standard
+  and earlier centre-reveal options remain available to other consumers.
+- The homepage refinement deepens the top and outer edges of `soft-reveal`
+  through a semantic dark radial vignette. Its broad clear centre stays over
+  the S-Class body; the existing bottom handoff and copy protection remain.
+  Review the vehicle and header at all five viewport states after tuning.
 
 ## Colors
 

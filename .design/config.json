@@ -1,7 +1,7 @@
 {
   "$schema": "./config.schema.json",
   "schemaVersion": 1,
-  "project": "Luxury Transportation",
+  "project": "Luksuzni prevoz",
   "siteRoot": "site/luksuzni-prevoz",
   "theme": {
     "versionsDir": "site/luksuzni-prevoz/src/theme/versions",
@@ -30,6 +30,7 @@
     "ServiceCard",
     "TrustStrip",
     "HorizontalCarousel",
+    "FleetCard",
     "HubServiceSelector",
     "PageContainer",
     "ReadingContainer",

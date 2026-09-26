@@ -33,7 +33,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 ---
 
 <section
-  class="h-full rounded-[var(--radius-section)] bg-[var(--color-surface-light)] p-[var(--space-6)] md:p-[var(--space-8)] lg:p-[var(--space-10)]"
+  class="h-full min-w-0 rounded-[var(--radius-section)] bg-[var(--color-surface-light)] p-[var(--space-6)] md:p-[var(--space-8)] lg:p-[var(--space-10)]"
   aria-labelledby={`${formId}-heading`}
 >
   <SectionHeading
@@ -45,7 +45,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
   <form
     id={formId}
-    class="mt-[var(--space-8)] grid gap-[var(--space-5)]"
+    class="mt-[var(--space-8)] grid grid-cols-1 gap-[var(--space-5)]"
     novalidate
     aria-describedby={statusId}
     data-contact-question-form
@@ -55,7 +55,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     data-submit-action={copy.submitAction}
     data-status-submitting={copy.submittingStatus}
     data-status-success={copy.successStatus}
-    data-status-reference={copy.referenceStatus}
     data-status-bot-verification={copy.botVerificationStatus}
     data-status-rate-limited={copy.rateLimitedStatus}
     data-status-service-unavailable={copy.serviceUnavailableStatus}
@@ -155,15 +154,46 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
       />
     </Field>
 
-    <div class="grid gap-[var(--space-3)]">
-      <div data-contact-turnstile></div>
+    <div class="grid min-w-0 grid-cols-1 gap-[var(--space-3)]">
+      <div class="min-w-0" data-contact-turnstile></div>
       <div data-contact-submit class="justify-self-start">
-        <Button type="submit"><span data-contact-submit-label>{copy.submitAction}</span></Button>
+        <Button type="submit" disabled><span data-contact-submit-label>{copy.submitAction}</span></Button>
       </div>
-      <FormStatus id={statusId} type="info" on="light" />
+      <div class="contact-feedback" data-contact-feedback>
+        <svg class="contact-feedback-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m5 12 4 4L19 6" />
+        </svg>
+        <FormStatus id={statusId} type="info" on="light" />
+      </div>
+      <noscript><p class="font-body text-[length:var(--text-sm)] text-[var(--color-text-on-light)]">{copy.serviceUnavailableStatus}</p></noscript>
     </div>
   </form>
 </section>
+
+<style>
+  .contact-feedback[data-success="true"] {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border-subtle);
+    border-inline-start: var(--space-1) solid var(--color-success);
+    border-radius: var(--radius-control);
+    background: var(--color-input-surface);
+    color: var(--color-text-on-light);
+  }
+
+  .contact-feedback-icon {
+    display: none;
+    flex: none;
+    inline-size: var(--space-6);
+    block-size: var(--space-6);
+  }
+
+  .contact-feedback[data-success="true"] .contact-feedback-icon {
+    display: block;
+  }
+</style>
 
 <script>
   // Client-script justification: localized field state, asynchronous same-origin

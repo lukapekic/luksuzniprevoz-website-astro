@@ -118,6 +118,7 @@
  * (FND-UI-06).
  */
 import { Image } from "astro:assets";
+import { imageQuality, imageSizes, imageWidths } from "../../data/image-delivery.ts";
 import type { OpenSplitSectionProps } from "./OpenSplitSection.types.ts";
 
 type Props = OpenSplitSectionProps;
@@ -125,6 +126,7 @@ type Props = OpenSplitSectionProps;
 const {
   image,
   imageAlt,
+  imagePosition,
   layout = "content-image",
   ratio = "6-6",
   mobileOrder = "content-first",
@@ -215,8 +217,11 @@ const isDecorative = imageAlt === "";
       alt={imageAlt}
       role={isDecorative ? "presentation" : undefined}
       loading="lazy"
-      widths={[400, 640, 800, 1000]}
-      sizes="(min-width: 64rem) 42rem, (min-width: 48rem) 38rem, calc(100vw - 3rem)"
+      format="webp"
+      quality={imageQuality.photoWebp}
+      widths={imageWidths(image, "supporting")}
+      sizes={imageSizes.split}
+      style={imagePosition ? `object-position: ${imagePosition}` : undefined}
     />
     {mediaOverlay && <div class="open-split__overlay" aria-hidden="true" />}
   </figure>

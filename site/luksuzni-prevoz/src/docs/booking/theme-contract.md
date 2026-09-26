@@ -1,112 +1,26 @@
-# Booking Page — Theme Contract
+# Booking Page — Theme and composition contract
 
-Status: **LOCKED**
+Status: **DR-07 approved direction**. No new theme version is created. The configured Theme V2 provides the dark page canvas, light functional panel, input surfaces/borders, selection, error, and focus roles. Headings use Inter Tight; body, controls, labels, progress, and summaries use Manrope. Brand typography remains inside BrandLockup.
 
-## Decision
+The page has one H1 and short introduction on the dark canvas. A centered booking-local light panel contains progress, optional compact summary, current step, validation, and the action row in that order. The panel uses `radius-section`; controls use `radius-control`. Selectable service rows are real bounded items and may use `radius-card`. No repeated field cards, dark summary sidebar, floating action block, or separate progress strip is allowed.
 
-Do **not** create Theme V3.
+At mobile and tablet portrait widths the panel is one column with a full current-step label, count, and four accessible progress segments. At tablet landscape, desktop, and wide desktop it remains one centered panel with four readable step labels. Use active layout tokens for thresholds and the normal page gutters; cap the panel locally without widening the global container. The panel height is content-driven. All translated labels wrap and all targets remain at least 44×44.
 
-The Booking page uses the site's configured active Theme V2 and consumes only semantic tokens produced by the repository theme system.
+The booking-local cap is `container-reading` minus `space-12`, yielding an approximately 864–880px panel in the current active theme; it is a composition relationship, not a new global container or a literal component value. The introductory measure stays `measure-body`.
 
-Current visual identity:
+Completed progress steps are buttons, current progress uses `aria-current="step"`, and future steps cannot bypass validation. Selection, hover, focus, invalid, pending, unavailable, and success states are distinct. Back/Edit preserves valid state, Continue validates before advancing, and each step change focuses the next H2. A compact disclosure shows known facts only on Steps 02–03; the final complete review replaces it on Step 04.
 
-```text
-Black & Platinum
-dark-first page canvas
-light functional form surface
-Inter Tight headings
-Manrope body/UI
-Cormorant Garamond only for BrandLockup
-```
+Across Serbian Latin, English, and Russian, the visible date uses `DD/MM/YYYY` and time uses grouped native hour/minute controls for 24-hour `HH:mm`, independent of browser locale. Canonical values remain `YYYY-MM-DD` and `HH:mm`; timezone-dependent rules use `Europe/Belgrade`. An optional native calendar picker is an enhancement, not the sole input method. Return fields follow the same format and validation.
 
-## Surface map
+Use semantic tokens and restrained motion only. Reduced motion removes nonessential transitions. Verify all five viewport states, Serbian/English/Russian content, text zoom, keyboard and screen-reader flow, and zero horizontal overflow. Do not use gold, blue corporate styling, glow, glass, metallic gradients, oversized radius, or decorative dashboard patterns.
 
-```text
-Global page canvas       -> background
-Wizard header/progress   -> open dark canvas
-Primary work surface     -> surfaceLight
-Controls                 -> inputSurface
-Desktop summary          -> open dark canvas / surface only where semantically needed
-Selected/high-value      -> restrained accent
-Errors                    -> semantic error token
-Success                   -> semantic success token
-Focus                     -> focusDark / focusLight according to surface
-```
 
-The light work surface is intentional. `DESIGN.md` explicitly authorizes light surfaces for forms, calculators, pricing and other function-heavy blocks.
+## Schedule controls shared with Airport booking start
 
-## Typography
+`BookingScheduleControls.astro` is consumed by the Booking wizard (outbound and return) and Airport booking start. Its label API adds required `openCalendarLabel`, supplied by both verified consumers; existing defaults remain: `idPrefix` defaults to `booking`; `nativeValidation` defaults to false for the wizard's controlled validation. Airport uses prefix `airport` and native validation. One calendar parser and one canonical/display synchronization helper serve both consumers. Slashes are inserted during typing/paste; eight digits become DD/MM/YYYY without requiring a slash key. The trailing 44px calendar button opens a synchronized native date input through feature-detected showPicker; it is hidden where that method is unavailable. Manual entry stays available, including when the native picker throws. The browser owns popup appearance; the visible application field and summaries remain DD/MM/YYYY. Both browser and server enforce today through one calendar year ahead in Belgrade, with leap-day anniversaries clamped to February 28. Return picker minimum follows departure, and return time must be later. Open-calendar/error strings come from all three localized UI sources. Visible dates must be complete `DD/MM/YYYY`; impossible calendar dates are rejected. Hour options are `00–23`, minute options `00–59`, with canonical `HH:mm`. API/query dates remain `YYYY-MM-DD`.
 
-```text
-H1 / H2 / step heading   -> font-heading
-labels / inputs / UI     -> font-body
-fare / summary values    -> font-body or font-heading by hierarchy, never brand font
-brand                    -> existing BrandLockup only
-```
+At 320 the date precedes the grouped time controls in one column; at 768, 1024, 1440, and 1920 the date and time occupy the existing two-column field grid. Each pair follows source order, all controls retain 44px targets and visible focus, and grid children can shrink without page overflow. The return pair follows the outbound pair when requested. No imagery or CTA ordering changes. Empty, filled, invalid, recovered draft, and incoming query states use the same conversion rules.
 
-## Geometry
+Phone is optional in both final forms. The shared phone validator accepts international `+` and `00` dialing prefixes, Serbian local mobile/landline numbers beginning with `0`, and spaces, parentheses, periods, hyphens, or slashes. Numbers retain the user's display formatting; no country code is guessed. Shape validation applies on the client and server with 7–15 dialing digits and at most 32 displayed characters.
 
-Use semantic radius roles:
-
-```text
-major wizard surface     -> radius-section
-vehicle/selectable rows  -> radius-card only where a real bounded item exists
-controls                  -> radius-control
-```
-
-Do not turn individual field groups into cards.
-
-## Desktop composition
-
-At the active `lg` threshold:
-
-```text
-7 / 5
-form work surface / request summary
-```
-
-This is an approved Theme V2 desktop composition.
-
-Below `lg`, the page uses one-column source order:
-
-```text
-progress
-step heading
-work surface
-request summary
-navigation actions
-```
-
-On Steps 01–03, the persistent summary sits between work and navigation
-actions. On Step 04, the complete review is inside the work surface and the
-duplicate persistent summary is hidden.
-
-During the validation-only public phase, the intended final action is disabled
-and a direct-contact recovery action remains active. This state must read as a
-temporary operational limitation, not as a disabled decorative CTA.
-
-## Prohibited styling
-
-```text
-gold accent
-glow
-metallic gradients
-blue corporate palette
-glassmorphism
-pill-heavy progress UI
-dashboard cards
-large floating shadows
-oversized SaaS radius
-decorative icon wall
-motion required to understand state
-```
-
-## Motion
-
-Only use active motion tokens for:
-
-- restrained step-content transition;
-- selected-row state change;
-- validation/status appearance.
-
-Reduced motion must collapse these transitions to immediate state changes.
+Date refinement state/compatibility contract: empty, partial, focused, pasted, filled, invalid-range, invalid-calendar, cleared, query/draft restored, and calendar-selected values synchronize through the shared helper. The keyboard order is date text, calendar button, hour, minute; the underlying native input is excluded from the tab order and has no submission name. Arrow/navigation and selection replacement remain native text behavior; deletion at separators removes the neighbouring digit. The calendar button is within the existing field width at all five states; no images or CTA positions change. Existing submitting controls locking also covers this button and native input. No additional calendar/mask dependency is introduced.

@@ -2,11 +2,15 @@ import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { settleDocumentMotion } from "../support/contracts";
 
+test.beforeEach(async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-09-26T10:00:00Z"));
+});
+
 const routes = ["/rezervacija/", "/en/booking/", "/ru/bronirovanie/"];
 
 test.describe("Booking page", () => {
   for (const path of routes) {
-    test(`${path} renders the published validation-only page`, async ({ page }) => {
+    test(`${path} renders the published four-step request panel`, async ({ page }) => {
       const response = await page.goto(path);
       expect(response?.status()).toBe(200);
       await expect(page.locator("h1")).toHaveCount(1);
@@ -16,6 +20,8 @@ test.describe("Booking page", () => {
       expect(await form.getAttribute("action")).toBeNull();
       expect(await form.getAttribute("method")).toBeNull();
       await expect(page.locator('[data-booking-actions]')).toBeVisible();
+      await expect(form.locator('[data-booking-progress]')).toBeVisible();
+      await expect(form.locator('[data-booking-summary]')).toBeHidden();
     });
   }
 
@@ -30,11 +36,14 @@ test.describe("Booking page", () => {
     await page.route("**/api/forms/booking", async (route) => {
       await route.fulfill({ status: 202, contentType: "application/json", body: JSON.stringify({ ok: true, status: "pending", reference: "LP-TEST-BOOKING" }) });
     });
-    await page.goto("/en/booking/?intent=booking&service=airportTransportation&date=2099-12-31&time=12%3A00&flightNumber=JU123");
+    await page.goto("/en/booking/?intent=booking&service=airportTransportation&date=2026-10-10&time=12%3A00&flightNumber=JU123");
     await expect(page).toHaveURL(/\/en\/booking\/$/);
     await expect(page.locator('[data-step-panel="journey"]')).toBeVisible();
     await expect(page.locator('[data-journey-branch="airportTransportation"]')).toBeVisible();
-    await expect(page.locator('[name="date"]')).toHaveValue("2099-12-31");
+    await expect(page.locator('[name="date"]')).toHaveValue("2026-10-10");
+    await expect(page.locator('[name="dateDisplay"]')).toHaveValue("10/10/2026");
+    await expect(page.locator('[data-booking-hour][data-time-for="time"]')).toHaveValue("12");
+    await expect(page.locator('[data-booking-minute][data-time-for="time"]')).toHaveValue("00");
     await expect(page.locator('[name="flightNumber"]')).toHaveValue("JU123");
 
     await page.locator('[name="pickup"]').fill("Belgrade Airport");
@@ -86,12 +95,38 @@ test.describe("Booking page", () => {
     await context.close();
   });
 
-  test("moves focus to the validation summary", async ({ page }) => {
+  test("moves focus to the first invalid control", async ({ page }) => {
     await page.goto("/en/booking/");
     await page.locator('[data-booking-continue] button').click();
 
-    await expect(page.locator("[data-error-summary]")).toBeFocused();
+    await expect(page.locator('[name="serviceCategory"]').first()).toBeFocused();
     await expect(page.locator("#booking-service-error")).toBeVisible();
+  });
+
+  test("normalizes explicit dates and blocks an invalid return", async ({ page }) => {
+    await page.goto("/rezervacija/");
+    await page.locator('[name="serviceCategory"][value="airportTransportation"]').check();
+    await page.locator('[data-booking-continue] button').click();
+    await page.locator('[name="dateDisplay"]').fill("31/02/2099");
+    await page.locator('[name="timeHour"]').selectOption("18");
+    await page.locator('[name="timeMinute"]').selectOption("30");
+    await page.locator('[name="pickup"]').fill("Belgrade Airport");
+    await page.locator('[name="destination"]').fill("Belgrade");
+    await page.locator('[name="airportDirection"][value="airport-to-city"]').check();
+    await page.locator('[name="airportScope"][value="belgrade-city"]').check();
+    await page.locator('[data-booking-continue] button').click();
+    await expect(page.locator('[name="dateDisplay"]')).toBeFocused();
+    await page.locator('[name="dateDisplay"]').fill("10/10/2026");
+    await page.locator('[name="returnRequested"]').check();
+    await page.locator('[name="returnDateDisplay"]').fill("10/10/2026");
+    await page.locator('[name="returnTimeHour"]').selectOption("17");
+    await page.locator('[name="returnTimeMinute"]').selectOption("00");
+    await page.locator('[data-booking-continue] button').click();
+    await expect(page.locator('[name="returnDateDisplay"]')).toBeFocused();
+    await page.locator('[name="returnTimeHour"]').selectOption("19");
+    await page.locator('[data-booking-continue] button').click();
+    await expect(page.locator('#booking-vehicle-heading')).toBeFocused();
+    await expect(page.locator('[data-summary-value="schedule"]')).toContainText("10/10/2026 · 18:30");
   });
 
   test("meets the page accessibility baseline", async ({ page }) => {

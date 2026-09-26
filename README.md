@@ -135,6 +135,65 @@ Browser-based responsive, keyboard, and visual review remains a deliberate manua
 configured Playwright and Lighthouse commands remain available for focused use but are not part of
 the automatic GitHub gate.
 
+## Cloudflare deployment and DNS
+
+Start with the standalone [Cloudflare deployment, DNS and migration guide](docs/cloudflare/README.md).
+It explains service ownership, staging and production, DNS backups, cPanel email
+preservation, deployment configuration, safe cutover, verification and rollback.
+Its examples are neutral and can be adapted to other projects.
+
+For this repository's implementation, also read the
+[Pages forms runbook](docs/cloudflare-pages-forms/README.md) and
+[deployment requirements](docs/deployment.md). Actual resource IDs, rollout
+status and verification evidence belong in dated operational records, rather
+than in the reusable guide.
+
+## Cloudflare Pages migration redirects
+
+Legacy URL mappings live in `site/luksuzni-prevoz/src/data/routes.ts` as
+`previousSlugs`. The site build generates `site/luksuzni-prevoz/dist/_redirects`
+automatically: 36 legacy paths produce 72 direct 301 rules because each path is
+covered with and without a trailing slash. Do not edit the generated file.
+
+For Cloudflare Pages, use the repository root as the project root, run
+`pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site build`, and
+publish `site/luksuzni-prevoz/dist`. Confirm `_redirects` is present in that
+build output before deploying. The site's `_routes.json` limits Pages Functions
+to the two form API paths, so page redirects use Cloudflare's static asset path.
+
+After deploying to a Pages Preview URL, replace the example origin below and
+inspect the response headers **without following redirects**:
+
+```bash
+redirect_origin="https://staging.YOUR-PROJECT.pages.dev"
+curl -sSI "$redirect_origin/news/"
+curl -sSI "$redirect_origin/news"
+curl -sSI "$redirect_origin/o-nama"
+curl -sSI "$redirect_origin/en/about-us/"
+curl -sSI "$redirect_origin/cenovnik-usluga-prevoza/"
+curl -sSI "$redirect_origin/en/chauffeur-service/"
+```
+
+Each request should return `301` directly to the expected path on the same
+host: `/news/` and `/o-nama` → `/`, `/en/about-us/` → `/en/`, the old pricing
+path → `/cene/`, and the old English chauffeur path →
+`/en/private-chauffeur/`. Follow a rule to confirm one redirect and a `200` destination:
+
+```bash
+curl -sSL -o /dev/null -w '%{http_code} %{num_redirects} %{url_effective}\n' "$redirect_origin/news/"
+```
+
+This should print `200`, `1`, and the Preview homepage URL. After the production
+cutover, repeat the checks on `https://luksuzniprevoz.rs` to confirm the new
+deployment, rather than WordPress, is serving the domain.
+
+The `_redirects` file handles paths, not hostnames. Configure and test the
+`www.luksuzniprevoz.rs` → `luksuzniprevoz.rs` redirect separately in
+Cloudflare. Removed category, tag, and author archives have no migration rules;
+verify they return a real `404` unless a specific replacement is approved.
+See [the deployment guide](docs/deployment.md#redirects-fnd-env-10) and
+[Cloudflare Pages redirect documentation](https://developers.cloudflare.com/pages/configuration/redirects/).
+
 ## Out of Scope
 
 This template is a **starting point for marketing/company sites**, not a
@@ -202,18 +261,19 @@ npm.
 
 ## Documentation
 
-| Document                        | Description                                                              |
-| ------------------------------- | ------------------------------------------------------------------------ |
-| `docs/init-checklist.md`        | Bootstrap checklist for new projects (FND-META-07)                       |
-| `docs/a11y-manual-checklist.md` | Manual accessibility testing guide (FND-A11Y-09)                         |
-| `docs/deployment.md`            | Deployment configuration guide (FND-ENV-01)                              |
-| `docs/exceptions.md`            | Waiver tracking (FND-META-10)                                            |
-| `docs/content-authoring.md`     | Content authoring and translation guide                                  |
-| `docs/scale-envelope.md`        | Architecture boundaries & in-memory/whole-build rationale (FND-SCALE-02) |
-| `docs/optional-vrt.md`          | Optional Visual Regression Testing recipe (FND-UI-08..12)                |
-| `docs/rule-traceability.md`     | Generated rule → enforcer matrix (FND-META-09, auto-generated)           |
-| `docs/spec-amendments.md`       | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12)      |
-| `AGENTS.md`                     | AI agent development guidelines                                          |
+| Document                                      | Description                                                              |
+| --------------------------------------------- | ------------------------------------------------------------------------ |
+| `docs/init-checklist.md`                      | Bootstrap checklist for new projects (FND-META-07)                       |
+| `docs/a11y-manual-checklist.md`               | Manual accessibility testing guide (FND-A11Y-09)                         |
+| `docs/deployment.md`                          | Deployment configuration guide (FND-ENV-01)                              |
+| [Cloudflare guide](docs/cloudflare/README.md) | Portable staging, production, DNS, email, migration and rollback guide   |
+| `docs/exceptions.md`                          | Waiver tracking (FND-META-10)                                            |
+| `docs/content-authoring.md`                   | Content authoring and translation guide                                  |
+| `docs/scale-envelope.md`                      | Architecture boundaries & in-memory/whole-build rationale (FND-SCALE-02) |
+| `docs/optional-vrt.md`                        | Optional Visual Regression Testing recipe (FND-UI-08..12)                |
+| `docs/rule-traceability.md`                   | Generated rule → enforcer matrix (FND-META-09, auto-generated)           |
+| `docs/spec-amendments.md`                     | Spec reclassifications & decision log (FND-THEME-10, FND-UI-08..12)      |
+| `AGENTS.md`                                   | AI agent development guidelines                                          |
 
 ## License
 

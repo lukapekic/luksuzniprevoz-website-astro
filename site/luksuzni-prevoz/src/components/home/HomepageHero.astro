@@ -13,7 +13,7 @@
  *   Tokens:    docs/home/home-components/00-token-matrix.md
  *   Theme:     Theme V2 (Platinum) — generated/theme.css (active)
  *
- * Identity (blueprint §7, refined): a FULL-BLEED NEAR-VIEWPORT PHOTOGRAPHIC
+ * Identity (blueprint §7, refined): a FULL-BLEED VIEWPORT-MINIMUM PHOTOGRAPHIC
  * HERO. The Mercedes S-Class photograph fills the entire section edge to edge
  * across the full page width; the sticky SiteHeader overlays it at the page
  * top (the page pulls the hero up under the header via --site-header-height;
@@ -32,10 +32,10 @@
  * it never creates a separate visual image container (blueprint §7 /
  * blueprint-to-ui §18). Mobile/tablet collapse to a single reading column.
  *
- * Height: near-viewport min-block-size (svh with a vh fallback), content-safe
+ * Height: viewport min-block-size (svh with a vh fallback), content-safe
  * — there is NO max-block-size / aspect-ratio, so the hero grows when H1/CTA
  * copy wraps to more lines instead of clipping the action row. It is not a
- * forced 100vh for spectacle; it just occupies most of the opening viewport.
+ * fixed height; it covers the opening viewport and grows for long content.
  *
  * H1 (03 §Typography / task §6 / task §8): the page's single <h1>, left-aligned,
  * on the active Theme V2 heading font (Inter Tight via --font-heading — a
@@ -86,6 +86,7 @@
  * reused in /dev/ui where the hero is not the first element under a header.
  */
 import { Image } from "astro:assets";
+import { imageQuality, imageSizes, imageWidths } from "../../data/image-delivery.ts";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
 import Link from "../../foundation/ui/Link.astro";
 import type { HomepageHeroProps } from "./HomepageHero.types.ts";
@@ -100,6 +101,7 @@ const {
   supportText,
   image,
   imageAlt = "",
+  scrimTreatment = "standard",
   locale,
   class: className,
 } = Astro.props;
@@ -112,7 +114,7 @@ const hasSupport = Boolean(supportText);
 const isDecorative = imageAlt === "";
 ---
 
-<section class:list={["homepage-hero", className]} aria-labelledby={titleId}>
+<section class:list={["homepage-hero", className]} data-scrim-treatment={scrimTreatment} aria-labelledby={titleId}>
   {/* Full-bleed S-Class background (blueprint §7). The section IS the media
       canvas — no contained panel, no radius, full page width behind the
       overlaid sticky SiteHeader. Decorative atmosphere behind the H1/copy but
@@ -130,9 +132,9 @@ const isDecorative = imageAlt === "";
       fetchpriority="high"
       decoding="async"
       format="avif"
-      quality={40}
-      widths={[640, 768, 1024, 1536, 1920]}
-      sizes="100vw"
+      quality={imageQuality.heroAvif}
+      widths={imageWidths(image, "hero")}
+      sizes={imageSizes.hero}
     />
   </div>
 
@@ -207,7 +209,7 @@ const isDecorative = imageAlt === "";
 <style>
   /* --- Full-bleed hero media canvas ---------------------------------------
      The <section> IS the media canvas: full page width, no contained panel,
-     no border-radius. Near-viewport min-block-size (svh with a vh fallback),
+     no border-radius. Viewport min-block-size (svh with a vh fallback),
      content-safe — NO max-block-size / aspect-ratio, so the hero grows when
      H1/CTA copy wraps instead of clipping the action row. display:grid makes
      the inner content cell the single in-flow grid item; align-items:end
@@ -219,14 +221,8 @@ const isDecorative = imageAlt === "";
     isolation: isolate;
     display: grid;
     align-items: end;
-    min-block-size: 78vh;
-    min-block-size: 78svh;
-  }
-  @media (min-width: 64rem) {
-    .homepage-hero {
-      min-block-size: 84vh;
-      min-block-size: 84svh;
-    }
+    min-block-size: 100vh;
+    min-block-size: 100svh;
   }
 
   /* Full-bleed image: approved side-profile S-Class. The daylight source is
@@ -248,41 +244,54 @@ const isDecorative = imageAlt === "";
     block-size: 100%;
     object-fit: cover;
     object-position: 28% 55%;
-    filter: brightness(0.68) contrast(1.08) saturate(0.72);
     z-index: 0;
     transform-origin: center;
     animation: homepage-hero-image-settle calc(var(--duration-cinematic) + var(--duration-cinematic)) var(--ease-entrance) both;
   }
 
-  /* Low-key art direction: radial edge vignette preserves the vehicle center;
-     vertical settle protects Header/foreground; directional layer protects
-     the primary copy. Semantic graphite only—no fake blue night tint. */
+  /* Separate top/header and text-side scrims retain natural vehicle exposure. */
   .homepage-hero__scrim {
     position: absolute;
     inset: 0;
     z-index: 1;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%), linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 12%, transparent) 78%, transparent 100%);
+  }
+  .homepage-hero[data-scrim-treatment="center-reveal"] .homepage-hero__scrim {
     background:
-      radial-gradient(
-        ellipse 78% 70% at 62% 72%,
-        transparent 0%,
-        transparent 36%,
-        color-mix(in oklab, var(--color-background), transparent 56%) 76%,
-        color-mix(in oklab, var(--color-background), transparent 28%) 100%
-      ),
-      linear-gradient(
-        180deg,
-        color-mix(in oklab, var(--color-background), transparent 12%) 0%,
-        transparent 30%,
-        transparent 64%,
-        color-mix(in oklab, var(--color-background), transparent 18%) 100%
-      ),
-      linear-gradient(
-        90deg,
-        color-mix(in oklab, var(--color-background), transparent 5%) 0%,
-        color-mix(in oklab, var(--color-background), transparent 20%) 43%,
-        color-mix(in oklab, var(--color-background), transparent 62%) 76%,
-        color-mix(in oklab, var(--color-background), transparent 52%) 100%
-      );
+      linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%),
+      linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--color-background) 32%, transparent) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 65%, transparent) 42%, color-mix(in srgb, var(--color-background) 15%, transparent) 62%, color-mix(in srgb, var(--color-background) 12%, transparent) 78%, transparent 100%);
+    /* A real full-bleed veil remains even where the directional gradient fades. */
+    background-color: color-mix(in srgb, var(--color-background) 15%, transparent);
+  }
+  /* Single-column copy crosses the photographic centre. Keep the brighter
+     reveal for the xl 7/5 layout, but protect the H1 over pale mobile sky. */
+  @media (max-width: 79.99rem) {
+    .homepage-hero[data-scrim-treatment="center-reveal"] .homepage-hero__scrim {
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--color-background) 65%, transparent) 0%, transparent 24%, transparent 100%),
+        linear-gradient(180deg, transparent 68%, color-mix(in srgb, var(--color-background) 48%, transparent) 100%),
+        linear-gradient(90deg, color-mix(in srgb, var(--color-background) 86%, transparent) 0%, color-mix(in srgb, var(--color-background) 76%, transparent) 68%, color-mix(in srgb, var(--color-background) 42%, transparent) 100%);
+    }
+  }
+  /* Selected production Hero: a visible dark veil and strong copy/header
+     protection with a quieter vehicle area and an opaque bottom handoff. */
+  .homepage-hero[data-scrim-treatment="soft-reveal"] .homepage-hero__scrim {
+    background-color: color-mix(in srgb, var(--color-background) 10%, transparent);
+    background-image:
+      radial-gradient(ellipse 76% 76% at 63% 58%, transparent 0%, transparent 38%, color-mix(in srgb, var(--color-background) 20%, transparent) 76%, color-mix(in srgb, var(--color-background) 34%, transparent) 100%),
+      linear-gradient(180deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 40%, transparent) 16%, transparent 32%),
+      linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--color-background) 45%, transparent) 80%, var(--color-background) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 60%, transparent) 42%, color-mix(in srgb, var(--color-background) 10%, transparent) 70%, color-mix(in srgb, var(--color-background) 10%, transparent) 100%);
+  }
+  @media (max-width: 79.99rem) {
+    .homepage-hero[data-scrim-treatment="soft-reveal"] .homepage-hero__scrim {
+      background-image:
+        radial-gradient(ellipse 76% 76% at 63% 58%, transparent 0%, transparent 38%, color-mix(in srgb, var(--color-background) 20%, transparent) 76%, color-mix(in srgb, var(--color-background) 34%, transparent) 100%),
+        linear-gradient(180deg, color-mix(in srgb, var(--color-background) 78%, transparent) 0%, color-mix(in srgb, var(--color-background) 40%, transparent) 16%, transparent 32%),
+        linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--color-background) 45%, transparent) 80%, var(--color-background) 100%),
+        linear-gradient(90deg, color-mix(in srgb, var(--color-background) 82%, transparent) 0%, color-mix(in srgb, var(--color-background) 72%, transparent) 42%, color-mix(in srgb, var(--color-background) 40%, transparent) 75%, color-mix(in srgb, var(--color-background) 22%, transparent) 100%);
+    }
   }
 
   /* Inner content shell (PageContainer root): container-aligned copy grid. As
@@ -401,7 +410,7 @@ const isDecorative = imageAlt === "";
   /* ── xl (>=80rem): 7/5 content split. The split activates at xl (1280px)
      rather than lg so laptop (1024–1279px) stays a comfortable full-width
      single column instead of cramped two-column text (task 1D). Panel height
-     is content-safe: a near-viewport min-block-size floor and NO restrictive
+     is content-safe: a viewport min-block-size floor and NO restrictive
      max-block-size / aspect-ratio — when the H1 wraps to more lines the hero
      GROWS to fit content instead of clipping the CTA row (task 1B). */
   @media (min-width: 80rem) {

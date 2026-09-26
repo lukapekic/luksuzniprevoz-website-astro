@@ -1,40 +1,9 @@
 # Shared Contract — VehicleRecommendations
 
-Status: **Shared structural contract**
+Status: **DR-06 approved direction**. This supersedes the old overlaid-photo and Airport-only full-image variants.
 
-## Purpose
+The wrapper selects each service's existing verified vehicle families and order, localized heading/introduction, applicable contextual fare, and existing Fleet action. It renders the same non-interactive `FleetCard` as the Homepage inside `HorizontalCarousel`. The card owns only the 4:3 natural-color media and separate graphite details panel. No service-specific visual skin, overlay copy, suitability paragraph, card booking button, or invented fare is allowed.
 
-Show a small, service-relevant fleet subset without duplicating the Homepage fleet showcase or full Fleet page.
+Resolve presentation families in a typed data adapter, preserving first family order and the underlying configuration IDs for booking and pricing. A generic V-Class card uses the canonical family title and omits singular capacity. An Airport family fare appears only when canonical pricing proves it applies to the represented configurations and route scope; otherwise follow the approved quote/omission policy. Preserve unique service suitability information in a quiet model-labelled list after the carousel rather than silently discarding it. This list does not add a card CTA or another service claim.
 
-## Default behavior
-
-- open dark section;
-- section heading + short contextual copy;
-- approximately three recommendations when verified content supplies them;
-- each item: vehicle image, canonical display name, vehicle class/verified facts where appropriate, short localized suitability copy;
-- section CTA: View Full Fleet.
-
-## Airport full-image carousel variant
-
-Airport Transportation reuses the Homepage `HorizontalCarousel` mechanics and
-the full-image/scrim/overlaid-copy visual language of Homepage service cards.
-It remains a vehicle recommendation component, not a route-card component.
-
-Vehicle-specific Airport fares come only from shared pricing data. Missing
-owner-supplied values render the approved pending state; they are never inferred
-from other pricing units.
-
-Where several priced configurations belong to one fleet model family, the
-showcase uses the canonical family display name from `fleet-media.ts`; capacity
-variants remain available to pricing rather than appearing in the card title.
-
-## Data rules
-
-- vehicle identity/capacity comes only from `fleet.ts`;
-- service-page content references vehicle IDs;
-- never duplicate pricing in this component;
-- missing imagery uses a neutral placeholder rather than redesigning the section.
-
-## Responsive
-
-Desktop may use a three-item row. Tablet and mobile adapt without forcing equal-height dashboard cards.
+The shared track uses the active `md`/`lg` responsive thresholds and the FleetShowcase sizing contract. A small set may keep an approved non-empty layout; never add filler cards. Controls, count, keyboard/swipe navigation, focus, reduced motion, 44×44 targets, and all five viewport states remain required. Images use DR-11's source-capped optimized candidates and layout-accurate `sizes`.

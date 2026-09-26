@@ -71,11 +71,11 @@ export const contact: Contact = {
     verificationStatus: "verified",
   },
   phone: {
-    value: "+381 60 111 9999",
+    value: "+38163380970",
     verificationStatus: "verified",
   },
   email: {
-    value: "office@luksuzniprevoz.rs",
+    value: "reservations@luksuzniprevoz.rs",
     verificationStatus: "verified",
   },
   officeHours: {

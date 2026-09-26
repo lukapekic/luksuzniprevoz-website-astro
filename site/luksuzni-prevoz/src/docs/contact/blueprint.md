@@ -1,10 +1,9 @@
 # Luxury Transportation — Contact Page Blueprint v1
 
-Status: **Locked structural blueprint — published visual-review implementation**
+Status: **Locked structural blueprint — submission code active, infrastructure pending**
 
 Purpose: Source of truth for the Contact page structure, contact-data presentation,
-question-form behavior, responsive topology, accessibility, and deferred Cloudflare
-integration.
+question-form behavior, responsive topology, accessibility, and Cloudflare submission.
 
 ## 1. Authority
 
@@ -17,7 +16,7 @@ contact wireframe defines structure only.
 Give visitors two clear ways to ask a general question:
 
 1. use a verified direct contact channel;
-2. prepare a short question in a simple contact form.
+2. send a short question through the validated online form when available.
 
 The form is not a booking, availability, itinerary, or quote form.
 
@@ -70,10 +69,20 @@ behavior remain unchanged.
 - Do not add date, time, pickup, destination, passengers, vehicle, flight,
   price, availability, or booking-confirmation fields.
 - Persistent labels are required; placeholders never replace labels.
-- The validation-only implementation has no action, method, request, submit
-  handler, success state, or failure state.
-- Its primary action is visibly unavailable and cannot submit.
-- Do not imply that a question has been sent.
+- The browser sends a validated JSON POST to the same-origin Contact Function.
+- The submit action starts disabled in server-rendered HTML and becomes available
+  only after the browser controller and Turnstile widget are ready.
+- Without JavaScript, keep the action disabled, explain unavailability using
+  approved localized copy, and retain verified phone/email channels.
+- A received state requires a successful server response and request reference.
+- After acceptance, reset the native fields and validation state. Show the
+  existing localized confirmation in an emphasized status panel for 10 seconds,
+  then keep the confirmation text until the next edit or submission. The request
+  reference remains in the API response, ledger, and staff email, not the public
+  success message. Failed submissions preserve entered values and retry identity.
+- The Contact Turnstile widget uses Cloudflare's flexible width (65 CSS px high)
+  when its container is at least 300 CSS px wide; below that provider minimum it
+  uses compact size. Re-render on crossing that threshold without page overflow.
 
 ## 5. Validation contract
 
@@ -119,10 +128,7 @@ Implemented now:
 - dirty;
 - invalid;
 - disabled;
-- unavailable.
-
-Deferred until a real endpoint exists:
-
+- unavailable;
 - submitting;
 - success;
 - server failure;
@@ -134,14 +140,12 @@ remain intact.
 
 ## 7. Cloudflare boundary
 
-This version adds documentation comments only. It does not add a Worker, Pages
-Function, Turnstile widget/script/key, CSP allowance, honeypot, timestamp, rate
-limit, or message-delivery provider.
-
-The future integration must add an isolated POST endpoint, server-side
-Turnstile Siteverify, repeated server validation, endpoint rate limiting,
-request bounds, secret storage, CSP review, delivery/retention decisions, and
-complete submitting/success/failure recovery states.
+The form uses the isolated `/api/forms/contact` Pages Function. The server
+enforces Siteverify action and exact hostname checks, repeated validation,
+request bounds, same-origin POST, and D1 delivery identity. Brevo sends an
+office notification after validation. The Cloudflare account still needs real
+Turnstile keys, D1 bindings/migrations, secrets, an edge rate-limit rule, and
+Preview acceptance before Production activation.
 
 ## 8. Content and data ownership
 
@@ -209,21 +213,25 @@ logical CSS, and zero accidental horizontal overflow.
 - Persistent programmatic labels and required-state communication.
 - Stable hint/error IDs with `aria-describedby` and `aria-invalid`.
 - Error messages remain non-color-only and available to assistive technology.
-- The unavailable form action is both visually and programmatically disabled.
+- The form action is disabled until its browser and Turnstile dependencies load;
+  it remains disabled without JavaScript.
 - Keyboard, text zoom, spacing overrides, forced colors, and all configured
   locales must remain usable.
 
 ## 12. Completion boundary
 
-The validation-only implementation is complete only when:
+Production submission is complete only when:
 
 - the page contract and responsive states are implemented on the published
   review route;
 - shared primitive extensions are backward compatible;
 - validation behavior and accessibility pass automated/manual checks;
-- no interaction can issue a contact network request;
 - the production Contact route is published with locale parity;
-- Cloudflare work exists only as the approved structural TODO contract.
+- a real Preview POST receives one office email and the matching D1 reference;
+- missing JavaScript, Turnstile, D1, or Brevo fails safely with direct contact
+  still available;
+- the external activation checklist in `docs/cloudflare-pages-forms/README.md`
+  passes for Preview and Production.
 
 ## 13. Shared-control compatibility decision
 

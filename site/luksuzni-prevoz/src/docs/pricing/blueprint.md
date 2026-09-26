@@ -1,5 +1,7 @@
 # Luxury Transportation — Pricing Page Blueprint v1.2
 
+> **Approved DR-06/DR-08/DR-09/DR-12 amendment (2026-09-24), with later owner refinement:** Public identity is **Luksuzni prevoz**. Where this page uses VehicleRecommendations, it renders the universal natural-colour 4:3 FleetCard with details below the photo; configuration-specific booking and pricing remain intact. Its existing FinalCTA uses the shared wide compact main-container interior-photo panel with the page's existing localized action meaning and verified contacts. The shared four-tier footer uses route-derived links, a centered partner-logo row, and an accessibly named symbol-only logo. These approved shared contracts supersede older card overlays, split or viewport-wide CTA media, GS/parent branding, and footer geometry below; all other page-specific regions, content, and CTA destinations remain locked.
+
 Status: **LOCKED STRUCTURAL BLUEPRINT**
 Route key: `pricing`
 Page kind: `page`
@@ -325,7 +327,8 @@ Do not create a second mobile Hero.
 
 ## Height
 
-Use the existing `full-bleed` variant height and layering contract unchanged.
+Use the shared `full-bleed` variant's content-safe viewport minimum and layering
+contract; do not introduce Pricing-local height or scrim rules.
 Do not create page-local viewport-height, scrim or focal-point overrides.
 
 ---

@@ -1,37 +1,34 @@
 /**
- * Google Reviews — MOCK DEVELOPMENT DATA adapter. FND-ARCH-03 / FND-TYPE-02.
+ * Google reviews data boundary. FND-ARCH-03 / FND-TYPE-02.
  *
- * Until the owner's real Google Reviews package lands, the review dataset is a
- * LOCAL mocked JSON fixture shaped like the Google Places API (New) Place
- * response (src/data/fixtures/google-place-reviews.mock.json). This module is
- * the SINGLE boundary that normalizes that raw external-API shape into the
- * stable ReviewViewModel / ReviewsSummaryViewModel the UI consumes, so the
- * future package can replace the fixture + this adapter's INPUT without
- * touching ReviewCard / ReviewsShowcase (the view models are the contract).
+ * Temporary manual snapshot transcribed from the owner's Google Maps screenshots.
+ * See google-reviews.snapshot.json source metadata and docs/home/reviews-source.md.
+ * Text is the English wording visible in the screenshots (including Google's
+ * translations); original-language text and exact dates were not supplied.
+ * Do not invent dates, author profile URLs, avatars, or individual review links.
+ * Display text lives in content/reviews/{locale}.json. Serbian and Russian are
+ * site translations of supplied English, not reconstructed Google originals.
  *
- * MOCK DEVELOPMENT DATA — replace with the future reviews package. The fixture
- * is synthetic only (mock IDs, mock Google URLs, fabricated review text); no
- * entry is an actual customer review and no mock URL is a verified production
- * Google destination.
- *
- * No Zod: the fixture is trusted LOCAL development data (a versioned source
- * file, not untrusted runtime input), so typing + a module-load structural guard
- * is the validation — the same pattern as fleet.ts / services.ts / contact.ts.
- * The future LIVE package will own its own boundary validation for genuinely
- * untrusted Places API responses (the view models stay unchanged).
- *
- * Localized review text is NOT translated per page locale (an external Google
- * review keeps its own language); only the UI chrome (heading, CTA, carousel
- * controls, rating unit) is localized via content/ui/*.json in the components.
- *
- * External-link safety (task §22): the place-level Google Maps URL surfaced by
- * getReviewsSummary() is the MOCK fixture URL for structural testing only. The
- * page wires the verified production URL (contact.office.googleMapsUrl) and lets
- * it take precedence; only when that is absent does the mock URL render, and the
- * mock URL is an obviously-fake path so it can never be mistaken for a verified
- * production Google Business profile.
+ * The trusted local snapshot is structurally checked below. A future API source
+ * must validate untrusted responses while preserving the existing view models.
  */
-import rawMock from "./fixtures/google-place-reviews.mock.json";
+import type { LocaleCode } from "@astro-foundation/core";
+import { localeCodes } from "./locales.ts";
+import rawSnapshot from "./google-reviews.snapshot.json" with { type: "json" };
+import srContent from "../content/reviews/sr.json" with { type: "json" };
+import enContent from "../content/reviews/en.json" with { type: "json" };
+import ruContent from "../content/reviews/ru.json" with { type: "json" };
+
+interface ReviewsLocaleContent {
+  locale: string;
+  reviews: Record<string, { text: string; excerpt?: string }>;
+}
+
+const localizedContent: Record<LocaleCode, ReviewsLocaleContent> = {
+  sr: srContent,
+  en: enContent,
+  ru: ruContent,
+};
 
 // --- Raw Google Places (New) Place shape (subset relevant to the UI) ---------
 
@@ -53,6 +50,8 @@ export interface GooglePlaceReview {
   name: string;
   relativePublishTimeDescription?: string | null;
   text: GooglePlaceLocalizedText;
+  /** Optional verbatim excerpt; the full source text remains stored above. */
+  displayExcerpt?: string;
   originalText?: GooglePlaceLocalizedText | null;
   rating: number;
   authorAttribution: GoogleAuthorAttribution;
@@ -102,7 +101,10 @@ export interface ReviewsSummaryViewModel {
   reviews: ReviewViewModel[];
 }
 
-const mockResponse = rawMock as GooglePlaceReviewsResponse;
+const snapshotResponse = rawSnapshot satisfies GooglePlaceReviewsResponse;
+
+/** Verified independently of unrelated office/contact facts. */
+export const reviewsSourceVerified = rawSnapshot.source.verificationStatus === "verified";
 
 /** Clamp + round a raw rating into the 1–5 integer range the UI renders. */
 function normalizeRating(raw: number | undefined | null): number {
@@ -122,7 +124,7 @@ function normalizeReviewId(rawName: unknown, fallback: string): string {
  *  its language differs from `text`). */
 function normalizeReview(raw: GooglePlaceReview, index: number): ReviewViewModel {
   const author = raw.authorAttribution;
-  const displayText = raw.text?.text?.trim() ?? "";
+  const displayText = raw.displayExcerpt?.trim() || raw.text?.text?.trim() || "";
   const original = raw.originalText?.text?.trim() ?? "";
   const originalLang = raw.originalText?.languageCode ?? null;
   const textLang = raw.text?.languageCode ?? null;
@@ -130,7 +132,7 @@ function normalizeReview(raw: GooglePlaceReview, index: number): ReviewViewModel
   const originalText = original.length > 0 && originalLang !== textLang ? original : null;
 
   return {
-    id: normalizeReviewId(raw.name, `mock-review-${index + 1}`),
+    id: normalizeReviewId(raw.name, `review-${index + 1}`),
     authorName: author?.displayName?.trim() || "—",
     authorProfileUrl: author?.uri?.trim() || null,
     // Kept for the future avatar slot; ReviewCard renders no avatar today
@@ -162,53 +164,86 @@ function normalizeReviews(raw: GooglePlaceReviewsResponse): ReviewsSummaryViewMo
 
 // --- Module-load structural guard -------------------------------------------
 //
-// Trusted local fixture, so the guard is a structural sanity check (not Zod).
-// It fails the build loudly if the fixture is malformed — no silent fallback
-// that could mask broken mock data behind an empty carousel. Mirrors the
+// Trusted local snapshot, so the guard is a structural sanity check (not Zod).
+// It fails the build loudly if the snapshot is malformed — no silent fallback
+// that could mask broken review data behind an empty carousel. Mirrors the
 // assertXConsistency() pattern in fleet.ts / services.ts.
-function assertReviewsMockConsistency(raw: GooglePlaceReviewsResponse): void {
+function assertReviewsConsistency(raw: GooglePlaceReviewsResponse): void {
   if (!raw || typeof raw !== "object") {
     throw new Error(
-      "reviews.ts: google-place-reviews.mock.json is not an object — fixture is malformed.",
+      "reviews.ts: google-reviews.snapshot.json is not an object — snapshot is malformed.",
     );
   }
   if (!Array.isArray(raw.reviews) || raw.reviews.length === 0) {
     throw new Error(
-      "reviews.ts: google-place-reviews.mock.json has no reviews[] — the Reviews carousel requires at least one mock review.",
+      "reviews.ts: google-reviews.snapshot.json has no reviews[] — the Reviews carousel requires at least one review.",
     );
   }
   raw.reviews.forEach((review, i) => {
     if (!review?.authorAttribution?.displayName) {
       throw new Error(
-        `reviews.ts: mock review #${i + 1} is missing authorAttribution.displayName — fixture is malformed.`,
+        `reviews.ts: review #${i + 1} is missing authorAttribution.displayName — snapshot is malformed.`,
       );
     }
     if (typeof review.rating !== "number" || review.rating < 1 || review.rating > 5) {
       throw new Error(
-        `reviews.ts: mock review #${i + 1} has an out-of-range rating (${String(review.rating)}) — must be 1–5.`,
+        `reviews.ts: review #${i + 1} has an out-of-range rating (${String(review.rating)}) — must be 1–5.`,
       );
     }
     if (!review.text?.text) {
       throw new Error(
-        `reviews.ts: mock review #${i + 1} is missing text.text — fixture is malformed.`,
+        `reviews.ts: review #${i + 1} is missing text.text — snapshot is malformed.`,
       );
     }
   });
 }
 
-assertReviewsMockConsistency(mockResponse);
+assertReviewsConsistency(snapshotResponse);
 
-const summary: ReviewsSummaryViewModel = normalizeReviews(mockResponse);
+/** All configured locales must cover exactly the verified review IDs. */
+function assertLocalizedReviewsConsistency(): void {
+  const ids = new Set(snapshotResponse.reviews.map((review) => review.name));
+  if (ids.size !== snapshotResponse.reviews.length) {
+    throw new Error("reviews.ts: duplicate review IDs in the source snapshot.");
+  }
+  for (const locale of localeCodes) {
+    const content = localizedContent[locale];
+    if (!content || content.locale !== locale) {
+      throw new Error(`reviews.ts: missing or mismatched review content for ${locale}.`);
+    }
+    const contentIds = Object.keys(content.reviews);
+    if (contentIds.length !== ids.size || contentIds.some((id) => !ids.has(id))) {
+      throw new Error(`reviews.ts: review ID parity failed for ${locale}.`);
+    }
+    for (const [id, review] of Object.entries(content.reviews)) {
+      if (!review.text.trim() || (review.excerpt !== undefined && !review.excerpt.trim())) {
+        throw new Error(`reviews.ts: empty review text or excerpt for ${locale}/${id}.`);
+      }
+      if (review.excerpt && !review.text.startsWith(review.excerpt)) {
+        throw new Error(`reviews.ts: excerpt must preserve the opening text for ${locale}/${id}.`);
+      }
+    }
+  }
+}
 
-/**
- * The single entry point the page uses. The future real Google Reviews package
- * replaces the `rawMock` import + normalizer input (its own fetch + boundary
- * validation) but keeps returning the same ReviewsSummaryViewModel, so neither
- * ReviewCard nor ReviewsShowcase needs to change.
- *
- * MOCK DATA MODE: returns the normalized local mock fixture. Pure/synchronous
- * — no network, no caching, no auth.
- */
-export function getReviewsSummary(): ReviewsSummaryViewModel {
-  return summary;
+assertLocalizedReviewsConsistency();
+
+/** Required locale; missing content is an error, never an English fallback.
+ * Compatibility: callers now pass their configured page locale. */
+export function getReviewsSummary(locale: LocaleCode): ReviewsSummaryViewModel {
+  const content = localizedContent[locale];
+  if (!content) throw new Error(`reviews.ts: missing review content for ${locale}.`);
+  const summary = normalizeReviews(snapshotResponse);
+  return {
+    ...summary,
+    reviews: summary.reviews.map((review) => {
+      const localized = content.reviews[review.id];
+      if (!localized) throw new Error(`reviews.ts: missing review ${review.id} for ${locale}.`);
+      return {
+        ...review,
+        text: localized.excerpt ?? localized.text,
+        languageCode: locale,
+      };
+    }),
+  };
 }

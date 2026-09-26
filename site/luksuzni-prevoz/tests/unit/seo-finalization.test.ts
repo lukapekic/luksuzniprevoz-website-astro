@@ -25,8 +25,7 @@ describe("SEO output safety and public destinations", () => {
       if ("children" in item) item.children.forEach(visit);
     };
     navigation.header.forEach(visit);
-    navigation.footer.services.forEach(visit);
-    navigation.footer.company.forEach(visit);
+    navigation.footer.forEach(visit);
     assert.deepEqual(getService("businessTransportation").children, [
       "corporateTransportation",
       "delegationTransportation",
@@ -36,7 +35,7 @@ describe("SEO output safety and public destinations", () => {
 });
 
 describe("legacy URL migration", () => {
-  it("maps equivalent WordPress URLs directly and leaves unmatched archives unmapped", () => {
+  it("maps legacy WordPress URLs directly, including removed pages to localized homepages", () => {
     const redirects = generateRedirects(
       routes,
       "https://luksuzniprevoz.rs",
@@ -45,7 +44,7 @@ describe("legacy URL migration", () => {
     );
     const redirectMap = new Map(redirects.map((entry) => [entry.from, entry]));
 
-    assert.equal(redirects.length, 33);
+    assert.equal(redirects.length, 36);
     assert.deepEqual(redirectMap.get("/cenovnik-usluga-prevoza/"), {
       from: "/cenovnik-usluga-prevoza/",
       to: "/cene/",
@@ -56,9 +55,9 @@ describe("legacy URL migration", () => {
       "/korporativni-prevoz/",
     );
     assert.equal(redirectMap.get("/en/chauffeur-service/")?.to, "/en/private-chauffeur/");
-    assert.equal(redirectMap.has("/news/"), false);
-    assert.equal(redirectMap.has("/o-nama/"), false);
-    assert.equal(redirectMap.has("/en/about-us/"), false);
+    assert.equal(redirectMap.get("/news/")?.to, "/");
+    assert.equal(redirectMap.get("/o-nama/")?.to, "/");
+    assert.equal(redirectMap.get("/en/about-us/")?.to, "/en/");
   });
 });
 

@@ -1,7 +1,10 @@
+import { isValidPhoneNumber, PHONE_LIMITS } from "../../lib/forms/phone-validation.ts";
+export { PHONE_PATTERN } from "../../lib/forms/phone-validation.ts";
+
 export const CONTACT_FORM_LIMITS = {
   fullName: { min: 2, max: 100 },
   email: { max: 254 },
-  phone: { minDigits: 7, maxDigits: 15, max: 32 },
+  phone: PHONE_LIMITS,
   message: { min: 10, max: 3000 },
 } as const;
 
@@ -20,12 +23,6 @@ export const FULL_NAME_PATTERN =
 /** Practical mailbox/domain validation with explicit local and total limits. */
 export const EMAIL_PATTERN =
   /^(?=.{3,254}$)(?=.{1,64}@)[A-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
-
-/**
- * International-friendly phone shape. Accepts +country-code, 00-country-code,
- * or a local number beginning with 0, plus common visual separators.
- */
-export const PHONE_PATTERN = /^(?:(?:\+|00)[1-9]|0)(?:[ \u00a0().-]*\d){6,14}$/;
 
 export type ContactFormField = "fullName" | "email" | "phone" | "message";
 
@@ -56,17 +53,8 @@ const fullNameFormat: ContactFieldValidator = (value) =>
 const emailFormat: ContactFieldValidator = (value) =>
   value.length > 0 && !EMAIL_PATTERN.test(value) ? "emailFormat" : null;
 
-const phoneFormat: ContactFieldValidator = (value) => {
-  if (value.length === 0) return null;
-
-  const dialValue = value.startsWith("00") ? value.slice(2) : value;
-  const digitCount = dialValue.replace(/\D/gu, "").length;
-  return PHONE_PATTERN.test(value) &&
-    digitCount >= CONTACT_FORM_LIMITS.phone.minDigits &&
-    digitCount <= CONTACT_FORM_LIMITS.phone.maxDigits
-    ? null
-    : "phoneFormat";
-};
+const phoneFormat: ContactFieldValidator = (value) =>
+  isValidPhoneNumber(value) ? null : "phoneFormat";
 
 const messageLength: ContactFieldValidator = (value) =>
   value.length > 0 &&

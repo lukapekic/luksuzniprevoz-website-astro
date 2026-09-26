@@ -5,11 +5,20 @@ Cloudflare Pages and activate the Contact and Booking forms with Cloudflare
 Pages Functions, Turnstile, D1, edge rate limiting, and Brevo transactional
 email.
 
-The repository implementation is complete. Cloudflare and Brevo account
-provisioning is intentionally not stored in source control and still has to be
-performed by an account owner.
+For service ownership, DNS backups, staging/production separation, email
+preservation and a portable migration procedure, start with the standalone
+[Cloudflare deployment, DNS and migration guide](../cloudflare/README.md).
+
+This runbook describes the repository's implementation and required configuration.
+It is not a live provisioning-status report. Consult the dated
+[production setup record](production-setup.md) and its verification evidence for
+actual resources, deployment state and unresolved rollout steps. Secret values
+must remain outside source control.
 
 Last infrastructure and free-plan review: **2026-08-30**.
+
+For the extracted reusable helpers and a portable end-to-end setup checklist, see
+[reusable-setup.md](reusable-setup.md) and the [form-kit package](../../packages/form-kit/README.md).
 
 ## 1. What is already implemented
 
@@ -73,6 +82,7 @@ D1 gives the pipeline:
 - a unique submission ID supplied by the browser and reused on retry;
 - one stable support reference such as `LP-20260830-12AB34CD`;
 - a durable `processing`, `accepted`, or `failed` delivery state;
+- a keyed digest binding each ID to one validated form type, locale, and payload;
 - an attempt counter and controlled retry path;
 - the Brevo message ID needed to correlate a request with Brevo logs;
 - protection against common double-click, browser retry, and concurrent-request
@@ -81,9 +91,10 @@ D1 gives the pipeline:
   accepted the message.
 
 This is a delivery ledger, not a CRM and not a backup of the inquiry. Exactly-once
-email delivery cannot be mathematically guaranteed across every possible
-network/provider failure, so the office should still use the stable request
-reference to recognize a rare duplicate.
+email delivery cannot be guaranteed across every provider/network failure.
+Ambiguous delivery stays `processing` for operator reconciliation and is not
+automatically resent. The office should use the reference to recognize a rare
+duplicate from a separately initiated request.
 
 ### What D1 stores
 
@@ -92,6 +103,7 @@ The current table is deliberately metadata-only:
 | Column                     | Purpose                                    | Contains form PII? |
 | -------------------------- | ------------------------------------------ | ------------------ |
 | `submission_id`            | Browser-generated UUID and idempotency key | No                 |
+| `payload_digest`           | Keyed digest of validated content          | No raw content     |
 | `reference`                | Short support correlation reference        | No                 |
 | `form_kind`                | `contact` or `booking`                     | No                 |
 | `locale`                   | `sr`, `en`, or `ru`                        | No                 |
@@ -101,7 +113,7 @@ The current table is deliberately metadata-only:
 | `last_error_code`          | Safe internal failure category             | No                 |
 | `created_at`, `updated_at` | Millisecond timestamps                     | No                 |
 
-It does **not** store names, email addresses, phone numbers, route addresses,
+It does **not** store raw names, email addresses, phone numbers, route addresses,
 dates, passenger information, flight details, notes, or message content. Those
 values are sent to Brevo only after validation.
 
@@ -193,11 +205,13 @@ Before provisioning, confirm:
 - a Brevo account with a site-specific transactional API key;
 - a Brevo sender/domain that can be authenticated with DNS records;
 - the production office recipient address;
-- a separate Preview/test recipient address;
+- the owner-selected controlled Preview recipient (currently the canonical office inbox);
 - who owns D1 monitoring, Brevo delivery review, secret rotation, and metadata
   retention.
 
-Never use the production office recipient for routine Preview testing.
+For this rollout, the owner selected the canonical office address in
+`src/data/contact.ts` as both the Brevo sender and the controlled Preview test
+recipient. Do not send routine automated Preview traffic to that inbox.
 
 ## 5. Provision Cloudflare Pages
 
@@ -214,6 +228,10 @@ Use these settings:
 | Build command          | `pnpm types:generate:check && pnpm --filter @luksuzni-prevoz/site build` |
 | Build output directory | `site/luksuzni-prevoz/dist`                                              |
 | Functions directory    | Root `functions/`, discovered automatically                              |
+
+The site publishes `public/_routes.json` with only the two form API routes in
+`include`, keeping pages and assets on the static path. Verify the deployed
+manifest after the first Preview build.
 
 The repository root must remain the Pages root. Pointing Pages directly at
 `site/luksuzni-prevoz` would hide the workspace packages and root `functions/`
@@ -297,14 +315,14 @@ luksuzni-prevoz-forms-preview
 luksuzni-prevoz-forms-production
 ```
 
-Apply the initial schema to Preview first:
+Apply both migrations to Preview first:
 
 1. Open **Storage & Databases > D1** in Cloudflare.
 2. Select the Preview database.
 3. Open its SQL Console.
-4. Paste and execute the contents of
-   [`migrations/0001_form_submission_ledger.sql`](../../migrations/0001_form_submission_ledger.sql).
-5. Verify the table and index:
+4. Execute [`migrations/0001_form_submission_ledger.sql`](../../migrations/0001_form_submission_ledger.sql),
+   then [`migrations/0002_form_submission_digest.sql`](../../migrations/0002_form_submission_digest.sql).
+5. Verify the table, digest column, and index:
 
 ```sql
 SELECT name, type
@@ -317,9 +335,12 @@ Expected objects include the `form_submissions` table and
 `form_submissions_status_updated_idx`. SQLite may also show automatic indexes
 for the primary-key and unique-reference constraints.
 
-After Preview acceptance, repeat the same migration against Production. The
-current migration uses `IF NOT EXISTS`, so repeating it is safe, but every
-execution still consumes a small amount of D1 usage.
+Verify `PRAGMA table_info(form_submissions)` includes `payload_digest`. Migration
+0002 is one-time and must not be rerun after the column exists. Existing rows
+with a null digest require manual reconciliation; the Function will not silently
+reuse those IDs.
+
+After Preview acceptance, apply both migrations in the same order to Production.
 
 The repository intentionally does not yet contain a Wrangler configuration
 with invented account/database IDs. If infrastructure is later managed from the
@@ -376,7 +397,7 @@ Before production:
 2. Verify the sender address used by `BREVO_SENDER_EMAIL`.
 3. Create a dedicated API key for this site instead of reusing a broad key.
 4. Set the customer's validated email only as `Reply-To`, never as `From`.
-5. Confirm the Production recipient and a separate Preview recipient.
+5. Confirm the Production recipient and the owner-selected controlled Preview recipient.
 6. Review Brevo transactional-log and message-content-preview retention.
 7. Decide whether Brevo click/open tracking should remain disabled for these
    operational messages.
@@ -401,19 +422,24 @@ Official Cloudflare email references:
 Configure values separately for Preview and Production under the Pages
 project's **Settings > Variables and Secrets**. Encrypt API keys and tokens.
 
-| Name                      | Type               | Preview example               | Production example                                            |
-| ------------------------- | ------------------ | ----------------------------- | ------------------------------------------------------------- |
-| `FORM_ENVIRONMENT`        | Plain variable     | `preview`                     | `production`                                                  |
-| `TURNSTILE_ALLOWED_HOSTS` | Plain variable     | `staging.<project>.pages.dev` | `luksuzniprevoz.rs,www.luksuzniprevoz.rs,<project>.pages.dev` |
-| `TURNSTILE_SECRET_KEY`    | Encrypted secret   | Preview widget secret         | Production widget secret                                      |
-| `BREVO_API_KEY`           | Encrypted secret   | Site-specific Brevo key       | Site-specific Brevo key                                       |
-| `BREVO_SENDER_EMAIL`      | Plain or encrypted | Verified sender               | Verified sender                                               |
-| `BREVO_SENDER_NAME`       | Plain variable     | Approved brand name           | Approved brand name                                           |
-| `BREVO_TO_EMAIL`          | Prefer encrypted   | Test recipient                | Office recipient(s)                                           |
-| `FORM_DB`                 | D1 binding         | Preview database              | Production database                                           |
+| Name                      | Type               | Preview example                | Production example                                            |
+| ------------------------- | ------------------ | ------------------------------ | ------------------------------------------------------------- |
+| `FORM_ENVIRONMENT`        | Plain variable     | `preview`                      | `production`                                                  |
+| `FORM_IDEMPOTENCY_SECRET` | Encrypted secret   | Unique random value, 32+ chars | Different unique random value, 32+ chars                      |
+| `TURNSTILE_ALLOWED_HOSTS` | Plain variable     | `staging.<project>.pages.dev`  | `luksuzniprevoz.rs,www.luksuzniprevoz.rs,<project>.pages.dev` |
+| `TURNSTILE_SECRET_KEY`    | Encrypted secret   | Preview widget secret          | Production widget secret                                      |
+| `BREVO_API_KEY`           | Encrypted secret   | Site-specific Brevo key        | Site-specific Brevo key                                       |
+| `BREVO_SENDER_EMAIL`      | Plain or encrypted | Verified sender                | Verified sender                                               |
+| `BREVO_SENDER_NAME`       | Plain variable     | Approved brand name            | Approved brand name                                           |
+| `BREVO_TO_EMAIL`          | Prefer encrypted   | Test recipient                 | Office recipient(s)                                           |
+| `FORM_DB`                 | D1 binding         | Preview database               | Production database                                           |
 
 `BREVO_TO_EMAIL` accepts comma-separated recipients. Hostname values never
 include schemes, ports, paths, or wildcards.
+
+Keep `FORM_IDEMPOTENCY_SECRET` different between Preview and Production. A
+rotation changes the digest for old request IDs, so reconcile any in-flight
+`processing` rows before rotating it.
 
 The function returns `503 service_unavailable` if any required runtime value is
 missing. Changing a binding, runtime variable, secret, or public build variable
@@ -511,6 +537,7 @@ Cloudflare resource bindings or secrets.
 - [ ] `GET /api/forms/contact` returns `405` with `Allow: POST`.
 - [ ] `GET /api/forms/booking` returns `405` with `Allow: POST`.
 - [ ] Missing/invalid runtime configuration returns `503` and sends no email.
+- [ ] D1 has `payload_digest`; a missing migration fails closed.
 - [ ] Wrong request hostname is rejected.
 - [ ] Expired/invalid Turnstile tokens are rejected.
 - [ ] Correct tokens require the exact Contact or Booking action.
@@ -531,12 +558,17 @@ Cloudflare resource bindings or secrets.
 - [ ] D1 contains no form content or customer PII.
 - [ ] Repeating the same browser submission ID returns the same reference and
       does not normally create a second message.
+- [ ] Reusing an ID with changed content returns `409` and sends no message.
+- [ ] A duplicate received during `processing` does not claim receipt.
 
 ### Failure and recovery
 
 - [ ] Brevo rejection/outage produces a recoverable error without clearing the
       user's fields.
-- [ ] A retry reuses the same submission ID and reference.
+- [ ] An unchanged retry reuses the same submission ID; editing the form starts
+      a new request ID.
+- [ ] An ambiguous provider result stays `processing` for manual reconciliation
+      and cannot automatically send a duplicate notification.
 - [ ] Turnstile expiry/reset does not lose entered data.
 - [ ] D1 unavailability fails safely and does not send an untracked email.
 - [ ] Rate-limit behavior is understandable to the user; note that an edge WAF
@@ -673,27 +705,38 @@ verified target, and reviewed recovery plan.
 
 Complete this table when provisioning is finished:
 
-| Decision                     | Final value                          |
-| ---------------------------- | ------------------------------------ |
-| Cloudflare Pages project     | TBD                                  |
-| Production Pages hostname    | TBD                                  |
-| Stable Preview hostname      | TBD                                  |
-| Production branch            | `master`                             |
-| Preview branch               | TBD, recommended `staging`           |
-| Preview D1 database          | TBD                                  |
-| Production D1 database       | TBD                                  |
-| D1 binding                   | `FORM_DB`                            |
-| Turnstile widget strategy    | TBD: separate or shared              |
-| Production allowed hosts     | TBD                                  |
-| Preview Brevo recipient      | TBD                                  |
-| Production Brevo recipient   | TBD                                  |
-| Brevo sender/domain verified | TBD                                  |
-| WAF threshold/action         | TBD after Preview test               |
-| Ledger retention period      | TBD                                  |
-| Brevo log/content retention  | TBD                                  |
-| CSP enforcement date         | TBD after clean report-only evidence |
-| Operational owner            | TBD                                  |
-| Production smoke-test date   | TBD                                  |
+| Decision                     | Final value                                                               |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| Cloudflare Pages project     | `luksuzniprevoz-website-astro` (API verified)                             |
+| Production Pages hostname    | `luksuzniprevoz-website-astro.pages.dev`                                  |
+| Stable Preview hostname      | `staging.luksuzniprevoz-website-astro.pages.dev`                          |
+| Production branch            | `master`                                                                  |
+| Preview branch               | `staging`                                                                 |
+| Preview D1 database          | `luksuzni-prevoz-forms-preview`; migrations applied and `FORM_DB` bound   |
+| Production D1 database       | TBD                                                                       |
+| D1 binding                   | `FORM_DB`                                                                 |
+| Turnstile widget strategy    | Separate Managed Preview widget; Production pending                       |
+| Preview allowed host         | `staging.luksuzniprevoz-website-astro.pages.dev`                          |
+| Production allowed hosts     | TBD                                                                       |
+| Preview Brevo recipient      | `reservations@luksuzniprevoz.rs`; encrypted Cloudflare binding configured |
+| Production Brevo recipient   | `reservations@luksuzniprevoz.rs`; binding not configured                  |
+| Brevo sender/domain verified | `reservations@luksuzniprevoz.rs` active; domain authentication pending    |
+| WAF threshold/action         | TBD after Preview test                                                    |
+| Ledger retention period      | TBD                                                                       |
+| Brevo log/content retention  | TBD                                                                       |
+| CSP enforcement date         | TBD after clean report-only evidence                                      |
+| Operational owner            | TBD                                                                       |
+| Production smoke-test date   | TBD                                                                       |
+
+Preview deployed from `44314e0` on 2026-09-25. Both form pages published the
+Preview Turnstile site key and `X-Robots-Tag: noindex`; both API routes returned
+`405` for `GET`. Invalid `POST` requests returned `503 service_unavailable` before
+the Brevo API key was configured. The Preview Brevo key, sender, and recipient
+are now configured, but a fresh deployment and end-to-end delivery test remain
+pending. Brevo accepted a controlled transactional email API request from
+`reservations@luksuzniprevoz.rs` to the same inbox on 2026-09-25. The Brevo API
+does not yet list `luksuzniprevoz.rs` as an authenticated sender domain. Inbox
+receipt and Pages Functions egress still require verification.
 
 ## 21. External documentation
 

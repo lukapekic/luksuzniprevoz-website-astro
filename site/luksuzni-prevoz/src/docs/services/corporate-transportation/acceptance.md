@@ -291,7 +291,7 @@ Shared:
 # R. Image contract
 
 - [ ] Hero uses `src/assets/shared/other/chauffeur-inside-grayedout.webp`
-- [ ] Working Day uses `src/assets/shared/other/s-class-driving-forest-intheback.webp`
+- [ ] Working Day uses `src/assets/shared/other/executive-working-in-rear-seat.webp`
 - [ ] no remote stock hotlink
 - [ ] no autonomous stock substitution
 - [ ] Astro image pipeline

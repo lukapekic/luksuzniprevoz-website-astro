@@ -1,3 +1,4 @@
+import { mountScheduleControls, syncCanonicalSchedule, syncDisplaySchedule } from "../../lib/booking/booking-schedule-controls.ts";
 import { vehicles, type Vehicle } from "../../data/fleet.ts";
 import {
   isBookingServiceKey,
@@ -11,6 +12,8 @@ import { resolveBookingPricing } from "../../lib/booking/booking-pricing.ts";
 import { loadBookingDraft, saveBookingDraft } from "../../lib/booking/booking-storage.ts";
 import { BOOKING_STORAGE_KEY } from "../../lib/booking/booking-storage.ts";
 import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
+import { lockSubmissionControls } from "../../lib/forms/submission-controls.ts";
+import { formatDisplayDate, formatDisplaySchedule, parseDisplayDate } from "../../lib/booking/booking-date-time.ts";
 import {
   buildBookingRequest,
   validateBookingDraft,
@@ -177,6 +180,7 @@ function selectedVehicle(draft: BookingDraft): Vehicle | null {
 
 function updateVehicleEligibility(form: HTMLFormElement): void {
   const passengers = numberValue(form, "passengerCount");
+  let resetSelection = false;
   for (const option of form.querySelectorAll<HTMLElement>("[data-vehicle-option]")) {
     const capacity = Number(option.dataset.capacity);
     const input = option.querySelector<HTMLInputElement>('input[type="radio"]');
@@ -184,9 +188,16 @@ function updateVehicleEligibility(form: HTMLFormElement): void {
     const ineligible = Boolean(passengers && Number.isFinite(capacity) && capacity > 0 && passengers > capacity);
     if (input) {
       input.disabled = ineligible;
-      if (ineligible && input.checked) input.checked = false;
+      if (ineligible && input.checked) {
+        input.checked = false;
+        resetSelection = true;
+      }
     }
     if (warning) warning.hidden = !ineligible;
+  }
+  if (resetSelection) {
+    const live = form.querySelector<HTMLElement>("[data-booking-live]");
+    if (live) live.textContent = form.dataset.vehicleResetMessage ?? "";
   }
 }
 
@@ -241,9 +252,14 @@ function setText(root: ParentNode, selector: string, value: string): void {
 function updateSummary(form: HTMLFormElement): BookingPricingResult | null {
   const draft = readDraft(form);
   const none = form.dataset.notSelected ?? "";
+  const outbound = formatDisplaySchedule(draft.date, draft.time);
+  const inbound = draft.returnRequested ? formatDisplaySchedule(draft.returnDate, draft.returnTime) : null;
+  const schedule = outbound
+    ? `${outbound}${inbound ? ` · ${form.dataset.returnLabel}: ${inbound}` : ""} (${form.dataset.timeZone})`
+    : none;
   const values = {
     service: serviceLabel(form) ?? none,
-    schedule: draft.date && draft.time ? `${draft.date} · ${draft.time} (${form.dataset.timeZone})` : none,
+    schedule,
     journey: draft.pickup ? `${draft.pickup}${draft.destination ? ` → ${draft.destination}` : draft.eventVenue ? ` → ${draft.eventVenue}` : ""}` : none,
     passengers: draft.passengerCount ? String(draft.passengerCount) : none,
     vehicle: selectedLabel(form, "vehiclePreference") ?? none,
@@ -252,6 +268,17 @@ function updateSummary(form: HTMLFormElement): BookingPricingResult | null {
   const price = priceText(form, result);
   for (const [key, value] of Object.entries({ ...values, price })) {
     setText(form, `[data-summary-value="${key}"], [data-review-value="${key}"]`, value);
+  }
+  const headService = form.querySelector<HTMLElement>("[data-summary-head-service]");
+  if (headService) headService.textContent = values.service === none ? "" : values.service;
+  const headSchedule = form.querySelector<HTMLElement>("[data-summary-head-schedule]");
+  if (headSchedule) {
+    headSchedule.textContent = schedule === none ? "" : schedule;
+    headSchedule.hidden = schedule === none;
+  }
+  for (const row of form.querySelectorAll<HTMLElement>("[data-booking-summary] dl > div, [data-booking-review] dl > div")) {
+    const value = row.querySelector<HTMLElement>("dd")?.textContent ?? "";
+    row.hidden = value === none || value === "";
   }
   const finalLabel = form.querySelector<HTMLElement>("[data-booking-final-label]");
   if (finalLabel) {
@@ -267,6 +294,7 @@ function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft:
     required: form.dataset.errorRequired,
     service: form.dataset.errorService,
     "date-time": form.dataset.errorDateTime,
+    "date-range": form.dataset.errorDateRange,
     "lead-time": form.dataset.errorLeadTime,
     "hourly-minimum": form.dataset.errorHourlyMinimum,
     "airport-scope": form.dataset.errorAirportScope,
@@ -284,12 +312,38 @@ function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft:
 }
 
 function clearErrors(form: HTMLFormElement): void {
+  const errorIds = new Set([...form.querySelectorAll<HTMLElement>("[data-error-for]")].map((target) => target.id).filter(Boolean));
   for (const target of form.querySelectorAll<HTMLElement>("[data-error-for]")) {
     target.hidden = true;
     target.textContent = "";
   }
   for (const item of form.querySelectorAll<HTMLElement>("[aria-invalid='true']")) {
     item.removeAttribute("aria-invalid");
+    const remaining = (item.getAttribute("aria-describedby") ?? "").split(" ").filter((id) => id && !errorIds.has(id));
+    if (remaining.length) item.setAttribute("aria-describedby", remaining.join(" "));
+    else item.removeAttribute("aria-describedby");
+  }
+  const summary = form.querySelector<HTMLElement>("[data-error-summary]");
+  if (summary) summary.hidden = true;
+}
+
+function clearEditedError(form: HTMLFormElement, target: EventTarget | null): void {
+  if (!(target instanceof HTMLElement)) return;
+  const name = target.getAttribute("name") ?? "";
+  const key = name === "dateDisplay" || name === "timeHour" || name === "timeMinute" ? "dateTime"
+    : name === "returnDateDisplay" || name === "returnTimeHour" || name === "returnTimeMinute" ? "return"
+    : name === "serviceCategory" || name === "service" ? "service" : name;
+  const error = form.querySelector<HTMLElement>(`[data-error-for="${key}"]`);
+  if (error) {
+    const invalidControl = errorControl(form, key) ?? target;
+    error.hidden = true;
+    error.textContent = "";
+    invalidControl.removeAttribute("aria-invalid");
+    if (error.id) {
+      const remaining = (invalidControl.getAttribute("aria-describedby") ?? "").split(" ").filter((id) => id && id !== error.id);
+      if (remaining.length) invalidControl.setAttribute("aria-describedby", remaining.join(" "));
+      else invalidControl.removeAttribute("aria-describedby");
+    }
   }
   const summary = form.querySelector<HTMLElement>("[data-error-summary]");
   if (summary) summary.hidden = true;
@@ -297,7 +351,7 @@ function clearErrors(form: HTMLFormElement): void {
 
 function errorControl(form: HTMLFormElement, field: string): HTMLElement | null {
   const mapping: Record<string, string> = {
-    service: "serviceCategory", dateTime: "date", return: "returnDate",
+    service: "serviceCategory", dateTime: "dateDisplay", return: "returnDateDisplay",
   };
   const name = mapping[field] ?? field;
   return form.querySelector<HTMLElement>(`[name="${name}"]`);
@@ -319,7 +373,10 @@ function renderErrors(form: HTMLFormElement, issues: BookingValidationIssue[], f
     const fieldControl = errorControl(form, issue.field);
     if (fieldControl) {
       fieldControl.setAttribute("aria-invalid", "true");
-      if (target?.id) fieldControl.setAttribute("aria-describedby", target.id);
+      if (target?.id) {
+        const existing = fieldControl.getAttribute("aria-describedby")?.split(" ") ?? [];
+        fieldControl.setAttribute("aria-describedby", [...new Set([...existing, target.id])].join(" "));
+      }
     }
   }
   const summary = form.querySelector<HTMLElement>("[data-error-summary]");
@@ -331,7 +388,7 @@ function renderErrors(form: HTMLFormElement, issues: BookingValidationIssue[], f
       return item;
     }));
     summary.hidden = false;
-    if (focusSummary) summary.focus();
+    if (focusSummary) errorControl(form, issues[0]?.field ?? "")?.focus();
   }
 }
 
@@ -364,12 +421,27 @@ function goToStep(form: HTMLFormElement, step: BookingStep, focus = true): void 
     panel.hidden = panel.dataset.stepPanel !== step;
   }
   const progressRoot = form.closest("[data-booking-root]") ?? document;
+  const currentIndex = steps.indexOf(step);
   for (const item of progressRoot.querySelectorAll<HTMLElement>("[data-progress-step]")) {
     const active = item.dataset.progressStep === step;
+    const itemStep = item.dataset.progressStep as BookingStep;
+    const completed = steps.indexOf(itemStep) < currentIndex && issuesForStep(form, itemStep).length === 0;
     item.dataset.active = String(active);
+    item.dataset.complete = String(completed);
     if (active) item.setAttribute("aria-current", "step");
     else item.removeAttribute("aria-current");
+    const button = item.querySelector<HTMLButtonElement>("[data-progress-go]");
+    if (button) button.disabled = !completed;
+    const number = item.querySelector<HTMLElement>("[data-step-number]");
+    const check = item.querySelector<HTMLElement>("[data-step-check]");
+    if (number) number.hidden = completed;
+    if (check) check.hidden = !completed;
   }
+  const progress = progressRoot.querySelector<HTMLElement>("[data-booking-progress]");
+  const count = progress?.querySelector<HTMLElement>("[data-progress-count]");
+  if (count) count.textContent = `${(progress?.dataset.stepTemplate ?? "").replace("{step}", String(currentIndex + 1))} / ${steps.length}`;
+  const currentLabel = progress?.querySelector<HTMLElement>("[data-progress-current-label]");
+  if (currentLabel) currentLabel.textContent = progress?.querySelector<HTMLElement>(`[data-progress-step="${step}"] .booking-progress__label`)?.textContent ?? "";
   const back = form.querySelector<HTMLElement>("[data-booking-back]");
   const next = form.querySelector<HTMLElement>("[data-booking-continue]");
   const final = form.querySelector<HTMLElement>("[data-booking-final]");
@@ -377,7 +449,10 @@ function goToStep(form: HTMLFormElement, step: BookingStep, focus = true): void 
   if (next) next.hidden = step === "review";
   if (final) final.hidden = step !== "review";
   const summary = form.querySelector<HTMLElement>("[data-booking-summary]");
-  if (summary) summary.hidden = step === "review";
+  if (summary) {
+    summary.hidden = step === "service" || step === "review";
+    if (summary instanceof HTMLDetailsElement) summary.open = false;
+  }
   clearErrors(form);
   updateConditionalFields(form);
   updateSummary(form);
@@ -406,6 +481,8 @@ export function mountBookingWizards(root: ParentNode = document): void {
     const url = new URL(window.location.href);
     const handoff = parseBookingHandoff(url.searchParams);
     applyDraft(form, handoff.patch);
+    syncDisplaySchedule(form);
+    mountScheduleControls(form);
     if (["intent", "service", "flightNumber", "date", "time"].some((key) => url.searchParams.has(key))) {
       history.replaceState(history.state, "", cleanBookingHandoffUrl(url));
     }
@@ -427,7 +504,9 @@ export function mountBookingWizards(root: ParentNode = document): void {
       if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
       if (finalButton) finalButton.disabled = true;
     } else {
-      void turnstile.render().catch(() => {
+      void turnstile.render().then(() => {
+        if (finalButton) finalButton.disabled = false;
+      }).catch(() => {
         if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
         if (finalButton) finalButton.disabled = true;
       });
@@ -435,9 +514,10 @@ export function mountBookingWizards(root: ParentNode = document): void {
 
     let submissionId: string | null = null;
     let completed = false;
+    let submitting = false;
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || completed) return;
+      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || completed || submitting) return;
       const issues = issuesForStep(form, "review");
       if (issues.length > 0) return renderErrors(form, issues);
       const token = turnstile.getToken();
@@ -447,7 +527,9 @@ export function mountBookingWizards(root: ParentNode = document): void {
       }
 
       submissionId ??= crypto.randomUUID();
+      submitting = true;
       finalButton.disabled = true;
+      const unlockControls = lockSubmissionControls(form);
       status.textContent = form.dataset.statusSubmitting ?? "";
       try {
         const response = await fetch(form.dataset.endpoint ?? "/api/forms/booking", {
@@ -480,24 +562,39 @@ export function mountBookingWizards(root: ParentNode = document): void {
         status.textContent = form.dataset.statusServerError ?? "";
       } finally {
         turnstile.reset();
+        unlockControls();
+        submitting = false;
         finalButton.disabled = completed;
       }
     });
     form.addEventListener("change", (event) => {
+      if (!submitting) submissionId = null;
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "serviceCategory") {
         for (const item of form.querySelectorAll<HTMLInputElement>('input[name="service"]')) item.checked = false;
       }
+      syncCanonicalSchedule(form);
       updateConditionalFields(form);
       updateVehicleEligibility(form);
-      clearErrors(form);
+      clearEditedError(form, target);
       updateSummary(form);
       try { saveBookingDraft(sessionStorage, readDraft(form)); } catch { /* fail open */ }
     });
-    form.addEventListener("input", () => {
+    form.addEventListener("input", (event) => {
+      if (!submitting) submissionId = null;
+      syncCanonicalSchedule(form);
       updateVehicleEligibility(form);
+      clearEditedError(form, event.target);
       updateSummary(form);
       try { saveBookingDraft(sessionStorage, readDraft(form)); } catch { /* fail open */ }
+    });
+    form.addEventListener("focusout", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement) || !target.matches("[data-booking-date-display]")) return;
+      const canonical = parseDisplayDate(target.value);
+      if (canonical) target.value = formatDisplayDate(canonical);
+      syncCanonicalSchedule(form);
+      updateSummary(form);
     });
 
     form.querySelector("[data-booking-continue]")?.addEventListener("click", () => {
@@ -512,6 +609,12 @@ export function mountBookingWizards(root: ParentNode = document): void {
       const previous = steps[steps.indexOf(step) - 1];
       if (previous) goToStep(form, previous);
     });
+    for (const button of form.querySelectorAll<HTMLButtonElement>("[data-progress-go]")) {
+      button.addEventListener("click", () => {
+        const destination = button.dataset.progressGo as BookingStep;
+        if (!button.disabled && steps.includes(destination)) goToStep(form, destination);
+      });
+    }
     for (const edit of form.querySelectorAll<HTMLElement>("[data-edit-step]")) {
       edit.addEventListener("click", () => {
         const step = edit.dataset.editStep as BookingStep;

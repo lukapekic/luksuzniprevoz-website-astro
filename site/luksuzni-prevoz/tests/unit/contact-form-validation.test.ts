@@ -10,7 +10,7 @@ import {
 const validValues: ContactFormValues = {
   fullName: "Jovana Petrović",
   email: "jovana.petrovic@example.com",
-  phone: "+381 60 111 9999",
+  phone: "+381 60 123 4567",
   message: "Želela bih više informacija o vašoj usluzi.",
 };
 

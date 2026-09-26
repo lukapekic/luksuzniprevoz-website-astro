@@ -48,9 +48,9 @@ test.describe("Private Chauffeur", () => {
     const quoteHref = `${flowPath("quote", "en")}&service=privateChauffeur`;
     await expect(page.locator("[data-site-header]")).toHaveAttribute("data-over-hero", "true");
     await expect(page.locator(".service-hero__actions a")).toHaveCount(2);
-    await expect(page.locator(".fcta-actions a")).toHaveCount(2);
-    await expect(page.locator(".fcta-actions a").nth(0)).toHaveAttribute("href", bookingHref);
-    await expect(page.locator(".fcta-actions a").nth(1)).toHaveAttribute("href", quoteHref);
+    await expect(page.locator(".final-cta__actions a")).toHaveCount(2);
+    await expect(page.locator(".final-cta__actions a").nth(0)).toHaveAttribute("href", bookingHref);
+    await expect(page.locator(".final-cta__actions a").nth(1)).toHaveAttribute("href", quoteHref);
     await expect(mainLinks.filter({ hasText: "Start your booking" }).first()).toHaveAttribute(
       "href",
       bookingHref,

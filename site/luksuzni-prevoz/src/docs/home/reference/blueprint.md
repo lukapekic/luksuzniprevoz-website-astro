@@ -7,7 +7,7 @@ Purpose: Source of truth for Homepage structure, component selection, surface rh
 
 > This blueprint defines structure and behavior. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content remain subject to their verified data/content sources.
 >
-> **Current revision:** the Homepage Hero uses the approved full-resolution S-Class photograph with a low-key dusk treatment, the chauffeur feature returns to an open split, fleet cards use canonical vehicle imagery where available, and the shared Header/FinalCTA gain bounded Homepage treatments.
+> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, and image assignments/delivery. The later owner refinement selects the soft-reveal Hero scrim, symbol-only four-tier footer with a partner-logo row, and wide compact contained FinalCTA with the DR-12 interior photo. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/sections/home/private-chauffeur.webp` for the service card; the larger feature uses `assets/shared/other/passenger-working-in-backseat.webp`.
 
 ---
 
@@ -79,7 +79,7 @@ Component: verified production `SiteHeader`.
 ## Desktop
 
 - Compact single row.
-- Left: GS vector mark. The public brand name remains the accessible home-link name; no visible wordmark appears in the compact Header.
+- Left: the approved own-brand symbol with accessible canonical **Luksuzni prevoz** name; no GS mark or parent-company attribution.
 - Main navigation.
 - `SR / EN / RU` language switcher.
 - Visible Book CTA.
@@ -87,7 +87,7 @@ Component: verified production `SiteHeader`.
 
 ## Mobile
 
-- Compact header with GS mark/brand and visible Book CTA.
+- Compact own-brand header with visible Book CTA.
 - Full-height menu panel for navigation.
 - Child links visible directly; no accordion by default.
 - Language selector may move into the menu.
@@ -139,7 +139,7 @@ Establish the premium chauffeur positioning immediately and present the two conv
 The Hero is a **full-bleed photographic section**.
 
 - Hero media/scrim spans the full viewport width.
-- Hero is near-viewport-height on desktop.
+- Hero has a content-safe `100svh` minimum (`100vh` fallback) at every viewport.
 - Hero inner content remains aligned to the active main container.
 - Desktop content preserves the approved two-column relationship:
   - left: primary message and CTAs;
@@ -161,7 +161,7 @@ Do not add badges, rating chips, feature-icon rows, fleet specs, pricing, or a b
 ## Desktop geometry
 
 - Full viewport-width outer Hero.
-- Near-viewport-height; content must never be clipped to preserve a fixed ratio.
+- At least one small viewport high; content must never be clipped to preserve a fixed ratio.
 - Inner content aligns to the Theme V2 main container and page gutter.
 - Desktop content grid approximately **7/5**.
 - Left copy is vertically/optically centered in the primary reading region.
@@ -360,7 +360,7 @@ The text side has no enclosing card/panel; only the compact package-summary inse
 
 ## Image
 
-- Contextual chauffeur/S-Class photography.
+- Approved passenger-at-work photography (`assets/shared/other/passenger-working-in-backseat.webp`); the owner-confirmed chauffeur-at-wheel image belongs to the service card.
 - Typical ratio around `4:3`.
 - Use Theme V2 card/media radius.
 - `object-cover` with explicit focal positioning.
@@ -447,17 +447,11 @@ Show fleet quality/range without duplicating the Fleet page.
 
 ## Carousel
 
-Each item contains:
-
-- dominant vehicle image;
-- model name;
-- vehicle class;
-- 2–3 compact verified facts/placeholders;
-- no pricing.
+Each item is the universal `FleetCard`: a natural-colour 4:3 photo above a separate graphite information panel with model name, localized class, and only verified optional facts. There is no photo overlay, filter, card-level CTA, invented placeholder, or Homepage price.
 
 The Homepage presents vehicle families, not pricing configurations:
 
-- render one generic **Mercedes V klasa** card;
+- render one generic **Mercedes-Benz V-Class** card;
 - do not repeat V-Class `6+1` and `7+1` as separate fleet cards;
 - omit Mercedes Vito while no matching approved vehicle image exists;
 - keep configuration-specific capacity and fare records in canonical data for
@@ -465,21 +459,21 @@ The Homepage presents vehicle families, not pricing configurations:
 
 ## Vehicle image rules
 
-- Transparent vehicle PNGs use `object-contain`.
-- Use standardized neutral/dark presentation backgrounds.
-- Do not crop transparent cutouts with `object-cover`.
+- Use the approved opaque three-quarter vehicle photographs at full image opacity, edge to edge within the 4:3 media region.
+- Preserve the recognizable car with source-aware `object-cover` focal points; no overlays, filters, fades, or hover darkening.
+- Transparent cutout behavior remains only in dedicated vehicle-detail contexts where that source role still applies.
 
 ## Desktop viewport
 
-Show approximately **2.5–3 cards** so horizontal continuation is obvious.
+Use the approved `(100% - 3 × gap) / 3.2` item basis at and above the active `lg` threshold, with horizontal continuation where more items exist.
 
 ## Tablet
 
-Approximately **1.5–2 cards** visible.
+From `md` to below `lg`, use `(100% - gap) / 1.8`; tablet portrait and landscape are reviewed separately.
 
 ## Mobile
 
-Approximately **1.1 cards** visible.
+Below `md`, use 88% item basis with an intentional next-card peek.
 
 Swipe continuation must be obvious.
 
@@ -612,12 +606,7 @@ It must not feel like a second Hero.
 
 ## Layout
 
-Contained panel inside the main content container.
-
-Desktop:
-
-- content: approximately **60–65%**;
-- image: approximately **35–40%**.
+One wide, contained interior photographic panel fills the normal capped main content container. Its copy stays aligned with other sections. The closing panel remains compact and content-driven; it must not become a second Hero.
 
 ## Content
 
@@ -633,29 +622,25 @@ Missing verified contacts must follow canonical contact gating; do not invent th
 
 ## Image
 
-Preferred treatment: front-facing Mercedes S-Class blended into the right media region.
-
-On Homepage, the media fills its complete allocated region and uses the approved integrated treatment: a restrained light-neutral veil plus a soft fade into the panel. This does not change other `FinalCTA` consumers unless they opt into the same semantic treatment.
+Use the common approved `assets/shared/final-cta-interior-v2.webp` as a decorative optimized media background. One independent dark scrim protects copy while keeping the dashboard recognizable. Do not imply that this photograph proves a particular fleet configuration.
 
 ## Visual treatment
 
-- Use Theme V2 section radius.
+- Semantic section radius; no separate split media frame.
 - Medium-height desktop target.
 - Mobile height is content-defined.
-- Restrained graphite → slightly elevated neutral graphite gradient is allowed.
+- Use the Theme V2 semantic background in the copy-side scrim, without filtering the image itself.
 - No warm-brown/gold theme drift.
 - No dramatic platinum/metallic gradient.
 - No strong glow.
 - No hard image edge.
-- Vehicle remains within the intended 35–40% visual footprint.
+- Interior detail remains visible beside the copy on desktop and above it on narrower screens.
 
 ## Responsive
 
 ### Desktop
 
-- ~60–65 / 35–40 split.
-- Content vertically balanced.
-- Image integrated, not a separate framed card.
+- At `lg` and wider, content is left-aligned in the main-container-wide panel with dashboard detail exposed opposite; the panel has a compact content-driven minimum height.
 
 ### Mobile
 
@@ -663,12 +648,11 @@ On Homepage, the media fills its complete allocated region and uses the approved
 - Primary Book CTA full width.
 - Secondary Request Quote CTA full width.
 - Verified phone/email contacts compactly presented.
-- Dedicated media area below content.
-- Image must not sit behind text if that harms legibility.
+- One continuous background reserves visible interior detail above copy; a vertical scrim gives the lower copy reliable contrast.
 
 ## Spacing
 
-Use **feature** spacing before/around FinalCTA.
+Use the preceding section's rhythm. Do not add a feature-sized outer band between this compact panel and the footer.
 
 ---
 
@@ -684,17 +668,13 @@ Do not create a giant sitemap footer.
 
 ## Desktop
 
-Approximately 3 columns:
-
-1. Brand.
-2. Services / Company navigation.
-3. Contact / office information.
+Four semantic tiers: an accessibly named symbol-only home link and verified contacts/office hours; four route-driven navigation groups; a start-aligned heading with linked, equal-height Belgrade Transfers and Transferi SVG logos beside it in one row; copyright, one location cluster, and inline route-preserving locales. Use four navigation columns from `xl` and a 2×2 group grid from `md` to below `xl`.
 
 Bottom row may contain:
 
-- legal links;
+- legal links only when published destinations exist;
 - copyright;
-- language shortcuts where useful.
+- inline locale links derived from current route and locale metadata.
 
 ## Contact rule
 
@@ -714,7 +694,7 @@ Unavailable/unverified values remain gated by the data source.
 - Dark Theme V2 surface.
 - No newsletter.
 - No oversized social block.
-- No Homepage-specific footer variant.
+- No Homepage-specific footer variant, GS mark, parent-company attribution, invented social link, or placeholder legal destination.
 
 ## Mobile
 
@@ -733,7 +713,7 @@ Intended Homepage rhythm:
 5. **Fleet** — open image-led section.
 6. **How It Works** — contained light surface.
 7. **Google Reviews** — open dark canvas with contained review cards.
-8. **FinalCTA** — contained graphite cinematic closer.
+8. **FinalCTA** — wide compact interior photographic panel with contained copy.
 9. **Footer** — compact dark ending.
 
 Do not mechanically alternate dark/light surfaces.
@@ -769,7 +749,7 @@ Do not mechanically alternate dark/light surfaces.
 
 ## Desktop
 
-- Full-bleed near-viewport Hero + contained 7/5 content.
+- Full-bleed viewport-minimum Hero + contained 7/5 content.
 - Asymmetric Services mosaic.
 - 5/7 Private Chauffeur split.
 - 4-up Trust.
@@ -844,9 +824,9 @@ Presentation components are not data authorities.
 
 - Hero: cinematic S-Class contextual image.
 - ServiceShowcase: one contextual image per primary service.
-- Private Chauffeur: chauffeur/S-Class contextual image.
-- Fleet: standardized transparent vehicle PNGs.
-- FinalCTA: front-facing S-Class blended into media region.
+- Private Chauffeur service card: owner-confirmed chauffeur-at-wheel image; larger feature: passenger-at-work image.
+- Fleet: approved opaque three-quarter vehicle photographs in universal cards.
+- FinalCTA: shared interior photograph in the wide compact panel.
 
 Missing assets do not authorize structural redesign.
 
@@ -864,7 +844,7 @@ Approved Homepage v1.1 exceptions:
 2. Hero desktop content uses the approved 7/5 two-column relationship; this does not create a separate image column.
 3. `ServiceShowcase` uses a 35/30/35 asymmetric composition instead of standard grid spans.
 4. ServiceShowcase cards use overlaid title/action treatment instead of generic below-image ServiceCard content.
-5. FinalCTA may use a restrained neutral graphite gradient.
+5. FinalCTA uses the shared interior image in a wide compact panel and an independent semantic-background scrim.
 6. How It Works intentionally uses a light contained surface inside the dark-first Homepage.
 
 These exceptions are Homepage-local.

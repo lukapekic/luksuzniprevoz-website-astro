@@ -103,13 +103,13 @@ Only generated production output should be deployed. Do not publish repository d
 
 ## Redirects (FND-ENV-10)
 
-Localized routes and previous slugs are data-driven. Generate redirects with the repository's redirect command rather than hand-maintaining duplicate localized redirect lists.
+Localized routes and previous slugs are data-driven. The site build generates Cloudflare Pages `dist/_redirects` from `previousSlugs`, including slash and slashless legacy paths. The 36 migration URLs include `/news/` and `/o-nama/` to the Serbian homepage and `/en/about-us/` to the English homepage. The Cloudflare Pages publish directory must be `site/luksuzni-prevoz/dist`.
 
 ```bash
-pnpm generate:redirects
+pnpm generate:redirects site/luksuzni-prevoz --format=cloudflare
 ```
 
-Use the supported format/target required by the selected host. Verify generated redirects after any route/slug migration and before removing the old WordPress deployment.
+The default command still generates JSON for other consumers; Cloudflare deployment uses the format above automatically after `astro build`. Verify the uploaded `_redirects` and representative 301 responses before removing the old WordPress deployment. Hostname redirects such as `www` to apex require a separate Cloudflare Redirect Rule.
 
 Internal application navigation must continue to use route keys/helpers; redirects are an edge/deployment concern, not a substitute for correct internal routing.
 
@@ -159,10 +159,14 @@ contact channels remain available.
 Implemented repository contracts:
 
 - `POST /api/forms/contact` and `POST /api/forms/booking` under root `functions/`;
+- `public/_routes.json` includes only those two Function paths;
 - mandatory server-side Turnstile Siteverify with exact action and allowed-host checks;
 - shared server validation, bounded JSON bodies, same-origin enforcement, and no-store responses;
-- D1 migration `migrations/0001_form_submission_ledger.sql`, storing metadata only;
-- Brevo REST delivery with Reply-To, provider message ID capture, and stable submission idempotency;
+- D1 migrations `migrations/0001_form_submission_ledger.sql` and
+  `migrations/0002_form_submission_digest.sql`, storing metadata and a keyed
+  request digest rather than submitted form content;
+- Brevo REST delivery with Reply-To, provider message ID capture, and a
+  correlation header; D1 owns request deduplication;
 - localized accessible form errors, pending states, failure recovery, and request references.
 
 ### Cloudflare Pages project configuration
@@ -190,19 +194,20 @@ Turnstile/application host allowlists. Do not enable all-branch previews by defa
 Configure these separately for Preview and Production. Secrets must use encrypted
 bindings rather than plaintext repository files.
 
-| Binding / variable          | Kind             | Required value                              |
-| --------------------------- | ---------------- | ------------------------------------------- |
-| `PUBLIC_TURNSTILE_SITE_KEY` | build variable   | matching Turnstile widget site key          |
-| `FORM_ENVIRONMENT`          | runtime variable | `preview` or `production`                   |
-| `TURNSTILE_ALLOWED_HOSTS`   | runtime variable | comma-separated exact hostnames, no schemes |
-| `TURNSTILE_SECRET_KEY`      | encrypted secret | matching widget secret                      |
-| `BREVO_API_KEY`             | encrypted secret | site-specific Brevo transactional key       |
-| `BREVO_SENDER_EMAIL`        | runtime variable | verified Brevo sender address               |
-| `BREVO_SENDER_NAME`         | runtime variable | approved sender display name                |
-| `BREVO_TO_EMAIL`            | runtime variable | comma-separated internal recipients         |
+| Binding / variable          | Kind             | Required value                                |
+| --------------------------- | ---------------- | --------------------------------------------- |
+| `PUBLIC_TURNSTILE_SITE_KEY` | build variable   | matching Turnstile widget site key            |
+| `FORM_ENVIRONMENT`          | runtime variable | `preview` or `production`                     |
+| `FORM_IDEMPOTENCY_SECRET`   | encrypted secret | unique random value of at least 32 characters |
+| `TURNSTILE_ALLOWED_HOSTS`   | runtime variable | comma-separated exact hostnames, no schemes   |
+| `TURNSTILE_SECRET_KEY`      | encrypted secret | matching widget secret                        |
+| `BREVO_API_KEY`             | encrypted secret | site-specific Brevo transactional key         |
+| `BREVO_SENDER_EMAIL`        | runtime variable | verified Brevo sender address                 |
+| `BREVO_SENDER_NAME`         | runtime variable | approved sender display name                  |
+| `BREVO_TO_EMAIL`            | runtime variable | comma-separated internal recipients           |
 
 Create Preview and Production D1 databases, bind each as `FORM_DB`, then apply
-`migrations/0001_form_submission_ledger.sql` to Preview first and Production only
+both D1 migrations in numeric order to Preview first and Production only
 after Preview acceptance. Do not place database IDs in the repository until the
 actual account resources exist.
 

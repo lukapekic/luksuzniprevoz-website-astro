@@ -21,7 +21,7 @@
  */
 
 /** Item-width preset. Only two presets — no arbitrary widths. */
-export type CarouselItemSize = "standard" | "compact";
+export type CarouselItemSize = "standard" | "compact" | "fleet";
 
 export interface HorizontalCarouselProps {
   /**
@@ -46,8 +46,8 @@ export interface HorizontalCarouselProps {
   nextLabel: string;
 
   /**
-   * Item-width preset. "standard" → content/review cards; "compact" → fleet/
-   * visual cards. Maps to internal fluid width tokens (see scoped CSS). The
+   * Item-width preset. "standard" → content/review cards; "compact" → legacy
+   * visual previews; "fleet" → shared 4:3 fleet cards. The
    * width stays responsive (mobile peek → tablet 1.5–2 → desktop 2.5–3).
    * Defaults to "standard".
    */

@@ -65,6 +65,7 @@
 import { Image } from "astro:assets";
 import Link from "../../foundation/ui/Link.astro";
 import type { ServiceCardProps } from "./ServiceCard.types.ts";
+import { imageQuality, imageSizes as deliverySizes, imageWidths } from "../../data/image-delivery.ts";
 
 type Props = ServiceCardProps;
 
@@ -73,6 +74,9 @@ const {
   description,
   image,
   imageAlt = "",
+  imageSizes = deliverySizes.supporting,
+  imagePosition,
+  imageTreatment = "standard",
   placeholder = "graphite",
   action,
   locale,
@@ -96,7 +100,7 @@ const isDecorative = imageAlt === "";
 // `image` — no markup/rewrite (DESIGN.md §14).
 ---
 
-<article class:list={["service-card", className]}>
+<article class:list={["service-card", className]} data-image-treatment={imageTreatment}>
   {image ? (
     <Image
       class="service-card__image"
@@ -104,8 +108,11 @@ const isDecorative = imageAlt === "";
       alt={imageAlt}
       role={isDecorative ? "presentation" : undefined}
       loading="lazy"
-      widths={[360, 540, 720]}
-      sizes="(min-width: 64rem) 24rem, (min-width: 48rem) 28rem, calc(100vw - 3rem)"
+      format="webp"
+      quality={imageQuality.photoWebp}
+      widths={imageWidths(image, "card")}
+      sizes={imageSizes}
+      style={imagePosition ? `object-position: ${imagePosition}` : undefined}
     />
   ) : (
     <div
@@ -225,6 +232,9 @@ const isDecorative = imageAlt === "";
       transparent 100%
     );
   }
+  .service-card[data-image-treatment="open-chauffeur"] .service-card__scrim {
+    background: linear-gradient(180deg, transparent 0%, transparent 45%, color-mix(in srgb, var(--color-background) 15%, transparent) 60%, color-mix(in srgb, var(--color-background) 55%, transparent) 80%, color-mix(in srgb, var(--color-background) 90%, transparent) 100%);
+  }
 
   /* Overlaid content: anchored bottom-left inside the card, over the scrim.
      Left-aligned, never centered (task §6). max-inline-size caps the text block
@@ -298,8 +308,8 @@ const isDecorative = imageAlt === "";
      never reduced (darkening the image behind a dark scrim only strengthens it).
      No scale, no translate, no shadow. The card surface keeps its default
      cursor (non-interactive areas are not pointer). */
-  .service-card:hover .service-card__image,
-  .service-card:focus-within .service-card__image {
+  .service-card[data-image-treatment="standard"]:hover .service-card__image,
+  .service-card[data-image-treatment="standard"]:focus-within .service-card__image {
     filter: brightness(0.9) contrast(1.06);
   }
 

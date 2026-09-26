@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import PageContainer from "../../foundation/ui/PageContainer.astro";
+import { imageQuality, imageSizes, imageWidths } from "../../data/image-delivery.ts";
 
 interface Fact {
   label: string;
@@ -56,9 +57,9 @@ const headingId = `${id}-heading`;
         loading="lazy"
         decoding="async"
         format="avif"
-        quality={55}
-        widths={[480, 640, 768, 1024]}
-        sizes="(min-width: 80rem) 58vw, (min-width: 64rem) 50vw, calc(100vw - 2rem)"
+        quality={imageQuality.fleetAvif}
+        widths={imageWidths(image, "supporting")}
+        sizes={imageSizes.supporting}
       />
     </div>
 

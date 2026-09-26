@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pnpm --dir ../.. generate:redirects site/luksuzni-prevoz --format=cloudflare",
     "preview": "astro preview",
     "check": "astro check",
     "fonts:subset": "node scripts/generate-font-subsets.mjs",
@@ -20,7 +20,8 @@
     "@fontsource/inter-tight": "5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "7.3.2",
-    "tailwindcss": "4.3.3"
+    "tailwindcss": "4.3.3",
+    "@astro-foundation/form-kit": "workspace:*"
   },
   "devDependencies": {
     "@astro-foundation/seo-research": "workspace:*",

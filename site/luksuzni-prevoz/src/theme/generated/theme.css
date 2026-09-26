@@ -27,6 +27,15 @@
   --color-error: #C87B78;
   --color-info: #8796A6;
   --color-disabled: #7A7F86;
+  --color-footer-surface-start: #1B1B1E;
+  --color-footer-surface-middle: #121214;
+  --color-footer-surface-end: #09090B;
+  --color-footer-background: linear-gradient(160deg, var(--color-footer-surface-start) 0%, var(--color-footer-surface-middle) 48%, var(--color-footer-surface-end) 100%);
+  --color-footer-text-strong: #F2F0EB;
+  --color-footer-text-link: #C6C4BF;
+  --color-footer-text-muted: #A6A5A2;
+  --color-footer-divider: #F2F0EB1F;
+  --color-footer-boundary: #F2F0EB14;
   }
 
   :root {

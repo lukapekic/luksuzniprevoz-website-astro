@@ -26,8 +26,8 @@ import type { FlowKey } from "./flows.ts";
 
 // --- Types -----------------------------------------------------------------
 
-/** Label keys: every route key, plus the two non-route nav labels. */
-export type NavLabelKey = RouteKey | "services" | "book";
+/** Label keys: every route key, plus the non-route nav labels. */
+export type NavLabelKey = RouteKey | "services" | "information" | "book";
 
 /** A link target. Routes resolve via getPath; flows are app-internal (e.g. a
  *  booking wizard); external links open outbound. */
@@ -69,10 +69,7 @@ export interface HeaderPrimaryAction {
 export interface NavStructure {
   header: NavHeaderItem[];
   headerPrimaryAction: HeaderPrimaryAction;
-  footer: {
-    services: NavChild[];
-    company: NavChild[];
-  };
+  footer: NavGroup[];
 }
 
 // --- Structure (typed TS — compile-checked against RouteKey) --------------
@@ -112,15 +109,22 @@ const authoredNavigation: NavStructure = {
     labelKey: "book",
     target: { type: "flow", flowKey: "booking" },
   },
-  footer: {
-    services: [
-      { routeKey: "privateChauffeur" },
-      { routeKey: "airportTransportation" },
-      { routeKey: "businessTransportation" },
-      { routeKey: "specialEvents" },
-    ],
-    company: [{ routeKey: "fleet" }, { routeKey: "pricing" }, { routeKey: "contact" }],
-  },
+  footer: [
+    { id: "services", labelKey: "services", children: [
+      { routeKey: "privateChauffeur" }, { routeKey: "airportTransportation" },
+    ] },
+    { id: "business", labelKey: "businessTransportation", children: [
+      { routeKey: "businessTransportation" }, { routeKey: "corporateTransportation" },
+      { routeKey: "delegationTransportation" }, { routeKey: "conferenceCongressTransportation" },
+    ] },
+    { id: "special", labelKey: "specialEvents", children: [
+      { routeKey: "specialEvents" }, { routeKey: "weddingTransportation" },
+      { routeKey: "promTransportation" }, { routeKey: "vipTransportation" },
+    ] },
+    { id: "information", labelKey: "information", children: [
+      { routeKey: "fleet" }, { routeKey: "pricing" }, { routeKey: "contact" },
+    ] },
+  ],
 };
 
 /** Public navigation cannot advertise route documents excluded from the build.
@@ -138,10 +142,9 @@ export const navigation: NavStructure = {
     if ("id" in item) return [{ ...item, children: publishedChildren(item.children) }];
     return publishedChildren([item]);
   }),
-  footer: {
-    services: publishedChildren(authoredNavigation.footer.services),
-    company: publishedChildren(authoredNavigation.footer.company),
-  },
+  footer: authoredNavigation.footer
+    .map((group) => ({ ...group, children: publishedChildren(group.children) }))
+    .filter((group) => group.children.length > 0),
 };
 
 // --- Labels (JSON — translator-edited i18n content) -----------------------
@@ -196,11 +199,10 @@ export const primaryNavFlat: { routeKey: RouteKey }[] = navigation.header
   .filter((item): item is NavLeaf | NavBranch => "routeKey" in item)
   .map((item) => ({ routeKey: item.routeKey }));
 
-/** All footer leaves, in services-then-company order. */
-export const footerNavFlat: { routeKey: RouteKey }[] = [
-  ...navigation.footer.services,
-  ...navigation.footer.company,
-].map((item) => ({ routeKey: item.routeKey }));
+/** All footer leaves in authored group order. */
+export const footerNavFlat: { routeKey: RouteKey }[] = navigation.footer
+  .flatMap((group) => group.children)
+  .map((item) => ({ routeKey: item.routeKey }));
 
 // --- Drift guard (dev/build) ----------------------------------------------
 
@@ -216,8 +218,7 @@ function collectNavRouteKeys(): string[] {
     }
   };
   navigation.header.forEach(visit);
-  navigation.footer.services.forEach(visit);
-  navigation.footer.company.forEach(visit);
+  navigation.footer.forEach(visit);
   return keys;
 }
 
@@ -233,7 +234,7 @@ function collectNavRouteKeys(): string[] {
  */
 export function assertNavConsistency(): void {
   const knownRoutes = new Set(Object.keys(routeMap));
-  const knownNonRouteLabelKeys = new Set<string>(["services", "book"]);
+  const knownNonRouteLabelKeys = new Set<string>(["services", "information", "book"]);
 
   // (1) structure routeKeys are known routes
   for (const key of collectNavRouteKeys()) {

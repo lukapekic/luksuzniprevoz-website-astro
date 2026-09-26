@@ -7,6 +7,7 @@ import {
   type ContactValidationSchema,
 } from "./contact-form-validation.ts";
 import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
+import { lockSubmissionControls } from "../../lib/forms/submission-controls.ts";
 
 export interface ContactFieldState {
   touched: boolean;
@@ -20,6 +21,7 @@ export interface ContactFormController {
   getState: () => ContactFormState;
   validateField: (field: ContactFormField) => ContactFormErrorCode | null;
   validateAll: () => ReturnType<typeof validateContactForm>;
+  reset: () => void;
   destroy: () => void;
 }
 
@@ -168,6 +170,14 @@ export function createContactFormController(
     getState: () => cloneState(state),
     validateField,
     validateAll,
+    reset: () => {
+      form.reset();
+      for (const field of fields) {
+        getControl(form, field).value = "";
+        state[field] = { touched: false, dirty: false, error: null };
+        renderFieldError(field, null);
+      }
+    },
     destroy: () => {
       form.removeEventListener("input", onInput);
       form.removeEventListener("blur", onBlur, true);
@@ -204,6 +214,7 @@ export function mountContactForms(root: ParentNode = document): void {
     form.dataset.validationReady = "true";
 
     const status = form.querySelector<HTMLElement>("[role='status']");
+    const feedback = form.querySelector<HTMLElement>("[data-contact-feedback]");
     const submit = form.querySelector<HTMLButtonElement>("[data-contact-submit] button");
     const submitLabel = form.querySelector<HTMLElement>("[data-contact-submit-label]");
     const turnstileContainer = form.querySelector<HTMLElement>("[data-contact-turnstile]");
@@ -218,17 +229,37 @@ export function mountContactForms(root: ParentNode = document): void {
       container: turnstileContainer,
       siteKey,
       action: "contact_submit",
+      size: "flexible",
     });
-    void turnstile.render().catch(() => {
+    void turnstile.render().then(() => {
+      submit.disabled = false;
+    }).catch(() => {
       status.textContent = statusMessage(form, "statusServiceUnavailable");
       submit.disabled = true;
     });
 
     let submissionId: string | null = null;
-    let completed = false;
+    let submitting = false;
+    let successTimer: number | undefined;
+    const invalidateSubmissionId = (): void => {
+      if (!submitting) {
+        submissionId = null;
+        if (feedback?.dataset.success === "true" || successTimer !== undefined) {
+          window.clearTimeout(successTimer);
+          successTimer = undefined;
+          feedback?.removeAttribute("data-success");
+          status.textContent = "";
+        }
+      }
+    };
+    form.addEventListener("input", invalidateSubmissionId);
+    form.addEventListener("change", invalidateSubmissionId);
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (completed) return;
+      if (submitting) return;
+      window.clearTimeout(successTimer);
+      successTimer = undefined;
+      feedback?.removeAttribute("data-success");
       renderSummary(form, []);
       const validation = controller.validateAll();
       if (!validation.isValid) {
@@ -243,7 +274,9 @@ export function mountContactForms(root: ParentNode = document): void {
       }
 
       submissionId ??= crypto.randomUUID();
+      submitting = true;
       submit.disabled = true;
+      const unlockControls = lockSubmissionControls(form);
       submitLabel.textContent = statusMessage(form, "statusSubmitting");
       status.textContent = statusMessage(form, "statusSubmitting");
       try {
@@ -259,8 +292,14 @@ export function mountContactForms(root: ParentNode = document): void {
         });
         const body = await response.json() as FormApiResponse;
         if (response.ok && body.ok && body.reference) {
-          status.textContent = `${statusMessage(form, "statusSuccess")} ${statusMessage(form, "statusReference").replace("{reference}", body.reference)}`;
-          completed = true;
+          controller.reset();
+          renderSummary(form, []);
+          status.textContent = statusMessage(form, "statusSuccess");
+          if (feedback) feedback.dataset.success = "true";
+          // Keep the confirmation text available after the timed emphasis ends.
+          successTimer = window.setTimeout(() => {
+            feedback?.removeAttribute("data-success");
+          }, 10_000);
           submissionId = null;
           return;
         }
@@ -276,7 +315,9 @@ export function mountContactForms(root: ParentNode = document): void {
         status.textContent = statusMessage(form, "statusServerError");
       } finally {
         turnstile.reset();
-        submit.disabled = completed;
+        unlockControls();
+        submitting = false;
+        submit.disabled = false;
         submitLabel.textContent = statusMessage(form, "submitAction");
       }
     });

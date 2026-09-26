@@ -40,6 +40,7 @@ export type FormResponseBody =
 export interface FormEnvironment {
   FORM_DB?: D1DatabaseLike;
   FORM_ENVIRONMENT?: "production" | "preview" | "local";
+  FORM_IDEMPOTENCY_SECRET?: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_ALLOWED_HOSTS?: string;
   BREVO_API_KEY?: string;
@@ -82,14 +83,11 @@ export interface SubmissionLedger {
     reference: string;
     kind: FormKind;
     locale: FormLocale;
+    payloadDigest: string;
     now: number;
   }): Promise<{ created: boolean; record: LedgerRecord }>;
   accepted(submissionId: string, messageId: string, now: number): Promise<void>;
   failed(submissionId: string, code: string, now: number): Promise<void>;
 }
 
-export interface EmailDeliveryResult {
-  ok: boolean;
-  messageId?: string;
-  retryable?: boolean;
-}
+export type { EmailDeliveryResult } from "@astro-foundation/form-kit/brevo";

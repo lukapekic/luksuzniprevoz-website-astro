@@ -68,6 +68,10 @@ homepage can be treated as a soft 404. Google's migration guidance recommends
 direct permanent server-side redirects to the final relevant destination,
 avoiding chains and irrelevant mass redirects. [Google site-move guidance](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes)
 
+Migration update (2026-09-25): the owner directed all three removed pages to
+their localized homepages. This supersedes the earlier unmapped decision; the
+route map now carries 36 migration slugs.
+
 ## Fresh Serbian SERP snapshot
 
 | Route intent and query | Own-domain observation | Leading observed result | Decision |
@@ -183,6 +187,10 @@ chains. A site-level unit test verifies the critical mappings and confirms that
 the three unrelated archive/about URLs remain unmapped. Google recommends
 permanent server-side redirects for permanent URL changes because they signal
 the new canonical destination. [Google redirect guidance](https://developers.google.com/search/docs/crawling-indexing/301-redirects)
+
+Migration update (2026-09-25): the Cloudflare output now contains 72 direct 301
+rules (36 legacy paths, each with and without a trailing slash), including the
+three owner-directed homepage redirects above.
 
 No changes were made to canonical, hreflang, sitemap, robots, Open Graph or
 structured-data builders because the built site already passes those contracts:

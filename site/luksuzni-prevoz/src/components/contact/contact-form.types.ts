@@ -16,7 +16,6 @@ export interface ContactFormCopy {
   submitAction: string;
   submittingStatus: string;
   successStatus: string;
-  referenceStatus: string;
   errorSummaryHeading: string;
   botVerificationStatus: string;
   rateLimitedStatus: string;

@@ -76,8 +76,8 @@ export const routeMap: Record<string, RouteEntry> = {
     parent: null,
     slugs: { sr: "", en: "", ru: "" },
     previousSlugs: {
-      sr: ["limo-servis-beograd"],
-      en: ["luxury-transport-belgrade", "limo-service-belgrade"],
+      sr: ["limo-servis-beograd", "news", "o-nama"],
+      en: ["luxury-transport-belgrade", "limo-service-belgrade", "about-us"],
       ru: [],
     },
   },

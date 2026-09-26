@@ -4,6 +4,7 @@ import type { ImageMetadata } from "astro";
 import Section from "../../../foundation/ui/Section.astro";
 import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
+import { imageWidths } from "../../../data/image-delivery.ts";
 
 interface Statement {
   title: string;
@@ -51,7 +52,7 @@ if (statements.length !== 4 || statements.some(({ title, text }) => !title || !t
           alt={imageAlt}
           role="presentation"
           loading="lazy"
-          widths={[400, 560, 720, 900]}
+          widths={imageWidths(image, "supporting")}
           sizes="(min-width: 64rem) 30vw, calc(100vw - 2rem)"
         />
       </figure>

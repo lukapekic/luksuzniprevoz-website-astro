@@ -54,6 +54,11 @@ composition principle as Homepage Hero. The scrim remains strongest behind
 copy and header chrome while preserving a visibly brighter central service
 subject.
 
+The full-bleed media canvas has a content-safe minimum block size of `100svh`
+(`100vh` fallback). The over-Hero layout pulls that canvas behind the in-flow
+sticky header by the shared header-height role. Content can increase the Hero
+height; it must never be clipped to enforce one viewport.
+
 Full-bleed Hero actions use the next semantic spacing step above the universal
 44px floor so localized labels remain reliably compliant under browser
 subpixel layout.
@@ -87,3 +92,5 @@ Use active semantic tokens for surface, text, spacing, radius, typography, and m
 ## Responsive requirement
 
 Image focal point/scrim strength are reviewed independently at mobile, tablet portrait, tablet landscape, desktop, and wide desktop.
+
+DR-10 adds an opt-in `natural` image treatment for the selected Corporate and Special Events heroes and the VIP hero: no image-wide exposure filter and an explicit caller-owned focal point. Scrim treatment is independent from image exposure. `standard` and the earlier `center-reveal` remain compatible for existing consumers. The new `soft-reveal` treatment is selected by Corporate, Special Events, and VIP: a continuous dark veil, localized copy/header protection, a brighter vehicle region, and a bottom gradient that resolves fully to the page background. It does not create a transparent hole. Contained and responsive-split variants do not change. At mobile (320), tablet portrait (768), tablet landscape (1024), desktop (1440), and wide desktop (1920), maintain source order, image crop, actions, focus order, 44px targets, and zero horizontal overflow. Review actual text-on-photo contrast in all locales. DR-11 uses eager/high-priority source-capped AVIF hero candidates at quality 55, with `sizes` matched to the full-bleed or split geometry.

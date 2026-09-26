@@ -93,6 +93,8 @@ export interface OpenSplitSectionProps {
   image: OpenSplitImage;
   /** Alt text; empty string = decorative (alt="" + role="presentation"). */
   imageAlt: string;
+  /** Optional focal position from the caller's approved media mapping. */
+  imagePosition?: string;
   /** Desktop visual direction (default content-image — content left, image right). */
   layout?: OpenSplitLayout;
   /** Desktop left/right column ratio (default 6-6 — balanced split). */

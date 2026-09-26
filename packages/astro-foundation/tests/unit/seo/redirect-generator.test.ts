@@ -102,7 +102,7 @@ describe("formatRedirectsCloudflare", () => {
   it("formats as Cloudflare _redirects", () => {
     const redirects = [{ from: "/old/", to: "/new/", status: 301 }];
     const result = formatRedirectsCloudflare(redirects);
-    expect(result).toBe("/old/ /new/ 301");
+    expect(result).toBe("/old/ /new/ 301\n/old /new/ 301");
   });
 
   it("formats multiple redirects", () => {
@@ -111,7 +111,7 @@ describe("formatRedirectsCloudflare", () => {
       { from: "/c/", to: "/d/", status: 301 },
     ];
     const lines = formatRedirectsCloudflare(redirects).split("\n");
-    expect(lines).toHaveLength(2);
+    expect(lines).toEqual(["/a/ /b/ 301", "/a /b/ 301", "/c/ /d/ 301", "/c /d/ 301"]);
   });
 });
 

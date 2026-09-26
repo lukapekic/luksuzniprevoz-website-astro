@@ -1,3 +1,6 @@
+import { formatDisplayDate, isCanonicalTime } from "./booking-date-time.ts";
+import { isBookingDateInRange } from "./booking-date-policy.ts";
+
 /**
  * Canonical Airport booking-start contract.
  *
@@ -5,6 +8,8 @@
  * constraints. Keep query-string parsing/serialization here so the two forms
  * cannot drift independently.
  */
+
+export const AIRPORT_FLIGHT_NUMBER_MAX = 40;
 
 export const airportBookingFields = {
   service: "service",
@@ -22,14 +27,15 @@ export type AirportBookingIntent = {
 
 export const airportBookingService = "airportTransportation" as const;
 
-export function parseAirportBookingIntent(params: URLSearchParams): AirportBookingIntent | null {
+export function parseAirportBookingIntent(params: URLSearchParams, now = new Date()): AirportBookingIntent | null {
   if (params.get(airportBookingFields.service) !== airportBookingService) return null;
   const date = params.get(airportBookingFields.date);
   const time = params.get(airportBookingFields.time);
-  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !time || !/^\d{2}:\d{2}$/.test(time))
+  if (!date || !formatDisplayDate(date) || !isBookingDateInRange(date, now) || !time || !isCanonicalTime(time))
     return null;
 
   const flightNumber = params.get(airportBookingFields.flightNumber)?.trim();
+  if (flightNumber && flightNumber.length > AIRPORT_FLIGHT_NUMBER_MAX) return null;
   return {
     service: airportBookingService,
     ...(flightNumber ? { flightNumber } : {}),

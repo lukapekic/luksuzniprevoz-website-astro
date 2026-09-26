@@ -31,7 +31,6 @@ import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
 import { buildPageSeo } from "../../lib/seo.ts";
 import { interpolateTokens } from "../../lib/interpolate.ts";
 import heroImage from "../../assets/s-class-wheel-interior.webp";
-import finalCtaImage from "../../assets/final-cta-bg.webp";
 
 interface Props {
   routeKey: "pricing";
@@ -343,10 +342,6 @@ const seo = buildPageSeo({
     primaryAction={finalPrimaryAction}
     secondaryAction={finalSecondaryAction}
     {contacts}
-    image={finalCtaImage}
-    imageAlt=""
-    imageFit="cover"
-    mediaTreatment="integrated"
     {locale}
   />
 </BaseLayout>

@@ -3,7 +3,7 @@
  *
  * Presentation-only: all copy, links, and imagery arrive via props
  * (component-architecture.md §18 — the component owns NO copy). One known
- * composition — a full-bleed near-viewport photographic hero whose media
+ * composition — a full-bleed viewport-minimum photographic hero whose media
  * canvas is overlaid by the sticky SiteHeader at the page top — there are no
  * slots for arbitrary hero layouts and no generalized `Hero`/`ImageTextPanel`
  * (component-architecture.md §25; blueprint §7).
@@ -84,6 +84,8 @@ export interface HomepageHeroProps {
   image: HomepageHeroImage;
   /** Alt text; empty string (default) = decorative atmosphere behind the H1/copy. */
   imageAlt?: string;
+  /** Keep the standard full-bleed scrim or reveal more of the central vehicle. */
+  scrimTreatment?: "standard" | "center-reveal" | "soft-reveal";
   /** Current locale — passed to <Link> for localized route resolution. */
   locale?: LocaleCode;
   /** Layout-only class passthrough (FND-UI-06). */

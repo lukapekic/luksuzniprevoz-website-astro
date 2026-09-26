@@ -29,7 +29,6 @@ import { t } from "../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../lib/cta.ts";
 import { buildPageSeo } from "../../lib/seo.ts";
 import heroImage from "../../assets/pages/fleet/hero.webp";
-import finalCtaImage from "../../assets/final-cta-bg.webp";
 
 interface Props {
   routeKey: "fleet";
@@ -295,10 +294,6 @@ const seo = buildPageSeo({
     primaryAction={finalPrimaryAction}
     secondaryAction={finalSecondaryAction}
     {contacts}
-    image={finalCtaImage}
-    imageAlt=""
-    imageFit="cover"
-    mediaTreatment="integrated"
     {locale}
   />
 </BaseLayout>

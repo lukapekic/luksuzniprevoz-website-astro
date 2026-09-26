@@ -1,21 +1,18 @@
 /**
  * FinalCTA — reusable closing conversion section (shared section-pattern).
  *
- * Presentation-only: all copy, links, contacts, and imagery arrive via props
+ * Presentation-only: all copy, links, and contacts arrive via props
  * (component-architecture.md §18 — the component owns NO copy). It composes the
- * approved foundation primitives (Section / PageContainer / SectionHeading /
+ * approved foundation primitives (PageContainer / SectionHeading /
  * Link) and the locked Final-CTA contract
  * (docs/home/home-components/11-final-cta.md, DESIGN.md §7/§8):
  *
- *   - contained architectural panel, content left, optional image right;
- *   - desktop 62/38 content/image, content-driven height for enlarged text;
- *   - restrained graphite gradient (Final-CTA-only exception);
+ *   - one full-width continuous photographic section with container-aligned copy;
+ *   - content-driven height and a separate localized copy scrim;
  *   - CTA hierarchy: primary Book (platinum accent cta link) > secondary Request a Quote
  *     (outlined button link) > tertiary phone/email (muted text links — ONE
  *     phone + ONE email only);
- *   - right-zone contextual or vehicle image blended on the panel, no hard
- *     edge, not a bordered card; object-contain for transparent/cutout imagery,
- *     object-cover for contextual photography;
+ *   - a single approved contextual interior image from closing-media.ts;
  *   - <h2> (the page's single <h1> lives in the hero) — no second-hero scale.
  *
  * Reuses foundation routing types: internal CTAs pass `to: RouteKey` so <Link>
@@ -28,22 +25,7 @@
  * routes — FND-I18N-03 scope is internal-route URLs. They are built from prop
  * values (identifier bindings) in the component frontmatter, not inline JSX.
  */
-// `ImageMetadata` is the type returned by ESM imports of image assets
-// (`import x from "./car.webp"`) and the `src` shape accepted by astro:assets
-// <Image> for imported assets (responsive srcset delivery). The canonical
-// export lives on the `astro` package entry
-// (astro/dist/index.d.ts re-exports it from types/public → assets/types), NOT
-// on the `astro:assets` virtual module — so the type is imported from
-// `"astro"`. `import type` is erased at compile time — no runtime/bundle
-// coupling; only the type is used. (Earlier this file anchored the type via a
-// fixture-asset type-only import; task 6A replaced that with the canonical
-// Astro export.)
-import type { ImageMetadata } from "astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
-
-// ImageMetadata (typeof an imported image asset) — see the comment above the
-// import. `import type` is erased at compile time; only the type is used.
-type FinalCtaImage = ImageMetadata;
 
 /** A single CTA. Exactly one of `to` / `href` should be supplied by the caller. */
 export interface FinalCtaAction {
@@ -74,14 +56,6 @@ export interface FinalCTAProps {
   secondaryAction?: FinalCtaAction | null;
   /** Tertiary contact paths — restrained muted text links, subordinate to the CTAs. */
   contacts?: FinalCtaContacts;
-  /** Optional right-zone contextual or vehicle image, selected by the caller. */
-  image?: FinalCtaImage;
-  /** Alt text; empty string (default) = decorative marketing imagery. */
-  imageAlt?: string;
-  /** object-fit: "contain" (default, transparent/cutout imagery) | "cover" (contextual photography). */
-  imageFit?: "contain" | "cover";
-  /** Optional semantic media treatment; integrated blends full-bleed media into the panel. */
-  mediaTreatment?: "default" | "integrated";
   /** Current locale — passed to <Link> for localized route resolution. */
   locale?: LocaleCode;
   /** Layout-only class passthrough (FND-UI-06). */

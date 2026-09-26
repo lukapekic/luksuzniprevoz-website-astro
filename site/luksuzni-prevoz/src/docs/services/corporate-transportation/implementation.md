@@ -366,7 +366,7 @@ image 7 | content 5
 Asset:
 
 ```text
-src/assets/shared/other/s-class-driving-forest-intheback.webp
+src/assets/shared/other/executive-working-in-rear-seat.webp
 ```
 
 Below the split, render static itinerary:
@@ -572,7 +572,7 @@ Locked shared assets:
 
 ```text
 Hero        → src/assets/shared/other/chauffeur-inside-grayedout.webp
-Working Day → src/assets/shared/other/s-class-driving-forest-intheback.webp
+Working Day → src/assets/shared/other/executive-working-in-rear-seat.webp
 Final CTA   → src/assets/shared/other/s-class-interior-driver-side.webp
 ```
 

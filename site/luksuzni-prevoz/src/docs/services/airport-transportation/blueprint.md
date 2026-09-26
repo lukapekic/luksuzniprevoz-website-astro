@@ -1,5 +1,7 @@
 # Luxury Transportation — Airport Transportation Blueprint v3
 
+> **Approved DR-06/DR-08/DR-09/DR-12 amendment (2026-09-24), with later owner refinement:** Public identity is **Luksuzni prevoz**. Where this page uses VehicleRecommendations, it renders the universal natural-colour 4:3 FleetCard with details below the photo; configuration-specific booking and pricing remain intact. Its existing FinalCTA uses the shared wide compact main-container interior-photo panel with the page's existing localized action meaning and verified contacts. The shared four-tier footer uses route-derived links, a centered partner-logo row, and an accessibly named symbol-only logo. These approved shared contracts supersede older card overlays, split or viewport-wide CTA media, GS/parent branding, and footer geometry below; all other page-specific regions, content, and CTA destinations remain locked.
+
 Status: **Locked structural blueprint — v3.3 refinement-aligned**
 Route key: `airportTransportation`
 Page type: `service`
@@ -182,7 +184,7 @@ variant = full-bleed
 Behavior:
 
 - full viewport width;
-- near-viewport cinematic height;
+- content-safe viewport-minimum cinematic height;
 - no outer card radius;
 - no page-container wrapper around the media surface;
 - media is the section background/full panel;
@@ -301,7 +303,7 @@ time
 Rules:
 
 - visible labels; placeholder never substitutes for label;
-- date/time use appropriate native or approved form primitives;
+- date/time reuse the Booking schedule controls: explicit `DD/MM/YYYY` calendar validation and grouped 24-hour `HH:mm`, independent of browser locale;
 - flight number may be optional when the detailed flow permits;
 - one strong `Continue booking` action;
 - secondary quote action may appear as a quiet text/link action;

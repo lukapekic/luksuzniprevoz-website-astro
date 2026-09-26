@@ -80,7 +80,7 @@ Visible order is exactly:
 
 - [ ] uses shared `ServiceHero`
 - [ ] uses shared `full-bleed` variant
-- [ ] remains a full-width near-viewport media canvas at every state
+- [ ] remains a full-width viewport-minimum media canvas at every state
 - [ ] uses the approved over-Hero SiteHeader behavior
 - [ ] exactly one H1
 - [ ] primary CTA intent = booking flow
