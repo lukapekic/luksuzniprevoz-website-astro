@@ -1,11 +1,11 @@
 import type { BookingPricingResult } from "../../site/luksuzni-prevoz/src/data/booking.ts";
 import type { ValidatedSubmission } from "./types.ts";
 import { business } from "../../site/luksuzni-prevoz/src/data/business.ts";
-import design from "../../.design/system.json" with { type: "json" };
+import { tokens } from "../../.design/tokens.ts";
 
 // Generated from the site's explicit foundation.config.ts theme selection.
 // Use the serialized tokens so the Worker does not import the Node theme loader.
-const { palette, spacing, typography, radii } = design.tokens;
+const { palette, spacing, typography, radii } = tokens;
 
 function escapeHtml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
