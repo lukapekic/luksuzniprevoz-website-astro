@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { handleFormSubmission } from "../../../../functions/_shared/submission-pipeline.ts";
 import { sendBrevoEmail } from "../../../../functions/_shared/brevo.ts";
+import { renderSubmissionEmail } from "../../../../functions/_shared/email-rendering.ts";
 import { verifyTurnstile } from "../../../../functions/_shared/turnstile.ts";
 import { validateBookingPayload, validateContactPayload } from "../../../../functions/_shared/validation.ts";
 import type {
@@ -299,6 +300,18 @@ describe("form runtime pipeline", () => {
 });
 
 describe("provider adapters", () => {
+  it("escapes user content in the branded email and preserves its plain-text alternative", () => {
+    const message = 'First line\n<img src=x onerror="alert(1)"> & details';
+    const rendered = renderSubmissionEmail({ kind: "contact", locale: "sr", values: { ...payload, message } }, "LP-TEST-EMAIL");
+    assert.match(rendered.html, /Luksuzni prevoz/);
+    assert.match(rendered.html, /&lt;img src=x onerror=&quot;alert\(1\)&quot;&gt; &amp; details/);
+    assert.doesNotMatch(rendered.html, /<img|<script/);
+    assert.match(rendered.html, /LP-TEST-EMAIL/);
+    assert.ok(rendered.text.includes(message));
+    assert.match(rendered.text, /Pending manual confirmation/);
+    assert.deepEqual(rendered.replyTo, { email: payload.email, name: payload.fullName });
+  });
+
   it("checks Turnstile action and hostname", async () => {
     const accepted = await verifyTurnstile({
       token: "token",

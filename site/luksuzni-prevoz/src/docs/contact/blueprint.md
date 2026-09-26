@@ -75,6 +75,14 @@ behavior remain unchanged.
 - Without JavaScript, keep the action disabled, explain unavailability using
   approved localized copy, and retain verified phone/email channels.
 - A received state requires a successful server response and request reference.
+- After acceptance, reset the native fields and validation state. Show the
+  existing localized confirmation in an emphasized status panel for 10 seconds,
+  then keep the confirmation text until the next edit or submission. The request
+  reference remains in the API response, ledger, and staff email, not the public
+  success message. Failed submissions preserve entered values and retry identity.
+- The Contact Turnstile widget uses Cloudflare's flexible width (65 CSS px high)
+  when its container is at least 300 CSS px wide; below that provider minimum it
+  uses compact size. Re-render on crossing that threshold without page overflow.
 
 ## 5. Validation contract
 

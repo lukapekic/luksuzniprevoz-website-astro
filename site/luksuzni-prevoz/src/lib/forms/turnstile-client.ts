@@ -3,7 +3,7 @@ interface TurnstileApi {
     sitekey: string;
     action: string;
     theme: "dark" | "light";
-    size: "compact" | "normal";
+    size: "compact" | "normal" | "flexible";
     callback: (token: string) => void;
     "expired-callback": () => void;
     "timeout-callback": () => void;
@@ -66,29 +66,48 @@ export function createTurnstileController(input: {
   siteKey: string;
   action: "contact_submit" | "booking_submit";
   theme?: "dark" | "light";
-  size?: "compact" | "normal";
+  size?: "compact" | "normal" | "flexible";
 }): TurnstileController {
   let api: TurnstileApi | null = null;
   let widgetId: string | null = null;
   let token: string | null = null;
+  let resizeObserver: ResizeObserver | null = null;
+  let renderedSize: "compact" | "normal" | "flexible" | null = null;
+
+  const renderWidget = (): void => {
+    if (!api) return;
+    // Cloudflare's flexible widget has a documented 300 CSS px minimum width.
+    const size = input.size === "flexible"
+      ? (input.container.clientWidth >= 300 ? "flexible" : "compact")
+      : input.size ?? "compact";
+    if (widgetId && size === renderedSize) return;
+    if (widgetId) api.remove(widgetId);
+    token = null;
+    renderedSize = size;
+    widgetId = api.render(input.container, {
+      sitekey: input.siteKey,
+      action: input.action,
+      theme: input.theme ?? "light",
+      size,
+      callback: (nextToken) => { token = nextToken; },
+      "expired-callback": () => { token = null; },
+      "timeout-callback": () => { token = null; },
+      "error-callback": () => { token = null; },
+      "refresh-expired": "auto",
+      "refresh-timeout": "auto",
+      retry: "auto",
+    });
+  };
 
   return {
     async render() {
       if (widgetId || !input.siteKey) return;
       api = await loadApi();
-      widgetId = api.render(input.container, {
-        sitekey: input.siteKey,
-        action: input.action,
-        theme: input.theme ?? "light",
-        size: input.size ?? "compact",
-        callback: (nextToken) => { token = nextToken; },
-        "expired-callback": () => { token = null; },
-        "timeout-callback": () => { token = null; },
-        "error-callback": () => { token = null; },
-        "refresh-expired": "auto",
-        "refresh-timeout": "auto",
-        retry: "auto",
-      });
+      renderWidget();
+      if (input.size === "flexible") {
+        resizeObserver = new ResizeObserver(renderWidget);
+        resizeObserver.observe(input.container);
+      }
     },
     getToken: () => token,
     reset() {
@@ -96,6 +115,7 @@ export function createTurnstileController(input: {
       if (api && widgetId) api.reset(widgetId);
     },
     destroy() {
+      resizeObserver?.disconnect();
       token = null;
       if (api && widgetId) api.remove(widgetId);
       widgetId = null;
