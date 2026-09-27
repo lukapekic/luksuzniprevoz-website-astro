@@ -308,7 +308,7 @@ describe("provider adapters", () => {
     assert.doesNotMatch(rendered.html, /<img|<script/);
     assert.match(rendered.html, /LP-TEST-EMAIL/);
     assert.ok(rendered.text.includes(message));
-    assert.match(rendered.text, /Pending manual confirmation/);
+    assert.match(rendered.text, /Čeka odgovor našeg tima/);
     assert.deepEqual(rendered.replyTo, { email: payload.email, name: payload.fullName });
   });
 

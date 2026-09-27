@@ -51,7 +51,7 @@ Pricing V1 reuses the component without modifying it.
 Hero image contract:
 
 ```text
-src/assets/s-class-wheel-interior.webp
+src/assets/images/shared/interiors/s-class-wheel-interior.webp
 ```
 
 Role:

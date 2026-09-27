@@ -7,7 +7,7 @@ Purpose: Source of truth for Homepage structure, component selection, surface rh
 
 > This blueprint defines structure and behavior. Final copy, translations, photography, fleet data, pricing data, reviews, and trust-point content remain subject to their verified data/content sources.
 >
-> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, and image assignments/delivery. The later owner refinement selects the soft-reveal Hero scrim, symbol-only four-tier footer with a partner-logo row, and wide compact contained FinalCTA with the DR-12 interior photo. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/sections/home/private-chauffeur.webp` for the service card; the larger feature uses `assets/shared/other/passenger-working-in-backseat.webp`.
+> **Current revision:** DR-06–DR-12 update the shared FleetCard, public identity, footer, and image assignments/delivery. The later owner refinement selects the soft-reveal Hero scrim, symbol-only four-tier footer with a partner-logo row, and wide compact contained FinalCTA with the DR-12 interior photo. The existing section order, Hero role, and route-specific CTA hierarchy remain. The owner-confirmed chauffeur photo is `assets/images/pages/home/private-chauffeur-card.webp` for the service card; the larger feature uses `assets/images/shared/passenger-experience/passenger-working-in-backseat.webp`.
 
 ---
 
@@ -360,7 +360,7 @@ The text side has no enclosing card/panel; only the compact package-summary inse
 
 ## Image
 
-- Approved passenger-at-work photography (`assets/shared/other/passenger-working-in-backseat.webp`); the owner-confirmed chauffeur-at-wheel image belongs to the service card.
+- Approved passenger-at-work photography (`assets/images/shared/passenger-experience/passenger-working-in-backseat.webp`); the owner-confirmed chauffeur-at-wheel image belongs to the service card.
 - Typical ratio around `4:3`.
 - Use Theme V2 card/media radius.
 - `object-cover` with explicit focal positioning.
@@ -622,7 +622,7 @@ Missing verified contacts must follow canonical contact gating; do not invent th
 
 ## Image
 
-Use the common approved `assets/shared/final-cta-interior-v2.webp` as a decorative optimized media background. One independent dark scrim protects copy while keeping the dashboard recognizable. Do not imply that this photograph proves a particular fleet configuration.
+Use the common approved `assets/images/shared/interiors/final-cta-interior.webp` as a decorative optimized media background. One independent dark scrim protects copy while keeping the dashboard recognizable. Do not imply that this photograph proves a particular fleet configuration.
 
 ## Visual treatment
 

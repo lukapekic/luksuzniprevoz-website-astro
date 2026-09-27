@@ -81,10 +81,10 @@ Wedding is the reference implementation for shared Occasion contracts, not a pag
 Resolve:
 
 ```text
-src/assets/shared/other/prom-holding-flowers-mercedes-bg.webp
-src/assets/shared/other/prom-closeup-mercedes-background.webp
-src/assets/shared/other/flowers-on-console.webp
-src/assets/shared/other/v-class-interior.webp
+src/assets/images/shared/occasions/prom-holding-flowers-mercedes-bg.webp
+src/assets/images/shared/occasions/prom-closeup-mercedes-background.webp
+src/assets/images/shared/occasions/flowers-on-console.webp
+src/assets/images/shared/interiors/v-class-interior.webp
 ```
 
 If a Prom-specific filename differs in the working branch, STOP and update the mapping deliberately. Do not fall back to Wedding photography.
@@ -175,7 +175,7 @@ BaseLayout overHero={true}
 Import:
 
 ```ts
-import promHeroImage from "../../../assets/shared/other/prom-holding-flowers-mercedes-bg.webp";
+import promHeroImage from "../../../assets/images/shared/occasions/prom-holding-flowers-mercedes-bg.webp";
 ```
 
 Resolve localized eyebrow, H1, description, booking CTA, quote CTA and three trust markers.
@@ -236,7 +236,7 @@ Lookup `sections[key=arrivalStory]` and require exactly four items.
 Import:
 
 ```ts
-import promArrivalImage from "../../../assets/shared/other/prom-closeup-mercedes-background.webp";
+import promArrivalImage from "../../../assets/images/shared/occasions/prom-closeup-mercedes-background.webp";
 ```
 
 Render page-local `PromArrivalStory` using a semantic ordered stage list.
@@ -277,7 +277,7 @@ Gate multi-vehicle/mixed-class claims with the corresponding canonical flags.
 Import:
 
 ```ts
-import promGroupImage from "../../../assets/shared/other/v-class-interior.webp";
+import promGroupImage from "../../../assets/images/shared/interiors/v-class-interior.webp";
 ```
 
 Render page-local `PromGroupArrival`. Do not duplicate capacities.
@@ -289,7 +289,7 @@ Lookup `sections[key=presentation]` and render only when `prom.customPresentatio
 Import:
 
 ```ts
-import promPresentationImage from "../../../assets/shared/other/flowers-on-console.webp";
+import promPresentationImage from "../../../assets/images/shared/occasions/flowers-on-console.webp";
 ```
 
 Render page-local `PromPresentation`.

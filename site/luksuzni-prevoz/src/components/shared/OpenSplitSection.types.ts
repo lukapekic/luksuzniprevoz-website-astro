@@ -61,11 +61,11 @@
 // type-only import of a representative asset. `import type` is erased at
 // compile time — there is no runtime or bundle coupling to this file; only its
 // inferred type (`ImageMetadata`) is used. Mirrors shared/ServiceCard.types.ts.
-import type sampleAsset from "../../assets/hero.webp";
+import type { shared as sampleAssetMedia } from "../../data/media/shared";
 
 // `ImageMetadata` (typeof an imported image asset) — see the comment above the
 // import. `import type` is erased at compile time; only the inferred type is used.
-type OpenSplitImage = typeof sampleAsset;
+type OpenSplitImage = typeof sampleAssetMedia.driving.genericHero;
 
 /** Desktop visual direction of the two columns. */
 export type OpenSplitLayout = "content-image" | "image-content";

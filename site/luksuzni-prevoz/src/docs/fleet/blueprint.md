@@ -87,7 +87,7 @@ The Hero establishes Fleet as a first-class product page.
 
 Exact asset:
 
-`src/assets/pages/fleet/hero.webp`
+`src/assets/images/pages/fleet/hero.webp`
 
 The Hero MUST use the existing full-bleed Hero layering model:
 

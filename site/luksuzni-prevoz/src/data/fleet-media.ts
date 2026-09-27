@@ -7,12 +7,13 @@
  */
 import type { ImageMetadata } from "astro";
 import { fleetModelDisplayNames, type VehicleId } from "./fleet.ts";
-import skodaSuperb from "../assets/fleet/original/superb/left-facing.webp";
-import skodaKodiaq from "../assets/fleet/original/kodiaq/left-facing.webp";
-import mercedesEClass from "../assets/fleet/original/e-class/left-facing.webp";
-import mercedesSClass from "../assets/fleet/original/s-class/left-facing.webp";
-import mercedesVClass from "../assets/fleet/original/v-class/left-facing.webp";
-import mercedesSprinter from "../assets/fleet/original/sprinter/left-facing.webp";
+import { fleet } from "./media/fleet";
+const skodaSuperb = fleet.superb.leftFacing;
+const skodaKodiaq = fleet.kodiaq.leftFacing;
+const mercedesEClass = fleet.eClass.leftFacing;
+const mercedesSClass = fleet.sClass.leftFacing;
+const mercedesVClass = fleet.vClass.leftFacing;
+const mercedesSprinter = fleet.sprinter.leftFacing;
 
 export interface HomepageFleetEntry {
   /** Representative canonical record supplying vehicle class and media lookup. */

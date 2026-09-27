@@ -281,7 +281,7 @@ Shared component code remains unchanged.
 Asset:
 
 ```text
-src/assets/s-class-wheel-interior.webp
+src/assets/images/shared/interiors/s-class-wheel-interior.webp
 ```
 
 Image role:
@@ -967,7 +967,7 @@ FinalCTA remains medium-height.
 Integration contract:
 
 ```text
-image             → src/assets/final-cta-bg.webp
+image             → src/assets/images/shared/interiors/final-cta-bg.webp
 imageAlt          → ""
 imageFit          → "cover"
 mediaTreatment    → "integrated"

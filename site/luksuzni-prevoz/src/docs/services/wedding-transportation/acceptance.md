@@ -25,7 +25,7 @@ Every applicable item MUST pass.
 - [ ] Shared ServiceHero full-bleed variant.
 - [ ] `BaseLayout overHero={true}`.
 - [ ] Exactly one H1 from localized content.
-- [ ] Exact Hero asset: `assets/shared/other/weeding-day-kissing.webp`.
+- [ ] Exact Hero asset: `assets/images/shared/occasions/wedding-day-kissing.webp`.
 - [ ] Crop preserves wedding + vehicle context.
 - [ ] Primary booking flow; secondary quote flow.
 - [ ] Eyebrow + exactly three trust markers from UI.
@@ -46,7 +46,7 @@ Every applicable item MUST pass.
 ## F. Wedding-Day Story
 - [ ] `sections[key=weddingDay]`.
 - [ ] Exactly five stages.
-- [ ] Exact asset: `assets/shared/other/e-class-outside-weeding-day.webp`.
+- [ ] Exact asset: `assets/images/shared/occasions/e-class-outside-wedding-day.webp`.
 - [ ] Astro asset pipeline.
 - [ ] Semantic stages.
 - [ ] Actual plan described as schedule-dependent.
@@ -66,14 +66,14 @@ Every applicable item MUST pass.
 - [ ] Exactly three groups.
 - [ ] Couple/guest claims gate against canonical capability.
 - [ ] Multi-vehicle/mixed-class claims gated.
-- [ ] Exact asset: `assets/shared/other/v-class-outisde-weeding-day.webp`.
+- [ ] Exact asset: `assets/images/shared/occasions/v-class-outside-wedding-day.webp`.
 - [ ] Narrative is about people/organisation, not specs.
 - [ ] Mobile copy before media.
 
 ## I. Presentation
 - [ ] `sections[key=presentation]`.
 - [ ] Renders only when `customPresentationRequest` is true.
-- [ ] Exact asset: `assets/shared/other/s-class-with-flowers-special-occasion.webp`.
+- [ ] Exact asset: `assets/images/shared/occasions/s-class-with-flowers-special-occasion.webp`.
 - [ ] Copy states requests are individually reviewed.
 - [ ] Decoration is not promised as included.
 - [ ] No invented flowers/ribbons/champagne/gifts package.

@@ -133,7 +133,7 @@ prom.hero.trust.plannedPickup
 Required image:
 
 ```text
-src/assets/shared/other/prom-holding-flowers-mercedes-bg.webp
+src/assets/images/shared/occasions/prom-holding-flowers-mercedes-bg.webp
 ```
 
 The scrim MUST integrate the saturated formal-event photography into Theme V2. Image colors MUST NOT become interface accents.
@@ -205,7 +205,7 @@ Core message: **The arrival is part of the evening.**
 Required image:
 
 ```text
-src/assets/shared/other/prom-closeup-mercedes-background.webp
+src/assets/images/shared/occasions/prom-closeup-mercedes-background.webp
 ```
 
 Exactly four illustrative stages:
@@ -252,7 +252,7 @@ Core message: **One vehicle or arrive with your group.**
 Required image:
 
 ```text
-src/assets/shared/other/v-class-interior.webp
+src/assets/images/shared/interiors/v-class-interior.webp
 ```
 
 Canonical gates:
@@ -278,7 +278,7 @@ Source: `sections[key=presentation]`.
 Required image:
 
 ```text
-src/assets/shared/other/flowers-on-console.webp
+src/assets/images/shared/occasions/flowers-on-console.webp
 ```
 
 Gate: `customPresentationRequest === true`.

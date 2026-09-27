@@ -319,7 +319,7 @@ category markers provide separation between cars.
 
 ### Hero
 
-Pass `src/assets/pages/fleet/hero.webp` to the existing `ServiceHero` image prop.
+Pass `src/assets/images/pages/fleet/hero.webp` to the existing `ServiceHero` image prop.
 
 Inherited `ServiceHero` behavior:
 

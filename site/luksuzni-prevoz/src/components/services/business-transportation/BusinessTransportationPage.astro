@@ -29,10 +29,12 @@ import { resolveHubChildItems } from "../../../lib/hubs.ts";
 import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
-import heroImage from "../../../assets/services/business-transport-card.webp";
-import corporateServiceImage from "../../../assets/pages/business-hub/corporate-service-card.jpg";
-import delegationServiceImage from "../../../assets/pages/business-hub/delegation-service-card.jpg";
-import conferenceServiceImage from "../../../assets/pages/business-hub/conference-service-card.jpg";
+import { home } from "../../../data/media/home";
+const heroImage = home.services.business;
+import { businessTransportation } from "../../../data/media/businessTransportation";
+const corporateServiceImage = businessTransportation.corporateServiceCard;
+const delegationServiceImage = businessTransportation.delegationServiceCard;
+const conferenceServiceImage = businessTransportation.conferenceServiceCard;
 
 interface Props {
   routeKey: "businessTransportation";

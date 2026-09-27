@@ -27,11 +27,12 @@ import { t } from "../../../lib/i18n.ts";
 import { resolveCtaHref, type Cta } from "../../../lib/cta.ts";
 import { buildPageSeo } from "../../../lib/seo.ts";
 import { interpolateTokens } from "../../../lib/interpolate.ts";
-import heroImage from "../../../assets/shared/chauffeur-service/hero-chauffeur-wheel.webp";
-import productivityImage from "../../../assets/shared/other/passenger-working-in-backseat.webp";
-import scheduleImage from "../../../assets/shared/chauffeur-service/schedule-backseat-view.webp";
-import editorialImage from "../../../assets/shared/other/passenger-laptop-portrait.webp";
-import passengerImage from "../../../assets/shared/other/passenger-reading-in-rear-seat.webp";
+import { shared } from "../../../data/media/shared";
+const heroImage = shared.chauffeur.heroChauffeurWheel;
+const productivityImage = shared.passengerExperience.passengerWorkingInBackseat;
+const scheduleImage = shared.chauffeur.scheduleBackseatView;
+const editorialImage = shared.passengerExperience.passengerLaptopPortrait;
+const passengerImage = shared.passengerExperience.passengerReadingInRearSeat;
 
 interface Props {
   routeKey: "privateChauffeur";

@@ -93,7 +93,7 @@ BaseLayout overHero={true}
 Import:
 
 ```ts
-import weddingHeroImage from "../../../assets/shared/other/weeding-day-kissing.webp";
+import weddingHeroImage from "../../../assets/images/shared/occasions/wedding-day-kissing.webp";
 ```
 
 Image is decorative. Use localized eyebrow/trust markers from `content/ui`.
@@ -136,7 +136,7 @@ Lookup `sections[key=weddingDay]`. Require five items.
 Import:
 
 ```ts
-import weddingDayImage from "../../../assets/shared/other/e-class-outside-weeding-day.webp";
+import weddingDayImage from "../../../assets/images/shared/occasions/e-class-outside-wedding-day.webp";
 ```
 
 Render through page-local `WeddingDayStory`. Use semantic ordered sequence. Mobile stages precede image.
@@ -172,7 +172,7 @@ wedding.guestTransport === true
 Import:
 
 ```ts
-import weddingGuestImage from "../../../assets/shared/other/v-class-outisde-weeding-day.webp";
+import weddingGuestImage from "../../../assets/images/shared/occasions/v-class-outside-wedding-day.webp";
 ```
 
 Render page-local `WeddingGuestTransport`. Do not repeat capacity/spec UI.
@@ -186,7 +186,7 @@ Render only if `wedding.customPresentationRequest === true`.
 Import:
 
 ```ts
-import weddingPresentationImage from "../../../assets/shared/other/s-class-with-flowers-special-occasion.webp";
+import weddingPresentationImage from "../../../assets/images/shared/occasions/s-class-with-flowers-special-occasion.webp";
 ```
 
 Visible localized copy MUST clarify that requests are reviewed individually and decoration is not automatically included.

@@ -147,7 +147,7 @@ overHero=true
 Hero image is owner-approved and locked:
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-night.webp
+src/assets/images/shared/hotels/s-class-hotel-entrance-night.webp
 ```
 
 The existing `ServiceHero` full-bleed dark treatment/scrim remains authoritative. Do not add a second page-local overlay.
@@ -359,7 +359,7 @@ The final stage remains **Final transfer**. Do not render Airport departure.
 ## Image
 
 ```text
-src/assets/fleet/original/sprinter/interior-entrance.webp
+src/assets/images/fleet/sprinter/interior-entrance.webp
 ```
 
 Decorative. The right-side image shows the Sprinter passenger entrance and must
@@ -732,7 +732,7 @@ Secondary → quote flow.
 Image:
 
 ```text
-src/assets/shared/other/v-class-parked-outside.webp
+src/assets/images/shared/driving/v-class-parked-outside.webp
 ```
 
 Props:

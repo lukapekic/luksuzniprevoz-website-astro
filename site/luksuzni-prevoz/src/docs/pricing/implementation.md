@@ -429,7 +429,7 @@ variant="full-bleed"
 title/description/supportText from content.data.hero
 eyebrow from Pricing UI
 resolved booking and quote actions
-image src/assets/s-class-wheel-interior.webp
+image src/assets/images/shared/interiors/s-class-wheel-interior.webp
 imageAlt=""
 no trust markers
 ```
@@ -473,7 +473,7 @@ Reuse the reviewed component without geometry changes:
 ```text
 heading/description/actions from content.data.finalCta
 contacts from verified contact.phone/contact.email only
-image src/assets/final-cta-bg.webp
+image src/assets/images/shared/interiors/final-cta-bg.webp
 imageAlt=""
 imageFit="cover"
 mediaTreatment="integrated"

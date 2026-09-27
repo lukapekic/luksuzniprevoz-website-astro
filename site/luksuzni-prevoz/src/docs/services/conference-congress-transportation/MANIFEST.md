@@ -41,7 +41,7 @@ The implementation agent MUST create `compliance-matrix.md` after reading the cu
 
 ## Locked owner decisions
 
-- Hero image: `src/assets/shared/other/s-class-hotel-entrance-night.webp`.
+- Hero image: `src/assets/images/shared/hotels/s-class-hotel-entrance-night.webp`.
 - The existing full-bleed `ServiceHero` dark image treatment remains in use.
 - Conference pricing is quote-only.
 - The page covers airport arrivals, hotel transfers, venue transportation, individual executive transfers, group transport and multi-vehicle schedules.

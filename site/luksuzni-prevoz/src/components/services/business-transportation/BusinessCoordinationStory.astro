@@ -3,7 +3,8 @@ import { Image } from "astro:assets";
 import Section from "../../../foundation/ui/Section.astro";
 import PageContainer from "../../../foundation/ui/PageContainer.astro";
 import SectionHeading from "../../../foundation/ui/SectionHeading.astro";
-import coordinationImage from "../../../assets/hero-example.jpg";
+import { businessTransportation } from "../../../data/media/businessTransportation";
+const coordinationImage = businessTransportation.coordination;
 
 interface TimelineItem { title: string; text: string }
 interface Props {

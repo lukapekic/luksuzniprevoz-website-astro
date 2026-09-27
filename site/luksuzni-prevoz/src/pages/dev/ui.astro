@@ -72,8 +72,9 @@ import SiteFooter from "../../components/site/SiteFooter.astro";
 import type { FaqItem } from "../../content/schemas/shared.ts";
 import type { TrustItem } from "../../components/shared/TrustStrip.types.ts";
 import type { ServiceCardProps } from "../../components/shared/ServiceCard.types.ts";
-import heroImg from "../../assets/hero.webp";
-import finalCtaBg from "../../assets/final-cta-bg.webp";
+import { shared } from "../../data/media/shared";
+const heroImg = shared.driving.genericHero;
+const finalCtaBg = shared.interiors.finalCtaBg;
 import { contact, isVerified } from "../../data/contact.ts";
 import { defaultLocale, getLocaleConfig } from "../../data/locales.ts";
 
@@ -533,8 +534,8 @@ const hubSelectorPreview = {
 //    copy is Latin-only (the sr locale is Latin-only). `ImageMetadata` is not
 //    re-exported by astro:assets in this Astro version, so it is anchored via a
 //    type-only import of a representative asset (mirrors ServiceCard.types.ts).
-import type sampleHeroAsset from "../../assets/hero.webp";
-type FixtureImage = typeof sampleHeroAsset;
+import type { shared as sampleHeroAssetMedia } from "../../data/media/shared";
+type FixtureImage = typeof sampleHeroAssetMedia.driving.genericHero;
 
 type FleetFixture = {
   category: string;

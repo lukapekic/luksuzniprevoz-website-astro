@@ -299,13 +299,13 @@ The card's text remains outside uncontrolled photographic detail. Essential cont
 
 ```text
 01 Wedding
-assets/shared/other/e-class-outside-weeding-day.webp
+assets/images/shared/occasions/e-class-outside-wedding-day.webp
 
 02 Prom — temporary
-assets/shared/other/v-class-interior.webp
+assets/images/shared/interiors/v-class-interior.webp
 
 03 VIP
-assets/shared/other/vip-rear-cabin.webp
+assets/images/shared/interiors/vip-rear-cabin.webp
 ```
 
 Do not use the Wedding couple image or red/white flower-detail image on the hub.

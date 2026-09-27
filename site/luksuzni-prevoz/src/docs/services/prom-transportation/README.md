@@ -51,10 +51,10 @@ prom-transportation-v2/
 The implementation expects:
 
 ```text
-src/assets/shared/other/prom-holding-flowers-mercedes-bg.webp
-src/assets/shared/other/prom-closeup-mercedes-background.webp
-src/assets/shared/other/flowers-on-console.webp
-src/assets/shared/other/v-class-interior.webp
+src/assets/images/shared/occasions/prom-holding-flowers-mercedes-bg.webp
+src/assets/images/shared/occasions/prom-closeup-mercedes-background.webp
+src/assets/images/shared/occasions/flowers-on-console.webp
+src/assets/images/shared/interiors/v-class-interior.webp
 ```
 
 Locked roles:

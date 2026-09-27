@@ -7,13 +7,14 @@
  */
 import type { ImageMetadata } from "astro";
 import type { ClientLogoId } from "./clients.ts";
-import chineseEmbassy from "../assets/clients/chinesee-embassy.png";
-import hyattRegency from "../assets/clients/hyatt-regency.png";
-import osce from "../assets/clients/osce.png";
-import presidentPalaceHotel from "../assets/clients/prezident-palace-hotel.png";
-import qatarAirways from "../assets/clients/qatar-airways.png";
-import serbianSwimmingAssociation from "../assets/clients/serbian-swimming-association.png";
-import squareNineHotels from "../assets/clients/square-nine-hotels.png";
+import { logos } from "./media/logos";
+const chineseEmbassy = logos.clients.chineseEmbassy;
+const hyattRegency = logos.clients.hyattRegency;
+const osce = logos.clients.osce;
+const presidentPalaceHotel = logos.clients.prezidentPalaceHotel;
+const qatarAirways = logos.clients.qatarAirways;
+const serbianSwimmingAssociation = logos.clients.serbianSwimmingAssociation;
+const squareNineHotels = logos.clients.squareNineHotels;
 
 export const clientLogoMedia = {
   "chinese-embassy": chineseEmbassy,

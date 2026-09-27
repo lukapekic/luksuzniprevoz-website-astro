@@ -73,9 +73,10 @@ import ServiceCard from "../shared/ServiceCard.astro";
 import type { LocaleCode, RouteKey } from "@astro-foundation/core";
 import { selectedMedia } from "../../data/selected-media.ts";
 import { imageSizes } from "../../data/image-delivery.ts";
-import airportTransportationCard from "../../assets/services/airport-transfer-card.webp";
-import businessTransportationCard from "../../assets/services/business-transport-card.webp";
-import specialEventsCard from "../../assets/services/special-events-card.webp";
+import { home } from "../../data/media/home";
+const airportTransportationCard = home.services.airport;
+const businessTransportationCard = home.services.business;
+const specialEventsCard = home.services.specialEvents;
 
 /** Canonical Homepage service item (routeCardSchema shape — editorial copy only). */
 interface HomeServiceItem {

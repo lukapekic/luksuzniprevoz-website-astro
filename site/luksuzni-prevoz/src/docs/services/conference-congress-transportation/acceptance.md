@@ -135,7 +135,7 @@ Absent:
 - [ ] Uses shared `ServiceHero`.
 - [ ] Uses `variant="full-bleed"`.
 - [ ] BaseLayout uses `overHero=true`.
-- [ ] Exact image is `src/assets/shared/other/s-class-hotel-entrance-night.webp`.
+- [ ] Exact image is `src/assets/images/shared/hotels/s-class-hotel-entrance-night.webp`.
 - [ ] Image uses empty alt/presentation semantics.
 - [ ] No Conference-specific duplicate dark overlay was added.
 - [ ] Eyebrow comes from Conference UI key.
@@ -198,7 +198,7 @@ Absent:
 - [ ] Uses the localized `eventJourney` heading and concise introduction; optional body copy does not create repetition.
 - [ ] Uses exactly six authored stage items.
 - [ ] Uses Conference section label + example label from UI.
-- [ ] Exact image is `src/assets/fleet/original/sprinter/interior-entrance.webp`.
+- [ ] Exact image is `src/assets/images/fleet/sprinter/interior-entrance.webp`.
 - [ ] Image is decorative.
 - [ ] Desktop remains 7 / 5.
 - [ ] Desktop image height matches the adjacent stepped sequence and is not enlarged by the portrait asset's intrinsic ratio.
@@ -295,7 +295,7 @@ Exact vehicle IDs/order:
 # Q. Final CTA
 
 - [ ] Shared `FinalCTA` is reused.
-- [ ] Exact image is `src/assets/shared/other/v-class-parked-outside.webp`.
+- [ ] Exact image is `src/assets/images/shared/driving/v-class-parked-outside.webp`.
 - [ ] Image is decorative.
 - [ ] Integrated media treatment is used.
 - [ ] Primary action is booking.

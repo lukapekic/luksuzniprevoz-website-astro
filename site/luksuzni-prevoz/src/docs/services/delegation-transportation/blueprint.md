@@ -131,7 +131,7 @@ ServiceHero variant="full-bleed"
 Locked Hero asset:
 
 ```text
-src/assets/shared/other/v-class-embassy-entrance.webp
+src/assets/images/shared/business/v-class-embassy-entrance.webp
 ```
 
 The asset is decorative:
@@ -229,7 +229,7 @@ image second
 Locked image:
 
 ```text
-src/assets/shared/other/s-class-hotel-entrance-vertical.webp
+src/assets/images/shared/hotels/s-class-hotel-entrance-vertical.webp
 ```
 
 The image is decorative.
@@ -286,7 +286,7 @@ These examples MUST NOT be converted into new canonical Delegation capability fl
 Locked supporting image:
 
 ```text
-src/assets/shared/other/emplyoee-group-outside.webp
+src/assets/images/shared/business/employee-group-outside.webp
 ```
 
 Visual contract:
@@ -347,7 +347,7 @@ content 7 | image 5
 Locked image:
 
 ```text
-src/assets/shared/other/v-class-on-the-move-veertical.webp
+src/assets/images/shared/driving/v-class-on-the-move-vertical.webp
 ```
 
 Exactly three editorial role concepts:
@@ -433,9 +433,9 @@ DelegationInstitutionalProof.astro
 Exactly three owner-supplied v1 marks:
 
 ```text
-src/assets/clients/chinesee-embassy.png
-src/assets/clients/osce.png
-src/assets/clients/serbian-swimming-association.png
+src/assets/logos/clients/chinese-embassy.png
+src/assets/logos/clients/osce.png
+src/assets/logos/clients/serbian-swimming-association.png
 ```
 
 Client identity, canonical display names, approval state and route placement come from `src/data/clients.ts`. Logo media resolves through `src/data/client-media.ts`.
@@ -615,7 +615,7 @@ Reuse `FinalCTA`.
 Locked image:
 
 ```text
-src/assets/shared/other/s-class-interior-1.webp
+src/assets/images/shared/interiors/s-class-interior-1.webp
 ```
 
 Pass:

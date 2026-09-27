@@ -4,7 +4,7 @@ Status: **owner-approved compact refinement after DR-12**. This replaces the vie
 
 ## Structure and ownership
 
-One wide, contained photographic panel fills the active main container, not the viewport. A decorative optimized Astro image sits behind an independent semantic-background scrim and the content. The shared component owns the structure; the site's media data layer selects `src/assets/shared/final-cta-interior-v2.webp`; localized page content owns heading, description, and action labels; route helpers and verified contact data own destinations and contacts. Existing page-specific CTA meanings and optional actions remain intact. A missing image yields a readable dark closer with the same actions.
+One wide, contained photographic panel fills the active main container, not the viewport. A decorative optimized Astro image sits behind an independent semantic-background scrim and the content. The shared component owns the structure; the site's media data layer selects `src/assets/images/shared/interiors/final-cta-interior.webp`; localized page content owns heading, description, and action labels; route helpers and verified contact data own destinations and contacts. Existing page-specific CTA meanings and optional actions remain intact. A missing image yields a readable dark closer with the same actions.
 
 Migration note: the old per-consumer `image`, `imageAlt`, `imageFit`, and `mediaTreatment` props were removed from the shared API. All 13 existing production consumers now use the same approved interior through `closing-media.ts`; no page-specific closing image is inferred from its vehicle content.
 

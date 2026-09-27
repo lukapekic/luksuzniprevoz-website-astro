@@ -49,13 +49,13 @@ The production mapping combines one page-specific editorial Hero with verified r
 
 ```text
 Hero
-→ src/assets/pages/vip-transportation/hero.png
+→ src/assets/images/pages/vip-transportation/hero.png
 
 Service definition / passenger experience
 → passenger-experience-alternate.webp
 
 Discretion & privacy signature section
-→ src/assets/shared/other/s-class-hotel-front-winter.webp
+→ src/assets/images/shared/hotels/s-class-hotel-front-winter.webp
 
 Arrivals & aviation primary image
 → mercedes-sprint-next-to-private-jet.webp
