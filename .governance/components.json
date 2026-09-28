@@ -6,8 +6,7 @@
       "path": "site/luksuzni-prevoz/src/foundation/ui/BrandLockup.astro",
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/site/SiteFooter.astro",
-        "site/luksuzni-prevoz/src/components/site/SiteHeader.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/site/SiteHeader.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -36,7 +35,6 @@
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -47,7 +45,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -84,8 +81,7 @@
       "path": "site/luksuzni-prevoz/src/foundation/ui/Button.astro",
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
-        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
@@ -94,14 +90,12 @@
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "airport-transportation",
         "booking",
         "contact",
-        "dev-ui",
         "shared-ui"
       ]
     },
@@ -109,20 +103,17 @@
       "name": "Checkbox",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Checkbox.astro",
       "directConsumers": [
-        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "booking",
-        "dev-ui",
         "shared-ui"
       ]
     },
@@ -141,8 +132,7 @@
         "site/luksuzni-prevoz/src/components/services/prom-transportation/PromTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro",
         "site/luksuzni-prevoz/src/components/services/vip-transportation/VipTransportationPage.astro",
-        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
@@ -159,8 +149,7 @@
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "airport-transportation",
@@ -168,7 +157,6 @@
         "conference-congress-transportation",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "pricing",
         "private-chauffeur",
@@ -186,8 +174,7 @@
         "site/luksuzni-prevoz/src/components/booking/BookingScheduleControls.astro",
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
-        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -199,14 +186,12 @@
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "airport-transportation",
         "booking",
         "contact",
-        "dev-ui",
         "shared-ui"
       ]
     },
@@ -226,8 +211,7 @@
         "site/luksuzni-prevoz/src/components/services/prom-transportation/PromTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro",
         "site/luksuzni-prevoz/src/components/services/vip-transportation/VipTransportationPage.astro",
-        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
@@ -247,7 +231,6 @@
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -256,7 +239,6 @@
         "conference-congress-transportation",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -338,8 +320,7 @@
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
         "site/luksuzni-prevoz/src/components/home/ReviewsShowcase.astro",
-        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/shared/VehicleRecommendations.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
@@ -360,7 +341,6 @@
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -369,7 +349,6 @@
         "conference-congress-transportation",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "home",
         "private-chauffeur",
         "prom-transportation",
@@ -382,15 +361,9 @@
     {
       "name": "HubServiceSelector",
       "path": "site/luksuzni-prevoz/src/components/services/shared/HubServiceSelector.astro",
-      "directConsumers": [
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
-      ],
-      "consumers": [
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
-      ],
-      "surfaces": [
-        "dev-ui"
-      ]
+      "directConsumers": [],
+      "consumers": [],
+      "surfaces": []
     },
     {
       "name": "Input",
@@ -398,8 +371,7 @@
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
-        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportBookingBlock.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -410,14 +382,12 @@
         "site/luksuzni-prevoz/src/components/services/airport-transportation/AirportTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "airport-transportation",
         "booking",
         "contact",
-        "dev-ui",
         "shared-ui"
       ]
     },
@@ -456,8 +426,7 @@
         "site/luksuzni-prevoz/src/components/shared/ServiceCard.astro",
         "site/luksuzni-prevoz/src/components/site/SiteHeader.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -513,7 +482,6 @@
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -524,7 +492,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -634,8 +601,7 @@
         "site/luksuzni-prevoz/src/components/services/corporate-transportation/CorporateTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/delegation-transportation/DelegationTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/private-chauffeur/PrivateChauffeurPage.astro",
-        "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventCoordinationStory.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventCoordinationStory.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
@@ -650,14 +616,12 @@
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
         "airport-transportation",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "home",
         "private-chauffeur",
         "shared-ui",
@@ -670,7 +634,6 @@
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
-        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetNavigator.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
@@ -735,13 +698,11 @@
         "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
         "site/luksuzni-prevoz/src/components/site/ScaffoldPage.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
-        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetNavigator.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
@@ -816,7 +777,6 @@
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -827,7 +787,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -853,8 +812,7 @@
         "site/luksuzni-prevoz/src/components/services/prom-transportation/PromTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/services/special-events/SpecialEventsPage.astro",
         "site/luksuzni-prevoz/src/components/services/vip-transportation/VipTransportationPage.astro",
-        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
@@ -870,8 +828,7 @@
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "airport-transportation",
@@ -879,7 +836,6 @@
         "conference-congress-transportation",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "private-chauffeur",
         "prom-transportation",
@@ -895,7 +851,6 @@
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
-        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
@@ -960,13 +915,11 @@
         "site/luksuzni-prevoz/src/components/site/LeafPage.astro",
         "site/luksuzni-prevoz/src/components/site/ScaffoldPage.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
-        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetFitGuide.astro",
         "site/luksuzni-prevoz/src/components/fleet/FleetPage.astro",
         "site/luksuzni-prevoz/src/components/home/FleetShowcase.astro",
@@ -1036,7 +989,6 @@
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -1047,7 +999,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -1127,8 +1078,7 @@
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingGuestTransport.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingPresentation.astro",
         "site/luksuzni-prevoz/src/components/services/wedding-transportation/WeddingTransportationPage.astro",
-        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/shared/FinalCTA.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/contact/ContactDetails.astro",
@@ -1201,7 +1151,6 @@
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -1212,7 +1161,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -1227,34 +1175,25 @@
     {
       "name": "Select",
       "path": "site/luksuzni-prevoz/src/foundation/ui/Select.astro",
-      "directConsumers": [
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
-      ],
-      "consumers": [
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
-      ],
-      "surfaces": [
-        "dev-ui"
-      ]
+      "directConsumers": [],
+      "consumers": [],
+      "surfaces": []
     },
     {
       "name": "ServiceCard",
       "path": "site/luksuzni-prevoz/src/components/shared/ServiceCard.astro",
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/home/ServiceShowcase.astro",
-        "site/luksuzni-prevoz/src/components/services/shared/HubServiceSelector.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/services/shared/HubServiceSelector.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/components/home/ServiceShowcase.astro",
         "site/luksuzni-prevoz/src/components/services/shared/HubServiceSelector.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
-        "dev-ui",
         "home",
         "shared-ui"
       ]
@@ -1380,8 +1319,7 @@
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/layouts/BaseLayout.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -1408,7 +1346,6 @@
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -1419,7 +1356,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -1438,8 +1374,7 @@
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/layouts/BaseLayout.astro",
         "site/luksuzni-prevoz/src/pages/404.astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/404.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -1466,7 +1401,6 @@
         "site/luksuzni-prevoz/src/pages/[locale]/404.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
@@ -1477,7 +1411,6 @@
         "contact",
         "corporate-transportation",
         "delegation-transportation",
-        "dev-ui",
         "fleet",
         "home",
         "pricing",
@@ -1494,8 +1427,7 @@
       "path": "site/luksuzni-prevoz/src/foundation/ui/Textarea.astro",
       "directConsumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingWizard.astro",
-        "site/luksuzni-prevoz/src/components/contact/ContactForm.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/contact/ContactForm.astro"
       ],
       "consumers": [
         "site/luksuzni-prevoz/src/components/booking/BookingPage.astro",
@@ -1504,13 +1436,11 @@
         "site/luksuzni-prevoz/src/components/contact/ContactPage.astro",
         "site/luksuzni-prevoz/src/components/site/ContentPageRenderer.astro",
         "site/luksuzni-prevoz/src/pages/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/pages/[locale]/[...slug].astro"
       ],
       "surfaces": [
         "booking",
         "contact",
-        "dev-ui",
         "shared-ui"
       ]
     },
@@ -1518,19 +1448,14 @@
       "name": "TrustStrip",
       "path": "site/luksuzni-prevoz/src/components/shared/TrustStrip.astro",
       "directConsumers": [
-        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
-        "site/luksuzni-prevoz/src/components/home/HomePage.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro"
+        "site/luksuzni-prevoz/src/components/home/HomePage.astro"
       ],
       "consumers": [
-        "site/luksuzni-prevoz/src/components/dev/TrustStripPreview.astro",
         "site/luksuzni-prevoz/src/components/home/HomePage.astro",
         "site/luksuzni-prevoz/src/pages/[locale]/index.astro",
-        "site/luksuzni-prevoz/src/pages/dev/ui.astro",
         "site/luksuzni-prevoz/src/pages/index.astro"
       ],
       "surfaces": [
-        "dev-ui",
         "home"
       ]
     },

@@ -1,4 +1,4 @@
-import { readFile, rm, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { getSiteEnvironment } from "../src/lib/deployment-environment.ts";
 
@@ -20,8 +20,6 @@ if (environment === "preview") {
     headersPath,
     headers.replace("/*\n", "/*\n  X-Robots-Tag: noindex, nofollow, noarchive\n"),
   );
-} else {
-  await rm(resolve(distPath, "dev"), { recursive: true, force: true });
 }
 
 const [robots, sitemapIndex, sitemapPages, home] = await Promise.all([

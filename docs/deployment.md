@@ -191,7 +191,7 @@ Set `SITE_ENVIRONMENT` as a **build variable** in both Cloudflare Pages environm
 | Pages environment     | `SITE_ENVIRONMENT` | Build result                                                                                                                           |
 | --------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Preview (`staging`)   | `preview`          | `robots.txt` disallows crawling; HTML is `noindex`; sitemaps are empty; `_headers` sends `X-Robots-Tag: noindex, nofollow, noarchive`. |
-| Production (`master`) | `production`       | Published pages have normal canonical/hreflang/schema and sitemaps; `robots.txt` allows crawling; `/dev/ui/` is removed.               |
+| Production (`master`) | `production`       | Published pages have normal canonical/hreflang/schema and sitemaps; `robots.txt` allows crawling.                                       |
 
 An unset value builds as Preview locally, but Cloudflare `master` builds fail unless the value is `production`; other Cloudflare branches fail if given `production`. Any invalid value fails the build. `FORM_ENVIRONMENT` is the separate runtime binding for form handling; set it to the matching value in each Pages environment. Before launch, inspect the deployed artifacts and confirm the Pages dashboard actually supplies both values. `PROD_ROBOTS` is obsolete.
 

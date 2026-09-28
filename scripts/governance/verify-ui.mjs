@@ -38,7 +38,7 @@ try {
       `Target ${target} is not in the discovered change scope. Verify the changed target or use a scoped completion target.`,
     );
   const changedUi = scope.changes.filter((item) =>
-    ["production-ui", "dev-ui"].includes(item.classification.kind),
+    item.classification.kind === "production-ui",
   );
   if (!scopeComplete && changedUi.length > 1) {
     throw new Error(
@@ -126,7 +126,7 @@ try {
     }
   }
   const uiCompletion = scope.changes.some((item) =>
-    ["production-ui", "dev-ui"].includes(item.classification.kind),
+    item.classification.kind === "production-ui",
   );
   if (uiCompletion && !review) {
     evidence.completedAt = new Date().toISOString();

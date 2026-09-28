@@ -55,32 +55,6 @@ function scanLegacyDocs(root, config) {
   return findings;
 }
 
-function scanDevUi(root, config) {
-  const file = path.join(root, config.siteRoot, "src/pages/dev/ui.astro");
-  if (!fs.existsSync(file)) return [];
-  const text = readText(file);
-  const markers = [/Fraunces/gi, /version-1/gi, /warm cream/gi, /gold accent/gi];
-  const findings = [];
-  for (const re of markers) {
-    re.lastIndex = 0;
-    let match;
-    while ((match = re.exec(text))) {
-      findings.push(
-        makeFinding({
-          ruleId: "doctor/dev-ui-stale",
-          severity: "P1",
-          file: rel(root, file),
-          line: lineNumber(text, match.index),
-          message: `Dev UI preview still contains legacy design language "${match[0]}".`,
-          recommendation:
-            "Make /dev/ui derive labels/examples from the active Theme V2 tokens and current component contracts.",
-        }),
-      );
-    }
-  }
-  return findings;
-}
-
 function scanPackageDependencies(root, config) {
   const file = path.join(root, config.siteRoot, "package.json");
   if (!fs.existsSync(file)) return [];
@@ -213,7 +187,6 @@ try {
   }
 
   findings.push(...scanLegacyDocs(root, config));
-  findings.push(...scanDevUi(root, config));
   findings.push(...scanPackageDependencies(root, config));
 
   const baseLayout = path.join(root, config.siteRoot, "src/layouts/BaseLayout.astro");

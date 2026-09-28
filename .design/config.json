@@ -242,12 +242,6 @@
         "site/luksuzni-prevoz/src/docs/home/home-components",
         "site/luksuzni-prevoz/src/docs/services/shared"
       ]
-    },
-    "dev-ui": {
-      "match": ["src/pages/dev/", "src/components/dev/"],
-      "blueprintRequired": false,
-      "blueprints": [],
-      "contracts": []
     }
   }
 }

@@ -150,8 +150,7 @@ const isDecorative = imageAlt === "";
        caller stretches the card to a fixed grid-row height via h-full) and
        overflowing its track into neighboring columns. With BOTH axes definite
        (track width + stretched height), aspect-ratio is ignored and the card
-       fills its cell exactly. In a normal unconstrained-height grid (e.g.
-       /dev/ui), height stays auto and aspect-ratio still yields 3:2 from the
+       fills its cell exactly. In a normal unconstrained-height grid (e.g. a regular card grid), height stays auto and aspect-ratio still yields 3:2 from the
        track width — so this generic primitive keeps its 3:2 silhouette there
        and only fills a fixed-height cell here. (05-service-card §Geometry:
        ServiceShowcase determines card footprint; the card fills it.) */

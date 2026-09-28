@@ -131,8 +131,6 @@ test.describe("SiteHeader dropdowns", () => {
  *    sr-only), the desktop nav is hidden, the menu trigger is visible;
  *  - opening the menu reveals a full-viewport panel whose header is logo-only
  *    (mark-only wordmark) and which covers the viewport;
- *  - on /dev/ui only the forced-open instance's panel is visible; every other
- *    instance's mobile panel stays hidden (multi-instance isolation).
  *
  * The homepage SiteHeader uses idPrefix "hdr" (panel #hdr-mobile). The locked
  * header contract is mark-only in both the bar and panel. The accessible
@@ -229,24 +227,4 @@ test.describe("SiteHeader mobile/visibility (Step 5C)", () => {
     await expect(page.locator("#hdr-mobile")).toHaveAttribute("hidden");
   });
 
-  test("/dev/ui: only the forced-open instance panel is visible; all others hidden", async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/dev/ui/");
-    // The forced-open preview panel.
-    await expect(page.locator("#hdr-mo-mobile")).toBeVisible();
-    // Every other SiteHeader instance's mobile panel stays hidden.
-    const otherPanels = [
-      "hdr-overlay-mobile",
-      "hdr-solid-mobile",
-      "hdr-dd-biz-mobile",
-      "hdr-dd-evt-mobile",
-      "hdr-dd-lang-mobile",
-      "hdr-mc-mobile",
-    ];
-    for (const id of otherPanels) {
-      await expect(page.locator(`#${id}`)).not.toBeVisible();
-    }
-  });
 });

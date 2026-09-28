@@ -29,7 +29,7 @@ Each phase is a bounded reviewable change. Phase 4 defines evidence identity ear
 
 1. Read the applicable authorities and inspect the current diff.
 2. Record current results for `pnpm governance:validate`, `pnpm skills:validate`, `pnpm design:self-test`, `pnpm design:sync:check`, `pnpm design:doctor`, `pnpm design:detect --strict`, `pnpm components:check`, `pnpm theme:sync:check`, and `pnpm theme:validate`.
-3. Run `design:context` before any production UI changes. If governance/theme source targets cannot currently resolve a legitimate surface, repair target classification in phase 2; never label infrastructure as `dev-ui` to get through a gate.
+3. Run `design:context` before any production UI changes. If governance/theme source targets cannot currently resolve a legitimate surface, repair target classification in phase 2; never label infrastructure as production UI to get through a gate.
 4. Add regression cases before fixing confirmed enforcement gaps. Use temporary fixtures and ensure test cleanup. No deliberately invalid fixtures belong in production scan roots.
 5. A stricter check may expose existing violations. Inventory them, resolve confirmed violations in bounded changes, and adjudicate false positives against authority. Do not add blanket allowlists or lower severities to regain green checks.
 6. Regenerate machine-owned artifacts only through the relevant generators. Verification remains check-only.
@@ -73,7 +73,7 @@ Implementation:
 
 Acceptance:
 
-- Homepage plus `dev-ui` is rejected; legitimate shared multi-surface ownership succeeds.
+- Incompatible page surfaces are rejected; legitimate shared multi-surface ownership succeeds.
 - Changing two UI files and verifying one cannot approve the whole change.
 - Requesting `small-ui` cannot omit component/theme/content gates required by the actual diff.
 - Mixed changes, planned targets, deleted files, and missing CI base revisions have tested deterministic behavior.

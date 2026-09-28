@@ -127,7 +127,7 @@ const seo = buildPageSeo({
 // and the desktop 7/5 split now activates.
 //
 // The component props `secondaryAction` / `supportText` remain OPTIONAL on
-// HomepageHero (presentation-only, reusable on /dev/ui); promoting them to
+// HomepageHero (presentation-only, reusable across pages); promoting them to
 // required is a separate visual-lock milestone (HomepageHero.types.ts
 // TODO(home-visual-lock)) and does not block this content wiring.
 // The hero image is the approved pending S-Class asset (blueprint §21).
@@ -142,20 +142,20 @@ const heroSecondaryAction = hero.secondaryCta
     }
   : undefined;
 
-// --- FinalCTA (canonical shared component, same as /dev/ui) --------------
+// --- FinalCTA (canonical shared component) ------------------------------
 // The Homepage uses the SAME authoritative shared/FinalCTA.astro the user
-// approved in /dev/ui — the legacy home/FinalCTA.astro adapter is deleted.
+// approved for reuse — the legacy home/FinalCTA.astro adapter is deleted.
 // The editorial `finalCta` block (heading/text/primaryCta/secondaryCta) maps
 // straight onto the shared component's presentation-only props; CTA hrefs
 // resolve via resolveCtaHref (FND-I18N-03 — never manual URLs). The shared
 // closer selects its approved interior image through closing-media.ts.
 //
-// Contacts use the SAME verified-only canonical gating as /dev/ui + SiteFooter
+// Contacts use the SAME verified-only canonical gating as SiteFooter
 // (contact.ts isVerified): one phone + one email only.
 // Repository contact.ts currently has phone/email = null +
 // "owner-confirmation-required" → no verified channels → the contact row is
 // absent (no fake placeholder values). Once the owner verifies, exactly one
-// phone + one email render here, in /dev/ui, and in SiteFooter.
+// phone + one email render here and in SiteFooter.
 const finalCtaPrimaryAction = {
   label: finalCta.primaryCta.label,
   href: resolveCtaHref(finalCta.primaryCta as Cta, currentLocale),
