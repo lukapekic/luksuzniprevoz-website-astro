@@ -5,6 +5,20 @@ import { serializeJsonLd } from "../../src/lib/serialize-jsonld.ts";
 import { navigation, type NavChild, type NavHeaderItem } from "../../src/data/navigation.ts";
 import { getRoute, routes } from "../../src/data/routes.ts";
 import { getService } from "../../src/data/services.ts";
+import { getSiteEnvironment } from "../../src/lib/deployment-environment.ts";
+
+describe("deployment indexing mode", () => {
+  it("defaults to preview and rejects unknown build values", () => {
+    assert.equal(getSiteEnvironment("", ""), "preview");
+    assert.equal(getSiteEnvironment("preview", ""), "preview");
+    assert.equal(getSiteEnvironment("production", ""), "production");
+    assert.throws(() => getSiteEnvironment("staging", ""), /Invalid SITE_ENVIRONMENT/u);
+    assert.equal(getSiteEnvironment("production", "master"), "production");
+    assert.equal(getSiteEnvironment("preview", "staging"), "preview");
+    assert.throws(() => getSiteEnvironment("", "master"), /master builds require/u);
+    assert.throws(() => getSiteEnvironment("production", "staging"), /staging builds require/u);
+  });
+});
 
 describe("SEO output safety and public destinations", () => {
   it("round-trips localized JSON without HTML parser delimiters", () => {
