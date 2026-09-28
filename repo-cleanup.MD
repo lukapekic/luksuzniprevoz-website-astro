@@ -16,7 +16,7 @@ The audit was performed against the repository rules in AGENTS.md, the visual au
 
 Theme V2 itself is wired correctly at the main site level: site/luksuzni-prevoz/foundation.config.ts selects version-2, the generated site theme contains the Black & Platinum palette, and the global font entry loads Inter Tight + Manrope + Cormorant Garamond.
 
-However, the repository is not yet cleanly V2-only in behavior or documentation. The highest-risk issue is not a raw V1 color leak; it is that customer-facing leaf pages still use the older generic foundation Header/Footer path while the Homepage uses the reviewed V2 SiteHeader/SiteFooter. There are also several hardcoded version-1 fallbacks, a public /dev/ui/ preview containing extensive V1 guidance, one hardcoded V1 OG generator path, a blue focus fallback from the foundation package, stale dialog tokens, raw shadow values, and residual default Tailwind scale utilities.
+However, the repository is not yet cleanly V2-only in behavior or documentation. The highest-risk issue is not a raw V1 color leak; it is that customer-facing leaf pages still use the older generic foundation Header/Footer path while the Homepage uses the reviewed V2 SiteHeader/SiteFooter. There are also several hardcoded version-1 fallbacks, a former public component preview containing extensive V1 guidance, one hardcoded V1 OG generator path, a blue focus fallback from the foundation package, stale dialog tokens, raw shadow values, and residual default Tailwind scale utilities.
 
 ## Audit result at a glance
 
@@ -85,36 +85,9 @@ Move both 404 routes onto the same production chrome as normal pages and use the
 
 ## P1 — Active/high-probability Theme V1 or design-rule leakage
 
-### 3. /dev/ui/ is public in the static build and still documents Theme V1 extensively
+### 3. Internal component preview route
 
-File
-
-- site/luksuzni-prevoz/src/pages/dev/ui.astro
-
-Status: Active public route / major maintenance hazard.
-
-This file is internally contradictory: newer sections describe Inter Tight/platinum/V2 correctly, while large portions still explicitly present the old system as authoritative.
-
-Confirmed stale content includes:
-
-- “Fraunces + Manrope” typography group description;
-- typeRoles declaring Fraunces for display/H1/H2/H3;
-- visible copy saying fonts are Fraunces + Manrope;
-- visible token-source text pointing to src/theme/versions/version-1/...;
-- multiple “gold” CTA/accent descriptions;
-- “warm-charcoal” / “warm-brown” descriptions;
-- old Final CTA guidance describing a warm-charcoal → warm-brown panel and gold primary action.
-
-The page itself states that it is noindex/internal, but it remains directly addressable in a production static build. noindex prevents search indexing; it does not prevent humans or future agents from treating it as a design-system reference.
-
-Recommended cleanup
-
-Either:
-
-- fully migrate /dev/ui/ to Theme V2 and make it a trustworthy design-system preview, or
-- exclude/gate the route from production output and clearly mark it as non-authoritative.
-
-Do not leave a mixed V1/V2 reference surface.
+The former internal preview was removed from source and is no longer generated for any deployment environment. Historical design notes about that route are superseded by the active theme and reviewed component contracts.
 
 ### 4. SiteFooter.astro conflicts with its locked footer contract and current design rules
 
@@ -610,7 +583,7 @@ The remaining Fraunces problem is dependency/documentation residue, not an activ
 3. Eliminate active-theme fallbacks that can silently choose V1 — active-theme.ts, OG generator, focus fallback.
 4. Repair latent primitives before they are reused — Dialog token namespace, FormStatus colors, LeafPage prose/rhythm contract.
 5. Clean Tailwind/token hygiene — old default spacing/type utilities in shared/product components, one-off brand/section values where a semantic role exists.
-6. Remove V1 maintenance residue — Fraunces dependency, FinalCTA/SectionHeading/component comments, /dev/ui/, README/init checklist.
+6. Remove V1 maintenance residue — Fraunces dependency, FinalCTA/SectionHeading/component comments, the old component preview, README/init checklist.
 7. Remove ambiguous artifacts — stale V2 theme.zip; isolate core/reference generated theme behavior.
 8. Run the full quality/build suite after cleanup.
 
@@ -646,7 +619,7 @@ All 23 audit findings have been resolved. The repository now has one coherent Th
 | --- | -------------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | Leaf pages use old Header/Footer             | **RESOLVED — already fixed prior to cleanup** | BaseLayout.astro already imports SiteHeader/SiteFooter; old Header/Footer files deleted                                                       |
 | 2   | 404 pages use old chrome                     | **RESOLVED — already fixed prior to cleanup** | Both 404.astro files already use SiteHeader/SiteFooter + Link primitive                                                                       |
-| 3   | /dev/ui/ mixes V1/V2                         | **RESOLVED**                                  | site/luksuzni-prevoz/src/pages/dev/ui.astro — updated all V1 references to V2 terminology                                                     |
+| 3   | Internal component preview route           | **RESOLVED — route removed**                  | Removed the obsolete preview source and its preview-only helpers                                                                            |
 | 4   | SiteFooter conflicts with contract           | **RESOLVED — already compliant**              | SiteFooter.astro already uses BrandLockup, no glow, semantic tokens                                                                           |
 | 5   | SiteHeader raw shadow/duplicate SkipLink     | **RESOLVED — already fixed prior to cleanup** | SiteHeader has no raw shadow, no duplicate SkipLink; Page owns SkipLink                                                                       |
 | 6   | LanguageSwitcher raw shadow/hardcoded locale | **RESOLVED — already fixed prior to cleanup** | LanguageSwitcher uses config + data/locales.ts; no raw shadow                                                                                 |

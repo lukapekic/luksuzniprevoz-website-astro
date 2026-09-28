@@ -626,9 +626,7 @@ const leafServices = servicesChildren.filter(isLeaf);
   /* Desktop (lg+): the mobile dialog is visually unavailable even if stale JS
      state accidentally leaves it un-hidden (e.g. menu opened on a narrow
      viewport that then widened). The toggle is already hidden at this
-     breakpoint, so this is a defense-in-depth guard. The dev /dev/ui open-frame
-     override raises specificity (display:block) to keep the simulated-mobile
-     preview working at a desktop browser viewport. */
+     breakpoint, so this is a defense-in-depth guard. */
   @media (min-width: 64rem) {
     .mobile-panel { display: none; }
   }

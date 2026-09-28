@@ -177,7 +177,7 @@ Every applicable item MUST pass.
 - [ ] Exactly eight localized questions.
 - [ ] Existing `FAQ.astro` is reused.
 - [ ] FAQ heading and rows share one contained light section; individual items are not cards.
-- [ ] FAQ section uses `PageContainer`, matching the reviewed `/dev/ui` light FAQ composition.
+- [ ] FAQ section uses `PageContainer`, matching the reviewed light FAQ composition.
 - [ ] `SectionHeading` and `FAQ` both use their light-surface contracts.
 - [ ] No FAQ intro is fabricated while the approved content model has no intro field.
 - [ ] Same validated FAQ array feeds visible FAQ and FAQ schema.

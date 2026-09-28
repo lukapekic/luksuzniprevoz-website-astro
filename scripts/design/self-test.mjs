@@ -57,7 +57,7 @@ try {
   try {
     resolveSurface(root, config, {
       target: "site/luksuzni-prevoz/src/components/home/HomePage.astro",
-      surface: "dev-ui",
+      surface: "pricing",
       required: true,
     });
   } catch {

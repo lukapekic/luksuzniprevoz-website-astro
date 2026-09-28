@@ -46,14 +46,14 @@ async function main() {
     const root = findRepoRoot();
     const config = loadConfig(root);
     const targetClassification = parsed.target ? classifyTarget(root, config, parsed.target) : null;
-    if (parsed.target && ["production-ui", "dev-ui"].includes(targetClassification.kind))
+    if (parsed.target && targetClassification.kind === "production-ui")
       resolveSurface(root, config, {
         target: parsed.target,
         surface: parsed.surface,
         required: true,
       });
     const files =
-      parsed.target && !["production-ui", "dev-ui"].includes(targetClassification.kind)
+      parsed.target && targetClassification.kind !== "production-ui"
         ? []
         : targetFiles(root, config, parsed.target);
     const system = loadSystem(root);

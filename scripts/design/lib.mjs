@@ -559,7 +559,7 @@ export function classifyTarget(root, config, target) {
   if (isUnder(root, absolute, config.productionUiRoots || [])) {
     const surfaces = discoverSurfaces(root, config, absolute);
     return {
-      kind: surfaces.includes("dev-ui") ? "dev-ui" : "production-ui",
+      kind: "production-ui",
       path: relative,
       surfaces,
     };

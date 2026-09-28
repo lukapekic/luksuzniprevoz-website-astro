@@ -27,7 +27,7 @@
  * supplies its reviewed editorial statement. When supplied, the desktop 7/5 split activates and the right-side support
  * statement renders (blueprint §7 / 03-home-hero §Desktop content grid);
  * when absent the hero degrades to a single left content column. The support
- * composition is fully implemented and exercised in /dev/ui.
+ * composition is implemented in the shared presentation component.
  *
  * CSS layout contract: an overlaid-header consumer sets
  * --homepage-hero-header-clearance to its own header-offset value. This adds

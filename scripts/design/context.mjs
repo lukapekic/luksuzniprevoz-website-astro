@@ -30,7 +30,7 @@ try {
     throw new Error(`Target does not exist: ${rel(root, target)}`);
   const active = resolveActiveTheme(root, config);
   const targetClassification = target ? classifyTarget(root, config, target) : null;
-  const requiresSurface = ["production-ui", "dev-ui"].includes(targetClassification?.kind);
+  const requiresSurface = targetClassification?.kind === "production-ui";
   const surface = resolveSurface(root, config, {
     target,
     surface: parsed.surface,

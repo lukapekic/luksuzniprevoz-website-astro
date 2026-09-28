@@ -43,7 +43,7 @@ export function profileForClassification(classification, sharedPaths = new Set()
   if (classification.kind === "routing-content") return "routing-content";
   if (classification.kind === "foundation" || classification.kind === "contract")
     return "foundation";
-  if (classification.kind === "production-ui" || classification.kind === "dev-ui")
+  if (classification.kind === "production-ui")
     return sharedPaths.has(classification.path) ? "component" : "small-ui";
   return null;
 }

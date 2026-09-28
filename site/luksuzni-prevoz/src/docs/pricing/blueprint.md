@@ -15,7 +15,7 @@ Primary objective: **make supported prices easy to find without turning the page
 
 Revision 1.2 adopts the reviewed full-bleed `ServiceHero` presentation with an
 integrated over-Hero header. It also aligns Pricing FAQ composition with the
-shared `/dev/ui` light example: the localized heading and divider-led rows now
+shared light FAQ contract: the localized heading and divider-led rows now
 share one contained light section. Content, data, CTA, route and SEO contracts
 are unchanged.
 
@@ -916,7 +916,7 @@ Exactly eight questions in the supplied content set.
 
 Render the localized FAQ heading and shared FAQ rows together in one independent
 contained `Section surface="light"`, matching the reviewed light composition in
-`/dev/ui`. Use `PageContainer` inside the section and pass `on="light"` to both
+the shared FAQ contract. Use `PageContainer` inside the section and pass `on="light"` to both
 `SectionHeading` and `FAQ`. The current approved FAQ content model has no intro
 field, so do not fabricate intro copy. The FAQ remains divider-led and no item
 becomes a card.
