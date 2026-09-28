@@ -222,7 +222,7 @@ bindings rather than plaintext repository files.
 | `BREVO_API_KEY`             | encrypted secret | site-specific Brevo transactional key         |
 | `BREVO_SENDER_EMAIL`        | runtime variable | verified Brevo sender address                 |
 | `BREVO_SENDER_NAME`         | runtime variable | approved sender display name                  |
-| `BREVO_TO_EMAIL`            | runtime variable | comma-separated internal recipients           |
+| `BREVO_TO_EMAIL`            | encrypted secret | comma-separated internal recipients           |
 
 Create Preview and Production D1 databases, bind each as `FORM_DB`, then apply
 both D1 migrations in numeric order to Preview first and Production only
