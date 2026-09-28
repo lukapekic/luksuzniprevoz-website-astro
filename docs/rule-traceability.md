@@ -28,7 +28,6 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-DATA-09 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-ENV-01 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-06 | P0 | AGENTS.md | review/guidance | docs |
-| FND-ENV-07 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-08 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-09 | P0 | AGENTS.md | review/guidance | docs |
 | FND-ENV-10 | P0 | AGENTS.md | review/guidance | docs |
@@ -52,8 +51,7 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-LIFE-08 | P0 | AGENTS.md | auto:script | test, validator |
 | FND-LIFE-09 | P0 | AGENTS.md | auto:script | validator |
 | FND-META-03 | P0 | AGENTS.md | auto:script | validator |
-| FND-META-07 | P0 | AGENTS.md | review/guidance | docs |
-| FND-META-09 | P0 | AGENTS.md | auto:script | docs, validator |
+| FND-META-09 | P0 | AGENTS.md | auto:script | validator |
 | FND-META-10 | P0 | AGENTS.md | auto:script | docs, validator |
 | FND-PERF-03 | P1 | AGENTS.md | review/guidance | docs |
 | FND-RESP-03 | P1 | AGENTS.md | auto:test | docs, test |
@@ -76,11 +74,9 @@ Maps every `FND-*` rule cited in the codebase to its enforcer(s).
 | FND-THEME-07 | P1 | AGENTS.md | auto:test | test |
 | FND-THEME-08 | P1 | AGENTS.md | auto:test | test |
 | FND-THEME-09 | P1 | AGENTS.md | auto:lint | eslint |
-| FND-THEME-10 | P1 | AGENTS.md | review/guidance | docs |
 | FND-TYPE-01 | P0 | AGENTS.md | auto:script | validator |
 | FND-UI-05 | P1 | AGENTS.md | auto:lint | eslint |
 | FND-UI-06 | P1 | AGENTS.md | auto:lint | docs, eslint |
 | FND-UI-07 | P1 | AGENTS.md | auto:lint | eslint |
-| FND-UI-08 | P1 | AGENTS.md | review/guidance | docs |
 
-**75 rules** cited across the codebase.
+**71 rules** cited across the codebase.
