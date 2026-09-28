@@ -4,13 +4,13 @@
  * Emits a disallow-all robots.txt in non-production environments (so preview
  * branches are never crawled) and a permissive sitemap-referencing one in
  * production. The production/non-production split is driven by the
- * `PROD_ROBOTS` env var so the build is deterministic for a given environment:
- * set `PROD_ROBOTS=1` when building for the production deploy.
+ * `SITE_ENVIRONMENT` build variable selects production or preview.
  */
 import type { APIRoute } from "astro";
 import { config } from "../../foundation.config.ts";
+import { isProductionBuild } from "../lib/deployment-environment.ts";
 
-const isProd = import.meta.env.PROD_ROBOTS === "1" || process.env.PROD_ROBOTS === "1";
+const isProd = isProductionBuild();
 
 const body = isProd
   ? `# Production robots.txt — allow crawling, reference the sitemap.

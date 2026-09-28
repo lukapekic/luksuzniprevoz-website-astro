@@ -15,7 +15,7 @@ This document records the deployment contract for the production Luxury Transpor
 | CI                    | GitHub Actions under `.github/workflows/`                         |
 | Active theme selector | `site/luksuzni-prevoz/foundation.config.ts -> activeThemeVersion` |
 
-The final hosting product/account/plan is operational infrastructure and should be recorded here when it is fixed in repository/deployment configuration. Do not invent a provider-specific deployment contract merely because DNS or redirects are managed through that provider.
+Cloudflare Pages project `luksuzniprevoz-website-astro` hosts the site. Its exact account plan was not checked in this repository audit.
 
 ## Build and quality gates
 
@@ -186,6 +186,17 @@ build are visible.
 | pnpm version           | `10.14.0` (matches `packageManager`)                                     |
 | D1 binding name        | `FORM_DB`                                                                |
 
+Set `SITE_ENVIRONMENT` as a **build variable** in both Cloudflare Pages environments:
+
+| Pages environment     | `SITE_ENVIRONMENT` | Build result                                                                                                                           |
+| --------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Preview (`staging`)   | `preview`          | `robots.txt` disallows crawling; HTML is `noindex`; sitemaps are empty; `_headers` sends `X-Robots-Tag: noindex, nofollow, noarchive`. |
+| Production (`master`) | `production`       | Published pages have normal canonical/hreflang/schema and sitemaps; `robots.txt` allows crawling; `/dev/ui/` is removed.               |
+
+An unset value builds as Preview locally, but Cloudflare `master` builds fail unless the value is `production`; other Cloudflare branches fail if given `production`. Any invalid value fails the build. `FORM_ENVIRONMENT` is the separate runtime binding for form handling; set it to the matching value in each Pages environment. Before launch, inspect the deployed artifacts and confirm the Pages dashboard actually supplies both values. `PROD_ROBOTS` is obsolete.
+
+Cloudflare Pages API readback on 2026-09-28 confirmed `SITE_ENVIRONMENT=preview` in Preview and `SITE_ENVIRONMENT=production` in Production. Both existing `FORM_ENVIRONMENT` values matched, and the other 11 environment-variable bindings in each configuration remained present after the update. This confirms project configuration, not that older deployed artifacts have been rebuilt.
+
 Protect `master` with the required GitHub checks before enabling automatic Production deployments.
 Restrict automatic Preview deployments to the stable `staging` branch by default. The resulting
 stable Pages branch alias is the Preview acceptance hostname and must be configured exactly in the
@@ -337,16 +348,16 @@ After a production deploy, verify at minimum:
 
 Keep these fields updated once infrastructure is finalized:
 
-| Decision                      | Value                                                                    |
-| ----------------------------- | ------------------------------------------------------------------------ |
-| Hosting provider / plan       | Cloudflare Pages approved; exact account plan/provisioning still pending |
-| Production deploy trigger     | Pages Git integration from protected `master`; connection not verified   |
-| Preview/staging URL strategy  | Automatic Preview builds restricted to stable `staging`; hostname TBD    |
-| Form submission endpoint      | Implemented same-origin `/api/forms/contact` and `/api/forms/booking`    |
-| Spam mitigation               | Managed Turnstile implemented; external WAF rate-limit rule pending      |
-| Form delivery provider        | Brevo adapter implemented; production sender not yet verified            |
-| Form persistence              | D1 metadata/idempotency migration implemented; databases not provisioned |
-| Consent implementation/vendor | TBD if required                                                          |
-| CSP reporting endpoint        | TBD if used                                                              |
+| Decision                      | Value                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------------- |
+| Hosting provider / plan       | Cloudflare Pages; account plan not checked                                        |
+| Production deploy trigger     | Pages Git integration from `master`; branch protection not checked                |
+| Preview/staging URL strategy  | Only `staging` Preview builds; `staging.luksuzniprevoz-website-astro.pages.dev`   |
+| Form submission endpoint      | Implemented same-origin `/api/forms/contact` and `/api/forms/booking`             |
+| Spam mitigation               | Managed Turnstile implemented; external WAF rate-limit rule pending               |
+| Form delivery provider        | Brevo adapter implemented; owner confirms forms work                              |
+| Form persistence              | `FORM_DB` D1 binding present in Preview and Production; owner confirms forms work |
+| Consent implementation/vendor | TBD if required                                                                   |
+| CSP reporting endpoint        | TBD if used                                                                       |
 
 Unknown operational facts are better marked TBD than invented.

@@ -24,6 +24,7 @@ import { navLabelMap } from "../data/navigation.ts";
 import { business } from "../data/business.ts";
 import { contact, isVerified, type DayOfWeek } from "../data/contact.ts";
 import { t } from "./i18n.ts";
+import { isProductionBuild } from "./deployment-environment.ts";
 
 interface PageSeoOptions {
   routeKey: RouteKey;
@@ -47,7 +48,10 @@ export function buildPageSeo(opts: PageSeoOptions): SeoData {
   const { routeKey, locale, title, description, ogImage, ogImageAlt, structuredData } = opts;
 
   const noindex = Boolean(
-    opts.noindex || routeMap[routeKey]?.noindex || routeMap[routeKey]?.availability !== "published",
+    !isProductionBuild() ||
+    opts.noindex ||
+    routeMap[routeKey]?.noindex ||
+    routeMap[routeKey]?.availability !== "published",
   );
   const localeConfig = getLocaleConfig(locale);
   const path = getPath(routeKey, locale, typedRoutes, defaultLocale);

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pnpm --dir ../.. generate:redirects site/luksuzni-prevoz --format=cloudflare",
+    "build": "astro build && pnpm --dir ../.. generate:redirects site/luksuzni-prevoz --format=cloudflare && node --import tsx scripts/finalize-deployment.ts",
     "preview": "astro preview",
     "check": "astro check",
     "fonts:subset": "node scripts/generate-font-subsets.mjs",
