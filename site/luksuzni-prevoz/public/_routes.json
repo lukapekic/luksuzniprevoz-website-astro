@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/forms/contact", "/api/forms/booking"],
+  "include": ["/api/forms/contact", "/api/forms/booking", "/dev/ui", "/dev/ui/*"],
   "exclude": []
 }

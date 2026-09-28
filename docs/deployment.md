@@ -193,6 +193,13 @@ Set `SITE_ENVIRONMENT` as a **build variable** in both Cloudflare Pages environm
 | Preview (`staging`)   | `preview`          | `robots.txt` disallows crawling; HTML is `noindex`; sitemaps are empty; `_headers` sends `X-Robots-Tag: noindex, nofollow, noarchive`. |
 | Production (`master`) | `production`       | Published pages have normal canonical/hreflang/schema and sitemaps; `robots.txt` allows crawling.                                       |
 
+The old component-preview page is removed from both builds. Cloudflare Pages
+continued to serve its previously cached asset at the exact `/dev/ui/` URL after
+deployment and a successful full-zone purge. A narrowly routed Pages Function
+returns `410 Gone` with `Cache-Control: no-store` for that retired path while the
+old asset expires. This is an operational tombstone; it contains no page content
+and does not add runtime rendering to published pages.
+
 An unset value builds as Preview locally, but Cloudflare `master` builds fail unless the value is `production`; other Cloudflare branches fail if given `production`. Any invalid value fails the build. `FORM_ENVIRONMENT` is the separate runtime binding for form handling; set it to the matching value in each Pages environment. Before launch, inspect the deployed artifacts and confirm the Pages dashboard actually supplies both values. `PROD_ROBOTS` is obsolete.
 
 Cloudflare Pages API readback on 2026-09-28 confirmed `SITE_ENVIRONMENT=preview` in Preview and `SITE_ENVIRONMENT=production` in Production. Both existing `FORM_ENVIRONMENT` values matched, and the other 11 environment-variable bindings in each configuration remained present after the update. This confirms project configuration, not that older deployed artifacts have been rebuilt.
