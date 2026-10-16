@@ -22,7 +22,7 @@ No other asset substitutes for the Hero.
 
 ## Vehicle chapter sources
 
-Use exactly one standardized left-facing source per visual chapter. This set
+Use exactly one standardized source per visual chapter. This set
 is reserved for the large Fleet-page chapters; compact Homepage cards keep
 their separate left-facing presentation set.
 
@@ -34,7 +34,7 @@ Mercedes E-Class
 site/luksuzni-prevoz/src/assets/images/fleet/e-class/left-facing.webp
 
 Škoda Superb
-site/luksuzni-prevoz/src/assets/images/fleet/superb/left-facing.webp
+site/luksuzni-prevoz/src/assets/images/fleet/superb/skoda-superb-front.webp
 
 Škoda Kodiaq
 site/luksuzni-prevoz/src/assets/images/fleet/kodiaq/left-facing.webp
@@ -47,6 +47,17 @@ site/luksuzni-prevoz/src/assets/images/fleet/sprinter/left-facing.webp
 ```
 
 The V-Class asset represents both canonical V-Class passenger configurations.
+
+### Škoda Superb replacement set
+
+The owner-supplied replacement images preserve the existing registry roles:
+
+- `skoda-superb-front.webp` supplies `fleet.superb.frontFacing` for the Fleet chapter.
+- `skoda-superb-front-three-quarter.webp` supplies `fleet.superb.leftFacing` for compact Homepage and service cards.
+- `skoda-superb-side-profile.webp` is available as `fleet.superb.sideProfile`; it is not selected for a production image role.
+
+All three sources retain Astro image metadata. Existing crop, loading, alt-text,
+and responsive delivery behavior remain owned by the consuming components.
 
 ## Current remote snapshot caveat
 

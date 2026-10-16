@@ -70,18 +70,23 @@
     "sha256": "5cae5dded30b932c3f509d14103cba7a5ad5cb733db5da9e955a1bfb5fab57e5"
   },
   {
-    "path": "src/assets/images/fleet/superb/front-facing.webp",
+    "path": "src/assets/images/fleet/superb/skoda-superb-front.webp",
     "previousPaths": [
       "src/assets/fleet/original/superb/front-facing.webp"
     ],
-    "sha256": "d6bcd2e3ed610572a1e9f600e8f21c8738bd4b5c4088130df3e938dfd09be81f"
+    "sha256": "f1d0fbd4fa8fb8aefb615e0ddf9e3a395f8a07895ec3885cfef77ed98bba60cd"
   },
   {
-    "path": "src/assets/images/fleet/superb/left-facing.webp",
+    "path": "src/assets/images/fleet/superb/skoda-superb-front-three-quarter.webp",
     "previousPaths": [
       "src/assets/fleet/original/superb/left-facing.webp"
     ],
-    "sha256": "52dbb0d6fd4644439539cfa7165ef97f799167c73fb660e89769d0944b383619"
+    "sha256": "d958955c1c8981046a2b43df846ecc23e5abf98a98b253464346777a1d41bdd0"
+  },
+  {
+    "path": "src/assets/images/fleet/superb/skoda-superb-side-profile.webp",
+    "previousPaths": [],
+    "sha256": "0e5db5da23b33294e9aaa2bb0ba24ed32474b812a66580ae71477f198350c0df"
   },
   {
     "path": "src/assets/images/fleet/v-class/front-facing.webp",
