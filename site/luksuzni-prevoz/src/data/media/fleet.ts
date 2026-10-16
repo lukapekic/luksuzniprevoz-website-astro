@@ -8,8 +8,9 @@ import sClassLeftFacing from "../../assets/images/fleet/s-class/left-facing.webp
 import sprinterFrontFacing from "../../assets/images/fleet/sprinter/front-facing.webp";
 import sprinterInteriorEntrance from "../../assets/images/fleet/sprinter/interior-entrance.webp";
 import sprinterLeftFacing from "../../assets/images/fleet/sprinter/left-facing.webp";
-import superbFrontFacing from "../../assets/images/fleet/superb/front-facing.webp";
-import superbLeftFacing from "../../assets/images/fleet/superb/left-facing.webp";
+import superbFrontFacing from "../../assets/images/fleet/superb/skoda-superb-front.webp";
+import superbLeftFacing from "../../assets/images/fleet/superb/skoda-superb-front-three-quarter.webp";
+import superbSideProfile from "../../assets/images/fleet/superb/skoda-superb-side-profile.webp";
 import vClassFrontFacing from "../../assets/images/fleet/v-class/front-facing.webp";
 import vClassLeftFacing from "../../assets/images/fleet/v-class/left-facing.webp";
 
@@ -34,6 +35,7 @@ export const fleet = {
   superb: {
     frontFacing: superbFrontFacing,
     leftFacing: superbLeftFacing,
+    sideProfile: superbSideProfile,
   },
   vClass: {
     frontFacing: vClassFrontFacing,

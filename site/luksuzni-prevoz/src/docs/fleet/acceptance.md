@@ -95,7 +95,7 @@ Every applicable item MUST pass.
 - [ ] Hero asset exists before implementation completes.
 - [ ] S-Class uses `original/s-class/left-facing.webp`.
 - [ ] E-Class uses `original/e-class/left-facing.webp`.
-- [ ] Superb uses `original/superb/left-facing.webp`.
+- [ ] Superb uses `src/assets/images/fleet/superb/skoda-superb-front.webp` from the owner-supplied replacement set.
 - [ ] Kodiaq uses `original/kodiaq/left-facing.webp`.
 - [ ] V-Class uses `original/v-class/left-facing.webp`.
 - [ ] Sprinter uses `original/sprinter/left-facing.webp`.
