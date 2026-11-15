@@ -12,21 +12,38 @@ import { formatCurrency } from "../../packages/astro-foundation/src/i18n/format.
 const { palette, spacing, typography, radii } = tokens;
 
 function escapeHtml(value: string): string {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function pricingText(pricing: BookingPricingResult): string {
   const label = staffEmail.pricingKinds[pricing.kind];
-  if (pricing.kind === "quote-required") return `${label}: ${staffEmail.quoteReasons[pricing.reason]}`;
-  if (pricing.kind === "unavailable") return `${label}: ${staffEmail.unavailableReasons[pricing.reason]}`;
+  if (pricing.kind === "quote-required")
+    return `${label}: ${staffEmail.quoteReasons[pricing.reason]}`;
+  if (pricing.kind === "unavailable")
+    return `${label}: ${staffEmail.unavailableReasons[pricing.reason]}`;
   return `${label}: ${formatCurrency(pricing.amount, pricing.currency, staffEmail.numberLocale)}`;
 }
 
 /** Email clients need inline CSS and system fonts; reuse the site's token values. */
-function renderEmailHtml(title: string, detailRows: Array<[string, string]>, metadataRows: Array<[string, string]>, pending: string): string {
-  const renderRows = (entries: Array<[string, string]>): string => entries.map(([label, value]) => `
+function renderEmailHtml(
+  title: string,
+  detailRows: Array<[string, string]>,
+  metadataRows: Array<[string, string]>,
+  pending: string,
+): string {
+  const renderRows = (entries: Array<[string, string]>): string =>
+    entries
+      .map(
+        ([label, value]) => `
     <tr><th scope="row" style="padding:${spacing.scale[3]} ${spacing.scale[4]} ${spacing.scale[3]} 0;border-bottom:1px solid ${palette.accent};text-align:left;vertical-align:top;overflow-wrap:anywhere;word-break:break-word;font-size:${typography.sizes.sm};font-weight:${typography.weights.medium};width:30%">${escapeHtml(label)}</th>
-    <td style="padding:${spacing.scale[3]} 0;border-bottom:1px solid ${palette.accent};vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word">${escapeHtml(value)}</td></tr>`).join("");
+    <td style="padding:${spacing.scale[3]} 0;border-bottom:1px solid ${palette.accent};vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word">${escapeHtml(value)}</td></tr>`,
+      )
+      .join("");
 
   // No remote images/fonts, scripts, or customer tracking.
   return `<!doctype html>
@@ -53,7 +70,13 @@ function renderEmailHtml(title: string, detailRows: Array<[string, string]>, met
 export function renderSubmissionEmail(
   submission: ValidatedSubmission,
   reference: string,
-): { subject: string; text: string; html: string; replyTo: { email: string; name: string }; tag: string } {
+): {
+  subject: string;
+  text: string;
+  html: string;
+  replyTo: { email: string; name: string };
+  tag: string;
+} {
   const labels = staffEmail.labels;
   const metadataRows: Array<[string, string]> = [
     [labels.reference, reference],
@@ -77,6 +100,8 @@ export function renderSubmissionEmail(
   } else {
     const { draft, request, pricing } = submission;
     title = staffEmail.bookingTitles[request.intent];
+    if (submission.schedule?.sameDay) title = `${staffEmail.sameDay} — ${title}`;
+    else if (submission.schedule?.shortNotice) title = `${staffEmail.shortNotice} — ${title}`;
     pending = staffEmail.pendingBooking;
     tag = "booking-form";
     replyTo = { email: draft.email!, name: draft.fullName! };
@@ -87,9 +112,12 @@ export function renderSubmissionEmail(
       [labels.time, request.time],
       [labels.pickup, request.pickup],
       [labels.passengers, String(request.passengerCount)],
-      [labels.vehicle, request.vehiclePreference === "recommend"
-        ? staffEmail.recommendVehicle
-        : getVehicle(request.vehiclePreference).displayName],
+      [
+        labels.vehicle,
+        request.vehiclePreference === "recommend"
+          ? staffEmail.recommendVehicle
+          : getVehicle(request.vehiclePreference).displayName,
+      ],
       [labels.pricing, pricingText(pricing)],
       [labels.name, draft.fullName!],
       [labels.email, draft.email!],

@@ -1,4 +1,9 @@
-import type { BookingDraft, BookingPricingResult, BookingRequest } from "../../site/luksuzni-prevoz/src/data/booking.ts";
+import type {
+  BookingDraft,
+  BookingPricingResult,
+  BookingRequest,
+  BookingReceiptSchedule,
+} from "../../site/luksuzni-prevoz/src/data/booking.ts";
 import type { ContactFormValues } from "../../site/luksuzni-prevoz/src/components/contact/contact-form-validation.ts";
 
 export type FormKind = "contact" | "booking";
@@ -24,12 +29,13 @@ export interface BookingSubmission {
   draft: BookingDraft;
   request: BookingRequest;
   pricing: BookingPricingResult;
+  schedule?: BookingReceiptSchedule;
 }
 
 export type ValidatedSubmission = ContactSubmission | BookingSubmission;
 
 export type FormResponseBody =
-  | { ok: true; status: "pending"; reference: string }
+  | { ok: true; status: "pending"; reference: string; schedule?: BookingReceiptSchedule }
   | { ok: false; code: "bad_request" }
   | { ok: false; code: "validation"; fields: Record<string, string> }
   | { ok: false; code: "bot_verification" }

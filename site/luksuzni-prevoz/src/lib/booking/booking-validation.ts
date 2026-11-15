@@ -1,3 +1,4 @@
+import { resolveZonedDateTime, evaluateBookingSchedule } from "@astro-foundation/form-kit";
 import { isValidPhoneNumber } from "../forms/phone-validation.ts";
 import { formatDisplayDate } from "./booking-date-time.ts";
 import { isBookingDateInRange } from "./booking-date-policy.ts";
@@ -33,48 +34,15 @@ export interface BookingValidationIssue {
 }
 
 export type BookingRequestResult =
-  | { ok: true; request: BookingRequest }
-  | { ok: false; issues: BookingValidationIssue[] };
+  { ok: true; request: BookingRequest } | { ok: false; issues: BookingValidationIssue[] };
 
-function localPartsAt(instantMs: number, timeZone: string): number[] {
-  const formatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-  });
-  const values = Object.fromEntries(
-    formatter.formatToParts(new Date(instantMs)).map((part) => [part.type, part.value]),
-  );
-  return [values.year, values.month, values.day, values.hour, values.minute].map(Number);
-}
-
+/** Compatibility export: all projects share the same strict timezone conversion. */
 export function zonedLocalDateTimeToDate(
   date: string,
   time: string,
   timeZone: "Europe/Belgrade",
 ): Date | null {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time)) return null;
-  const target = [...date.split("-"), ...time.split(":")].map(Number);
-  const [year, month, day, hour, minute] = target;
-  if (!year || !month || !day || hour === undefined || minute === undefined) return null;
-
-  const targetAsUtc = Date.UTC(year, month - 1, day, hour, minute);
-  let candidate = targetAsUtc;
-  for (let iteration = 0; iteration < 4; iteration += 1) {
-    const [cy, cm, cd, ch, cmin] = localPartsAt(candidate, timeZone);
-    const representedAsUtc = Date.UTC(cy, cm - 1, cd, ch, cmin);
-    const adjustment = targetAsUtc - representedAsUtc;
-    candidate += adjustment;
-    if (adjustment === 0) break;
-  }
-
-  const finalParts = localPartsAt(candidate, timeZone);
-  if (!finalParts.every((part, index) => part === target[index])) return null;
-  return new Date(candidate);
+  return resolveZonedDateTime(date, time, timeZone);
 }
 
 export function validateBookingLeadTime(
@@ -84,21 +52,22 @@ export function validateBookingLeadTime(
   timeZone: "Europe/Belgrade",
   now = new Date(),
 ): boolean {
-  const requested = zonedLocalDateTimeToDate(date, time, timeZone);
-  if (!requested) return false;
-  return requested.getTime() - now.getTime() >= publicMinimumHours * 60 * 60 * 1000;
+  return evaluateBookingSchedule(date, time, {
+    minimumHours: publicMinimumHours,
+    timeZone,
+    now,
+  }).valid;
 }
 
-export function validateVehicleCapacity(
-  passengerCount: number,
-  vehicle: Vehicle | null,
-): boolean {
+export function validateVehicleCapacity(passengerCount: number, vehicle: Vehicle | null): boolean {
   if (!vehicle || vehicle.passengers === null) return true;
   return passengerCount <= vehicle.passengers;
 }
 
 function required(value: unknown): boolean {
-  return typeof value === "string" ? value.trim().length > 0 : value !== undefined && value !== null;
+  return typeof value === "string"
+    ? value.trim().length > 0
+    : value !== undefined && value !== null;
 }
 
 const businessServices: BookingServiceKey[] = [
@@ -107,7 +76,8 @@ const businessServices: BookingServiceKey[] = [
   "conferenceCongressTransportation",
 ];
 
-const FULL_NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M}'’.-]*(?:[ \t]+[\p{L}\p{M}][\p{L}\p{M}'’.-]*)+$/u;
+const FULL_NAME_PATTERN =
+  /^[\p{L}\p{M}][\p{L}\p{M}'’.-]*(?:[ \t]+[\p{L}\p{M}][\p{L}\p{M}'’.-]*)+$/u;
 
 export interface BookingValidationOptions {
   publicMinimumHours: number;
@@ -130,10 +100,17 @@ export function validateBookingDraft(
     issues.push({ field: "dateTime", code: "date-time" });
   } else if (!isBookingDateInRange(draft.date, options.now)) {
     issues.push({ field: "dateTime", code: "date-range" });
-  } else if (!validateBookingLeadTime(
-    draft.date, draft.time, options.publicMinimumHours, options.timeZone, options.now,
-  )) {
-    issues.push({ field: "dateTime", code: "lead-time" });
+  } else {
+    const assessment = evaluateBookingSchedule(draft.date, draft.time, {
+      minimumHours: options.publicMinimumHours,
+      timeZone: options.timeZone,
+      now: options.now,
+    });
+    if (!assessment.valid)
+      issues.push({
+        field: "dateTime",
+        code: assessment.reason === "invalid" ? "date-time" : "lead-time",
+      });
   }
 
   if (!required(draft.pickup)) issues.push({ field: "pickup", code: "required" });
@@ -141,7 +118,10 @@ export function validateBookingDraft(
   if (draft.serviceKey === "privateChauffeur") {
     if (!required(draft.destination)) issues.push({ field: "destination", code: "required" });
     if (!draft.hireMode) issues.push({ field: "hireMode", code: "required" });
-    if (draft.hireMode === "hourly" && (!Number.isInteger(draft.hours) || (draft.hours ?? 0) < options.hourlyMinimumHours)) {
+    if (
+      draft.hireMode === "hourly" &&
+      (!Number.isInteger(draft.hours) || (draft.hours ?? 0) < options.hourlyMinimumHours)
+    ) {
       issues.push({ field: "hours", code: "hourly-minimum" });
     }
   }
@@ -151,9 +131,19 @@ export function validateBookingDraft(
     if (!draft.airportScope) issues.push({ field: "airportScope", code: "airport-scope" });
     if (draft.returnRequested && (!draft.returnDate || !draft.returnTime)) {
       issues.push({ field: "return", code: "return-fields" });
-    } else if (draft.returnRequested && draft.returnDate && draft.returnTime && draft.date && draft.time) {
+    } else if (
+      draft.returnRequested &&
+      draft.returnDate &&
+      draft.returnTime &&
+      draft.date &&
+      draft.time
+    ) {
       const outbound = zonedLocalDateTimeToDate(draft.date, draft.time, options.timeZone);
-      const inbound = zonedLocalDateTimeToDate(draft.returnDate, draft.returnTime, options.timeZone);
+      const inbound = zonedLocalDateTimeToDate(
+        draft.returnDate,
+        draft.returnTime,
+        options.timeZone,
+      );
       if (!isBookingDateInRange(draft.returnDate, options.now)) {
         issues.push({ field: "return", code: "date-range" });
       } else if (!outbound || !inbound || inbound.getTime() <= outbound.getTime()) {
@@ -163,26 +153,40 @@ export function validateBookingDraft(
   }
   if (businessServices.includes(draft.serviceKey)) {
     if (!required(draft.destination)) issues.push({ field: "destination", code: "required" });
-    if (!required(draft.scheduleOutline)) issues.push({ field: "scheduleOutline", code: "required" });
+    if (!required(draft.scheduleOutline))
+      issues.push({ field: "scheduleOutline", code: "required" });
     if (draft.serviceKey === "corporateTransportation" && !draft.engagement) {
       issues.push({ field: "engagement", code: "required" });
     }
   }
-  if (["weddingTransportation", "promTransportation", "vipTransportation", "specialEvents"].includes(draft.serviceKey)) {
+  if (
+    ["weddingTransportation", "promTransportation", "vipTransportation", "specialEvents"].includes(
+      draft.serviceKey,
+    )
+  ) {
     if (!required(draft.eventVenue)) issues.push({ field: "eventVenue", code: "required" });
-    if (!required(draft.scheduleOutline)) issues.push({ field: "scheduleOutline", code: "required" });
+    if (!required(draft.scheduleOutline))
+      issues.push({ field: "scheduleOutline", code: "required" });
   }
 
   if (!Number.isInteger(draft.passengerCount) || (draft.passengerCount ?? 0) < 1) {
     issues.push({ field: "passengerCount", code: "passenger-count" });
   }
-  if (!draft.vehiclePreference) issues.push({ field: "vehiclePreference", code: "vehicle-required" });
-  if (draft.passengerCount && !validateVehicleCapacity(draft.passengerCount, options.selectedVehicle)) {
+  if (!draft.vehiclePreference)
+    issues.push({ field: "vehiclePreference", code: "vehicle-required" });
+  if (
+    draft.passengerCount &&
+    !validateVehicleCapacity(draft.passengerCount, options.selectedVehicle)
+  ) {
     issues.push({ field: "vehiclePreference", code: "vehicle-capacity" });
   }
 
   if (options.includeContact) {
-    if (!draft.fullName || !FULL_NAME_PATTERN.test(draft.fullName.trim()) || draft.fullName.trim().length > 100) {
+    if (
+      !draft.fullName ||
+      !FULL_NAME_PATTERN.test(draft.fullName.trim()) ||
+      draft.fullName.trim().length > 100
+    ) {
       issues.push({ field: "fullName", code: "full-name" });
     }
     if (!draft.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.email)) {
@@ -209,7 +213,7 @@ export function buildBookingRequest(
   if (issues.length > 0) return { ok: false, issues };
 
   const common = {
-    intent: draft.intent ?? "booking" as const,
+    intent: draft.intent ?? ("booking" as const),
     date: draft.date!,
     time: draft.time!,
     pickup: draft.pickup!.trim(),
@@ -222,38 +226,71 @@ export function buildBookingRequest(
 
   switch (draft.serviceKey!) {
     case "privateChauffeur":
-      return { ok: true, request: {
-        ...common, serviceKey: "privateChauffeur", destination: draft.destination!.trim(),
-        hireMode: draft.hireMode!, ...(draft.hours ? { hours: draft.hours } : {}),
-        ...(draft.plannedStops?.trim() ? { plannedStops: draft.plannedStops.trim() } : {}),
-        multiDay: draft.multiDay ?? false, international: draft.international ?? false,
-      } };
+      return {
+        ok: true,
+        request: {
+          ...common,
+          serviceKey: "privateChauffeur",
+          destination: draft.destination!.trim(),
+          hireMode: draft.hireMode!,
+          ...(draft.hours ? { hours: draft.hours } : {}),
+          ...(draft.plannedStops?.trim() ? { plannedStops: draft.plannedStops.trim() } : {}),
+          multiDay: draft.multiDay ?? false,
+          international: draft.international ?? false,
+        },
+      };
     case "airportTransportation":
-      return { ok: true, request: {
-        ...common, serviceKey: "airportTransportation", destination: draft.destination!.trim(),
-        direction: draft.airportDirection!, airportScope: draft.airportScope!,
-        ...(draft.flightNumber?.trim() ? { flightNumber: draft.flightNumber.trim() } : {}),
-        returnRequested: draft.returnRequested ?? false,
-        ...(draft.returnDate ? { returnDate: draft.returnDate } : {}),
-        ...(draft.returnTime ? { returnTime: draft.returnTime } : {}),
-      } };
+      return {
+        ok: true,
+        request: {
+          ...common,
+          serviceKey: "airportTransportation",
+          destination: draft.destination!.trim(),
+          direction: draft.airportDirection!,
+          airportScope: draft.airportScope!,
+          ...(draft.flightNumber?.trim() ? { flightNumber: draft.flightNumber.trim() } : {}),
+          returnRequested: draft.returnRequested ?? false,
+          ...(draft.returnDate ? { returnDate: draft.returnDate } : {}),
+          ...(draft.returnTime ? { returnTime: draft.returnTime } : {}),
+        },
+      };
     case "corporateTransportation":
-      return { ok: true, request: {
-        ...common, serviceKey: "corporateTransportation", destination: draft.destination!.trim(),
-        engagement: draft.engagement!, scheduleOutline: draft.scheduleOutline!.trim(),
-        ...(draft.invoiceReference?.trim() ? { invoiceReference: draft.invoiceReference.trim() } : {}),
-        multipleLocations: draft.multipleLocations ?? false,
-      } };
+      return {
+        ok: true,
+        request: {
+          ...common,
+          serviceKey: "corporateTransportation",
+          destination: draft.destination!.trim(),
+          engagement: draft.engagement!,
+          scheduleOutline: draft.scheduleOutline!.trim(),
+          ...(draft.invoiceReference?.trim()
+            ? { invoiceReference: draft.invoiceReference.trim() }
+            : {}),
+          multipleLocations: draft.multipleLocations ?? false,
+        },
+      };
     case "delegationTransportation":
     case "conferenceCongressTransportation":
-      return { ok: true, request: {
-        ...common, serviceKey: draft.serviceKey, destination: draft.destination!.trim(),
-        scheduleOutline: draft.scheduleOutline!.trim(), multipleLocations: draft.multipleLocations ?? false,
-      } };
+      return {
+        ok: true,
+        request: {
+          ...common,
+          serviceKey: draft.serviceKey,
+          destination: draft.destination!.trim(),
+          scheduleOutline: draft.scheduleOutline!.trim(),
+          multipleLocations: draft.multipleLocations ?? false,
+        },
+      };
     default:
-      return { ok: true, request: {
-        ...common, serviceKey: draft.serviceKey!, eventVenue: draft.eventVenue!.trim(),
-        scheduleOutline: draft.scheduleOutline!.trim(), waitingRequested: draft.waitingRequested ?? false,
-      } };
+      return {
+        ok: true,
+        request: {
+          ...common,
+          serviceKey: draft.serviceKey!,
+          eventVenue: draft.eventVenue!.trim(),
+          scheduleOutline: draft.scheduleOutline!.trim(),
+          waitingRequested: draft.waitingRequested ?? false,
+        },
+      };
   }
 }

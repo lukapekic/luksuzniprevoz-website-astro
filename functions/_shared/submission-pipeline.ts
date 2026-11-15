@@ -21,6 +21,7 @@ const TURNSTILE_TEST_SECRETS = new Set([
 type PayloadValidator = (
   payload: unknown,
   locale: FormLocale,
+  now?: Date,
 ) => { ok: true; value: ValidatedSubmission } | { ok: false; fields: Record<string, string> };
 
 function configuredHosts(env: FormEnvironment): string[] {
@@ -33,8 +34,11 @@ function configuredHosts(env: FormEnvironment): string[] {
 function isConfigured(env: FormEnvironment): boolean {
   return Boolean(
     env.FORM_DB &&
-    (env.FORM_ENVIRONMENT === "production" || env.FORM_ENVIRONMENT === "preview" || env.FORM_ENVIRONMENT === "local") &&
-    env.FORM_IDEMPOTENCY_SECRET && env.FORM_IDEMPOTENCY_SECRET.length >= 32 &&
+    (env.FORM_ENVIRONMENT === "production" ||
+      env.FORM_ENVIRONMENT === "preview" ||
+      env.FORM_ENVIRONMENT === "local") &&
+    env.FORM_IDEMPOTENCY_SECRET &&
+    env.FORM_IDEMPOTENCY_SECRET.length >= 32 &&
     env.TURNSTILE_SECRET_KEY &&
     env.TURNSTILE_ALLOWED_HOSTS &&
     env.BREVO_API_KEY &&
@@ -46,12 +50,25 @@ function isConfigured(env: FormEnvironment): boolean {
 
 async function payloadDigest(secret: string, submission: ValidatedSubmission): Promise<string> {
   const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey("raw", encoder.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const stableInput = submission.kind === "booking"
-    ? { kind: submission.kind, locale: submission.locale, draft: submission.draft }
-    : { kind: submission.kind, locale: submission.locale, values: submission.values };
-  const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(JSON.stringify(stableInput)));
-  return Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const stableInput =
+    submission.kind === "booking"
+      ? { kind: submission.kind, locale: submission.locale, draft: submission.draft }
+      : { kind: submission.kind, locale: submission.locale, values: submission.values };
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(JSON.stringify(stableInput)),
+  );
+  return Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, "0")).join(
+    "",
+  );
 }
 
 function referenceFor(submissionId: string, now = new Date()): string {
@@ -76,10 +93,16 @@ export async function handleFormSubmission(
 ): Promise<Response> {
   const { request, env } = context;
   if (request.method !== "POST") {
-    return new Response(null, { status: 405, headers: { allow: "POST", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
+    return new Response(null, {
+      status: 405,
+      headers: { allow: "POST", "cache-control": "no-store", "x-content-type-options": "nosniff" },
+    });
   }
   if (!isConfigured(env)) return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
-  if (env.FORM_ENVIRONMENT === "production" && TURNSTILE_TEST_SECRETS.has(env.TURNSTILE_SECRET_KEY!)) {
+  if (
+    env.FORM_ENVIRONMENT === "production" &&
+    TURNSTILE_TEST_SECRETS.has(env.TURNSTILE_SECRET_KEY!)
+  ) {
     return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
   }
   if (!requestHostnameAllowed(request, env.TURNSTILE_ALLOWED_HOSTS!)) {
@@ -108,13 +131,42 @@ export async function handleFormSubmission(
   });
   if (!botVerified) return jsonResponse({ ok: false, code: "bot_verification" }, 403);
 
-  const validated = options.validate(envelope.payload, envelope.locale);
+  const now = Date.now();
+  let validationTime = now;
+  // Accepted receipts retain their original validation clock. The normal schema
+  // and durable payload digest still reject changed content under the same UUID.
+  // Never reject retrieval of a received request because its pickup is now closer.
+  if (options.kind === "booking") {
+    try {
+      const existing = await env
+        .FORM_DB!.prepare(
+          "SELECT status, form_kind, locale, created_at FROM form_submissions WHERE submission_id = ?",
+        )
+        .bind(envelope.submissionId)
+        .first<{
+          status: string;
+          form_kind: string;
+          locale: string;
+          created_at: number;
+        }>();
+      if (
+        existing?.status === "accepted" &&
+        existing.form_kind === options.kind &&
+        existing.locale === envelope.locale &&
+        Number.isFinite(existing.created_at)
+      ) {
+        validationTime = existing.created_at;
+      }
+    } catch {
+      return jsonResponse({ ok: false, code: "server_error" }, 500);
+    }
+  }
+  const validated = options.validate(envelope.payload, envelope.locale, new Date(validationTime));
   if (!validated.ok) {
     return jsonResponse({ ok: false, code: "validation", fields: validated.fields }, 422);
   }
 
   const ledger = createD1Ledger(env.FORM_DB!);
-  const now = Date.now();
   const proposedReference = referenceFor(envelope.submissionId, new Date(now));
   let claim;
   try {
@@ -128,13 +180,22 @@ export async function handleFormSubmission(
       now,
     });
   } catch (error) {
-    if (error instanceof SubmissionIdentityError) return jsonResponse({ ok: false, code: "bad_request" }, 409);
+    if (error instanceof SubmissionIdentityError)
+      return jsonResponse({ ok: false, code: "bad_request" }, 409);
     return jsonResponse({ ok: false, code: "server_error" }, 500);
   }
 
   if (!claim.created) {
     if (claim.record.status === "accepted") {
-      return jsonResponse({ ok: true, status: "pending", reference: claim.record.reference }, 202);
+      return jsonResponse(
+        {
+          ok: true,
+          status: "pending",
+          reference: claim.record.reference,
+          ...(validated.value.kind === "booking" ? { schedule: validated.value.schedule } : {}),
+        },
+        202,
+      );
     }
     return jsonResponse({ ok: false, code: "service_unavailable" }, 503);
   }
@@ -155,7 +216,11 @@ export async function handleFormSubmission(
   if (!delivery.ok || !delivery.messageId) {
     if (!delivery.uncertain) {
       try {
-        await ledger.failed(envelope.submissionId, delivery.retryable ? "brevo-retryable" : "brevo-rejected", Date.now());
+        await ledger.failed(
+          envelope.submissionId,
+          delivery.retryable ? "brevo-retryable" : "brevo-rejected",
+          Date.now(),
+        );
       } catch {
         // A failed ledger update must not expose internal details.
       }
@@ -169,5 +234,13 @@ export async function handleFormSubmission(
     // The message already left through Brevo. Return the stable reference so a
     // client retry cannot create a second message for this submission id.
   }
-  return jsonResponse({ ok: true, status: "pending", reference: claim.record.reference }, 202);
+  return jsonResponse(
+    {
+      ok: true,
+      status: "pending",
+      reference: claim.record.reference,
+      ...(validated.value.kind === "booking" ? { schedule: validated.value.schedule } : {}),
+    },
+    202,
+  );
 }

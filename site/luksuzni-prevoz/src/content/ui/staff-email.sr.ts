@@ -1,4 +1,9 @@
-import type { BookingIntent, BookingPricingResult, BookingServiceKey, QuoteReason } from "../../data/booking.ts";
+import type {
+  BookingIntent,
+  BookingPricingResult,
+  BookingServiceKey,
+  QuoteReason,
+} from "../../data/booking.ts";
 // Pages' Wrangler 3 bundler supports JSON imports but cannot parse import attributes.
 import sr from "./sr.json";
 
@@ -15,6 +20,8 @@ export const staffEmail = {
   localeNames: { sr: "Srpski", en: "Engleski", ru: "Ruski" },
   pendingBooking: "Čeka potvrdu našeg tima.",
   pendingContact: "Čeka odgovor našeg tima.",
+  sameDay: "ZA DANAS — potrebna provera raspoloživosti",
+  shortNotice: "POLAZAK ZA MANJE OD 24 SATA — potrebna provera raspoloživosti",
   labels: {
     reference: "Broj zahteva",
     locale: "Jezik obrasca",

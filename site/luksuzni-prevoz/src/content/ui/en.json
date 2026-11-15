@@ -510,7 +510,7 @@
   "booking.action.continue": "Continue",
   "booking.action.edit": "Edit",
   "booking.action.changeService": "Change service",
-  "booking.action.requestBooking": "Request booking",
+  "booking.action.requestBooking": "Send transfer request",
   "booking.action.requestQuote": "Request quote",
   "booking.action.reset": "Start again",
   "booking.action.removeStop": "Remove stop",
@@ -619,7 +619,7 @@
   "booking.leadTime.note": "Send your request at least {hours} h before your preferred start time.",
   "booking.confirmation.note": "Submitting a request does not confirm your booking.",
   "booking.status.submitting": "Sending your request…",
-  "booking.status.success": "Request received. Our team will check availability and confirm your transport arrangements.",
+  "booking.status.success": "Request received — booking not confirmed. Our team will check availability and contact you using the details you provided. Your booking remains unconfirmed until our team confirms it directly.",
   "booking.status.error": "Your request was not sent. Check the details and try again.",
   "booking.status.requestReference": "Request reference: {reference}",
   "booking.status.draftRecovered": "Your saved transportation details have been restored.",
@@ -690,5 +690,10 @@
   "business.serviceEnquiry": "Send an enquiry",
   "clients.embassyChina": "Embassy of the People’s Republic of China in Serbia",
   "clients.osce": "OSCE Mission to Serbia",
-  "clients.swimmingFederation": "Serbian Swimming Federation"
+  "clients.swimmingFederation": "Serbian Swimming Federation",
+  "booking.status.sameDay": "Same-day request received — booking not confirmed. Our team will check availability and contact you using the details you provided. Your booking remains unconfirmed until our team confirms it directly.",
+  "booking.status.shortNotice": "Short-notice request received — booking not confirmed. Our team will check availability and contact you using the details you provided. Your booking remains unconfirmed until our team confirms it directly.",
+  "booking.notice.sameDay": "Same-day transfer request. Availability must be checked by our team. Sending this request does not confirm your booking.",
+  "booking.notice.shortNotice": "Transfer request for the next 24 hours. Availability must be checked by our team. Sending this request does not confirm your booking.",
+  "booking.schedule.earliest": "Earliest available request time: {schedule}. Availability requires confirmation."
 }

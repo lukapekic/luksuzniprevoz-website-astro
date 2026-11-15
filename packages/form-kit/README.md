@@ -67,3 +67,13 @@ Existing site/helper import paths remain as compatibility exports. The existing 
 Run `pnpm --filter @astro-foundation/form-kit check` and `pnpm --filter @astro-foundation/form-kit test:unit`. Root check/unit scripts include this package. Site tests continue to verify the existing adapters and real consumers.
 
 [Full reusable setup guide](../../docs/cloudflare-pages-forms/reusable-setup.md) describes the Cloudflare, Brevo, DNS, CSP, D1, and application pieces.
+
+## Scheduling helpers (0.2.0)
+
+The pure `schedule.ts` module is shared with Transporti and Grand Solutions.
+`evaluateBookingSchedule(date, time, { minimumHours, timeZone, now })` validates
+an elapsed-time notice period and returns same-day/short-notice classifications.
+`getEarliestBookingSchedule()` rounds upward to a selectable minute.
+`resolveZonedDateTime()` rejects nonexistent and ambiguous daylight-saving times.
+Hosts retain policy values, translations, unknown-time handling and server authority.
+Existing import paths and unrelated adapters remain compatible.

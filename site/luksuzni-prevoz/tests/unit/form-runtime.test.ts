@@ -4,7 +4,10 @@ import { handleFormSubmission } from "../../../../functions/_shared/submission-p
 import { sendBrevoEmail } from "../../../../functions/_shared/brevo.ts";
 import { renderSubmissionEmail } from "../../../../functions/_shared/email-rendering.ts";
 import { verifyTurnstile } from "../../../../functions/_shared/turnstile.ts";
-import { validateBookingPayload, validateContactPayload } from "../../../../functions/_shared/validation.ts";
+import {
+  validateBookingPayload,
+  validateContactPayload,
+} from "../../../../functions/_shared/validation.ts";
 import type {
   D1DatabaseLike,
   D1PreparedStatementLike,
@@ -19,6 +22,7 @@ interface Row {
   brevo_message_id: string | null;
   attempt_count: number;
   updated_at: number;
+  created_at: number;
   form_kind: string;
   locale: string;
   payload_digest: string;
@@ -32,7 +36,10 @@ class MemoryStatement implements D1PreparedStatementLike {
     this.query = query;
     this.rows = rows;
   }
-  bind(...values: unknown[]): D1PreparedStatementLike { this.values = values; return this; }
+  bind(...values: unknown[]): D1PreparedStatementLike {
+    this.values = values;
+    return this;
+  }
   async first<T>(): Promise<T | null> {
     return (this.rows.get(String(this.values[0])) as T | undefined) ?? null;
   }
@@ -47,6 +54,7 @@ class MemoryStatement implements D1PreparedStatementLike {
         brevo_message_id: null,
         attempt_count: 1,
         updated_at: Number(this.values[5]),
+        created_at: Number(this.values[5]),
         form_kind: String(this.values[2]),
         locale: String(this.values[3]),
         payload_digest: String(this.values[4]),
@@ -65,7 +73,10 @@ class MemoryStatement implements D1PreparedStatementLike {
     }
     if (this.query.includes("status = 'accepted'")) {
       const row = this.rows.get(String(this.values[2]));
-      if (row) { row.status = "accepted"; row.brevo_message_id = String(this.values[0]); }
+      if (row) {
+        row.status = "accepted";
+        row.brevo_message_id = String(this.values[0]);
+      }
       return { success: true, meta: { changes: row ? 1 : 0 } };
     }
     if (this.query.includes("status = 'failed'")) {
@@ -79,7 +90,9 @@ class MemoryStatement implements D1PreparedStatementLike {
 
 class MemoryD1 implements D1DatabaseLike {
   readonly rows = new Map<string, Row>();
-  prepare(query: string): D1PreparedStatementLike { return new MemoryStatement(query, this.rows); }
+  prepare(query: string): D1PreparedStatementLike {
+    return new MemoryStatement(query, this.rows);
+  }
 }
 
 const payload = {
@@ -138,13 +151,77 @@ function bookingRequest(): Request {
 }
 
 describe("form runtime pipeline", () => {
+  it("retains accepted same-day receipts after the cutoff while rejecting changed content", async (context) => {
+    context.mock.timers.enable({ apis: ["Date"], now: new Date("2026-11-15T11:00:00Z") });
+    const db = new MemoryD1();
+    let deliveries = 0;
+    const envelope = (await bookingRequest().json()) as {
+      submissionId: string;
+      payload: Record<string, unknown>;
+    };
+    envelope.payload.date = "2026-11-15";
+    envelope.payload.time = "14:00";
+    const makeRequest = () =>
+      new Request("https://preview.example.com/api/forms/booking", {
+        method: "POST",
+        headers: { "content-type": "application/json", origin: "https://preview.example.com" },
+        body: JSON.stringify(envelope),
+      });
+    const options = {
+      kind: "booking" as const,
+      action: "booking_submit" as const,
+      maxBytes: 65536,
+      validate: validateBookingPayload,
+      verify: async () => true,
+      deliver: async () => {
+        deliveries++;
+        return { ok: true, messageId: "booking-once" };
+      },
+    };
+    const first = await handleFormSubmission(
+      { request: makeRequest(), env: environment(db) },
+      options,
+    );
+    assert.equal(first.status, 202);
+    const receipt = await first.json();
+    assert.equal(receipt.schedule.sameDay, true);
+    assert.equal(receipt.schedule.time, "14:00");
+    context.mock.timers.setTime(new Date("2026-11-16T11:00:00Z").getTime());
+    const duplicate = await handleFormSubmission(
+      { request: makeRequest(), env: environment(db) },
+      options,
+    );
+    assert.equal(duplicate.status, 202);
+    assert.deepEqual(await duplicate.json(), receipt);
+    assert.equal(deliveries, 1);
+    envelope.payload.pickup = "Changed pickup";
+    assert.equal(
+      (await handleFormSubmission({ request: makeRequest(), env: environment(db) }, options))
+        .status,
+      409,
+    );
+    envelope.submissionId = "75c94e9c-824e-411f-8a8e-edb0b76c0bc2";
+    assert.equal(
+      (await handleFormSubmission({ request: makeRequest(), env: environment(db) }, options))
+        .status,
+      422,
+    );
+    assert.equal(deliveries, 1);
+  });
+
   it("rejects GET before processing and preserves API security headers", async () => {
-    const response = await handleFormSubmission({
-      request: new Request("https://preview.example.com/api/forms/contact"),
-      env: environment(),
-    }, {
-      kind: "contact", action: "contact_submit", maxBytes: 16 * 1024, validate: validateContactPayload,
-    });
+    const response = await handleFormSubmission(
+      {
+        request: new Request("https://preview.example.com/api/forms/contact"),
+        env: environment(),
+      },
+      {
+        kind: "contact",
+        action: "contact_submit",
+        maxBytes: 16 * 1024,
+        validate: validateContactPayload,
+      },
+    );
     assert.equal(response.status, 405);
     assert.equal(response.headers.get("allow"), "POST");
     assert.equal(response.headers.get("cache-control"), "no-store");
@@ -154,14 +231,20 @@ describe("form runtime pipeline", () => {
   it("validates and accepts a booking request through the same pipeline", async () => {
     const db = new MemoryD1();
     let deliveries = 0;
-    const response = await handleFormSubmission({ request: bookingRequest(), env: environment(db) }, {
-      kind: "booking",
-      action: "booking_submit",
-      maxBytes: 64 * 1024,
-      validate: validateBookingPayload,
-      verify: async () => true,
-      deliver: async () => { deliveries += 1; return { ok: true, messageId: "booking-brevo-1" }; },
-    });
+    const response = await handleFormSubmission(
+      { request: bookingRequest(), env: environment(db) },
+      {
+        kind: "booking",
+        action: "booking_submit",
+        maxBytes: 64 * 1024,
+        validate: validateBookingPayload,
+        verify: async () => true,
+        deliver: async () => {
+          deliveries += 1;
+          return { ok: true, messageId: "booking-brevo-1" };
+        },
+      },
+    );
     assert.equal(response.status, 202);
     assert.equal(deliveries, 1);
     assert.equal([...db.rows.values()][0]?.status, "accepted");
@@ -176,10 +259,16 @@ describe("form runtime pipeline", () => {
       maxBytes: 16 * 1024,
       validate: validateContactPayload,
       verify: async () => true,
-      deliver: async () => { deliveries += 1; return { ok: true, messageId: "brevo-1" }; },
+      deliver: async () => {
+        deliveries += 1;
+        return { ok: true, messageId: "brevo-1" };
+      },
     };
     const first = await handleFormSubmission({ request: request(), env: environment(db) }, options);
-    const duplicate = await handleFormSubmission({ request: request(), env: environment(db) }, options);
+    const duplicate = await handleFormSubmission(
+      { request: request(), env: environment(db) },
+      options,
+    );
     assert.equal(first.status, 202);
     assert.equal(duplicate.status, 202);
     assert.deepEqual(await first.json(), await duplicate.json());
@@ -190,18 +279,26 @@ describe("form runtime pipeline", () => {
   it("does not claim receipt while the first delivery is still processing", async () => {
     const db = new MemoryD1();
     let release!: () => void;
-    const gate = new Promise<void>((resolve) => { release = resolve; });
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
     const options = {
       kind: "contact" as const,
       action: "contact_submit" as const,
       maxBytes: 16 * 1024,
       validate: validateContactPayload,
       verify: async () => true,
-      deliver: async () => { await gate; return { ok: true, messageId: "brevo-1" }; },
+      deliver: async () => {
+        await gate;
+        return { ok: true, messageId: "brevo-1" };
+      },
     };
     const first = handleFormSubmission({ request: request(), env: environment(db) }, options);
     await new Promise((resolve) => setTimeout(resolve, 20));
-    const duplicate = await handleFormSubmission({ request: request(), env: environment(db) }, options);
+    const duplicate = await handleFormSubmission(
+      { request: request(), env: environment(db) },
+      options,
+    );
     assert.equal(duplicate.status, 503);
     assert.deepEqual(await duplicate.json(), { ok: false, code: "service_unavailable" });
     release();
@@ -217,13 +314,19 @@ describe("form runtime pipeline", () => {
       maxBytes: 16 * 1024,
       validate: validateContactPayload,
       verify: async () => true,
-      deliver: async () => { deliveries += 1; return { ok: true, messageId: "brevo-1" }; },
+      deliver: async () => {
+        deliveries += 1;
+        return { ok: true, messageId: "brevo-1" };
+      },
     };
     await handleFormSubmission({ request: request(), env: environment(db) }, options);
-    const changed = await handleFormSubmission({
-      request: request(undefined, { ...payload, message: "A different valid question." }),
-      env: environment(db),
-    }, options);
+    const changed = await handleFormSubmission(
+      {
+        request: request(undefined, { ...payload, message: "A different valid question." }),
+        env: environment(db),
+      },
+      options,
+    );
     assert.equal(changed.status, 409);
     assert.equal(deliveries, 1);
   });
@@ -237,7 +340,10 @@ describe("form runtime pipeline", () => {
       maxBytes: 16 * 1024,
       validate: validateContactPayload,
       verify: async () => true,
-      deliver: async () => { deliveries += 1; return { ok: false, uncertain: true }; },
+      deliver: async () => {
+        deliveries += 1;
+        return { ok: false, uncertain: true };
+      },
     };
     const first = await handleFormSubmission({ request: request(), env: environment(db) }, options);
     const retry = await handleFormSubmission({ request: request(), env: environment(db) }, options);
@@ -252,13 +358,28 @@ describe("form runtime pipeline", () => {
     delete env.FORM_IDEMPOTENCY_SECRET;
     const missingKey = await handleFormSubmission(
       { request: request(), env },
-      { kind: "contact", action: "contact_submit", maxBytes: 16 * 1024, validate: validateContactPayload },
+      {
+        kind: "contact",
+        action: "contact_submit",
+        maxBytes: 16 * 1024,
+        validate: validateContactPayload,
+      },
     );
     assert.equal(missingKey.status, 503);
-    const brokenDb = environment({ prepare: () => { throw new Error("missing payload_digest column"); } });
+    const brokenDb = environment({
+      prepare: () => {
+        throw new Error("missing payload_digest column");
+      },
+    });
     const missingMigration = await handleFormSubmission(
       { request: request(), env: brokenDb },
-      { kind: "contact", action: "contact_submit", maxBytes: 16 * 1024, validate: validateContactPayload, verify: async () => true },
+      {
+        kind: "contact",
+        action: "contact_submit",
+        maxBytes: 16 * 1024,
+        validate: validateContactPayload,
+        verify: async () => true,
+      },
     );
     assert.equal(missingMigration.status, 500);
   });
@@ -274,7 +395,9 @@ describe("form runtime pipeline", () => {
         action: "contact_submit",
         maxBytes: 16 * 1024,
         validate: validateContactPayload,
-        verify: async () => { throw new Error("must not run"); },
+        verify: async () => {
+          throw new Error("must not run");
+        },
       },
     );
     assert.equal(response.status, 400);
@@ -292,7 +415,12 @@ describe("form runtime pipeline", () => {
       env.TURNSTILE_SECRET_KEY = secret;
       const response = await handleFormSubmission(
         { request: request(), env },
-        { kind: "contact", action: "contact_submit", maxBytes: 16 * 1024, validate: validateContactPayload },
+        {
+          kind: "contact",
+          action: "contact_submit",
+          maxBytes: 16 * 1024,
+          validate: validateContactPayload,
+        },
       );
       assert.equal(response.status, 503);
     }
@@ -302,7 +430,10 @@ describe("form runtime pipeline", () => {
 describe("provider adapters", () => {
   it("escapes user content in the branded email and preserves its plain-text alternative", () => {
     const message = 'First line\n<img src=x onerror="alert(1)"> & details';
-    const rendered = renderSubmissionEmail({ kind: "contact", locale: "sr", values: { ...payload, message } }, "LP-TEST-EMAIL");
+    const rendered = renderSubmissionEmail(
+      { kind: "contact", locale: "sr", values: { ...payload, message } },
+      "LP-TEST-EMAIL",
+    );
     assert.match(rendered.html, /Luksuzni prevoz/);
     assert.match(rendered.html, /&lt;img src=x onerror=&quot;alert\(1\)&quot;&gt; &amp; details/);
     assert.doesNotMatch(rendered.html, /<img|<script/);
@@ -318,22 +449,30 @@ describe("provider adapters", () => {
       secret: "secret",
       expectedAction: "contact_submit",
       allowedHosts: ["preview.example.com"],
-      fetcher: async () => new Response(JSON.stringify({
-        success: true,
-        action: "contact_submit",
-        hostname: "preview.example.com",
-      }), { status: 200 }),
+      fetcher: async () =>
+        new Response(
+          JSON.stringify({
+            success: true,
+            action: "contact_submit",
+            hostname: "preview.example.com",
+          }),
+          { status: 200 },
+        ),
     });
     const rejected = await verifyTurnstile({
       token: "token",
       secret: "secret",
       expectedAction: "booking_submit",
       allowedHosts: ["preview.example.com"],
-      fetcher: async () => new Response(JSON.stringify({
-        success: true,
-        action: "contact_submit",
-        hostname: "preview.example.com",
-      }), { status: 200 }),
+      fetcher: async () =>
+        new Response(
+          JSON.stringify({
+            success: true,
+            action: "contact_submit",
+            hostname: "preview.example.com",
+          }),
+          { status: 200 },
+        ),
     });
     assert.equal(accepted, true);
     assert.equal(rejected, false);
@@ -342,11 +481,15 @@ describe("provider adapters", () => {
       secret: "secret",
       expectedAction: "contact_submit",
       allowedHosts: ["preview.example.com"],
-      fetcher: async () => new Response(JSON.stringify({
-        success: true,
-        action: "contact_submit",
-        hostname: "other.example.com",
-      }), { status: 200 }),
+      fetcher: async () =>
+        new Response(
+          JSON.stringify({
+            success: true,
+            action: "contact_submit",
+            hostname: "other.example.com",
+          }),
+          { status: 200 },
+        ),
     });
     assert.equal(wrongHost, false);
   });
@@ -365,7 +508,9 @@ describe("provider adapters", () => {
     });
     assert.deepEqual(result, { ok: true, messageId: "brevo-1" });
     assert.deepEqual(sent[0]?.replyTo, { email: "jovana@example.com", name: "Jovana Petrović" });
-    assert.deepEqual(sent[0]?.headers, { "X-Submission-Id": "7bd7f3a8-16da-4cd4-8bf2-e5153b534d1e" });
+    assert.deepEqual(sent[0]?.headers, {
+      "X-Submission-Id": "7bd7f3a8-16da-4cd4-8bf2-e5153b534d1e",
+    });
     assert.match(String(sent[0]?.htmlContent), /Jovana Petrović/);
   });
 });
