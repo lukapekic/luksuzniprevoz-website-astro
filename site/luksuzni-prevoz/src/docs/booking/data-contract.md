@@ -388,3 +388,18 @@ conversion authoritatively.
 The server is authoritative.
 
 Do not serialize a bypass flag from the browser.
+
+## Current two-hour request policy
+
+The owner-authorized same-day update replaces the original 24-hour minimum with
+`contact.bookingLeadTime.publicMinimumHours = 2`. Browser and server use the same
+pure form-kit schedule module. All requests remain pending manual confirmation;
+same-day and sub-24-hour requests carry a prominent notice and staff urgency.
+Receipts retain the requested date, time, time zone and reference after form reset.
+Accepted retries validate against the stored original receipt clock and immutable
+payload digest, so elapsed notice cannot invalidate an already received request.
+Final submission revalidates every step against the current clock.
+
+Verification is scoped to the affected form, schedule, delivery and localization
+paths under the owner's explicit instruction; aggregate full-suite commands are
+not used for this change. No real staff email is sent during verification.

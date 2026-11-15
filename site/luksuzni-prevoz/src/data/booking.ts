@@ -25,6 +25,15 @@ export type AirportScope = "belgrade-city" | "other";
 export type CorporateEngagement = "one-off" | "recurring";
 export type VehiclePreference = VehicleId | "recommend";
 
+/** Server-derived receipt; never accepted from a browser or included in identity hashes. */
+export interface BookingReceiptSchedule {
+  date: string;
+  time: string;
+  timeZone: "Europe/Belgrade";
+  sameDay: boolean;
+  shortNotice: boolean;
+}
+
 export interface BookingDraft {
   intent?: BookingIntent;
   serviceKey?: BookingServiceKey;
@@ -112,21 +121,14 @@ export interface CoordinatedBooking extends BookingCommon {
 
 export interface EventBooking extends BookingCommon {
   serviceKey:
-    | "weddingTransportation"
-    | "promTransportation"
-    | "vipTransportation"
-    | "specialEvents";
+    "weddingTransportation" | "promTransportation" | "vipTransportation" | "specialEvents";
   eventVenue: string;
   scheduleOutline: string;
   waitingRequested: boolean;
 }
 
 export type BookingRequest =
-  | PrivateChauffeurBooking
-  | AirportBooking
-  | CorporateBooking
-  | CoordinatedBooking
-  | EventBooking;
+  PrivateChauffeurBooking | AirportBooking | CorporateBooking | CoordinatedBooking | EventBooking;
 
 export type QuoteReason =
   | "multi-day"

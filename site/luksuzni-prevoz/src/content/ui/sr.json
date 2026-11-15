@@ -510,7 +510,7 @@
   "booking.action.continue": "Nastavite",
   "booking.action.edit": "Izmenite",
   "booking.action.changeService": "Promenite uslugu",
-  "booking.action.requestBooking": "Pošaljite zahtev za rezervaciju",
+  "booking.action.requestBooking": "Pošaljite zahtev za prevoz",
   "booking.action.requestQuote": "Zatražite ponudu",
   "booking.action.reset": "Počnite ponovo",
   "booking.action.removeStop": "Uklonite zaustavljanje",
@@ -619,7 +619,7 @@
   "booking.leadTime.note": "Pošaljite zahtev najmanje {hours} h pre željenog početka.",
   "booking.confirmation.note": "Poslat zahtev nije potvrda rezervacije.",
   "booking.status.submitting": "Šaljemo vaš zahtev…",
-  "booking.status.success": "Zahtev je primljen. Naš tim će proveriti raspoloživost i potvrditi detalje prevoza.",
+  "booking.status.success": "Zahtev je primljen — rezervacija nije potvrđena. Naš tim će proveriti raspoloživost i javiti vam se putem navedenih kontakt podataka. Rezervacija važi tek kada je naš tim direktno potvrdi.",
   "booking.status.error": "Zahtev nije poslat. Proverite podatke i pokušajte ponovo.",
   "booking.status.requestReference": "Referenca zahteva: {reference}",
   "booking.status.draftRecovered": "Sačuvani podaci o prevozu su vraćeni.",
@@ -690,5 +690,10 @@
   "business.serviceEnquiry": "Pošaljite upit",
   "clients.embassyChina": "Ambasada Narodne Republike Kine u Srbiji",
   "clients.osce": "Misija OEBS-a u Srbiji",
-  "clients.swimmingFederation": "Plivački savez Srbije"
+  "clients.swimmingFederation": "Plivački savez Srbije",
+  "booking.status.sameDay": "Zahtev za danas je primljen — rezervacija nije potvrđena. Naš tim će proveriti raspoloživost i javiti vam se putem navedenih kontakt podataka. Rezervacija važi tek kada je naš tim direktno potvrdi.",
+  "booking.status.shortNotice": "Zahtev za polazak u naredna 24 sata je primljen — rezervacija nije potvrđena. Naš tim će proveriti raspoloživost i javiti vam se putem navedenih kontakt podataka. Rezervacija važi tek kada je naš tim direktno potvrdi.",
+  "booking.notice.sameDay": "Zahtev za prevoz danas. Naš tim mora da proveri raspoloživost. Slanje zahteva nije potvrda rezervacije.",
+  "booking.notice.shortNotice": "Zahtev za prevoz u naredna 24 sata. Naš tim mora da proveri raspoloživost. Slanje zahteva nije potvrda rezervacije.",
+  "booking.schedule.earliest": "Najranije vreme za zahtev: {schedule}. Raspoloživost se potvrđuje naknadno."
 }

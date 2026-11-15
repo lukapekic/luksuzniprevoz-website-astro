@@ -1,6 +1,6 @@
 {
   "name": "@astro-foundation/form-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Small framework-independent helpers for validated forms, Turnstile, and transactional email.",

@@ -1,4 +1,9 @@
-import { mountScheduleControls, syncCanonicalSchedule, syncDisplaySchedule } from "../../lib/booking/booking-schedule-controls.ts";
+import {
+  mountScheduleControls,
+  syncCanonicalSchedule,
+  syncDisplaySchedule,
+} from "../../lib/booking/booking-schedule-controls.ts";
+import { evaluateBookingSchedule, getEarliestBookingSchedule } from "@astro-foundation/form-kit";
 import { vehicles, type Vehicle } from "../../data/fleet.ts";
 import {
   isBookingServiceKey,
@@ -6,6 +11,7 @@ import {
   type BookingPricingResult,
   type BookingServiceKey,
   type BookingStep,
+  type BookingReceiptSchedule,
 } from "../../data/booking.ts";
 import { parseBookingHandoff, cleanBookingHandoffUrl } from "../../lib/booking/booking-handoff.ts";
 import { resolveBookingPricing } from "../../lib/booking/booking-pricing.ts";
@@ -13,7 +19,11 @@ import { loadBookingDraft, saveBookingDraft } from "../../lib/booking/booking-st
 import { BOOKING_STORAGE_KEY } from "../../lib/booking/booking-storage.ts";
 import { createTurnstileController } from "../../lib/forms/turnstile-client.ts";
 import { lockSubmissionControls } from "../../lib/forms/submission-controls.ts";
-import { formatDisplayDate, formatDisplaySchedule, parseDisplayDate } from "../../lib/booking/booking-date-time.ts";
+import {
+  formatDisplayDate,
+  formatDisplaySchedule,
+  parseDisplayDate,
+} from "../../lib/booking/booking-date-time.ts";
 import {
   buildBookingRequest,
   validateBookingDraft,
@@ -23,22 +33,35 @@ import {
 
 const steps: BookingStep[] = ["service", "journey", "vehicle", "review"];
 const businessServices: BookingServiceKey[] = [
-  "corporateTransportation", "delegationTransportation", "conferenceCongressTransportation",
+  "corporateTransportation",
+  "delegationTransportation",
+  "conferenceCongressTransportation",
 ];
 const eventServices: BookingServiceKey[] = [
-  "weddingTransportation", "promTransportation", "vipTransportation", "specialEvents",
+  "weddingTransportation",
+  "promTransportation",
+  "vipTransportation",
+  "specialEvents",
 ];
 const multiVehicleServices: BookingServiceKey[] = [
-  "delegationTransportation", "conferenceCongressTransportation", ...eventServices,
+  "delegationTransportation",
+  "conferenceCongressTransportation",
+  ...eventServices,
 ];
 
 interface FormApiResponse {
   ok: boolean;
-  code?: "validation" | "bot_verification" | "rate_limited" | "service_unavailable" | "server_error";
+  code?:
+    "validation" | "bot_verification" | "rate_limited" | "service_unavailable" | "server_error";
   reference?: string;
+  fields?: Record<string, string>;
+  schedule?: BookingReceiptSchedule;
 }
 
-function control(form: HTMLFormElement, name: string): HTMLInputElement | HTMLTextAreaElement | null {
+function control(
+  form: HTMLFormElement,
+  name: string,
+): HTMLInputElement | HTMLTextAreaElement | null {
   const item = form.elements.namedItem(name);
   if (item instanceof HTMLInputElement || item instanceof HTMLTextAreaElement) return item;
   return null;
@@ -81,32 +104,45 @@ function readDraft(form: HTMLFormElement): BookingDraft {
   return {
     intent,
     ...(serviceKey ? { serviceKey } : {}),
-    date: textValue(form, "date"), time: textValue(form, "time"),
-    pickup: textValue(form, "pickup"), destination: textValue(form, "destination"),
+    date: textValue(form, "date"),
+    time: textValue(form, "time"),
+    pickup: textValue(form, "pickup"),
+    destination: textValue(form, "destination"),
     hireMode: radioValue(form, "hireMode") as BookingDraft["hireMode"],
-    hours: numberValue(form, "hours"), plannedStops: textValue(form, "plannedStops"),
-    multiDay: checked(form, "multiDay"), international: checked(form, "international"),
+    hours: numberValue(form, "hours"),
+    plannedStops: textValue(form, "plannedStops"),
+    multiDay: checked(form, "multiDay"),
+    international: checked(form, "international"),
     airportDirection: radioValue(form, "airportDirection") as BookingDraft["airportDirection"],
     airportScope: radioValue(form, "airportScope") as BookingDraft["airportScope"],
-    flightNumber: textValue(form, "flightNumber"), returnRequested: checked(form, "returnRequested"),
-    returnDate: textValue(form, "returnDate"), returnTime: textValue(form, "returnTime"),
+    flightNumber: textValue(form, "flightNumber"),
+    returnRequested: checked(form, "returnRequested"),
+    returnDate: textValue(form, "returnDate"),
+    returnTime: textValue(form, "returnTime"),
     engagement: radioValue(form, "engagement") as BookingDraft["engagement"],
     scheduleOutline: textValue(form, "scheduleOutline"),
     invoiceReference: textValue(form, "invoiceReference"),
     multipleLocations: checked(form, "multipleLocations"),
     multipleVehiclesRequested: checked(form, "multipleVehiclesRequested"),
-    eventVenue: textValue(form, "eventVenue"), waitingRequested: checked(form, "waitingRequested"),
-    passengerCount: numberValue(form, "passengerCount"), luggageCount: numberValue(form, "luggageCount"),
+    eventVenue: textValue(form, "eventVenue"),
+    waitingRequested: checked(form, "waitingRequested"),
+    passengerCount: numberValue(form, "passengerCount"),
+    luggageCount: numberValue(form, "luggageCount"),
     childSeatRequested: checked(form, "childSeatRequested"),
     vehiclePreference: radioValue(form, "vehiclePreference") as BookingDraft["vehiclePreference"],
-    fullName: textValue(form, "fullName"), email: textValue(form, "email"),
-    phone: textValue(form, "phone"), company: textValue(form, "company"), notes: textValue(form, "notes"),
+    fullName: textValue(form, "fullName"),
+    email: textValue(form, "email"),
+    phone: textValue(form, "phone"),
+    company: textValue(form, "company"),
+    notes: textValue(form, "notes"),
   };
 }
 
 function setRadio(form: HTMLFormElement, name: string, value: unknown): void {
   if (typeof value !== "string") return;
-  const item = form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${CSS.escape(value)}"]`);
+  const item = form.querySelector<HTMLInputElement>(
+    `input[name="${name}"][value="${CSS.escape(value)}"]`,
+  );
   if (item) item.checked = true;
 }
 
@@ -125,20 +161,43 @@ function setService(form: HTMLFormElement, serviceKey: BookingServiceKey): void 
 function applyDraft(form: HTMLFormElement, draft: Partial<BookingDraft>): void {
   if (draft.intent) form.dataset.intent = draft.intent;
   if (draft.serviceKey) setService(form, draft.serviceKey);
-  const radioFields = ["hireMode", "airportDirection", "airportScope", "engagement", "vehiclePreference"] as const;
+  const radioFields = [
+    "hireMode",
+    "airportDirection",
+    "airportScope",
+    "engagement",
+    "vehiclePreference",
+  ] as const;
   for (const name of radioFields) setRadio(form, name, draft[name]);
   const checkboxFields = [
-    "multiDay", "international", "returnRequested", "multipleLocations",
-    "multipleVehiclesRequested", "waitingRequested", "childSeatRequested",
+    "multiDay",
+    "international",
+    "returnRequested",
+    "multipleLocations",
+    "multipleVehiclesRequested",
+    "waitingRequested",
+    "childSeatRequested",
   ] as const;
   for (const name of checkboxFields) {
     const item = form.elements.namedItem(name);
-    if (item instanceof HTMLInputElement && draft[name] !== undefined) item.checked = Boolean(draft[name]);
+    if (item instanceof HTMLInputElement && draft[name] !== undefined)
+      item.checked = Boolean(draft[name]);
   }
   const valueFields = [
-    "date", "time", "pickup", "destination", "hours", "plannedStops", "flightNumber",
-    "returnDate", "returnTime", "scheduleOutline", "invoiceReference", "eventVenue",
-    "passengerCount", "luggageCount",
+    "date",
+    "time",
+    "pickup",
+    "destination",
+    "hours",
+    "plannedStops",
+    "flightNumber",
+    "returnDate",
+    "returnTime",
+    "scheduleOutline",
+    "invoiceReference",
+    "eventVenue",
+    "passengerCount",
+    "luggageCount",
   ] as const;
   for (const name of valueFields) {
     const item = control(form, name);
@@ -168,9 +227,18 @@ function updateConditionalFields(form: HTMLFormElement): void {
   show(form.querySelector("[data-schedule-fields]"), isBusiness || isEvent);
   show(form.querySelector("[data-destination-field]"), !isEvent);
   show(form.querySelector("[data-company-field]"), isBusiness);
-  show(form.querySelector("[data-multiple-vehicles-field]"), Boolean(serviceKey && multiVehicleServices.includes(serviceKey)));
-  show(form.querySelector("[data-hourly-fields]"), serviceKey === "privateChauffeur" && radioValue(form, "hireMode") === "hourly");
-  show(form.querySelector("[data-return-fields]"), serviceKey === "airportTransportation" && checked(form, "returnRequested"));
+  show(
+    form.querySelector("[data-multiple-vehicles-field]"),
+    Boolean(serviceKey && multiVehicleServices.includes(serviceKey)),
+  );
+  show(
+    form.querySelector("[data-hourly-fields]"),
+    serviceKey === "privateChauffeur" && radioValue(form, "hireMode") === "hourly",
+  );
+  show(
+    form.querySelector("[data-return-fields]"),
+    serviceKey === "airportTransportation" && checked(form, "returnRequested"),
+  );
 }
 
 function selectedVehicle(draft: BookingDraft): Vehicle | null {
@@ -185,7 +253,9 @@ function updateVehicleEligibility(form: HTMLFormElement): void {
     const capacity = Number(option.dataset.capacity);
     const input = option.querySelector<HTMLInputElement>('input[type="radio"]');
     const warning = option.querySelector<HTMLElement>("[data-capacity-warning]");
-    const ineligible = Boolean(passengers && Number.isFinite(capacity) && capacity > 0 && passengers > capacity);
+    const ineligible = Boolean(
+      passengers && Number.isFinite(capacity) && capacity > 0 && passengers > capacity,
+    );
     if (input) {
       input.disabled = ineligible;
       if (ineligible && input.checked) {
@@ -225,7 +295,10 @@ function pricingResult(form: HTMLFormElement, draft: BookingDraft): BookingPrici
 }
 
 function quoteMessage(form: HTMLFormElement, reason: string): string {
-  const datasetKey = `quote${reason.split("-").map((part) => part[0]?.toUpperCase() + part.slice(1)).join("")}`;
+  const datasetKey = `quote${reason
+    .split("-")
+    .map((part) => part[0]?.toUpperCase() + part.slice(1))
+    .join("")}`;
   return form.dataset[datasetKey] ?? form.dataset.priceQuoteRequired ?? "";
 }
 
@@ -236,12 +309,16 @@ function priceText(form: HTMLFormElement, result: BookingPricingResult | null): 
   }
   if (result.kind === "unavailable") return form.dataset.priceUnavailable ?? "";
   const locale = form.dataset.locale ?? "en";
-  const amount = new Intl.NumberFormat(locale, { style: "currency", currency: result.currency }).format(result.amount);
-  const label = result.kind === "fixed"
-    ? form.dataset.priceFixed
-    : result.kind === "estimate"
-      ? form.dataset.priceEstimate
-      : form.dataset.priceCalculated;
+  const amount = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: result.currency,
+  }).format(result.amount);
+  const label =
+    result.kind === "fixed"
+      ? form.dataset.priceFixed
+      : result.kind === "estimate"
+        ? form.dataset.priceEstimate
+        : form.dataset.priceCalculated;
   return `${label}: ${amount}`;
 }
 
@@ -251,16 +328,46 @@ function setText(root: ParentNode, selector: string, value: string): void {
 
 function updateSummary(form: HTMLFormElement): BookingPricingResult | null {
   const draft = readDraft(form);
+  const now = new Date();
+  const minimumHours = Number(form.dataset.publicMinimumHours);
+  const timeZone = form.dataset.timeZone ?? "Europe/Belgrade";
+  const assessment =
+    draft.date && draft.time
+      ? evaluateBookingSchedule(draft.date, draft.time, {
+          minimumHours,
+          timeZone,
+          now,
+        })
+      : null;
+  const earliest = assessment?.earliest ?? getEarliestBookingSchedule(minimumHours, timeZone, now);
+  setText(
+    form,
+    "[data-booking-earliest]",
+    (form.dataset.earliestSchedule ?? "").replace(
+      "{schedule}",
+      `${formatDisplaySchedule(earliest.date, earliest.time)} (${timeZone})`,
+    ),
+  );
+  for (const notice of form.querySelectorAll<HTMLElement>("[data-booking-short-notice]")) {
+    notice.hidden = !assessment?.sameDay && !assessment?.shortNotice;
+    notice.textContent = assessment?.sameDay
+      ? (form.dataset.sameDayNotice ?? "")
+      : (form.dataset.shortNotice ?? "");
+  }
   const none = form.dataset.notSelected ?? "";
   const outbound = formatDisplaySchedule(draft.date, draft.time);
-  const inbound = draft.returnRequested ? formatDisplaySchedule(draft.returnDate, draft.returnTime) : null;
+  const inbound = draft.returnRequested
+    ? formatDisplaySchedule(draft.returnDate, draft.returnTime)
+    : null;
   const schedule = outbound
     ? `${outbound}${inbound ? ` · ${form.dataset.returnLabel}: ${inbound}` : ""} (${form.dataset.timeZone})`
     : none;
   const values = {
     service: serviceLabel(form) ?? none,
     schedule,
-    journey: draft.pickup ? `${draft.pickup}${draft.destination ? ` → ${draft.destination}` : draft.eventVenue ? ` → ${draft.eventVenue}` : ""}` : none,
+    journey: draft.pickup
+      ? `${draft.pickup}${draft.destination ? ` → ${draft.destination}` : draft.eventVenue ? ` → ${draft.eventVenue}` : ""}`
+      : none,
     passengers: draft.passengerCount ? String(draft.passengerCount) : none,
     vehicle: selectedLabel(form, "vehiclePreference") ?? none,
   };
@@ -276,20 +383,27 @@ function updateSummary(form: HTMLFormElement): BookingPricingResult | null {
     headSchedule.textContent = schedule === none ? "" : schedule;
     headSchedule.hidden = schedule === none;
   }
-  for (const row of form.querySelectorAll<HTMLElement>("[data-booking-summary] dl > div, [data-booking-review] dl > div")) {
+  for (const row of form.querySelectorAll<HTMLElement>(
+    "[data-booking-summary] dl > div, [data-booking-review] dl > div",
+  )) {
     const value = row.querySelector<HTMLElement>("dd")?.textContent ?? "";
     row.hidden = value === none || value === "";
   }
   const finalLabel = form.querySelector<HTMLElement>("[data-booking-final-label]");
   if (finalLabel) {
-    finalLabel.textContent = draft.intent === "quote" || result?.kind === "quote-required"
-      ? form.dataset.requestQuote ?? ""
-      : form.dataset.requestBooking ?? "";
+    finalLabel.textContent =
+      draft.intent === "quote" || result?.kind === "quote-required"
+        ? (form.dataset.requestQuote ?? "")
+        : (form.dataset.requestBooking ?? "");
   }
   return result;
 }
 
-function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft: BookingDraft): string {
+function messageFor(
+  form: HTMLFormElement,
+  issue: BookingValidationIssue,
+  draft: BookingDraft,
+): string {
   const map: Record<BookingValidationCode, string | undefined> = {
     required: form.dataset.errorRequired,
     service: form.dataset.errorService,
@@ -301,7 +415,10 @@ function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft:
     "return-fields": form.dataset.errorReturnFields,
     "passenger-count": form.dataset.errorPassengerCount,
     "vehicle-required": form.dataset.errorVehicleRequired,
-    "vehicle-capacity": form.dataset.errorVehicleCapacity?.replace("{passengers}", String(draft.passengerCount ?? "")),
+    "vehicle-capacity": form.dataset.errorVehicleCapacity?.replace(
+      "{passengers}",
+      String(draft.passengerCount ?? ""),
+    ),
     "full-name": form.dataset.errorFullName,
     email: form.dataset.errorEmail,
     phone: form.dataset.errorPhone,
@@ -312,14 +429,20 @@ function messageFor(form: HTMLFormElement, issue: BookingValidationIssue, draft:
 }
 
 function clearErrors(form: HTMLFormElement): void {
-  const errorIds = new Set([...form.querySelectorAll<HTMLElement>("[data-error-for]")].map((target) => target.id).filter(Boolean));
+  const errorIds = new Set(
+    [...form.querySelectorAll<HTMLElement>("[data-error-for]")]
+      .map((target) => target.id)
+      .filter(Boolean),
+  );
   for (const target of form.querySelectorAll<HTMLElement>("[data-error-for]")) {
     target.hidden = true;
     target.textContent = "";
   }
   for (const item of form.querySelectorAll<HTMLElement>("[aria-invalid='true']")) {
     item.removeAttribute("aria-invalid");
-    const remaining = (item.getAttribute("aria-describedby") ?? "").split(" ").filter((id) => id && !errorIds.has(id));
+    const remaining = (item.getAttribute("aria-describedby") ?? "")
+      .split(" ")
+      .filter((id) => id && !errorIds.has(id));
     if (remaining.length) item.setAttribute("aria-describedby", remaining.join(" "));
     else item.removeAttribute("aria-describedby");
   }
@@ -330,9 +453,14 @@ function clearErrors(form: HTMLFormElement): void {
 function clearEditedError(form: HTMLFormElement, target: EventTarget | null): void {
   if (!(target instanceof HTMLElement)) return;
   const name = target.getAttribute("name") ?? "";
-  const key = name === "dateDisplay" || name === "timeHour" || name === "timeMinute" ? "dateTime"
-    : name === "returnDateDisplay" || name === "returnTimeHour" || name === "returnTimeMinute" ? "return"
-    : name === "serviceCategory" || name === "service" ? "service" : name;
+  const key =
+    name === "dateDisplay" || name === "timeHour" || name === "timeMinute"
+      ? "dateTime"
+      : name === "returnDateDisplay" || name === "returnTimeHour" || name === "returnTimeMinute"
+        ? "return"
+        : name === "serviceCategory" || name === "service"
+          ? "service"
+          : name;
   const error = form.querySelector<HTMLElement>(`[data-error-for="${key}"]`);
   if (error) {
     const invalidControl = errorControl(form, key) ?? target;
@@ -340,7 +468,9 @@ function clearEditedError(form: HTMLFormElement, target: EventTarget | null): vo
     error.textContent = "";
     invalidControl.removeAttribute("aria-invalid");
     if (error.id) {
-      const remaining = (invalidControl.getAttribute("aria-describedby") ?? "").split(" ").filter((id) => id && id !== error.id);
+      const remaining = (invalidControl.getAttribute("aria-describedby") ?? "")
+        .split(" ")
+        .filter((id) => id && id !== error.id);
       if (remaining.length) invalidControl.setAttribute("aria-describedby", remaining.join(" "));
       else invalidControl.removeAttribute("aria-describedby");
     }
@@ -351,13 +481,19 @@ function clearEditedError(form: HTMLFormElement, target: EventTarget | null): vo
 
 function errorControl(form: HTMLFormElement, field: string): HTMLElement | null {
   const mapping: Record<string, string> = {
-    service: "serviceCategory", dateTime: "dateDisplay", return: "returnDateDisplay",
+    service: "serviceCategory",
+    dateTime: "dateDisplay",
+    return: "returnDateDisplay",
   };
   const name = mapping[field] ?? field;
   return form.querySelector<HTMLElement>(`[name="${name}"]`);
 }
 
-function renderErrors(form: HTMLFormElement, issues: BookingValidationIssue[], focusSummary = true): void {
+function renderErrors(
+  form: HTMLFormElement,
+  issues: BookingValidationIssue[],
+  focusSummary = true,
+): void {
   clearErrors(form);
   const draft = readDraft(form);
   const messages: string[] = [];
@@ -375,18 +511,23 @@ function renderErrors(form: HTMLFormElement, issues: BookingValidationIssue[], f
       fieldControl.setAttribute("aria-invalid", "true");
       if (target?.id) {
         const existing = fieldControl.getAttribute("aria-describedby")?.split(" ") ?? [];
-        fieldControl.setAttribute("aria-describedby", [...new Set([...existing, target.id])].join(" "));
+        fieldControl.setAttribute(
+          "aria-describedby",
+          [...new Set([...existing, target.id])].join(" "),
+        );
       }
     }
   }
   const summary = form.querySelector<HTMLElement>("[data-error-summary]");
   const list = form.querySelector<HTMLElement>("[data-error-summary-list]");
   if (summary && list) {
-    list.replaceChildren(...messages.map((message) => {
-      const item = document.createElement("li");
-      item.textContent = message;
-      return item;
-    }));
+    list.replaceChildren(
+      ...messages.map((message) => {
+        const item = document.createElement("li");
+        item.textContent = message;
+        return item;
+      }),
+    );
     summary.hidden = false;
     if (focusSummary) errorControl(form, issues[0]?.field ?? "")?.focus();
   }
@@ -403,16 +544,28 @@ function issuesForStep(form: HTMLFormElement, step: BookingStep): BookingValidat
   });
   const fields: Record<BookingStep, string[]> = {
     service: ["service"],
-    journey: ["dateTime", "pickup", "destination", "hireMode", "hours", "airportDirection", "airportScope", "return", "scheduleOutline", "eventVenue", "engagement"],
+    journey: [
+      "dateTime",
+      "pickup",
+      "destination",
+      "hireMode",
+      "hours",
+      "airportDirection",
+      "airportScope",
+      "return",
+      "scheduleOutline",
+      "eventVenue",
+      "engagement",
+    ],
     vehicle: ["passengerCount", "vehiclePreference"],
     review: ["fullName", "email", "phone", "notes", "company"],
   };
-  return issues.filter((issue) => fields[step].includes(issue.field));
+  return step === "review" ? issues : issues.filter((issue) => fields[step].includes(issue.field));
 }
 
 function currentStep(form: HTMLFormElement): BookingStep {
   const value = form.dataset.step ?? "service";
-  return steps.includes(value as BookingStep) ? value as BookingStep : "service";
+  return steps.includes(value as BookingStep) ? (value as BookingStep) : "service";
 }
 
 function goToStep(form: HTMLFormElement, step: BookingStep, focus = true): void {
@@ -425,7 +578,8 @@ function goToStep(form: HTMLFormElement, step: BookingStep, focus = true): void 
   for (const item of progressRoot.querySelectorAll<HTMLElement>("[data-progress-step]")) {
     const active = item.dataset.progressStep === step;
     const itemStep = item.dataset.progressStep as BookingStep;
-    const completed = steps.indexOf(itemStep) < currentIndex && issuesForStep(form, itemStep).length === 0;
+    const completed =
+      steps.indexOf(itemStep) < currentIndex && issuesForStep(form, itemStep).length === 0;
     item.dataset.active = String(active);
     item.dataset.complete = String(completed);
     if (active) item.setAttribute("aria-current", "step");
@@ -439,9 +593,14 @@ function goToStep(form: HTMLFormElement, step: BookingStep, focus = true): void 
   }
   const progress = progressRoot.querySelector<HTMLElement>("[data-booking-progress]");
   const count = progress?.querySelector<HTMLElement>("[data-progress-count]");
-  if (count) count.textContent = `${(progress?.dataset.stepTemplate ?? "").replace("{step}", String(currentIndex + 1))} / ${steps.length}`;
+  if (count)
+    count.textContent = `${(progress?.dataset.stepTemplate ?? "").replace("{step}", String(currentIndex + 1))} / ${steps.length}`;
   const currentLabel = progress?.querySelector<HTMLElement>("[data-progress-current-label]");
-  if (currentLabel) currentLabel.textContent = progress?.querySelector<HTMLElement>(`[data-progress-step="${step}"] .booking-progress__label`)?.textContent ?? "";
+  if (currentLabel)
+    currentLabel.textContent =
+      progress?.querySelector<HTMLElement>(
+        `[data-progress-step="${step}"] .booking-progress__label`,
+      )?.textContent ?? "";
   const back = form.querySelector<HTMLElement>("[data-booking-back]");
   const next = form.querySelector<HTMLElement>("[data-booking-continue]");
   const final = form.querySelector<HTMLElement>("[data-booking-final]");
@@ -485,7 +644,9 @@ export function mountBookingWizards(root: ParentNode = document): void {
     applyDraft(form, handoff.patch);
     syncDisplaySchedule(form);
     mountScheduleControls(form);
-    if (["intent", "service", "flightNumber", "date", "time"].some((key) => url.searchParams.has(key))) {
+    if (
+      ["intent", "service", "flightNumber", "date", "time"].some((key) => url.searchParams.has(key))
+    ) {
       history.replaceState(history.state, "", cleanBookingHandoffUrl(url));
     }
 
@@ -500,19 +661,28 @@ export function mountBookingWizards(root: ParentNode = document): void {
     const finalButton = form.querySelector<HTMLButtonElement>("[data-booking-final] button");
     const turnstileContainer = form.querySelector<HTMLElement>("[data-booking-turnstile]");
     const siteKey = form.dataset.turnstileSiteKey ?? "";
-    const turnstile = turnstileContainer && siteKey
-      ? createTurnstileController({ container: turnstileContainer, siteKey, action: "booking_submit", size: "flexible" })
-      : null;
+    const turnstile =
+      turnstileContainer && siteKey
+        ? createTurnstileController({
+            container: turnstileContainer,
+            siteKey,
+            action: "booking_submit",
+            size: "flexible",
+          })
+        : null;
     if (!turnstile) {
       if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
       if (finalButton) finalButton.disabled = true;
     } else {
-      void turnstile.render().then(() => {
-        if (finalButton) finalButton.disabled = false;
-      }).catch(() => {
-        if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
-        if (finalButton) finalButton.disabled = true;
-      });
+      void turnstile
+        .render()
+        .then(() => {
+          if (finalButton) finalButton.disabled = false;
+        })
+        .catch(() => {
+          if (status) status.textContent = form.dataset.statusServiceUnavailable ?? "";
+          if (finalButton) finalButton.disabled = true;
+        });
     }
 
     let submissionId: string | null = null;
@@ -520,10 +690,19 @@ export function mountBookingWizards(root: ParentNode = document): void {
     let submitting = false;
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || submitting) return;
+      if (currentStep(form) !== "review" || !turnstile || !status || !finalButton || submitting)
+        return;
       feedback?.removeAttribute("data-success");
-      const issues = issuesForStep(form, "review");
-      if (issues.length > 0) return renderErrors(form, issues);
+      // An unchanged retry can retrieve an accepted receipt after its cutoff.
+      // The server still enforces the current clock for every unaccepted request.
+      const issues = issuesForStep(form, "review").filter(
+        (issue) => !(submissionId && (issue.code === "lead-time" || issue.code === "date-range")),
+      );
+      if (issues.length > 0) {
+        if (issues.some((issue) => issue.field === "dateTime" || issue.field === "return"))
+          goToStep(form, "journey");
+        return renderErrors(form, issues);
+      }
       const token = turnstile.getToken();
       if (!token) {
         status.textContent = form.dataset.statusTurnstileRequired ?? "";
@@ -531,6 +710,7 @@ export function mountBookingWizards(root: ParentNode = document): void {
       }
 
       submissionId ??= crypto.randomUUID();
+      const submitted = readDraft(form);
       submitting = true;
       finalButton.disabled = true;
       const unlockControls = lockSubmissionControls(form);
@@ -543,15 +723,35 @@ export function mountBookingWizards(root: ParentNode = document): void {
             submissionId,
             locale: form.dataset.locale,
             turnstileToken: token,
-            payload: readDraft(form),
+            payload: submitted,
           }),
         });
-        const body = await response.json() as FormApiResponse;
+        const body = (await response.json()) as FormApiResponse;
         if (response.ok && body.ok && body.reference) {
-          status.textContent = `${form.dataset.statusSuccess ?? ""} ${(form.dataset.statusReference ?? "").replace("{reference}", body.reference)}`;
+          const receipt = body.schedule;
+          const assessment =
+            receipt ??
+            evaluateBookingSchedule(submitted.date!, submitted.time!, {
+              minimumHours: Number(form.dataset.publicMinimumHours),
+              timeZone: "Europe/Belgrade",
+            });
+          const message = assessment.sameDay
+            ? form.dataset.statusSameDay
+            : assessment.shortNotice
+              ? form.dataset.statusShortNotice
+              : form.dataset.statusSuccess;
+          const schedule = formatDisplaySchedule(
+            receipt?.date ?? submitted.date,
+            receipt?.time ?? submitted.time,
+          );
+          status.textContent = `${message ?? ""} ${schedule} (${receipt?.timeZone ?? form.dataset.timeZone}). ${(form.dataset.statusReference ?? "").replace("{reference}", body.reference)}`;
           succeeded = true;
           submissionId = null;
-          try { sessionStorage.removeItem(BOOKING_STORAGE_KEY); } catch { /* storage may be blocked */ }
+          try {
+            sessionStorage.removeItem(BOOKING_STORAGE_KEY);
+          } catch {
+            /* storage may be blocked */
+          }
           return;
         }
         const statusKeys = {
@@ -561,6 +761,15 @@ export function mountBookingWizards(root: ParentNode = document): void {
           server_error: "statusServerError",
           validation: "statusError",
         } as const;
+        if (body.code === "validation" && body.fields) {
+          const serverIssues = Object.entries(body.fields).map(([field, code]) => ({
+            field,
+            code: code as BookingValidationCode,
+          }));
+          if (serverIssues.some((issue) => issue.field === "dateTime" || issue.field === "return"))
+            goToStep(form, "journey");
+          renderErrors(form, serverIssues);
+        }
         status.textContent = form.dataset[statusKeys[body.code ?? "server_error"]] ?? "";
       } catch {
         status.textContent = form.dataset.statusServerError ?? "";
@@ -574,7 +783,8 @@ export function mountBookingWizards(root: ParentNode = document): void {
           // Clear literal whitespace/default text as well as any browser-filled values.
           for (const field of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
             'textarea, input:not([type="radio"]):not([type="checkbox"]):not([type="number"])',
-          )) field.value = "";
+          ))
+            field.value = "";
           form.dataset.intent = "booking";
           syncDisplaySchedule(form);
           updateVehicleEligibility(form);
@@ -587,6 +797,15 @@ export function mountBookingWizards(root: ParentNode = document): void {
         }
       }
     });
+    const refreshSchedule = () => {
+      if (submitting || document.visibilityState === "hidden") return;
+      syncCanonicalSchedule(form);
+      updateSummary(form);
+    };
+    window.addEventListener("pageshow", refreshSchedule);
+    window.addEventListener("focus", refreshSchedule);
+    document.addEventListener("visibilitychange", refreshSchedule);
+    window.setInterval(refreshSchedule, 60_000);
     form.addEventListener("change", (event) => {
       if (!submitting) {
         submissionId = null;
@@ -597,14 +816,19 @@ export function mountBookingWizards(root: ParentNode = document): void {
       }
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "serviceCategory") {
-        for (const item of form.querySelectorAll<HTMLInputElement>('input[name="service"]')) item.checked = false;
+        for (const item of form.querySelectorAll<HTMLInputElement>('input[name="service"]'))
+          item.checked = false;
       }
       syncCanonicalSchedule(form);
       updateConditionalFields(form);
       updateVehicleEligibility(form);
       clearEditedError(form, target);
       updateSummary(form);
-      try { saveBookingDraft(sessionStorage, readDraft(form)); } catch { /* fail open */ }
+      try {
+        saveBookingDraft(sessionStorage, readDraft(form));
+      } catch {
+        /* fail open */
+      }
     });
     form.addEventListener("input", (event) => {
       if (!submitting) {
@@ -618,11 +842,16 @@ export function mountBookingWizards(root: ParentNode = document): void {
       updateVehicleEligibility(form);
       clearEditedError(form, event.target);
       updateSummary(form);
-      try { saveBookingDraft(sessionStorage, readDraft(form)); } catch { /* fail open */ }
+      try {
+        saveBookingDraft(sessionStorage, readDraft(form));
+      } catch {
+        /* fail open */
+      }
     });
     form.addEventListener("focusout", (event) => {
       const target = event.target;
-      if (!(target instanceof HTMLInputElement) || !target.matches("[data-booking-date-display]")) return;
+      if (!(target instanceof HTMLInputElement) || !target.matches("[data-booking-date-display]"))
+        return;
       const canonical = parseDisplayDate(target.value);
       if (canonical) target.value = formatDisplayDate(canonical);
       syncCanonicalSchedule(form);
@@ -653,7 +882,9 @@ export function mountBookingWizards(root: ParentNode = document): void {
         if (steps.includes(step)) goToStep(form, step);
       });
     }
-    for (const reviewControl of form.querySelectorAll<HTMLElement>("[data-step-panel='review'] input, [data-step-panel='review'] textarea")) {
+    for (const reviewControl of form.querySelectorAll<HTMLElement>(
+      "[data-step-panel='review'] input, [data-step-panel='review'] textarea",
+    )) {
       reviewControl.addEventListener("blur", () => {
         if (currentStep(form) === "review") {
           const issues = issuesForStep(form, "review");

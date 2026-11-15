@@ -87,7 +87,7 @@ export const contact: Contact = {
   },
   bookingLeadTime: {
     timeZone: "Europe/Belgrade",
-    publicMinimumHours: 24,
+    publicMinimumHours: 2,
     lastMinuteMarketingAllowed: false,
     exceptionPolicyKey: "contact.bookingExceptionPolicy",
     confirmationMode: "manual",

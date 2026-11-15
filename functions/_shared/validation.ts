@@ -1,4 +1,5 @@
 import { vehicles } from "../../site/luksuzni-prevoz/src/data/fleet.ts";
+import { evaluateBookingSchedule } from "@astro-foundation/form-kit";
 import { contact } from "../../site/luksuzni-prevoz/src/data/contact.ts";
 import { privateChauffeurService } from "../../site/luksuzni-prevoz/src/data/services.ts";
 import {
@@ -24,9 +25,7 @@ import type {
   FormRequestEnvelope,
 } from "./types.ts";
 
-type ValidationResult<T> =
-  | { ok: true; value: T }
-  | { ok: false; fields: Record<string, string> };
+type ValidationResult<T> = { ok: true; value: T } | { ok: false; fields: Record<string, string> };
 
 const LOCALES: FormLocale[] = ["sr", "en", "ru"];
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -41,7 +40,10 @@ function hasOnlyKeys(value: Record<string, unknown>, allowed: readonly string[])
 }
 
 export function decodeEnvelope(value: unknown): ValidationResult<FormRequestEnvelope<unknown>> {
-  if (!isObject(value) || !hasOnlyKeys(value, ["submissionId", "locale", "turnstileToken", "payload"])) {
+  if (
+    !isObject(value) ||
+    !hasOnlyKeys(value, ["submissionId", "locale", "turnstileToken", "payload"])
+  ) {
     return { ok: false, fields: {} };
   }
   if (typeof value.submissionId !== "string" || !UUID_PATTERN.test(value.submissionId)) {
@@ -50,7 +52,11 @@ export function decodeEnvelope(value: unknown): ValidationResult<FormRequestEnve
   if (typeof value.locale !== "string" || !LOCALES.includes(value.locale as FormLocale)) {
     return { ok: false, fields: { locale: "invalid" } };
   }
-  if (typeof value.turnstileToken !== "string" || value.turnstileToken.length === 0 || value.turnstileToken.length > 2048) {
+  if (
+    typeof value.turnstileToken !== "string" ||
+    value.turnstileToken.length === 0 ||
+    value.turnstileToken.length > 2048
+  ) {
     return { ok: false, fields: { turnstileToken: "invalid" } };
   }
   return {
@@ -74,18 +80,48 @@ export function validateContactPayload(
   const values = payload as unknown as ContactFormValues;
   const result = validateContactForm(values);
   if (!result.isValid) {
-    return { ok: false, fields: Object.fromEntries(Object.entries(result.errors)) as Record<string, string> };
+    return {
+      ok: false,
+      fields: Object.fromEntries(Object.entries(result.errors)) as Record<string, string>,
+    };
   }
   return { ok: true, value: { kind: "contact", locale, values: result.values } };
 }
 
 const BOOKING_KEYS = [
-  "intent", "serviceKey", "date", "time", "pickup", "destination", "hireMode", "hours",
-  "plannedStops", "multiDay", "international", "airportDirection", "airportScope",
-  "flightNumber", "returnRequested", "returnDate", "returnTime", "engagement",
-  "scheduleOutline", "invoiceReference", "multipleLocations", "multipleVehiclesRequested",
-  "eventVenue", "waitingRequested", "passengerCount", "luggageCount", "childSeatRequested",
-  "vehiclePreference", "fullName", "email", "phone", "company", "notes",
+  "intent",
+  "serviceKey",
+  "date",
+  "time",
+  "pickup",
+  "destination",
+  "hireMode",
+  "hours",
+  "plannedStops",
+  "multiDay",
+  "international",
+  "airportDirection",
+  "airportScope",
+  "flightNumber",
+  "returnRequested",
+  "returnDate",
+  "returnTime",
+  "engagement",
+  "scheduleOutline",
+  "invoiceReference",
+  "multipleLocations",
+  "multipleVehiclesRequested",
+  "eventVenue",
+  "waitingRequested",
+  "passengerCount",
+  "luggageCount",
+  "childSeatRequested",
+  "vehiclePreference",
+  "fullName",
+  "email",
+  "phone",
+  "company",
+  "notes",
 ] as const;
 
 const STRING_LIMITS: Partial<Record<(typeof BOOKING_KEYS)[number], number>> = {
@@ -108,8 +144,13 @@ const STRING_LIMITS: Partial<Record<(typeof BOOKING_KEYS)[number], number>> = {
 };
 
 const BOOLEAN_KEYS = [
-  "multiDay", "international", "returnRequested", "multipleLocations",
-  "multipleVehiclesRequested", "waitingRequested", "childSeatRequested",
+  "multiDay",
+  "international",
+  "returnRequested",
+  "multipleLocations",
+  "multipleVehiclesRequested",
+  "waitingRequested",
+  "childSeatRequested",
 ] as const;
 const NUMBER_KEYS = ["hours", "passengerCount", "luggageCount"] as const;
 
@@ -142,12 +183,16 @@ function decodeBookingDraft(payload: unknown): ValidationResult<BookingDraft> {
 
   const intent = payload.intent;
   if (intent !== undefined) {
-    if (intent !== "booking" && intent !== "quote") return { ok: false, fields: { intent: "invalid" } };
+    if (intent !== "booking" && intent !== "quote")
+      return { ok: false, fields: { intent: "invalid" } };
     draft.intent = intent as BookingIntent;
   }
   const serviceKey = payload.serviceKey;
   if (serviceKey !== undefined) {
-    if (typeof serviceKey !== "string" || !bookingServiceKeys.includes(serviceKey as BookingServiceKey)) {
+    if (
+      typeof serviceKey !== "string" ||
+      !bookingServiceKeys.includes(serviceKey as BookingServiceKey)
+    ) {
       return { ok: false, fields: { service: "service" } };
     }
     draft.serviceKey = serviceKey as BookingServiceKey;
@@ -169,7 +214,8 @@ function decodeBookingDraft(payload: unknown): ValidationResult<BookingDraft> {
   }
   const vehiclePreference = payload.vehiclePreference;
   if (vehiclePreference !== undefined) {
-    const valid = vehiclePreference === "recommend" ||
+    const valid =
+      vehiclePreference === "recommend" ||
       vehicles.some((vehicle) => vehicle.id === vehiclePreference);
     if (!valid) return { ok: false, fields: { vehiclePreference: "vehicle-required" } };
     draft.vehiclePreference = vehiclePreference as VehiclePreference;
@@ -185,9 +231,10 @@ export function validateBookingPayload(
   const decoded = decodeBookingDraft(payload);
   if (!decoded.ok) return decoded;
   const draft = decoded.value;
-  const selectedVehicle = draft.vehiclePreference && draft.vehiclePreference !== "recommend"
-    ? vehicles.find((vehicle) => vehicle.id === draft.vehiclePreference) ?? null
-    : null;
+  const selectedVehicle =
+    draft.vehiclePreference && draft.vehiclePreference !== "recommend"
+      ? (vehicles.find((vehicle) => vehicle.id === draft.vehiclePreference) ?? null)
+      : null;
   const issues = validateBookingDraft(draft, {
     publicMinimumHours: contact.bookingLeadTime.publicMinimumHours,
     hourlyMinimumHours: privateChauffeurService.bookingOptions.hourly.minimumHours,
@@ -214,5 +261,26 @@ export function validateBookingPayload(
   if (pricing.kind === "unavailable") {
     return { ok: false, fields: { service: "service-unavailable" } };
   }
-  return { ok: true, value: { kind: "booking", locale, draft, request: built.request, pricing } };
+  const assessment = evaluateBookingSchedule(built.request.date, built.request.time, {
+    minimumHours: contact.bookingLeadTime.publicMinimumHours,
+    timeZone: contact.bookingLeadTime.timeZone,
+    now,
+  });
+  return {
+    ok: true,
+    value: {
+      kind: "booking",
+      locale,
+      draft,
+      request: built.request,
+      pricing,
+      schedule: {
+        date: built.request.date,
+        time: built.request.time,
+        timeZone: contact.bookingLeadTime.timeZone,
+        sameDay: assessment.sameDay,
+        shortNotice: assessment.shortNotice,
+      },
+    },
+  };
 }

@@ -37,9 +37,9 @@ export const renderedPageEvidenceSchema = z
     description: z.string().nullable(),
     canonical: z.string().nullable(),
     robots: z.string().nullable(),
-    hreflang: z.record(z.string()),
-    openGraph: z.record(z.string()),
-    twitter: z.record(z.string()),
+    hreflang: z.record(z.string(), z.string()),
+    openGraph: z.record(z.string(), z.string()),
+    twitter: z.record(z.string(), z.string()),
     headings: z.array(headingEvidenceSchema),
     textExcerpt: z.string(),
     internalLinks: z.array(internalLinkEvidenceSchema),
@@ -58,7 +58,7 @@ export const sourcePageEvidenceSchema = z
     seoTitle: z.string().nullable(),
     seoDescription: z.string().nullable(),
     primaryHeading: z.string().nullable(),
-    textFields: z.record(z.string()),
+    textFields: z.record(z.string(), z.string()),
     textExcerpt: z.string(),
   })
   .strict();
