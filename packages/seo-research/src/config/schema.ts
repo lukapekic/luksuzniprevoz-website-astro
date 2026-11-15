@@ -70,7 +70,7 @@ export const seoResearchConfigSchema = z
         cacheTtlHours: z.number().min(0).max(720).default(24),
       })
       .strict()
-      .default({}),
+      .prefault({}),
   })
   .strict()
   .superRefine((config, context) => {
