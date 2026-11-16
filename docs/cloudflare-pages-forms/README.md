@@ -9,13 +9,17 @@ For service ownership, DNS backups, staging/production separation, email
 preservation and a portable migration procedure, start with the standalone
 [Cloudflare deployment, DNS and migration guide](../cloudflare/README.md).
 
-This runbook describes the repository's implementation and required configuration.
-It is not a live provisioning-status report. Consult the dated
-[production setup record](production-setup.md) and its verification evidence for
-actual resources, deployment state and unresolved rollout steps. Secret values
-must remain outside source control.
+This runbook describes the deployed implementation and maintenance requirements.
+Use the [verified request release](#20-verified-request-release) below for current
+release evidence. The [September provisioning record](production-setup.md) is
+historical; it is not a pending-launch checklist or current account inventory.
+Secret values remain outside source control.
 
-Last infrastructure and free-plan review: **2026-08-30**.
+The two-hour release was verified on **2026-11-15**; non-sending production API
+health was rechecked on **2026-11-16**. Infrastructure/free-plan descriptions below
+were last reviewed on **2026-08-30**; verify provider limits before new provisioning.
+Setup sections describe fresh installations or approved environment changes, not
+instructions to recreate the existing deployed resources.
 
 For the extracted reusable helpers and a portable end-to-end setup checklist, see
 [reusable-setup.md](reusable-setup.md) and the [form-kit package](../../packages/form-kit/README.md).
@@ -50,16 +54,40 @@ Implemented endpoints:
 
 Key repository locations:
 
-| Purpose                             | Location                                                                                                                                                                       |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Pages Functions                     | [`functions/`](../../functions/)                                                                                                                                               |
-| Shared validation/delivery pipeline | [`functions/_shared/submission-pipeline.ts`](../../functions/_shared/submission-pipeline.ts)                                                                                   |
-| D1 ledger implementation            | [`functions/_shared/submission-ledger.ts`](../../functions/_shared/submission-ledger.ts)                                                                                       |
-| Brevo adapter                       | [`functions/_shared/brevo.ts`](../../functions/_shared/brevo.ts)                                                                                                               |
-| Turnstile verification              | [`functions/_shared/turnstile.ts`](../../functions/_shared/turnstile.ts)                                                                                                       |
-| Initial D1 migration                | [`migrations/0001_form_submission_ledger.sql`](../../migrations/0001_form_submission_ledger.sql)                                                                               |
-| Detailed implementation contract    | [`site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md`](../../site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md) |
-| General deployment contract         | [`docs/deployment.md`](../deployment.md)                                                                                                                                       |
+| Purpose                             | Location                                                                                             |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Pages Functions                     | [`functions/`](../../functions/)                                                                     |
+| Shared validation/delivery pipeline | [`functions/_shared/submission-pipeline.ts`](../../functions/_shared/submission-pipeline.ts)         |
+| D1 ledger implementation            | [`functions/_shared/submission-ledger.ts`](../../functions/_shared/submission-ledger.ts)             |
+| Brevo adapter                       | [`functions/_shared/brevo.ts`](../../functions/_shared/brevo.ts)                                     |
+| Turnstile verification              | [`functions/_shared/turnstile.ts`](../../functions/_shared/turnstile.ts)                             |
+| Initial D1 migration                | [`migrations/0001_form_submission_ledger.sql`](../../migrations/0001_form_submission_ledger.sql)     |
+| Current Booking contracts           | [Booking README, blueprint and data contract](../../site/luksuzni-prevoz/src/docs/booking/README.md) |
+| General deployment contract         | [`docs/deployment.md`](../deployment.md)                                                             |
+
+### Current booking policy and receipt
+
+`contact.bookingLeadTime` owns the rolling two-hour minimum and `Europe/Belgrade`
+timezone. Form-kit `0.2.0` supplies pure date/time resolution, earliest-minute
+rounding and schedule assessment; the host owns the policy. Browser and server
+validate the same rule, with the current server clock authoritative for fresh
+requests. Calendar/DST validity and return chronology still apply.
+
+Same-day and sub-24-hour requests show explicit not-confirmed/availability-check
+notices by the schedule and final review, plus urgency in the staff email. All
+accepted submissions remain requests pending manual confirmation; the team
+contacts the customer. Maintain the meaning in Serbian Latin, English and Russian.
+
+The success receipt retains submitted date/time/timezone/reference after reset.
+Accepted retries validate against the stored original clock and normalized-payload
+HMAC digest. They recover the original reference/classification after the cutoff,
+without authorizing changed content or a fresh request inside the minimum. Final
+submission revalidates all steps; failures preserve customer details for recovery.
+
+Local browser tests intercept delivery and use documented test keys. They do not
+prove provider acceptance, D1 acceptance in production or inbox receipt. A deployed
+empty JSON health probe cannot create an accepted request; live delivery testing
+requires explicit authorization and a controlled recipient.
 
 ## 2. Do we really need a database?
 
@@ -701,42 +729,38 @@ Database schema rollback should be forward-migrated where possible. Do not drop
 the Production ledger or run destructive SQL without an explicit backup,
 verified target, and reviewed recovery plan.
 
-## 20. Launch record
+## 20. Verified request release
 
-Complete this table when provisioning is finished:
+The two-hour release was verified on **2026-11-15**:
 
-| Decision                     | Final value                                                               |
-| ---------------------------- | ------------------------------------------------------------------------- |
-| Cloudflare Pages project     | `luksuzniprevoz-website-astro` (API verified)                             |
-| Production Pages hostname    | `luksuzniprevoz-website-astro.pages.dev`                                  |
-| Stable Preview hostname      | `staging.luksuzniprevoz-website-astro.pages.dev`                          |
-| Production branch            | `master`                                                                  |
-| Preview branch               | `staging`                                                                 |
-| Preview D1 database          | `luksuzni-prevoz-forms-preview`; migrations applied and `FORM_DB` bound   |
-| Production D1 database       | TBD                                                                       |
-| D1 binding                   | `FORM_DB`                                                                 |
-| Turnstile widget strategy    | Separate Managed Preview widget; Production pending                       |
-| Preview allowed host         | `staging.luksuzniprevoz-website-astro.pages.dev`                          |
-| Production allowed hosts     | TBD                                                                       |
-| Preview Brevo recipient      | `reservations@luksuzniprevoz.rs`; encrypted Cloudflare binding configured |
-| Production Brevo recipient   | `reservations@luksuzniprevoz.rs`; binding not configured                  |
-| Brevo sender/domain verified | `reservations@luksuzniprevoz.rs` active; domain authentication pending    |
-| WAF threshold/action         | TBD after Preview test                                                    |
-| Ledger retention period      | TBD                                                                       |
-| Brevo log/content retention  | TBD                                                                       |
-| CSP enforcement date         | TBD after clean report-only evidence                                      |
-| Operational owner            | TBD                                                                       |
-| Production smoke-test date   | TBD                                                                       |
+| Item                       | Verified result                                                                                                                                                        |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Promotion                  | [PR #40](https://github.com/lukapekic/luksuzniprevoz-website-astro/pull/40), merged through protected `master`                                                         |
+| Source/staging revision    | `197d5717faf62803a0e78e165956a0d0d93bb87b`                                                                                                                             |
+| Production merge           | `3682e50fb39f40c1cdf90ef7f7407cf67a7b829f` (same source tree as staging)                                                                                               |
+| Staging deployment         | `0b95aa3d-125e-4cf5-9603-0ce404541e6c`, successful                                                                                                                     |
+| Production deployment      | `339ddebc-a132-4848-9676-b9fc60816c0e`, successful                                                                                                                     |
+| Production site            | `https://luksuzniprevoz.rs`; `www` redirects to the apex                                                                                                               |
+| Stable staging             | `https://staging.luksuzniprevoz-website-astro.pages.dev`                                                                                                               |
+| Locales                    | SR `/rezervacija/`, EN `/en/booking/`, RU `/ru/bronirovanie/`; all served the two-hour policy and pending receipt copy                                                 |
+| Required PR checks         | `quality-fast` and `a11y-chromium` passed                                                                                                                              |
+| Post-merge Release         | [Run 43734991229](https://github.com/lukapekic/luksuzniprevoz-website-astro/actions/runs/43734991229) passed, including 24 cross-engine accessibility cases            |
+| Configuration and indexing | No test public key on deployed pages; production indexability and preview exclusion preserved                                                                          |
+| Non-sending API health     | Production `POST /api/forms/booking` with exactly `{}` returned `400 bad_request`, rechecked 2026-11-16; GET returned `405` with `Allow: POST` in release verification |
 
-Preview deployed from `44314e0` on 2026-09-25. Both form pages published the
-Preview Turnstile site key and `X-Robots-Tag: noindex`; both API routes returned
-`405` for `GET`. Invalid `POST` requests returned `503 service_unavailable` before
-the Brevo API key was configured. The Preview Brevo key, sender, and recipient
-are now configured, but a fresh deployment and end-to-end delivery test remain
-pending. Brevo accepted a controlled transactional email API request from
-`reservations@luksuzniprevoz.rs` to the same inbox on 2026-09-25. The Brevo API
-does not yet list `luksuzniprevoz.rs` as an authenticated sender domain. Inbox
-receipt and Pages Functions egress still require verification.
+The rollout's browser submissions were intercepted. It did not send a valid
+customer request or staff notification, and no new inbox delivery is claimed.
+Non-sending health demonstrates that the configuration gate is reached; it does
+not establish provider or mailbox delivery. Required environment bindings are
+listed in this runbook and the root README; read current account state before
+changing them, rather than reapplying old provisioning instructions.
+
+The [September production provisioning record](production-setup.md),
+[mail/DNS history](mail-service.md), [September forms audit](forms-audit.md) and
+[date-picker refinement record](date-picker-refinement.md) retain dated evidence.
+Their old pending-launch observations, captured keys/IDs and delivery limitations
+do not supersede the current release record. Retention, consent and any new
+provider changes still require their own verified operational decisions.
 
 ## 21. External documentation
 

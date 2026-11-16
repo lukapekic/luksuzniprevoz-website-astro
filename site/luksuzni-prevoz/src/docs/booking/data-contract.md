@@ -343,63 +343,47 @@ This prevents misleading sum-of-card prices for coordinated services.
 
 # 14. Confirmation lifecycle
 
-Canonical `contact.ts` says:
+`contact.bookingLeadTime.confirmationMode` is `manual`. The implemented lifecycle is:
 
 ```text
-confirmationMode = manual
+draft → submitting → submitted-pending-confirmation
+                   → submission-error (preserve details for recovery)
 ```
 
-Future submission lifecycle:
+The guarded final action submits to the existing same-origin Pages Function with
+Managed Turnstile. A successful response is a received request, not a confirmed
+booking, fare or vehicle. The team checks availability and contacts the customer.
+Serbian Latin, English and Russian expose the same meaning.
 
-```text
-draft
-submitting
-submitted-pending-confirmation
-submission-error
-```
-
-There is no `confirmed` client-side state.
-
-Confirmation belongs to a later business process outside the public request form.
-
-The current public-testing release does not implement submission lifecycle
-states. It renders a disabled intended final action and a verified direct-contact
-recovery path. Cloudflare submission is a separate implementation phase.
+The server supplies the requested date, time, timezone, same-day/short-notice flags
+and reference. Successful reset clears the form/session draft while the receipt
+retains that submitted schedule and reference. Accepted retries use the original
+stored validation clock and normalized-payload HMAC digest, so elapsed notice
+cannot invalidate receipt retrieval or permit changed content under the same ID.
+Receipt metadata/classifications stay outside the immutable request digest.
 
 ---
 
 # 15. Lead time
 
-Use canonical `publicMinimumHours` and `timeZone` from
-`contact.bookingLeadTime`.
+`contact.bookingLeadTime` owns the current **two-hour rolling minimum** and
+`Europe/Belgrade` timezone. Both browser and server use form-kit `0.2.0` pure
+scheduling helpers; the server clock is authoritative for new/unaccepted requests.
+At 12:00 Belgrade time, a 14:00 pickup meets the boundary; 13:59 does not.
+Midnight does not reset the elapsed-time rule.
 
-Current time zone:
+Interpret `YYYY-MM-DD` plus 24-hour `HH:mm` in Belgrade time, independently of the
+device timezone. Reject invalid, nonexistent or ambiguous DST wall times.
+Earliest-time guidance rounds upward to a selectable minute. The existing
+calendar-year horizon and return-after-departure checks remain required.
 
-```text
-Europe/Belgrade
-```
+Show prominent request-only notices beside the schedule and final review for:
 
-Client validation and server validation both enforce the same value.
+- same-day travel; and
+- other travel less than 24 hours away, including the next calendar day.
 
-Client validation must interpret the entered local date/time in this zone,
-not in the browser or device zone. Future server validation repeats the same
-conversion authoritatively.
-
-The server is authoritative.
-
-Do not serialize a bypass flag from the browser.
-
-## Current two-hour request policy
-
-The owner-authorized same-day update replaces the original 24-hour minimum with
-`contact.bookingLeadTime.publicMinimumHours = 2`. Browser and server use the same
-pure form-kit schedule module. All requests remain pending manual confirmation;
-same-day and sub-24-hour requests carry a prominent notice and staff urgency.
-Receipts retain the requested date, time, time zone and reference after form reset.
-Accepted retries validate against the stored original receipt clock and immutable
-payload digest, so elapsed notice cannot invalidate an already received request.
-Final submission revalidates every step against the current clock.
-
-Verification is scoped to the affected form, schedule, delivery and localization
-paths under the owner's explicit instruction; aggregate full-suite commands are
-not used for this change. No real staff email is sent during verification.
+Staff notifications mark the same urgency. Final submission revalidates every
+step against the current clock. Handoffs and stored drafts cannot bypass it;
+the browser does not serialize a lead-time bypass flag. Existing accepted-retry
+recovery is an identity-checked server operation, not permission for a fresh
+request inside the minimum.

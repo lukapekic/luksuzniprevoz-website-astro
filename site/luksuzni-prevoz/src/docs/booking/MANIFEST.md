@@ -1,107 +1,76 @@
-# Booking Page — Manifest
+# Booking page — source manifest
 
-## Authorities
+Status: **DEPLOYED PRODUCTION CONTRACT**
 
-Mandatory before implementation:
+Read root `AGENTS.md`, `DESIGN.md`, the current [blueprint](blueprint.md),
+[data contract](data-contract.md), [theme contract](theme-contract.md) and
+applicable repository procedures before changing the corresponding surface.
+`foundation.config.ts` selects the active theme; generated theme/governance files
+remain machine-owned.
 
-```text
-AGENTS.md
-DESIGN.md
-site/luksuzni-prevoz/foundation.config.ts
-site/luksuzni-prevoz/src/theme/versions/version-2/*
-.design/system.json
+## Canonical owners
 
-.skills/design-foundation-governance.md
-.skills/blueprint-to-ui.md
-.skills/component-architecture.md
-.skills/high-value-visual-execution.md
-.skills/typography-system.md
-.skills/functional-ui.md
-.skills/responsive-layout.md
-.skills/responsive-ui.md
-.skills/tailwind-v4.md
-.skills/accessibility-wcag.md
-.skills/multilingual-routing.md
-.skills/technical-seo.md
-```
+| Concern                                                     | Source                                                                                       |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Service vocabulary and request types                        | `src/data/booking.ts`                                                                        |
+| Two-hour minimum, Belgrade timezone and manual confirmation | `src/data/contact.ts`                                                                        |
+| Service options and commercial facts                        | `src/data/services.ts`, `src/data/pricing.ts`, `src/data/fleet.ts`, `src/data/operations.ts` |
+| Routes and booking/quote links                              | `src/data/routes.ts`, `src/data/flows.ts`                                                    |
+| Localized content                                           | `src/content/pages/booking/`, `src/content/ui/{sr,en,ru}.json`                               |
+| Pure portable schedule/date/phone mechanisms                | `packages/form-kit/src/` at repository root                                                  |
 
-## Canonical data inputs
+## Existing page and browser integration
+
+Paths below are relative to `site/luksuzni-prevoz/`:
 
 ```text
-src/data/services.ts
-src/data/pricing.ts
-src/data/fleet.ts
-src/data/contact.ts
-src/data/operations.ts
-src/data/routes.ts
-src/data/flows.ts
-src/docs/pricing.csv
-```
-
-## New production files expected
-
-Exact final names may follow repository conventions, but ownership must remain equivalent:
-
-```text
-src/data/booking.ts
-src/lib/booking/booking-pricing.ts
+src/components/booking/BookingPage.astro
+src/components/booking/BookingWizard.astro
+src/components/booking/BookingProgress.astro
+src/components/booking/BookingScheduleControls.astro
+src/components/booking/booking-controller.ts
 src/lib/booking/booking-validation.ts
-
-src/components/booking/
-  BookingPage.astro
-  BookingWizard.astro
-  BookingProgress.astro
-  BookingServiceStep.astro
-  BookingJourneyStep.astro
-  BookingVehicleStep.astro
-  BookingReviewStep.astro
-  BookingSummary.astro
-  booking-controller.ts
-
-src/content/pages/booking/
-  booking.sr.md
-  booking.en.md
-  booking.ru.md
+src/lib/booking/booking-pricing.ts
+src/lib/booking/booking-date-policy.ts
+src/lib/booking/booking-date-time.ts
+src/lib/booking/booking-schedule-controls.ts
+src/lib/booking/booking-handoff.ts
+src/lib/booking/booking-storage.ts
+src/lib/booking/airport-booking-intent.ts
+src/lib/booking/airport-booking-controller.ts
 ```
 
-## Existing files expected to change
+The current wizard keeps its step markup in `BookingWizard.astro`; separate
+ServiceStep/JourneyStep/VehicleStep/ReviewStep/Summary components are not required
+or present. Preserve the reviewed single-panel composition and existing primitives.
+
+## Existing server integration
+
+Repository-root paths:
 
 ```text
-src/data/routes.ts
-src/data/flows.ts
-src/content/schemas/pages.ts
-src/components/site/ContentPageRenderer.astro
-src/content/ui/sr.json
-src/content/ui/en.json
-src/content/ui/ru.json
+functions/api/forms/booking.ts
+functions/_shared/validation.ts
+functions/_shared/submission-pipeline.ts
+functions/_shared/submission-ledger.ts
+functions/_shared/email-rendering.ts
+functions/_shared/brevo.ts
+functions/_shared/turnstile.ts
+migrations/0001_form_submission_ledger.sql
+migrations/0002_form_submission_digest.sql
 ```
 
-The current public-testing phase does not add a submission handler. The form is
-validation-only, the intended final action is disabled, and a verified direct
-contact path remains active.
+The live endpoint uses Managed Turnstile, authoritative validation, a D1
+metadata/idempotency ledger and Brevo office notifications. Form-kit `0.2.0`
+provides the shared pure scheduling mechanism; host code owns policy, locales,
+pricing, routes, ledger, branding and delivery. These capabilities are implemented,
+not deferred work.
 
-## Public-testing release dependencies
+## Preservation requirements
 
-The booking page is not public-test-ready until:
-
-```text
-currency metadata exists for every exposed fare type
-per-km applicability remains hidden or is explicitly defined
-half/full-day excess-km behavior is explicit
-Airport return pricing is explicit or routes to quote
-manual confirmation copy is present
-canonical public lead-time rule is enforced
-Europe/Belgrade owns entered date/time interpretation
-typed Airport area is required
-all booking/quote CTAs target the rendered Booking route
-query handoff is whitelist-validated and consumed once
-no action, method, or network submission exists
-disabled final action and direct-contact recovery are explicit
-```
-
-## Deferred Cloudflare dependencies
-
-Same-origin submission, Managed Turnstile/Siteverify, server validation,
-rate limiting, request delivery/storage, and submitting/success/failure states
-are a separate authorized phase. They do not block the validation-only public
-page and must not be represented as already implemented.
+Keep currency/capacity facts and pricing qualification in their canonical owners;
+retain quote-required states for unsupported arithmetic, manual confirmation,
+whitelisted handoffs, privacy-safe draft storage, two-hour server enforcement,
+localized pending notices, stable accepted receipts and non-duplicating retries.
+Verification and recovery requirements are in [acceptance.md](acceptance.md) and
+the [forms runbook](../../../../../docs/cloudflare-pages-forms/README.md).

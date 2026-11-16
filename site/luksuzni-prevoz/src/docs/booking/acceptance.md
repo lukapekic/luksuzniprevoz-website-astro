@@ -1,9 +1,10 @@
-# Booking Page V1 — Acceptance Contract
+# Booking page — production acceptance contract
 
-Status: **HARD PASS/FAIL GATE FOR PUBLIC VALIDATION-ONLY RELEASE**  
+Status: **CHECKLIST FOR THE DEPLOYED REQUEST FLOW AND FUTURE CHANGES**
+
 Route key: `booking`
 
-Every applicable item must pass. Deferred Cloudflare submission requirements are listed separately and do not block this public-testing release.
+Use this checklist for the affected scope of a future change. It is not a claim that a new check ran during documentation upkeep. The deployed two-hour release passed its focused verification, required PR checks and post-merge Release on 2026-11-15.
 
 ## A. Authority and governance
 
@@ -46,7 +47,7 @@ Every applicable item must pass. Deferred Cloudflare submission requirements are
 - [ ] exactly one H1 and non-skipping step headings
 - [ ] exactly four steps: Service, Journey, Vehicle, Review & contact
 - [ ] one semantic form owns one DOM tree
-- [ ] passive ordered progress uses `aria-current="step"`
+- [ ] current progress uses `aria-current="step"`; completed steps are navigable and future steps cannot bypass validation
 - [ ] inactive panels use `hidden`
 - [ ] Back/Edit buttons preserve valid state
 - [ ] passenger count is collected only in Step 03
@@ -70,10 +71,13 @@ Every applicable item must pass. Deferred Cloudflare submission requirements are
 - [ ] `contact.bookingLeadTime.timeZone` is `Europe/Belgrade`
 - [ ] all entered dates/times are visibly described and interpreted in that time zone
 - [ ] browser/device time zone does not change the requested instant
-- [ ] current minimum lead time derives from `contact.ts`
+- [ ] the rolling two-hour minimum derives from `contact.ts`; the server clock is authoritative
 - [ ] localized lead-time errors interpolate the canonical number
 - [ ] query and persisted state cannot bypass lead-time validation
-- [ ] future server enforcement is documented but not falsely claimed as implemented
+- [ ] browser and server reject under-two-hour, invalid and ambiguous/nonexistent DST instants
+- [ ] earliest guidance rounds upward to a selectable minute and refreshes when editing resumes
+- [ ] same-day/sub-24-hour request-only notices appear at schedule and review in SR/EN/RU
+- [ ] final submission revalidates every step and server schedule rejection preserves values
 
 ## G. Passenger and vehicle behavior
 
@@ -113,11 +117,14 @@ Every applicable item must pass. Deferred Cloudflare submission requirements are
 - [ ] incoming `intent=quote` preserves Request quote even with an amount preview
 - [ ] `intent=booking` switches to Request quote when pricing is quote-required
 - [ ] no Pay or Confirm booking action exists
-- [ ] current form has no action, no submission method, and makes no network request
-- [ ] intended final Request booking/Request quote control is `type="button"` and disabled
-- [ ] localized submission-unavailable status is visible
+- [ ] the guarded submit action sends JSON to `/api/forms/booking` with Managed Turnstile
+- [ ] normal action copy says Send transfer request; quote branches retain Request quote
+- [ ] missing configuration, bot failure and service failure remain truthful and recoverable
 - [ ] an active verified direct-contact recovery action is present
-- [ ] UI never implies request receipt, reservation, fare, or vehicle confirmation
+- [ ] a genuine accepted response is required before claiming request receipt
+- [ ] no UI state implies confirmed reservation, fare or vehicle availability
+- [ ] success retains requested date/time/timezone/reference after reset and moves focus to feedback
+- [ ] accepted retries preserve original validation clock/digest and never duplicate notifications
 
 ## J. Draft recovery and privacy
 
@@ -145,11 +152,11 @@ Every applicable item must pass. Deferred Cloudflare submission requirements are
 
 - [ ] 320: one column, progress/work/summary/actions fit without overflow
 - [ ] 768: one column, readable measure, deterministic bounded field rows
-- [ ] 1024: active `lg` token produces 7/5 work/summary split
-- [ ] 1440: capped 7/5 composition and clear action ownership
+- [ ] 1024: centered bounded panel; compact summary remains inside the work surface
+- [ ] 1440: capped centered panel and clear action ownership
 - [ ] 1920: capped measure and no inflated spacing
-- [ ] Steps 01–03 show persistent summary after work and before actions below `lg`
-- [ ] Step 04 uses complete in-work review and hides duplicate persistent summary
+- [ ] Steps 02–03 show the compact summary disclosure; Service and final review hide it
+- [ ] Step 04 uses complete in-panel review and hides the duplicate compact summary
 - [ ] native date/time controls, errors, and vehicle choices fit every state
 - [ ] no accidental horizontal page overflow at any state
 
@@ -164,7 +171,7 @@ Every applicable item must pass. Deferred Cloudflare submission requirements are
 - [ ] reviewed SiteHeader/SiteFooter identities remain unchanged
 - [ ] no copied wireframe CSS or raw theme values enter production
 
-## N. Verification for public testing
+## N. Verification for the affected release scope
 
 - [ ] route, content, SEO, type-generation, theme, and design-governance checks pass
 - [ ] site Astro check and build pass
@@ -174,16 +181,17 @@ Every applicable item must pass. Deferred Cloudflare submission requirements are
 - [ ] booking `verify:ui` page profile passes with no unresolved P0/P1 finding
 - [ ] component impact/profile passes for every changed shared primitive
 
-## Deferred Cloudflare submission gate
+## O. Existing production submission
 
-These do not block the validation-only public page. They become mandatory only when online submission is authorized:
+- [ ] same-origin Cloudflare Pages Functions preserve bounded envelopes and safe errors
+- [ ] Managed Turnstile pins hostname and action and rejects production test secrets
+- [ ] server schema, two-hour rule and pricing are authoritative
+- [ ] D1 form/locale/payload identity prevents duplicate sends and altered accepted retries
+- [ ] escaped HTML/plain-text staff notifications retain manual-review and urgency language
+- [ ] uncertain provider acceptance is reconciled without blind resend
+- [ ] local interception is not reported as provider or inbox acceptance
+- [ ] deployed health probes do not send valid customer requests or staff email
+- [ ] required PR CI, Cloudflare deployment and post-merge Release have terminal results recorded
 
-- [ ] same-origin Cloudflare Pages Function/Worker POST endpoint
-- [ ] Managed Turnstile with server Siteverify, hostname, and action checks
-- [ ] authoritative server schema, lead-time, reference, and pricing recomputation
-- [ ] origin/host checks, body-size limit, rate limit, safe logging, and safe errors
-- [ ] approved request delivery/storage integration
-- [ ] submitting, duplicate-prevention, pending-confirmation success, failure, recovery, and reference states
-- [ ] no client amount or client qualification flag is trusted
-
-Any unchecked public-testing P0/P1 item blocks publishing. Deferred items must not be represented as working in copy, controls, tests, or completion reports.
+An unresolved P0/P1 finding blocks the affected publication. New UI work also
+requires the independent review and applicable governance evidence in `AGENTS.md`.
