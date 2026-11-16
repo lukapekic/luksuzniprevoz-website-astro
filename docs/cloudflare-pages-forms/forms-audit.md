@@ -1,4 +1,6 @@
-# Website form and handoff audit — 2026-09-26
+# Historical website form and handoff audit — 2026-09-26
+
+> **Historical record — not current operating instructions.** This dated audit is retained as evidence, not as current release approval or current booking policy. The [current runbook](README.md#20-verified-request-release) and [Booking contracts](../../site/luksuzni-prevoz/src/docs/booking/README.md) supersede its old release/verification limitations.
 
 ## Scope and authority
 

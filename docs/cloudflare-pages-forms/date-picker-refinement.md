@@ -1,4 +1,6 @@
-# Form date picker refinement — 2026-09-26
+# Historical form date-picker refinement — 2026-09-26
+
+> **Historical record — not current operating instructions.** This is the dated implementation record for date-control behavior. Current notice, receipt and server scheduling rules are in the [Booking contracts](../../site/luksuzni-prevoz/src/docs/booking/README.md); the record below does not set a separate lead-time policy.
 
 ## Owner-approved behavior
 

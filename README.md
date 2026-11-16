@@ -4,16 +4,37 @@ The live multilingual website for **Luksuzni prevoz**, built with Astro 7 in a p
 
 ## Production status
 
-Verified on **2026-09-28**:
+Two-hour request release verified on **2026-11-15**; non-sending production API health rechecked on **2026-11-16**:
 
 | Environment | Branch    | URL                                                                                                       | Indexing                                                        |
 | ----------- | --------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | Production  | `master`  | [luksuzniprevoz.rs](https://luksuzniprevoz.rs/)                                                           | Crawlable; sitemap contains 42 published URLs                   |
 | Preview     | `staging` | [staging.luksuzniprevoz-website-astro.pages.dev](https://staging.luksuzniprevoz-website-astro.pages.dev/) | `noindex` headers, disallowing `robots.txt`, and empty sitemaps |
 
-Cloudflare Pages deploys from GitHub. The `www` host redirects to the production apex. Serbian Latin is the default locale; English and Russian use `/en/` and `/ru/`. Contact and booking forms are owner-confirmed as working. The removed `/dev/ui/` page returns `410 Gone` with `no-store` and `noindex` in both environments.
+Cloudflare Pages deploys from GitHub. The `www` host redirects to the production apex. Serbian Latin is the default locale; English and Russian use `/en/` and `/ru/`. Contact and Booking use the deployed Turnstile/D1/Brevo request pipeline. The November checks used intercepted submissions and empty-body API probes; they did not send a real staff notification or verify a new inbox delivery. The removed `/dev/ui/` page returns `410 Gone` with `no-store` and `noindex` in both environments.
 
 Legal and privacy pages are planned separately and have not yet been published. Do not treat that pending content as complete.
+
+## Booking requests
+
+The form accepts pickups at least **two elapsed hours** ahead in `Europe/Belgrade`.
+`site/luksuzni-prevoz/src/data/contact.ts` owns the policy; browser and server use
+form-kit `0.2.0` scheduling helpers, with the server clock authoritative.
+Same-day and sub-24-hour requests show clear request-only notices at schedule and
+review, in Serbian Latin, English and Russian. The team checks availability and
+contacts the customer; submitting does not confirm a booking.
+
+Earliest-time guidance rounds upward to a selectable minute. A successful receipt
+retains the requested date/time/timezone and reference after the form resets.
+An unchanged accepted retry uses its original stored clock and keyed payload
+identity; a fresh request must still meet the current minimum.
+
+See the [current Booking contracts](site/luksuzni-prevoz/src/docs/booking/README.md)
+and [forms runbook](docs/cloudflare-pages-forms/README.md). The release is recorded
+in [PR #40](https://github.com/lukapekic/luksuzniprevoz-website-astro/pull/40):
+production merge `3682e50`, source/staging `197d571`, staging deployment `0b95aa3d`,
+and production deployment `339ddebc`. Required PR checks and the post-merge
+Release workflow passed. Local mocked delivery is not evidence of real inbox receipt.
 
 ## Local development
 

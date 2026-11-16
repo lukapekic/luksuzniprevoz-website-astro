@@ -144,9 +144,7 @@ Do not fabricate a consent vendor in this document. Record the selected implemen
 
 ## Forms (FND-A11Y-10, FND-ENV-06, FND-ENV-09)
 
-The form runtime is implemented in the repository and is ready for Cloudflare
-account provisioning. The architecture and security contract are documented in
-[`site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md`](../site/luksuzni-prevoz/src/docs/forms/cloudflare-pages-brevo-implementation-plan.md).
+Contact and Booking use the deployed Cloudflare request pipeline. Current form behavior is documented in the [Booking contracts](../site/luksuzni-prevoz/src/docs/booking/README.md) and the current release record in the [forms runbook](cloudflare-pages-forms/README.md#20-verified-request-release). The August implementation plan is historical, not an outstanding provisioning phase.
 The account-owner setup, D1/free-plan explanation, deployment sequence,
 acceptance checks, monitoring, and rollback procedure are in the
 [`Cloudflare Pages Forms Deployment Runbook`](cloudflare-pages-forms/README.md).
@@ -159,7 +157,7 @@ contact channels remain available.
 Implemented repository contracts:
 
 - `POST /api/forms/contact` and `POST /api/forms/booking` under root `functions/`;
-- `public/_routes.json` includes only those two Function paths;
+- `public/_routes.json` includes the two form paths and the retired component-preview tombstone; published pages remain static;
 - mandatory server-side Turnstile Siteverify with exact action and allowed-host checks;
 - shared server validation, bounded JSON bodies, same-origin enforcement, and no-store responses;
 - D1 migrations `migrations/0001_form_submission_ledger.sql` and
@@ -167,7 +165,9 @@ Implemented repository contracts:
   request digest rather than submitted form content;
 - Brevo REST delivery with Reply-To, provider message ID capture, and a
   correlation header; D1 owns request deduplication;
-- localized accessible form errors, pending states, failure recovery, and request references.
+- the rolling two-hour Belgrade minimum, same-day/sub-24-hour pending-confirmation notices and staff urgency;
+- localized accessible errors, failure recovery and stable submitted date/time/reference receipts after reset;
+- identity-checked accepted retries using their original validation clock; new requests use the current server clock.
 
 ### Cloudflare Pages project configuration
 
@@ -351,20 +351,20 @@ After a production deploy, verify at minimum:
 - [ ] Theme output matches the configured active theme.
 - [ ] Lighthouse/performance remains within the configured budget.
 
-## Deployment decisions still requiring an explicit record
+## Operational records
 
-Keep these fields updated once infrastructure is finalized:
+Keep current observations dated; the November request release and non-sending health checks are recorded in the forms runbook. Older provisioning/DNS records are historical evidence, not pending launch instructions:
 
-| Decision                      | Value                                                                             |
-| ----------------------------- | --------------------------------------------------------------------------------- |
-| Hosting provider / plan       | Cloudflare Pages; account plan not checked                                        |
-| Production deploy trigger     | Pages Git integration from `master`; branch protection not checked                |
-| Preview/staging URL strategy  | Only `staging` Preview builds; `staging.luksuzniprevoz-website-astro.pages.dev`   |
-| Form submission endpoint      | Implemented same-origin `/api/forms/contact` and `/api/forms/booking`             |
-| Spam mitigation               | Managed Turnstile implemented; external WAF rate-limit rule pending               |
-| Form delivery provider        | Brevo adapter implemented; owner confirms forms work                              |
-| Form persistence              | `FORM_DB` D1 binding present in Preview and Production; owner confirms forms work |
-| Consent implementation/vendor | TBD if required                                                                   |
-| CSP reporting endpoint        | TBD if used                                                                       |
+| Decision                      | Value                                                                                                                          |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Hosting provider / plan       | Cloudflare Pages; account plan not checked                                                                                     |
+| Production deploy trigger     | Pages Git integration from protected `master`; PR and `quality-fast`/`a11y-chromium` required (verified by PR #40, 2026-11-15) |
+| Preview/staging URL strategy  | Only `staging` Preview builds; `staging.luksuzniprevoz-website-astro.pages.dev`                                                |
+| Form submission endpoint      | Implemented same-origin `/api/forms/contact` and `/api/forms/booking`                                                          |
+| Spam mitigation               | Managed Turnstile and server checks active; external WAF settings belong to Cloudflare and require dated readback for changes  |
+| Form delivery provider        | Brevo notification adapter active; November checks did not verify a new inbox receipt                                          |
+| Form persistence              | Separate Preview/Production `FORM_DB` bindings; configured production API gate rechecked 2026-11-16                            |
+| Consent implementation/vendor | TBD if required                                                                                                                |
+| CSP reporting endpoint        | TBD if used                                                                                                                    |
 
 Unknown operational facts are better marked TBD than invented.

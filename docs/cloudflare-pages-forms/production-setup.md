@@ -1,10 +1,12 @@
-# Production form setup — 2026-09-26
+# Historical production provisioning record — 2026-09-26
 
-## Status
+> **Historical record — not current operating instructions.** This is a dated provisioning/DNS audit, not the current launch checklist. The request flow is deployed. Use the [current forms runbook](README.md#20-verified-request-release) for the November release and health evidence; do not reapply this record’s old pending actions.
 
-**Cloudflare Production form resources are provisioned and verified. The production launch is incomplete.** The zone and Pages custom-domain associations now exist; DNS is prepared but registrar activation, reviewed code deployment and real production submission tests remain pending. Security rules are configured and read back; their runtime tests await proxied web traffic.
+## Status at the recorded September checkpoint
 
-This record supersedes earlier “Production pending” statements for the resources below. It does not claim the custom domain or website launch is complete. See [sanitised API evidence](./production-setup-evidence.json).
+At the September checkpoint, production form resources had been provisioned and verified, while the website launch, registrar activation and real production submission tests were still incomplete. Security rules had been configured and read back but had not yet been exercised through proxied traffic. These are historical observations, not the current deployment state.
+
+The [sanitised API evidence](./production-setup-evidence.json) preserves that checkpoint. The current release record in the runbook supersedes its old launch status.
 
 ## Provisioned resources
 

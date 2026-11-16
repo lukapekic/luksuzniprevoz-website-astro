@@ -1,10 +1,11 @@
 # Luksuzni prevoz — Booking Page Blueprint V2
 
-Status: **LOCKED FOR IMPLEMENTATION**  
+Status: **LOCKED PRODUCTION CONTRACT**
+
 Route key: `booking`  
 Delivery phase: **production request submission with manual confirmation**
 
-This blueprint owns the required page regions, form behavior, commercial-result behavior, responsive topology, and CTA roles. DR-07 in the design-refinement handoff supersedes the former passive progress, work/summary split, and validation-only language in older supporting documents. The existing Turnstile-backed `/api/forms/booking` submission remains in production. Root `AGENTS.md`, `DESIGN.md`, canonical data, and the active theme remain higher authorities in their respective domains.
+This blueprint owns the required page regions, form behavior, commercial-result behavior, responsive topology, and CTA roles. The compact single-panel direction and the deployed request lifecycle govern the supporting maintenance documents; historical handoffs do not describe current submission state. The existing Turnstile-backed `/api/forms/booking` submission remains in production. Root `AGENTS.md`, `DESIGN.md`, canonical data, and the active theme remain higher authorities in their respective domains.
 
 ## 1. Product objective
 
@@ -201,11 +202,13 @@ Trusted provider outputs belong to a resolver context, never `BookingRequest`. C
 
 ## 11. Intent and action behavior
 
-The final primary action label is Request quote when incoming intent is `quote`, Request quote when result is `quote-required`, and Request booking otherwise. There is never Pay or Confirm booking copy. The existing controller submits a validated request through the same-origin endpoint with Turnstile verification, pending protection, server validation, failure recovery, and genuine success feedback. A verified direct-contact route/channel remains available when online sending is unavailable. Validation, review, edit, pricing preview, query handoff, and draft recovery remain fully operable.
+The final primary action label is Request quote when incoming intent is `quote`, Request quote when result is `quote-required`, and Send transfer request otherwise. There is never Pay or Confirm booking copy. The existing controller submits a validated request through the same-origin endpoint with Turnstile verification, pending protection, server validation, failure recovery, and genuine success feedback. A verified direct-contact route/channel remains available when online sending is unavailable. Validation, review, edit, pricing preview, query handoff, and draft recovery remain fully operable.
 
 ## 12. Lead time and confirmation
 
-The current minimum lead time comes from `contact.bookingLeadTime.publicMinimumHours`. Client and server validation compute the requested instant in `Europe/Belgrade`. A query string cannot bypass the rule.
+The current rolling minimum is two hours, from `contact.bookingLeadTime.publicMinimumHours`. Browser and server share form-kit `0.2.0` scheduling helpers and compute the requested instant in `Europe/Belgrade`, independently of the device timezone. The server clock is authoritative. Reject invalid, nonexistent or ambiguous DST times; round earliest guidance upward to a selectable minute. Final submission revalidates all steps, and a query string or recovered draft cannot bypass the rule.
+
+Same-day and sub-24-hour requests display prominent localized request-only notices beside the selected schedule and in final review. This includes short-notice travel after midnight. Staff notifications mark the urgency; availability and a booking still require the team’s direct confirmation.
 
 All copy states that submission creates a request pending manual confirmation. No vehicle, fare, or booking is guaranteed by the client UI.
 
@@ -280,7 +283,7 @@ No gold, blue corporate palette, glow, glass, metallic gradients, dashboard card
 
 Contact field errors remain directly below their own controls, within the same grid cell. Managed Turnstile uses flexible sizing in a full-width region above a dedicated action row. At 320 CSS px the actions stack in DOM order (Back, submit) with full-width targets; at 768, 1024, 1440, and 1920 CSS px Back and submit share a row. Contact fields use one column at 320 and two at the remaining reference widths; notes span the available width. Verification, feedback, and controls remain inside the panel without horizontal overflow; this region has no imagery.
 
-Only an acknowledged successful server response with a request reference clears the form and session draft, resets schedule controls, conditional branches, summaries and progress, and returns to Service. Focus moves to the visible localized success feedback above the step content. Feedback retains the request reference and manual-confirmation language until the next edit. Failure preserves values for retry; pending submission locks controls and prevents duplicates. Existing native labels, associated field errors, focus indicators and 44×44 targets remain required in Serbian Latin, English and Russian.
+Only an acknowledged successful server response with a request reference clears the form and session draft, resets schedule controls, conditional branches, summaries and progress, and returns to Service. Focus moves to the visible localized success feedback above the step content. Feedback retains the submitted date, time, timezone, request reference and explicit not-confirmed/team-contact language until the next edit. Accepted retries validate against the original stored clock and keyed payload digest so the receipt remains stable after the cutoff; new requests still use the current server clock. Failure preserves values for retry; pending submission locks controls and prevents duplicates. Existing native labels, associated field errors, focus indicators and 44×44 targets remain required in Serbian Latin, English and Russian.
 
 ## 17. Existing production submission
 

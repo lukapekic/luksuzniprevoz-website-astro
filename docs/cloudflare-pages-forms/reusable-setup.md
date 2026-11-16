@@ -1,19 +1,19 @@
 # Reusable forms: small package and full setup guide
 
-Updated: 2026-09-26. This guide separates reusable code from the account provisioning and application decisions needed for a complete form service.
+Updated: 2026-11-16 for form-kit `0.2.0` and the deployed two-hour request policy. This guide separates reusable code from host policy and account configuration; see the [forms runbook](README.md#20-verified-request-release) for dated deployment evidence.
 
-## 1. What was extracted now
+## 1. Current reusable package
 
 [`packages/form-kit`](../../packages/form-kit/) is a private TypeScript workspace source package named `@astro-foundation/form-kit`. It has no runtime dependencies and no imports from this website, Astro, Cloudflare bindings, business data, translations, or theme tokens.
 
-| Entry point | Extracted responsibility |
-| --- | --- |
-| Package root | Optional-phone shape validation; strict DD/MM/YYYY ↔ YYYY-MM-DD conversion; 24-hour HH:mm validation |
-| `/browser` | Turnstile script/widget lifecycle, responsive widget sizing, token reset, temporary submission-control locking |
-| `/turnstile/server` | Siteverify request, expected action/hostname check, fail-closed timeout/error handling |
-| `/brevo` | One transactional HTTP send with caller-rendered text/HTML and Reply-To; accepted/rejected/uncertain result |
+| Entry point         | Extracted responsibility                                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Package root        | Optional-phone shape validation; strict date/24-hour time conversion; timezone resolution, earliest-minute guidance and schedule assessment |
+| `/browser`          | Turnstile script/widget lifecycle, responsive widget sizing, token reset, temporary submission-control locking                              |
+| `/turnstile/server` | Siteverify request, expected action/hostname check, fail-closed timeout/error handling                                                      |
+| `/brevo`            | One transactional HTTP send with caller-rendered text/HTML and Reply-To; accepted/rejected/uncertain result                                 |
 
-Existing site import paths remain compatibility exports. The existing Brevo adapter renders the site's branded notification and supplies its sender, recipients, tags, and environment. Contact and Booking still use their existing validators/controllers and server pipeline. No schema, endpoint, form layout, copy, credentials, or account settings change as part of extraction.
+Existing site import paths remain compatibility exports. The existing Brevo adapter renders the site's branded notification and supplies its sender, recipients, tags, and environment. Contact and Booking still use their existing validators/controllers and server pipeline. The host owns schema, endpoints, form layout/copy, policy values and account settings. Luxury Transportation uses the shared scheduling mechanism with a two-hour Belgrade minimum and manual-confirmation notices; do not hardcode a site policy inside the reusable package.
 
 The browser controller accepts an application-defined action string. The host's server must still match the exact expected action. Generic root helpers do not load browser/provider code. Email delivery and Turnstile server verification have separate entry points to keep secrets and transport out of browser bundles.
 
@@ -54,7 +54,8 @@ Static form + local validation
   → POST JSON { submissionId, locale, turnstileToken, payload }
   → check request method, same origin/host, content type and bounded body
   → verify Turnstile token, hostname and action
-  → validate the payload again on the server
+  → recover the original clock for an already accepted booking ID
+  → validate schema, schedule and pricing on the server
   → bind submission ID to form/locale/payload with an HMAC digest
   → atomically claim the ID in a durable ledger
   → render escaped HTML + plain text
@@ -63,7 +64,7 @@ Static form + local validation
   → return pending manual confirmation
 ```
 
-Client validation improves feedback; the server remains authoritative. Price/result fields supplied by a browser are untrusted. Changing input after a failed send starts a new submission ID; retrying the same payload retains its ID.
+Client validation improves feedback; the current server clock is authoritative for fresh requests. Price/result fields supplied by a browser are untrusted. An accepted booking retry uses the original stored clock and form/locale/payload digest, so time passing cannot invalidate receipt retrieval or permit altered content. Keep schedule classification outside the digest and retain the accepted date/time/timezone/reference after client reset. Changing input starts a new submission identity; retrying unchanged input retains its ID. A provider-uncertain request must not be blindly resent.
 
 The package alone does not implement this complete service. Reuse the existing host integration as a reference:
 

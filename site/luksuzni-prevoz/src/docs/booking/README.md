@@ -1,113 +1,66 @@
-# Luxury Transportation — Booking Page Variant A
+# Luxury Transportation — Booking page
 
-Status: **LOCKED IMPLEMENTATION PACKAGE — PUBLIC VALIDATION-ONLY V1**  
-Direction: **Variant A — Service-First Concierge / Platinum Concierge Split**  
-Target repository: `lukapekic/luksuzniprevoz-website-astro`  
-Target site: `site/luksuzni-prevoz/`  
-Target route key: `booking`  
-Theme: **existing configured active Theme V2 — Black & Platinum**
+Status: **DEPLOYED REQUEST SUBMISSION — MANUAL CONFIRMATION**
+Route key: `booking` · Site: `site/luksuzni-prevoz/`
 
-This package defines a first-class multi-step booking/request page for Luxury Transportation.
-
-It is designed from the current repository contracts:
-
-- root `AGENTS.md`;
-- root `DESIGN.md`;
-- `site/luksuzni-prevoz/foundation.config.ts`;
-- active Theme V2 token sources;
-- `.design/system.json`;
-- `.skills/functional-ui.md`;
-- `.skills/design-foundation-governance.md`;
-- `.skills/responsive-layout.md`;
-- `.skills/accessibility-wcag.md`;
-- `src/data/services.ts`;
-- `src/data/pricing.ts`;
-- `src/data/fleet.ts`;
-- `src/data/contact.ts`;
-- `src/data/operations.ts`;
-- `src/data/flows.ts`;
-- `src/data/routes.ts`;
-- `src/docs/pricing.csv`;
-- current service blueprints and the existing Airport booking-start form.
-
-## Locked product decision
-
-Variant A is the production direction.
-
-The page uses one shared four-step wizard shell:
+The production page uses the compact, centered four-step wizard defined by the
+[blueprint](blueprint.md) and [theme contract](theme-contract.md):
 
 ```text
-01 Service
-02 Journey
-03 Vehicle
-04 Review & contact
+01 Service → 02 Journey → 03 Vehicle → 04 Review & contact
 ```
 
-The shell branches by canonical service capability and pricing mode. It does not force every service through one pricing formula.
+The normal final action sends a transfer request through `POST /api/forms/booking`.
+Quote intent and quote-required commercial results retain the quote-request action.
+Submission never confirms a vehicle, fare or booking; the team checks availability
+and contacts the customer before confirming arrangements.
 
-## Commercial result states
+## Current scheduling policy
 
-The UI has exactly five typed commercial states:
+- `src/data/contact.ts` owns the rolling **two-hour minimum** and `Europe/Belgrade` timezone.
+- Browser and server share the pure scheduling helpers from form-kit `0.2.0`; the server clock is authoritative.
+- Today is selectable when the requested instant meets the minimum. Midnight does not reset the elapsed-time rule.
+- Same-day and sub-24-hour requests display prominent pending-confirmation notices beside the schedule and in the final review, in Serbian Latin, English and Russian.
+- Earliest-time guidance rounds upward to a selectable minute. Invalid or ambiguous daylight-saving wall times are rejected.
+- Final submission revalidates every step. Airport handoffs, saved drafts and return journeys cannot bypass the policy.
 
-```text
-fixed
-calculated
-estimate
-quote-required
-unavailable
-```
+A successful server response supplies the request reference and schedule metadata.
+The visible receipt keeps the requested date, time, timezone and reference after
+clearing the form. Accepted retries use the stored original validation clock and
+keyed payload digest, preserving a received request after its cutoff without
+allowing changed content under the same submission ID.
 
-`pending-confirmation` is a future submission lifecycle state, not a price state.
+## Sources and maintenance
 
-No component decides prices from prose, route names, or presentation logic.
+| Document                                                              | Responsibility                                                   |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [Blueprint](blueprint.md)                                             | Page regions, step flow, current actions and responsive behavior |
+| [Manifest](MANIFEST.md)                                               | Existing source ownership and dependencies                       |
+| [Data contract](data-contract.md)                                     | Request, pricing, schedule and confirmation rules                |
+| [Implementation guide](implementation.md)                             | Maintaining the deployed integration                             |
+| [Acceptance contract](acceptance.md)                                  | Checks for affected future changes                               |
+| [Theme contract](theme-contract.md)                                   | Existing semantic styling and typography                         |
+| [Forms runbook](../../../../../docs/cloudflare-pages-forms/README.md) | Environments, security, delivery, release evidence and rollback  |
 
-## Package contents
+Commercial results remain `fixed`, `calculated`, `estimate`, `quote-required` and
+`unavailable`. Pending manual confirmation is a submission lifecycle state, not
+an additional price state. Pricing comes from canonical data and the resolver.
 
-```text
-README.md
-MANIFEST.md
-blueprint.md
-implementation.md
-acceptance.md
-data-contract.md
-theme-contract.md
-wireframe.html
+Localized page content lives in `src/content/pages/booking/`; shared UI copy lives
+in `src/content/ui/`. This documentation is not a runtime content source.
 
-proposed-code/
-  booking.ts
-  booking-pricing.ts
-  booking-validation.ts
-  routing-flow-changes.md
-  content-schema-change.md
-```
+## Release and verification
 
-## Required implementation order
+The two-hour release was merged in [PR #40](https://github.com/lukapekic/luksuzniprevoz-website-astro/pull/40)
+and deployed on 2026-11-15. Required PR checks and the post-merge Release workflow
+passed. Production and staging served the policy in all three locales. A non-sending
+production API health probe was rechecked on 2026-11-16; no accepted request or
+new inbox delivery is claimed by that probe.
 
-```text
-1. Data/pricing contract
-2. Route + flow contract
-3. Content schema + localized entries
-4. Booking controller/state machine
-5. Pricing resolver
-6. Page components
-7. Validation-only final state + direct-contact recovery
-8. Atomic booking/quote CTA migration
-9. Accessibility/responsive hardening
-10. Public noindex release verification
-```
+For future changes, distinguish pure/unit checks, intercepted local browser sends,
+non-sending deployed health checks and explicitly authorized real delivery tests.
+A mocked receipt is not evidence of provider acceptance or inbox delivery.
 
-Secure same-origin Cloudflare submission, Turnstile, server validation, and
-request-delivery states are explicitly deferred to a separate follow-up phase.
-The current page is published for testing with no network submission.
-
-Localized page content now lives in `src/content/pages/booking/`; Booking UI
-strings are merged into the canonical `src/content/ui/` dictionaries. This
-package is not a runtime content source.
-
-Files under `proposed-code/` are historical drafting aids only. The updated
-`implementation.md`, current repository contracts, and production source win;
-do not copy proposed code without reconciling it to the locked plan.
-
-Do not start by copying `wireframe.html` into production.
-
-The wireframe defines the approved visual/topological direction only. Production must use repository primitives and active semantic tokens.
+`wireframe.html` and `proposed-code/` are historical design/drafting references.
+They do not own current runtime behavior, component inventory or deployment status;
+do not restore their disabled-action or obsolete layout assumptions.

@@ -1,17 +1,17 @@
 # @astro-foundation/form-kit
 
-Small, framework-independent TypeScript helpers extracted from the working Contact/Booking integration. No runtime dependencies, site imports, branding, translations, routes, database, or automatic email retries.
+Private form-kit `0.2.0` provides framework-independent TypeScript helpers for the working Contact/Booking integration. No runtime dependencies, site imports, branding, translations, routes, database, or automatic email retries.
 
 This is a private workspace **source package** for TypeScript-aware bundlers such as Astro/Vite and Wrangler. It is not published to a registry and does not yet provide compiled JavaScript for plain Node installations.
 
 ## Entry points
 
-| Import | Purpose | Environment |
-| --- | --- | --- |
-| `@astro-foundation/form-kit` | Phone shape validation, DD/MM/YYYY conversion, HH:mm validation | Browser/server |
-| `@astro-foundation/form-kit/browser` | Turnstile controller and temporary form-control locking | Browser |
-| `@astro-foundation/form-kit/turnstile/server` | Token verification with expected action and allowed hostname | Server |
-| `@astro-foundation/form-kit/brevo` | Send caller-rendered email once; classify rejected/uncertain outcomes | Server |
+| Import                                        | Purpose                                                                                            | Environment    |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------- |
+| `@astro-foundation/form-kit`                  | Phone/date/time validation, strict timezone resolution, earliest schedule and lead-time assessment | Browser/server |
+| `@astro-foundation/form-kit/browser`          | Turnstile controller and temporary form-control locking                                            | Browser        |
+| `@astro-foundation/form-kit/turnstile/server` | Token verification with expected action and allowed hostname                                       | Server         |
+| `@astro-foundation/form-kit/brevo`            | Send caller-rendered email once; classify rejected/uncertain outcomes                              | Server         |
 
 Keep server imports out of browser bundles. Browser globals are accessed only when browser functions are called; the pure root entry point does not import widget code.
 

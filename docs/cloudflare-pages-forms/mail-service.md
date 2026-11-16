@@ -1,4 +1,6 @@
-# Mail service: configuration history and DNS backup
+# Historical mail configuration and DNS record — 2026-09-26
+
+> **Historical record — not current operating instructions.** This record preserves September mail/DNS observations and subsequent dated implementation notes. It is not a current binding inventory or an instruction to repeat those changes. Use the [current forms runbook](README.md#20-verified-request-release) for release status; historical pending statements below apply only to their recorded stage.
 
 Recorded: **2026-09-26 UTC**. Domain: **luksuzniprevoz.rs**.
 

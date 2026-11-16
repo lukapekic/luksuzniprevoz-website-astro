@@ -1,22 +1,21 @@
-# Cloudflare Pages, Turnstile, D1, and Brevo Forms Implementation Plan
+# Historical Cloudflare/Brevo forms implementation plan — 2026-08-30
 
-> Implementation status (2026-08-30): repository phases for the shared Pages
-> Functions pipeline, D1 migration, Brevo adapter, Turnstile integration,
-> localized Contact/Booking states, CSP, and unit/browser contracts are
-> implemented. Cloudflare Pages/D1/Turnstile/WAF provisioning, Brevo sender
-> verification, live Preview acceptance, and production activation remain
-> external rollout gates. See `docs/deployment.md` for the binding checklist.
+> **Historical record — not current operating instructions.** This original plan is archived for design and implementation provenance. Its provisioning and release-phase instructions are not current. Use the [current forms runbook](../../../../../docs/cloudflare-pages-forms/README.md) and [Booking contracts](../booking/README.md) for the deployed two-hour request flow.
 
-Status: **REPOSITORY IMPLEMENTATION COMPLETE — infrastructure not provisioned**
+Status: **ARCHIVED ORIGINAL PLAN — SUPERSEDED BY THE DEPLOYED REQUEST CONTRACTS**
+
+The original August plan separated repository implementation from external
+provisioning. Those former phase gates are preserved below as history; they are
+not outstanding activation work for the deployed site. Later release/health proof
+belongs to the current runbook, not this plan. Real inbox delivery is a separate
+verification claim and was not performed by the November two-hour rollout.
 
 Scope: production submission for both the general Contact question form and the
 Booking/quote request form while preserving static Astro output, the locked page
 structures, manual confirmation, localization, accessibility, and the current
 Black & Platinum visual system.
 
-The Contact and Booking blueprints now authorize submission through the
-same-origin Functions. Until external resources pass Preview acceptance, the
-forms must fail closed and must not claim that a request was sent.
+The original plan required separately authorized same-origin submission and fail-closed behavior before configuration. Current production uses that integration; the following phases describe its historical implementation requirements.
 
 ## 1. Authority and applied procedures
 
